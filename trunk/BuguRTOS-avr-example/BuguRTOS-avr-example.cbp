@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BuguRTOS-avr-example" />
+		<Option pch_mode="2" />
+		<Option compiler="avrgcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/BuguRTOS-avr-example.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="avrgcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/BuguRTOS-avr-example.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="avrgcc" />
+				<Compiler>
+					<Add option="-Os" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-mmcu=atmega128" />
+			<Add option="-Wall" />
+			<Add option="-std=gnu99 -O0" />
+			<Add option="-DF_CPU=8000000UL" />
+		</Compiler>
+		<Linker>
+			<Add option="-mmcu=atmega128" />
+			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref" />
+		</Linker>
+		<ExtraCommands>
+			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
+			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
+			<Add after="avr-objcopy -O binary -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).bin" />
+			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O binary $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.bin" />
+		</ExtraCommands>
+		<Unit filename="BuguRTOS/arch/avr/bugurt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BuguRTOS/arch/avr/bugurt_asm.S" />
+		<Unit filename="BuguRTOS/include/bugurt.h" />
+		<Unit filename="BuguRTOS/include/proc.h" />
+		<Unit filename="BuguRTOS/include/sched.h" />
+		<Unit filename="BuguRTOS/include/sem.h" />
+		<Unit filename="BuguRTOS/include/sig.h" />
+		<Unit filename="BuguRTOS/include/worklist_c.h" />
+		<Unit filename="BuguRTOS/kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BuguRTOS/kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BuguRTOS/kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BuguRTOS/kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger>
+				<remote_debugging target="Debug">
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
+				</remote_debugging>
+			</debugger>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

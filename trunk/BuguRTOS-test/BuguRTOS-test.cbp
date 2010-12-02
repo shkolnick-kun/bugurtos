@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BuguRTOS-test" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Script file="lib_finder.script" />
+			<Target title="Debug">
+				<Option output="bin/Debug/BuguRTOS-test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-std=c99 -lpthread" />
+				</Compiler>
+				<Linker>
+					<Add library="/lib/libpthread.so.0" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/BuguRTOS-test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/include/bugurt.h" />
+		<Unit filename="src/include/proc.h" />
+		<Unit filename="src/include/sched.h" />
+		<Unit filename="src/include/sem.h" />
+		<Unit filename="src/include/sig.h" />
+		<Unit filename="src/include/worklist_c.h" />
+		<Unit filename="src/kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

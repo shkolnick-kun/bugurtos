@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="config.h" open="0" top="0" tabpos="1">
+		<Cursor position="4822" topLine="36" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="2">
+		<Cursor position="13536" topLine="318" />
+	</File>
+	<File name="src/include/bugurt.h" open="0" top="0" tabpos="2">
+		<Cursor position="4822" topLine="24" />
+	</File>
+	<File name="src/include/proc.h" open="0" top="0" tabpos="1">
+		<Cursor position="6549" topLine="146" />
+	</File>
+	<File name="src/include/sched.h" open="0" top="0" tabpos="3">
+		<Cursor position="6937" topLine="94" />
+	</File>
+	<File name="src/include/sem.h" open="0" top="0" tabpos="4">
+		<Cursor position="4822" topLine="34" />
+	</File>
+	<File name="src/include/sig.h" open="0" top="0" tabpos="3">
+		<Cursor position="5280" topLine="59" />
+	</File>
+	<File name="src/include/worklist_c.h" open="0" top="0" tabpos="12">
+		<Cursor position="8736" topLine="213" />
+	</File>
+	<File name="src/kernel/proc.c" open="0" top="0" tabpos="8">
+		<Cursor position="5410" topLine="56" />
+	</File>
+	<File name="src/kernel/sched.c" open="0" top="0" tabpos="1">
+		<Cursor position="15207" topLine="332" />
+	</File>
+	<File name="src/kernel/sem.c" open="0" top="0" tabpos="7">
+		<Cursor position="4822" topLine="22" />
+	</File>
+	<File name="src/kernel/sig.c" open="0" top="0" tabpos="6">
+		<Cursor position="7220" topLine="135" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,44 @@
+# depslib dependency file v1.0
+1290890974 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/arch/avr/bugurt_asm.S
+	"../../../config.h"
+
+1290950296 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/config.h
+	<avr/io.h>
+	<avr/interrupt.h>
+
+1290890743 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/arch/avr/bugurt.c
+	"../../include/bugurt.h"
+
+1290951446 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/include/bugurt.h
+	"../../config.h"
+	"proc.h"
+	"sched.h"
+	"sem.h"
+	"sig.h"
+
+1290953763 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/include/proc.h
+
+1290954122 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/include/sched.h
+
+1290954289 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/include/sem.h
+
+1290942703 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/include/sig.h
+
+1290890753 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/kernel/proc.c
+	"../include/bugurt.h"
+	"../include/worklist_c.h"
+
+1290890705 /home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/include/worklist_c.h
+
+1290890760 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/kernel/sched.c
+	"../include/bugurt.h"
+
+1290890765 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/kernel/sem.c
+	"../include/bugurt.h"
+
+1290890772 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/BuguRTOS/kernel/sig.c
+	"../include/bugurt.h"
+
+1290891112 source:/home/anonimous/Документы/code_blocks/BuguRTOS-avr-example/main.c
+	"BuguRTOS/include/bugurt.h"
+
