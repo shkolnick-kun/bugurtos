@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="default" />
+	<File name="arch/avr/bugurt.c" open="0" top="0" tabpos="0">
+		<Cursor position="8631" topLine="147" />
+	</File>
+	<File name="include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="11073" topLine="270" />
+	</File>
+	<File name="include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="6" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1291745281 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x-mp-test/main.c
+	<bugurt.h>
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+
+1292087719 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
+	"../include/bugurt.h"
+	"../include/worklist_c.h"
+
+1292134260 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/bugurt.h
+	"../../config.h"
+	"proc.h"
+	"sched.h"
+	"sem.h"
+	"sig.h"
+
+1292087054 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/proc.h
+
+1290928579 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sched.h
+
+1290928566 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sem.h
+
+1292086576 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sig.h
+
+1290928515 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/worklist_c.h
+
+1290928412 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sched.c
+	"../include/bugurt.h"
+
+1292138479 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sem.c
+	"../include/bugurt.h"
+
+1292140321 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sig.c
+	"../include/bugurt.h"
+

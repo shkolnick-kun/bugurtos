@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BuguRTOS-0.0.x-mp-test" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Script file="lib_finder.script" />
+			<Target title="Debug">
+				<Option output="bin/Debug/BuguRTOS-0.0.x-mp-test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="/lib/libpthread.so.0" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/BuguRTOS-0.0.x-mp-test" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option='-lpthread -std=gnu99 -include &quot;${PROJECT_DIR}/config.h&quot; -I &quot;${PROJECT_DIR}/../BuguRTOS-0.0.x/include&quot;' />
+		</Compiler>
+		<Unit filename="../BuguRTOS-0.0.x/include/bugurt.h" />
+		<Unit filename="../BuguRTOS-0.0.x/include/proc.h" />
+		<Unit filename="../BuguRTOS-0.0.x/include/sched.h" />
+		<Unit filename="../BuguRTOS-0.0.x/include/sem.h" />
+		<Unit filename="../BuguRTOS-0.0.x/include/sig.h" />
+		<Unit filename="../BuguRTOS-0.0.x/include/worklist_c.h" />
+		<Unit filename="../BuguRTOS-0.0.x/kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../BuguRTOS-0.0.x/kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../BuguRTOS-0.0.x/kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../BuguRTOS-0.0.x/kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

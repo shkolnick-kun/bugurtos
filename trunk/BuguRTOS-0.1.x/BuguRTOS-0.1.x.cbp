@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BuguRTOS-0.1.x" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="libBuguRTOS-0" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+			</Target>
+		</Build>
+		<Unit filename="COPYING" />
+		<Unit filename="arch/avr/bugurt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="arch/avr/bugurt_asm.S" />
+		<Unit filename="include/bugurt.h" />
+		<Unit filename="include/proc.h" />
+		<Unit filename="include/sched.h" />
+		<Unit filename="include/sem.h" />
+		<Unit filename="include/sig.h" />
+		<Unit filename="include/worklist_c.h" />
+		<Unit filename="kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
