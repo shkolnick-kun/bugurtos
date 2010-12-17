@@ -115,8 +115,8 @@ void sig_wait(sig_t * sig){
 #ifdef CONFIG_MP
     spin_unlock( proc->queue_lock );
 #endif
-    resched_local();
     proc->flags |= (flag_t)PROC_FLG_WAIT;
+    resched_local();
     _exit_crit_sec( sched );
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );

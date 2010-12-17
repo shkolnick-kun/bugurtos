@@ -83,13 +83,16 @@ sched_t sched_array[MAX_PROCESSORS];
 *       returns a poiter 2 the least loaded scheduler       *
 ************************************************************/
 sched_t * load_balancer( proc_t * proc){
-    register affinity_t mask = (affinity_t)1;
+    register affinity_t mask = (affinity_t)1, test;
     load_t current_load,min_load;
     count_t i = (count_t)0,m;
 
     // find first active sched which can B used 2 run thic proc
     while( mask ){
-        if( mask & sched_index & proc->affinity )break;
+        spin_lock( &sched_index_lock );
+        test = mask & sched_index & proc->affinity;
+        spin_unlock( &sched_index_lock );
+        if( test )break;
         i++;
         mask <<= (affinity_t)1;
     }
@@ -105,7 +108,11 @@ sched_t * load_balancer( proc_t * proc){
 
     // try 2 find less loaded sched
     while( mask ){
-        if( mask & sched_index & proc->affinity ){
+        spin_lock( &sched_index_lock );
+        test = mask & sched_index & proc->affinity;
+        spin_unlock( &sched_index_lock );
+        if( test ){
+
             current_sched = (sched_t *)sched_array + i;
 
             // calculate load 4 current sched
@@ -256,7 +263,6 @@ I don't think, that flags use would always result in beter performance:
                 New sched search, switch 2 it and it's stats update must be done atomicaly,
              2 avoid non optimal load balancing.
             */
-            spin_lock( &sched_index_lock );
 
             // find most free sched
             register sched_t * new_sched = load_balancer( current_proc );
@@ -270,8 +276,6 @@ I don't think, that flags use would always result in beter performance:
             new_sched->proc_count_gp++;
             new_sched->total_gp_quant += current_proc->time_quant;
             spin_unlock( &new_sched->stat_lock );
-
-            spin_unlock( &sched_index_lock );
 
             // now insert proc 2 new_sched->gp_expired
             spin_lock( &new_sched->gp_lock );

@@ -333,6 +333,7 @@ void _proc_stop( proc_t * proc ){
         }
         spin_unlock( stat_lock );
     }
+
     register lock_t * queue_lock = proc->queue_lock;
     spin_lock( queue_lock );
 #endif
