@@ -137,6 +137,7 @@ void proc_run_wrapper( proc_t * proc ){
     proc->code();
     // exit sequence, we must terminate process
     enter_crit_sec();
+    proc->flags |= PROC_FLG_END;
     _proc_stop( proc );
     exit_crit_sec();
     resched_local();
@@ -159,7 +160,7 @@ bool_t _proc_run( proc_t * proc ){
     bool_t need_resched = 1;
 
     proc->flags |= PROC_FLG_RUN;
-    proc->flags &= ~PROC_FLG_WAIT;
+    proc->flags &= ~ ( PROC_FLG_WAIT | PROC_FLG_END );
     proc->sched = new_sched;
 
     if( proc->flags & PROC_FLG_RT ){
@@ -180,8 +181,8 @@ bool_t _proc_run( proc_t * proc ){
 //===========================================================
 void proc_run( proc_t * proc ){
     enter_crit_sec();
-    if( proc->queue ){
-        // already running, or invalid call
+    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ){
+        // already running, or invalid call, also fools can not into running ended procrsses
         exit_crit_sec();
         return;
     }
@@ -192,7 +193,7 @@ void proc_run( proc_t * proc ){
 //===========================================================
 void proc_run_no_resched( proc_t * proc ){
     enter_crit_sec();
-    if( proc->queue ) goto end; // already running, or invalid call
+    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
     _proc_run( proc );
 end:
     exit_crit_sec();
@@ -226,8 +227,10 @@ void proc_restart( proc_t * proc ){
 *                                                           *
 ************************************************************/
 void _proc_stop( proc_t * proc ){
-    proc_cut( proc );
     proc->flags &= ~PROC_FLG_RUN;
+    // end waiting process 2 avoid common resource corruption
+    if( proc->flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
+    proc_cut( proc );
 }
 //==============================================================
 void proc_stop( proc_t * proc ){

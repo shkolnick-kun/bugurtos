@@ -12,7 +12,7 @@
 	"sem.h"
 	"sig.h"
 
-1292087054 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/proc.h
+1292767462 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/proc.h
 
 1290928579 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sched.h
 
@@ -20,19 +20,19 @@
 
 1292086576 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sig.h
 
-1292087719 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
+1292770359 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
 	"../include/bugurt.h"
 	"../include/worklist_c.h"
 
 1290928515 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/worklist_c.h
 
-1290928412 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sched.c
+1292610486 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sched.c
 	"../include/bugurt.h"
 
 1292138479 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sem.c
 	"../include/bugurt.h"
 
-1292140321 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sig.c
+1292604906 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sig.c
 	"../include/bugurt.h"
 
 1291995390 source:/home/anonimous/Документы/code_blocks/osbme/arch/avr/osbme.c
@@ -41,4 +41,7 @@
 
 1291995499 source:/home/anonimous/Документы/code_blocks/osbme/arch/avr/osbme_asm.S
 	<avr/io.h>
+
+1292178063 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x-avr-example/main.c
+	<bugurt.h>
 

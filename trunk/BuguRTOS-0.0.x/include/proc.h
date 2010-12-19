@@ -110,6 +110,7 @@ typedef struct _proc_struct {
 #define PROC_FLG_RT ((flag_t)1)
 #define PROC_FLG_RUN ((flag_t)2)
 #define PROC_FLG_WAIT ((flag_t)4)
+#define PROC_FLG_END ((flag_t)8)
 
 //===========================================================
 // process queue descriptor

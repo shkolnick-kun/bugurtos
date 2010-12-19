@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="main.c" open="0" top="0" tabpos="3">
-		<Cursor position="5808" topLine="63" />
+	<File name="main.c" open="1" top="1" tabpos="1">
+		<Cursor position="6563" topLine="48" />
+	</File>
+	<File name="../BuguRTOS-0.0.x/kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="12924" topLine="395" />
+	</File>
+	<File name="../BuguRTOS-0.0.x/kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="17927" topLine="348" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="170" />

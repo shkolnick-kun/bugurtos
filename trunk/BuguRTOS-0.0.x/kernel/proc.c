@@ -155,6 +155,7 @@ void proc_run_wrapper( proc_t * proc ){
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif
+    proc->flags |= PROC_FLG_END;
     _proc_stop( proc );
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );
@@ -181,7 +182,7 @@ bool_t _proc_run( proc_t * proc ){
     new_sched = &system_sched;
 #endif
     proc->flags |= PROC_FLG_RUN;
-    proc->flags &= ~PROC_FLG_WAIT;
+    proc->flags &= ~ ( PROC_FLG_WAIT | PROC_FLG_END );
     proc->sched = new_sched;
     if( proc->flags & PROC_FLG_RT ){
         if(proc->timer)new_queue = &new_sched->rt_ready;
@@ -226,7 +227,7 @@ void proc_run( proc_t * proc ){
     register sched_t * proc_sched;
     spin_lock( &proc->lock );
 #endif
-    if( proc->queue ) goto end; // already running, or invalid call
+    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call, also fools can not into running ended procrsses
     // do we need reched?
     bool_t need_resched = _proc_run( proc );
 #ifdef CONFIG_MP
@@ -258,7 +259,7 @@ void proc_run_no_resched( proc_t * proc ){
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif
-    if( proc->queue ) goto end; // already running, or invalid call
+    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call, also fools can not into running ended procrsses
     _proc_run( proc );
 end:
 #ifdef CONFIG_MP
@@ -281,7 +282,6 @@ void proc_restart( proc_t * proc ){
     proc->next = proc;
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
-
     // do we need reched?
     bool_t need_resched = _proc_run( proc );
 #ifdef CONFIG_MP
@@ -311,18 +311,25 @@ end:
 *                                                           *
 *                        CAUTION!!!                         *
 *                                                           *
-*                   4 internal use only                     *
+*                   4 internal use only,                    *
 *                                                           *
-*                   proc must be locked                     *
+*                   proc must be locked,                    *
+*                                                           *
+*             do not run with PROC_FLG_WAIT set.            *
 *                                                           *
 ************************************************************/
 void _proc_stop( proc_t * proc ){
+    register flag_t proc_flags = proc->flags;
 #ifdef CONFIG_MP
     register lock_t * stat_lock = &proc->sched->stat_lock;
     // if proc isn't waiting 4 signal broadcast or 4 semaphore lock,
     // then it's supposed 2B running, and we must update stats
-    register flag_t proc_flags = proc->flags;
-    if( !(proc_flags & PROC_FLG_WAIT) ){
+#endif
+    proc->flags &= ~PROC_FLG_RUN;
+    // end waiting process 2 avoid common resource corruption
+    if( proc_flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
+#ifdef CONFIG_MP
+    else{
         spin_lock( stat_lock );
         if( proc_flags & PROC_FLG_RT ){
             proc->sched->proc_count_rt--;
@@ -333,12 +340,10 @@ void _proc_stop( proc_t * proc ){
         }
         spin_unlock( stat_lock );
     }
-
     register lock_t * queue_lock = proc->queue_lock;
     spin_lock( queue_lock );
 #endif
     proc_cut( proc );
-    proc->flags &= ~PROC_FLG_RUN;
 #ifdef CONFIG_MP
     spin_unlock( queue_lock );
     proc->queue_lock = (lock_t *)0;

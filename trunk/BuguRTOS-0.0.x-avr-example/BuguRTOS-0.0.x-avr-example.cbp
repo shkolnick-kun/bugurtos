@@ -12,7 +12,7 @@
 				<Option type="1" />
 				<Option compiler="avrgcc" />
 				<Compiler>
-					<Add option="-g" />
+					<Add option="-O0" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -28,7 +28,8 @@
 		<Compiler>
 			<Add option="-mmcu=atmega128" />
 			<Add option="-Wall" />
-			<Add option='-std=gnu99 -O0 -include &quot;${PROJECT_DIR}/config.h&quot; -I &quot;${PROJECT_DIR}/../BuguRTOS-0.0.x/include&quot;' />
+			<Add option="-g" />
+			<Add option='-std=gnu99 -include &quot;${PROJECT_DIR}/config.h&quot; -I &quot;${PROJECT_DIR}/../BuguRTOS-0.0.x/include&quot;' />
 			<Add option="-DF_CPU=8000000UL" />
 		</Compiler>
 		<Linker>

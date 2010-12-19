@@ -145,6 +145,12 @@ typedef struct _proc_struct {
  \warning 4 internal use only!
 */
 #define PROC_FLG_WAIT ((flag_t)4)
+/*!
+ \def PROC_FLG_WAIT
+ \brief Indicates that process has ended.
+ \warning 4 internal use only!
+*/
+#define PROC_FLG_END ((flag_t)8)
 
 //===========================================================
 /*!
