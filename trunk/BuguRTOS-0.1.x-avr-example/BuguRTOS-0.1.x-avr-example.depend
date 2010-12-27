@@ -1,40 +1,40 @@
 # depslib dependency file v1.0
-1291659601 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x-avr-example/main.c
+1293380089 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x-avr-example/main.c
 	<bugurt.h>
 
-1290890743 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt.c
+1293382291 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt.c
 	"../../include/bugurt.h"
 
-1291659021 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/bugurt.h
+1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/bugurt.h
 	"../../config.h"
 	"proc.h"
 	"sched.h"
 	"sem.h"
 	"sig.h"
 
-1292770547 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/proc.h
+1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/proc.h
 
-1290954122 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sched.h
+1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sched.h
 
-1290954289 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sem.h
+1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sem.h
 
-1290942703 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sig.h
+1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sig.h
 
-1291659454 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt_asm.S
+1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt_asm.S
 	"../../../config.h"
 
-1290890753 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/proc.c
+1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/proc.c
 	"../include/bugurt.h"
 	"../include/worklist_c.h"
 
-1290890705 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/worklist_c.h
+1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/worklist_c.h
 
-1290890760 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/sched.c
+1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/sched.c
 	"../include/bugurt.h"
 
-1290890765 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/sem.c
+1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/sem.c
 	"../include/bugurt.h"
 
-1290890772 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/sig.c
+1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/sig.c
 	"../include/bugurt.h"
 

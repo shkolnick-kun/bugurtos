@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.1.x(sguschekka) a small OS 4 microcontrollers.
+    BuguRTOS-0.1.x(sguschenka) a small OS 4 microcontrollers.
     Copyright (C) 2010  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -94,12 +94,15 @@ void gp01_main(void){
         sem_unlock(&my_sem);
     }
 }
-
+unsigned short counter = 0;
 void gp02_main(void){
     while(1){
+        counter++;
+        /*
         sem_lock(&my_sem);
         update_system_timer();
         sem_unlock(&my_sem);
+        */
     }
 }
 
@@ -205,7 +208,7 @@ int main(void)
     ASSR   = 0x00;
     DDRB = 0xff;
     DDRC = 0xff;
-    TIMSK = 0x10;
+    TIMSK = 0x00;
 
     // ololo
     proc_init(&gp01,&sgp01[127],gp01_main,0,0,3);

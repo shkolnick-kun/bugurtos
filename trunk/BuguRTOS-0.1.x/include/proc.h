@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.1.x(sguschekka) a small OS 4 microcontrollers.
+    BuguRTOS-0.1.x(sguschenka) a small OS 4 microcontrollers.
     Copyright (C) 2010  anonimous
 
     This program is free software: you can redistribute it and/or modify

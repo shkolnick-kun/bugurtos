@@ -48,6 +48,10 @@
 			<Add after="avr-size obj/Debug/BuguRTOS-0.1.0/arch/avr/bugurt.o" />
 			<Add after="avr-size obj/Debug/BuguRTOS-0.1.0/arch/avr/bugurt_asm.o" />
 		</ExtraCommands>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../BuguRTOS-0.1.x/arch/avr/bugurt.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -68,10 +72,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../BuguRTOS-0.1.x/kernel/sig.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="config.h" />
-		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

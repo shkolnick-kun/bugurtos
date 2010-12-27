@@ -1,5 +1,5 @@
 ;/**************************************************************************
-;    BuguRTOS-0.1.x(sguschekka) a small OS 4 microcontrollers.
+;    BuguRTOS-0.1.x(sguschenka) a small OS 4 microcontrollers.
 ;    Copyright (C) 2010  anonimous
 ;
 ;    This program is free software: you can redistribute it and/or modify
@@ -184,7 +184,6 @@ SYSTEM_TIMER_ISR:
 	;---------------------------------;
     push	r0                          ; store r0
     in	    r0,(_SFR_IO_ADDR(SREG))	    ; load SREG 2 r0
-    cli
     _store_regs_                        ; now we store SREG by "push r0", and then store r1...r31
     ;----------------------------------
 	in	    r24,(_SFR_IO_ADDR(SPL))	    ; load current stack pointer
@@ -225,6 +224,7 @@ resched_local:
     out	    (_SFR_IO_ADDR(SREG)),r0	    ; load SREG from r0
     pop	    r0			                ; load stored r0 value
 	;----------------------------------
+	sei
 	ret
 ;-------------------------------------------------------------------------------
 .end
