@@ -204,12 +204,12 @@ SYSTEM_TIMER_ISR:
 	.global resched_local
 
 resched_local:
+    cli
 	;---------------------------------;
 	;        Save Context             ;
 	;---------------------------------;
     push	r0                          ; store r0
     in	    r0,(_SFR_IO_ADDR(SREG))	    ; load SREG 2 r0
-    cli
     _store_regs_
     ;----------------------------------
 	in	    r24,(_SFR_IO_ADDR(SPL))	    ; load current stack pointer
