@@ -2,34 +2,34 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
 	<File name="arch/avr/bugurt.c" open="1" top="0" tabpos="1">
-		<Cursor position="9689" topLine="187" />
+		<Cursor position="8561" topLine="146" />
 	</File>
-	<File name="arch/avr/bugurt_asm.S" open="0" top="0" tabpos="3">
-		<Cursor position="8697" topLine="174" />
+	<File name="arch/avr/bugurt_asm.S" open="0" top="0" tabpos="7">
+		<Cursor position="8857" topLine="197" />
 	</File>
-	<File name="include/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="105" topLine="1" />
+	<File name="include/bugurt.h" open="0" top="0" tabpos="1">
+		<Cursor position="8138" topLine="174" />
 	</File>
-	<File name="include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="105" topLine="1" />
+	<File name="include/proc.h" open="0" top="0" tabpos="2">
+		<Cursor position="105" topLine="64" />
 	</File>
-	<File name="include/sched.h" open="0" top="0" tabpos="0">
+	<File name="include/sched.h" open="0" top="0" tabpos="3">
 		<Cursor position="105" topLine="0" />
 	</File>
-	<File name="include/sem.h" open="0" top="0" tabpos="0">
+	<File name="include/sem.h" open="0" top="0" tabpos="4">
 		<Cursor position="105" topLine="0" />
 	</File>
-	<File name="include/sig.h" open="0" top="0" tabpos="0">
+	<File name="include/sig.h" open="0" top="0" tabpos="5">
 		<Cursor position="105" topLine="0" />
 	</File>
-	<File name="include/worklist_c.h" open="0" top="0" tabpos="0">
+	<File name="include/worklist_c.h" open="0" top="0" tabpos="6">
 		<Cursor position="105" topLine="1" />
 	</File>
-	<File name="kernel/proc.c" open="1" top="0" tabpos="1">
-		<Cursor position="9500" topLine="184" />
+	<File name="kernel/proc.c" open="0" top="0" tabpos="1">
+		<Cursor position="7371" topLine="131" />
 	</File>
-	<File name="kernel/sched.c" open="1" top="0" tabpos="2">
-		<Cursor position="12388" topLine="0" />
+	<File name="kernel/sched.c" open="0" top="0" tabpos="2">
+		<Cursor position="5819" topLine="60" />
 	</File>
 	<File name="kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="105" topLine="104" />

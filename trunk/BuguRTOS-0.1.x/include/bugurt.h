@@ -77,21 +77,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
  \par Origin
 
  The name BuguRTOS comes from Butthurt Yogurt and BAGET RTOS.
- In year 2010 there were alot of events, one of those was BolgenOS. I'd had a real, REAL BUTTHURT when Denis Popov released it.
- During that time there was a canser wave on my warm vacuumtubed 0chan, some idiots forced butthurt and other B...T words.
- One of those words was BAGET. SUDDENLY!!! This was the name of russian military real time platform. Some forcers where forcing BUGURT,
- a hibrid of YOGURT and BUTTHURT.
+ In the year 2010 there were alot of events, one of those was BolgenOS. I had a real, REAL BUTTHURT when Denis Popov had released it.
+ During that time there was a cancer wave on my warm vacuumtubed 0chan, some idiots forced butthurt and other B...T words.
+ One of those words was BAGET. SUDDENLY!!! This was the name of russian military real time platform. Some forcers forced BUGURT,
+ a hybrid of YOGURT and BUTTHURT.
 
  As I had my butthurt I decided 2 write MY OWN OPERATING SYSTEM !!1
- I took together a trend word BUGURT and BAGET RTOS, and the codename BuguRTOS was born.
+ I got together a trend word BUGURT and BAGET RTOS, and the codename BuguRTOS was born.
 
  Next I wrote some monkey code and with a great aplomb named it BuguRTOS.
  \par Branches
 
  There are 2 brances of BuguRTOS code:
 
-  0.0.x codename nuTyx (SUDDENLY!!! /S/permclowns can not into calling GNU/Linux with names like nuTyx, pituh, pitux, etc.). It's a test code with some MP support that is not even OS.
-  Now it is a bit outdated because I made a lot of changes working on 0.1.x branch.
+  0.0.x codename nuTyx (SUDDENLY!!! /S/permclowns can not into calling GNU/Linux with names like nuTyx, pituh, pitux, etc.). It's a test code with some hi level MP support, and yes it IS an OS.
+  I used OSBME 2 write low level functions. Only AVR is supported now, so it can not into MP, but low level MP support is just a matter of time.
 
   and
 
@@ -101,7 +101,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
  Current version is 0.1.0. It is alpha and it will allways B alpha as all OpenSource. Also because girls love alphas.
  \par Arch
 
- BuguRTOS-0.1.0 supports only AVR architecture, but it can easily B ported 2 other architectures.
+ BuguRTOS-0.1.0 and 0.0.0 support only AVR architecture, but they can easily B ported 2 other architectures.
  \par License
 
  BuguRTOS license is GPLv3 or later, NO EXCEPTIONS!!!
@@ -117,7 +117,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
  At the moment I'm going 2 work on a new branch 0.2.x it'll inherit most of 0.1.x source code,
  but it'll B based on significantly different ideas. 0.2.0 will only suport AVR as 0.1.0.
- Next I'm going 2 create 1 interesting AVR project, and then I'm going 2 port 0.1.x and 0.2.x branches 2 ARM.
+ Next I'm going 2 create 1 interesting AVR project, and then I'm going 2 port 0.0.x, 0.1.x and 0.2.x branches 2 ARM.
 
  \par Toolchain
 
