@@ -90,7 +90,7 @@ sig_t my_sig,my_sig2;
 void gp01_main(void){
     while(1){
         sem_lock(&my_sem);
-        update_system_timer();
+        wait_time(1);
         sem_unlock(&my_sem);
     }
 }
@@ -123,11 +123,9 @@ void gp11_main(void){
 timer_t rt01_timer;
 void gp12_main(void){
     timer_t blink;
-    update_system_timer();
     CLEAR_TIMER(blink);
     CLEAR_TIMER(rt01_timer);
     while(1){
-        update_system_timer();
         if(TIMER(blink)>500){
             CLEAR_TIMER(blink);
             CLEAR_TIMER(rt01_timer);
@@ -144,7 +142,6 @@ void rt01_main(void){
     CLEAR_TIMER(rt01_timer);
     while(1){
         sem_lock(&my_sem);
-        update_system_timer();
         proc_reset_watchdog();
         sem_unlock(&my_sem);
         if(TIMER(rt01_timer)>1){
@@ -250,10 +247,8 @@ int main(void)
     start_bugurt();
 
     timer_t blink;
-    update_system_timer();
     CLEAR_TIMER(blink);
     while(1){
-        update_system_timer();
         if(TIMER(blink)>500){
             PORTB ^=0x55;
             CLEAR_TIMER(blink);

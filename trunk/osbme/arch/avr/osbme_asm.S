@@ -86,7 +86,6 @@
 osbme_store_context:
     push	r2                          ; store r2
     in	    r2,(_SFR_IO_ADDR(SREG))	    ; load SREG 2 r2
-    cli
     push	r2
     push	r3
     push	r4
@@ -133,7 +132,7 @@ osbme_store_context:
 	in	    r25,(_SFR_IO_ADDR(SPH))
 	push    r28
 	push    r29
-ret
+    ret
 ;-------------------------------------------------------------------------------
 	.global osbme_load_context
 osbme_load_context:
@@ -184,6 +183,6 @@ osbme_load_context:
     pop	    r2
     out	    (_SFR_IO_ADDR(SREG)),r2	    ; load SREG from r2
     pop	    r2			                ; load stored r2 value
-ret
+    ret
 .end
 ;*******************************************************************************

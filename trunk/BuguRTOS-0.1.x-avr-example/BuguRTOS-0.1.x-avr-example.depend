@@ -2,10 +2,10 @@
 1293380089 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x-avr-example/main.c
 	<bugurt.h>
 
-1293382291 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt.c
+1294393105 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt.c
 	"../../include/bugurt.h"
 
-1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/bugurt.h
+1294394851 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/bugurt.h
 	"../../config.h"
 	"proc.h"
 	"sched.h"
@@ -20,7 +20,7 @@
 
 1292779493 /home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/include/sig.h
 
-1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt_asm.S
+1293520496 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/arch/avr/bugurt_asm.S
 	"../../../config.h"
 
 1292779493 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.1.x/kernel/proc.c

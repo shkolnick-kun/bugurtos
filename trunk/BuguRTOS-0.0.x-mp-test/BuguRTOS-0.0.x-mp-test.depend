@@ -5,11 +5,11 @@
 	<stdlib.h>
 	<pthread.h>
 
-1292769403 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
+1294245166 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
 	"../include/bugurt.h"
 	"../include/worklist_c.h"
 
-1292134260 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/bugurt.h
+1294393030 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/bugurt.h
 	"../../config.h"
 	"proc.h"
 	"sched.h"

@@ -263,27 +263,21 @@ extern timer_t  system_timer;
 /*!
  \warning 4 internal use only!
 */
-extern timer_t _system_timer;
-/*!
- \brief This function updates the system timer.
-
- This function updates the system timer.
-*/
-extern void update_system_timer(void);
+extern timer_t _timer( timer_t t );
 /*!
  \def TIMER
  \brief Soft timer value.
 
  "Returns" a software timer value.
 */
-#define TIMER(t) ((timer_t)system_timer-(timer_t)t)
+#define TIMER(t) _timer(t)
 /*!
  \def CLEAR_TIMER
  \brief Soft timer clear.
 
  "Clears" a software timer.
 */
-#define CLEAR_TIMER(t) (t = system_timer)
+#define CLEAR_TIMER(t) {enter_crit_sec(); t = system_timer; exit_crit_sec();}
 /*!
  \brief Wait 4 some time.
 

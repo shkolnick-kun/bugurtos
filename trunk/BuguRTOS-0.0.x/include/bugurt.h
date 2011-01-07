@@ -139,10 +139,9 @@ REXT_ISR_ATTR extern void RESCHED_EXTERN_ISR(void);
 SYS_TMR_ISR_ATTR extern void SYSTEM_TIMER_ISR(void);
 
 extern timer_t  system_timer;
-extern timer_t _system_timer;
-extern void update_system_timer(void);
-#define TIMER(t) ((timer_t)system_timer-(timer_t)t)
-#define CLEAR_TIMER(t) (t = system_timer)
+extern timer_t _timer( timer_t t );
+#define TIMER(t) _timer(t)
+#define CLEAR_TIMER(t) {enter_crit_sec(); t = system_timer; exit_crit_sec();}
 extern void wait_time(
                         timer_t time
                         );

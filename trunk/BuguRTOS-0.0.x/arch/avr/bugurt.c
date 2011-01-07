@@ -87,7 +87,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #error "CONFIG_USE_ALB: BuguRTOS does not support multiprocessing 4 avr"
 #endif
 
-timer_t system_timer = 0, _system_timer = 0;
+timer_t system_timer = 0;
 proc_t idle;
 /************************************************************
 *                platform dependent crap                    *
@@ -112,7 +112,7 @@ static void * sp;
 SYS_TMR_ISR_ATTR void SYSTEM_TIMER_ISR(void){
     sp = (stack_t *)osbme_store_context();
     system_sched.current_proc->stack_pointer = (stack_t *)sp;
-    _system_timer++;
+    system_timer++;
     // Don't use nested interrupts, they are ABSOLUTE evil.
     if( !(system_sched.nested_interrupts) )schedule( &system_sched );
     sp = (void *)system_sched.current_proc->stack_pointer;
@@ -188,14 +188,21 @@ void nested_isr_end(void){
 }
 //-----------------------------------------------------------
 // needed in  soft timers
-void update_system_timer(void){
-    enter_crit_sec();
-    system_timer = _system_timer;
-    exit_crit_sec();
-}
 void wait_time(timer_t time){
     timer_t tmr;
-    update_system_timer();
-    CLEAR_TIMER(tmr);
-    while( TIMER(tmr) < time )update_system_timer();
+    bool_t roll=1;
+    enter_crit_sec();
+    tmr = (timer_t)system_timer;
+    exit_crit_sec();
+    while(roll){
+        enter_crit_sec();
+        roll = ( (timer_t)system_timer - (timer_t)tmr < time );
+        exit_crit_sec();
+    }
+}
+timer_t _timer( timer_t t ){
+    enter_crit_sec();
+    t = (timer_t)system_timer - (timer_t)t;
+    exit_crit_sec();
+    return t;
 }
