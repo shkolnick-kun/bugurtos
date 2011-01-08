@@ -122,9 +122,11 @@ typedef unsigned char bool_t;
 //=================================================================
 static inline void start_scheduler( void ){
     TIMSK |= 0x10;
+    EIMSK |= 0x01;
 }
 static inline void stop_scheduler( void ){
     TIMSK &= ~0x10;
+    EIMSK &= ~0x01;
 }
 /*
 #define CONFIG_MP

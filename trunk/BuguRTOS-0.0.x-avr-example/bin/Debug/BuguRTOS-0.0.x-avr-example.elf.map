@@ -156,7 +156,7 @@ LOAD /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x214c
+.text           0x00000000     0x214a
  *(.vectors)
  .vectors       0x00000000       0x8c /usr/lib/gcc/avr/4.3.3/../../../avr/lib/avr51/crtm128.o
                 0x00000000                __vectors
@@ -245,7 +245,7 @@ LOAD /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a
                 0x000000ca                __vector_16
                 0x000000ca                __vector_18
                 0x000000ca                __vector_20
- .text          0x000000ce      0x4ee obj/Debug/main.o
+ .text          0x000000ce      0x4ec obj/Debug/main.o
                 0x000002ac                rt11_main
                 0x000002ca                rt12_main
                 0x0000013c                gp03_main
@@ -260,73 +260,73 @@ LOAD /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a
                 0x0000011a                gp02_main
                 0x000000ce                resched_local
                 0x00000156                gp11_main
- .text          0x000005bc      0x414 obj/Debug/BuguRTOS-0.0.x/arch/avr/bugurt.o
-                0x000006bc                __vector_1
-                0x00000654                __vector_12
-                0x0000087c                exit_crit_sec
-                0x00000816                _exit_crit_sec
-                0x0000062e                _sem_unlock
-                0x000007ea                _enter_crit_sec_2
-                0x000007c4                _enter_crit_sec
-                0x00000792                start_bugurt
-                0x000005f2                _sem_try_lock
-                0x00000712                init_bugurt
-                0x0000092a                wait_time
-                0x0000085a                enter_crit_sec
-                0x000005bc                stack_init
-                0x00000994                _timer
-                0x000008b6                nested_isr_start
-                0x00000904                nested_isr_end
- .text          0x000009d0      0xb32 obj/Debug/BuguRTOS-0.0.x/kernel/proc.o
-                0x000009d0                proc_cut
-                0x000010ce                proc_run_wrapper
-                0x00000f04                proc_queue_switch
-                0x00000c1c                proc_insert
-                0x00001358                _proc_stop
-                0x000013f6                proc_stop_no_resched
-                0x00000f5e                proc_queue_head
-                0x00001268                proc_run_no_resched
-                0x000012bc                proc_restart
-                0x00000d14                proc_move
-                0x000013a6                proc_stop
-                0x00001438                proc_self_stop
-                0x00001492                proc_reset_watchdog
-                0x00000afa                proc_fast_cut
-                0x000011fa                proc_run
-                0x00001120                _proc_run
-                0x00001018                proc_init
- .text          0x00001502      0x338 obj/Debug/BuguRTOS-0.0.x/kernel/sched.o
-                0x000016c6                resched
-                0x00001502                schedule
-                0x00001720                scheduler_init
- .text          0x0000183a      0x218 obj/Debug/BuguRTOS-0.0.x/kernel/sem.o
-                0x000018f8                sem_lock
-                0x0000183a                sem_init
-                0x000018bc                sem_try_lock
-                0x000019a8                sem_unlock
- .text          0x00001a52      0x320 obj/Debug/BuguRTOS-0.0.x/kernel/sig.o
-                0x00001ac6                sig_wait
-                0x00001b5c                sig_signal
-                0x00001cec                sig_broadcast_no_resched
-                0x00001c48                sig_broadcast
-                0x00001a52                sig_init
-                0x00001bd4                sig_signal_no_resched
- .text          0x00001d72      0x320 obj/Debug/osbme/arch/avr/osbme.o
-                0x00001d72                osbme_init_stack
- .text          0x00002092       0xb6 obj/Debug/osbme/arch/avr/osbme_asm.o
-                0x000020ee                osbme_load_context
-                0x00002092                osbme_store_context
- .text          0x00002148        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
- .text          0x00002148        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_clear_bss.o)
-                0x00002148                . = ALIGN (0x2)
+ .text          0x000005ba      0x414 obj/Debug/BuguRTOS-0.0.x/arch/avr/bugurt.o
+                0x000006ba                __vector_1
+                0x00000652                __vector_12
+                0x0000087a                exit_crit_sec
+                0x00000814                _exit_crit_sec
+                0x0000062c                _sem_unlock
+                0x000007e8                _enter_crit_sec_2
+                0x000007c2                _enter_crit_sec
+                0x00000790                start_bugurt
+                0x000005f0                _sem_try_lock
+                0x00000710                init_bugurt
+                0x00000928                wait_time
+                0x00000858                enter_crit_sec
+                0x000005ba                stack_init
+                0x00000992                _timer
+                0x000008b4                nested_isr_start
+                0x00000902                nested_isr_end
+ .text          0x000009ce      0xb32 obj/Debug/BuguRTOS-0.0.x/kernel/proc.o
+                0x000009ce                proc_cut
+                0x000010cc                proc_run_wrapper
+                0x00000f02                proc_queue_switch
+                0x00000c1a                proc_insert
+                0x00001356                _proc_stop
+                0x000013f4                proc_stop_no_resched
+                0x00000f5c                proc_queue_head
+                0x00001266                proc_run_no_resched
+                0x000012ba                proc_restart
+                0x00000d12                proc_move
+                0x000013a4                proc_stop
+                0x00001436                proc_self_stop
+                0x00001490                proc_reset_watchdog
+                0x00000af8                proc_fast_cut
+                0x000011f8                proc_run
+                0x0000111e                _proc_run
+                0x00001016                proc_init
+ .text          0x00001500      0x338 obj/Debug/BuguRTOS-0.0.x/kernel/sched.o
+                0x000016c4                resched
+                0x00001500                schedule
+                0x0000171e                scheduler_init
+ .text          0x00001838      0x218 obj/Debug/BuguRTOS-0.0.x/kernel/sem.o
+                0x000018f6                sem_lock
+                0x00001838                sem_init
+                0x000018ba                sem_try_lock
+                0x000019a6                sem_unlock
+ .text          0x00001a50      0x320 obj/Debug/BuguRTOS-0.0.x/kernel/sig.o
+                0x00001ac4                sig_wait
+                0x00001b5a                sig_signal
+                0x00001cea                sig_broadcast_no_resched
+                0x00001c46                sig_broadcast
+                0x00001a50                sig_init
+                0x00001bd2                sig_signal_no_resched
+ .text          0x00001d70      0x320 obj/Debug/osbme/arch/avr/osbme.o
+                0x00001d70                osbme_init_stack
+ .text          0x00002090       0xb6 obj/Debug/osbme/arch/avr/osbme_asm.o
+                0x000020ec                osbme_load_context
+                0x00002090                osbme_store_context
+ .text          0x00002146        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
+ .text          0x00002146        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_clear_bss.o)
+                0x00002146                . = ALIGN (0x2)
  *(.text.*)
- .text.libgcc   0x00002148        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
- .text.libgcc   0x00002148        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_clear_bss.o)
-                0x00002148                . = ALIGN (0x2)
+ .text.libgcc   0x00002146        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
+ .text.libgcc   0x00002146        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_clear_bss.o)
+                0x00002146                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00002148        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
-                0x00002148                exit
-                0x00002148                _exit
+ .fini9         0x00002146        0x0 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
+                0x00002146                exit
+                0x00002146                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -345,11 +345,11 @@ LOAD /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00002148        0x4 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
+ .fini0         0x00002146        0x4 /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a(_exit.o)
  *(.fini0)
-                0x0000214c                _etext = .
+                0x0000214a                _etext = .
 
-.data           0x00800100        0x0 load address 0x0000214c
+.data           0x00800100        0x0 load address 0x0000214a
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 /usr/lib/gcc/avr/4.3.3/../../../avr/lib/avr51/crtm128.o
@@ -371,7 +371,7 @@ LOAD /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a
                 0x00800100                _edata = .
                 0x00800100                PROVIDE (__data_end, .)
 
-.bss            0x00800100      0x71c load address 0x0000214c
+.bss            0x00800100      0x71c load address 0x0000214a
                 0x00800100                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800100        0x0 /usr/lib/gcc/avr/4.3.3/../../../avr/lib/avr51/crtm128.o
@@ -419,8 +419,8 @@ LOAD /usr/lib/gcc/avr/4.3.3/avr51/libgcc.a
  COMMON         0x00800808       0x14 obj/Debug/BuguRTOS-0.0.x/arch/avr/bugurt.o
                 0x00800808                idle
                 0x0080081c                PROVIDE (__bss_end, .)
-                0x0000214c                __data_load_start = LOADADDR (.data)
-                0x0000214c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000214a                __data_load_start = LOADADDR (.data)
+                0x0000214a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080081c        0x0
                 0x0080081c                PROVIDE (__noinit_start, .)

@@ -215,14 +215,7 @@ void sig_signal_no_resched(sig_t * sig){
 #endif
     _proc_run( proc );
 #ifdef CONFIG_MP
-    proc_sched = proc->sched;
     spin_unlock( &proc->lock );
-    if( proc_sched != sched ){
-        //now we can resched
-        resched_extern( proc_sched );
-        _exit_crit_sec( sched );
-        return;
-    }
 #endif
 end:
     _exit_crit_sec( sched );

@@ -214,7 +214,7 @@ int main(void)
 
     DDRD = 0x01;
     EICRA = 0x02;
-    EIMSK = 0x01;
+    EIMSK = 0x00;
 
     // ololo
     proc_init(&gp01,&sgp01[127],gp01_main,0,0,3);
