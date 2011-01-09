@@ -118,6 +118,22 @@ end:
     exit_crit_sec();
 }
 //==============================================================
+void sig_signal_from_isr(sig_t * sig){
+    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
+    if( nested_isr )enter_crit_sec();
+    register proc_t * proc;
+    if( sig->rt_queue.index ){
+        proc = proc_queue_head( &sig->rt_queue );
+    }else{
+        if( sig->gp_queue.index )proc = proc_queue_head( &sig->gp_queue );
+        else goto end;
+    }
+    proc_cut( proc );
+    _proc_run( proc );
+end:
+    if( nested_isr )exit_crit_sec();
+}
+//==============================================================
 void sig_signal_no_resched(sig_t * sig){
     enter_crit_sec();
     register proc_t * proc;
@@ -149,6 +165,23 @@ void sig_broadcast(sig_t * sig){
     }
     exit_crit_sec();
     if(need_resched)resched_local();
+}
+//==============================================================
+void sig_broadcast_from_isr(sig_t * sig){
+    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
+    if( nested_isr )enter_crit_sec();
+    register proc_t * proc;
+    while( sig->rt_queue.index ){
+        proc = proc_queue_head( &sig->rt_queue );
+        proc_cut( proc );
+        _proc_run( proc );
+    }
+    while( sig->gp_queue.index ){
+        proc = proc_queue_head( &sig->gp_queue );
+        proc_cut( proc );
+        _proc_run( proc );
+    }
+    if( nested_isr )exit_crit_sec();
 }
 //==============================================================
 void sig_broadcast_no_resched(sig_t * sig){

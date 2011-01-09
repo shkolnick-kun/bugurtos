@@ -160,20 +160,77 @@ void sig_signal(sig_t * sig){
 #ifdef CONFIG_MP
     spin_unlock( proc->queue_lock );
 #endif
-    _proc_run( proc );
+    if( _proc_run( proc ) ){
 #ifdef CONFIG_MP
-    proc_sched = proc->sched;
-    spin_unlock( &proc->lock );
-    if( proc_sched != sched ){
-        //now we can resched
-        resched_extern( proc_sched );
-        _exit_crit_sec( sched );
-        return;
-    }
+        proc_sched = proc->sched;
+        spin_unlock( &proc->lock );
+        if( proc_sched != sched ){
+            //now we can resched
+            resched_extern( proc_sched );
+            _exit_crit_sec( sched );
+            return;
+        }
 #endif
-    resched_local();
+        resched_local();
+    }
 end:
     _exit_crit_sec( sched );
+}
+//==============================================================
+void sig_signal_from_isr(sig_t * sig){
+    register sched_t * sched = current_sched();
+    register bool_t nested_isr = sched->nested_interrupts != (count_t)0;//true if interrupts R enabled on a local processor
+    register proc_t * proc;
+    if( nested_isr )_enter_crit_sec_2( sched );
+#ifdef CONFIG_MP
+    register sched_t * proc_sched;
+    spin_lock(&sig->rt_lock);
+#endif
+    if( sig->rt_queue.index ){
+        proc = proc_queue_head( &sig->rt_queue );
+#ifdef CONFIG_MP
+        spin_unlock(&sig->rt_lock);
+#endif
+    }else{
+#ifdef CONFIG_MP
+        spin_unlock(&sig->rt_lock);
+        spin_lock(&sig->gp_lock);
+#endif
+        if( sig->gp_queue.index ){
+            proc = proc_queue_head( &sig->gp_queue );
+#ifdef CONFIG_MP
+            spin_unlock(&sig->gp_lock);
+#endif
+        }else{
+#ifdef CONFIG_MP
+            spin_unlock(&sig->gp_lock);
+#endif
+            goto end;
+        }
+    }
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+    spin_lock( proc->queue_lock );
+#endif
+    proc_cut( proc );
+#ifdef CONFIG_MP
+    spin_unlock( proc->queue_lock );
+#endif
+    if( _proc_run( proc ) ){
+#ifdef CONFIG_MP
+        proc_sched = proc->sched;
+        spin_unlock( &proc->lock );
+        if( proc_sched != sched ){
+            //now we can resched
+            resched_extern( proc_sched );
+            if( nested_isr )_exit_crit_sec( sched );
+            return;
+        }
+#endif
+        if( !nested_isr )resched_local();
+    }
+end:
+    if( nested_isr )_exit_crit_sec( sched );
 }
 //==============================================================
 void sig_signal_no_resched(sig_t * sig){
@@ -224,7 +281,7 @@ end:
 void sig_broadcast(sig_t * sig){
     register sched_t * sched = _enter_crit_sec();
     register proc_t * proc;
-    register bool_t need_reched = (bool_t)0;
+    register bool_t need_resched = (bool_t)0;
 #ifdef CONFIG_MP
         spin_lock(&sig->rt_lock);
 #endif
@@ -239,7 +296,7 @@ void sig_broadcast(sig_t * sig){
 #ifdef CONFIG_MP
         spin_unlock( proc->queue_lock );
 #endif
-        need_reched |= _proc_run( proc );
+        need_resched |= _proc_run( proc );
 #ifdef CONFIG_MP
         spin_unlock( &proc->lock );
         spin_lock(&sig->rt_lock);
@@ -260,7 +317,7 @@ void sig_broadcast(sig_t * sig){
 #ifdef CONFIG_MP
         spin_unlock( proc->queue_lock );
 #endif
-        need_reched |= _proc_run( proc );
+        need_resched |= _proc_run( proc );
 #ifdef CONFIG_MP
         spin_unlock( &proc->lock );
         spin_lock(&sig->gp_lock);
@@ -269,8 +326,62 @@ void sig_broadcast(sig_t * sig){
 #ifdef CONFIG_MP
         spin_unlock(&sig->gp_lock);
 #endif
-    if(need_reched)resched_system();
+    if(need_resched)resched_system();
     _exit_crit_sec( sched );
+}
+//==============================================================
+void sig_broadcast_from_isr(sig_t * sig){
+    register sched_t * sched = current_sched();
+    register bool_t nested_isr = sched->nested_interrupts != (count_t)0;//true if interrupts R enabled on a local processor
+    register bool_t need_resched = (bool_t)0;
+    register proc_t * proc;
+    if( nested_isr )_enter_crit_sec_2( sched );
+#ifdef CONFIG_MP
+        spin_lock(&sig->rt_lock);
+#endif
+    while( sig->rt_queue.index ){
+        proc = proc_queue_head( &sig->rt_queue );
+#ifdef CONFIG_MP
+        spin_unlock( &sig->rt_lock );
+        spin_lock( &proc->lock );
+        spin_lock( proc->queue_lock );
+#endif
+        proc_cut( proc );
+#ifdef CONFIG_MP
+        spin_unlock( proc->queue_lock );
+#endif
+        need_resched |= _proc_run( proc );
+#ifdef CONFIG_MP
+        spin_unlock( &proc->lock );
+        spin_lock(&sig->rt_lock);
+#endif
+    }
+#ifdef CONFIG_MP
+        spin_unlock(&sig->rt_lock);
+        spin_lock(&sig->gp_lock);
+#endif
+    while( sig->gp_queue.index ){
+        proc = proc_queue_head( &sig->gp_queue );
+#ifdef CONFIG_MP
+        spin_unlock( &sig->gp_lock );
+        spin_lock( &proc->lock );
+        spin_lock( proc->queue_lock );
+#endif
+        proc_cut( proc );
+#ifdef CONFIG_MP
+        spin_unlock( proc->queue_lock );
+#endif
+        need_resched |= _proc_run( proc );
+#ifdef CONFIG_MP
+        spin_unlock( &proc->lock );
+        spin_lock(&sig->gp_lock);
+#endif
+    }
+#ifdef CONFIG_MP
+        spin_unlock(&sig->gp_lock);
+#endif
+    if( (!nested_isr)&&(need_resched) )resched_system();
+    if( nested_isr )_exit_crit_sec( sched );
 }
 //==============================================================
 void sig_broadcast_no_resched(sig_t * sig){

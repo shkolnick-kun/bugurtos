@@ -2,10 +2,10 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="6132" topLine="102" />
+		<Cursor position="6995" topLine="112" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="8702" topLine="203" />
+		<Cursor position="8629" topLine="198" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/arch/avr/bugurt.c" open="0" top="0" tabpos="0">
 		<Cursor position="7570" topLine="110" />

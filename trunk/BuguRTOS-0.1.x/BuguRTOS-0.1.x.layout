@@ -2,16 +2,16 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
 	<File name="arch/avr/bugurt.c" open="0" top="0" tabpos="1">
-		<Cursor position="8561" topLine="68" />
+		<Cursor position="10059" topLine="203" />
 	</File>
 	<File name="arch/avr/bugurt_asm.S" open="0" top="0" tabpos="7">
 		<Cursor position="8857" topLine="197" />
 	</File>
 	<File name="include/bugurt.h" open="0" top="0" tabpos="1">
-		<Cursor position="6294" topLine="75" />
+		<Cursor position="8885" topLine="154" />
 	</File>
 	<File name="include/proc.h" open="0" top="0" tabpos="2">
-		<Cursor position="105" topLine="64" />
+		<Cursor position="105" topLine="289" />
 	</File>
 	<File name="include/sched.h" open="0" top="0" tabpos="3">
 		<Cursor position="105" topLine="0" />
@@ -26,15 +26,15 @@
 		<Cursor position="105" topLine="1" />
 	</File>
 	<File name="kernel/proc.c" open="0" top="0" tabpos="1">
-		<Cursor position="8511" topLine="143" />
+		<Cursor position="8511" topLine="173" />
 	</File>
 	<File name="kernel/sched.c" open="0" top="0" tabpos="2">
-		<Cursor position="5819" topLine="60" />
+		<Cursor position="5819" topLine="129" />
 	</File>
 	<File name="kernel/sem.c" open="0" top="0" tabpos="1">
 		<Cursor position="105" topLine="95" />
 	</File>
 	<File name="kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="105" topLine="69" />
+		<Cursor position="105" topLine="113" />
 	</File>
 </CodeBlocks_layout_file>

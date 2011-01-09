@@ -103,9 +103,11 @@ void sig_wait(sig_t * sig);
 ********************************************/
 // signal 2 only most prioritized proc
 void sig_signal(sig_t * sig);
+void sig_signal_from_isr(sig_t * sig);
 void sig_signal_no_resched(sig_t * sig);
 // signal 2 all proc
 void sig_broadcast(sig_t * sig);
+void sig_broadcast_from_isr(sig_t * sig);
 void sig_broadcast_no_resched(sig_t * sig);
 
 

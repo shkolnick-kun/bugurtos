@@ -261,7 +261,16 @@ void proc_run(
 /*!
  \brief Makes a process 2 run.
 
- As previous, but does not resched, used in interrupt service routines, critical sections, etc.
+ This function inserts a process 2 correspondent ready proc_queue and does recheduling.
+ It can be used 2 start new process or 2 resume some stoped process from interrupt service routine, does not resched.
+*/
+void proc_run_from_isr(
+                proc_t * proc //!< A process descriptor pointer.
+                );
+/*!
+ \brief Makes a process 2 run.
+
+ As proc_run, but does not resched, used in critical sections.
 */
 void proc_run_no_resched(
                 proc_t * proc //!< A process descriptor pointer
@@ -273,12 +282,36 @@ void proc_run_no_resched(
  This function restarts a process.
  It restores the stack of a process,
  as if it was just initialized,
- and calls _proc_run().
+ calls _proc_run(), and rescheds.
 
  \warning             CAUTION!!!
  \warning The process must B stoped B4 restart
 */
 void proc_restart(
+                    proc_t * proc //!< A process descriptor pointer
+
+                );
+/*!
+ \brief Makes a process 2 restart.
+
+ This function restarts a process.
+ It restores the stack of a process,
+ as if it was just initialized,
+ and calls _proc_run().
+*/
+void proc_restart_from_isr(
+                    proc_t * proc //!< A process descriptor pointer
+
+                );
+/*!
+ \brief Makes a process 2 restart.
+
+ This function restarts a process.
+ It restores the stack of a process,
+ as if it was just initialized,
+ and calls _proc_run().
+*/
+void proc_restart_no_resched(
                     proc_t * proc //!< A process descriptor pointer
 
                 );
@@ -297,6 +330,15 @@ void proc_stop(
  Same as above but does not rescheduling.
 */
 void proc_stop_no_resched(
+                            proc_t * proc //!< A process descriptor pointer
+
+                            );
+/*!
+ \brief Makes a process 2 stop.
+
+ Same as above but does not rescheduling, must B used in interrupt service routines.
+*/
+void proc_stop_from_isr(
                             proc_t * proc //!< A process descriptor pointer
 
                             );

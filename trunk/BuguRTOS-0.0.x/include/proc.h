@@ -173,8 +173,9 @@ void proc_run_wrapper( proc_t * proc );
  It can be used 2 start new process | 2 resume some stoped process.
 */
 void proc_run( proc_t * proc );
-
 // As previous, but used in interrupt service routines.
+void proc_run_from_isr( proc_t * proc );
+// As proc_run, but used in critical sections.
 void proc_run_no_resched( proc_t * proc );
 
 /*
@@ -188,9 +189,12 @@ void proc_run_no_resched( proc_t * proc );
 * The process must B stoped B4 restart *
 ***************************************/
 void proc_restart( proc_t * proc );
+void proc_restart_from_isr( proc_t * proc );
+void proc_restart_no_resched( proc_t * proc );
 
 // This function cuts the process from its proc_queue and does rescheduling.
 void proc_stop( proc_t * proc );
+void proc_stop_from_isr( proc_t * proc );
 void proc_stop_no_resched( proc_t * proc );
 
 // This function is used for process self stop.

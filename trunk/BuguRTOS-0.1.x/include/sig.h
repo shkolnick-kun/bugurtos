@@ -124,6 +124,22 @@ void sig_signal(
                 sig_t * sig //!< A signal pointer.
                 );
 /*!
+ \brief Wake up one process.
+
+  Wakes up one most prioritized process, must B called within interrupt service routine.
+*/
+void sig_signal_from_isr(
+                            sig_t * sig //!< A signal pointer.
+                            );
+/*!
+ \brief Wake up one process.
+
+  Wakes up one most prioritized process, may B called within critical section.
+*/
+void sig_signal_no_resched(
+                            sig_t * sig //!< A signal pointer.
+                            );
+/*!
  \brief Wake up all.
 
  Wakes up all waiting 4 signal processes and does rescheduling if needed.
@@ -133,17 +149,17 @@ void sig_broadcast(
                     sig_t * sig //!< A signal pointer.
                     );
 /*!
- \brief Wake up one process.
+ \brief Wake up all.
 
-  Wakes up one most prioritized process, may B called within critical section or interrupt service routine.
+ Wakes up all waiting 4 signal processes, must B called within interrupt service routine.
 */
-void sig_signal_no_resched(
-                            sig_t * sig //!< A signal pointer.
-                            );
+void sig_broadcast_from_isr(
+                                sig_t * sig //!< A signal pointer.
+                                );
 /*!
  \brief Wake up all.
 
- Wakes up all waiting 4 signal processes, may B called within critical section or interrupt service routine.
+ Wakes up all waiting 4 signal processes, may B called within critical section.
 */
 void sig_broadcast_no_resched(
                                 sig_t * sig //!< A signal pointer.

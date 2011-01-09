@@ -191,6 +191,15 @@ void proc_run( proc_t * proc ){
     if(need_resched)resched_local();
 }
 //===========================================================
+void proc_run_from_isr( proc_t * proc ){
+    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
+    if( nested_isr )enter_crit_sec();
+    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
+    _proc_run( proc );
+end:
+    if( nested_isr )exit_crit_sec();
+}
+//===========================================================
 void proc_run_no_resched( proc_t * proc ){
     enter_crit_sec();
     if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
@@ -217,6 +226,43 @@ void proc_restart( proc_t * proc ){
     exit_crit_sec();
     if(need_resched)resched_local();
 }
+//==============================================================
+void proc_restart_from_isr( proc_t * proc ){
+    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
+    if( nested_isr )enter_crit_sec();
+    if( proc->queue ){
+        // already running, or invalid call
+        if( nested_isr )exit_crit_sec();
+        return;
+    }
+    stack_init( proc );
+    proc->timer = proc->time_quant;
+    proc->prev = proc;
+    proc->next = proc;
+    proc->queue = (proc_queue_t *)0;
+    proc->sched = (sched_t *)0;
+
+    _proc_run( proc );
+    if( nested_isr )exit_crit_sec();
+}
+//==============================================================
+void proc_restart_no_resched( proc_t * proc ){
+    enter_crit_sec();
+    if( proc->queue ){
+        // already running, or invalid call
+        exit_crit_sec();
+        return;
+    }
+    stack_init( proc );
+    proc->timer = proc->time_quant;
+    proc->prev = proc;
+    proc->next = proc;
+    proc->queue = (proc_queue_t *)0;
+    proc->sched = (sched_t *)0;
+
+    _proc_run( proc );
+    exit_crit_sec();
+}
 /************************************************************
 *                                                           *
 *                        CAUTION!!!                         *
@@ -242,6 +288,15 @@ void proc_stop( proc_t * proc ){
         return;
     }
     exit_crit_sec();
+}
+//==============================================================
+void proc_stop_from_isr( proc_t * proc ){
+    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
+    if( nested_isr )enter_crit_sec();
+    if( proc->queue ){
+        _proc_stop( proc );
+    }
+    if( nested_isr )exit_crit_sec();
 }
 //==============================================================
 void proc_stop_no_resched( proc_t * proc ){
