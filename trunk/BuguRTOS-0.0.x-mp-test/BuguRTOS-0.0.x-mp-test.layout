@@ -5,7 +5,7 @@
 		<Cursor position="6366" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="13732" topLine="63" />
+		<Cursor position="12868" topLine="330" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/include/bugurt.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
@@ -23,7 +23,7 @@
 		<Cursor position="13697" topLine="314" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="5680" topLine="0" />
+		<Cursor position="13295" topLine="276" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="7651" topLine="104" />

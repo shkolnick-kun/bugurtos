@@ -281,9 +281,7 @@ I don't think, that flags use would always result in beter performance:
             spin_lock( &new_sched->gp_lock );
             proc_insert( current_proc, new_sched->gp_expired );
             spin_unlock( &new_sched->gp_lock );
-
-            // now we can unlock current_proc->lock.
-            goto gp_test;
+            // now we can unlock current_proc->lock, go to gp_test;
 #else
             // move the process 2 gp_expired
             proc_move( current_proc, sched->gp_expired );

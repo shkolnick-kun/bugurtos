@@ -8,7 +8,7 @@
 		<Build>
 			<Script file="lib_finder.script" />
 			<Target title="Debug">
-				<Option output="bin/Debug/BuguRTOS-0.0.x-mp-test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/BuguRTOS-0" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -20,7 +20,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/BuguRTOS-0.0.x-mp-test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/BuguRTOS-0" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -36,6 +36,10 @@
 			<Add option="-Wall" />
 			<Add option='-lpthread -std=gnu99 -include &quot;${PROJECT_DIR}/config.h&quot; -I &quot;${PROJECT_DIR}/../BuguRTOS-0.0.x/include&quot;' />
 		</Compiler>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../BuguRTOS-0.0.x/include/bugurt.h" />
 		<Unit filename="../BuguRTOS-0.0.x/include/proc.h" />
 		<Unit filename="../BuguRTOS-0.0.x/include/sched.h" />
@@ -54,15 +58,15 @@
 		<Unit filename="../BuguRTOS-0.0.x/kernel/sig.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="config.h" />
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />
 			<lib_finder disable_auto="1" />
-			<debugger />
+			<debugger>
+				<remote_debugging target="Debug">
+					<options conn_type="0" serial_baud="115200" additional_cmds_before="file ${TARGET_OUTPUT_FILE}" />
+				</remote_debugging>
+			</debugger>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
