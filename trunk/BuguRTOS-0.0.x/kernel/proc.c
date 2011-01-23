@@ -229,22 +229,22 @@ void proc_run( proc_t * proc ){
 #endif
     if( ( (proc_queue_t *)proc->queue ) || ( (flag_t)proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call, also fools can not into running ended procrsses
     // do we need reched?
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
     proc_sched = (sched_t *)proc->sched;
     spin_unlock( (lock_t *)&proc->lock );
-#endif
     if( (bool_t)need_resched ){
-#ifdef CONFIG_MP
         if( (sched_t *)proc_sched != (sched_t *)sched ){
             //now we can resched
             resched_extern( (sched_t *)proc_sched );
             _exit_crit_sec( (sched_t *)sched );
             return;
         }
-#endif
         resched_local();
     }
+#else
+    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+#endif
     _exit_crit_sec( (sched_t *)sched );
     return;
 end:
@@ -264,22 +264,22 @@ void proc_run_from_isr( proc_t * proc ){
 #endif
     if( ( (proc_queue_t *)proc->queue ) || ( (flag_t)proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call, also fools can not into running ended procrsses
     // do we need reched?
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
     proc_sched = (sched_t *)proc->sched;
     spin_unlock( (lock_t *)&proc->lock );
-#endif
     if( (bool_t)need_resched ){
-#ifdef CONFIG_MP
         if( (sched_t *)proc_sched != (sched_t *)sched ){
             //now we can resched
             resched_extern( (sched_t *)proc_sched );
-            if( (bool_t)nested_isr )_exit_crit_sec( (sched_t *)sched );
+            _exit_crit_sec( (sched_t *)sched );
             return;
         }
-#endif
-        if( !((bool_t)nested_isr) )resched_local();//resched_local generates interrupt, in case of nested interrupts it may crash everything
+        if( !(bool_t)nested_isr )resched_local();
     }
+#else
+    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+#endif
     if( (bool_t)nested_isr )_exit_crit_sec( sched );
     return;
 end:
@@ -318,22 +318,22 @@ void proc_restart( proc_t * proc ){
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
     // do we need reched?
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
     proc_sched = (sched_t *)proc->sched;
     spin_unlock( (lock_t *)&proc->lock );
-#endif
-    if( need_resched ){
-#ifdef CONFIG_MP
+    if( (bool_t)need_resched ){
         if( (sched_t *)proc_sched != (sched_t *)sched ){
             //now we can resched
             resched_extern( (sched_t *)proc_sched );
             _exit_crit_sec( (sched_t *)sched );
             return;
         }
-#endif
         resched_local();
     }
+#else
+    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+#endif
     _exit_crit_sec( (sched_t *)sched );
     return;
 end:
@@ -360,22 +360,22 @@ void proc_restart_from_isr( proc_t * proc ){
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
     // do we need reched?
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
     proc_sched = (sched_t *)proc->sched;
     spin_unlock( (lock_t *)&proc->lock );
-#endif
     if( (bool_t)need_resched ){
-#ifdef CONFIG_MP
         if( (sched_t *)proc_sched != (sched_t *)sched ){
             //now we can resched
             resched_extern( (sched_t *)proc_sched );
-            if( (bool_t)nested_isr )_exit_crit_sec( (sched_t *)sched );
+            _exit_crit_sec( (sched_t *)sched );
             return;
         }
-#endif
-        if( !((bool_t)nested_isr) )resched_local();
+        if( !(bool_t)nested_isr )resched_local();
     }
+#else
+    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+#endif
     if( (bool_t)nested_isr )_exit_crit_sec( sched );
     return;
 end:
