@@ -83,11 +83,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 // porject specific define of system timer ISR
 #define SYSTEM_TIMER_ISR TIMER1_COMPA_vect
+#define RESCHED_LOCAL_ISR INT0_vect
 
 #ifndef __ASSEMBLER__
 
 #define INLINE __attribute__((__always_inline__))
 #define SYS_TMR_ISR_ATTR __attribute__ (( signal, naked ))
+#define RLOC_ISR_ATTR __attribute__ (( signal, naked ))
 // data types
 #define BITS_IN_INDEX_T (8)
 typedef unsigned char index_t;
@@ -118,9 +120,11 @@ typedef unsigned char bool_t;
 //=================================================================
 static inline void start_scheduler( void ){
     TIMSK |= 0x10;
+    EIMSK |= 0x01;
 }
 static inline void stop_scheduler( void ){
     TIMSK &= ~0x10;
+    EIMSK &= ~0x01;
 }
 #endif //__ASSEMBLER__
 

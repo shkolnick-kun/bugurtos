@@ -255,7 +255,13 @@ extern void nested_isr_end(void);
 
  This is system timer interrupt, scheduler routine is called here.
 */
-extern void SYSTEM_TIMER_ISR(void) SYS_TMR_ISR_ATTR;
+SYS_TMR_ISR_ATTR extern void SYSTEM_TIMER_ISR(void);
+/*!
+ \brief resched local interrupt service routine.
+
+ This is resched local interrupt, rescheduler routine is called here.
+*/
+RLOC_ISR_ATTR extern void RESCHED_LOCAL_ISR(void);
 /*!
  \warning 4 internal use only!
 */

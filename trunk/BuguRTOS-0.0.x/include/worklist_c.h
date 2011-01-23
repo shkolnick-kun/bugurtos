@@ -200,24 +200,24 @@ INLINE static inline void _item_fast_cut( ITEM_T * item ){
     }else{
         // switch the prioritylist if we cut its head
         register ITEM_T ** head = ((ITEM_T **)&(list->HEAD))+(PRIO_T)prio;
-        if(*head==item)*head = item->next;
+        if((ITEM_T *)*head==(ITEM_T *)item)*head = (ITEM_T *)item->next;
         // weld prev and next items
-        item->prev->next = item->next;
-        item->next->prev = item->prev;
+        item->prev->next = (ITEM_T *)item->next;
+        item->next->prev = (ITEM_T *)item->prev;
         // keep item links cnsistent
-        item->next = item;
-        item->prev = item;
+        item->next = (ITEM_T *)item;
+        item->prev = (ITEM_T *)item;
     }
 }
 //====================================================
 void ITEM_CUT( ITEM_T * item ){
-    _item_fast_cut(item);
+    _item_fast_cut((ITEM_T *)item);
     item->LIST = (LIST_T *)0;
 }
 
 //====================================================
 void ITEM_FASTCUT( ITEM_T * item ){
-    _item_fast_cut(item);
+    _item_fast_cut((ITEM_T *)item);
 }
 
 INLINE static inline void _item_insert( ITEM_T * item, LIST_T * list ){
@@ -225,32 +225,32 @@ INLINE static inline void _item_insert( ITEM_T * item, LIST_T * list ){
     INDEX_T mask = ((INDEX_T)1)<<((PRIO_T)prio);
     if( (list->index) & mask ){
         //  not a new prio, insert to existing prioritylist
-        register ITEM_T * current_head = list->HEAD[(PRIO_T)prio];
-        item->next = current_head;
-        item->prev = current_head->prev;
-        current_head->prev = item;
-        item->prev->next = item;
+        register ITEM_T * current_head = (ITEM_T *)list->HEAD[(PRIO_T)prio];
+        item->next = (ITEM_T *)current_head;
+        item->prev = (ITEM_T *)current_head->prev;
+        current_head->prev = (ITEM_T *)item;
+        item->prev->next = (ITEM_T *)item;
     }else{
         // new prio, create prioritylist
         list->index |= (INDEX_T)mask;
-        list->HEAD[(PRIO_T)prio] = item;
+        list->HEAD[(PRIO_T)prio] = (ITEM_T *)item;
     }
     item->LIST = list;
 }
 //====================================================
 void ITEM_INSERT( ITEM_T * item, LIST_T * list ){
-    _item_insert(item,list);
+    _item_insert((ITEM_T *)item,(LIST_T *)list);
 }
 
 //====================================================
 void ITEM_MOVE( ITEM_T * item, LIST_T * new_list ){
-    _item_fast_cut(item);
-    _item_insert(item,new_list);
+    _item_fast_cut((ITEM_T *)item);
+    _item_insert((ITEM_T *)item,(LIST_T *)new_list);
 }
 
 //====================================================
 void LIST_SWITCH( LIST_T * list, PRIO_T prio){
-    list->HEAD[(PRIO_T)prio] = list->HEAD[(PRIO_T)prio]->next;
+    list->HEAD[(PRIO_T)prio] = (ITEM_T *)list->HEAD[(PRIO_T)prio]->next;
 }
 
 //====================================================
@@ -277,7 +277,7 @@ ITEM_T * LIST_HEAD( LIST_T * list ){
         INDEX_T mask = (INDEX_T)1;
         while(mask){
             if( ((INDEX_T)mask)&((INDEX_T)index) )break;
-            prio++;
+            ((PRIO_T)prio)++;
             mask<<=1;
         }
         return( (ITEM_T *)(list->HEAD[(PRIO_T)prio]) );

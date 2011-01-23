@@ -2,10 +2,10 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="config.h" open="0" top="0" tabpos="4">
-		<Cursor position="6366" topLine="0" />
+		<Cursor position="6366" topLine="75" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="12868" topLine="330" />
+	<File name="main.c" open="1" top="1" tabpos="1">
+		<Cursor position="7098" topLine="115" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/include/bugurt.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
@@ -17,18 +17,18 @@
 		<Cursor position="7639" topLine="119" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/include/worklist_c.h" open="0" top="0" tabpos="0">
-		<Cursor position="9526" topLine="223" />
+		<Cursor position="9526" topLine="250" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="13697" topLine="314" />
+		<Cursor position="10483" topLine="160" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="13295" topLine="276" />
+		<Cursor position="13226" topLine="279" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="7651" topLine="104" />
+		<Cursor position="10207" topLine="175" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="4124" topLine="297" />
+		<Cursor position="8399" topLine="150" />
 	</File>
 </CodeBlocks_layout_file>

@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1292779670 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x-avr-example/main.c
+1294517210 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x-avr-example/main.c
 	<bugurt.h>
 
-1292610486 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sched.c
+1294857396 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sched.c
 	"../include/bugurt.h"
 
 1294393030 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/bugurt.h
@@ -12,18 +12,18 @@
 	"sem.h"
 	"sig.h"
 
-1292767462 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/proc.h
+1294566804 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/proc.h
 
 1290928579 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sched.h
 
 1290928566 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sem.h
 
-1292086576 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sig.h
+1294566312 /home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/include/sig.h
 
 1292138479 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sem.c
 	"../include/bugurt.h"
 
-1292604906 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sig.c
+1295762631 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/sig.c
 	"../include/bugurt.h"
 
 1291995390 source:/home/anonimous/Документы/code_blocks/osbme/arch/avr/osbme.c
@@ -36,7 +36,7 @@
 	"../../../osbme/osbme.h"
 	"../../include/bugurt.h"
 
-1294245166 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
+1294567342 source:/home/anonimous/Документы/code_blocks/BuguRTOS-0.0.x/kernel/proc.c
 	"../include/bugurt.h"
 	"../include/worklist_c.h"
 

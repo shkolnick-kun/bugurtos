@@ -201,10 +201,9 @@ SYSTEM_TIMER_ISR:
     reti
 ;-------------------------------------------------------------------------------
 	.extern	resched_local_context_switch
-	.global resched_local
+	.global RESCHED_LOCAL_ISR
 
-resched_local:
-    cli
+RESCHED_LOCAL_ISR:
 	;---------------------------------;
 	;        Save Context             ;
 	;---------------------------------;
@@ -224,8 +223,7 @@ resched_local:
     out	    (_SFR_IO_ADDR(SREG)),r0	    ; load SREG from r0
     pop	    r0			                ; load stored r0 value
 	;----------------------------------
-	sei
-	ret
+	reti
 ;-------------------------------------------------------------------------------
 .end
 ;*******************************************************************************

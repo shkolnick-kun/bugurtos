@@ -92,8 +92,8 @@ void * retval_store;
 proc_t
     gp1,gp2,gp3,gp4,gp5,gp6,
     rt1,rt2,rt3,rt4,rt5,rt6;
-//sem_t my_sem;
-sig_t my_sig;
+sem_t my_sem;
+//sig_t my_sig;
 
 lock_t big_lock,run_lock;
 unsigned int run = 1;
@@ -108,28 +108,30 @@ void gp2f(void){
 //======================================================================
 void gp3f(void){
     printf("name:gp3,\t prio: %d,\t time2run: %d\n",gp3.prio,gp3.timer);
-    proc_self_stop();
+    //proc_self_stop();
 }
 //======================================================================
-//static count_t sem_count = 10, locked = 0;
+static count_t sem_count = 10, locked = 0;
 static count_t sig_count = 10;
 void gp4f(void){
-/*
+
     if(sem_count==10){
         if(sem_lock( &my_sem )){
             locked++;
             printf(" V ");
         }else printf(" - ");
     }
-*/
+
+/*
     if(!sig_count--){
         sig_count = 10;
         //sig_broadcast( &my_sig );
         sig_signal( &my_sig );
         printf(" =^_^= ");
     }
+*/
     printf("name:gp4,\t prio: %d,\t time2run: %d\n",gp4.prio,gp4.timer);
-/*
+
     if(!sem_count--){
         sem_count = 10;
         if(locked){
@@ -138,38 +140,42 @@ void gp4f(void){
             printf(" A ");
         }
     }
-*/
+
 }
 //======================================================================
 static gp5_count = 2;
 void gp5f(void){
+/*
     if(!gp5_count--){
         gp5_count = 2;
         sig_wait( &my_sig );
         printf(" x_x ");
     }
-/*
+*/
+
     if( sem_lock( &my_sem ) ){
         sem_unlock( &my_sem );
         printf(" * ");
     }
-*/
+
     printf("name:gp5,\t prio: %d,\t time2run: %d\n",gp5.prio,gp5.timer);
 }
 //======================================================================
 static gp6_count = 2;
 void gp6f(void){
-/*
+
     if( sem_lock( &my_sem ) ){
         sem_unlock( &my_sem );
         printf(" * ");
     }
-*/
+
+/*
     if(!gp6_count--){
         gp6_count = 2;
         sig_wait( &my_sig );
         printf(" x_x ");
     }
+*/
     printf("name:gp6,\t prio: %d,\t time2run: %d\n",gp6.prio,gp6.timer);
 }
 //===========================================================================================
@@ -180,33 +186,37 @@ void rt1f(void){
 //======================================================================
 static rt2_count = 2;
 void rt2f(void){
-/*
+
     if( sem_lock( &my_sem ) ){
         sem_unlock( &my_sem );
         printf(" * ");
     }
-*/
+
+/*
     if(!rt2_count--){
         rt2_count = 2;
         sig_wait( &my_sig );
         printf(" x_x ");
     }
+*/
     printf("name:rt2,\t prio: %d,\t time2run: %d\n",rt2.prio,rt2.timer);
 }
 //======================================================================
 static rt3_count = 2;
 void rt3f(void){
-/*
+
     if( sem_lock( &my_sem ) ){
         sem_unlock( &my_sem );
         printf(" * ");
     }
-*/
+
+/*
     if(!rt3_count--){
         rt3_count = 2;
         sig_wait( &my_sig );
         printf(" x_x ");
     }
+*/
     printf("name:rt3,\t prio: %d,\t time2run: %d\n",rt3.prio,rt3.timer);
 }
 //======================================================================
@@ -273,9 +283,13 @@ sched_t * current_sched(void){
     else return sched_array;
 }
 
-sched_t * _enter_crit_sec(void){return current_sched();}
-void _enter_crit_sec_2(sched_t * sched){}
-void _exit_crit_sec(sched_t * sched){}
+sched_t * _enter_crit_sec(void){
+    return current_sched();
+    }
+void _enter_crit_sec_2(sched_t * sched){
+    }
+void _exit_crit_sec(sched_t * sched){
+    }
 
 static void * core1_func( void * arg ){
     int test, s=0;
@@ -351,7 +365,7 @@ int main()
     scheduler_init(&sched_array[1],&gp2);
 
     proc_init(&gp3,0,gp3f,1,0,3,2);
-    proc_init(&gp4,0,gp4f,1,0,3,3);
+    proc_init(&gp4,0,gp4f,1,0,3,1);
     proc_init(&gp5,0,gp5f,1,0,3,4);
     proc_init(&gp6,0,gp6f,2,0,3,5);
 
@@ -362,8 +376,8 @@ int main()
     proc_init(&rt5,0,rt5f,3,1,2,2);
     proc_init(&rt6,0,rt6f,3,1,2,1);
 
-    //sem_init( &my_sem, 1 );
-    sig_init( &my_sig );
+    sem_init( &my_sem, 1 );
+    //sig_init( &my_sig );
 //    proc_run(&gp1);
 //    proc_run(&gp2);
     proc_run(&gp3);

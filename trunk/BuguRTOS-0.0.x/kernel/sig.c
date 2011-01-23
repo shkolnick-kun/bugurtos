@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 void sig_init(sig_t * sig){
 #ifdef CONFIG_MP
-    spin_init( &sig->rt_lock );
-    spin_init( &sig->gp_lock );
+    spin_init( (lock_t *)&sig->rt_lock );
+    spin_init( (lock_t *)&sig->gp_lock );
 #endif
     sig->gp_queue.index = (index_t)0;
     sig->rt_queue.index = (index_t)0;
@@ -88,348 +88,350 @@ void sig_init(sig_t * sig){
 }
 //==============================================================
 void sig_wait(sig_t * sig){
-    register sched_t * sched = _enter_crit_sec();
-    register proc_t * proc = sched->current_proc;
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
+    register proc_t * proc = (proc_t *)sched->current_proc;
     register proc_queue_t * sig_queue;
 #ifdef CONFIG_MP
-    spin_lock( &proc->lock );
+    spin_lock( (lock_t *)&proc->lock );
 #endif
-    _proc_stop( proc );
+    _proc_stop( (proc_t *)proc );
     // define the queue 2 insert proc in
-    if( proc->flags & PROC_FLG_RT ){
-        sig_queue = &sig->rt_queue;
+    if( (flag_t)proc->flags & PROC_FLG_RT ){
+        sig_queue = (proc_queue_t *)&sig->rt_queue;
 #ifdef CONFIG_MP
-        proc->queue_lock = &sig->rt_lock;
+        proc->queue_lock = (lock_t *)&sig->rt_lock;
 #endif
     }else{
-        sig_queue = &sig->gp_queue;
+        sig_queue = (proc_queue_t *)&sig->gp_queue;
 #ifdef CONFIG_MP
-        proc->queue_lock = &sig->gp_lock;
+        proc->queue_lock = (lock_t *)&sig->gp_lock;
 #endif
     }
     // insert proc 2 certain signal queue
 #ifdef CONFIG_MP
-    spin_lock( proc->queue_lock );
+    spin_lock( (lock_t *)proc->queue_lock );
 #endif
-    proc_insert( proc, sig_queue );
+    proc_insert( (proc_t *)proc, (proc_queue_t *)sig_queue );
 #ifdef CONFIG_MP
-    spin_unlock( proc->queue_lock );
+    spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-    proc->flags |= (flag_t)PROC_FLG_WAIT;
+    proc->flags |= PROC_FLG_WAIT;
     resched_local();
-    _exit_crit_sec( sched );
 #ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
+    spin_unlock( (lock_t *)&proc->lock );
 #endif
+    _exit_crit_sec( (sched_t *)sched );
 }
 //==============================================================
 void sig_signal(sig_t * sig){
-    register sched_t * sched = _enter_crit_sec();
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
     register proc_t * proc;
 #ifdef CONFIG_MP
     register sched_t * proc_sched;
-    spin_lock(&sig->rt_lock);
+    spin_lock( (lock_t *)&sig->rt_lock );
 #endif
-    if( sig->rt_queue.index ){
-        proc = proc_queue_head( &sig->rt_queue );
+    if( (index_t)sig->rt_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
 #endif
     }else{
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
-        if( sig->gp_queue.index ){
-            proc = proc_queue_head( &sig->gp_queue );
+        if( (index_t)sig->gp_queue.index ){
+            proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->gp_queue );
 #ifdef CONFIG_MP
-            spin_unlock(&sig->gp_lock);
+            spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
         }else{
 #ifdef CONFIG_MP
-            spin_unlock(&sig->gp_lock);
+            spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
             goto end;
         }
     }
 #ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-    spin_lock( proc->queue_lock );
+    spin_lock( (lock_t *)&proc->lock );
+    spin_lock( (lock_t *)proc->queue_lock );
 #endif
-    proc_cut( proc );
+    proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-    spin_unlock( proc->queue_lock );
-#endif
-    if( _proc_run( proc ) ){
-#ifdef CONFIG_MP
-        proc_sched = proc->sched;
-        spin_unlock( &proc->lock );
-        if( proc_sched != sched ){
+    spin_unlock( (lock_t *)proc->queue_lock );
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
+    proc_sched = (sched_t *)proc->sched;
+    spin_unlock( (lock_t *)&proc->lock );
+    if( (bool_t)need_resched ){
+        if( (sched_t *)proc_sched != (sched_t *)sched ){
             //now we can resched
-            resched_extern( proc_sched );
-            _exit_crit_sec( sched );
+            resched_extern( (sched_t *)proc_sched );
+            _exit_crit_sec( (sched_t *)sched );
             return;
         }
-#endif
         resched_local();
     }
+#else
+    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+#endif
 end:
-    _exit_crit_sec( sched );
+    _exit_crit_sec( (sched_t *)sched );
 }
 //==============================================================
 void sig_signal_from_isr(sig_t * sig){
-    register sched_t * sched = current_sched();
-    register bool_t nested_isr = sched->nested_interrupts != (count_t)0;//true if interrupts R enabled on a local processor
+    register sched_t * sched = (sched_t *)current_sched();
+    register bool_t nested_isr = (bool_t)((count_t)sched->nested_interrupts != (count_t)0);//true if interrupts R enabled on a local processor
     register proc_t * proc;
-    if( nested_isr )_enter_crit_sec_2( sched );
+    if( (bool_t)nested_isr )_enter_crit_sec_2( (sched_t *)sched );
 #ifdef CONFIG_MP
     register sched_t * proc_sched;
-    spin_lock(&sig->rt_lock);
+    spin_lock( (lock_t *)&sig->rt_lock );
 #endif
-    if( sig->rt_queue.index ){
-        proc = proc_queue_head( &sig->rt_queue );
+    if( (index_t)sig->rt_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
 #endif
     }else{
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
-        if( sig->gp_queue.index ){
-            proc = proc_queue_head( &sig->gp_queue );
+        if( (index_t)sig->gp_queue.index ){
+            proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->gp_queue );
 #ifdef CONFIG_MP
-            spin_unlock(&sig->gp_lock);
+            spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
         }else{
 #ifdef CONFIG_MP
-            spin_unlock(&sig->gp_lock);
+            spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
             goto end;
         }
     }
 #ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-    spin_lock( proc->queue_lock );
+    spin_lock( (lock_t *)&proc->lock );
+    spin_lock( (lock_t *)proc->queue_lock );
 #endif
-    proc_cut( proc );
+    proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-    spin_unlock( proc->queue_lock );
-#endif
-    if( _proc_run( proc ) ){
-#ifdef CONFIG_MP
-        proc_sched = proc->sched;
-        spin_unlock( &proc->lock );
-        if( proc_sched != sched ){
+    spin_unlock( (lock_t *)proc->queue_lock );
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
+    proc_sched = (sched_t *)proc->sched;
+    spin_unlock( (lock_t *)&proc->lock );
+    if( (bool_t)need_resched ){
+        if( (sched_t *)proc_sched != (sched_t *)sched ){
             //now we can resched
-            resched_extern( proc_sched );
-            if( nested_isr )_exit_crit_sec( sched );
+            resched_extern( (sched_t *)proc_sched );
+            _exit_crit_sec( (sched_t *)sched );
             return;
         }
-#endif
-        if( !nested_isr )resched_local();
+        if(!((bool_t)nested_isr))resched_local();
     }
+#else
+    if( ( !((bool_t)nested_isr) )&&( (bool_t)_proc_run( (proc_t *)proc ) ) )resched_local();
+#endif
 end:
-    if( nested_isr )_exit_crit_sec( sched );
+    if( (bool_t)nested_isr )_exit_crit_sec( (sched_t *)sched );
 }
 //==============================================================
 void sig_signal_no_resched(sig_t * sig){
-    register sched_t * sched = _enter_crit_sec();
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
     register proc_t * proc;
 #ifdef CONFIG_MP
-    register sched_t * proc_sched;
-    spin_lock(&sig->rt_lock);
+    spin_lock( (lock_t *)&sig->rt_lock );
 #endif
-    if( sig->rt_queue.index ){
-        proc = proc_queue_head( &sig->rt_queue );
+    if( (index_t)sig->rt_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
 #endif
     }else{
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
-        if( sig->gp_queue.index ){
-            proc = proc_queue_head( &sig->gp_queue );
+        if( (index_t)sig->gp_queue.index ){
+            proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->gp_queue );
 #ifdef CONFIG_MP
-            spin_unlock(&sig->gp_lock);
+            spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
         }else{
 #ifdef CONFIG_MP
-            spin_unlock(&sig->gp_lock);
+            spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
             goto end;
         }
     }
 #ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-    spin_lock( proc->queue_lock );
+    spin_lock( (lock_t *)&proc->lock );
+    spin_lock( (lock_t *)proc->queue_lock );
 #endif
-    proc_cut( proc );
+    proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-    spin_unlock( proc->queue_lock );
+    spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-    _proc_run( proc );
+    _proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
+    spin_unlock( (lock_t *)&proc->lock );
 #endif
 end:
-    _exit_crit_sec( sched );
+    _exit_crit_sec( (sched_t *)sched );
 }
 //==============================================================
 void sig_broadcast(sig_t * sig){
-    register sched_t * sched = _enter_crit_sec();
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
     register proc_t * proc;
     register bool_t need_resched = (bool_t)0;
 #ifdef CONFIG_MP
-        spin_lock(&sig->rt_lock);
+        spin_lock( (lock_t *)&sig->rt_lock );
 #endif
-    while( sig->rt_queue.index ){
-        proc = proc_queue_head( &sig->rt_queue );
+    while( (index_t)sig->rt_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
 #ifdef CONFIG_MP
-        spin_unlock( &sig->rt_lock );
-        spin_lock( &proc->lock );
-        spin_lock( proc->queue_lock );
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)proc->queue_lock );
 #endif
-        proc_cut( proc );
+        proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
+        spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-        need_resched |= _proc_run( proc );
+        need_resched |= (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( &proc->lock );
-        spin_lock(&sig->rt_lock);
+        spin_unlock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)&sig->rt_lock );
 #endif
     }
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
-    while( sig->gp_queue.index ){
-        proc = proc_queue_head( &sig->gp_queue );
+    while( (index_t)sig->gp_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->gp_queue );
 #ifdef CONFIG_MP
-        spin_unlock( &sig->gp_lock );
-        spin_lock( &proc->lock );
-        spin_lock( proc->queue_lock );
+        spin_unlock( (lock_t *)&sig->gp_lock );
+        spin_lock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)proc->queue_lock );
 #endif
-        proc_cut( proc );
+        proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
+        spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-        need_resched |= _proc_run( proc );
+        need_resched |= (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( &proc->lock );
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
     }
 #ifdef CONFIG_MP
-        spin_unlock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
-    if(need_resched)resched_system();
-    _exit_crit_sec( sched );
+    if((bool_t)need_resched)resched_system();
+    _exit_crit_sec( (sched_t *)sched );
 }
 //==============================================================
 void sig_broadcast_from_isr(sig_t * sig){
-    register sched_t * sched = current_sched();
-    register bool_t nested_isr = sched->nested_interrupts != (count_t)0;//true if interrupts R enabled on a local processor
+    register sched_t * sched = (sched_t *)current_sched();
+    register bool_t nested_isr = (bool_t)((count_t)sched->nested_interrupts != (count_t)0);//true if interrupts R enabled on a local processor
     register bool_t need_resched = (bool_t)0;
     register proc_t * proc;
-    if( nested_isr )_enter_crit_sec_2( sched );
+    if( (bool_t)nested_isr )_enter_crit_sec_2( (sched_t *)sched );
 #ifdef CONFIG_MP
-        spin_lock(&sig->rt_lock);
+        spin_lock( (lock_t *)&sig->rt_lock);
 #endif
-    while( sig->rt_queue.index ){
-        proc = proc_queue_head( &sig->rt_queue );
+    while( (index_t)sig->rt_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
 #ifdef CONFIG_MP
-        spin_unlock( &sig->rt_lock );
-        spin_lock( &proc->lock );
-        spin_lock( proc->queue_lock );
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)proc->queue_lock );
 #endif
-        proc_cut( proc );
+        proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
+        spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-        need_resched |= _proc_run( proc );
+        need_resched |= (bool_t)_proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( &proc->lock );
-        spin_lock(&sig->rt_lock);
-#endif
-    }
-#ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
-        spin_lock(&sig->gp_lock);
-#endif
-    while( sig->gp_queue.index ){
-        proc = proc_queue_head( &sig->gp_queue );
-#ifdef CONFIG_MP
-        spin_unlock( &sig->gp_lock );
-        spin_lock( &proc->lock );
-        spin_lock( proc->queue_lock );
-#endif
-        proc_cut( proc );
-#ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
-#endif
-        need_resched |= _proc_run( proc );
-#ifdef CONFIG_MP
-        spin_unlock( &proc->lock );
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)&sig->rt_lock );
 #endif
     }
 #ifdef CONFIG_MP
-        spin_unlock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
-    if( (!nested_isr)&&(need_resched) )resched_system();
-    if( nested_isr )_exit_crit_sec( sched );
+    while( (index_t)sig->gp_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->gp_queue );
+#ifdef CONFIG_MP
+        spin_unlock( (lock_t *)&sig->gp_lock );
+        spin_lock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)proc->queue_lock );
+#endif
+        proc_cut( (proc_t *)proc );
+#ifdef CONFIG_MP
+        spin_unlock( (lock_t *)proc->queue_lock );
+#endif
+        need_resched |= (bool_t)_proc_run( (proc_t *)proc );
+#ifdef CONFIG_MP
+        spin_unlock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
+#endif
+    }
+#ifdef CONFIG_MP
+        spin_unlock( (lock_t *)&sig->gp_lock );
+#endif
+
+    if( (bool_t)nested_isr )_exit_crit_sec( (sched_t *)sched );
+    else if( (bool_t)need_resched )resched_system();
 }
 //==============================================================
 void sig_broadcast_no_resched(sig_t * sig){
-    register sched_t * sched = _enter_crit_sec();
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
     register proc_t * proc;
 #ifdef CONFIG_MP
-        spin_lock(&sig->rt_lock);
+        spin_lock( (lock_t *)&sig->rt_lock );
 #endif
-    while( sig->rt_queue.index ){
-        proc = proc_queue_head( &sig->rt_queue );
+    while( (index_t)sig->rt_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
 #ifdef CONFIG_MP
-        spin_unlock( &sig->rt_lock );
-        spin_lock( &proc->lock );
-        spin_lock( proc->queue_lock );
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)proc->queue_lock );
 #endif
-        proc_cut( proc );
+        proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
+        spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-        _proc_run( proc );
+        _proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( &proc->lock );
-        spin_lock(&sig->rt_lock);
+        spin_unlock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)&sig->rt_lock );
 #endif
     }
 #ifdef CONFIG_MP
-        spin_unlock(&sig->rt_lock);
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->rt_lock );
+        spin_lock( (lock_t *)&sig->gp_lock );
 #endif
-    while( sig->gp_queue.index ){
-        proc = proc_queue_head( &sig->gp_queue );
+    while( (index_t)sig->gp_queue.index ){
+        proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->gp_queue );
 #ifdef CONFIG_MP
-        spin_unlock( &sig->gp_lock );
-        spin_lock( &proc->lock );
-        spin_lock( proc->queue_lock );
+        spin_unlock( (lock_t *)&sig->gp_lock );
+        spin_lock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)proc->queue_lock );
 #endif
-        proc_cut( proc );
+        proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
+        spin_unlock( (lock_t *)proc->queue_lock );
 #endif
-        _proc_run( proc );
+        _proc_run( (proc_t *)proc );
 #ifdef CONFIG_MP
-        spin_unlock( &proc->lock );
-        spin_lock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&proc->lock );
+        spin_lock( (lock_t *)&sig->gp_lock);
 #endif
     }
 #ifdef CONFIG_MP
-        spin_unlock(&sig->gp_lock);
+        spin_unlock( (lock_t *)&sig->gp_lock);
 #endif
-    _exit_crit_sec( sched );
+    _exit_crit_sec( (sched_t *)sched );
 }

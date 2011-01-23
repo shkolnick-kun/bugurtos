@@ -77,128 +77,129 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void sem_init(sem_t * sem, lock_t value){
     sem->value = (lock_t)value;
 #ifdef CONFIG_MP
-    spin_init( &sem->rt_lock );
-    spin_init( &sem->gp_lock );
+    spin_init( (lock_t *)&sem->rt_lock );
+    spin_init( (lock_t *)&sem->gp_lock );
 #endif
     sem->gp_queue.index = (index_t)0;
     sem->rt_queue.index = (index_t)0;
-    for(count_t i = 0; i < BITS_IN_INDEX_T; i++ ){
+    for(count_t i = (count_t)0; (count_t)i < (count_t)BITS_IN_INDEX_T; ((count_t)i)++ ){
         sem->gp_queue.proc[i] = (proc_t *)0;
         sem->rt_queue.proc[i] = (proc_t *)0;
     }
 }
 //==============================================================
 bool_t sem_try_lock(sem_t * sem){
-    register sched_t * sched = _enter_crit_sec();
-    register bool_t ret_val = _sem_try_lock( &sem->value );
-    _exit_crit_sec( sched );
-    return ret_val;
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
+    register bool_t ret_val = (bool_t)_sem_try_lock( (lock_t *)&sem->value );
+    _exit_crit_sec( (sched_t *)sched );
+    return( (bool_t)ret_val);
 }
 //==============================================================
 bool_t sem_lock(sem_t * sem){
-    register sched_t * sched = _enter_crit_sec();
-    register proc_t * proc = sched->current_proc;
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
+    register proc_t * proc = (proc_t *)sched->current_proc;
     register proc_queue_t * sem_queue;
     bool_t ret = (bool_t)1;
 #ifdef CONFIG_MP
-    spin_lock( &proc->lock );
+    spin_lock( (lock_t *)&proc->lock );
 #endif
-    if( !_sem_try_lock( &sem->value ) ){
-        _proc_stop( proc );
+    if( !(bool_t)_sem_try_lock( (lock_t *)&sem->value ) ){
+        _proc_stop( (proc_t *)proc );
         // define the queue 2 insert proc in
-        if( proc->flags & PROC_FLG_RT ){
-            sem_queue = &sem->rt_queue;
+        if( (flag_t)proc->flags & PROC_FLG_RT ){
+            sem_queue = (proc_queue_t *)&sem->rt_queue;
 #ifdef CONFIG_MP
-            proc->queue_lock = &sem->rt_lock;
+            proc->queue_lock = (lock_t *)&sem->rt_lock;
 #endif
         }else{
-            sem_queue = &sem->gp_queue;
+            sem_queue = (proc_queue_t *)&sem->gp_queue;
 #ifdef CONFIG_MP
-            proc->queue_lock = &sem->gp_lock;
+            proc->queue_lock = (lock_t *)&sem->gp_lock;
 #endif
         }
         // insert proc 2 certain semaphore queue
 #ifdef CONFIG_MP
-        spin_lock( proc->queue_lock );
+        spin_lock( (lock_t *)proc->queue_lock );
 #endif
-        proc_insert( proc, sem_queue );
+        proc_insert( (proc_t *)proc, (proc_queue_t *)sem_queue );
 #ifdef CONFIG_MP
-        spin_unlock( proc->queue_lock );
+        spin_unlock( (lock_t *)proc->queue_lock );
 #endif
         resched_local();
         proc->flags |= (flag_t)PROC_FLG_WAIT;
         ret = (bool_t)0;
     }
 #ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
+    spin_unlock( (lock_t *)&proc->lock );
 #endif
-    _exit_crit_sec( sched );
-    return (ret);
+    _exit_crit_sec( (sched_t *)sched );
+    return ((bool_t)ret);
 }
 //==============================================================
 void sem_unlock(sem_t * sem){
-    register sched_t * sched = _enter_crit_sec();
+    register sched_t * sched = (sched_t *)_enter_crit_sec();
     register proc_queue_t * sem_queue;
 #ifdef CONFIG_MP
     register lock_t * sem_queue_lock;
-    spin_lock(sem->rt_lock);
+    spin_lock((lock_t *)&sem->rt_lock);
 #endif
-    index_t index_test = sem->rt_queue.index;
+    index_t index_test = (index_t)sem->rt_queue.index;
 #ifdef CONFIG_MP
-    spin_unlock(sem->rt_lock);
+    spin_unlock((lock_t *)&sem->rt_lock);
 #endif
     // find the queue 2 run process from
-    if( index_test ){
-        sem_queue = &sem->rt_queue;
+    if( (index_t)index_test ){
+        sem_queue = (proc_queue_t *)&sem->rt_queue;
 #ifdef CONFIG_MP
-        sem_queue_lock = &sem->rt_lock;
+        sem_queue_lock = (lock_t *)&sem->rt_lock;
 #endif
     }else{
 #ifdef CONFIG_MP
-        spin_lock(sem->gp_lock);
+        spin_lock((lock_t *)&sem->gp_lock);
 #endif
-        index_test = sem->gp_queue.index;
+        index_test = (index_t)sem->gp_queue.index;
 #ifdef CONFIG_MP
-        spin_unlock(sem->gp_lock);
+        spin_unlock((lock_t *)&sem->gp_lock);
 #endif
-        if( index_test ){
-            sem_queue = &sem->gp_queue;
+        if( (index_t)index_test ){
+            sem_queue = (proc_queue_t *)&sem->gp_queue;
 #ifdef CONFIG_MP
-            sem_queue_lock = &sem->gp_lock;
+            sem_queue_lock = (lock_t *)&sem->gp_lock;
 #endif
         }else{
-            _sem_unlock( &sem->value );
-            _exit_crit_sec( sched );
+            _sem_unlock( (lock_t *)&sem->value );
+            _exit_crit_sec( (sched_t *)sched );
             return;
         }
     }
     // find the head of the queue
 #ifdef CONFIG_MP
-    spin_lock( sem_queue_lock );
+    spin_lock( (lock_t *)sem_queue_lock );
 #endif
-    register proc_t * proc_2_run = proc_queue_head( sem_queue );
+    register proc_t * proc_2_run = (proc_t *)proc_queue_head( (proc_queue_t *)sem_queue );
     // run the proc
 #ifdef CONFIG_MP
-    spin_unlock( sem_queue_lock );
-    spin_lock( &proc_2_run->lock );
-    spin_lock( sem_queue_lock );
+    spin_unlock( (lock_t *)sem_queue_lock );
+    spin_lock( (lock_t *)&proc_2_run->lock );
+    spin_lock( (lock_t *)sem_queue_lock );
 #endif
-    proc_fast_cut( proc_2_run );
+    proc_fast_cut( (proc_t *)proc_2_run );
 #ifdef CONFIG_MP
-    spin_unlock( sem_queue_lock );
-#endif
-    _proc_run( proc_2_run );
-#ifdef CONFIG_MP
-    register sched_t * proc_sched = proc_2_run->sched;
-    spin_unlock( &proc_2_run->lock );
-    if( proc_sched != sched ){
-        resched_extern( proc_sched );
-        goto end;
+    spin_unlock( (lock_t *)proc_2_run->queue_lock );
+    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc_2_run );
+    register sched_t * proc_sched = (sched_t *)proc_2_run->sched;
+    spin_unlock( (lock_t *)&proc_2_run->lock );
+    if( (bool_t)need_resched ){
+        if( (sched_t *)proc_sched != (sched_t *)sched ){
+            //now we can resched
+            resched_extern( (sched_t *)proc_sched );
+            _exit_crit_sec( (sched_t *)sched );
+            return;
+        }
+        resched_local();
     }
+#else
+    if( (bool_t)_proc_run( (proc_t *)proc_2_run ) )resched_local();
 #endif
-    resched_local();
-#ifdef CONFIG_MP
-end:
-#endif
-    _exit_crit_sec( sched );
+    _exit_crit_sec( (sched_t *)sched );
 }

@@ -96,8 +96,8 @@ void sig_wait(sig_t * sig){
     // insert proc 2 certain signal queue
     proc_insert( proc, sig_queue );
     proc->flags |= (flag_t)PROC_FLG_WAIT;
-    exit_crit_sec();
     resched_local();
+    exit_crit_sec();
 }
 //==============================================================
 void sig_signal(sig_t * sig){
@@ -110,9 +110,8 @@ void sig_signal(sig_t * sig){
         else goto end;
     }
     proc_cut( proc );
-    bool_t need_resched = _proc_run( proc );
+    if( _proc_run( proc ) )resched_local();
     exit_crit_sec();
-    if(need_resched)resched_local();
     return;
 end:
     exit_crit_sec();
@@ -129,7 +128,7 @@ void sig_signal_from_isr(sig_t * sig){
         else goto end;
     }
     proc_cut( proc );
-    _proc_run( proc );
+    if(( !nested_isr )&&( _proc_run( proc ) ))resched_local();
 end:
     if( nested_isr )exit_crit_sec();
 }
@@ -163,25 +162,27 @@ void sig_broadcast(sig_t * sig){
         proc_cut( proc );
         need_resched |= _proc_run( proc );
     }
+    if( need_resched )resched_local();
     exit_crit_sec();
-    if(need_resched)resched_local();
 }
 //==============================================================
 void sig_broadcast_from_isr(sig_t * sig){
     register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
     if( nested_isr )enter_crit_sec();
     register proc_t * proc;
+    register bool_t need_resched = (bool_t)0;
     while( sig->rt_queue.index ){
         proc = proc_queue_head( &sig->rt_queue );
         proc_cut( proc );
-        _proc_run( proc );
+        need_resched |= _proc_run( proc );
     }
     while( sig->gp_queue.index ){
         proc = proc_queue_head( &sig->gp_queue );
         proc_cut( proc );
-        _proc_run( proc );
+        need_resched |= _proc_run( proc );
     }
     if( nested_isr )exit_crit_sec();
+    else if( need_resched )resched_local();
 }
 //==============================================================
 void sig_broadcast_no_resched(sig_t * sig){

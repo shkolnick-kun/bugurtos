@@ -88,49 +88,49 @@ sched_t * load_balancer( proc_t * proc){
     count_t i = (count_t)0,m;
 
     // find first active sched which can B used 2 run thic proc
-    while( mask ){
-        spin_lock( &sched_index_lock );
-        test = mask & sched_index & proc->affinity;
-        spin_unlock( &sched_index_lock );
-        if( test )break;
-        i++;
+    while( (affinity_t)mask ){
+        spin_lock( (lock_t *)&sched_index_lock );
+        test = (affinity_t)((affinity_t)mask & (affinity_t)sched_index & (affinity_t)proc->affinity);
+        spin_unlock( (lock_t *)&sched_index_lock );
+        if( (affinity_t)test )break;
+        ((count_t)i)++;
         mask <<= (affinity_t)1;
     }
 
-    register sched_t * current_sched = (sched_t *)sched_array + i;
+    register sched_t * current_sched = (sched_t *)sched_array + (count_t)i;
 
-    spin_lock( &current_sched->stat_lock );
-    min_load = load_calc( current_sched );
-    spin_unlock( &current_sched->stat_lock );
+    spin_lock( (lock_t *)&current_sched->stat_lock );
+    min_load = (load_t)load_calc( (sched_t *)current_sched );
+    spin_unlock( (lock_t *)&current_sched->stat_lock );
     // switch 2 next sched
-    m=i++;
+    m=((count_t)i)++;
     mask <<= (affinity_t)1;
 
     // try 2 find less loaded sched
-    while( mask ){
-        spin_lock( &sched_index_lock );
-        test = mask & sched_index & proc->affinity;
-        spin_unlock( &sched_index_lock );
-        if( test ){
+    while( (affinity_t)mask ){
+        spin_lock( (lock_t *)&sched_index_lock );
+        test = (affinity_t)((affinity_t)mask & (affinity_t)sched_index & (affinity_t)proc->affinity);
+        spin_unlock( (lock_t *)&sched_index_lock );
+        if( (affinity_t)test ){
 
-            current_sched = (sched_t *)sched_array + i;
+            current_sched = (sched_t *)sched_array + (count_t)i;
 
             // calculate load 4 current sched
-            spin_lock( &current_sched->stat_lock );
-            current_load = load_calc( current_sched );
-            spin_unlock( &current_sched->stat_lock );
+            spin_lock( (lock_t *)&current_sched->stat_lock );
+            current_load = (load_t)load_calc( (sched_t *)current_sched );
+            spin_unlock( (lock_t *)&current_sched->stat_lock );
 
             // find a sched with minimal load
-            if( current_load < min_load ){
-                    min_load = current_load;
-                    m = i;
+            if( (load_t)current_load < (load_t)min_load ){
+                    min_load = (load_t)current_load;
+                    m = (count_t)i;
             }
 
         }
-        i++;
+        ((count_t)i)++;
         mask <<= (affinity_t)1;
     }
-    return ( (sched_t *)sched_array + m );
+    return ( (sched_t *)sched_array + (count_t)m );
 }
 #else
 sched_t system_sched;
@@ -149,13 +149,13 @@ sched_t system_sched;
 *                                                           *
 ************************************************************/
 void schedule( sched_t * sched ){
-    register proc_t * current_proc = sched->current_proc;
+    register proc_t * current_proc = (proc_t *)sched->current_proc;
 #ifdef CONFIG_MP
-    spin_lock( &current_proc->lock );
+    spin_lock( (lock_t *)&current_proc->lock );
 #endif
     // when we use semaphores and signals there may be a situation when current_proc->timer==0 in this case we must analyse
     // PROC_FGL_RT or we can do current_proc->timer-- only when it's nonzero
-    if(current_proc->timer)current_proc->timer--;
+    if((timer_t)current_proc->timer)((timer_t)current_proc->timer)--;
 /*********************************************
 *      real time scheduling sequence         *
 *********************************************/
@@ -180,34 +180,34 @@ I don't think, that flags use would always result in beter performance:
   3) compare two values
   4) branch if equal.
 */
-    if( current_proc->queue == &sched->rt_ready ){
+    if( (proc_queue_t *)current_proc->queue == (proc_queue_t *)&sched->rt_ready ){
 #ifdef CONFIG_MP
-        spin_lock( &sched->rt_lock );
+        spin_lock( (lock_t *)&sched->rt_lock );
 #endif
         // switch rt_ready 2 next proc with current prio
-        register prio_t prio = current_proc->prio;
-        register proc_queue_t * rt_ready = &sched->rt_ready;
-        rt_ready->proc[(prio_t)prio] = rt_ready->proc[(prio_t)prio]->next;
+        register prio_t prio = (prio_t)current_proc->prio;
+        register proc_queue_t * rt_ready = (proc_queue_t *)&sched->rt_ready;
+        rt_ready->proc[(prio_t)prio] = (proc_t *)rt_ready->proc[(prio_t)prio]->next;
 
         //if the process has some time 2 run, rt_ready is guaranteed 2 have head process
-        if( current_proc->timer ) goto rt_head_schedule;
+        if( (timer_t)current_proc->timer ) goto rt_head_schedule;
 
         // the process has expired its time, watchdog was not reset.
-        proc_cut( current_proc );
+        proc_cut( (proc_t *)current_proc );
 #ifdef CONFIG_MP
-        spin_unlock( &sched->rt_lock );
+        spin_unlock( (lock_t *)&sched->rt_lock );
 #endif
         current_proc->flags &= ~PROC_FLG_RUN;
 #ifdef CONFIG_MP
         // update stats
-        spin_lock( &sched->stat_lock );
-        sched->proc_count_rt--;
-        sched->total_rt_quant -= current_proc->time_quant;
-        spin_unlock( &sched->stat_lock );
+        spin_lock( (lock_t *)&sched->stat_lock );
+        ((count_t)sched->proc_count_rt)--;
+        sched->total_rt_quant -= (timer_t)current_proc->time_quant;
+        spin_unlock( (lock_t *)&sched->stat_lock );
 #endif
     }
     // if rt_ready is not empty, then schedule its head
-    if( sched->rt_ready.index ){
+    if( (index_t)sched->rt_ready.index ){
 #ifdef CONFIG_MP
         goto rt_head_schedule_with_lock;
 #else
@@ -219,44 +219,44 @@ I don't think, that flags use would always result in beter performance:
 *    general purpose scheduling sequence     *
 *********************************************/
 #ifdef CONFIG_MP
-    spin_unlock( &current_proc->lock );
+    spin_unlock( (lock_t *)&current_proc->lock );
 #endif
     // let's look at the last scheduled general purpose process
-    current_proc = sched->current_gp_proc;
+    current_proc = (proc_t *)sched->current_gp_proc;
 #ifdef CONFIG_MP
-    spin_lock( &current_proc->lock );
+    spin_lock( (lock_t *)&current_proc->lock );
 #endif
-    if( current_proc->queue == sched->gp_ready ){
+    if( (proc_queue_t *)current_proc->queue == (proc_queue_t *)sched->gp_ready ){
 #ifdef CONFIG_MP
-        spin_lock( &sched->gp_lock );
+        spin_lock( (lock_t *)&sched->gp_lock );
 #endif
         // switch gp_ready 2 next proc with current prio
-        register prio_t prio = current_proc->prio;
-        register proc_queue_t * gp_ready = sched->gp_ready;
-        gp_ready->proc[(prio_t)prio] = gp_ready->proc[(prio_t)prio]->next;
+        register prio_t prio = (prio_t)current_proc->prio;
+        register proc_queue_t * gp_ready = (proc_queue_t *)sched->gp_ready;
+        gp_ready->proc[(prio_t)prio] = (proc_t *)gp_ready->proc[(prio_t)prio]->next;
 
         // check 4 timer 2 expire
-        if( current_proc->timer ){
+        if( (timer_t)current_proc->timer ){
 #ifdef CONFIG_MP
-            spin_unlock( &sched->gp_lock );
+            spin_unlock( (lock_t *)&sched->gp_lock );
 #endif
             goto gp_test;
         }else{
 
             // reset process timer
-            current_proc->timer = current_proc->time_quant;
+            current_proc->timer = (timer_t)current_proc->time_quant;
 #if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
             //cut proc
-            proc_fast_cut(current_proc);
+            proc_fast_cut((proc_t *)current_proc);
             // 2 avoid mutual different scheduler locks
-            spin_unlock( &sched->gp_lock );
+            spin_unlock( (lock_t *)&sched->gp_lock );
             //NOTE: now we can unlock current_proc_lock
 
             // update stats
-            spin_lock( &sched->stat_lock );
-            sched->proc_count_gp--;
-            sched->total_gp_quant -= current_proc->time_quant;
-            spin_unlock( &sched->stat_lock );
+            spin_lock( (lock_t *)&sched->stat_lock );
+            ((count_t)sched->proc_count_gp)--;
+            sched->total_gp_quant -= (timer_t)current_proc->time_quant;
+            spin_unlock( (lock_t *)&sched->stat_lock );
 
 
             /*
@@ -265,28 +265,28 @@ I don't think, that flags use would always result in beter performance:
             */
 
             // find most free sched
-            register sched_t * new_sched = load_balancer( current_proc );
+            register sched_t * new_sched = (sched_t *)load_balancer( (proc_t *)current_proc );
 
             // switch 2 new sched
-            current_proc->sched = new_sched;
-            current_proc->queue_lock = &new_sched->gp_lock;
+            current_proc->sched = (sched_t *)new_sched;
+            current_proc->queue_lock = (lock_t *)&new_sched->gp_lock;
 
             // update stats
-            spin_lock( &new_sched->stat_lock );
-            new_sched->proc_count_gp++;
-            new_sched->total_gp_quant += current_proc->time_quant;
-            spin_unlock( &new_sched->stat_lock );
+            spin_lock( (lock_t *)&new_sched->stat_lock );
+            ((count_t)new_sched->proc_count_gp)++;
+            new_sched->total_gp_quant += (timer_t)current_proc->time_quant;
+            spin_unlock( (lock_t *)&new_sched->stat_lock );
 
             // now insert proc 2 new_sched->gp_expired
             spin_lock( &new_sched->gp_lock );
-            proc_insert( current_proc, new_sched->gp_expired );
+            proc_insert( (proc_t *)current_proc, (proc_queue_t *)new_sched->gp_expired );
             spin_unlock( &new_sched->gp_lock );
             // now we can unlock current_proc->lock, go to gp_test;
 #else
             // move the process 2 gp_expired
-            proc_move( current_proc, sched->gp_expired );
+            proc_move( (proc_t *)current_proc, (proc_queue_t *)sched->gp_expired );
 #ifdef CONFIG_MP
-            spin_unlock( &sched->gp_lock );
+            spin_unlock( (lock_t *)&sched->gp_lock );
 #endif
 #endif
         }
@@ -294,23 +294,23 @@ I don't think, that flags use would always result in beter performance:
 gp_test:
 #ifdef CONFIG_MP
     // we don't need this proc any moar, and we CAN unlock it, so:
-    spin_unlock( &current_proc->lock );
+    spin_unlock( (lock_t *)&current_proc->lock );
     // now we can lock gp_lock
-    spin_lock( &sched->gp_lock );
+    spin_lock( (lock_t *)&sched->gp_lock );
 #endif
     //gp_test:
     // gp_ready is empty, swap ready and expired queues
-    if( !sched->gp_ready->index ){
-        register proc_queue_t * expired = sched->gp_expired;
-        sched->gp_expired = sched->gp_ready;
-        sched->gp_ready = expired;
+    if( !((index_t)sched->gp_ready->index) ){
+        register proc_queue_t * expired = (proc_queue_t *)sched->gp_expired;
+        sched->gp_expired = (proc_queue_t *)sched->gp_ready;
+        sched->gp_ready = (proc_queue_t *)expired;
     }
     // scedule the head of the gp_ready 4 execution
-    sched->current_proc = proc_queue_head( sched->gp_ready );
+    sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)sched->gp_ready );
     // remember current_gp_proc 4 next time general purpose scheduling sequence
-    sched->current_gp_proc = sched->current_proc;
+    sched->current_gp_proc = (proc_t *)sched->current_proc;
 #ifdef CONFIG_MP
-    spin_unlock( &sched->gp_lock );
+    spin_unlock( (lock_t *)&sched->gp_lock );
 #endif
     return;
 /**********************************************
@@ -319,13 +319,13 @@ gp_test:
 
 #ifdef CONFIG_MP
 rt_head_schedule_with_lock:
-    spin_lock( &sched->rt_lock );
+    spin_lock( (lock_t *)&sched->rt_lock );
 #endif
 rt_head_schedule:
-    sched->current_proc = proc_queue_head( &sched->rt_ready );
+    sched->current_proc = (proc_t *)proc_queue_head( &sched->rt_ready );
 #ifdef CONFIG_MP
-    spin_unlock( &sched->rt_lock );
-    spin_unlock( &current_proc->lock );
+    spin_unlock( (lock_t *)&sched->rt_lock );
+    spin_unlock( (lock_t *)&current_proc->lock );
 #endif
 }
 
@@ -343,24 +343,24 @@ rt_head_schedule:
 ************************************************************/
 void resched( sched_t * sched ){
 #ifdef CONFIG_MP
-    spin_lock( &sched->rt_lock );
+    spin_lock( (lock_t *)&sched->rt_lock );
 #endif
-    if( sched->rt_ready.index ){
-        sched->current_proc = proc_queue_head( &sched->rt_ready );
+    if( (index_t)sched->rt_ready.index ){
+        sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sched->rt_ready );
 #ifdef CONFIG_MP
-        spin_unlock( &sched->rt_lock );
+        spin_unlock( (lock_t *)&sched->rt_lock );
 #endif
     }else{
 #ifdef CONFIG_MP
-        spin_unlock( &sched->rt_lock );
-        spin_lock( &sched->gp_lock );
+        spin_unlock( (lock_t *)&sched->rt_lock );
+        spin_lock( (lock_t *)&sched->gp_lock );
 #endif
         // scedule the head of gp_ready 4 execution
-        sched->current_proc = proc_queue_head( sched->gp_ready );
+        sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)sched->gp_ready );
         // remember current_gp_proc 4 next time general purpose scheduling sequence
-        sched->current_gp_proc = sched->current_proc;
+        sched->current_gp_proc = (proc_t *)sched->current_proc;
 #ifdef CONFIG_MP
-        spin_unlock( &sched->gp_lock );
+        spin_unlock( (lock_t *)&sched->gp_lock );
 #endif
     }
 }
@@ -371,61 +371,61 @@ void resched( sched_t * sched ){
 void scheduler_init( sched_t * sched, proc_t * idle ){
     count_t i;
 #ifdef CONFIG_MP
-    spin_init( &sched->rt_lock );
-    spin_init( &sched->gp_lock );
-    spin_init( &sched->stat_lock );
+    spin_init( (lock_t *)&sched->rt_lock );
+    spin_init( (lock_t *)&sched->gp_lock );
+    spin_init( (lock_t *)&sched->stat_lock );
 #endif
-    sched->current_proc = idle;
-    sched->current_gp_proc = idle;
+    sched->current_proc = (proc_t *)idle;
+    sched->current_gp_proc = (proc_t *)idle;
 #ifdef CONFIG_MP
-    spin_lock( &sched->rt_lock );
+    spin_lock( (lock_t *)&sched->rt_lock );
 #endif
     sched->rt_ready.index = (index_t)0;
-    for(i = 0; i < BITS_IN_INDEX_T; i++ ){
+    for( i = (count_t)0; i < (count_t)BITS_IN_INDEX_T; ((count_t)i)++ ){
         sched->rt_ready.proc[i] = (proc_t *)0;
     }
 #ifdef CONFIG_MP
-    spin_unlock( &sched->rt_lock );
-    spin_lock( &sched->gp_lock );
+    spin_unlock( (lock_t *)&sched->rt_lock );
+    spin_lock( (lock_t *)&sched->gp_lock );
 #endif
-    sched->gp_ready = &sched->gp_queues[0];
-    sched->gp_expired = &sched->gp_queues[1];
+    sched->gp_ready = (proc_queue_t *)&sched->gp_queues[0];
+    sched->gp_expired = (proc_queue_t *)&sched->gp_queues[1];
     sched->gp_ready->index = (index_t)0;
     sched->gp_expired->index = (index_t)0;
 
-    for(i = 0; i < BITS_IN_INDEX_T; i++ ){
+    for( i = (count_t)0; (count_t)i < (count_t)BITS_IN_INDEX_T; ((count_t)i)++ ){
         sched->gp_queues[0].proc[i] = (proc_t *)0;
         sched->gp_queues[1].proc[i] = (proc_t *)0;
     }
 
 #ifdef CONFIG_MP
-    spin_unlock( &sched->gp_lock );
+    spin_unlock( (lock_t *)&sched->gp_lock );
 
-    spin_lock( &idle->lock );
-    spin_lock( &sched->stat_lock );
+    spin_lock( (lock_t *)&idle->lock );
+    spin_lock( (lock_t *)&sched->stat_lock );
 
     sched->total_gp_quant = (timer_t)idle->time_quant;;
     sched->total_rt_quant = (timer_t)0;
     sched->proc_count_rt = (count_t)0;
     sched->proc_count_gp = (count_t)1;
 
-    spin_unlock( &sched->stat_lock );
+    spin_unlock( (lock_t *)&sched->stat_lock );
 
     // schedule idle proc
-    spin_lock( &sched->gp_lock );
+    spin_lock( (lock_t *)&sched->gp_lock );
 #endif
-    proc_insert(idle, sched->gp_ready);
+    proc_insert((proc_t *)idle, (proc_queue_t *)sched->gp_ready);
 #ifdef CONFIG_MP
-    spin_unlock( &sched->gp_lock );
-    spin_unlock( &idle->lock );
+    spin_unlock( (lock_t *)&sched->gp_lock );
+    spin_unlock( (lock_t *)&idle->lock );
 #endif
     // critical section nest count
     sched->nested_crit_sec = (count_t)0;
     // ISR nest count
     sched->nested_interrupts = (count_t)0;
 #ifdef CONFIG_MP
-    spin_lock( &sched_index_lock );
-    sched_index |= ((affinity_t)1)<<(sched - sched_array);
-    spin_unlock( &sched_index_lock );
+    spin_lock( (lock_t *)&sched_index_lock );
+    sched_index |= ((affinity_t)1)<<(count_t)((sched_t *)sched - (sched_t *)sched_array);
+    spin_unlock( (lock_t *)&sched_index_lock );
 #endif
 }

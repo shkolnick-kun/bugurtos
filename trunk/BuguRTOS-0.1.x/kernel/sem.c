@@ -105,8 +105,8 @@ bool_t sem_lock(sem_t * sem){
         // insert proc 2 certain semaphore queue
         proc_insert( proc, sem_queue );
         proc->flags |= (flag_t)PROC_FLG_WAIT;
-        exit_crit_sec();
         resched_local();
+        exit_crit_sec();
         return (0);
     }else{
         exit_crit_sec();
@@ -132,7 +132,6 @@ void sem_unlock(sem_t * sem){
     register proc_t * proc_2_run = proc_queue_head( sem_queue );
     // run the proc
     proc_fast_cut( proc_2_run );
-    bool_t need_resched = _proc_run( proc_2_run );
+    if(_proc_run( proc_2_run ))resched_local();
     exit_crit_sec();
-    if(need_resched)resched_local();
 }

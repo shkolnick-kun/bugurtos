@@ -62,11 +62,7 @@
 			<envvars />
 			<code_completion />
 			<lib_finder disable_auto="1" />
-			<debugger>
-				<remote_debugging target="Debug">
-					<options conn_type="0" serial_baud="115200" additional_cmds_before="file ${TARGET_OUTPUT_FILE}" />
-				</remote_debugging>
-			</debugger>
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

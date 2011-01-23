@@ -76,6 +76,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
  \brief example main 4 avr
 */
 #include <bugurt.h>
+void resched_local( void ){
+    PORTD |= 1;
+    PORTD &= 0xfe;
+    }
 
 // Here are my processes, LOL.
 proc_t gp01, gp02, gp03, gp11, gp12;
@@ -203,9 +207,14 @@ int main(void)
     OCR1B  = 0x00;
     TIFR = 0x00;
     ASSR   = 0x00;
+    TIMSK = 0x10;
+
     DDRB = 0xff;
     DDRC = 0xff;
-    TIMSK = 0x00;
+
+    DDRD = 0x01;
+    EICRA = 0x02;
+    EIMSK = 0x00;
 
     // ololo
     proc_init(&gp01,&sgp01[127],gp01_main,0,0,3);
