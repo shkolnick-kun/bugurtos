@@ -153,7 +153,7 @@ void proc_run_wrapper( proc_t * proc ){
 ************************************************************/
 bool_t _proc_run( proc_t * proc ){
 
-    register sched_t * new_sched = &system_sched;
+    register sched_t * new_sched = (sched_t *)&system_sched;
 
     register proc_queue_t * new_queue;
 
@@ -161,27 +161,27 @@ bool_t _proc_run( proc_t * proc ){
 
     proc->flags |= PROC_FLG_RUN;
     proc->flags &= ~ ( PROC_FLG_WAIT | PROC_FLG_END );
-    proc->sched = new_sched;
+    proc->sched = (sched_t *)new_sched;
 
-    if( proc->flags & PROC_FLG_RT ){
-        if(proc->timer)new_queue = &new_sched->rt_ready;
-        else return (0);
+    if( (flag_t)proc->flags & PROC_FLG_RT ){
+        if((timer_t)proc->timer)new_queue = (proc_queue_t *)&new_sched->rt_ready;
+        else return ((bool_t)0);
     }else{
-        if(proc->timer)new_queue = new_sched->gp_ready;
+        if((timer_t)proc->timer)new_queue = (proc_queue_t *)new_sched->gp_ready;
         else{
-            proc->timer = proc->time_quant;
-            new_queue = new_sched->gp_expired;
-            need_resched = 0;
+            proc->timer = (timer_t)proc->time_quant;
+            new_queue = (proc_queue_t *)new_sched->gp_expired;
+            need_resched = (bool_t)0;
         }
     }
 
-    proc_insert( proc, new_queue );
-    return (need_resched);
+    proc_insert( (proc_t *)proc, (proc_queue_t *)new_queue );
+    return ((bool_t)need_resched);
 }
 //===========================================================
 void proc_run( proc_t * proc ){
     enter_crit_sec();
-    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ){
+    if( ( (proc_queue_t *)proc->queue ) || ( (flag_t)proc->flags & PROC_FLG_END ) ){
         // already running, or invalid call, also fools can not into running ended procrsses
         exit_crit_sec();
         return;
@@ -191,75 +191,75 @@ void proc_run( proc_t * proc ){
 }
 //===========================================================
 void proc_run_from_isr( proc_t * proc ){
-    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
-    if( nested_isr )enter_crit_sec();
-    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
+    register bool_t nested_isr = (bool_t)( (count_t)system_sched.nested_interrupts != 0 );
+    if( (count_t)nested_isr )enter_crit_sec();
+    if( ( (proc_queue_t *)proc->queue ) || ( (flag_t)proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
 
-    if((!nested_isr)&&((bool_t)_proc_run( proc )))resched_local();
+    if((!((bool_t)nested_isr))&&((bool_t)_proc_run( (proc_t *)proc )))resched_local();
 end:
-    if( nested_isr )exit_crit_sec();
+    if( (bool_t)nested_isr )exit_crit_sec();
 }
 //===========================================================
 void proc_run_no_resched( proc_t * proc ){
     enter_crit_sec();
-    if( ( proc->queue ) || ( proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
-    _proc_run( proc );
+    if( ( (proc_queue_t *)proc->queue ) || ( (flag_t)proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
+    _proc_run( (proc_t *)proc );
 end:
     exit_crit_sec();
 }
 //==============================================================
 void proc_restart( proc_t * proc ){
     enter_crit_sec();
-    if( proc->queue ){
+    if( (proc_queue_t *)proc->queue ){
         // already running, or invalid call
         exit_crit_sec();
         return;
     }
     stack_init( proc );
-    proc->timer = proc->time_quant;
-    proc->prev = proc;
-    proc->next = proc;
+    proc->timer = (timer_t)proc->time_quant;
+    proc->prev = (proc_t *)proc;
+    proc->next = (proc_t *)proc;
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
 
-    if((bool_t)_proc_run( proc ))resched_local();
+    if((bool_t)_proc_run( (proc_t *)proc ))resched_local();
     exit_crit_sec();
 }
 //==============================================================
 void proc_restart_from_isr( proc_t * proc ){
-    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
-    if( nested_isr )enter_crit_sec();
-    if( proc->queue ){
+    register bool_t nested_isr = (bool_t)( (count_t)system_sched.nested_interrupts != 0 );
+    if( (bool_t)nested_isr )enter_crit_sec();
+    if( (proc_queue_t *)proc->queue ){
         // already running, or invalid call
-        if( nested_isr )exit_crit_sec();
+        if( (bool_t)nested_isr )exit_crit_sec();
         return;
     }
-    stack_init( proc );
-    proc->timer = proc->time_quant;
-    proc->prev = proc;
-    proc->next = proc;
+    stack_init( (proc_t *)proc );
+    proc->timer = (timer_t)proc->time_quant;
+    proc->prev = (proc_t *)proc;
+    proc->next = (proc_t *)proc;
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
 
-    if((!nested_isr)&&((bool_t)_proc_run( proc )))resched_local();
-    if( nested_isr )exit_crit_sec();
+    if((!((bool_t)nested_isr))&&((bool_t)_proc_run( (proc_t *)proc )))resched_local();
+    if( (bool_t)nested_isr )exit_crit_sec();
 }
 //==============================================================
 void proc_restart_no_resched( proc_t * proc ){
     enter_crit_sec();
-    if( proc->queue ){
+    if( (proc_queue_t *)proc->queue ){
         // already running, or invalid call
         exit_crit_sec();
         return;
     }
-    stack_init( proc );
-    proc->timer = proc->time_quant;
-    proc->prev = proc;
-    proc->next = proc;
+    stack_init( (proc_t *)proc );
+    proc->timer = (timer_t)proc->time_quant;
+    proc->prev = (proc_t *)proc;
+    proc->next = (proc_t *)proc;
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
 
-    _proc_run( proc );
+    _proc_run( (proc_t *)proc );
     exit_crit_sec();
 }
 /************************************************************
@@ -274,14 +274,14 @@ void proc_restart_no_resched( proc_t * proc ){
 void _proc_stop( proc_t * proc ){
     proc->flags &= ~PROC_FLG_RUN;
     // end waiting process 2 avoid common resource corruption
-    if( proc->flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
-    proc_cut( proc );
+    if( (flag_t)proc->flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
+    proc_cut( (proc_t *)proc );
 }
 //==============================================================
 void proc_stop( proc_t * proc ){
     enter_crit_sec();
-    if( proc->queue ){
-        _proc_stop( proc );
+    if( (proc_queue_t *)proc->queue ){
+        _proc_stop( (proc_t *)proc );
         resched_local();
         exit_crit_sec();
         return;
@@ -290,21 +290,21 @@ void proc_stop( proc_t * proc ){
 }
 //==============================================================
 void proc_stop_from_isr( proc_t * proc ){
-    register bool_t nested_isr = ( system_sched.nested_interrupts != 0 );
-    if( nested_isr )enter_crit_sec();
-    if( proc->queue ){
-        _proc_stop( proc );
-        if( nested_isr )exit_crit_sec();
+    register bool_t nested_isr = (bool_t)( (count_t)system_sched.nested_interrupts != 0 );
+    if( (bool_t)nested_isr )enter_crit_sec();
+    if( (proc_queue_t *)proc->queue ){
+        _proc_stop( (proc_t *)proc );
+        if( (bool_t)nested_isr )exit_crit_sec();
         else resched_local();
         return;
     }
-    if( nested_isr )exit_crit_sec();
+    if( (bool_t)nested_isr )exit_crit_sec();
 }
 //==============================================================
 void proc_stop_no_resched( proc_t * proc ){
     enter_crit_sec();
-    if( proc->queue ){
-        _proc_stop( proc );
+    if( (proc_queue_t *)proc->queue ){
+        _proc_stop( (proc_t *)proc );
     }
     exit_crit_sec();
 }
@@ -312,8 +312,8 @@ void proc_stop_no_resched( proc_t * proc ){
 void proc_self_stop( void ){
     enter_crit_sec();
     register proc_t * proc = system_sched.current_proc;
-    if( proc->queue ){
-        _proc_stop( proc );
+    if( (proc_queue_t *)proc->queue ){
+        _proc_stop( (proc_t *)proc );
         resched_local();
         exit_crit_sec();
         return;
@@ -323,9 +323,9 @@ void proc_self_stop( void ){
 //==============================================================
 void proc_reset_watchdog( void ){
     enter_crit_sec();
-    register proc_t * proc = system_sched.current_proc;
-    if( proc->queue ){
-        if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
+    register proc_t * proc = (proc_t *)system_sched.current_proc;
+    if( (proc_queue_t *)proc->queue ){
+        if( (flag_t)proc->flags & PROC_FLG_RT )proc->timer = (timer_t)proc->time_quant;
     }
     exit_crit_sec();
 }

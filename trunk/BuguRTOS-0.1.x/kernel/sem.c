@@ -77,7 +77,7 @@ void sem_init(sem_t * sem, lock_t value){
     sem->value = (lock_t)value;
     sem->gp_queue.index = (index_t)0;
     sem->rt_queue.index = (index_t)0;
-    for(count_t i = 0; i < BITS_IN_INDEX_T; i++ ){
+    for(count_t i = (count_t)0; (count_t)i < (count_t)BITS_IN_INDEX_T; ((count_t)i)++ ){
         sem->gp_queue.proc[i] = (proc_t *)0;
         sem->rt_queue.proc[i] = (proc_t *)0;
     }
@@ -85,25 +85,25 @@ void sem_init(sem_t * sem, lock_t value){
 //==============================================================
 bool_t sem_try_lock(sem_t * sem){
     enter_crit_sec();
-    register bool_t ret_val = _sem_try_lock( &sem->value );
+    register bool_t ret_val = _sem_try_lock( (lock_t *)&sem->value );
     exit_crit_sec();
     return ret_val;
 }
 //==============================================================
 bool_t sem_lock(sem_t * sem){
     enter_crit_sec();
-    register proc_t * proc = system_sched.current_proc;
+    register proc_t * proc = (proc_t *)system_sched.current_proc;
     register proc_queue_t * sem_queue;
-    if( !_sem_try_lock( &sem->value ) ){
-        _proc_stop( proc );
+    if( !((bool_t)_sem_try_lock( (lock_t *)&sem->value )) ){
+        _proc_stop( (proc_t *)proc );
         // define the queue 2 insert proc in
-        if( proc->flags & PROC_FLG_RT ){
-            sem_queue = &sem->rt_queue;
+        if( (flag_t)proc->flags & PROC_FLG_RT ){
+            sem_queue = (proc_queue_t *)&sem->rt_queue;
         }else{
-            sem_queue = &sem->gp_queue;
+            sem_queue = (proc_queue_t *)&sem->gp_queue;
         }
         // insert proc 2 certain semaphore queue
-        proc_insert( proc, sem_queue );
+        proc_insert( (proc_t *)proc, (proc_queue_t *)sem_queue );
         proc->flags |= (flag_t)PROC_FLG_WAIT;
         resched_local();
         exit_crit_sec();
@@ -119,19 +119,19 @@ void sem_unlock(sem_t * sem){
     register proc_queue_t * sem_queue;
 
     // find the queue 2 run process from
-    if( sem->rt_queue.index ){
-        sem_queue = &sem->rt_queue;
-    }else if( sem->gp_queue.index ){
-        sem_queue = &sem->gp_queue;
+    if( (index_t)sem->rt_queue.index ){
+        sem_queue = (proc_queue_t *)&sem->rt_queue;
+    }else if( (index_t)sem->gp_queue.index ){
+        sem_queue = (proc_queue_t *)&sem->gp_queue;
     }else{
-        _sem_unlock( &sem->value );
+        _sem_unlock( (lock_t *)&sem->value );
         exit_crit_sec();
         return;
     }
     // find the head of the queue
-    register proc_t * proc_2_run = proc_queue_head( sem_queue );
+    register proc_t * proc_2_run = (proc_t *)proc_queue_head( (proc_queue_t *)sem_queue );
     // run the proc
-    proc_fast_cut( proc_2_run );
-    if(_proc_run( proc_2_run ))resched_local();
+    proc_fast_cut( (proc_t *)proc_2_run );
+    if(_proc_run( (proc_t *)proc_2_run ))resched_local();
     exit_crit_sec();
 }

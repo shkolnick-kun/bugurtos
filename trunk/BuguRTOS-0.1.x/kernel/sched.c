@@ -89,10 +89,10 @@ proc_t idle;
 *                                                           *
 ************************************************************/
 void schedule( sched_t * sched ){
-    register proc_t * current_proc = sched->current_proc;
+    register proc_t * current_proc = (proc_t *)sched->current_proc;
     // when we use semaphores and signals there may be a situation when current_proc->timer==0 in this case we must analyse
     // PROC_FGL_RT or we can do current_proc->timer-- only when it's nonzero
-    if(current_proc->timer)current_proc->timer--;
+    if((timer_t)current_proc->timer)((timer_t)current_proc->timer)--;
 /*********************************************
 *      real time scheduling sequence         *
 *********************************************/
@@ -117,61 +117,61 @@ I don't think, that flags use would always result in beter performance:
   3) compare two values
   4) branch if equal.
 */
-    if( current_proc->queue == &sched->rt_ready ){
+    if( (proc_queue_t *)current_proc->queue == (proc_queue_t *)&sched->rt_ready ){
         // switch rt_ready 2 next proc with current prio
-        register prio_t prio = current_proc->prio;
-        register proc_queue_t * rt_ready = &sched->rt_ready;
-        rt_ready->proc[(prio_t)prio] = rt_ready->proc[(prio_t)prio]->next;
+        register prio_t prio = (prio_t)current_proc->prio;
+        register proc_queue_t * rt_ready = (proc_queue_t *)&sched->rt_ready;
+        rt_ready->proc[(prio_t)prio] = (proc_t *)rt_ready->proc[(prio_t)prio]->next;
 
         //if the process has some time 2 run, rt_ready is guaranteed 2 have head process
-        if( current_proc->timer ) goto rt_head_schedule;
+        if( (timer_t)current_proc->timer ) goto rt_head_schedule;
 
         // the process has expired its time, watchdog was not reset.
-        proc_cut( current_proc );
+        proc_cut( (proc_t *)current_proc );
         current_proc->flags &= ~PROC_FLG_RUN;
     }
     // if rt_ready is not empty, then schedule its head
-    if( sched->rt_ready.index ) goto rt_head_schedule;
+    if( (index_t)sched->rt_ready.index ) goto rt_head_schedule;
     // else schedule gp_proc 4 execution. (at least we have idle proc 2 run)
 /*********************************************
 *    general purpose scheduling sequence     *
 *********************************************/
     // let's look at the last scheduled general purpose process
-    current_proc = sched->current_gp_proc;
-    if( current_proc->queue == sched->gp_ready ){
+    current_proc = (proc_t *)sched->current_gp_proc;
+    if( (proc_queue_t *)current_proc->queue == (proc_queue_t *)sched->gp_ready ){
         // switch gp_ready 2 next proc with current prio
-        register prio_t prio = current_proc->prio;
-        register proc_queue_t * gp_ready = sched->gp_ready;
-        gp_ready->proc[(prio_t)prio] = gp_ready->proc[(prio_t)prio]->next;
+        register prio_t prio = (prio_t)current_proc->prio;
+        register proc_queue_t * gp_ready = (proc_queue_t *)sched->gp_ready;
+        gp_ready->proc[(prio_t)prio] = (proc_t *)gp_ready->proc[(prio_t)prio]->next;
 
         // check 4 timer 2 expire
-        if( current_proc->timer ){
+        if( (timer_t)current_proc->timer ){
             goto gp_test;
         }else{
             // reset process timer
-            current_proc->timer = current_proc->time_quant;
+            current_proc->timer = (timer_t)current_proc->time_quant;
             // move the process 2 gp_expired
-            proc_move( current_proc, sched->gp_expired );
+            proc_move( (proc_t *)current_proc, (proc_queue_t *)sched->gp_expired );
         }
     }
 gp_test:
     //gp_test:
     // gp_ready is empty, swap ready and expired queues
-    if( !sched->gp_ready->index ){
-        register proc_queue_t * expired = sched->gp_expired;
-        sched->gp_expired = sched->gp_ready;
-        sched->gp_ready = expired;
+    if( !((index_t)sched->gp_ready->index) ){
+        register proc_queue_t * expired = (proc_queue_t *)sched->gp_expired;
+        sched->gp_expired = (proc_queue_t *)sched->gp_ready;
+        sched->gp_ready = (proc_queue_t *)expired;
     }
     // scedule the head of the gp_ready 4 execution
-    sched->current_proc = proc_queue_head( sched->gp_ready );
+    sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)sched->gp_ready );
     // remember current_gp_proc 4 next time general purpose scheduling sequence
-    sched->current_gp_proc = sched->current_proc;
+    sched->current_gp_proc = (proc_t *)sched->current_proc;
     return;
 /**********************************************
 * scedule rt_ready head 4 execution and exit  *
 **********************************************/
 rt_head_schedule:
-    sched->current_proc = proc_queue_head( &sched->rt_ready );
+    sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sched->rt_ready );
 }
 
 /************************************************************
@@ -187,13 +187,13 @@ rt_head_schedule:
 *                                                           *
 ************************************************************/
 void resched( sched_t * sched ){
-    if( sched->rt_ready.index ){
-        sched->current_proc = proc_queue_head( &sched->rt_ready );
+    if( (index_t)sched->rt_ready.index ){
+        sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sched->rt_ready );
     }else{
         // scedule the head of gp_ready 4 execution
-        sched->current_proc = proc_queue_head( sched->gp_ready );
+        sched->current_proc = (proc_t *)proc_queue_head( (proc_queue_t *)sched->gp_ready );
         // remember current_gp_proc 4 next time general purpose scheduling sequence
-        sched->current_gp_proc = sched->current_proc;
+        sched->current_gp_proc = (proc_t *)sched->current_proc;
     }
 }
 
@@ -218,20 +218,20 @@ void scheduler_init( sched_t * sched, proc_t * idle ){
         sched->gp_queues[1].proc[i] = (proc_t *)0;
     }
 
-    idle->code = 0;
+    idle->code = (code_t)0;
     idle->prio = (prio_t)(BITS_IN_INDEX_T - 1);
-    idle->flags = 0;
-    idle->timer = 1;
-    idle->time_quant = 1;
-    idle->prev = idle;
-    idle->next = idle;
+    idle->flags = (flag_t)0;
+    idle->timer = (timer_t)1;
+    idle->time_quant = (timer_t)1;
+    idle->prev = (proc_t *)idle;
+    idle->next = (proc_t *)idle;
     idle->queue = (proc_queue_t *)0;
-    idle->sched = sched;
+    idle->sched = (sched_t *)sched;
 
-    sched->current_proc = idle;
-    sched->current_gp_proc = idle;
+    sched->current_proc = (proc_t *)idle;
+    sched->current_gp_proc = (proc_t *)idle;
 
-    proc_insert(idle, sched->gp_ready);
+    proc_insert((proc_t *)idle, (proc_queue_t *)sched->gp_ready);
 
     // critical section nest count
     sched->nested_crit_sec = (count_t)0;
