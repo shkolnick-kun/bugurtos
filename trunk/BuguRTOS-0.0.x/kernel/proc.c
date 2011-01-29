@@ -125,8 +125,6 @@ void proc_init(
     spin_lock( (lock_t *)&proc->lock );
 #endif
     proc->stack_start = (stack_t *)stack_start;
-    //extern func
-    stack_init( (proc_t *)proc );
 
     proc->code = (code_t)code;
     proc->prio = (prio_t)prio;
@@ -141,6 +139,8 @@ void proc_init(
     proc->next = (proc_t *)proc;
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
+    //extern func
+    stack_init( (proc_t *)proc );
 #ifdef CONFIG_MP
     spin_unlock( (lock_t *)&proc->lock );
 #endif
@@ -278,7 +278,7 @@ void proc_run_from_isr( proc_t * proc ){
         if( !(bool_t)nested_isr )resched_local();
     }
 #else
-    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+    if( ( !(bool_t)nested_isr )&&( (bool_t)_proc_run( (proc_t *)proc )) )resched_local();
 #endif
     if( (bool_t)nested_isr )_exit_crit_sec( sched );
     return;
@@ -374,7 +374,7 @@ void proc_restart_from_isr( proc_t * proc ){
         if( !(bool_t)nested_isr )resched_local();
     }
 #else
-    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
+    if( ( !(bool_t)nested_isr )&&( (bool_t)_proc_run( (proc_t *)proc ) ) )resched_local();
 #endif
     if( (bool_t)nested_isr )_exit_crit_sec( sched );
     return;
@@ -418,17 +418,17 @@ end:
 *                                                           *
 ************************************************************/
 void _proc_stop( proc_t * proc ){
-    register flag_t proc_flags = (flag_t)proc->flags;
 #ifdef CONFIG_MP
+    register flag_t proc_flags = (flag_t)proc->flags;
     register lock_t * stat_lock = (lock_t *)&proc->sched->stat_lock;
-    // if proc isn't waiting 4 signal broadcast or 4 semaphore lock,
-    // then it's supposed 2B running, and we must update stats
 #endif
     proc->flags &= ~PROC_FLG_RUN;
     // end waiting process 2 avoid common resource corruption
-    if( (flag_t)proc_flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
 #ifdef CONFIG_MP
+    if( (flag_t)proc_flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
     else{
+        // if proc isn't waiting 4 signal broadcast or 4 semaphore lock,
+        // then it's supposed 2B running, and we must update stats
         spin_lock( (lock_t *)stat_lock );
         if( (flag_t)proc_flags & PROC_FLG_RT ){
             ((count_t)proc->sched->proc_count_rt)--;
@@ -441,6 +441,8 @@ void _proc_stop( proc_t * proc ){
     }
     register lock_t * queue_lock = (lock_t *)proc->queue_lock;
     spin_lock( (lock_t *)queue_lock );
+#else
+    if( (flag_t)proc->flags & PROC_FLG_WAIT )proc->flags |= PROC_FLG_END;
 #endif
     proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP

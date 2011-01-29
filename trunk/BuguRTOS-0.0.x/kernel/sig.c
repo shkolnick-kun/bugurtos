@@ -229,7 +229,7 @@ void sig_signal_from_isr(sig_t * sig){
         if(!((bool_t)nested_isr))resched_local();
     }
 #else
-    if( ( !((bool_t)nested_isr) )&&( (bool_t)_proc_run( (proc_t *)proc ) ) )resched_local();
+    if( ( !(bool_t)nested_isr )&&( (bool_t)_proc_run( (proc_t *)proc ) ) )resched_local();
 #endif
 end:
     if( (bool_t)nested_isr )_exit_crit_sec( (sched_t *)sched );
@@ -327,7 +327,7 @@ void sig_broadcast(sig_t * sig){
 #ifdef CONFIG_MP
         spin_unlock( (lock_t *)&sig->gp_lock );
 #endif
-    if((bool_t)need_resched)resched_system();
+    if( (bool_t)need_resched )resched_system();
     _exit_crit_sec( (sched_t *)sched );
 }
 //==============================================================

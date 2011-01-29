@@ -108,10 +108,9 @@ bool_t sem_lock(sem_t * sem){
         resched_local();
         exit_crit_sec();
         return (0);
-    }else{
-        exit_crit_sec();
-        return (1);
     }
+    exit_crit_sec();
+    return (1);
 }
 //==============================================================
 void sem_unlock(sem_t * sem){

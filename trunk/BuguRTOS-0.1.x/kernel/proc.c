@@ -192,7 +192,7 @@ void proc_run( proc_t * proc ){
 //===========================================================
 void proc_run_from_isr( proc_t * proc ){
     register bool_t nested_isr = (bool_t)( (count_t)system_sched.nested_interrupts != 0 );
-    if( (count_t)nested_isr )enter_crit_sec();
+    if( (bool_t)nested_isr )enter_crit_sec();
     if( ( (proc_queue_t *)proc->queue ) || ( (flag_t)proc->flags & PROC_FLG_END ) ) goto end; // already running, or invalid call
 
     if((!((bool_t)nested_isr))&&((bool_t)_proc_run( (proc_t *)proc )))resched_local();
@@ -215,7 +215,7 @@ void proc_restart( proc_t * proc ){
         exit_crit_sec();
         return;
     }
-    stack_init( proc );
+    stack_init( (proc_t *)proc );
     proc->timer = (timer_t)proc->time_quant;
     proc->prev = (proc_t *)proc;
     proc->next = (proc_t *)proc;
@@ -241,7 +241,7 @@ void proc_restart_from_isr( proc_t * proc ){
     proc->queue = (proc_queue_t *)0;
     proc->sched = (sched_t *)0;
 
-    if((!((bool_t)nested_isr))&&((bool_t)_proc_run( (proc_t *)proc )))resched_local();
+    if( ( !(bool_t)nested_isr )&&( (bool_t)_proc_run( (proc_t *)proc ) ) )resched_local();
     if( (bool_t)nested_isr )exit_crit_sec();
 }
 //==============================================================

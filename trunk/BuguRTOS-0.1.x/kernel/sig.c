@@ -110,7 +110,7 @@ void sig_signal(sig_t * sig){
         else goto end;
     }
     proc_cut( (proc_t *)proc );
-    if( _proc_run( (proc_t *)proc ) )resched_local();
+    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
     exit_crit_sec();
     return;
 end:
@@ -128,7 +128,7 @@ void sig_signal_from_isr(sig_t * sig){
         else goto end;
     }
     proc_cut( (proc_t *)proc );
-    if(( !((bool_t)nested_isr) )&&( (bool_t)_proc_run( (proc_t *)proc ) ))resched_local();
+    if(( !(bool_t)nested_isr )&&( (bool_t)_proc_run( (proc_t *)proc ) ))resched_local();
 end:
     if( (bool_t)nested_isr )exit_crit_sec();
 }
@@ -168,9 +168,9 @@ void sig_broadcast(sig_t * sig){
 //==============================================================
 void sig_broadcast_from_isr(sig_t * sig){
     register bool_t nested_isr = (bool_t)( (count_t)system_sched.nested_interrupts != 0 );
-    if( (bool_t)nested_isr )enter_crit_sec();
     register proc_t * proc;
     register bool_t need_resched = (bool_t)0;
+    if( (bool_t)nested_isr )enter_crit_sec();
     while( (index_t)sig->rt_queue.index ){
         proc = (proc_t *)proc_queue_head( (proc_queue_t *)&sig->rt_queue );
         proc_cut( (proc_t *)proc );
