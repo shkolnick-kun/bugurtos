@@ -7,7 +7,7 @@
 	<File name="arch/avr/bugurt_asm.S" open="0" top="0" tabpos="7">
 		<Cursor position="9489" topLine="173" />
 	</File>
-	<File name="include/bugurt.h" open="1" top="0" tabpos="1">
+	<File name="include/bugurt.h" open="0" top="0" tabpos="1">
 		<Cursor position="11515" topLine="249" />
 	</File>
 	<File name="include/proc.h" open="0" top="0" tabpos="2">
@@ -34,7 +34,7 @@
 	<File name="kernel/sem.c" open="0" top="0" tabpos="1">
 		<Cursor position="7731" topLine="105" />
 	</File>
-	<File name="kernel/sig.c" open="1" top="0" tabpos="0">
-		<Cursor position="6615" topLine="75" />
+	<File name="kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="6615" topLine="63" />
 	</File>
 </CodeBlocks_layout_file>

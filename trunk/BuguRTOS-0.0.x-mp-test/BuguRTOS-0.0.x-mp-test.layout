@@ -4,8 +4,8 @@
 	<File name="config.h" open="0" top="0" tabpos="4">
 		<Cursor position="6366" topLine="75" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="1">
-		<Cursor position="7098" topLine="115" />
+	<File name="main.c" open="0" top="0" tabpos="1">
+		<Cursor position="7098" topLine="103" />
 	</File>
 	<File name="../BuguRTOS-0.0.x/include/bugurt.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />

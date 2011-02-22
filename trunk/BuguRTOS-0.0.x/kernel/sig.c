@@ -127,7 +127,6 @@ void sig_signal(sig_t * sig){
     register sched_t * sched = (sched_t *)_enter_crit_sec();
     register proc_t * proc;
 #ifdef CONFIG_MP
-    register sched_t * proc_sched;
     spin_lock( (lock_t *)&sig->rt_lock );
 #endif
     if( (index_t)sig->rt_queue.index ){
@@ -159,21 +158,8 @@ void sig_signal(sig_t * sig){
     proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
     spin_unlock( (lock_t *)proc->queue_lock );
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
-    proc_sched = (sched_t *)proc->sched;
-    spin_unlock( (lock_t *)&proc->lock );
-    if( (bool_t)need_resched ){
-        if( (sched_t *)proc_sched != (sched_t *)sched ){
-            //now we can resched
-            resched_extern( (sched_t *)proc_sched );
-            _exit_crit_sec( (sched_t *)sched );
-            return;
-        }
-        resched_local();
-    }
-#else
-    if( (bool_t)_proc_run( (proc_t *)proc ) )resched_local();
 #endif
+    _proc_run_and_resched( (proc_t *)proc, (bool_t)1 );
 end:
     _exit_crit_sec( (sched_t *)sched );
 }
@@ -184,7 +170,6 @@ void sig_signal_from_isr(sig_t * sig){
     register proc_t * proc;
     if( (bool_t)nested_isr )_enter_crit_sec_2( (sched_t *)sched );
 #ifdef CONFIG_MP
-    register sched_t * proc_sched;
     spin_lock( (lock_t *)&sig->rt_lock );
 #endif
     if( (index_t)sig->rt_queue.index ){
@@ -216,21 +201,8 @@ void sig_signal_from_isr(sig_t * sig){
     proc_cut( (proc_t *)proc );
 #ifdef CONFIG_MP
     spin_unlock( (lock_t *)proc->queue_lock );
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc );
-    proc_sched = (sched_t *)proc->sched;
-    spin_unlock( (lock_t *)&proc->lock );
-    if( (bool_t)need_resched ){
-        if( (sched_t *)proc_sched != (sched_t *)sched ){
-            //now we can resched
-            resched_extern( (sched_t *)proc_sched );
-            _exit_crit_sec( (sched_t *)sched );
-            return;
-        }
-        if(!((bool_t)nested_isr))resched_local();
-    }
-#else
-    if( ( !(bool_t)nested_isr )&&( (bool_t)_proc_run( (proc_t *)proc ) ) )resched_local();
 #endif
+    _proc_run_and_resched( (proc_t *)proc, !(bool_t)nested_isr );
 end:
     if( (bool_t)nested_isr )_exit_crit_sec( (sched_t *)sched );
 }

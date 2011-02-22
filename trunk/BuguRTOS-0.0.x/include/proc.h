@@ -140,6 +140,8 @@ proc_t * proc_queue_head( proc_queue_t * list );
 
 // proc_run sequence
 bool_t _proc_run( proc_t * proc );
+// Calls _proc_run, unlocks the proc, and rescheds if needed.
+void _proc_run_and_resched( proc_t * proc, bool_t is_resched_needed );
 // proc_stop seqeuence
 void _proc_stop( proc_t * proc );
 

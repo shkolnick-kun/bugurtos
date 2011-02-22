@@ -186,20 +186,7 @@ void sem_unlock(sem_t * sem){
     proc_fast_cut( (proc_t *)proc_2_run );
 #ifdef CONFIG_MP
     spin_unlock( (lock_t *)proc_2_run->queue_lock );
-    bool_t need_resched = (bool_t)_proc_run( (proc_t *)proc_2_run );
-    register sched_t * proc_sched = (sched_t *)proc_2_run->sched;
-    spin_unlock( (lock_t *)&proc_2_run->lock );
-    if( (bool_t)need_resched ){
-        if( (sched_t *)proc_sched != (sched_t *)sched ){
-            //now we can resched
-            resched_extern( (sched_t *)proc_sched );
-            _exit_crit_sec( (sched_t *)sched );
-            return;
-        }
-        resched_local();
-    }
-#else
-    if( (bool_t)_proc_run( (proc_t *)proc_2_run ) )resched_local();
 #endif
+    _proc_run_and_resched( (proc_t *)proc_2_run, (bool_t)1 );
     _exit_crit_sec( (sched_t *)sched );
 }
