@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../include/config.h" open="0" top="0" tabpos="0">
+		<Cursor position="706" topLine="21" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="2604" topLine="0" />
+	</File>
+	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="15" />
+	</File>
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="24" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="9914" topLine="277" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="11130" topLine="237" />
+	</File>
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="984" topLine="23" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="3167" topLine="15" />
+	</File>
+	<File name="log.txt" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="2989" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1479" topLine="134" />
+	</File>
+	<File name="../test_vm.c" open="0" top="0" tabpos="0">
+		<Cursor position="7890" topLine="209" />
+	</File>
+	<File name="../test_vm.h" open="0" top="0" tabpos="0">
+		<Cursor position="336" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

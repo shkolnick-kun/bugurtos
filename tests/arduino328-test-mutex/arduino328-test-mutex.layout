@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="2148" topLine="3" />
+	</File>
+	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="196" topLine="0" />
+	</File>
+	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="2918" topLine="315" />
+	</File>
+	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="78" topLine="0" />
+	</File>
+	<File name="../../arch/osbme/arch/avr/osbme_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="6045" topLine="74" />
+	</File>
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="238" topLine="0" />
+	</File>
+	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="910" topLine="14" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="3842" topLine="51" />
+	</File>
+	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
+		<Cursor position="406" topLine="5" />
+	</File>
+	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="587" topLine="12" />
+	</File>
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="291" topLine="0" />
+	</File>
+	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="1640" topLine="144" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="10233" topLine="312" />
+	</File>
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="1898" topLine="81" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="2190" topLine="42" />
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="1">
+		<Cursor position="273" topLine="24" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1140" topLine="52" />
+	</File>
+</CodeBlocks_layout_file>
