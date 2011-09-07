@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="arduino328-test-sem" />
+		<Option pch_mode="2" />
+		<Option compiler="avrgcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/arduino328-test-sem.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="avrgcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/arduino328-test-sem.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="avrgcc" />
+				<Compiler>
+					<Add option="-Os" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-mmcu=atmega328p" />
+			<Add option="-std=c99" />
+			<Add option='-include &quot;${PROJECT_DIR}config.h&quot;' />
+			<Add option='-I &quot;${PROJECT_DIR}../../include&quot;' />
+			<Add option="-ffunction-sections" />
+			<Add option="-DF_CPU=16000000UL" />
+		</Compiler>
+		<Linker>
+			<Add option="-mmcu=atmega328p" />
+			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref,--gc-sections" />
+		</Linker>
+		<ExtraCommands>
+			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
+			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
+			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
+			<Add after="avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_FILE).lss" />
+		</ExtraCommands>
+		<Unit filename="../../arch/avr-gcc/bugurt_kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../arch/avr-gcc/bugurt_kernel.h" />
+		<Unit filename="../../arch/avr-gcc/bugurt_syscall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../arch/avr-gcc/bugurt_syscall.h" />
+		<Unit filename="../../arch/avr-gcc/init_syscalls.h" />
+		<Unit filename="../../arch/osbme/arch/avr/osbme.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../arch/osbme/arch/avr/osbme_asm.S" />
+		<Unit filename="../../arch/osbme/osbme.h" />
+		<Unit filename="../../include/bugurt.h" />
+		<Unit filename="../../include/config.h" />
+		<Unit filename="../../include/crit_sec.h" />
+		<Unit filename="../../include/gitem.h" />
+		<Unit filename="../../include/group.h" />
+		<Unit filename="../../include/index.h" />
+		<Unit filename="../../include/item.h" />
+		<Unit filename="../../include/kernel.h" />
+		<Unit filename="../../include/mutex.h" />
+		<Unit filename="../../include/pcounter.h" />
+		<Unit filename="../../include/proc.h" />
+		<Unit filename="../../include/sched.h" />
+		<Unit filename="../../include/sem.h" />
+		<Unit filename="../../include/sig.h" />
+		<Unit filename="../../include/timer.h" />
+		<Unit filename="../../include/xlist.h" />
+		<Unit filename="../../kernel/crit_sec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/gitem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/group.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/mutex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/xlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger>
+				<remote_debugging>
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" additional_shell_cmds_before="&#x0A;" />
+				</remote_debugging>
+			</debugger>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../include/config.h" open="0" top="0" tabpos="0">
+		<Cursor position="749" topLine="23" />
+	</File>
+	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
+		<Cursor position="1037" topLine="20" />
+	</File>
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="643" topLine="11" />
+	</File>
+	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../kernel/mutex_generic.c" open="0" top="0" tabpos="0">
+		<Cursor position="7027" topLine="108" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="10828" topLine="91" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="308" topLine="0" />
+	</File>
+	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="0">
+		<Cursor position="6723" topLine="85" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="3">
+		<Cursor position="2090" topLine="42" />
+	</File>
+	<File name="../../kernel/sig_generic.c" open="0" top="0" tabpos="0">
+		<Cursor position="5811" topLine="101" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="2">
+		<Cursor position="15" topLine="0" />
+	</File>
+	<File name="../test_vm.c" open="0" top="0" tabpos="1">
+		<Cursor position="639" topLine="195" />
+	</File>
+	<File name="../test_vm.h" open="0" top="0" tabpos="3">
+		<Cursor position="56" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

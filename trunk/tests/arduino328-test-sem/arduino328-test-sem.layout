@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="3183" topLine="79" />
+	</File>
+	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="1910" topLine="22" />
+	</File>
+	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="8135" topLine="274" />
+	</File>
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="291" topLine="28" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="9574" topLine="9" />
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="0">
+		<Cursor position="901" topLine="27" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="2">
+		<Cursor position="1429" topLine="73" />
+	</File>
+</CodeBlocks_layout_file>

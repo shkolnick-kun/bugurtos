@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="539" topLine="2" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="5765" topLine="87" />
+	</File>
+	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="663" topLine="7" />
+	</File>
+	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="664" topLine="15" />
+	</File>
+	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="579" topLine="3" />
+	</File>
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="30" topLine="0" />
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="1">
+		<Cursor position="168" topLine="0" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="2">
+		<Cursor position="6632" topLine="249" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="1026" topLine="21" />
+	</File>
+	<File name="../../include/config.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="10" />
+	</File>
+	<File name="../../include/kernel.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="24" />
+	</File>
+	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="93" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="4">
+		<Cursor position="5892" topLine="62" />
+	</File>
+	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../include/sem.h" open="0" top="0" tabpos="2">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../include/sig.h" open="0" top="0" tabpos="3">
+		<Cursor position="11199" topLine="159" />
+	</File>
+	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
+		<Cursor position="1900" topLine="20" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="0">
+		<Cursor position="15" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
