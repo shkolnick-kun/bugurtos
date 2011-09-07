@@ -75,6 +75,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Тестовый конфиг-файл, в последствии будет заменен
 #define _CONFIG_H_
 
+#define _TIME_H
+
 // data types
 typedef unsigned char index_t;
 #define BITS_IN_INDEX_T (8)

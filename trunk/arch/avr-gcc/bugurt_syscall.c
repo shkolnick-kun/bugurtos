@@ -124,8 +124,6 @@ void do_syscall(void)
 #else
 #define PROC_STACK_OFFSET 7
 #endif
-static unsigned char * tos;
-static unsigned short temp;
 
 typedef struct
 {
@@ -135,6 +133,8 @@ typedef struct
 
 BUGURT_INTERRUPT(SYSCALL_ISR)
 {
+    unsigned char * tos;
+    unsigned short temp;
     /// Извлечение syscall_num и syscall_arg из стека процесса
     tos = (unsigned char *)proc_sp + PROC_STACK_OFFSET;
     temp = (unsigned short)*tos++;
