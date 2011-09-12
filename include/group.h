@@ -89,14 +89,14 @@ typedef struct _group_t group_t;
 */
 struct _group_t
 {
-    void * link;   /*!< поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в Пуле.*/
-    prio_t prio;    /*!< приоритет группы*/
-    count_t el_num; /*!< количество элементов в группе, подсчет ссылок же!*/
+    void * link;   /*!< Поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в Пуле.*/
+    prio_t prio;    /*!< Приоритет группы.*/
+    count_t el_num; /*!< Количество элементов в группе, подсчет ссылок же! */
 };
 
 /*!
    Статическая инициализация объекта типа group_t
-   \param p - приоритет
+   \param p - Приоритет.
 */
 #define INIT_GROUP_T(p) { (void *)0, (prio_t)p, (count_t)1 }
 
@@ -105,15 +105,15 @@ struct _group_t
 \brief
 Инициализация группы.
 
-\param group указатель на объект group_t
-\param prio приоритет элемента
+\param group Указатель на объект group_t.
+\param prio Приоритет элемента.
 */
 void group_init(group_t * group, prio_t prio);
 /*!
 \brief
 Положить группу в Пул.
 
-\param group указатель на объект group_t
+\param group Указатель на объект group_t.
 */
 void group_push(group_t * group);
 /*!
@@ -122,7 +122,7 @@ void group_push(group_t * group);
 
 Если есть что брать, а есть всегда, избыточность же!
 
-\return указатель на объект group_t, который был взят из Пула.
+\return Указатель на объект group_t, который был взят из Пула.
 */
 group_t * group_pop(void);
 

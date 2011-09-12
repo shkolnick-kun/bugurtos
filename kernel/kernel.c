@@ -93,7 +93,7 @@ void kernel_init(void)
     //Инициация собственно ядра
     for( core_id_t i = (core_id_t)0; i<(core_id_t)MAX_CORES; i++ )
     {
-        proc_init_isr(
+        proc_init(
             kernel.idle + i, //процесс kernel.idle[i]
             idle_main, // тут все понятно
             (code_t)0, // нету

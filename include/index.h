@@ -81,7 +81,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 Поиск в бинароном индексе.
 
-\param index - бинарный индекс
+\param index - Бинарный индекс.
 \return наивысший (с минимальным значением) приоритет в индексе.
 */
 prio_t index_search(index_t index);

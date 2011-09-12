@@ -82,19 +82,19 @@ typedef struct _gitem_t gitem_t;
 //свойства
 /*!
 \brief
-Элемент группированного списка
+Элемент группированного списка.
 */
 struct _gitem_t
 {
-    item_t parent; /*!< Родитель - элемент 2-связного списка */
-    group_t * group; /*!< Указатель на группу в которую сейчас включен элемент */
-    group_t grp; /*!< Выделение памяти под группу, в нее изначально будет включен элемент */
+    item_t parent; /*!< Родитель - элемент 2-связного списка. */
+    group_t * group; /*!< Указатель на группу в которую сейчас включен элемент. */
+    group_t grp; /*!< Выделение памяти под группу, в нее изначально будет включен элемент. */
 };
 
 /*!
-   Статическая инициализация объекта типа gitem_t
-   \param a - имя переменной типа gitem_t
-   \param p - приоритет
+   Статическая инициализация объекта типа gitem_t.
+   \param a - Имя переменной типа gitem_t.
+   \param p - Приоритет.
 */
 #define INIT_G_ITEM_T(a,p) { INIT_ITEM_T(a), &((gitem_t)a).grp, INIT_GROUP_T(p) }
 
@@ -103,28 +103,26 @@ struct _gitem_t
 \brief
 Инициализация объект а типа gitem_t.
 
-\param gitem указатель на объект gitem_t
-\param prio приоритет элемента
+\param gitem Указатель на объект gitem_t.
+\param prio Приоритет элемента.
 */
 void gitem_init(gitem_t * gitem, prio_t prio);
 /*!
 \brief
 Вставка элемента типа gitem_t в список типа xlist_t без группировки.
 
-\param gitem указатель на объект gitem_t
-\param xlist указатель на список
+\param gitem Указатель на объект gitem_t.
+\param xlist Указатель на список.
 */
 void gitem_insert(gitem_t * gitem, xlist_t *xlist);
 /*!
 \brief
 Вставка элемента типа gitem_t в список типа xlist_t с группировкой.
 
- Вставляет в часть списка с проиритетом prio = gitem->group->prio,
- и переносит элемент в группу xlist->item[prio]->group,
- при этом gitem->group переходит в Пул.
+ Вставляет в часть списка с проиритетом prio = gitem->group->prio, и переносит элемент в группу xlist->item[prio]->group, при этом gitem->group переходит в Пул.
 
-\param gitem указатель на объект gitem_t
-\param xlist указатель на список
+\param gitem Указатель на объект gitem_t.
+\param xlist Указатель на список.
 */
 void gitem_insert_group(gitem_t * gitem, xlist_t *xlist);
 /*!
@@ -133,7 +131,7 @@ void gitem_insert_group(gitem_t * gitem, xlist_t *xlist);
 
 Вырезает объект типа gitem_t, из спика типа xlist_t, если объект был сгруппирован, то он вырезается из группы, и для него выделяется группа из Пула. При этом не обнуляется указатель gitem->group->link.
 
-\param gitem указатель на объект gitem_t
+\param gitem Указатель на объект gitem_t.
 */
 void gitem_fast_cut(gitem_t * gitem);
 /*!
@@ -142,7 +140,7 @@ void gitem_fast_cut(gitem_t * gitem);
 
 Вызывает gitem_fast_cut, а потом таки обнуляет gitem->group->link
 
-\param gitem указатель на объект gitem_t
+\param gitem Указатель на объект gitem_t.
 */
 void gitem_cut(gitem_t * gitem);
 /*!
@@ -151,8 +149,8 @@ void gitem_cut(gitem_t * gitem);
 
 Перенести все элементы из группированного списка типа xlist_t в другой список типа xlist_t. Выполняется за O(1) шагов.
 
-\param source указатель на список из которого переносим элементы
-\param destignation указатель на список в который преносим элементы
+\param source Указатель на список из которого переносим элементы.
+\param destignation Указатель на список в который преносим элементы.
 */
 void gitem_xlist_merge(xlist_t * source, xlist_t * destignation);
 

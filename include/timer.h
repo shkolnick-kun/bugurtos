@@ -86,13 +86,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*!
 \brief Сброс программного таймера.
 
-\param t указатель на таймер.
+\param t Указатель на таймер.
 */
 #define CLEAR_TIMER(t) _clear_timer( (timer_t *)&t)
 /*!
 \brief Получить значение программного таймера, для внутреннего использования.
 
-\param t значение таймера.
+\param t Значение таймера.
 */
 #define TIMER(t) (timer_t)_timer( (timer_t)t )
 /*!
@@ -100,7 +100,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 Просто ждет в цикле пока пройдет время time.
 
-\param time время ожидания.
+\param time Время ожидания.
 */
 void wait_time( timer_t time );
 
@@ -108,13 +108,13 @@ void wait_time( timer_t time );
 /*!
 \brief Сброс программного таймера, для внутреннего использования.
 
-\param t указатель на таймер.
+\param t Указатель на таймер.
 */
 void _clear_timer(timer_t * t);
 /*!
 \brief Получить значение программного таймера, для внутреннего использования.
 
-\param t значение таймера.
+\param t Значение таймера.
 */
 timer_t _timer(timer_t t);
 
