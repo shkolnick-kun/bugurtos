@@ -37,7 +37,7 @@
 	<File name="../test_vm.c" open="0" top="0" tabpos="1">
 		<Cursor position="639" topLine="195" />
 	</File>
-	<File name="../test_vm.h" open="0" top="0" tabpos="3">
+	<File name="../test_vm.h" open="1" top="1" tabpos="0">
 		<Cursor position="56" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

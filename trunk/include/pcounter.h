@@ -102,34 +102,34 @@ void pcounter_init(pcounter_t * pcounter);
 \brief
 Инкремент счетчика.
 
-\param pcounter указатель на счетчик.
-\param prio приоритет
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
 */
 void pcounter_inc(pcounter_t * pcounter, prio_t prio);
 /*!
 \brief
 Декремент счетчика.
 
-\param pcounter указатель на счетчик.
-\param prio приоритет
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
 */
 index_t pcounter_dec(pcounter_t * pcounter, prio_t prio);
 /*!
 \brief
 Увеличение счетчика на произвольное количество единиц.
 
-\param pcounter указатель на счетчик.
-\param prio приоритет
-\param count количество единиц
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
+\param count Количество единиц.
 */
 void pcounter_plus(pcounter_t * pcounter, prio_t prio, count_t count);
 /*!
 \brief
 Уменьшение счетчика на произвольное количество единиц.
 
-\param pcounter указатель на счетчик.
-\param prio приоритет
-\param count количество единиц
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
+\param count Количество единиц.
 \return 0 - если соответствующая часть счетчика обнулилась, не 0 - в других случаях
 */
 index_t pcounter_minus(pcounter_t * pcounter, prio_t prio, count_t count);

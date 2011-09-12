@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../include/config.h" open="0" top="0" tabpos="0">
 		<Cursor position="706" topLine="21" />
 	</File>
@@ -47,6 +47,6 @@
 		<Cursor position="12559" topLine="354" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
-		<Cursor position="530" topLine="0" />
+		<Cursor position="530" topLine="3" />
 	</File>
 </CodeBlocks_layout_file>

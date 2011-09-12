@@ -92,8 +92,8 @@ struct _item_t
 };
 
 /*!
-   Статическая инициализация объекта типа item_t
-   \param a - имя переменной типа item_t
+   Статическая инициализация объекта типа item_t.
+   \param a Имя переменной типа item_t.
 */
 #define INIT_ITEM_T(a) { (item_t *)&a, (item_t *)&a }
 
@@ -102,22 +102,22 @@ struct _item_t
 \brief
 Инициализация объекта типа item_t.
 
-\param item указатель на объект item_t
+\param item Указатель на объект item_t.
 */
 void item_init(item_t *item);
 /*!
 \brief
 Вставка элемента типа item_t в список.
 
-\param item указатель на объект типа item_t, который будем вставлять
-\param head указатель на объект голову списка типа item_t
+\param item Указатель на объект типа item_t, который будем вставлять.
+\param head Указатель на объект голову списка типа item_t.
 */
 void item_insert(item_t *item, item_t *head);
 /*!
 \brief
 Вырезать элемент типа item_t из списка.
 
-\param item указатель на объект типа item_t, который будем вставлять
+\param item Указатель на объект типа item_t, который будем вставлять.
 */
 void item_cut(item_t *item);
 #endif //_ITEM_H_
