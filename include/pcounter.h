@@ -86,8 +86,8 @@ typedef struct _pcounter_t pcounter_t;
 */
 struct _pcounter_t
 {
-    count_t counter[BITS_IN_INDEX_T]; /*!< массив счетчиков */
-    index_t index; /*!< индекс для ускорения поиска */
+    count_t counter[BITS_IN_INDEX_T]; /*!< массив счетчиков. */
+    index_t index; /*!< индекс для ускорения поиска. */
 };
 
 /*!
