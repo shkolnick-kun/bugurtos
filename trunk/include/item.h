@@ -110,7 +110,7 @@ void item_init(item_t *item);
 Вставка элемента типа item_t в список.
 
 \param item Указатель на объект типа item_t, который будем вставлять.
-\param head Указатель на объект голову списка типа item_t.
+\param head Указатель на голову списка типа item_t.
 */
 void item_insert(item_t *item, item_t *head);
 /*!

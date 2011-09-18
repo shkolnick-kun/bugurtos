@@ -15,15 +15,15 @@ typedef struct _pitem_t pitem_t;
 */
 struct _pitem_t
 {
-    item_t parent; /*!< родитель - item_t */
-    xlist_t * list; /*!< указательна спиок в который будем вставлять */
-    prio_t prio; /*!< приоритет */
+    item_t parent; /*!< Родитель - item_t. */
+    xlist_t * list; /*!< Указательна спиок в который будем вставлять. */
+    prio_t prio; /*!< Приоритет. */
 };
 
 /*!
    Статическая инициализация объекта типа pitem_t
-   \param a - имя переменной
-   \param p - приоритет
+   \param a - Имя переменной.
+   \param p - Приоритет.
 */
 #define INIT_P_ITEM_T(a,p) { INIT_ITEM_T(a), (xlist_t *)0, (prio_t)p }
 
@@ -32,34 +32,34 @@ struct _pitem_t
 \brief
 Инициализация объект а типа pitem_t.
 
-\param pitem указатель на объект pitem_t
-\param prio приоритет элемента
+\param pitem Указатель на объект pitem_t.
+\param prio Приоритет элемента.
 */
 void pitem_init( pitem_t * pitem, prio_t prio );
 /*!
 \brief
 Вставка элемента типа pitem_t в список типа xlist_t.
 
-\param pitem указатель на объект pitem_t
-\param xlist указатель на список
+\param pitem Указатель на объект pitem_t.
+\param xlist Указатель на список.
 */
 void pitem_insert( pitem_t * pitem, xlist_t * xlist );
 /*!
 \brief
 Быстро вырезать из списка.
 
-Вырезает объект типа gitem_t, из спика типа xlist_t, не обнуляет указатель pitem->list
+Вырезает объект типа gitem_t, из спика типа xlist_t, не обнуляет указатель pitem->list.
 
-\param pitem указатель на объект pitem_t
+\param pitem Указатель на объект pitem_t.
 */
 void pitem_fast_cut( pitem_t * pitem );
 /*!
 \brief
 Вырезать из списка.
 
-Вызывает pitem_fast_cut и обнуляет указатель pitem->list
+Вызывает pitem_fast_cut и обнуляет указатель pitem->list.
 
-\param pitem указатель на объект pitem_t
+\param pitem Указатель на объект pitem_t.
 */
 void pitem_cut( pitem_t * pitem );
 

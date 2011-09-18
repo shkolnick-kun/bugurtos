@@ -37,7 +37,6 @@
 			<Add library="/lib/libpthread.so.0" />
 		</Linker>
 		<Unit filename="../../include/bugurt.h" />
-		<Unit filename="../../include/config.h" />
 		<Unit filename="../../include/gitem.h" />
 		<Unit filename="../../include/group.h" />
 		<Unit filename="../../include/index.h" />
@@ -98,6 +97,7 @@
 		<Unit filename="../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="config.h" />
 		<Unit filename="log.txt" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

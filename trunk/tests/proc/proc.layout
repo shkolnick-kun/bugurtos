@@ -14,7 +14,7 @@
 		<Cursor position="64" topLine="8" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="3">
-		<Cursor position="101" topLine="1" />
+		<Cursor position="6374" topLine="89" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
 		<Cursor position="101" topLine="109" />
@@ -23,13 +23,13 @@
 		<Cursor position="6509" topLine="90" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="1">
-		<Cursor position="8627" topLine="160" />
+		<Cursor position="5967" topLine="148" />
 	</File>
 	<File name="../../kernel/proc_generic.c" open="0" top="0" tabpos="0">
 		<Cursor position="9564" topLine="188" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="8">
-		<Cursor position="16591" topLine="290" />
+		<Cursor position="14511" topLine="239" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="5811" topLine="109" />

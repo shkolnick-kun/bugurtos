@@ -1,12 +1,12 @@
 #include "../include/bugurt.h"
-/// Инициация
+// Инициация
 void pitem_init( pitem_t * pitem, prio_t prio )
 {
     item_init( (item_t *)pitem );
     pitem->list = (xlist_t *)0;
     pitem->prio = prio;
 }
-/// Вставка в список
+// Вставка в список
 void pitem_insert( pitem_t * pitem, xlist_t * xlist )
 {
     prio_t prio = pitem->prio;
@@ -26,7 +26,7 @@ void pitem_insert( pitem_t * pitem, xlist_t * xlist )
     }
     pitem->list = xlist;
 }
-/// Быстрая вырезка из списка
+// Быстрая вырезка из списка
 void pitem_fast_cut( pitem_t * pitem )
 {
     prio_t prio = pitem->prio;
@@ -51,8 +51,7 @@ void pitem_fast_cut( pitem_t * pitem )
         item_cut( (item_t *)pitem );
     }
 }
-/// Вырезка из списка
-/// Вырезать из списка
+// Вырезка из списка
 void pitem_cut(pitem_t * pitem)
 {
     pitem_fast_cut( pitem );
