@@ -74,8 +74,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../include/bugurt.h"
 void pcounter_init(pcounter_t * pcounter)
 {
+    prio_t p;
     pcounter->index = (index_t)0;
-    for(prio_t p = 0; p < (index_t)BITS_IN_INDEX_T; p++)pcounter->counter[p] = (count_t)0;
+    for(p = 0; p < (index_t)BITS_IN_INDEX_T; p++)pcounter->counter[p] = (count_t)0;
 }
 
 void pcounter_inc(pcounter_t * pcounter, prio_t prio)

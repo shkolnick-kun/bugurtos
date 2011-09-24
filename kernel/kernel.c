@@ -82,6 +82,8 @@ WEAK void idle_main(void * arg)
 void kernel_init(void)
 {
 #ifdef CONFIG_MP
+    core_id_t i;
+
     //Инициируем пул
     spin_init( &kernel.pool_lock );
     spin_lock( &kernel.pool_lock );
@@ -91,7 +93,7 @@ void kernel_init(void)
     spin_init( &kernel.stat_lock );
     spin_lock( &kernel.stat_lock );
     //Инициация собственно ядра
-    for( core_id_t i = (core_id_t)0; i<(core_id_t)MAX_CORES; i++ )
+    for( i = (core_id_t)0; i<(core_id_t)MAX_CORES; i++ )
     {
         proc_init(
             kernel.idle + i, //процесс kernel.idle[i]

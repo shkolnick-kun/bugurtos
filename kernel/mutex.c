@@ -97,7 +97,7 @@ bool_t _mutex_lock( mutex_t * mutex )
 #endif // CONFIG_MP
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     _proc_lres_inc( proc, mutex->prio );
-#else // CONFIG_USE_HIGHEST_LOCKER
+#else // !CONFIG_USE_HIGHEST_LOCKER
     _proc_lres_inc( proc );
 #endif // CONFIG_USE_HIGHEST_LOCKER
     if( ret )

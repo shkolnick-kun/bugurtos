@@ -77,7 +77,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void sig_init_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
-    for( core_id_t i = 0; i < (core_id_t)MAX_CORES; i++ )
+    core_id_t i;
+    for( i = 0; i < (core_id_t)MAX_CORES; i++ )
     {
         xlist_init( (xlist_t *)sig->sig_list + i );
         stat_init( (stat_t *)sig->sig_stat + i );
@@ -176,8 +177,9 @@ void sig_signal_isr( sig_t * sig )
 void sig_broadcast_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
+    core_id_t core;
     spin_lock( &sig->lock );
-    for(core_id_t core = 0; core < (core_id_t)MAX_CORES; core++)
+    for(core = 0; core < (core_id_t)MAX_CORES; core++)
     {
         spin_lock( &kernel.sched[core].lock );
         gitem_xlist_merge( (xlist_t *)sig + core, kernel.sched[core].ready );

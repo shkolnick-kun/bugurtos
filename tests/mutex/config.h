@@ -92,8 +92,8 @@ typedef unsigned long load_t;
 
 typedef unsigned long count_t;
 
-#define timer_t unsigned long
-//typedef unsigned long timer_t;
+//#define timer_t unsigned long
+typedef unsigned long timer_t;
 
 typedef volatile int lock_t;
 

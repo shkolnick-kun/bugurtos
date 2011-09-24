@@ -41,8 +41,9 @@ int glb_program[] =
 
 int main()
 {
+    int i, s;
     test_system_init();
-    for(int i = 0; i < 12; i++)
+    for(i = 0; i < 12; i++)
     {
         char name[10];
         sprintf(name,"prc%d ",(int)i);
@@ -58,7 +59,7 @@ int main()
 #else
     _proc_lres_inc(proc + 6);
 #endif
-    for(int s = 0; s < 22; s++)
+    for(s = 0; s < 22; s++)
     {
         printf("\n----------------------------------\n");
         test_system_timer_interrupt();
@@ -70,7 +71,7 @@ int main()
     proc[11].timer = proc[11].time_quant;
     proc_run(proc+11);
     printf("\n=========================================================\n");
-    for(int s = 0; s < 22; s++)
+    for(s = 0; s < 22; s++)
     {
         printf("\n----------------------------------\n");
         test_system_timer_interrupt();

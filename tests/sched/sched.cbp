@@ -30,7 +30,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-lpthread -std=c99" />
+			<Add option="-lpthread" />
 			<Add option='-include &quot;${PROJECT_DIR}config.h&quot;' />
 		</Compiler>
 		<Linker>

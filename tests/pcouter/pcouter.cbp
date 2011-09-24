@@ -30,11 +30,9 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-Wall -std=c99" />
+			<Add option="-Wall" />
 			<Add option='-include &quot;${PROJECT_DIR}config.h&quot;' />
 		</Compiler>
-		<Unit filename="../../include/bugurtos.h" />
-		<Unit filename="../../include/config.h" />
 		<Unit filename="../../include/gitem.h" />
 		<Unit filename="../../include/group.h" />
 		<Unit filename="../../include/index.h" />
@@ -49,6 +47,7 @@
 		<Unit filename="../../kernel/pcounter.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="config.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
