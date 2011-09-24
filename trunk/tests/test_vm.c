@@ -32,14 +32,16 @@ void spin_lock(lock_t * lock)
 }
 void spin_unlock(lock_t * lock)
 {
-    for(int i = 0; i < 100000; i++);
+    int i;
+    for(i = 0; i < 100000; i++);
     pthread_spin_unlock(lock);
 }
 
 core_id_t _enter_crit_sec(void)
 {
     pthread_t current_thread = pthread_self();
-    for(core_id_t i = 0; i < MAX_CORES; i++ )if(current_thread == test_vm_core[i])return i;
+    core_id_t i;
+    for( i = 0; i < MAX_CORES; i++ )if(current_thread == test_vm_core[i])return i;
     return 0;
 }
 void _exit_crit_sec(core_id_t core) {}
@@ -102,14 +104,16 @@ void resched(void)
 proc_t * current_proc(void)
 {
     pthread_t current_thread = pthread_self();
-    for(core_id_t i = 0; i < MAX_CORES; i++ )if(current_thread == test_vm_core[i])return kernel.sched[i].current_proc;
+    core_id_t i;
+    for(i = 0; i < MAX_CORES; i++ )if(current_thread == test_vm_core[i])return kernel.sched[i].current_proc;
     return 0;
 }
 
 core_id_t current_core(void)
 {
     pthread_t current_thread = pthread_self();
-    for(core_id_t i = 0; i < MAX_CORES; i++ )if(current_thread == test_vm_core[i])return i;
+    core_id_t i;
+    for(i = 0; i < MAX_CORES; i++ )if(current_thread == test_vm_core[i])return i;
     return 0;
 }
 
@@ -355,13 +359,15 @@ int idle_prorgam[] =
 
 void test_vm_init( test_vm_t * tvm, int * program, char * name)
 {
+    int i;
     tvm->pstart = program;
     tvm->pcounter = program;
-    for(int i = 0; i < 5; i++)tvm->name[i] = name[i];
+    for(i = 0; i < 5; i++)tvm->name[i] = name[i];
 }
 
 void test_system_init(void)
 {
+    core_id_t i;
     kernel_init();
     // Инициация сигналов
     sig_init((sig_t *)sig);
@@ -375,7 +381,7 @@ void test_system_init(void)
     pthread_cond_init( &start_cond, 0);
     spin_init(&stop_lock);
 
-    for(core_id_t i = 0; i < MAX_CORES; i++)
+    for(i = 0; i < MAX_CORES; i++)
     {
         char name[10];
         sprintf(name,"idle%d",(int)i);
@@ -389,8 +395,9 @@ void test_system_init(void)
 }
 void test_system_timer_interrupt(void)
 {
+    int d;
     pthread_cond_broadcast( &start_cond );
-    for(int d = 0; d < 50000000; d++);
+    for(d = 0; d < 50000000; d++);
 }
 void test_system_join(void)
 {

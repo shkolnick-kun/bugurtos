@@ -55,9 +55,9 @@ int sem_program[] =
     TVM_END
 };
 int main()
-{
+{   int s,i;
     test_system_init();
-    for(int i = 0; i < 12; i++)
+    for(i = 0; i < 12; i++)
     {
         char name[10];
         sprintf(name,"prc%d ",(int)i);
@@ -76,7 +76,7 @@ int main()
     tvm[2].pcounter = sem_program;
     //tvm[5].pstart = llb_program;
     //_proc_lres_inc(proc + 6,0);
-    for(int s = 0; s < 100; s++)
+    for(s = 0; s < 100; s++)
     {
         printf("\n----------------------------------\n");
         test_system_timer_interrupt();

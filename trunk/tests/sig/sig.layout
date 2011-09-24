@@ -10,6 +10,9 @@
 	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="15" />
 	</File>
+	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="184" />
+	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="24" />
 	</File>
@@ -23,13 +26,13 @@
 		<Cursor position="984" topLine="23" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="3167" topLine="15" />
+		<Cursor position="3167" topLine="176" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="2989" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1479" topLine="134" />
+		<Cursor position="2662" topLine="125" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
 		<Cursor position="7890" topLine="209" />
