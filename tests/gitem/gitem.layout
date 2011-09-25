@@ -19,10 +19,10 @@
 	<File name="../../kernel/gitem.c" open="1" top="0" tabpos="0">
 		<Cursor position="101" topLine="202" />
 	</File>
-	<File name="../../kernel/index.c" open="0" top="0" tabpos="1">
+	<File name="../../kernel/index.c" open="1" top="0" tabpos="2">
 		<Cursor position="101" topLine="93" />
 	</File>
-	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/xlist.c" open="1" top="0" tabpos="1">
 		<Cursor position="101" topLine="1" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">

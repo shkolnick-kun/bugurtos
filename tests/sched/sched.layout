@@ -11,7 +11,7 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../kernel/mutex_generic.c" open="1" top="0" tabpos="0">
-		<Cursor position="7027" topLine="108" />
+		<Cursor position="7027" topLine="120" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="10828" topLine="91" />
@@ -19,7 +19,7 @@
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="308" topLine="0" />
 	</File>
-	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/sem_generic.c" open="1" top="0" tabpos="0">
 		<Cursor position="6723" topLine="85" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="3">
@@ -34,8 +34,8 @@
 	<File name="main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1325" topLine="58" />
 	</File>
-	<File name="../test_vm.c" open="1" top="0" tabpos="1">
-		<Cursor position="639" topLine="48" />
+	<File name="../test_vm.c" open="0" top="0" tabpos="1">
+		<Cursor position="639" topLine="69" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="56" topLine="26" />
