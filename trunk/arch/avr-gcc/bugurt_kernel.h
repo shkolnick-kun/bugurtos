@@ -83,7 +83,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
-__attribute__ (( signal, naked )) void v(void) \
+__attribute__ (( signal, naked )) void v(void); \
+void v(void) \
 { \
     proc_sp = osbme_store_context();\
     kernel_isr = (void(*)(void))f;\

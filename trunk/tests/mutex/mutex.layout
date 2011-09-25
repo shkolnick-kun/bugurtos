@@ -10,38 +10,53 @@
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="831" topLine="14" />
 	</File>
+	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="591" topLine="0" />
+	</File>
+	<File name="../../kernel/group.c" open="0" top="0" tabpos="0">
+		<Cursor position="657" topLine="0" />
+	</File>
+	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
+		<Cursor position="591" topLine="0" />
+	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="64" />
+		<Cursor position="657" topLine="0" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6311" topLine="79" />
+		<Cursor position="6309" topLine="92" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="3">
-		<Cursor position="565" topLine="69" />
+		<Cursor position="657" topLine="0" />
 	</File>
 	<File name="../../kernel/mutex_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="6550" topLine="0" />
+		<Cursor position="657" topLine="0" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
-		<Cursor position="5911" topLine="66" />
+		<Cursor position="5910" topLine="66" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="13883" topLine="398" />
+		<Cursor position="657" topLine="0" />
 	</File>
 	<File name="../../kernel/proc_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="48" />
+		<Cursor position="657" topLine="0" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="591" topLine="0" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="469" topLine="57" />
+		<Cursor position="657" topLine="0" />
 	</File>
 	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="48" />
+		<Cursor position="591" topLine="0" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="10381" topLine="165" />
+		<Cursor position="6000" topLine="68" />
 	</File>
 	<File name="../../kernel/sig_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="0" />
+		<Cursor position="657" topLine="0" />
+	</File>
+	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="591" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="6188" topLine="87" />
@@ -50,7 +65,7 @@
 		<Cursor position="58982" topLine="9685" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="1520" topLine="84" />
+		<Cursor position="925" topLine="67" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
 		<Cursor position="13514" topLine="288" />

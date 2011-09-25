@@ -7,8 +7,8 @@
 	<File name="../../include/config.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="10" />
 	</File>
-	<File name="../../include/kernel.h" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="24" />
+	<File name="../../include/kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="42" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="93" />

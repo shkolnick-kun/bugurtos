@@ -13,29 +13,29 @@
 	<File name="../../include/sched.h" open="0" top="0" tabpos="6">
 		<Cursor position="64" topLine="8" />
 	</File>
-	<File name="../../kernel/kernel.c" open="1" top="0" tabpos="3">
-		<Cursor position="6374" topLine="89" />
+	<File name="../../kernel/kernel.c" open="1" top="1" tabpos="3">
+		<Cursor position="7308" topLine="104" />
 	</File>
-	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/mutex.c" open="1" top="0" tabpos="0">
 		<Cursor position="6485" topLine="91" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="1" top="0" tabpos="0">
-		<Cursor position="6509" topLine="90" />
+		<Cursor position="6509" topLine="64" />
 	</File>
-	<File name="../../kernel/proc.c" open="0" top="0" tabpos="1">
+	<File name="../../kernel/proc.c" open="1" top="0" tabpos="1">
 		<Cursor position="5967" topLine="148" />
 	</File>
-	<File name="../../kernel/proc_generic.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/proc_generic.c" open="1" top="0" tabpos="0">
 		<Cursor position="9564" topLine="188" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="8">
 		<Cursor position="14511" topLine="239" />
 	</File>
-	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/sem.c" open="1" top="0" tabpos="1">
 		<Cursor position="5811" topLine="109" />
 	</File>
-	<File name="../../kernel/sig.c" open="1" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+	<File name="../../kernel/sig.c" open="1" top="0" tabpos="2">
+		<Cursor position="0" topLine="176" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="15" topLine="0" />
