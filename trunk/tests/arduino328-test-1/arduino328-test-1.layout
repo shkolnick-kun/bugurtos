@@ -5,13 +5,13 @@
 		<Cursor position="5959" topLine="89" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="48" />
+		<Cursor position="6195" topLine="107" />
 	</File>
-	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="3">
+	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="1" top="0" tabpos="3">
 		<Cursor position="16120" topLine="417" />
 	</File>
-	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="48" />
+	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="1" top="0" tabpos="3">
+		<Cursor position="7729" topLine="121" />
 	</File>
 	<File name="../../arch/osbme/arch/avr/osbme.c" open="0" top="0" tabpos="0">
 		<Cursor position="7023" topLine="98" />

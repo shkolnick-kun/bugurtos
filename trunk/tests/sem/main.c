@@ -43,7 +43,6 @@ int sem_program[] =
 {
     TVM_LOOP,
     TVM_SLOCK1,
-    TVM_SLOCK2,
     TVM_NOP,
     TVM_NOP,
     TVM_NOP,

@@ -10,20 +10,20 @@
 	<File name="../../include/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="42" />
 	</File>
-	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
+	<File name="../../include/mutex.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="93" />
 	</File>
-	<File name="../../include/proc.h" open="0" top="0" tabpos="4">
+	<File name="../../include/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="13135" topLine="192" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../include/sem.h" open="0" top="0" tabpos="2">
+	<File name="../../include/sem.h" open="1" top="0" tabpos="2">
 		<Cursor position="8866" topLine="137" />
 	</File>
-	<File name="../../include/sig.h" open="0" top="0" tabpos="3">
-		<Cursor position="8283" topLine="123" />
+	<File name="../../include/sig.h" open="0" top="0" tabpos="2">
+		<Cursor position="8283" topLine="105" />
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="1900" topLine="20" />

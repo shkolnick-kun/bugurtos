@@ -81,7 +81,7 @@ void sem_init_isr( sem_t * sem, count_t count )
 }
 
 // То же, для внутреннего использования
-bool_t _sem_lock_stage_1( sem_t * sem )
+bool_t _sem_lock( sem_t * sem )
 {
 
     bool_t ret = 0;
@@ -131,3 +131,13 @@ void _sem_unlock( sem_t * sem )
 #endif //CONFIG_MP
 }
 
+void sem_unlock_isr( sem_t * sem )
+{
+#ifdef CONFIG_MP
+    spin_lock( &sem->lock );//Захват спин-блокировки семафора
+#endif //CONFIG_MP
+    _sem_unlock( sem );
+#ifdef CONFIG_MP
+    spin_unlock( &sem->lock );//Освобождение спин-блокировки семафора
+#endif //CONFIG_MP
+}
