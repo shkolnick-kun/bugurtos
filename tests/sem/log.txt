@@ -11,17 +11,15 @@
 
 ----------------------------------
 
- core0: 8 proc: prc7  prio: 1 timer: 2 rt:x inst: LOOP res: 0
-
  core1: 3 proc: prc1  prio: 4 timer: 1 rt:0 inst: SL1 res: 1
 
  core2: 1 proc: prc2  prio: 4 timer: 2 rt:0 inst: SL1 res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
-----------------------------------
+ core0: 8 proc: prc7  prio: 1 timer: 2 rt:x inst: LOOP res: 0
 
- core0: 8 proc: prc8  prio: 1 timer: 3 rt:x inst: LOOP res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
@@ -29,19 +27,19 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
-----------------------------------
+ core0: 8 proc: prc8  prio: 1 timer: 3 rt:x inst: LOOP res: 0
 
- core0: 8 proc: prc7  prio: 1 timer: 1 rt:x inst: END res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
+ core0: 8 proc: prc7  prio: 1 timer: 1 rt:x inst: END res: 0
+
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
 ----------------------------------
-
- core0: 7 proc: prc8  prio: 1 timer: 2 rt:x inst: END res: 0
 
  core1: 3 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
@@ -49,9 +47,9 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
-----------------------------------
+ core0: 7 proc: prc8  prio: 1 timer: 2 rt:x inst: END res: 0
 
- core0: 7 proc: prc8  prio: 1 timer: 1 rt:x inst: LOOP res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
@@ -59,9 +57,9 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
-----------------------------------
+ core0: 7 proc: prc8  prio: 1 timer: 1 rt:x inst: LOOP res: 0
 
- core0: 6 proc: prc9  prio: 2 timer: 4 rt:x inst: LOOP res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
@@ -69,9 +67,9 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
-----------------------------------
+ core0: 6 proc: prc9  prio: 2 timer: 4 rt:x inst: LOOP res: 0
 
- core0: 6 proc: prc10 prio: 2 timer: 5 rt:x inst: LOOP res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
 
@@ -79,29 +77,29 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
+ core0: 6 proc: prc10 prio: 2 timer: 5 rt:x inst: LOOP res: 0
+
 ----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core0: 6 proc: prc11 prio: 2 timer: 6 rt:x inst: LOOP res: 0
 
  core1: 3 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
+ core0: 6 proc: prc11 prio: 2 timer: 6 rt:x inst: LOOP res: 0
+
 ----------------------------------
 
- core0: 6 proc: prc9  prio: 2 timer: 3 rt:x inst: END res: 0
-
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core1: 3 proc: prc1  prio: 4 timer: 2 rt:0 inst: SL2 res: 0
+ core1: 3 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
-----------------------------------
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 6 proc: prc10 prio: 2 timer: 4 rt:x inst: END res: 0
+ core0: 6 proc: prc9  prio: 2 timer: 3 rt:x inst: END res: 0
+
+----------------------------------
 
  core1: 3 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
 
@@ -109,9 +107,9 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
-----------------------------------
+ core0: 6 proc: prc10 prio: 2 timer: 4 rt:x inst: END res: 0
 
- core0: 6 proc: prc11 prio: 2 timer: 5 rt:x inst: END res: 0
+----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
@@ -119,15 +117,17 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
+ core0: 6 proc: prc11 prio: 2 timer: 5 rt:x inst: END res: 0
+
 ----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
  core1: 3 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
- core0: 6 proc: prc9  prio: 2 timer: 2 rt:x inst: LOOP res: 0
-
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 6 proc: prc9  prio: 2 timer: 2 rt:x inst: LOOP res: 0
 
 ----------------------------------
 
@@ -135,19 +135,19 @@
 
  core1: 3 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 6 proc: prc10 prio: 2 timer: 3 rt:x inst: LOOP res: 0
-
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 6 proc: prc10 prio: 2 timer: 3 rt:x inst: LOOP res: 0
 
 ----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 6 proc: prc11 prio: 2 timer: 4 rt:x inst: LOOP res: 0
-
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 6 proc: prc11 prio: 2 timer: 4 rt:x inst: LOOP res: 0
 
 ----------------------------------
 
@@ -155,23 +155,21 @@
 
  core0: 6 proc: prc9  prio: 2 timer: 1 rt:x inst: END res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
-
  core0: 5 proc: prc10 prio: 2 timer: 2 rt:x inst: END res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
-----------------------------------
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+----------------------------------
 
  core0: 5 proc: prc11 prio: 2 timer: 3 rt:x inst: END res: 0
 
@@ -179,15 +177,17 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
 ----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core0: 5 proc: prc10 prio: 2 timer: 1 rt:x inst: LOOP res: 0
-
  core1: 3 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 5 proc: prc10 prio: 2 timer: 1 rt:x inst: LOOP res: 0
 
 ----------------------------------
 
@@ -195,13 +195,11 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 4 proc: prc11 prio: 2 timer: 2 rt:x inst: LOOP res: 0
-
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
-----------------------------------
+ core0: 4 proc: prc11 prio: 2 timer: 2 rt:x inst: LOOP res: 0
 
- core0: 4 proc: prc11 prio: 2 timer: 1 rt:x inst: END res: 0
+----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
@@ -209,25 +207,27 @@
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
-----------------------------------
+ core0: 4 proc: prc11 prio: 2 timer: 1 rt:x inst: END res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
- core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: LOOP res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
-----------------------------------
+ core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: LOOP res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+----------------------------------
 
  core1: 3 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -235,7 +235,7 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
  core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
 
@@ -245,9 +245,9 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 1 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL1 res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -255,9 +255,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core2: 1 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL1 res: 0
 
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -265,17 +265,17 @@
 
  core1: 3 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
  core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
+ core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
+
  core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
  core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
@@ -283,9 +283,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
-
  core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
  core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
 
@@ -295,9 +295,9 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
  core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -305,9 +305,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
-
  core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
@@ -315,19 +315,19 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: SUL res: 0
 
- core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
 
 ----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
-
  core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
  core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -335,29 +335,29 @@
 
  core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: END res: 0
 
- core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: SUL res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: LOOP res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: END res: 0
+ core0: 3 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL2 res: 0
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+ core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
 
  core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -365,49 +365,49 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: SL1 res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
 
 ----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: LOOP res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
- core2: 1 proc: prc1  prio: 4 timer: 1 rt:0 inst: SL1 res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
 
 ----------------------------------
 
+ core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: LOOP res: 0
+
+----------------------------------
+
+ core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
  core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: GLB res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
 ----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
-
-----------------------------------
-
- core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -415,9 +415,9 @@
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -425,49 +425,49 @@
 
  core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
-
  core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
-----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
 
  core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
 
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
+
 ----------------------------------
 
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
@@ -475,113 +475,163 @@
 
  core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
 
 ----------------------------------
-
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: SUL res: 0
+
+ core0: 3 proc: prc2  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
 ----------------------------------
-
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
-----------------------------------
-
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
  core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+ core0: 3 proc: prc2  prio: 4 timer: 1 rt:0 inst: NOP res: 0
 
 ----------------------------------
 
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: END res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
+
+----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
-----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
  core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
+
+----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: SUL res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
 
 ----------------------------------
 
  core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core0: 3 proc: prc2  prio: 4 timer: 2 rt:0 inst: SL2 res: 0
-
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core2: 1 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL1 res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: END res: 0
-
- core0: 3 proc: prc2  prio: 4 timer: 1 rt:0 inst: NOP res: 0
-
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 3 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 3 proc: prc2  prio: 4 timer: 3 rt:0 inst: NOP res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 3 proc: prc2  prio: 4 timer: 2 rt:0 inst: NOP res: 0
+
+----------------------------------
+
+ core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
+
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 3 proc: prc2  prio: 4 timer: 1 rt:0 inst: NOP res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+----------------------------------
+
+ core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
+
+----------------------------------
+
+ core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core2: 2 proc: prc2  prio: 4 timer: 3 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+----------------------------------
+
+ core2: 2 proc: prc2  prio: 4 timer: 2 rt:0 inst: NOP res: 0
+
+ core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: LOOP res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
 ----------------------------------
 
- core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: LOOP res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
+ core2: 2 proc: prc2  prio: 4 timer: 1 rt:0 inst: SUL res: 0
+
+ core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
 ----------------------------------
 
- core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
@@ -591,203 +641,153 @@
 
 ----------------------------------
 
- core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: prc2  prio: 4 timer: 3 rt:0 inst: END res: 0
 
  core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core2: 1 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL1 res: 0
-
 ----------------------------------
 
- core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
+ core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
+
+ core2: 2 proc: prc2  prio: 4 timer: 2 rt:0 inst: LOOP res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
  core0: 3 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
 ----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core0: 3 proc: prc2  prio: 4 timer: 3 rt:0 inst: NOP res: 0
-
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
-----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
- core0: 3 proc: prc2  prio: 4 timer: 2 rt:0 inst: NOP res: 0
-
- core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
-
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
-----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
-
- core0: 3 proc: prc2  prio: 4 timer: 1 rt:0 inst: NOP res: 0
-
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
-
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
-
-----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core2: 2 proc: prc2  prio: 4 timer: 3 rt:0 inst: NOP res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: prc2  prio: 4 timer: 2 rt:0 inst: NOP res: 0
-
-----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
-
- core2: 2 proc: prc2  prio: 4 timer: 1 rt:0 inst: NOP res: 0
-
-----------------------------------
-
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
-
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
-
- core2: 2 proc: prc2  prio: 4 timer: 3 rt:0 inst: SUL res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core2: 2 proc: prc2  prio: 4 timer: 2 rt:0 inst: END res: 0
-
- core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL2 res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: prc2  prio: 4 timer: 1 rt:0 inst: LOOP res: 0
-
- core0: 3 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
-
- core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core2: 1 proc: prc2  prio: 4 timer: 3 rt:0 inst: SL1 res: 0
-
- core0: 3 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
-
-----------------------------------
-
- core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
-
- core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
-
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
-----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
-
- core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
-
- core0: 3 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
-
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
-
-----------------------------------
-
- core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core2: 1 proc: prc2  prio: 4 timer: 1 rt:0 inst: SL1 res: 0
 
  core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
 
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
+
  core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
+
+----------------------------------
+
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
+
+----------------------------------
+
+ core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
+
  core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
  core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
+ core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
+
+----------------------------------
+
+ core1: 2 proc: prc5  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+----------------------------------
+
+ core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
+
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
+
+----------------------------------
+
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
+ core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -795,9 +795,9 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: SUL res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
 ----------------------------------
 
@@ -805,9 +805,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: LOOP res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core0: 3 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
 
 ----------------------------------
 
@@ -815,9 +815,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: GLB res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
@@ -825,9 +825,9 @@
 
  core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: END res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -835,9 +835,9 @@
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -845,9 +845,9 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 2 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
@@ -855,9 +855,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
+ core2: 1 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL1 res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -865,9 +865,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core0: 3 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -875,9 +875,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
 ----------------------------------
 
@@ -885,9 +885,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core0: 3 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
 
 ----------------------------------
 
@@ -895,9 +895,9 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 5 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -905,19 +905,19 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
+ core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: GLB res: 0
 
 ----------------------------------
-
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: SUL res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+
+ core0: 2 proc: prc4  prio: 5 timer: 3 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -925,9 +925,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
- core0: 3 proc: prc1  prio: 4 timer: 1 rt:0 inst: SL2 res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
@@ -935,9 +935,9 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: END res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 1 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
@@ -945,9 +945,9 @@
 
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core0: 2 proc: idle0 prio: 7 timer: 1 rt:0 inst: END res: 0
 
 ----------------------------------
 
@@ -955,55 +955,55 @@
 
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
 
- core2: 2 proc: prc0  prio: 3 timer: 1 rt:0 inst: LOOP res: 0
+ core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: END res: 0
 
 ----------------------------------
 
  core3: 2 proc: prc3  prio: 5 timer: 3 rt:0 inst: END res: 0
 
+ core0: 3 proc: prc4  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
+
  core1: 2 proc: idle1 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: idle0 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: SUL res: 0
 
 ----------------------------------
-
- core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 6 rt:0 inst: LOOP res: 0
 
- core0: 3 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 1 proc: prc0  prio: 3 timer: 1 rt:0 inst: SL1 res: 0
+ core0: 3 proc: prc0  prio: 3 timer: 1 rt:0 inst: NOP res: 0
+
+ core3: 2 proc: prc3  prio: 5 timer: 2 rt:0 inst: LOOP res: 0
 
 ----------------------------------
 
- core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
-
  core1: 2 proc: prc5  prio: 5 timer: 5 rt:0 inst: END res: 0
 
- core0: 3 proc: prc1  prio: 4 timer: 1 rt:0 inst: NOP res: 0
+ core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: END res: 0
 
- core2: 1 proc: idle2 prio: 7 timer: 1 rt:0 inst: END res: 0
+ core3: 2 proc: prc3  prio: 5 timer: 1 rt:0 inst: END res: 0
+
+ core0: 3 proc: prc4  prio: 5 timer: 3 rt:0 inst: GLB res: 0
 
 ----------------------------------
 
  core1: 2 proc: prc5  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
+ core2: 2 proc: prc1  prio: 4 timer: 1 rt:0 inst: LOOP res: 0
+
  core3: 2 proc: idle3 prio: 7 timer: 1 rt:0 inst: END res: 0
 
- core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
-
- core0: 2 proc: prc4  prio: 5 timer: 5 rt:0 inst: GLB res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 2 rt:0 inst: END res: 0
 
  core1: 2 proc: prc5  prio: 5 timer: 3 rt:0 inst: END res: 0
 
+ core2: 2 proc: idle2 prio: 7 timer: 1 rt:0 inst: LOOP res: 0
+
  core3: 2 proc: prc3  prio: 5 timer: 4 rt:0 inst: LOOP res: 0
 
- core0: 2 proc: prc4  prio: 5 timer: 4 rt:0 inst: END res: 0
-
- core2: 2 proc: prc1  prio: 4 timer: 2 rt:0 inst: NOP res: 0
+ core0: 3 proc: prc4  prio: 5 timer: 1 rt:0 inst: LOOP res: 0
 Hello world!

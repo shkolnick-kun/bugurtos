@@ -371,16 +371,15 @@ void sem_init( sem_t * sem, count_t count )
 //12
 void scall_sem_lock( void * arg )
 {
-    ((sem_lock_arg_t *)arg)->scall_ret = _sem_lock_stage_1( ((sem_lock_arg_t *)arg)->sem );
+    ((sem_lock_arg_t *)arg)->scall_ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
 }
 const flag_t all_flags_mask = ~(flag_t)0;
-bool_t sem_lock( sem_t * sem, bool_t stop )
+bool_t sem_lock( sem_t * sem )
 {
 
     sem_lock_arg_t scarg;
     scarg.sem = sem;
     syscall( 12, (void *)&scarg );
-    if( stop != (bool_t)0 )syscall( 6, (void *)&all_flags_mask );///Останов по флагам, если надо
     return scarg.scall_ret;
 }
 //----------------------------------------------------------------------
@@ -389,10 +388,9 @@ void scall_sem_unlock( void * arg )
 {
     _sem_unlock( (sem_t *)arg );
 }
-void sem_unlock( sem_t * sem, bool_t stop )
+void sem_unlock( sem_t * sem )
 {
     syscall( 13, (void *)sem );
-    if( stop != (bool_t)0 )syscall( 6, (void *)&all_flags_mask );///Останов по флагам, если надо
 }
 ///=================================================================
 ///                         Мьютексы

@@ -50,28 +50,28 @@ void main0(void * t)
 {
     while(1)
     {
-        sem_lock(&sem,0);
+        sem_lock(&sem);
         wait_time(100);
-        sem_unlock(&sem,0);
+        sem_unlock(&sem);
     }
 }
 void main1(void * t)
 {
     while(1)
     {
-        sem_lock(&sem,0);
+        sem_lock(&sem);
         wait_time(100);
-        sem_unlock(&sem,0);
+        sem_unlock(&sem);
     }
 }
 void main2(void * t)
 {
     while(1)
     {
-        sem_lock(&sem,0);
+        sem_lock(&sem);
         proc_reset_watchdog();
         proc_self_stop();
-        sem_unlock(&sem,0);
+        sem_unlock(&sem);
     }
 }
 void main3(void * t)

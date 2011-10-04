@@ -8,7 +8,7 @@
 		<Cursor position="1910" topLine="22" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="8135" topLine="274" />
+		<Cursor position="14829" topLine="360" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="291" topLine="28" />
@@ -19,7 +19,7 @@
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="901" topLine="27" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1429" topLine="73" />
+	<File name="main.c" open="1" top="1" tabpos="0">
+		<Cursor position="1161" topLine="90" />
 	</File>
 </CodeBlocks_layout_file>

@@ -91,33 +91,25 @@ void sem_init( sem_t * sem, count_t count )
 }
 
 // Захват/освобождение
-bool_t sem_lock( sem_t * sem, bool_t stop )
+bool_t sem_lock( sem_t * sem )
 {
     bool_t ret;
     disable_interrupts();
 #ifdef CONFIG_MP
     spin_lock( &sem->lock );// Захват спин-блокировки семафора
 #endif //CONFIG_MP
-    ret = _sem_lock_stage_1( sem );
+    ret = _sem_lock( sem );
 #ifdef CONFIG_MP
     spin_unlock( &sem->lock );// Освобождение спин-блокировки семафора
 #endif //CONFIG_MP
     enable_interrupts();
-    if( stop != (bool_t)0 )_proc_flag_stop(~(flag_t)0);
     return ret;
 }
 
-void sem_unlock( sem_t * sem, bool_t stop )
+void sem_unlock( sem_t * sem )
 {
 
     disable_interrupts();
-#ifdef CONFIG_MP
-    spin_lock( &sem->lock );//Захват спин-блокировки семафора
-#endif //CONFIG_MP
-    _sem_unlock( sem );
-#ifdef CONFIG_MP
-    spin_unlock( &sem->lock );//Освобождение спин-блокировки семафора
-#endif //CONFIG_MP
+    sem_unlock_isr( sem );
     enable_interrupts();
-    if( stop != (bool_t)0 )_proc_flag_stop(~(flag_t)0);
 }
