@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1314808185 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
+1320762335 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
 	"bugurt_kernel.h"
 
 1316940841 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
@@ -7,7 +7,7 @@
 	"../../arch/osbme/osbme.h"
 	"bugurt_syscall.h"
 
-1316325900 /home/anonimous/Документы/bugurtos/include/bugurt.h
+1318848666 /home/anonimous/Документы/bugurtos/include/bugurt.h
 	"index.h"
 	"item.h"
 	"xlist.h"
@@ -48,7 +48,7 @@
 
 1316328269 /home/anonimous/Документы/bugurtos/include/sig.h
 
-1317745221 /home/anonimous/Документы/bugurtos/include/sem.h
+1317748728 /home/anonimous/Документы/bugurtos/include/sem.h
 
 1316326481 /home/anonimous/Документы/bugurtos/include/mutex.h
 
@@ -56,5 +56,61 @@
 
 1313848057 /home/anonimous/Документы/bugurtos/arch/osbme/osbme.h
 
-1314722847 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
+1320762447 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
+
+1320762413 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
+	"bugurt_kernel.h"
+	<avr/pgmspace.h>
+
+1313848056 source:/home/anonimous/Документы/bugurtos/arch/osbme/arch/avr/osbme.c
+	<avr/io.h>
+	"../../osbme.h"
+
+1313849052 source:/home/anonimous/Документы/bugurtos/arch/osbme/arch/avr/osbme_asm.S
+	<avr/io.h>
+
+1314722691 source:/home/anonimous/Документы/bugurtos/kernel/crit_sec.c
+	"../include/bugurt.h"
+
+1314893378 source:/home/anonimous/Документы/bugurtos/kernel/gitem.c
+	"../include/bugurt.h"
+
+1314893404 source:/home/anonimous/Документы/bugurtos/kernel/group.c
+	"../include/bugurt.h"
+
+1314722691 source:/home/anonimous/Документы/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1314893432 source:/home/anonimous/Документы/bugurtos/kernel/item.c
+	"../include/bugurt.h"
+
+1316868250 source:/home/anonimous/Документы/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1316870318 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
+	"../include/bugurt.h"
+
+1316868286 source:/home/anonimous/Документы/bugurtos/kernel/pcounter.c
+	"../include/bugurt.h"
+
+1315033127 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+	"../include/bugurt.h"
+
+1316329228 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1317744996 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
+	"../include/bugurt.h"
+
+1316868339 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
+	"../include/bugurt.h"
+
+1316329228 source:/home/anonimous/Документы/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
+1314722691 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
+	"../include/bugurt.h"
+
+1317747364 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-sem/main.c
+	<bugurt.h>
 

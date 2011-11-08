@@ -52,14 +52,12 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../arch/avr-gcc/bugurt_syscall.h" />
-		<Unit filename="../../arch/avr-gcc/init_syscalls.h" />
 		<Unit filename="../../arch/osbme/arch/avr/osbme.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../arch/osbme/arch/avr/osbme_asm.S" />
 		<Unit filename="../../arch/osbme/osbme.h" />
 		<Unit filename="../../include/bugurt.h" />
-		<Unit filename="../../include/config.h" />
 		<Unit filename="../../include/crit_sec.h" />
 		<Unit filename="../../include/gitem.h" />
 		<Unit filename="../../include/group.h" />

@@ -131,7 +131,9 @@ typedef struct
     void * arg;
 } syscall_data_t;
 
-BUGURT_INTERRUPT(SYSCALL_ISR)
+unsigned char syscall_flags = (unsigned char)0;
+
+void syscall_data_get(void)
 {
     unsigned char * tos;
     unsigned short temp;
@@ -143,13 +145,31 @@ BUGURT_INTERRUPT(SYSCALL_ISR)
 
     syscall_num = ((syscall_data_t *)temp)->num;
     syscall_arg = ((syscall_data_t *)temp)->arg;
+}
 
+BUGURT_INTERRUPT(SYSCALL_ISR)
+{
+    /*
+    unsigned char * tos;
+    unsigned short temp;
+    /// Извлечение syscall_num и syscall_arg из стека процесса
+    tos = (unsigned char *)proc_sp + PROC_STACK_OFFSET;
+    temp = (unsigned short)*tos++;
+    temp <<= 8;
+    temp |= (unsigned short)*tos;
+
+    syscall_num = ((syscall_data_t *)temp)->num;
+    syscall_arg = ((syscall_data_t *)temp)->arg;
+    */
     do_syscall();
+    syscall_flags &= ~SYSCALL_FLG_DO_SCALL;
+
 }
 
 syscall_data_t * _syscall( syscall_data_t * arg )
 {
     cli();
+    syscall_flags = (SYSCALL_FLG_DO_SCALL | SYSCALL_FLG_GET_DATA);
     raise_syscall_interrupt();
     sei();
     return arg;
@@ -162,6 +182,7 @@ void syscall( unsigned char num, void * arg )
      scdata.arg = arg;
      _syscall( &scdata );
      SYSCALL_DELLAY();
+     while( syscall_flags & SYSCALL_FLG_DO_SCALL );
 }
 #else
 ///Если не используется программное прерывание - прямая передача управления

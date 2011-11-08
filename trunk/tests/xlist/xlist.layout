@@ -19,8 +19,8 @@
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../include/sem.h" open="1" top="0" tabpos="2">
-		<Cursor position="8866" topLine="137" />
+	<File name="../../include/sem.h" open="0" top="0" tabpos="1">
+		<Cursor position="8747" topLine="27" />
 	</File>
 	<File name="../../include/sig.h" open="0" top="0" tabpos="2">
 		<Cursor position="8283" topLine="105" />

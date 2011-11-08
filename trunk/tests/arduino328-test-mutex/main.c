@@ -46,6 +46,7 @@ mutex_t mut;
 
 void main0(void * t)
 {
+    wait_time(2000);
     while(1)
     {
         mutex_lock(&mut);
@@ -55,6 +56,7 @@ void main0(void * t)
 }
 void main1(void * t)
 {
+    wait_time(2000);
     while(1)
     {
         bool_t test = mutex_try_lock( &mut );
@@ -68,6 +70,7 @@ void main1(void * t)
 }
 void main2(void * t)
 {
+    wait_time(2000);
     while(1)
     {
         wait_time(500);
@@ -75,6 +78,7 @@ void main2(void * t)
 }
 void main3(void * t)
 {
+    wait_time(2000);
     while(1)
     {
         mutex_lock(&mut);
