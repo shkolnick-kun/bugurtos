@@ -29,7 +29,7 @@
 		<Cursor position="657" topLine="0" />
 	</File>
 	<File name="../../kernel/mutex_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="657" topLine="0" />
+		<Cursor position="657" topLine="78" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="5910" topLine="66" />

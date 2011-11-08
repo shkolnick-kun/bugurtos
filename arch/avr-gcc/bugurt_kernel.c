@@ -147,6 +147,15 @@ void kernel_thread(void)
         /// Прямая передача управления от ядра к процессу, прерывания запрещены
         kernel_process_switch();//В результате выполнения этого прерывания будут разрешены
         /// Сюда можно попасть только из прерывания, либо из процесса, при этом прерывания опять таки запрещены
+
+        #ifdef SYSCALL_ISR
+        if( syscall_flags & SYSCALL_FLG_GET_DATA )
+        {
+            syscall_data_get();
+            syscall_flags &= ~SYSCALL_FLG_GET_DATA;
+        }
+        #endif
+
         // Обработка прерывания
         kernel_isr();
     }

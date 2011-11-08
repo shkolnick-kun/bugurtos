@@ -16,25 +16,25 @@
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="3">
 		<Cursor position="7308" topLine="104" />
 	</File>
-	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="6485" topLine="91" />
+	<File name="../../kernel/mutex.c" open="1" top="0" tabpos="1">
+		<Cursor position="6755" topLine="68" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="6509" topLine="91" />
 	</File>
-	<File name="../../kernel/proc.c" open="0" top="0" tabpos="1">
-		<Cursor position="8982" topLine="157" />
+	<File name="../../kernel/proc.c" open="1" top="0" tabpos="4">
+		<Cursor position="12974" topLine="305" />
 	</File>
 	<File name="../../kernel/proc_generic.c" open="0" top="0" tabpos="0">
 		<Cursor position="9564" topLine="188" />
 	</File>
-	<File name="../../kernel/sched.c" open="0" top="0" tabpos="8">
+	<File name="../../kernel/sched.c" open="1" top="0" tabpos="5">
 		<Cursor position="14511" topLine="260" />
 	</File>
-	<File name="../../kernel/sem.c" open="1" top="0" tabpos="1">
-		<Cursor position="5811" topLine="109" />
+	<File name="../../kernel/sem.c" open="1" top="0" tabpos="2">
+		<Cursor position="7243" topLine="92" />
 	</File>
-	<File name="../../kernel/sig.c" open="1" top="0" tabpos="2">
+	<File name="../../kernel/sig.c" open="1" top="0" tabpos="3">
 		<Cursor position="0" topLine="176" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">

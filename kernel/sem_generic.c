@@ -108,7 +108,6 @@ bool_t sem_lock( sem_t * sem )
 
 void sem_unlock( sem_t * sem )
 {
-
     disable_interrupts();
     sem_unlock_isr( sem );
     enable_interrupts();
