@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../include/bugurt.h" open="1" top="0" tabpos="0">
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="10570" topLine="194" />
 	</File>
 	<File name="../../include/group.h" open="0" top="0" tabpos="1">

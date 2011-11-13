@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1320762335 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
+1321176509 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
 	"bugurt_kernel.h"
 
-1316940841 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
+1321176302 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
 	"../../include/bugurt.h"
 	"../../arch/osbme/osbme.h"
 	"bugurt_syscall.h"
@@ -56,9 +56,9 @@
 
 1313848057 /home/anonimous/Документы/bugurtos/arch/osbme/osbme.h
 
-1320762447 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
+1321176468 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
 
-1320762413 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
+1321176423 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
 	"bugurt_kernel.h"
 	<avr/pgmspace.h>
 

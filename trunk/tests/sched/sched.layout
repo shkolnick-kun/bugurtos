@@ -10,7 +10,7 @@
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../kernel/mutex_generic.c" open="1" top="0" tabpos="1">
+	<File name="../../kernel/mutex_generic.c" open="0" top="0" tabpos="1">
 		<Cursor position="7027" topLine="120" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">

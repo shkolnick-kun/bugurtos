@@ -104,8 +104,8 @@ void * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 /******************************************************************************************************/
 // Код ядра
 
-// Флаг перепланировки
-bool_t resched_flag = (bool_t)1;
+// Состояние ядра, выполняем перепланиировку
+unsigned char kernel_state = KRN_FLG_RESCHED;
 
 //Указатели стека
 void    * proc_sp,  // процессов
@@ -116,7 +116,7 @@ void (*kernel_isr)(void);
 // Функция перепланировки
 void resched(void)
 {
-    resched_flag = (bool_t)1;
+    kernel_state |= KRN_FLG_RESCHED;
 }
 
 __attribute__((naked)) void kernel_process_switch(void)
@@ -139,9 +139,9 @@ void kernel_thread(void)
     while(1)
     {
         // Если надо перепланировать - перепланируем
-        if( resched_flag != (bool_t)0 )
+        if( kernel_state & KRN_FLG_RESCHED )
         {
-            resched_flag = (bool_t)0;
+            kernel_state &= ~KRN_FLG_RESCHED;
             proc_sp = sched_reschedule( proc_sp );
         }
         /// Прямая передача управления от ядра к процессу, прерывания запрещены
@@ -149,10 +149,10 @@ void kernel_thread(void)
         /// Сюда можно попасть только из прерывания, либо из процесса, при этом прерывания опять таки запрещены
 
         #ifdef SYSCALL_ISR
-        if( syscall_flags & SYSCALL_FLG_GET_DATA )
+        if( kernel_state & KRN_FLG_GET_SDATA )
         {
             syscall_data_get();
-            syscall_flags &= ~SYSCALL_FLG_GET_DATA;
+            kernel_state &= ~KRN_FLG_GET_SDATA;
         }
         #endif
 

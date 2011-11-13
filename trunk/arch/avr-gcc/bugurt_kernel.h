@@ -119,7 +119,16 @@ stack_t idle_stack[CONFIG_IDLE_STACK_SIZE];
 
 void * proc_sp, * kernel_sp;
 
-bool_t resched_flag;
+#define KRN_FLG_RESCHED ((unsigned char)1)
+
+#ifdef SYSCALL_ISR
+
+#define KRN_FLG_DO_SCALL ((unsigned char)2)
+#define KRN_FLG_GET_SDATA ((unsigned char)4)
+
+#endif
+
+unsigned char kernel_state;
 
 void (*kernel_isr)(void);
 
