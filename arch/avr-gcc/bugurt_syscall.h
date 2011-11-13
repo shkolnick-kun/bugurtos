@@ -79,12 +79,7 @@ extern const code_t syscall_routine[];
 void syscall( unsigned char num, void * arg );
 
 #ifdef SYSCALL_ISR
-
-#define SYSCALL_FLG_DO_SCALL ((unsigned char)1)
-#define SYSCALL_FLG_GET_DATA ((unsigned char)2)
-unsigned char syscall_flags;
 extern void syscall_data_get(void);
-
 extern void raise_syscall_interrupt(void);
 #endif
 

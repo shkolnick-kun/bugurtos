@@ -1,7 +1,6 @@
 /*
  */
 #include <bugurt.h>
-//#include "../../arch/avr-gcc/init_syscalls.h"
 
 void raise_syscall_interrupt(void)
 {
