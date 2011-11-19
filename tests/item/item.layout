@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../include/item.h" open="0" top="0" tabpos="1">
+	<File name="../../include/item.h" open="1" top="0" tabpos="1">
 		<Cursor position="6983" topLine="99" />
 	</File>
-	<File name="../../kernel/item.c" open="0" top="0" tabpos="1">
+	<File name="../../kernel/item.c" open="1" top="0" tabpos="1">
 		<Cursor position="101" topLine="82" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">

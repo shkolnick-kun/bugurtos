@@ -1,5 +1,5 @@
 /**************************************************************************
-    OSBME - OS build made easy library.
+    OSBME - OS build made easy library. It is a part of BuguRTOS.
     Copyright (C) 2010  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     Please contact with me by E-mail: shkolnick.kun@gmail.com
+
+    A special exception to the GPL can be applied should you wish to distribute
+    a combined work that includes BuguRTOS, without being obliged to provide
+    the source code for any proprietary components. See the file exception.txt
+    for full details of how and when the exception can be applied.
 **************************************************************************/
 
 /*****************************************************************************************
