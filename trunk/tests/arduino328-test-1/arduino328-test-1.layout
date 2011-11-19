@@ -2,109 +2,109 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="2">
-		<Cursor position="6199" topLine="163" />
+		<Cursor position="885" topLine="0" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="8164" topLine="116" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="3">
-		<Cursor position="7710" topLine="442" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="0" top="0" tabpos="3">
-		<Cursor position="5942" topLine="39" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../arch/osbme/arch/avr/osbme.c" open="0" top="0" tabpos="0">
-		<Cursor position="7023" topLine="98" />
+		<Cursor position="1195" topLine="0" />
+	</File>
+	<File name="../../arch/osbme/arch/avr/osbme_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="1218" topLine="0" />
 	</File>
 	<File name="../../arch/osbme/osbme.h" open="0" top="0" tabpos="2">
-		<Cursor position="5946" topLine="0" />
+		<Cursor position="1195" topLine="1" />
 	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="13681" topLine="268" />
+		<Cursor position="1183" topLine="1" />
 	</File>
 	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="1">
-		<Cursor position="6782" topLine="83" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/gitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="9041" topLine="0" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/group.h" open="0" top="0" tabpos="0">
-		<Cursor position="7951" topLine="0" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/index.h" open="0" top="0" tabpos="0">
-		<Cursor position="5954" topLine="65" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/item.h" open="0" top="0" tabpos="0">
-		<Cursor position="7181" topLine="0" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="8182" topLine="0" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
-		<Cursor position="10808" topLine="104" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/pcounter.h" open="0" top="0" tabpos="0">
-		<Cursor position="7565" topLine="112" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="17447" topLine="0" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="7481" topLine="105" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
-		<Cursor position="10378" topLine="138" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
-		<Cursor position="12788" topLine="72" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../include/timer.h" open="0" top="0" tabpos="2">
-		<Cursor position="7316" topLine="0" />
-	</File>
-	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
-		<Cursor position="6867" topLine="94" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="2">
-		<Cursor position="101" topLine="78" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="202" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/group.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="87" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="93" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="82" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="103" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="182" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="90" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="0" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="17131" topLine="161" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="55" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="10171" topLine="174" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="5813" topLine="47" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
-		<Cursor position="5779" topLine="52" />
+		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="4">
 		<Cursor position="991" topLine="0" />
