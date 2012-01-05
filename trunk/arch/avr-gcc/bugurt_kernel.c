@@ -152,17 +152,20 @@ void kernel_thread(void)
         /// Прямая передача управления от ядра к процессу, прерывания запрещены
         kernel_process_switch();//В результате выполнения этого прерывания будут разрешены
         /// Сюда можно попасть только из прерывания, либо из процесса, при этом прерывания опять таки запрещены
-
-        #ifdef SYSCALL_ISR
-        if( kernel_state & KRN_FLG_GET_SDATA )
+        if( kernel_state & KRN_FLG_DO_SCALL )
         {
+#ifdef SYSCALL_ISR
             syscall_data_get();
-            kernel_state &= ~KRN_FLG_GET_SDATA;
+#endif
+            do_syscall();
+            kernel_state &= ~KRN_FLG_DO_SCALL;
         }
-        #endif
-
         // Обработка прерывания
-        kernel_isr();
+        if( kernel_isr != (void (*)(void))0 )
+        {
+            kernel_isr();
+            kernel_isr = (void (*)(void))0;
+        }
     }
 }
 

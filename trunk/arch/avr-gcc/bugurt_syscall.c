@@ -115,6 +115,7 @@ void do_syscall(void)
 {
     if( syscall_num != (unsigned char)0 )
     {
+        syscall_num--;
         code_t syscall_func;
         syscall_func = (code_t)pgm_read_word(syscall_routine + syscall_num);
         syscall_func(syscall_arg);
@@ -150,17 +151,17 @@ void syscall_data_get(void)
     syscall_arg = ((syscall_data_t *)temp)->arg;
 }
 
-BUGURT_INTERRUPT(SYSCALL_ISR)
+__attribute__ (( signal, naked )) void SYSCALL_ISR(void)
 {
-    do_syscall();
-    kernel_state &= ~KRN_FLG_DO_SCALL;
-
+    proc_sp = osbme_store_context();
+    osbme_load_context( kernel_sp );
+    __asm__ __volatile__("ret"::);
 }
 
 syscall_data_t * _syscall( syscall_data_t * arg )
 {
     cli();
-    kernel_state |= (KRN_FLG_DO_SCALL | KRN_FLG_GET_SDATA);
+    kernel_state |= KRN_FLG_DO_SCALL;
     raise_syscall_interrupt();
     sei();
     return arg;
@@ -182,7 +183,7 @@ void syscall( unsigned char num, void * arg )
     cli();
     syscall_num = num;
     syscall_arg = arg;
-    kernel_isr = do_syscall;
+    kernel_state |= KRN_FLG_DO_SCALL;
     process_kernel_switch();
 }
 #endif
@@ -191,7 +192,7 @@ void syscall( unsigned char num, void * arg )
 ///                 ОБРАБОТЧИКИ СИСТЕМНЫХ ВЫЗОВОВ
 ///=================================================================
 ///                   Управление процессами
-//0
+//1
 void scall_proc_init( void * arg )
 {
     proc_init_isr(
@@ -206,6 +207,7 @@ void scall_proc_init( void * arg )
               ((proc_init_arg_t *)arg)->is_rt
               );
 }
+static proc_init_arg_t scarg;
 void proc_init(
                     proc_t * proc, //Указатель на инициируемый процесс
                     code_t pmain,
@@ -218,8 +220,6 @@ void proc_init(
                     bool_t is_rt // если true, значит процесс будет иметть поведение RT
                   )
 {
-    static proc_init_arg_t scarg;
-
     scarg.proc = proc;
     scarg.pmain = pmain;
     scarg.sv_hook = sv_hook;
@@ -230,10 +230,10 @@ void proc_init(
     scarg.time_quant = time_quant;
     scarg.is_rt = is_rt;
 
-    syscall(0,(void *)&scarg);
+    syscall(1,(void *)&scarg);
 }
 //---------------------------------------------------------------------------------------------
-//1
+//2
 void scall_proc_run( void * arg )
 {
     ((proc_runtime_arg_t *)arg)->scall_ret = proc_run_isr( ((proc_runtime_arg_t *)arg)->proc );
@@ -244,11 +244,11 @@ bool_t proc_run( proc_t * proc )
     scarg.proc = proc;
     scarg.scall_ret = (bool_t)0;
 
-    syscall(1,(void *)&scarg);
+    syscall(2,(void *)&scarg);
     return scarg.scall_ret;
 }
 //---------------------------------------------------------------------------------------------
-//2
+//3
 void scall_proc_restart( void * arg )
 {
     ((proc_runtime_arg_t *)arg)->scall_ret = proc_restart_isr( ((proc_runtime_arg_t *)arg)->proc );
@@ -258,11 +258,11 @@ bool_t proc_restart( proc_t * proc )
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
 
-    syscall(2,(void *)&scarg);
+    syscall(3,(void *)&scarg);
     return scarg.scall_ret;
 }
 //---------------------------------------------------------------------------------------------
-//3
+//4
 void scall_proc_stop( void * arg )
 {
     ((proc_runtime_arg_t *)arg)->scall_ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
@@ -272,12 +272,12 @@ bool_t proc_stop( proc_t * proc )
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
 
-    syscall(3,(void *)&scarg);
+    syscall(4,(void *)&scarg);
     return scarg.scall_ret;
 }
 
 //---------------------------------------------------------------------------------------------
-//4
+//5
 void scall_proc_self_stop( void * arg )
 {
     proc_t * proc = kernel.sched.current_proc;
@@ -285,10 +285,10 @@ void scall_proc_self_stop( void * arg )
 }
 void proc_self_stop(void)
 {
-    syscall(4,(void *)1);
+    syscall(5,(void *)1);
 }
 //---------------------------------------------------------------------------------------------
-//5
+//6
 /// Останов процесса после выхода из pmain, для обертки proc_run_wrapper
 void scall_proc_terminate( void * arg )
 {
@@ -314,27 +314,27 @@ void proc_run_wrapper( proc_t * proc )
     //Выполняем pmain
     pmain( arg );
     // Завершаем процесс
-    syscall(5,(void *)proc);
+    syscall(6,(void *)proc);
 }
 //---------------------------------------------------------------------------------------------
-//6
+//7
 void scall_proc_flag_stop( void * arg )
 {
     _proc_flag_stop_isr( *((flag_t *)arg) );
 }
 ///=================================================================
 ///                         Сигналы
-//7
+//8
 void scall_sig_init( void * arg )
 {
     sig_init_isr( (sig_t *)arg );
 }
 void sig_init( sig_t * sig )
 {
-    syscall( 7, (void *)sig );
+    syscall( 8, (void *)sig );
 }
 //---------------------------------------------------------------------------------------------
-//8
+//9
 void scall_sig_wait( void * arg )
 {
     sig_wait_stage_1_isr( (sig_t *)arg );
@@ -342,32 +342,32 @@ void scall_sig_wait( void * arg )
 void sig_wait( sig_t * sig )
 {
     const flag_t mask = ~PROC_FLG_WAIT;
-    syscall( 8, (void *)sig );
-    syscall( 6, (void *)&mask );/// Останов в случае необходимости
+    syscall( 9, (void *)sig );
+    syscall( 7, (void *)&mask );/// Останов в случае необходимости
 }
 //---------------------------------------------------------------------------------------------
-//9
+//10
 void scall_sig_signal( void * arg )
 {
     sig_signal_isr( (sig_t *)arg );
 }
 void sig_signal( sig_t * sig )
 {
-    syscall( 9, (void *)sig );
+    syscall( 10, (void *)sig );
 }
 //---------------------------------------------------------------------------------------------
-//10
+//11
 void scall_sig_broadcast( void * arg )
 {
     sig_broadcast_isr( (sig_t *)arg );
 }
 void sig_broadcast( sig_t * sig )
 {
-    syscall( 10, (void *)sig );
+    syscall( 11, (void *)sig );
 }
 ///=================================================================
 ///                         Семафоры
-//11
+//12
 void scall_sem_init( void * arg )
 {
     sem_init_isr( ((sem_init_arg_t *)arg)->sem, ((sem_init_arg_t *)arg)->count );
@@ -377,10 +377,10 @@ void sem_init( sem_t * sem, count_t count )
     sem_init_arg_t scarg;
     scarg.sem = sem;
     scarg.count = count;
-    syscall( 11, (void *)&scarg );
+    syscall( 12, (void *)&scarg );
 }
 //----------------------------------------------------------------------
-//12
+//13
 void scall_sem_lock( void * arg )
 {
     ((sem_lock_arg_t *)arg)->scall_ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
@@ -391,22 +391,22 @@ bool_t sem_lock( sem_t * sem )
 
     sem_lock_arg_t scarg;
     scarg.sem = sem;
-    syscall( 12, (void *)&scarg );
+    syscall( 13, (void *)&scarg );
     return scarg.scall_ret;
 }
 //----------------------------------------------------------------------
-//13
+//14
 void scall_sem_unlock( void * arg )
 {
     _sem_unlock( (sem_t *)arg );
 }
 void sem_unlock( sem_t * sem )
 {
-    syscall( 13, (void *)sem );
+    syscall( 14, (void *)sem );
 }
 ///=================================================================
 ///                         Мьютексы
-//14
+//15
 void scall_mutex_init(void * arg)
 {
     mutex_init_isr(
@@ -428,10 +428,10 @@ void mutex_init(
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     scarg.prio = prio;
 #endif // CONFIG_USE_HIGHEST_LOCKER
-    syscall( 14, (void *)&scarg );
+    syscall( 15, (void *)&scarg );
 }
 //----------------------------------------------------------------------
-//15
+//16
 void scall_mutex_lock(void * arg)
 {
     ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
@@ -440,12 +440,12 @@ bool_t mutex_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    syscall( 15, (void *)&scarg );
+    syscall( 16, (void *)&scarg );
     return scarg.scall_ret;
 }
 // Захват
 //----------------------------------------------------------------------
-//16
+//17
 void scall_mutex_try_lock(void * arg)
 {
     ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
@@ -455,11 +455,11 @@ bool_t mutex_try_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    syscall( 16, (void *)&scarg );
+    syscall( 17, (void *)&scarg );
     return scarg.scall_ret;
 }
 //----------------------------------------------------------------------
-//17
+//18
 void scall_mutex_unlock(void * arg)
 {
     _mutex_unlock( (mutex_t *)arg );
@@ -467,5 +467,5 @@ void scall_mutex_unlock(void * arg)
 // Освобождение
 void mutex_unlock( mutex_t * mutex )
 {
-    syscall( 17, (void *)mutex );
+    syscall( 18, (void *)mutex );
 }

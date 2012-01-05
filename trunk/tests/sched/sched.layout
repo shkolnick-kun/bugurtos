@@ -10,7 +10,7 @@
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../kernel/mutex_generic.c" open="1" top="1" tabpos="1">
+	<File name="../../kernel/mutex_generic.c" open="0" top="0" tabpos="1">
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
@@ -19,13 +19,13 @@
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="308" topLine="0" />
 	</File>
-	<File name="../../kernel/sem_generic.c" open="1" top="0" tabpos="2">
+	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="2">
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="3">
 		<Cursor position="2090" topLine="42" />
 	</File>
-	<File name="../../kernel/sig_generic.c" open="1" top="0" tabpos="3">
+	<File name="../../kernel/sig_generic.c" open="0" top="0" tabpos="3">
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">

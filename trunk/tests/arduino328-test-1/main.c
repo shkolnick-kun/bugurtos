@@ -73,6 +73,8 @@ void main3(void * t)
 void idle_main(void * t)
 {
     // Insert code
+    proc_init(&proc[3], main3, blink_4, blink_4, 0, &stack[3][127], 3, 4, 0);
+    proc_run( &proc[3] );
     wait_time(1000);
     proc_run( &proc[3] );
     wait_time(1000);
@@ -114,7 +116,7 @@ int main(void)
     proc_init_isr(&proc[0], main0, blink_1, blink_1, 0, &stack[0][127], 1, 2, 0);
     proc_init_isr(&proc[1], main1, blink_2, blink_2, 0, &stack[1][127], 2, 3, 0);
     proc_init_isr(&proc[2], main2, blink_3, blink_3, 0, &stack[2][127], 2, 4, 1);// Типа реального времени
-    proc_init_isr(&proc[3], main3, blink_4, blink_4, 0, &stack[3][127], 3, 4, 0);
+    //proc_init_isr(&proc[3], main3, blink_4, blink_4, 0, &stack[3][127], 3, 4, 0);
 
     kernel.idle.rs_hook = blink_12;
     kernel.idle.sv_hook = blink_12;
@@ -122,7 +124,7 @@ int main(void)
     proc_run_isr(&proc[0]);
     proc_run_isr(&proc[1]);
     proc_run_isr(&proc[2]);
-    proc_run_isr(&proc[3]);
+    //proc_run_isr(&proc[3]);
 
     start_bugurt();
     return 0;
