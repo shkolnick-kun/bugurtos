@@ -13,7 +13,7 @@
 	<File name="../../include/sched.h" open="0" top="0" tabpos="6">
 		<Cursor position="64" topLine="8" />
 	</File>
-	<File name="../../kernel/kernel.c" open="1" top="0" tabpos="3">
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="3">
 		<Cursor position="7308" topLine="104" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
@@ -25,7 +25,7 @@
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="4">
 		<Cursor position="12974" topLine="305" />
 	</File>
-	<File name="../../kernel/proc_generic.c" open="1" top="0" tabpos="2">
+	<File name="../../kernel/proc_generic.c" open="0" top="0" tabpos="2">
 		<Cursor position="1183" topLine="11" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="5">

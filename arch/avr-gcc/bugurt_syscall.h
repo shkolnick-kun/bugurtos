@@ -82,6 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 extern const code_t syscall_routine[];
 
 void syscall( unsigned char num, void * arg );
+void do_syscall(void);
 
 #ifdef SYSCALL_ISR
 extern void syscall_data_get(void);

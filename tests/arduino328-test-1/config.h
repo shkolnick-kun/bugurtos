@@ -50,7 +50,7 @@ typedef unsigned char core_id_t;
 /// project stecific stuff
 ///=================================================================
 
-#define CONFIG_IDLE_STACK_SIZE 128
+#define CONFIG_IDLE_STACK_SIZE 256
 
 #define blink_R1() (PORTC ^= 0x20)
 #define R1_on() (PORTC |= 0x20)

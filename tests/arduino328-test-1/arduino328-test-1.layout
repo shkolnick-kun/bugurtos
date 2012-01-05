@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="2">
-		<Cursor position="885" topLine="0" />
+		<Cursor position="6516" topLine="83" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="1183" topLine="0" />
+		<Cursor position="8315" topLine="104" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="3">
-		<Cursor position="1183" topLine="0" />
+		<Cursor position="9703" topLine="144" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="0" top="0" tabpos="3">
-		<Cursor position="1183" topLine="0" />
+		<Cursor position="6249" topLine="74" />
 	</File>
 	<File name="../../arch/osbme/arch/avr/osbme.c" open="0" top="0" tabpos="0">
 		<Cursor position="1195" topLine="0" />
@@ -65,7 +65,7 @@
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="2">
-		<Cursor position="1183" topLine="0" />
+		<Cursor position="6728" topLine="65" />
 	</File>
 	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
 		<Cursor position="1183" topLine="0" />
@@ -101,15 +101,15 @@
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="1183" topLine="0" />
+		<Cursor position="7205" topLine="92" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="4">
-		<Cursor position="991" topLine="0" />
+		<Cursor position="1347" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="26" topLine="0" />
+		<Cursor position="1506" topLine="107" />
 	</File>
 </CodeBlocks_layout_file>
