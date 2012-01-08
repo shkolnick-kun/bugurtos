@@ -83,37 +83,43 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../../arch/osbme/osbme.h"
 
 #include "bugurt_syscall.h"
+
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
+
+// Пролог обработчика прерывания
+#define BUGURT_ISR_START() \
+    kernel.sched.current_proc->spointer = osbme_store_context();\
+    osbme_set_stack_pointer( kernel.idle.spointer )
+
+// Выход из обработчика прерывания, восстановление контекста текущего процесса
+#define BUGURT_ISR_EXIT() \
+    osbme_load_context( kernel.sched.current_proc->spointer );\
+    __asm__ __volatile__("reti"::)
+
+// Эпилог обработчика прерывания
+#define BUGURT_ISR_END() \
+    bugurt_check_resched();\
+    BUGURT_ISR_EXIT()
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
 __attribute__ (( signal, naked )) void v(void); \
 void v(void) \
 { \
-    proc_sp = osbme_store_context();\
-    kernel_isr = (void(*)(void))f;\
-    osbme_load_context( kernel_sp ); \
-    __asm__ __volatile__("ret"::); \
+    BUGURT_ISR_START();\
+    f();\
+    BUGURT_ISR_END();\
 } \
 
-/* Объявление обработчика прерывания
+/*
+Объявление обработчика прерывания.
 
-Обработка прерывания происходит в 2 этапа:
+Обработка прерываний происходит в контексте main,
+он же контекст процесса холостого хода.
 
-1) Сам обработчик сохраняет контекст процесса,
-,пишет в переменную kernel_isr указатель на функцию обработки прерывания,
-передает управление ядру, при этом прерывания не разрешаются.
-
-2)Ядро получает управление, выполняет kernel_isr(),
-при необходимости делает перепланировку,
-передает управление процессу, при этом разрешаются следующие прерывания.
-
-После объявления обработчика прерывания макрос вставляет объявление функции обработки,
-соответственно указатель kernel_isr не может быть нулевым, разве что ради ЛУЛЗОВ
-
-Обработка прерываний получилась не очень быстрая, зато память экономится (при восстановлении контекста Ядра освобождается 35+ байт в стеке)
-
+Не очень быстро,
+зато память экономится.
 */
 #define BUGURT_INTERRUPT(v) \
 void BUGURT_CONCAT(v,_func)(void);\
@@ -124,16 +130,18 @@ stack_t idle_stack[CONFIG_IDLE_STACK_SIZE];
 
 void * proc_sp, * kernel_sp;
 
+// Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
+
+#ifdef SYSCALL_ISR
 #define KRN_FLG_DO_SCALL ((unsigned char)2)
+#endif // SYSCALL_ISR
 
 unsigned char kernel_state;
 
-void (*kernel_isr)(void);
+//Внешние функции, специфичные для AVR
+extern void start_scheduler( void );
+extern void stop_scheduler( void );
 
-__attribute__((naked)) void kernel_process_switch(void);
-__attribute__((naked)) void process_kernel_switch(void);
-
-void kernel_thread(void);
-
+void bugurt_check_resched( void );
 #endif // _BUGURT_KERNEL_H_

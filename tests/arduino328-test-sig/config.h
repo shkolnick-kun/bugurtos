@@ -7,7 +7,7 @@
 
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
-#define SYSCALL_ISR INT1_vect
+//#define SYSCALL_ISR INT1_vect
 /// ===========================================
 
 #ifndef __ASSEMBLER__
@@ -30,7 +30,7 @@ typedef unsigned char flag_t;
 typedef unsigned short count_t;
 
 //#define timer_t unsigned long
-typedef unsigned short timer_t;
+typedef volatile unsigned short timer_t;
 
 typedef unsigned char bool_t;
 

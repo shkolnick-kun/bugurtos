@@ -12,7 +12,6 @@ Common symbol       size              file
 
 proc                0xb8              obj/Debug/main.o
 idle_stack          0x100             obj/Debug/arch/avr-gcc/bugurt_kernel.o
-kernel_isr          0x2               obj/Debug/arch/avr-gcc/bugurt_kernel.o
 stack               0x200             obj/Debug/main.o
 proc_sp             0x2               obj/Debug/arch/avr-gcc/bugurt_kernel.o
 kernel_sp           0x2               obj/Debug/arch/avr-gcc/bugurt_kernel.o
@@ -24,8 +23,7 @@ Discarded input sections
  .bss           0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
  .text          0x00000000        0x0 obj/Debug/arch/avr-gcc/bugurt_kernel.o
  .bss           0x00000000        0x0 obj/Debug/arch/avr-gcc/bugurt_kernel.o
- .text.process_kernel_switch
-                0x00000000       0x1a obj/Debug/arch/avr-gcc/bugurt_kernel.o
+ COMMON         0x00000000      0x104 obj/Debug/arch/avr-gcc/bugurt_kernel.o
  .text          0x00000000        0x0 obj/Debug/arch/avr-gcc/bugurt_syscall.o
  .data          0x00000000        0x1 obj/Debug/arch/avr-gcc/bugurt_syscall.o
  .text.proc_stop
@@ -114,8 +112,10 @@ Discarded input sections
  .text          0x00000000        0x0 obj/Debug/main.o
  .data          0x00000000        0x0 obj/Debug/main.o
  .bss           0x00000000        0x0 obj/Debug/main.o
+ .text.raise_syscall_interrupt
+                0x00000000       0x46 obj/Debug/main.o
  .text.stop_scheduler
-                0x00000000       0x2a obj/Debug/main.o
+                0x00000000       0x1c obj/Debug/main.o
  .text.blink_5  0x00000000       0x28 obj/Debug/main.o
  .text.blink_6  0x00000000       0x28 obj/Debug/main.o
  .text.blink_7  0x00000000       0x28 obj/Debug/main.o
@@ -268,7 +268,7 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x27c2
+.text           0x00000000     0x25fa
  *(.vectors)
  .vectors       0x00000000       0x68 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
                 0x00000000                __vectors
@@ -342,6 +342,7 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
                 0x000000c6                __vector_5
                 0x000000c6                __vector_4
                 0x000000c6                __vector_9
+                0x000000c6                __vector_2
                 0x000000c6                __vector_21
                 0x000000c6                __vector_15
                 0x000000c6                __vector_8
@@ -350,318 +351,303 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
                 0x000000c6                __vector_16
                 0x000000c6                __vector_18
                 0x000000c6                __vector_20
- .text          0x000000ca       0xae obj/Debug/arch/osbme/arch/avr/osbme_asm.o
+ .text          0x000000ca       0xbe obj/Debug/arch/osbme/arch/avr/osbme_asm.o
                 0x000000ca                osbme_store_context
                 0x00000122                osbme_load_context
-                0x00000178                . = ALIGN (0x2)
+                0x00000178                osbme_set_stack_pointer
+                0x00000188                . = ALIGN (0x2)
  *(.text.*)
  .text.disable_interrupts
-                0x00000178       0x10 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00000178                disable_interrupts
- .text.enable_interrupts
                 0x00000188       0x10 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00000188                enable_interrupts
+                0x00000188                disable_interrupts
+ .text.enable_interrupts
+                0x00000198       0x10 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x00000198                enable_interrupts
  .text.current_proc
-                0x00000198       0x16 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00000198                current_proc
+                0x000001a8       0x16 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x000001a8                current_proc
  .text.proc_stack_init
-                0x000001ae       0x40 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x000001ae                proc_stack_init
- .text.resched  0x000001ee       0x18 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x000001ee                resched
- .text.kernel_process_switch
-                0x00000206       0x1a obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00000206                kernel_process_switch
- .text.kernel_thread
-                0x00000220       0x7c obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00000220                kernel_thread
+                0x000001be       0x3e obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x000001be                proc_stack_init
+ .text.resched  0x000001fc       0x18 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x000001fc                resched
+ .text.bugurt_check_resched
+                0x00000214       0x2c obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x00000214                bugurt_check_resched
  .text.__vector_7
-                0x0000029c       0x26 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x0000029c                __vector_7
- .text.__vector_7_func
-                0x000002c2       0x34 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x000002c2                __vector_7_func
+                0x00000240       0x46 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x00000240                __vector_7
  .text.init_bugurt
-                0x000002f6       0x4a obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x000002f6                init_bugurt
+                0x00000286       0x20 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x00000286                init_bugurt
  .text.start_bugurt
-                0x00000340       0x1e obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00000340                start_bugurt
+                0x000002a6       0x24 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                0x000002a6                start_bugurt
  .text.do_syscall
-                0x0000035e       0x72 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000035e                do_syscall
- .text.syscall_data_get
-                0x000003d0       0x7c obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000003d0                syscall_data_get
- .text.__vector_2
-                0x0000044c       0x1a obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000044c                __vector_2
- .text._syscall
-                0x00000466       0x2e obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000466                _syscall
- .text.syscall  0x00000494       0x4e obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000494                syscall
+                0x000002ca       0x72 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000002ca                do_syscall
+ .text._scall   0x0000033c       0x38 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x0000033c                _scall
+ .text.syscall  0x00000374       0x36 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000374                syscall
  .text.scall_proc_init
-                0x000004e2       0x92 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000004e2                scall_proc_init
+                0x000003aa       0x92 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000003aa                scall_proc_init
  .text.proc_init
-                0x00000574       0xd2 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000574                proc_init
+                0x0000043c       0xd2 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x0000043c                proc_init
  .text.scall_proc_run
-                0x00000646       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000646                scall_proc_run
+                0x0000050e       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x0000050e                scall_proc_run
  .text.proc_run
-                0x0000067a       0x3c obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000067a                proc_run
+                0x00000542       0x3c obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000542                proc_run
  .text.scall_proc_restart
-                0x000006b6       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000006b6                scall_proc_restart
+                0x0000057e       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x0000057e                scall_proc_restart
  .text.proc_restart
-                0x000006ea       0x3a obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000006ea                proc_restart
+                0x000005b2       0x3a obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000005b2                proc_restart
  .text.scall_proc_stop
-                0x00000724       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000724                scall_proc_stop
+                0x000005ec       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000005ec                scall_proc_stop
  .text.scall_proc_self_stop
-                0x00000758       0x32 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000758                scall_proc_self_stop
+                0x00000620       0x32 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000620                scall_proc_self_stop
  .text.proc_self_stop
-                0x0000078a       0x18 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000078a                proc_self_stop
+                0x00000652       0x18 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000652                proc_self_stop
  .text.scall_proc_terminate
-                0x000007a2       0x70 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000007a2                scall_proc_terminate
+                0x0000066a       0x70 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x0000066a                scall_proc_terminate
  .text.proc_run_wrapper
-                0x00000812       0x56 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000812                proc_run_wrapper
+                0x000006da       0x56 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000006da                proc_run_wrapper
  .text.scall_proc_flag_stop
-                0x00000868       0x22 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000868                scall_proc_flag_stop
+                0x00000730       0x22 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000730                scall_proc_flag_stop
  .text.scall_sig_init
-                0x0000088a       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000088a                scall_sig_init
+                0x00000752       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000752                scall_sig_init
  .text.scall_sig_wait
-                0x000008aa       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000008aa                scall_sig_wait
+                0x00000772       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000772                scall_sig_wait
  .text.scall_sig_signal
-                0x000008ca       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000008ca                scall_sig_signal
+                0x00000792       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000792                scall_sig_signal
  .text.scall_sig_broadcast
-                0x000008ea       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000008ea                scall_sig_broadcast
+                0x000007b2       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000007b2                scall_sig_broadcast
  .text.scall_sem_init
-                0x0000090a       0x2e obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000090a                scall_sem_init
+                0x000007d2       0x2e obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000007d2                scall_sem_init
  .text.scall_sem_lock
-                0x00000938       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000938                scall_sem_lock
+                0x00000800       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000800                scall_sem_lock
  .text.scall_sem_unlock
-                0x0000096c       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000096c                scall_sem_unlock
+                0x00000834       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000834                scall_sem_unlock
  .text.scall_mutex_init
-                0x0000098c       0x2c obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x0000098c                scall_mutex_init
+                0x00000854       0x2c obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000854                scall_mutex_init
  .text.scall_mutex_lock
-                0x000009b8       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000009b8                scall_mutex_lock
+                0x00000880       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x00000880                scall_mutex_lock
  .text.scall_mutex_try_lock
-                0x000009ec       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x000009ec                scall_mutex_try_lock
+                0x000008b4       0x34 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000008b4                scall_mutex_try_lock
  .text.scall_mutex_unlock
-                0x00000a20       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                0x00000a20                scall_mutex_unlock
+                0x000008e8       0x20 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                0x000008e8                scall_mutex_unlock
  .text.osbme_init_stack
-                0x00000a40      0x2d8 obj/Debug/arch/osbme/arch/avr/osbme.o
-                0x00000a40                osbme_init_stack
+                0x00000908      0x2d8 obj/Debug/arch/osbme/arch/avr/osbme.o
+                0x00000908                osbme_init_stack
  .text.enter_crit_sec
-                0x00000d18       0x24 obj/Debug/kernel/crit_sec.o
-                0x00000d18                enter_crit_sec
+                0x00000be0       0x24 obj/Debug/kernel/crit_sec.o
+                0x00000be0                enter_crit_sec
  .text.exit_crit_sec
-                0x00000d3c       0x3c obj/Debug/kernel/crit_sec.o
-                0x00000d3c                exit_crit_sec
+                0x00000c04       0x3c obj/Debug/kernel/crit_sec.o
+                0x00000c04                exit_crit_sec
  .text.gitem_init
-                0x00000d78       0x4c obj/Debug/kernel/gitem.o
-                0x00000d78                gitem_init
+                0x00000c40       0x4c obj/Debug/kernel/gitem.o
+                0x00000c40                gitem_init
  .text.gitem_insert
-                0x00000dc4       0xb8 obj/Debug/kernel/gitem.o
-                0x00000dc4                gitem_insert
+                0x00000c8c       0xb8 obj/Debug/kernel/gitem.o
+                0x00000c8c                gitem_insert
  .text.gitem_insert_group
-                0x00000e7c       0xf6 obj/Debug/kernel/gitem.o
-                0x00000e7c                gitem_insert_group
+                0x00000d44       0xf6 obj/Debug/kernel/gitem.o
+                0x00000d44                gitem_insert_group
  .text.gitem_fast_cut
-                0x00000f72      0x10c obj/Debug/kernel/gitem.o
-                0x00000f72                gitem_fast_cut
+                0x00000e3a      0x10c obj/Debug/kernel/gitem.o
+                0x00000e3a                gitem_fast_cut
  .text.gitem_cut
-                0x0000107e       0x2e obj/Debug/kernel/gitem.o
-                0x0000107e                gitem_cut
+                0x00000f46       0x2e obj/Debug/kernel/gitem.o
+                0x00000f46                gitem_cut
  .text.gitem_xlist_merge
-                0x000010ac      0x178 obj/Debug/kernel/gitem.o
-                0x000010ac                gitem_xlist_merge
+                0x00000f74      0x178 obj/Debug/kernel/gitem.o
+                0x00000f74                gitem_xlist_merge
  .text.group_init
-                0x00001224       0x3a obj/Debug/kernel/group.o
-                0x00001224                group_init
+                0x000010ec       0x3a obj/Debug/kernel/group.o
+                0x000010ec                group_init
  .text.group_push
-                0x0000125e       0x34 obj/Debug/kernel/group.o
-                0x0000125e                group_push
+                0x00001126       0x34 obj/Debug/kernel/group.o
+                0x00001126                group_push
  .text.group_pop
-                0x00001292       0x34 obj/Debug/kernel/group.o
-                0x00001292                group_pop
+                0x0000115a       0x34 obj/Debug/kernel/group.o
+                0x0000115a                group_pop
  .text.index_search
-                0x000012c6       0x7e obj/Debug/kernel/index.o
-                0x000012c6                index_search
+                0x0000118e       0x7e obj/Debug/kernel/index.o
+                0x0000118e                index_search
  .text.item_init
-                0x00001344       0x30 obj/Debug/kernel/item.o
-                0x00001344                item_init
+                0x0000120c       0x30 obj/Debug/kernel/item.o
+                0x0000120c                item_init
  .text.item_insert
-                0x00001374       0x64 obj/Debug/kernel/item.o
-                0x00001374                item_insert
+                0x0000123c       0x64 obj/Debug/kernel/item.o
+                0x0000123c                item_insert
  .text.item_cut
-                0x000013d8       0x6c obj/Debug/kernel/item.o
-                0x000013d8                item_cut
+                0x000012a0       0x6c obj/Debug/kernel/item.o
+                0x000012a0                item_cut
  .text.kernel_init
-                0x00001444       0x6a obj/Debug/kernel/kernel.o
-                0x00001444                kernel_init
+                0x0000130c       0x6a obj/Debug/kernel/kernel.o
+                0x0000130c                kernel_init
  .text.mutex_init_isr
-                0x000014ae       0x36 obj/Debug/kernel/mutex.o
-                0x000014ae                mutex_init_isr
+                0x00001376       0x36 obj/Debug/kernel/mutex.o
+                0x00001376                mutex_init_isr
  .text._mutex_lock
-                0x000014e4       0x90 obj/Debug/kernel/mutex.o
-                0x000014e4                _mutex_lock
+                0x000013ac       0x90 obj/Debug/kernel/mutex.o
+                0x000013ac                _mutex_lock
  .text._mutex_try_lock
-                0x00001574       0x58 obj/Debug/kernel/mutex.o
-                0x00001574                _mutex_try_lock
+                0x0000143c       0x58 obj/Debug/kernel/mutex.o
+                0x0000143c                _mutex_try_lock
  .text._mutex_unlock
-                0x000015cc       0xbe obj/Debug/kernel/mutex.o
-                0x000015cc                _mutex_unlock
+                0x00001494       0xbe obj/Debug/kernel/mutex.o
+                0x00001494                _mutex_unlock
  .text.pcounter_init
-                0x0000168a       0x4a obj/Debug/kernel/pcounter.o
-                0x0000168a                pcounter_init
+                0x00001552       0x4a obj/Debug/kernel/pcounter.o
+                0x00001552                pcounter_init
  .text.pcounter_inc
-                0x000016d4       0x78 obj/Debug/kernel/pcounter.o
-                0x000016d4                pcounter_inc
+                0x0000159c       0x78 obj/Debug/kernel/pcounter.o
+                0x0000159c                pcounter_inc
  .text.pcounter_dec
-                0x0000174c       0xa4 obj/Debug/kernel/pcounter.o
-                0x0000174c                pcounter_dec
+                0x00001614       0xa4 obj/Debug/kernel/pcounter.o
+                0x00001614                pcounter_dec
  .text.proc_init_isr
-                0x000017f0      0x110 obj/Debug/kernel/proc.o
-                0x000017f0                proc_init_isr
+                0x000016b8      0x110 obj/Debug/kernel/proc.o
+                0x000016b8                proc_init_isr
  .text._proc_run
-                0x00001900       0x3c obj/Debug/kernel/proc.o
-                0x00001900                _proc_run
+                0x000017c8       0x3c obj/Debug/kernel/proc.o
+                0x000017c8                _proc_run
  .text.proc_run_isr
-                0x0000193c       0x40 obj/Debug/kernel/proc.o
-                0x0000193c                proc_run_isr
+                0x00001804       0x40 obj/Debug/kernel/proc.o
+                0x00001804                proc_run_isr
  .text.proc_restart_isr
-                0x0000197c       0x92 obj/Debug/kernel/proc.o
-                0x0000197c                proc_restart_isr
+                0x00001844       0x92 obj/Debug/kernel/proc.o
+                0x00001844                proc_restart_isr
  .text._proc_stop
-                0x00001a0e       0x32 obj/Debug/kernel/proc.o
-                0x00001a0e                _proc_stop
+                0x000018d6       0x32 obj/Debug/kernel/proc.o
+                0x000018d6                _proc_stop
  .text.proc_stop_isr
-                0x00001a40       0x60 obj/Debug/kernel/proc.o
-                0x00001a40                proc_stop_isr
+                0x00001908       0x60 obj/Debug/kernel/proc.o
+                0x00001908                proc_stop_isr
  .text.proc_reset_watchdog
-                0x00001aa0       0x4a obj/Debug/kernel/proc.o
-                0x00001aa0                proc_reset_watchdog
+                0x00001968       0x4a obj/Debug/kernel/proc.o
+                0x00001968                proc_reset_watchdog
  .text._proc_flag_stop_isr
-                0x00001aea       0x6c obj/Debug/kernel/proc.o
-                0x00001aea                _proc_flag_stop_isr
+                0x000019b2       0x6c obj/Debug/kernel/proc.o
+                0x000019b2                _proc_flag_stop_isr
  .text._proc_lres_inc
-                0x00001b56       0x42 obj/Debug/kernel/proc.o
-                0x00001b56                _proc_lres_inc
+                0x00001a1e       0x42 obj/Debug/kernel/proc.o
+                0x00001a1e                _proc_lres_inc
  .text._proc_lres_dec
-                0x00001b98       0x42 obj/Debug/kernel/proc.o
-                0x00001b98                _proc_lres_dec
+                0x00001a60       0x42 obj/Debug/kernel/proc.o
+                0x00001a60                _proc_lres_dec
  .text._proc_prio_control_stoped
-                0x00001bda       0x82 obj/Debug/kernel/proc.o
-                0x00001bda                _proc_prio_control_stoped
+                0x00001aa2       0x82 obj/Debug/kernel/proc.o
+                0x00001aa2                _proc_prio_control_stoped
  .text._proc_prio_control_running
-                0x00001c5c       0x9e obj/Debug/kernel/proc.o
-                0x00001c5c                _proc_prio_control_running
+                0x00001b24       0x9e obj/Debug/kernel/proc.o
+                0x00001b24                _proc_prio_control_running
  .text.sched_init
-                0x00001cfa       0x7c obj/Debug/kernel/sched.o
-                0x00001cfa                sched_init
+                0x00001bc2       0x7c obj/Debug/kernel/sched.o
+                0x00001bc2                sched_init
  .text._sched_list_switch
-                0x00001d76       0x56 obj/Debug/kernel/sched.o
+                0x00001c3e       0x56 obj/Debug/kernel/sched.o
  .text.sched_schedule
-                0x00001dcc      0x170 obj/Debug/kernel/sched.o
-                0x00001dcc                sched_schedule
+                0x00001c94      0x150 obj/Debug/kernel/sched.o
+                0x00001c94                sched_schedule
  .text.sched_reschedule
-                0x00001f3c       0xb0 obj/Debug/kernel/sched.o
-                0x00001f3c                sched_reschedule
+                0x00001de4       0x92 obj/Debug/kernel/sched.o
+                0x00001de4                sched_reschedule
  .text.sem_init_isr
-                0x00001fec       0x36 obj/Debug/kernel/sem.o
-                0x00001fec                sem_init_isr
+                0x00001e76       0x36 obj/Debug/kernel/sem.o
+                0x00001e76                sem_init_isr
  .text._sem_lock
-                0x00002022       0x76 obj/Debug/kernel/sem.o
-                0x00002022                _sem_lock
+                0x00001eac       0x76 obj/Debug/kernel/sem.o
+                0x00001eac                _sem_lock
  .text._sem_unlock
-                0x00002098       0x66 obj/Debug/kernel/sem.o
-                0x00002098                _sem_unlock
+                0x00001f22       0x66 obj/Debug/kernel/sem.o
+                0x00001f22                _sem_unlock
  .text.sig_init_isr
-                0x000020fe       0x20 obj/Debug/kernel/sig.o
-                0x000020fe                sig_init_isr
+                0x00001f88       0x20 obj/Debug/kernel/sig.o
+                0x00001f88                sig_init_isr
  .text.sig_wait_stage_1_isr
-                0x0000211e       0x4a obj/Debug/kernel/sig.o
-                0x0000211e                sig_wait_stage_1_isr
+                0x00001fa8       0x4a obj/Debug/kernel/sig.o
+                0x00001fa8                sig_wait_stage_1_isr
  .text.sig_signal_isr
-                0x00002168       0x52 obj/Debug/kernel/sig.o
-                0x00002168                sig_signal_isr
+                0x00001ff2       0x52 obj/Debug/kernel/sig.o
+                0x00001ff2                sig_signal_isr
  .text.sig_broadcast_isr
-                0x000021ba       0x2e obj/Debug/kernel/sig.o
-                0x000021ba                sig_broadcast_isr
+                0x00002044       0x2e obj/Debug/kernel/sig.o
+                0x00002044                sig_broadcast_isr
  .text._clear_timer
-                0x000021e8       0x30 obj/Debug/kernel/timer.o
-                0x000021e8                _clear_timer
- .text._timer   0x00002218       0x42 obj/Debug/kernel/timer.o
-                0x00002218                _timer
+                0x00002072       0x30 obj/Debug/kernel/timer.o
+                0x00002072                _clear_timer
+ .text._timer   0x000020a2       0x42 obj/Debug/kernel/timer.o
+                0x000020a2                _timer
  .text.wait_time
-                0x0000225a       0x50 obj/Debug/kernel/timer.o
-                0x0000225a                wait_time
+                0x000020e4       0x50 obj/Debug/kernel/timer.o
+                0x000020e4                wait_time
  .text.xlist_init
-                0x000022aa       0x54 obj/Debug/kernel/xlist.o
-                0x000022aa                xlist_init
+                0x00002134       0x54 obj/Debug/kernel/xlist.o
+                0x00002134                xlist_init
  .text.xlist_head
-                0x000022fe       0x58 obj/Debug/kernel/xlist.o
-                0x000022fe                xlist_head
+                0x00002188       0x58 obj/Debug/kernel/xlist.o
+                0x00002188                xlist_head
  .text.xlist_switch
-                0x00002356       0x50 obj/Debug/kernel/xlist.o
-                0x00002356                xlist_switch
- .text.raise_syscall_interrupt
-                0x000023a6       0x46 obj/Debug/main.o
-                0x000023a6                raise_syscall_interrupt
+                0x000021e0       0x50 obj/Debug/kernel/xlist.o
+                0x000021e0                xlist_switch
  .text.start_scheduler
-                0x000023ec       0x38 obj/Debug/main.o
-                0x000023ec                start_scheduler
- .text.blink_1  0x00002424       0x28 obj/Debug/main.o
-                0x00002424                blink_1
- .text.blink_2  0x0000244c       0x28 obj/Debug/main.o
-                0x0000244c                blink_2
- .text.blink_3  0x00002474       0x28 obj/Debug/main.o
-                0x00002474                blink_3
- .text.blink_4  0x0000249c       0x28 obj/Debug/main.o
-                0x0000249c                blink_4
+                0x00002230       0x1c obj/Debug/main.o
+                0x00002230                start_scheduler
+ .text.blink_1  0x0000224c       0x28 obj/Debug/main.o
+                0x0000224c                blink_1
+ .text.blink_2  0x00002274       0x28 obj/Debug/main.o
+                0x00002274                blink_2
+ .text.blink_3  0x0000229c       0x28 obj/Debug/main.o
+                0x0000229c                blink_3
+ .text.blink_4  0x000022c4       0x28 obj/Debug/main.o
+                0x000022c4                blink_4
  .text.blink_12
-                0x000024c4       0x48 obj/Debug/main.o
-                0x000024c4                blink_12
- .text.main0    0x0000250c       0x18 obj/Debug/main.o
-                0x0000250c                main0
- .text.main1    0x00002524       0x18 obj/Debug/main.o
-                0x00002524                main1
- .text.main2    0x0000253c       0x20 obj/Debug/main.o
-                0x0000253c                main2
- .text.main3    0x0000255c       0x20 obj/Debug/main.o
-                0x0000255c                main3
+                0x000022ec       0x48 obj/Debug/main.o
+                0x000022ec                blink_12
+ .text.main0    0x00002334       0x18 obj/Debug/main.o
+                0x00002334                main0
+ .text.main1    0x0000234c       0x18 obj/Debug/main.o
+                0x0000234c                main1
+ .text.main2    0x00002364       0x20 obj/Debug/main.o
+                0x00002364                main2
+ .text.main3    0x00002384       0x20 obj/Debug/main.o
+                0x00002384                main3
  .text.idle_main
-                0x0000257c       0xa2 obj/Debug/main.o
-                0x0000257c                idle_main
- .text.main     0x0000261e      0x1a0 obj/Debug/main.o
-                0x0000261e                main
-                0x000027be                . = ALIGN (0x2)
+                0x000023a4       0xa2 obj/Debug/main.o
+                0x000023a4                idle_main
+ .text.main     0x00002446      0x1b0 obj/Debug/main.o
+                0x00002446                main
+                0x000025f6                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000027be        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
-                0x000027be                exit
-                0x000027be                _exit
+ .fini9         0x000025f6        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+                0x000025f6                exit
+                0x000025f6                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -680,11 +666,11 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000027be        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .fini0         0x000025f6        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x000027c2                _etext = .
+                0x000025fa                _etext = .
 
-.data           0x00800100        0x2 load address 0x000027c2
+.data           0x00800100        0x2 load address 0x000025fa
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x1 obj/Debug/arch/avr-gcc/bugurt_kernel.o
@@ -698,34 +684,29 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
                 0x00800102                _edata = .
                 0x00800102                PROVIDE (__data_end, .)
 
-.bss            0x00800102      0x430
+.bss            0x00800102      0x327
                 0x00800102                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x00800102       0x16 obj/Debug/arch/avr-gcc/bugurt_syscall.o
+ .bss           0x00800102       0x13 obj/Debug/arch/avr-gcc/bugurt_syscall.o
                 0x00800102                syscall_num
                 0x00800103                syscall_arg
  *(.bss*)
  *(COMMON)
- COMMON         0x00800118      0x106 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                0x00800118                idle_stack
-                0x00800218                kernel_isr
-                0x0080021a                proc_sp
-                0x0080021c                kernel_sp
- COMMON         0x0080021e       0x5c obj/Debug/kernel/kernel.o
-                0x0080021e                kernel
- COMMON         0x0080027a      0x2b8 obj/Debug/main.o
-                0x0080027a                proc
-                0x00800332                stack
-                0x00800532                PROVIDE (__bss_end, .)
-                0x000027c2                __data_load_start = LOADADDR (.data)
-                0x000027c4                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800115       0x5c obj/Debug/kernel/kernel.o
+                0x00800115                kernel
+ COMMON         0x00800171      0x2b8 obj/Debug/main.o
+                0x00800171                proc
+                0x00800229                stack
+                0x00800429                PROVIDE (__bss_end, .)
+                0x000025fa                __data_load_start = LOADADDR (.data)
+                0x000025fc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800532        0x0
-                0x00800532                PROVIDE (__noinit_start, .)
+.noinit         0x00800429        0x0
+                0x00800429                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800532                PROVIDE (__noinit_end, .)
-                0x00800532                _end = .
-                0x00800532                PROVIDE (__heap_start, .)
+                0x00800429                PROVIDE (__noinit_end, .)
+                0x00800429                _end = .
+                0x00800429                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -743,49 +724,49 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x72f0
+.stab           0x00000000     0x6fa8
  *(.stab)
  .stab          0x00000000      0x6b4 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
- .stab          0x000006b4      0xb10 obj/Debug/arch/avr-gcc/bugurt_kernel.o
-                                0xb7c (size before relaxing)
- .stab          0x000011c4     0x11dc obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                               0x1be4 (size before relaxing)
- .stab          0x000023a0      0x3d8 obj/Debug/arch/osbme/arch/avr/osbme.o
+ .stab          0x000006b4      0xa08 obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                                0xa14 (size before relaxing)
+ .stab          0x000010bc     0x105c obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                               0x1a64 (size before relaxing)
+ .stab          0x00002118      0x3d8 obj/Debug/arch/osbme/arch/avr/osbme.o
                                 0x600 (size before relaxing)
- .stab          0x00002778      0x444 obj/Debug/kernel/crit_sec.o
+ .stab          0x000024f0      0x444 obj/Debug/kernel/crit_sec.o
                                 0x66c (size before relaxing)
- .stab          0x00002bbc      0x7ec obj/Debug/kernel/gitem.o
+ .stab          0x00002934      0x7ec obj/Debug/kernel/gitem.o
                                 0xbd0 (size before relaxing)
- .stab          0x000033a8      0x348 obj/Debug/kernel/group.o
+ .stab          0x00003120      0x348 obj/Debug/kernel/group.o
                                 0x72c (size before relaxing)
- .stab          0x000036f0      0x2f4 obj/Debug/kernel/index.o
+ .stab          0x00003468      0x2f4 obj/Debug/kernel/index.o
                                 0x6d8 (size before relaxing)
- .stab          0x000039e4      0x3c0 obj/Debug/kernel/item.o
+ .stab          0x0000375c      0x3c0 obj/Debug/kernel/item.o
                                 0x7a4 (size before relaxing)
- .stab          0x00003da4      0x288 obj/Debug/kernel/kernel.o
+ .stab          0x00003b1c      0x288 obj/Debug/kernel/kernel.o
                                 0x66c (size before relaxing)
- .stab          0x0000402c      0x558 obj/Debug/kernel/mutex.o
+ .stab          0x00003da4      0x558 obj/Debug/kernel/mutex.o
                                 0x93c (size before relaxing)
- .stab          0x00004584      0x39c obj/Debug/kernel/pcounter.o
+ .stab          0x000042fc      0x39c obj/Debug/kernel/pcounter.o
                                 0x8c4 (size before relaxing)
- .stab          0x00004920      0xa50 obj/Debug/kernel/proc.o
+ .stab          0x00004698      0xa50 obj/Debug/kernel/proc.o
                                 0xea0 (size before relaxing)
- .stab          0x00005370      0x5ac obj/Debug/kernel/sched.o
-                                0x990 (size before relaxing)
- .stab          0x0000591c      0x414 obj/Debug/kernel/sem.o
+ .stab          0x000050e8      0x564 obj/Debug/kernel/sched.o
+                                0x948 (size before relaxing)
+ .stab          0x0000564c      0x414 obj/Debug/kernel/sem.o
                                 0x84c (size before relaxing)
- .stab          0x00005d30      0x3fc obj/Debug/kernel/sig.o
+ .stab          0x00005a60      0x3fc obj/Debug/kernel/sig.o
                                 0x84c (size before relaxing)
- .stab          0x0000612c      0x39c obj/Debug/kernel/timer.o
+ .stab          0x00005e5c      0x39c obj/Debug/kernel/timer.o
                                 0x780 (size before relaxing)
- .stab          0x000064c8      0x3b4 obj/Debug/kernel/xlist.o
+ .stab          0x000061f8      0x3b4 obj/Debug/kernel/xlist.o
                                 0x798 (size before relaxing)
- .stab          0x0000687c      0xa74 obj/Debug/main.o
-                                0xee8 (size before relaxing)
+ .stab          0x000065ac      0x9fc obj/Debug/main.o
+                                0xed0 (size before relaxing)
 
-.stabstr        0x00000000     0x3647
+.stabstr        0x00000000     0x34ec
  *(.stabstr)
- .stabstr       0x00000000     0x3647 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ .stabstr       0x00000000     0x34ec /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 
 .stab.excl
  *(.stab.excl)
@@ -905,8 +886,7 @@ __vector_16                                       /usr/lib/gcc/avr/4.3.4/../../.
 __vector_17                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_18                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_19                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
-__vector_2                                        obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                                                  /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_2                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_20                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_21                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_22                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
@@ -919,7 +899,6 @@ __vector_5                                        /usr/lib/gcc/avr/4.3.4/../../.
 __vector_6                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_7                                        obj/Debug/arch/avr-gcc/bugurt_kernel.o
                                                   /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
-__vector_7_func                                   obj/Debug/arch/avr-gcc/bugurt_kernel.o
 __vector_8                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_9                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 __vector_default                                  /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
@@ -950,11 +929,11 @@ _proc_stop                                        obj/Debug/kernel/proc.o
                                                   obj/Debug/kernel/sig.o
                                                   obj/Debug/kernel/sem.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
+_scall                                            obj/Debug/arch/avr-gcc/bugurt_syscall.o
 _sem_lock                                         obj/Debug/kernel/sem.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
 _sem_unlock                                       obj/Debug/kernel/sem.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
-_syscall                                          obj/Debug/arch/avr-gcc/bugurt_syscall.o
 _timer                                            obj/Debug/kernel/timer.o
 all_flags_mask                                    obj/Debug/arch/avr-gcc/bugurt_syscall.o
 blink_1                                           obj/Debug/main.o
@@ -969,6 +948,8 @@ blink_6                                           obj/Debug/main.o
 blink_7                                           obj/Debug/main.o
 blink_8                                           obj/Debug/main.o
 blink_9                                           obj/Debug/main.o
+bugurt_check_resched                              obj/Debug/arch/avr-gcc/bugurt_kernel.o
+                                                  obj/Debug/arch/avr-gcc/bugurt_syscall.o
 current_proc                                      obj/Debug/arch/avr-gcc/bugurt_kernel.o
                                                   obj/Debug/kernel/sig.o
                                                   obj/Debug/kernel/sem.o
@@ -979,7 +960,6 @@ disable_interrupts                                obj/Debug/arch/avr-gcc/bugurt_
                                                   obj/Debug/kernel/proc.o
                                                   obj/Debug/kernel/crit_sec.o
 do_syscall                                        obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                                                  obj/Debug/arch/avr-gcc/bugurt_kernel.o
 enable_interrupts                                 obj/Debug/arch/avr-gcc/bugurt_kernel.o
                                                   obj/Debug/kernel/sig.o
                                                   obj/Debug/kernel/proc.o
@@ -1046,14 +1026,10 @@ kernel                                            obj/Debug/main.o
                                                   obj/Debug/arch/avr-gcc/bugurt_kernel.o
 kernel_init                                       obj/Debug/kernel/kernel.o
                                                   obj/Debug/arch/avr-gcc/bugurt_kernel.o
-kernel_isr                                        obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                                                  obj/Debug/arch/avr-gcc/bugurt_kernel.o
-kernel_process_switch                             obj/Debug/arch/avr-gcc/bugurt_kernel.o
 kernel_sp                                         obj/Debug/arch/avr-gcc/bugurt_syscall.o
                                                   obj/Debug/arch/avr-gcc/bugurt_kernel.o
 kernel_state                                      obj/Debug/arch/avr-gcc/bugurt_kernel.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
-kernel_thread                                     obj/Debug/arch/avr-gcc/bugurt_kernel.o
 main                                              obj/Debug/main.o
                                                   /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 main0                                             obj/Debug/main.o
@@ -1069,6 +1045,9 @@ mutex_unlock                                      obj/Debug/arch/avr-gcc/bugurt_
 osbme_init_stack                                  obj/Debug/arch/osbme/arch/avr/osbme.o
                                                   obj/Debug/arch/avr-gcc/bugurt_kernel.o
 osbme_load_context                                obj/Debug/arch/osbme/arch/avr/osbme_asm.o
+                                                  obj/Debug/arch/avr-gcc/bugurt_syscall.o
+                                                  obj/Debug/arch/avr-gcc/bugurt_kernel.o
+osbme_set_stack_pointer                           obj/Debug/arch/osbme/arch/avr/osbme_asm.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
                                                   obj/Debug/arch/avr-gcc/bugurt_kernel.o
 osbme_store_context                               obj/Debug/arch/osbme/arch/avr/osbme_asm.o
@@ -1102,7 +1081,6 @@ proc_run_isr                                      obj/Debug/kernel/proc.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
 proc_run_wrapper                                  obj/Debug/arch/avr-gcc/bugurt_syscall.o
                                                   obj/Debug/kernel/proc.o
-                                                  obj/Debug/arch/avr-gcc/bugurt_kernel.o
 proc_self_stop                                    obj/Debug/arch/avr-gcc/bugurt_syscall.o
                                                   obj/Debug/main.o
 proc_sp                                           obj/Debug/arch/avr-gcc/bugurt_syscall.o
@@ -1112,9 +1090,7 @@ proc_stack_init                                   obj/Debug/arch/avr-gcc/bugurt_
 proc_stop                                         obj/Debug/arch/avr-gcc/bugurt_syscall.o
 proc_stop_isr                                     obj/Debug/kernel/proc.o
                                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
-process_kernel_switch                             obj/Debug/arch/avr-gcc/bugurt_kernel.o
 raise_syscall_interrupt                           obj/Debug/main.o
-                                                  obj/Debug/arch/avr-gcc/bugurt_syscall.o
 resched                                           obj/Debug/arch/avr-gcc/bugurt_kernel.o
                                                   obj/Debug/kernel/sig.o
                                                   obj/Debug/kernel/proc.o
@@ -1171,8 +1147,6 @@ start_scheduler                                   obj/Debug/main.o
 stop_scheduler                                    obj/Debug/main.o
 syscall                                           obj/Debug/arch/avr-gcc/bugurt_syscall.o
 syscall_arg                                       obj/Debug/arch/avr-gcc/bugurt_syscall.o
-syscall_data_get                                  obj/Debug/arch/avr-gcc/bugurt_syscall.o
-                                                  obj/Debug/arch/avr-gcc/bugurt_kernel.o
 syscall_num                                       obj/Debug/arch/avr-gcc/bugurt_syscall.o
 syscall_routine                                   obj/Debug/arch/avr-gcc/bugurt_syscall.o
 wait_time                                         obj/Debug/kernel/timer.o

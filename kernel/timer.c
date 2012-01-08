@@ -104,7 +104,7 @@ timer_t _timer(timer_t t)
 #else
     enter_crit_sec();
 #endif //CONFIG_MP
-    ret = kernel.timer - t;
+    ret = (timer_t)kernel.timer - (timer_t)t;
 #ifdef CONFIG_MP
     spin_unlock( &kernel.timer_lock );
     _exit_crit_sec(current_core);

@@ -136,32 +136,44 @@ typedef struct
     unsigned char num;
     void * arg;
 } syscall_data_t;
-
-void syscall_data_get(void)
+__attribute__ (( signal, naked )) void SYSCALL_ISR(void)
 {
+    BUGURT_ISR_START();
+
+    // Получаем информацию о системном вызове из стека процесса
     unsigned char * tos;
     unsigned short temp;
     /// Извлечение syscall_num и syscall_arg из стека процесса
-    tos = (unsigned char *)proc_sp + PROC_STACK_OFFSET;
+    tos = (unsigned char *)kernel.sched.current_proc->spointer + PROC_STACK_OFFSET;
     temp = (unsigned short)*tos++;
     temp <<= 8;
     temp |= (unsigned short)*tos;
 
     syscall_num = ((syscall_data_t *)temp)->num;
     syscall_arg = ((syscall_data_t *)temp)->arg;
-}
 
-__attribute__ (( signal, naked )) void SYSCALL_ISR(void)
-{
-    proc_sp = osbme_store_context();
-    osbme_load_context( kernel_sp );
-    __asm__ __volatile__("ret"::);
+    // Обрабатываем системный вызов
+    do_syscall();
+    kernel_state &= ~KRN_FLG_DO_SCALL;
+
+    // Перепланировка при необходимости
+    if( kernel_state & KRN_FLG_RESCHED )
+    {
+        kernel_state &= ~KRN_FLG_RESCHED;
+        sched_reschedule();
+    }
+
+    // Разрешаем обработку прерывания системного таймера.
+    start_scheduler();
+
+    BUGURT_ISR_EXIT();
 }
 
 syscall_data_t * _syscall( syscall_data_t * arg )
 {
     cli();
     kernel_state |= KRN_FLG_DO_SCALL;
+    stop_scheduler(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
     raise_syscall_interrupt();
     sei();
     return arg;
@@ -177,14 +189,22 @@ void syscall( unsigned char num, void * arg )
      while( kernel_state & KRN_FLG_DO_SCALL );
 }
 #else
+__attribute__ (( naked )) void _scall(void)
+{
+    BUGURT_ISR_START();
+
+    // Обрабатываем системный вызов
+    do_syscall();
+
+    BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
+}
 ///Если не используется программное прерывание - прямая передача управления
 void syscall( unsigned char num, void * arg )
 {
-    cli();
+    cli(); // прерывания будут разрешены на выходе из _scall()
     syscall_num = num;
     syscall_arg = arg;
-    kernel_state |= KRN_FLG_DO_SCALL;
-    process_kernel_switch();
+    _scall();
 }
 #endif
 

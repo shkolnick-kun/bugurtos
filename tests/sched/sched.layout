@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="8055" topLine="113" />
+	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="1037" topLine="20" />
 	</File>
@@ -17,7 +20,7 @@
 		<Cursor position="10828" topLine="91" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="308" topLine="0" />
+		<Cursor position="14529" topLine="114" />
 	</File>
 	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="2">
 		<Cursor position="1183" topLine="0" />
@@ -29,13 +32,13 @@
 		<Cursor position="1183" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="85" />
+		<Cursor position="6602" topLine="96" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1325" topLine="58" />
+		<Cursor position="1035" topLine="58" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="2">
-		<Cursor position="639" topLine="69" />
+		<Cursor position="5272" topLine="322" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="56" topLine="26" />

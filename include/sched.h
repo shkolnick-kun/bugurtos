@@ -117,19 +117,25 @@ void sched_init(sched_t * sched, proc_t * idle);
 /*!
 \brief Функция планирования.
 Переключает процессы в обработчике прерывания системного таймера.
-
-\param current_sp Указатель стека прерванного процесса.
-\return Указатель стека следующего процесса.
 */
-stack_t * sched_schedule(stack_t * current_sp );
+void sched_schedule(
+#ifdef CONFIG_MP
+                        sched_t * sched /*!< Работаем с этим экземпляром планировщика*/
+#else
+                        void
+#endif // CONFIG_MP
+                       );
 /*!
 \brief Функция перепланирования.
 Переключает процессы в обработчике прерывания перепланирования.
-
-\param current_sp Указатель стека прерванного процесса.
-\return Указатель стека следующего процесса.
 */
-stack_t * sched_reschedule(stack_t * current_sp );
+void sched_reschedule(
+#ifdef CONFIG_MP
+                        sched_t * sched /*!< Работаем с этим экземпляром планировщика*/
+#else
+                        void
+#endif // CONFIG_MP
+                       );
 #ifdef CONFIG_MP
 // Балансировщик нагрузки
 /*!

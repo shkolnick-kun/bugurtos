@@ -89,65 +89,65 @@
 ;-------------------------------------------------------------------------------
 	.global osbme_store_context
 osbme_store_context:
-    push	r2                          ; store r2
-    in	    r2,(_SFR_IO_ADDR(SREG))	    ; load SREG 2 r2
-    push	r2
-    push	r3
-    push	r4
-    push	r5
-    push	r6
-    push	r7
-    push	r8
-    push	r9
-    push	r10
-    push	r11
-    push	r12
-    push	r13
-    push	r14
-    push	r15
-    push	r16
-    push	r17
-    push	r18
-    push	r19
-    push	r20
-    push	r21
-    push	r22
-    push	r23
-    push	r24
-    push	r25
-    push	r26
-    push	r27
-    push	r28
-    push	r29
-    push	r30
-    push	r31
+    push    r2                          ; store r2
+    in      r2,(_SFR_IO_ADDR(SREG))     ; load SREG 2 r2
+    push    r2
+    push    r3
+    push    r4
+    push    r5
+    push    r6
+    push    r7
+    push    r8
+    push    r9
+    push    r10
+    push    r11
+    push    r12
+    push    r13
+    push    r14
+    push    r15
+    push    r16
+    push    r17
+    push    r18
+    push    r19
+    push    r20
+    push    r21
+    push    r22
+    push    r23
+    push    r24
+    push    r25
+    push    r26
+    push    r27
+    push    r28
+    push    r29
+    push    r30
+    push    r31
     ;---------------------------------------------------------------
-	in	    r30,(_SFR_IO_ADDR(SPL))	    ; load current stack pointer 2 Z
-	in	    r31,(_SFR_IO_ADDR(SPH))
-	ldd     r18,Z+33                    ; load return address 2 Y
-	ldd     r19,Z+32
-	std     Z+33,r0                     ;
-	std     Z+32,r1
-	clr     r1
+    in      r30,(_SFR_IO_ADDR(SPL))     ; load current stack pointer 2 Z
+    in      r31,(_SFR_IO_ADDR(SPH))
+    ldd     r18,Z+33                    ; load return address 2 Y
+    ldd     r19,Z+32
+    std     Z+33,r0                     ;
+    std     Z+32,r1
+    clr     r1
 #ifdef RAMPZ
-	in	    r31,(_SFR_IO_ADDR(RAMPZ))
-	push	r31
+    in      r31,(_SFR_IO_ADDR(RAMPZ))
+    push    r31
 #endif
-	in	    r24,(_SFR_IO_ADDR(SPL))
-	in	    r25,(_SFR_IO_ADDR(SPH))
-	push    r18
-	push    r19
+    in      r24,(_SFR_IO_ADDR(SPL))
+    in      r25,(_SFR_IO_ADDR(SPH))
+    push    r18
+    push    r19
     ret
 ;-------------------------------------------------------------------------------
 	.global osbme_load_context
 osbme_load_context:
     pop     r19                         ; pop return address from the current stack
     pop     r18
-	out	    (_SFR_IO_ADDR(SPH)), r25    ;switch 2 new stack
-	out	    (_SFR_IO_ADDR(SPL)), r24
+    out     (_SFR_IO_ADDR(SPH)), r25    ;switch 2 new stack
+    out     (_SFR_IO_ADDR(SPL)), r24
 #ifdef RAMPZ
-	pop	    r31                         ; pop RAMPZ from the stack
-	out     (_SFR_IO_ADDR(RAMPZ)),r31
+    pop     r31                         ; pop RAMPZ from the stack
+    out     (_SFR_IO_ADDR(RAMPZ)),r31
 #endif
     in      r31,(_SFR_IO_ADDR(SPH))     ; load sp 2 Z
     in      r30,(_SFR_IO_ADDR(SPL))
@@ -156,38 +156,49 @@ osbme_load_context:
     std     Z+32,r19                    ; replace r0 and r1 on the stack with return address
     std     Z+33,r18
     ;---------------------------------------------------------------
-    pop	    r31
-    pop	    r30
-    pop	    r29
-    pop	    r28
-    pop	    r27
-    pop	    r26
-    pop	    r25
-    pop	    r24
-    pop	    r23
-    pop	    r22
-    pop	    r21
-    pop	    r20
-    pop	    r19
-    pop	    r18
-    pop	    r17
-    pop	    r16
-    pop	    r15
-    pop	    r14
-    pop	    r13
-    pop	    r12
-    pop	    r11
-    pop	    r10
-    pop 	r9
-    pop	    r8
-    pop	    r7
-    pop	    r6
-    pop	    r5
-    pop	    r4
-    pop	    r3
-    pop	    r2
-    out	    (_SFR_IO_ADDR(SREG)),r2	    ; load SREG from r2
-    pop	    r2			                ; load stored r2 value
+    pop     r31
+    pop     r30
+    pop     r29
+    pop     r28
+    pop     r27
+    pop     r26
+    pop     r25
+    pop     r24
+    pop     r23
+    pop     r22
+    pop     r21
+    pop     r20
+    pop     r19
+    pop     r18
+    pop     r17
+    pop     r16
+    pop     r15
+    pop     r14
+    pop     r13
+    pop     r12
+    pop     r11
+    pop     r10
+    pop     r9
+    pop     r8
+    pop     r7
+    pop     r6
+    pop     r5
+    pop     r4
+    pop     r3
+    pop     r2
+    out     (_SFR_IO_ADDR(SREG)),r2     ; load SREG from r2
+    pop     r2                          ; load stored r2 value
+    ret
+;-------------------------------------------------------------------------------
+	.global osbme_set_stack_pointer
+osbme_set_stack_pointer:
+    pop     r1
+    pop     r0
+    out     (_SFR_IO_ADDR(SPH)), r25    ;switch 2 new stack
+    out     (_SFR_IO_ADDR(SPL)), r24
+    push    r0
+    push    r1
+    clr     r1                          ;zero register,lol
     ret
 .end
 ;*******************************************************************************

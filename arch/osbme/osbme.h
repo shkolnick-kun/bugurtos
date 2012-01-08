@@ -87,4 +87,6 @@ __attribute__((naked)) void * osbme_store_context(void);
 
 __attribute__((naked)) void osbme_load_context(void * sp);
 
+__attribute__((naked)) void osbme_set_stack_pointer(void * sp);
+
 #endif // _OSBME_H_

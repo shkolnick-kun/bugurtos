@@ -79,13 +79,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include"bugurt_kernel.h"
 
 // Платформеннозависимый код
-
-// Стек процесса холостого хода
-stack_t idle_stack[CONFIG_IDLE_STACK_SIZE];
-
-//Внешние функции, специфичные для AVR
-extern void start_scheduler( void );
-extern void stop_scheduler( void );
 // Просто функции, специфичные для AVR
 void disable_interrupts(void)
 {
@@ -103,7 +96,7 @@ proc_t * current_proc(void)
 
 void * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 {
-    return osbme_init_stack( (void *)sstart, (osbme_code_t)proc_run_wrapper, (void *)arg );
+    return osbme_init_stack( (void *)sstart, (osbme_code_t)code, (void *)arg );
 }
 
 /******************************************************************************************************/
@@ -111,85 +104,52 @@ void * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 
 // Состояние ядра, выполняем перепланиировку
 unsigned char kernel_state = KRN_FLG_RESCHED;
-
-//Указатели стека
-void    * proc_sp,  // процессов
-        * kernel_sp;// ядра
-//Через этот указатель будет вызываться обработчик прерывания
-void (*kernel_isr)(void);
-
 // Функция перепланировки
-void resched(void)
+void resched( void )
 {
     kernel_state |= KRN_FLG_RESCHED;
 }
-
-__attribute__((naked)) void kernel_process_switch(void)
+/*
+  Перепланировка при необхродимости,
+в случае использования системных вызовов
+на основе программного прерывания -
+- проверка на гонки с прерыванием системного вызова.
+*/
+void bugurt_check_resched( void )
 {
-    //Сразу же после обработки отложенных прерываний передаем управление процессу
-    kernel_sp = osbme_store_context();
-    osbme_load_context( proc_sp );
-    __asm__ __volatile__("reti"::);/// Дада, именно reti, мы же типа прерывания счас обрабатывали
-}
-
-__attribute__((naked)) void process_kernel_switch(void)
-{
-    proc_sp = osbme_store_context();
-    osbme_load_context( kernel_sp );
-    __asm__ __volatile__("ret"::);
-}
-///================================================================
-void kernel_thread(void)
-{
-    while(1)
-    {
-        // Если надо перепланировать - перепланируем
-        if( kernel_state & KRN_FLG_RESCHED )
-        {
-            kernel_state &= ~KRN_FLG_RESCHED;
-            proc_sp = sched_reschedule( proc_sp );
-        }
-        /// Прямая передача управления от ядра к процессу, прерывания запрещены
-        kernel_process_switch();//В результате выполнения этого прерывания будут разрешены
-        /// Сюда можно попасть только из прерывания, либо из процесса, при этом прерывания опять таки запрещены
-        if( kernel_state & KRN_FLG_DO_SCALL )
-        {
+    if(
+    ( kernel_state & KRN_FLG_RESCHED )
 #ifdef SYSCALL_ISR
-            syscall_data_get();
-#endif
-            do_syscall();
-            kernel_state &= ~KRN_FLG_DO_SCALL;
-        }
-        // Обработка прерывания
-        if( kernel_isr != (void (*)(void))0 )
-        {
-            kernel_isr();
-            kernel_isr = (void (*)(void))0;
-        }
+    && ( (~kernel_state) & KRN_FLG_DO_SCALL )
+#endif // SYSCALL_ISR
+    )
+    {
+        kernel_state &= ~KRN_FLG_RESCHED;
+        sched_reschedule();
     }
 }
-
-// А вот и первое определение обработчика прерывания
-BUGURT_INTERRUPT(SYSTEM_TIMER_ISR)
+__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void)
 {
-    kernel.timer++;
-    proc_sp = sched_schedule( proc_sp );
-}
+    BUGURT_ISR_START();
 
+    kernel.timer++;
+    sched_schedule();
+
+    BUGURT_ISR_EXIT();
+}
 /***************************************************************************************************************/
 // Функции общего пользования
 
 void init_bugurt(void)
 {
     cli();
-    kernel_init();
-    proc_sp = osbme_init_stack( &idle_stack[CONFIG_IDLE_STACK_SIZE-1], idle_main, 0);
-    kernel.idle.spointer = proc_sp;
     kernel.sched.nested_crit_sec = (count_t)1;
+    kernel_init();
 }
 void start_bugurt(void)
 {
     start_scheduler();
     kernel.sched.nested_crit_sec = (count_t)0;
-    kernel_thread();
+    sei();
+    idle_main( (void *)0 );
 }

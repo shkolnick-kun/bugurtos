@@ -10,15 +10,14 @@ void raise_syscall_interrupt(void)
     G2_on();
 }
 
-void start_scheduler( void ){
+void start_scheduler( void )
+{
     TIMSK2 |= 0x02;
-    EIMSK |= 0x02;
-    EIFR |= 0x02;
 }
 
-void stop_scheduler( void ){
+void stop_scheduler( void )
+{
     TIMSK2 &= ~0x02;
-    EIMSK &= ~0x02;
 }
 
 ///----------------------------------------------------------------------------------------
@@ -100,7 +99,8 @@ int main(void)
     TIFR2  = 0x00;
 
     EICRA = 0x08; //falling edge
-    EIMSK = 0x00; //resched generates int1, mask 0x02
+    EIMSK = 0x02; //resched generates int1, mask 0x02
+    EIFR  |= 0x02;
 
     DDRB = 0x3F;
     PORTB = 0x00;
