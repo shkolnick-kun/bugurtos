@@ -85,7 +85,6 @@ void syscall( unsigned char num, void * arg );
 void do_syscall(void);
 
 #ifdef SYSCALL_ISR
-extern void syscall_data_get(void);
 extern void raise_syscall_interrupt(void);
 #endif
 
