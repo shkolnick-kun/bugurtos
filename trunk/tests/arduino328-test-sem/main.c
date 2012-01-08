@@ -11,22 +11,23 @@ void raise_syscall_interrupt(void)
 }
 
 
-void start_scheduler( void ){
+void start_scheduler( void )
+{
     TIMSK2 |= 0x02;
-    EIMSK |= 0x02;
-    EIFR |= 0x02;
 }
 
-void stop_scheduler( void ){
+void stop_scheduler( void )
+{
     TIMSK2 &= ~0x02;
-    EIMSK &= ~0x02;
 }
 
 ///----------------------------------------------------------------------------------------
 void blink_1(void * t) {PORTB ^= 0x10;}
 void blink_2(void * t) {PORTB ^= 0x08;}
 void blink_3(void * t) {PORTB ^= 0x04;}
-void blink_4(void * t) {PORTB ^= 0x02;}
+void blink_4(void * t) {
+    PORTB ^= 0x02;
+    }
 void blink_5(void * t) {PORTB ^= 0x01;}
 void blink_6(void * t) {PORTD ^= 0x80;}
 void blink_7(void * t) {PORTC ^= 0x10;}
@@ -42,7 +43,7 @@ void blink_12(void * t) {
 ///----------------------------------------------------------------------------------------
 
 proc_t proc[4];
-stack_t stack[4][128];
+stack_t stack[5][128];
 
 sem_t sem;
 
@@ -103,7 +104,8 @@ int main(void)
     TIFR2  = 0x00;
 
     EICRA = 0x08; //falling edge
-    EIMSK = 0x00; //resched generates int1, mask 0x02
+    EIMSK = 0x02; //resched generates int1, mask 0x02
+    EIFR  |= 0x02;
 
     DDRB = 0x3F;
     PORTB = 0x00;

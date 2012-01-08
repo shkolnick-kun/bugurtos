@@ -122,21 +122,23 @@ static void _sched_list_switch( sched_t * sched )
 на исполняющем функции процессоре.
 ******************************************************************************************/
 // Функция планирования, переключает процессы в обработчике системмного таймера
-stack_t * sched_schedule( stack_t * current_sp )
-{
+void sched_schedule(
 #ifdef CONFIG_MP
-    sched_t * sched = (sched_t *)kernel.sched + current_core();
+                    sched_t * sched
 #else
-    sched_t * sched = (sched_t *)&kernel.sched;
+                    void
 #endif // CONFIG_MP
+                    )
+{
+#ifndef CONFIG_MP
+    sched_t * sched = (sched_t *)&kernel.sched;
+#endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     proc_t * current_proc = sched->current_proc;
 #ifdef CONFIG_MP
     // А вот эту блокировку обязательно надо захватить!
     spin_lock( &current_proc->lock );
 #endif // CONFIG_MP
-    // Сохранение указателя стека
-    current_proc->spointer = current_sp;
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
     // Проверяем, что процесс находится в списке ready
@@ -236,30 +238,28 @@ stack_t * sched_schedule( stack_t * current_sp )
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
 #ifdef CONFIG_MP
-    stack_t * ret_sp = current_proc->spointer;
     spin_unlock( &current_proc->lock );
-    return ret_sp;
-#else
-    return current_proc->spointer;
 #endif // CONFIG_MP
 }
 //----------------------------------------------------------------------------------------
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
-stack_t * sched_reschedule( stack_t * current_sp )
-{
+void sched_reschedule(
 #ifdef CONFIG_MP
-    sched_t * sched = (sched_t *)kernel.sched + current_core();
+                        sched_t * sched
 #else
-    sched_t * sched = (sched_t *)&kernel.sched;
+                        void
 #endif // CONFIG_MP
+                       )
+{
+#ifndef CONFIG_MP
+    sched_t * sched = (sched_t *)&kernel.sched;
+#endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     proc_t * current_proc = sched->current_proc;
 #ifdef CONFIG_MP
     // А вот эту блокировку обязательно надо захватить!
     spin_lock( &current_proc->lock );
 #endif // CONFIG_MP
-    // Сохранение указателя стека
-    current_proc->spointer = current_sp;
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
 #ifdef CONFIG_MP
@@ -279,11 +279,7 @@ stack_t * sched_reschedule( stack_t * current_sp )
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
 #ifdef CONFIG_MP
-    stack_t * ret_sp = current_proc->spointer;
     spin_unlock( &current_proc->lock );
-    return ret_sp;
-#else
-    return current_proc->spointer;
 #endif // CONFIG_MP
 }
 #ifdef CONFIG_MP
