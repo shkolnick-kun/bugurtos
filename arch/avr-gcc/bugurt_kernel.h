@@ -126,10 +126,6 @@ void BUGURT_CONCAT(v,_func)(void);\
 _BUGURT_ISR(v,BUGURT_CONCAT(v,_func)) \
 void BUGURT_CONCAT(v,_func)(void)
 
-stack_t idle_stack[CONFIG_IDLE_STACK_SIZE];
-
-void * proc_sp, * kernel_sp;
-
 // Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
 
