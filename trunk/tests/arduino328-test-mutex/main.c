@@ -62,7 +62,7 @@ void main1(void * t)
         bool_t test = mutex_try_lock( &mut );
         if(test)
         {
-            wait_time(500);
+            wait_time(2000);
             mutex_unlock( &mut );
         }
 
@@ -82,9 +82,9 @@ void main3(void * t)
     while(1)
     {
         mutex_lock(&mut);
-        wait_time(499);
+        wait_time(500);
         mutex_unlock(&mut);
-        wait_time(501);
+        wait_time(500);
     }
 }
 
