@@ -279,7 +279,7 @@ extern proc_t * current_proc(void);
 \param arg Аргумент вызываемой функции.
 \return Указатель на вершину подготовленного стека.
 */
-extern void * proc_stack_init(stack_t * sstart, code_t code, void * arg);
+extern stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg);
 /*!
 \brief
 Инициализация Ядра.

@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6522" topLine="92" />
+		<Cursor position="6483" topLine="81" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="9049" topLine="128" />
@@ -20,7 +20,7 @@
 		<Cursor position="0" topLine="68" />
 	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="7406" topLine="99" />
+		<Cursor position="13520" topLine="270" />
 	</File>
 	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="5823" topLine="99" />
@@ -104,7 +104,7 @@
 		<Cursor position="9856" topLine="163" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
-		<Cursor position="835" topLine="15" />
+		<Cursor position="273" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
 		<Cursor position="62" topLine="0" />
