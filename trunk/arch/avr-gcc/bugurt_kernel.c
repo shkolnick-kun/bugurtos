@@ -94,9 +94,9 @@ proc_t * current_proc(void)
     return kernel.sched.current_proc;
 }
 
-void * proc_stack_init(stack_t * sstart, code_t code, void * arg)
+stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 {
-    return osbme_init_stack( (void *)sstart, (osbme_code_t)code, (void *)arg );
+    return (stack_t *)osbme_init_stack( (void *)sstart, (osbme_code_t)code, (void *)arg );
 }
 
 /******************************************************************************************************/

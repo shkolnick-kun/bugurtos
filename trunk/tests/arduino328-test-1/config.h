@@ -7,7 +7,7 @@
 
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
-//#define SYSCALL_ISR INT1_vect
+#define SYSCALL_ISR INT1_vect
 /// ===========================================
 
 #ifndef __ASSEMBLER__
@@ -42,8 +42,6 @@ typedef unsigned char core_id_t;
 // defines
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
-//#define MAX_CORES (4)
-//#define CONFIG_USE_ALB
 #define CONFIG_HARD_RT
 
 ///=================================================================

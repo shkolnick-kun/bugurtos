@@ -47,9 +47,9 @@
 		<Cursor position="2190" topLine="42" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="275" topLine="0" />
+		<Cursor position="273" topLine="0" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="0">
+	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1055" topLine="99" />
 	</File>
 </CodeBlocks_layout_file>
