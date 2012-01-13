@@ -103,8 +103,8 @@
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="9856" topLine="163" />
 	</File>
-	<File name="config.h" open="0" top="0" tabpos="2">
-		<Cursor position="273" topLine="0" />
+	<File name="config.h" open="1" top="1" tabpos="0">
+		<Cursor position="275" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
 		<Cursor position="62" topLine="0" />

@@ -38,9 +38,9 @@
 		<Cursor position="0" topLine="81" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="273" topLine="3" />
+		<Cursor position="273" topLine="24" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1450" topLine="54" />
+		<Cursor position="1045" topLine="38" />
 	</File>
 </CodeBlocks_layout_file>

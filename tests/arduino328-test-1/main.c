@@ -46,7 +46,7 @@ void main0(void * t)
 {
     while(1)
     {
-        wait_time(500);
+        wait_time(50);
     }
 }
 void main1(void * t)
