@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1326045138 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
+1326306664 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
 	"bugurt_kernel.h"
 
-1325918349 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
+1326210645 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
 	"../../include/bugurt.h"
 	"../../arch/osbme/osbme.h"
 	"bugurt_syscall.h"
 
-1321714635 /home/anonimous/Документы/bugurtos/include/bugurt.h
+1326306647 /home/anonimous/Документы/bugurtos/include/bugurt.h
 	"index.h"
 	"item.h"
 	"xlist.h"
@@ -56,9 +56,9 @@
 
 1325846562 /home/anonimous/Документы/bugurtos/arch/osbme/osbme.h
 
-1325752463 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
+1326047119 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
 
-1325945936 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
+1326335541 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
 	"bugurt_kernel.h"
 	<avr/pgmspace.h>
 
@@ -111,6 +111,6 @@
 1321714635 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
-1325917498 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-1/main.c
+1326383873 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-1/main.c
 	<bugurt.h>
 
