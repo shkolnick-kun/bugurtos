@@ -7,7 +7,7 @@
 	"../../arch/osbme/osbme.h"
 	"bugurt_syscall.h"
 
-1321714635 /home/anonimous/Документы/bugurtos/include/bugurt.h
+1326306647 /home/anonimous/Документы/bugurtos/include/bugurt.h
 	"index.h"
 	"item.h"
 	"xlist.h"
@@ -111,6 +111,6 @@
 1321714635 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
-1325945542 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-mutex/main.c
+1326099244 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-mutex/main.c
 	<bugurt.h>
 

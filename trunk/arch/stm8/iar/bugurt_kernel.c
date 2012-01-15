@@ -96,7 +96,7 @@ stack_t * proc_stack_init( stack_t * stack_top, code_t code, void * arg){
      // Y
      *stack_top-- = 0xAD;
      *stack_top-- = 0xDE;
-     
+
 #if (__DATA_MODEL__==__LARGE_DATA_MODEL__)
      *stack_top-- = 0xAF;
      *stack_top-- = 0xBE;
@@ -136,7 +136,7 @@ stack_t * proc_stack_init( stack_t * stack_top, code_t code, void * arg){
      *stack_top-- = 0xBE;
      *stack_top-- = 0xBD;
      *stack_top-- = 0xBC;
-     
+
      return stack_top;
 }
 
@@ -178,12 +178,48 @@ __interrupt void system_timer_isr(void)
     bugurt_set_stack_pointer( kernel.idle.spointer );
 
     SYSTEM_TIMER_INTERRUPT_CLEAR();
-    
+
     kernel.timer++;
     sched_schedule();
 
     bugurt_restore_context( kernel.sched.current_proc->spointer );
 }
+
+static stack_t * proc_stack;
+#pragma vector = 1 // trap insrtuction vector!
+__interrupt  void system_call_handler(void)
+{
+
+    proc_stack = bugurt_save_context();
+    kernel.sched.current_proc->spointer = proc_stack;
+    bugurt_set_stack_pointer( kernel.idle.spointer );
+
+
+    // Set interrupt flags in saved CCR
+    proc_stack[17] |= MASK_CPU_CCR_I1;
+    proc_stack[17] &= ~MASK_CPU_CCR_I0;
+
+    // Set system call params
+    syscall_num = proc_stack[18];
+
+#if (__DATA_MODEL__==__LARGE_DATA_MODEL__)
+    syscall_arg = (void *)(((unsigned long)proc_stack[16]) | (((unsigned long)proc_stack[15])<<8) | (((unsigned long)proc_stack[14])<<16));
+#else // __SMALL_DATA_MODEL__ or __MEDIUM_DATA_MODEL__
+    syscall_arg = (void *)(((unsigned short)proc_stack[19]<<8) | (((unsigned short)proc_stack[20])));
+#endif
+
+    // Обрабатываем системный вызов
+    do_syscall();
+
+    // Перепланировка при необходимости
+    if( kernel_state & KRN_FLG_RESCHED )
+    {
+        kernel_state &= ~KRN_FLG_RESCHED;
+        sched_reschedule();
+    }
+    bugurt_restore_context( kernel.sched.current_proc->spointer );
+}
+
 /***************************************************************************************************************/
 // Функции общего пользования
 

@@ -87,8 +87,8 @@
 .text
 
 ;-------------------------------------------------------------------------------
-	.global osbme_store_context
-osbme_store_context:
+	.global bugurt_save_context
+bugurt_save_context:
     push    r2                          ; store r2
     in      r2,(_SFR_IO_ADDR(SREG))     ; load SREG 2 r2
     push    r2
@@ -139,8 +139,8 @@ osbme_store_context:
     push    r19
     ret
 ;-------------------------------------------------------------------------------
-	.global osbme_load_context
-osbme_load_context:
+	.global bugurt_restore_context
+bugurt_restore_context:
     pop     r19                         ; pop return address from the current stack
     pop     r18
     out     (_SFR_IO_ADDR(SPH)), r25    ;switch 2 new stack
@@ -190,8 +190,8 @@ osbme_load_context:
     pop     r2                          ; load stored r2 value
     ret
 ;-------------------------------------------------------------------------------
-	.global osbme_set_stack_pointer
-osbme_set_stack_pointer:
+	.global bugurt_set_stack_pointer
+bugurt_set_stack_pointer:
     pop     r1
     pop     r0
     out     (_SFR_IO_ADDR(SPH)), r25    ;switch 2 new stack

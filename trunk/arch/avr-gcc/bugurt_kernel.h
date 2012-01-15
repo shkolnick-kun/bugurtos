@@ -80,21 +80,20 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _BUGURT_KERNEL_H_
 
 #include"../../include/bugurt.h"
-#include "../../arch/osbme/osbme.h"
 
-#include "bugurt_syscall.h"
+#include "../single-core/bugurt_syscall.h"
 
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
 // Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
-    kernel.sched.current_proc->spointer = osbme_store_context();\
-    osbme_set_stack_pointer( kernel.idle.spointer )
+    kernel.sched.current_proc->spointer = bugurt_save_context();\
+    bugurt_set_stack_pointer( kernel.idle.spointer )
 
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BUGURT_ISR_EXIT() \
-    osbme_load_context( kernel.sched.current_proc->spointer );\
+    bugurt_restore_context( kernel.sched.current_proc->spointer );\
     __asm__ __volatile__("reti"::)
 
 // Эпилог обработчика прерывания
@@ -138,6 +137,14 @@ unsigned char kernel_state;
 //Внешние функции, специфичные для AVR
 extern void start_scheduler( void );
 extern void stop_scheduler( void );
+#ifdef SYSCALL_ISR
+extern void raise_syscall_interrupt(void);
+#endif
 
 void bugurt_check_resched( void );
+
+extern stack_t * bugurt_save_context( void );
+extern void bugurt_restore_context( stack_t * new_sp );
+extern void bugurt_set_stack_pointer( stack_t * new_sp );
+
 #endif // _BUGURT_KERNEL_H_

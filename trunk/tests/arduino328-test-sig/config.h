@@ -7,7 +7,7 @@
 
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
-//#define SYSCALL_ISR INT1_vect
+#define SYSCALL_ISR INT1_vect
 /// ===========================================
 
 #ifndef __ASSEMBLER__
