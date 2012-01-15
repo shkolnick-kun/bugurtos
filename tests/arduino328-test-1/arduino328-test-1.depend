@@ -1,10 +1,9 @@
 # depslib dependency file v1.0
-1326306664 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
+1326632126 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.c
 	"bugurt_kernel.h"
 
-1326210645 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
+1326632082 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
 	"../../include/bugurt.h"
-	"../../arch/osbme/osbme.h"
 	"bugurt_syscall.h"
 
 1326306647 /home/anonimous/Документы/bugurtos/include/bugurt.h
@@ -58,7 +57,7 @@
 
 1326047119 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
 
-1326335541 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
+1326630796 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
 	"bugurt_kernel.h"
 	<avr/pgmspace.h>
 
@@ -111,6 +110,9 @@
 1321714635 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
-1326565127 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-1/main.c
+1326565285 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-1/main.c
 	<bugurt.h>
+
+1326631945 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel_asm.S
+	<avr/io.h>
 

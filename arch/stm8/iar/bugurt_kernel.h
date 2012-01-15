@@ -80,8 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _BUGURT_KERNEL_H_
 
 #include"../../../include/bugurt.h"
-
-#include "bugurt_syscall.h"
+#include "../../single-core/bugurt_syscall.h"
 
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
@@ -139,6 +138,4 @@ extern stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( stack_t * new_sp );
 extern void bugurt_set_stack_pointer( stack_t * new_sp );
 
-extern void syscall( unsigned char n, void * arg );
-extern stack_t * proc_stack_init( stack_t * stack_top, void (*func)(void *), void * arg);
 #endif // _BUGURT_KERNEL_H_

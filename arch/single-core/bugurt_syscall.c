@@ -76,10 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include "bugurt_kernel.h"
-///=================================================================
-///        ОБРАБОТЧИКИ СИСТЕМНЫХ ВЫЗОВОВ, МАССИВ УКАЗАТЕЛЕЙ
-///=================================================================
+#include "bugurt_syscall.h"
+
 unsigned char syscall_num = 0;
 void * syscall_arg = (void *)0;
 
@@ -119,89 +117,6 @@ void do_syscall(void)
     }
 }
 
-#ifdef SYSCALL_ISR
-/// Если используется программное прерывание - вот его обработчик
-#ifdef RAMPZ
-#define PROC_STACK_OFFSET 8
-#else
-#define PROC_STACK_OFFSET 7
-#endif
-
-typedef struct
-{
-    unsigned char num;
-    void * arg;
-} syscall_data_t;
-__attribute__ (( signal, naked )) void SYSCALL_ISR(void)
-{
-    BUGURT_ISR_START();
-
-    // Получаем информацию о системном вызове из стека процесса
-    unsigned char * tos;
-    unsigned short temp;
-    /// Извлечение syscall_num и syscall_arg из стека процесса
-    tos = (unsigned char *)kernel.sched.current_proc->spointer + PROC_STACK_OFFSET;
-    temp = (unsigned short)*tos++;
-    temp <<= 8;
-    temp |= (unsigned short)*tos;
-
-    syscall_num = ((syscall_data_t *)temp)->num;
-    syscall_arg = ((syscall_data_t *)temp)->arg;
-
-    // Обрабатываем системный вызов
-    do_syscall();
-    kernel_state &= ~KRN_FLG_DO_SCALL;
-
-    // Перепланировка при необходимости
-    if( kernel_state & KRN_FLG_RESCHED )
-    {
-        kernel_state &= ~KRN_FLG_RESCHED;
-        sched_reschedule();
-    }
-
-    // Разрешаем обработку прерывания системного таймера.
-    start_scheduler();
-
-    BUGURT_ISR_EXIT();
-}
-
-syscall_data_t * _syscall( syscall_data_t * arg )
-{
-    kernel_state |= KRN_FLG_DO_SCALL;
-    stop_scheduler(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
-    raise_syscall_interrupt();
-    sei();
-    return arg;
-}
-
-static syscall_data_t scdata;
-void syscall( unsigned char num, void * arg )
-{
-     scdata.num = num;
-     scdata.arg = arg;
-     _syscall( &scdata );
-     SYSCALL_DELLAY();
-     while( kernel_state & KRN_FLG_DO_SCALL );
-}
-#else
-__attribute__ (( naked )) void _syscall(void)
-{
-    BUGURT_ISR_START();
-
-    // Обрабатываем системный вызов
-    do_syscall();
-
-    BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
-}
-///Если не используется программное прерывание - прямая передача управления
-void syscall( unsigned char num, void * arg )
-{
-    syscall_num = num;
-    syscall_arg = arg;
-    _syscall();
-}
-#endif
-
 ///=================================================================
 ///                 ОБРАБОТЧИКИ СИСТЕМНЫХ ВЫЗОВОВ
 ///=================================================================
@@ -234,7 +149,7 @@ void proc_init(
                   )
 {
     static proc_init_arg_t scarg;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
+    disable_interrupts(); // прерывания будут разрешены на выходе из _syscall()
     scarg.proc = proc;
     scarg.pmain = pmain;
     scarg.sv_hook = sv_hook;
@@ -257,7 +172,6 @@ bool_t proc_run( proc_t * proc )
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
     scarg.scall_ret = (bool_t)0;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall(2,(void *)&scarg);
     return scarg.scall_ret;
 }
@@ -271,7 +185,6 @@ bool_t proc_restart( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall(3,(void *)&scarg);
     return scarg.scall_ret;
 }
@@ -285,7 +198,6 @@ bool_t proc_stop( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall(4,(void *)&scarg);
     return scarg.scall_ret;
 }
@@ -299,7 +211,6 @@ void scall_proc_self_stop( void * arg )
 }
 void proc_self_stop(void)
 {
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall(5,(void *)1);
 }
 //---------------------------------------------------------------------------------------------
@@ -322,14 +233,14 @@ void scall_proc_terminate( void * arg )
 void proc_run_wrapper( proc_t * proc )
 {
     //Атомарно читаем pmain и arg
-    cli();
+    disable_interrupts();
     code_t pmain = proc->pmain;
     void * arg = proc->arg;
-    sei();
+    enable_interrupts();
     //Выполняем pmain
     pmain( arg );
     // Завершаем процесс
-    cli(); // прерывания будут разрешены на выходе из _syscall()
+    disable_interrupts(); // прерывания будут разрешены на выходе из _syscall()
     syscall(6,(void *)proc);
 }
 //---------------------------------------------------------------------------------------------
@@ -347,7 +258,6 @@ void scall_sig_init( void * arg )
 }
 void sig_init( sig_t * sig )
 {
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 8, (void *)sig );
 }
 //---------------------------------------------------------------------------------------------
@@ -359,9 +269,7 @@ void scall_sig_wait( void * arg )
 void sig_wait( sig_t * sig )
 {
     const flag_t mask = ~PROC_FLG_WAIT;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 9, (void *)sig );
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 7, (void *)&mask );/// Останов в случае необходимости
 }
 //---------------------------------------------------------------------------------------------
@@ -372,7 +280,6 @@ void scall_sig_signal( void * arg )
 }
 void sig_signal( sig_t * sig )
 {
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 10, (void *)sig );
 }
 //---------------------------------------------------------------------------------------------
@@ -383,7 +290,6 @@ void scall_sig_broadcast( void * arg )
 }
 void sig_broadcast( sig_t * sig )
 {
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 11, (void *)sig );
 }
 ///=================================================================
@@ -398,7 +304,6 @@ void sem_init( sem_t * sem, count_t count )
     sem_init_arg_t scarg;
     scarg.sem = sem;
     scarg.count = count;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 12, (void *)&scarg );
 }
 //----------------------------------------------------------------------
@@ -413,7 +318,6 @@ bool_t sem_lock( sem_t * sem )
 
     sem_lock_arg_t scarg;
     scarg.sem = sem;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 13, (void *)&scarg );
     return scarg.scall_ret;
 }
@@ -425,7 +329,6 @@ void scall_sem_unlock( void * arg )
 }
 void sem_unlock( sem_t * sem )
 {
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 14, (void *)sem );
 }
 ///=================================================================
@@ -452,7 +355,6 @@ void mutex_init(
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     scarg.prio = prio;
 #endif // CONFIG_USE_HIGHEST_LOCKER
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 15, (void *)&scarg );
 }
 //----------------------------------------------------------------------
@@ -465,7 +367,6 @@ bool_t mutex_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 16, (void *)&scarg );
     return scarg.scall_ret;
 }
@@ -481,7 +382,6 @@ bool_t mutex_try_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 17, (void *)&scarg );
     return scarg.scall_ret;
 }
@@ -494,6 +394,5 @@ void scall_mutex_unlock(void * arg)
 // Освобождение
 void mutex_unlock( mutex_t * mutex )
 {
-    cli(); // прерывания будут разрешены на выходе из _syscall()
     syscall( 18, (void *)mutex );
 }

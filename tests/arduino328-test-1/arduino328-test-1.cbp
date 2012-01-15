@@ -48,15 +48,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../arch/avr-gcc/bugurt_kernel.h" />
-		<Unit filename="../../arch/avr-gcc/bugurt_syscall.c">
+		<Unit filename="../../arch/avr-gcc/bugurt_kernel_asm.S" />
+		<Unit filename="../../arch/single-core/bugurt_syscall.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../arch/avr-gcc/bugurt_syscall.h" />
-		<Unit filename="../../arch/osbme/arch/avr/osbme.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../arch/osbme/arch/avr/osbme_asm.S" />
-		<Unit filename="../../arch/osbme/osbme.h" />
+		<Unit filename="../../arch/single-core/bugurt_syscall.h" />
 		<Unit filename="../../include/bugurt.h" />
 		<Unit filename="../../include/crit_sec.h" />
 		<Unit filename="../../include/gitem.h" />

@@ -80,6 +80,59 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 // Платформеннозависимый код
 // Просто функции, специфичные для AVR
+stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
+{
+    stack_t * tos = (stack_t *)sstart;
+    // return address
+    unsigned short tmp = (unsigned short)code;
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
+    tmp>>=8;
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
+
+    // s
+    *tos-- = 0x00;
+    *tos-- = 0x00;// r1 must B 0
+    *tos-- = 0x02;// r2
+    *tos-- = 0x80;// SREG: enable interrupts
+    *tos-- = 0x03;
+    *tos-- = 0x04;
+    *tos-- = 0x05;
+    *tos-- = 0x06;
+    *tos-- = 0x07;
+    *tos-- = 0x08;
+    *tos-- = 0x09;
+    *tos-- = 0x10;
+    *tos-- = 0x11;
+    *tos-- = 0x12;
+    *tos-- = 0x13;
+    *tos-- = 0x14;
+    *tos-- = 0x15;
+    *tos-- = 0x16;
+    *tos-- = 0x17;
+    *tos-- = 0x18;
+    *tos-- = 0x19;
+    *tos-- = 0x20;
+    *tos-- = 0x21;
+    *tos-- = 0x22;
+    *tos-- = 0x23;
+
+    tmp = (unsigned short)arg;
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff); // r24 LSByte of arg
+    tmp>>=8;
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff); // r25 MSByte of arg
+
+    *tos-- = 0x26;
+    *tos-- = 0x27;
+    *tos-- = 0x28;
+    *tos-- = 0x29;
+    *tos-- = 0x30;
+    *tos-- = 0x31;
+#ifdef RAMPZ
+    *tos-- = 0xff;
+#endif
+    return tos;
+}
+
 void disable_interrupts(void)
 {
     cli();
@@ -92,11 +145,6 @@ void enable_interrupts(void)
 proc_t * current_proc(void)
 {
     return kernel.sched.current_proc;
-}
-
-stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
-{
-    return (stack_t *)osbme_init_stack( (void *)sstart, (osbme_code_t)code, (void *)arg );
 }
 
 /******************************************************************************************************/
@@ -137,6 +185,90 @@ __attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void)
 
     BUGURT_ISR_EXIT();
 }
+#ifdef SYSCALL_ISR
+/// Если используется программное прерывание - вот его обработчик
+#ifdef RAMPZ
+#define PROC_STACK_OFFSET 8
+#else
+#define PROC_STACK_OFFSET 7
+#endif
+
+typedef struct
+{
+    unsigned char num;
+    void * arg;
+} syscall_data_t;
+__attribute__ (( signal, naked )) void SYSCALL_ISR(void)
+{
+    BUGURT_ISR_START();
+
+    // Получаем информацию о системном вызове из стека процесса
+    unsigned char * tos;
+    unsigned short temp;
+    /// Извлечение syscall_num и syscall_arg из стека процесса
+    tos = (unsigned char *)kernel.sched.current_proc->spointer + PROC_STACK_OFFSET;
+    temp = (unsigned short)*tos++;
+    temp <<= 8;
+    temp |= (unsigned short)*tos;
+
+    syscall_num = ((syscall_data_t *)temp)->num;
+    syscall_arg = ((syscall_data_t *)temp)->arg;
+
+    // Обрабатываем системный вызов
+    do_syscall();
+    kernel_state &= ~KRN_FLG_DO_SCALL;
+
+    // Перепланировка при необходимости
+    if( kernel_state & KRN_FLG_RESCHED )
+    {
+        kernel_state &= ~KRN_FLG_RESCHED;
+        sched_reschedule();
+    }
+
+    // Разрешаем обработку прерывания системного таймера.
+    start_scheduler();
+
+    BUGURT_ISR_EXIT();
+}
+
+syscall_data_t * _syscall( syscall_data_t * arg )
+{
+    kernel_state |= KRN_FLG_DO_SCALL;
+    stop_scheduler(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
+    raise_syscall_interrupt();
+    sei();
+    return arg;
+}
+
+static syscall_data_t scdata;
+void syscall( unsigned char num, void * arg )
+{
+     cli();
+     scdata.num = num;
+     scdata.arg = arg;
+     _syscall( &scdata );
+     SYSCALL_DELLAY();
+     while( kernel_state & KRN_FLG_DO_SCALL );
+}
+#else
+__attribute__ (( naked )) void _syscall(void)
+{
+    BUGURT_ISR_START();
+
+    // Обрабатываем системный вызов
+    do_syscall();
+
+    BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
+}
+///Если не используется программное прерывание - прямая передача управления
+void syscall( unsigned char num, void * arg )
+{
+    cli();
+    syscall_num = num;
+    syscall_arg = arg;
+    _syscall();
+}
+#endif
 /***************************************************************************************************************/
 // Функции общего пользования
 

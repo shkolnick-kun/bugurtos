@@ -7,11 +7,8 @@
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="6874" topLine="128" />
 	</File>
-	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="6471" topLine="108" />
-	</File>
-	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="6030" topLine="126" />
+	<File name="../../arch/single-core/bugurt_syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="63" />
 	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="7400" topLine="106" />
@@ -38,7 +35,7 @@
 		<Cursor position="0" topLine="81" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="273" topLine="24" />
+		<Cursor position="273" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1045" topLine="38" />

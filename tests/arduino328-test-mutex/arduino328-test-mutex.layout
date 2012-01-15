@@ -7,15 +7,6 @@
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="196" topLine="0" />
 	</File>
-	<File name="../../arch/avr-gcc/bugurt_syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="9354" topLine="183" />
-	</File>
-	<File name="../../arch/avr-gcc/bugurt_syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="6020" topLine="68" />
-	</File>
-	<File name="../../arch/osbme/arch/avr/osbme_asm.S" open="0" top="0" tabpos="0">
-		<Cursor position="6045" topLine="74" />
-	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="238" topLine="174" />
 	</File>
@@ -47,7 +38,7 @@
 		<Cursor position="2190" topLine="42" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="376" topLine="0" />
+		<Cursor position="273" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1055" topLine="99" />
