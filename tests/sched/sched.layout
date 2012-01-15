@@ -37,7 +37,7 @@
 	<File name="main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1035" topLine="58" />
 	</File>
-	<File name="../test_vm.c" open="0" top="0" tabpos="2">
+	<File name="../test_vm.c" open="1" top="0" tabpos="2">
 		<Cursor position="5272" topLine="322" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">

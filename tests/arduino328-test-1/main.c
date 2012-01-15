@@ -41,7 +41,6 @@ void blink_12(void * t) {
 
 proc_t proc[4];
 stack_t stack[4][128];
-
 void main0(void * t)
 {
     while(1)
@@ -49,13 +48,15 @@ void main0(void * t)
         wait_time(50);
     }
 }
+
 void main1(void * t)
 {
     while(1)
     {
-        wait_time(500);
+        wait_time(50);
     }
 }
+
 void main2(void * t)
 {
     while(1)
@@ -86,7 +87,6 @@ void idle_main(void * t)
          proc_run(&proc[2]);
     }
 }
-
 int main(void)
 {
     init_bugurt();

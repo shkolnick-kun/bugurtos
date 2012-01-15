@@ -36,7 +36,6 @@
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega328p" />
-			<Add option="-lm" />
 			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref,--gc-sections" />
 		</Linker>
 		<ExtraCommands>
