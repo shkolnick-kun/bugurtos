@@ -19,7 +19,7 @@
 #define RESCHED_ISR_ATTR __attribute__ (( signal, naked ))
 
 #define NOP() __asm__ __volatile__("nop"::)
-#define SYSCALL_DELLAY() NOP();NOP();NOP();
+#define SYSCALL_DELLAY() NOP();NOP();NOP()
 
 // data types
 typedef unsigned char index_t;
