@@ -168,7 +168,7 @@ bool_t proc_restart_isr(proc_t * proc)
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_PRE_END|PROC_FLG_DEAD) )
+    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_DEAD) )
     {
         ret = (bool_t)0;
         goto end;
@@ -236,23 +236,23 @@ bool_t proc_stop_isr(proc_t * proc)
 #endif // CONFIG_MP
     return ret;
 }
-void proc_reset_watchdog(void)
+
+void proc_reset_watchdog_isr(
+#ifdef CONFIG_MP
+                             core_id_t current_core
+#endif
+                             )
 {
     proc_t * proc;
 #ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
     proc = ((sched_t *)kernel.sched + current_core)->current_proc;
     spin_lock(&proc->lock);
 #else
-    enter_crit_sec();
     proc = kernel.sched.current_proc;
 #endif
     if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
 #ifdef CONFIG_MP
     spin_lock(&proc->lock);
-    _exit_crit_sec(current_core);
-#else
-    exit_crit_sec();
 #endif
 }
 
@@ -271,12 +271,6 @@ void _proc_flag_stop_isr( flag_t mask )
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );
 #endif //CONFIG_MP
-}
-void _proc_flag_stop( flag_t mask )
-{
-    disable_interrupts();
-    _proc_flag_stop_isr( mask );
-    enable_interrupts();
 }
 // Когда буду писать mutex-ы, есть идея реализовать вариант highest-locker
 // Это потребует перекраить поле lres (это будет не один счетчик, а индексированний массив счетчиков)

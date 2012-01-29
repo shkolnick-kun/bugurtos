@@ -121,6 +121,8 @@ void scall_proc_self_stop( void * arg );
 void scall_proc_terminate( void * arg );
 //----------------------------------------------------------------------
 void scall_proc_flag_stop( void * arg );
+//----------------------------------------------------------------------
+void scall_proc_reset_watchdog( void * arg );
 ///=================================================================
 ///                         Сигналы
 void scall_sig_init( void * arg );

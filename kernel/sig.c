@@ -131,12 +131,6 @@ void sig_wait_stage_1_isr( sig_t * sig )
     gitem_insert_group( (gitem_t *)proc, (xlist_t *)sig );
 #endif //CONFIG_MP
 }
-void sig_wait_stage_1( sig_t * sig )
-{
-    disable_interrupts();
-    sig_wait_stage_1_isr( sig );
-    enable_interrupts();
-}
 //========================================================================================
 // Тоже самое что и предыдущие, олько для вызова из обработчиков прерываний и из критических секций
 void sig_signal_isr( sig_t * sig )
