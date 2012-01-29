@@ -7,6 +7,9 @@
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="196" topLine="0" />
 	</File>
+	<File name="../../arch/single-core/bugurt_syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="13334" topLine="374" />
+	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="238" topLine="174" />
 	</File>
@@ -26,21 +29,21 @@
 		<Cursor position="291" topLine="0" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="1640" topLine="144" />
+		<Cursor position="9199" topLine="0" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="10233" topLine="312" />
+		<Cursor position="7735" topLine="223" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="1898" topLine="81" />
+		<Cursor position="7545" topLine="104" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="2190" topLine="42" />
+		<Cursor position="2190" topLine="99" />
 	</File>
-	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="273" topLine="0" />
+	<File name="config.h" open="1" top="1" tabpos="2">
+		<Cursor position="273" topLine="36" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1055" topLine="45" />
+	<File name="main.c" open="1" top="0" tabpos="1">
+		<Cursor position="1032" topLine="75" />
 	</File>
 </CodeBlocks_layout_file>

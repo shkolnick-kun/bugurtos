@@ -13,8 +13,8 @@
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="93" />
 	</File>
-	<File name="../../include/proc.h" open="0" top="0" tabpos="3">
-		<Cursor position="11381" topLine="207" />
+	<File name="../../include/proc.h" open="1" top="0" tabpos="3">
+		<Cursor position="10908" topLine="148" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />

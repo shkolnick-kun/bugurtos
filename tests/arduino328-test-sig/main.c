@@ -146,7 +146,7 @@ int main(void)
 
     G1_on();
     G2_on();
-    R3_on();
+    G3_on();
 
     proc_init_isr(&proc[0], main0, blink_1, blink_1, 0, &stack[0][127], 1, 2, 0);
     proc_init_isr(&proc[1], main1, blink_2, blink_2, 0, &stack[1][127], 2, 3, 0);

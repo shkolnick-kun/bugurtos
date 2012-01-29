@@ -92,9 +92,9 @@
 		<Cursor position="9856" topLine="163" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="273" topLine="0" />
+		<Cursor position="273" topLine="27" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="62" topLine="0" />
+		<Cursor position="2082" topLine="127" />
 	</File>
 </CodeBlocks_layout_file>

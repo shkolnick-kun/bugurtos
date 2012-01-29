@@ -104,8 +104,8 @@ void sig_wait_stage_1_isr( sig_t * sig )
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
     // Останавливаем процесс
-    _proc_stop(proc);
     proc->flags |= PROC_FLG_WAIT;
+    _proc_stop(proc);
     // Вставляем процесс в группированный список ожидания сигнала
 #ifdef CONFIG_MP
     {
