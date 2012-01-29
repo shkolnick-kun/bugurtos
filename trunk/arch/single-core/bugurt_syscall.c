@@ -312,7 +312,6 @@ void scall_sem_lock( void * arg )
 {
     ((sem_lock_arg_t *)arg)->scall_ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
 }
-const flag_t all_flags_mask = ~(flag_t)0;
 bool_t sem_lock( sem_t * sem )
 {
 

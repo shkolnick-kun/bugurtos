@@ -162,13 +162,18 @@ void _mutex_unlock( mutex_t *  mutex )
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-
     _proc_lres_dec( proc, mutex->prio );
+#else
+    _proc_lres_dec( proc );
+#endif // CONFIG_USE_HIGHEST_LOCKER
     // Если проготовлен и готов к остановке - останавливаем
     if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
     {
+        proc->flags &= ~(PROC_FLG_RUN|PROC_FLG_PRE_END);
         _proc_stop_( proc );
+#ifdef CONFIG_USE_HIGHEST_LOCKER
         _proc_prio_control_stoped( proc );
+#endif // CONFIG_USE_HIGHEST_LOCKER
         // Нужна перепланировка, процесс остановили и не запустили обратно
 #ifdef CONFIG_MP
         resched( proc->core_id );
@@ -176,11 +181,9 @@ void _mutex_unlock( mutex_t *  mutex )
         resched();
 #endif // CONFIG_MP
     }
+#ifdef CONFIG_USE_HIGHEST_LOCKER
     // Не останавливаем - меняем проиритет на ходу
     else _proc_prio_control_running( proc );
-#else // CONFIG_USE_HIGHEST_LOCKER
-    _proc_lres_dec( proc );
-    if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )_proc_stop( proc );
 #endif // CONFIG_USE_HIGHEST_LOCKER
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );

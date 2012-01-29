@@ -45,7 +45,7 @@ mutex_t mut;
 
 void main0(void * t)
 {
-    wait_time(2000);
+    wait_time(2500);
     while(1)
     {
         mutex_lock(&mut);
@@ -56,7 +56,7 @@ void main0(void * t)
 }
 void main1(void * t)
 {
-    wait_time(2000);
+    wait_time(2500);
     while(1)
     {
         bool_t test = mutex_try_lock( &mut );
@@ -70,7 +70,7 @@ void main1(void * t)
 }
 void main2(void * t)
 {
-    wait_time(2000);
+    wait_time(2500);
     while(1)
     {
         wait_time(500);
@@ -78,7 +78,12 @@ void main2(void * t)
 }
 void main3(void * t)
 {
-    wait_time(2000);
+    wait_time(500);
+    mutex_lock(&mut);
+    proc_stop(&proc[3]);
+    wait_time(500);
+    mutex_unlock(&mut);
+    wait_time(500);
     while(1)
     {
         mutex_lock(&mut);
@@ -90,6 +95,8 @@ void main3(void * t)
 
 void idle_main(void *arg)
 {
+    wait_time(1500);
+    proc_run(&proc[3]);
     while(1)
     {
          wait_time(500);
@@ -120,7 +127,7 @@ int main(void)
 
     G1_on();
     G2_on();
-    R3_on();
+    G3_on();
 
     proc_init_isr(&proc[0], main0, blink_1, blink_1, 0, &stack[0][127], 1, 2, 0);
     proc_init_isr(&proc[1], main1, blink_2, blink_2, 0, &stack[1][127], 2, 3, 0);
