@@ -214,6 +214,33 @@ bool_t proc_stop( proc_t * proc )
     return ret;
 }
 
+void proc_reset_watchdog(void)
+{
+    proc_t * proc;
+#ifdef CONFIG_MP
+    core_id_t current_core = _enter_crit_sec();
+    proc = ((sched_t *)kernel.sched + current_core)->current_proc;
+    spin_lock(&proc->lock);
+#else
+    enter_crit_sec();
+    proc = kernel.sched.current_proc;
+#endif
+    if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
+#ifdef CONFIG_MP
+    spin_lock(&proc->lock);
+    _exit_crit_sec(current_core);
+#else
+    exit_crit_sec();
+#endif
+}
+
+// самоостанов процесса по флагам
+void proc_flag_stop( flag_t mask )
+{
+    disable_interrupts();
+    _proc_flag_stop_isr( mask );
+    enable_interrupts();
+}
 // самоостанов процесса
 void proc_self_stop(void)
 {

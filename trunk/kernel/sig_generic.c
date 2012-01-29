@@ -95,10 +95,16 @@ void sig_init( sig_t * sig )
 #endif
 }
 
+void sig_wait_stage_1( sig_t * sig )
+{
+    disable_interrupts();
+    sig_wait_stage_1_isr( sig );
+    enable_interrupts();
+}
 void sig_wait( sig_t * sig )
 {
     sig_wait_stage_1( sig );
-    _proc_flag_stop(~PROC_FLG_WAIT);
+    proc_flag_stop(~PROC_FLG_WAIT);
 }
 
 // Разбудить 1 процесс
