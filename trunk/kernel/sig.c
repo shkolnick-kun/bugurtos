@@ -105,7 +105,12 @@ void sig_wait_stage_1_isr( sig_t * sig )
 #endif // CONFIG_MP
     // Останавливаем процесс
     proc->flags |= PROC_FLG_WAIT;
-    _proc_stop(proc);
+    _proc_stop_( proc );
+#ifdef CONFIG_MP
+    resched( proc->core_id );
+#else
+    resched();
+#endif // CONFIG_MP
     // Вставляем процесс в группированный список ожидания сигнала
 #ifdef CONFIG_MP
     {
