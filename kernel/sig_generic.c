@@ -79,20 +79,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../include/bugurt.h"
 void sig_init( sig_t * sig )
 {
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
-    spin_init( &sig->lock );
-    spin_lock( &sig->lock );
-#else
-    enter_crit_sec();
-#endif
+    ENTER_CRIT_SEC();
     sig_init_isr( sig );
-#ifdef CONFIG_MP
-    spin_unlock( &sig->lock );
-    _exit_crit_sec( current_core );
-#else
-    exit_crit_sec();
-#endif
+    EXIT_CRIT_SEC();
 }
 
 void sig_wait_stage_1( sig_t * sig )
@@ -110,27 +99,15 @@ void sig_wait( sig_t * sig )
 // Разбудить 1 процесс
 void sig_signal( sig_t * sig )
 {
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
+    ENTER_CRIT_SEC();
     sig_signal_isr( sig );
-    _exit_crit_sec(current_core);
-#else
-    enter_crit_sec();
-    sig_signal_isr( sig );
-    exit_crit_sec();
-#endif //CONFIG_MP
+    EXIT_CRIT_SEC();
 }
 
 // Разбудить все процессы
 void sig_broadcast( sig_t * sig )
 {
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
+    ENTER_CRIT_SEC();
     sig_broadcast_isr( sig );
-    _exit_crit_sec(current_core);
-#else
-    enter_crit_sec();
-    sig_broadcast_isr( sig );
-    exit_crit_sec();
-#endif //CONFIG_MP
+    EXIT_CRIT_SEC();
 }

@@ -34,7 +34,6 @@
 			<Add option='-include &quot;${PROJECT_DIR}config.h&quot;' />
 		</Compiler>
 		<Unit filename="../../include/bugurt.h" />
-		<Unit filename="../../include/config.h" />
 		<Unit filename="../../include/gitem.h" />
 		<Unit filename="../../include/group.h" />
 		<Unit filename="../../include/index.h" />

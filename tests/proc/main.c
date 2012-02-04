@@ -46,7 +46,7 @@ load_t stat_calc_load(prio_t prio, stat_t * stat)
 {
  return 0;
 }
-void * proc_stack_init(stack_t * sstart, code_t code, void * arg)
+stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 {
     return (stack_t)0;
 }
