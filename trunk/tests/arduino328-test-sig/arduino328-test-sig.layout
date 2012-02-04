@@ -7,6 +7,9 @@
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="9049" topLine="128" />
 	</File>
+	<File name="../../arch/single-core/bugurt_syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="11886" topLine="274" />
+	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="13520" topLine="270" />
 	</File>
@@ -38,7 +41,7 @@
 		<Cursor position="1619" topLine="42" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="19855" topLine="164" />
+		<Cursor position="18913" topLine="278" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="7153" topLine="124" />
@@ -74,27 +77,27 @@
 		<Cursor position="5937" topLine="103" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="8907" topLine="137" />
+		<Cursor position="9981" topLine="191" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="6" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="8074" topLine="0" />
+		<Cursor position="7735" topLine="124" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="10555" topLine="156" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="512" topLine="0" />
+		<Cursor position="512" topLine="125" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="9856" topLine="163" />
+		<Cursor position="8010" topLine="142" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="273" topLine="27" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="2082" topLine="127" />
+		<Cursor position="2082" topLine="94" />
 	</File>
 </CodeBlocks_layout_file>

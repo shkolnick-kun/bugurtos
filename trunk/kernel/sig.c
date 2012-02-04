@@ -82,12 +82,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void sig_init_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
+    spin_init( &sig->lock );
+    spin_lock( &sig->lock );
     core_id_t i;
     for( i = 0; i < (core_id_t)MAX_CORES; i++ )
     {
         xlist_init( (xlist_t *)sig->sig_list + i );
         stat_init( (stat_t *)sig->sig_stat + i );
     }
+    spin_unlock( &sig->lock );
 #else
     xlist_init( (xlist_t *)sig );
 #endif
@@ -153,7 +156,7 @@ void sig_signal_isr( sig_t * sig )
     }
     spin_lock( &proc->lock );// Захват блокировки процесса
     // Вырезаем процесс из списка ожидания сигнала
-    gitem_fast_cut( (gitem_t *)proc );// Не захватываем блокировку процесса
+    gitem_fast_cut( (gitem_t *)proc );
     stat_dec( proc, (stat_t *)sig->sig_stat + core );
     //Запуск процесса
     // Вставляем его в список ready соответствующего планировщика

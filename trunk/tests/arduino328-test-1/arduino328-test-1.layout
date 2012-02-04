@@ -10,16 +10,16 @@
 	<File name="../../arch/avr-gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="135" topLine="0" />
 	</File>
-	<File name="../../arch/single-core/bugurt_syscall.c" open="1" top="0" tabpos="1">
+	<File name="../../arch/single-core/bugurt_syscall.c" open="0" top="0" tabpos="1">
 		<Cursor position="9007" topLine="354" />
 	</File>
 	<File name="../../arch/single-core/bugurt_syscall.h" open="0" top="0" tabpos="2">
-		<Cursor position="6083" topLine="92" />
+		<Cursor position="7604" topLine="113" />
 	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="13581" topLine="274" />
 	</File>
-	<File name="../../kernel/crit_sec.c" open="1" top="0" tabpos="3">
+	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="3">
 		<Cursor position="6841" topLine="69" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
@@ -32,6 +32,6 @@
 		<Cursor position="672" topLine="12" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2115" topLine="0" />
+		<Cursor position="1222" topLine="38" />
 	</File>
 </CodeBlocks_layout_file>

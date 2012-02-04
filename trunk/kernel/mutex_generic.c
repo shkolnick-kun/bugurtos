@@ -85,36 +85,19 @@ void mutex_init(
 #endif // CONFIG_USE_HIGHEST_LOCKER
 )
 {
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
-    spin_init( &mutex->lock );
-    spin_lock( &mutex->lock );
-#else
-    enter_crit_sec();
-#endif //CONFIG_MP
+    ENTER_CRIT_SEC();
     mutex_init_isr( mutex
 #ifdef CONFIG_USE_HIGHEST_LOCKER
                     ,prio
 #endif // CONFIG_USE_HIGHEST_LOCKER
                     );
-#ifdef CONFIG_MP
-    spin_unlock( &mutex->lock );
-    _exit_crit_sec(current_core);
-#else
-    exit_crit_sec();
-#endif //CONFIG_MP
+    EXIT_CRIT_SEC();
 }
 
 bool_t mutex_lock( mutex_t * mutex )
 {
     disable_interrupts();
-#ifdef CONFIG_MP
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
     bool_t ret = _mutex_lock( mutex );
-#ifdef CONFIG_MP
-    spin_unlock( &mutex->lock );
-#endif //CONFIG_MP
     enable_interrupts();
     return ret;
 }
@@ -123,13 +106,7 @@ bool_t mutex_lock( mutex_t * mutex )
 bool_t mutex_try_lock( mutex_t * mutex )
 {
     disable_interrupts();
-#ifdef CONFIG_MP
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
     bool_t ret = _mutex_try_lock( mutex );
-#ifdef CONFIG_MP
-    spin_unlock( &mutex->lock );
-#endif //CONFIG_MP
     enable_interrupts();
     return ret;
 }
@@ -138,12 +115,6 @@ bool_t mutex_try_lock( mutex_t * mutex )
 void mutex_unlock( mutex_t * mutex )
 {
     disable_interrupts();
-#ifdef CONFIG_MP
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
     _mutex_unlock( mutex );
-#ifdef CONFIG_MP
-    spin_unlock( &mutex->lock );
-#endif //CONFIG_MP
     enable_interrupts();
 }

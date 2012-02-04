@@ -79,20 +79,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../include/bugurt.h"
 void sem_init( sem_t * sem, count_t count )
 {
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
-    spin_init( &sem->lock );
-    spin_lock( &sem->lock );
-#else
-    enter_crit_sec();
-#endif //CONFIG_MP
+    ENTER_CRIT_SEC();
     sem_init_isr( sem, count );
-#ifdef CONFIG_MP
-    spin_unlock( &sem->lock );
-    _exit_crit_sec(current_core);
-#else
-    exit_crit_sec();
-#endif //CONFIG_MP
+    EXIT_CRIT_SEC();
 }
 
 // Захват/освобождение
@@ -100,13 +89,7 @@ bool_t sem_lock( sem_t * sem )
 {
     bool_t ret;
     disable_interrupts();
-#ifdef CONFIG_MP
-    spin_lock( &sem->lock );// Захват спин-блокировки семафора
-#endif //CONFIG_MP
     ret = _sem_lock( sem );
-#ifdef CONFIG_MP
-    spin_unlock( &sem->lock );// Освобождение спин-блокировки семафора
-#endif //CONFIG_MP
     enable_interrupts();
     return ret;
 }

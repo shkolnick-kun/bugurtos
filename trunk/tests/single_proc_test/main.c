@@ -42,7 +42,7 @@ void exit_crit_sec(void)
 void disable_interrupts(void) {}
 void enable_interrupts(void) {}
 
-void * proc_stack_init(stack_t * sstart, code_t code, void * arg)
+stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 {
     return (stack_t)0;
 }
@@ -80,192 +80,192 @@ int main()
     }
     /// Тест планировщика
     // Текущий процесс idle
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc6
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc6
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc7
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc8
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc7
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc8
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc9
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc10
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc11
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc9
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc10
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc11
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc2
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc2
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc3
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc4
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc5
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc3
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc4
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc5
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc2
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc2
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc3
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc4
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc5
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc3
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc4
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc5
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс idle
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
     ///-------------------------------------------------
     /// Тест сигналов
     sig_wait_stage_1((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc1
     sig_wait_stage_1((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc2
     sig_wait_stage_1((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc3
     sig_signal((sig_t *)sig);
     sig_signal((sig_t *)sig);
     sig_signal((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc0
     sig_wait_stage_1((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc1
     sig_wait_stage_1((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc2
     sig_wait_stage_1((sig_t *)sig);
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc3
     sig_broadcast((sig_t *)sig);
     ///----------------------------------------
     /// Тест семафоров
-    _sem_lock_stage_1( &sem );
-    sched_reschedule(0);
+    _sem_lock( &sem );
+    sched_reschedule();
     // Текущий процесс prc0
-    _sem_lock_stage_1( &sem );
-    sched_reschedule(0);
+    _sem_lock( &sem );
+    sched_reschedule();
     // Текущий процесс prc1
-    _sem_lock_stage_1( &sem );
-    sched_reschedule(0);
+    _sem_lock( &sem );
+    sched_reschedule();
     // Текущий процесс prc2
-    _sem_lock_stage_1( &sem );
-    sched_reschedule(0);
+    _sem_lock( &sem );
+    sched_reschedule();
     // Текущий процесс prc3
 
     _sem_unlock( &sem );
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc0
 
     _sem_unlock( &sem );
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-     sched_schedule(0);
+     sched_schedule();
     // Текущий процесс prc1
 
     _sem_unlock( &sem );
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc2
 
     _sem_unlock( &sem );
-    sched_schedule(0);
+    sched_schedule();
     ///---------------------------------------------
     /// Тест мьютексов
     // Текущий процесс prc3
 
     mutex_lock(mut);//win
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc4
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc5
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc3
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc4
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc5
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс idle
-    sched_schedule(0);
+    sched_schedule();
 
     // Текущий процесс prc0
     mutex_lock(mut); //fail
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc1
     mutex_lock(mut); //fail
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc2
     mutex_lock(mut); //fail
-    sched_reschedule(0);
+    sched_reschedule();
     // Текущий процесс prc3
     mutex_unlock(mut);
-    sched_reschedule(0);
+    sched_reschedule();
 
     // Текущий процесс prc0
     mutex_unlock(mut);
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc0
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
 
     mutex_unlock(mut);
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc1
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc2
 
     mutex_unlock(mut);
-    sched_schedule(0);
+    sched_schedule();
     // Текущий процесс prc3
 
     printf("Hello world!\n");

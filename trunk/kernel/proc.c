@@ -94,6 +94,10 @@ void proc_init_isr(
 #endif // CONFIG_MP
 )
 {
+#ifdef CONFIG_MP
+    spin_init( &proc->lock );
+    spin_lock( &proc->lock );
+#endif // CONFIG_MP
     gitem_init( (gitem_t *)proc, prio );
     proc->flags = ( is_rt )?PROC_FLG_RT:(flag_t)0;
 #ifdef CONFIG_USE_HIGHEST_LOCKER
@@ -114,6 +118,9 @@ void proc_init_isr(
     proc->arg = arg;
     proc->sstart = sstart;
     if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)proc_run_wrapper, (void *)proc);
+#ifdef CONFIG_MP
+    spin_unlock( &proc->lock );
+#endif // CONFIG_MP
 }
 //  Функция для внутреннего использования - собственно запуск процесса
 #ifdef CONFIG_MP

@@ -85,16 +85,26 @@ void mutex_init_isr(
 #endif // CONFIG_USE_HIGHEST_LOCKER
 )
 {
+#ifdef CONFIG_MP
+    spin_init( &mutex->lock );
+    spin_lock( &mutex->lock );
+#endif //CONFIG_MP
     xlist_init( (xlist_t *)mutex );
     mutex->free = (bool_t)1;
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     mutex->prio = prio;
 #endif // CONFIG_USE_HIGHEST_LOCKER
+#ifdef CONFIG_MP
+    spin_unlock( &mutex->lock );
+#endif //CONFIG_MP
 }
 
 // К моменту вызова захвачена блокировка mutex-а, запрещены прерывания
 bool_t _mutex_lock( mutex_t * mutex )
 {
+#ifdef CONFIG_MP
+    spin_lock( &mutex->lock );
+#endif //CONFIG_MP
     bool_t ret = mutex->free;
     proc_t * proc = current_proc();
 #ifdef CONFIG_MP
@@ -128,12 +138,16 @@ bool_t _mutex_lock( mutex_t * mutex )
     }
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );
+    spin_unlock( &mutex->lock );
 #endif // CONFIG_MP
     return ret;
 }
 
 bool_t _mutex_try_lock( mutex_t * mutex )
 {
+#ifdef CONFIG_MP
+    spin_lock( &mutex->lock );
+#endif //CONFIG_MP
     bool_t ret = mutex->free;
     proc_t * proc = current_proc();
 #ifdef CONFIG_MP
@@ -151,12 +165,16 @@ bool_t _mutex_try_lock( mutex_t * mutex )
     }
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );
+    spin_unlock( &mutex->lock );
 #endif // CONFIG_MP
     return ret;
 }
 
 void _mutex_unlock( mutex_t *  mutex )
 {
+#ifdef CONFIG_MP
+    spin_lock( &mutex->lock );
+#endif //CONFIG_MP
     proc_t * proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
@@ -193,7 +211,11 @@ void _mutex_unlock( mutex_t *  mutex )
     {
         // Список ожидающих пуст, выходим
         mutex->free = (bool_t)1;
+#ifdef CONFIG_MP
+        goto exit_label;
+#else
         return;
+#endif // CONFIG_MP
     }
     // Список ожидающих не пуст, запускаем голову
     proc = (proc_t *)xlist_head((xlist_t *)mutex);
@@ -210,5 +232,7 @@ void _mutex_unlock( mutex_t *  mutex )
     _proc_run( proc );
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );
+exit_label:
+    spin_unlock( &mutex->lock );
 #endif // CONFIG_MP
 }

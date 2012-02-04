@@ -92,13 +92,7 @@ void proc_init(
 #endif // CONFIG_MP
 )
 {
-#ifdef CONFIG_MP
-    core_id_t core = _enter_crit_sec();
-    spin_init( &proc->lock );
-    spin_lock( &proc->lock );
-#else
-    enter_crit_sec();
-#endif // CONFIG_MP
+    ENTER_CRIT_SEC();
     proc_init_isr(
                     proc, //Указатель на инициируемый процесс
                     pmain,
@@ -113,12 +107,7 @@ void proc_init(
                     ,affinity
 #endif // CONFIG_MP
                 );
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-    _exit_crit_sec( core );
-#else
-    exit_crit_sec();
-#endif // CONFIG_MP
+    EXIT_CRIT_SEC();
 }
 
 //Обертка для запуска процессса
@@ -165,52 +154,27 @@ void proc_run_wrapper(proc_t * proc)
 bool_t proc_run(proc_t * proc)
 {
 
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
-#else
-    enter_crit_sec();
-#endif // CONFIG_MP
+    ENTER_CRIT_SEC();
     bool_t ret = proc_run_isr( proc );
-#ifdef CONFIG_MP
-    _exit_crit_sec( current_core );
-#else
-    exit_crit_sec();
-#endif // CONFIG_MP
+    EXIT_CRIT_SEC();
     return ret;
 }
 
 // Перезепуск процесса
 bool_t proc_restart(proc_t * proc)
 {
-
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
-#else
-    enter_crit_sec();
-#endif // CONFIG_MP
+    ENTER_CRIT_SEC();
     bool_t ret = proc_restart_isr( proc );
-#ifdef CONFIG_MP
-    _exit_crit_sec( current_core );
-#else
-    exit_crit_sec();
-#endif // CONFIG_MP
+    EXIT_CRIT_SEC();
     return ret;
 }
 
 // Останов процесса
 bool_t proc_stop( proc_t * proc )
 {
-#ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
-#else
-    enter_crit_sec();
-#endif // CONFIG_MP
+    ENTER_CRIT_SEC();
     bool_t ret = proc_stop_isr( proc );
-#ifdef CONFIG_MP
-    _exit_crit_sec( current_core );
-#else
-    exit_crit_sec();
-#endif // CONFIG_MP
+    EXIT_CRIT_SEC();
     return ret;
 }
 

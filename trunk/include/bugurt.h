@@ -295,4 +295,16 @@ extern void init_bugurt(void);
 */
 extern void start_bugurt(void);
 
+#ifdef CONFIG_MP
+
+#define ENTER_CRIT_SEC() core_id_t current_core = _enter_crit_sec()
+#define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
+
+#else
+
+#define ENTER_CRIT_SEC() enter_crit_sec()
+#define EXIT_CRIT_SEC() exit_crit_sec()
+
+#endif // CONFIG_MP
+
 #endif //_BUGURT_H_

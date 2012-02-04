@@ -81,21 +81,27 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Инициализация
 void sem_init_isr( sem_t * sem, count_t count )
 {
+#ifdef CONFIG_MP
+    spin_init( &sem->lock );
+    spin_lock( &sem->lock );
+#endif //CONFIG_MP
     xlist_init( (xlist_t *)sem );
     sem->counter = count;
+#ifdef CONFIG_MP
+    spin_unlock( &sem->lock );
+#endif //CONFIG_MP
 }
 
 // То же, для внутреннего использования
 bool_t _sem_lock( sem_t * sem )
 {
-
+#ifdef CONFIG_MP
+    spin_lock( &sem->lock );// Захват спин-блокировки семафора
+#endif //CONFIG_MP
     bool_t ret = 0;
     if( sem->counter != 0 )
     {
         sem->counter--;
-#ifdef CONFIG_MP
-        spin_unlock( &sem->lock );// Освобождение блокировки семафора
-#endif //CONFIG_MP
         ret = (bool_t)1;
     }
     else
@@ -111,6 +117,9 @@ bool_t _sem_lock( sem_t * sem )
         spin_unlock( &proc->lock );// Освобождение блокировки процесса
 #endif //CONFIG_MP
     }
+#ifdef CONFIG_MP
+    spin_unlock( &sem->lock );// Освобождение спин-блокировки семафора
+#endif //CONFIG_MP
     return ret;
 }
 
@@ -119,9 +128,6 @@ void _sem_unlock( sem_t * sem )
     if( ((xlist_t *)sem)->index == (index_t)0  )
     {
         sem->counter++;
-#ifdef CONFIG_MP
-        spin_unlock( &sem->lock );
-#endif //CONFIG_MP
         return;
     }
     proc_t * proc = (proc_t *)xlist_head((xlist_t *)sem);
