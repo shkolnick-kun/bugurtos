@@ -10,14 +10,17 @@
 	<File name="../../arch/avr-gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="135" topLine="0" />
 	</File>
-	<File name="../../arch/single-core/bugurt_syscall.c" open="0" top="0" tabpos="1">
-		<Cursor position="9007" topLine="354" />
+	<File name="../../arch/single-core/bugurt_syscall.c" open="1" top="0" tabpos="1">
+		<Cursor position="13994" topLine="332" />
 	</File>
-	<File name="../../arch/single-core/bugurt_syscall.h" open="0" top="0" tabpos="2">
-		<Cursor position="7604" topLine="113" />
+	<File name="../../arch/single-core/bugurt_syscall.h" open="1" top="0" tabpos="2">
+		<Cursor position="8108" topLine="131" />
 	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="13581" topLine="274" />
+	</File>
+	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
+		<Cursor position="8872" topLine="127" />
 	</File>
 	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="3">
 		<Cursor position="6841" topLine="69" />
@@ -26,7 +29,7 @@
 		<Cursor position="0" topLine="87" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="6834" topLine="71" />
+		<Cursor position="7155" topLine="104" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
 		<Cursor position="672" topLine="12" />

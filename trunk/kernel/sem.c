@@ -123,6 +123,24 @@ bool_t _sem_lock( sem_t * sem )
     return ret;
 }
 
+// То же, для внутреннего использования
+bool_t _sem_try_lock( sem_t * sem )
+{
+#ifdef CONFIG_MP
+    spin_lock( &sem->lock );// Захват спин-блокировки семафора
+#endif //CONFIG_MP
+    bool_t ret = 0;
+    if( sem->counter != 0 )
+    {
+        sem->counter--;
+        ret = (bool_t)1;
+    }
+#ifdef CONFIG_MP
+    spin_unlock( &sem->lock );// Освобождение спин-блокировки семафора
+#endif //CONFIG_MP
+    return ret;
+}
+
 void _sem_unlock( sem_t * sem )
 {
     if( ((xlist_t *)sem)->index == (index_t)0  )

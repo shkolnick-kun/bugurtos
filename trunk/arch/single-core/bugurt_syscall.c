@@ -100,6 +100,7 @@ const code_t syscall_routine[] =
     // Семафоры
     scall_sem_init,
     scall_sem_lock,
+    scall_sem_try_lock,
     scall_sem_unlock,
     // Мьютексы
     scall_mutex_init,
@@ -338,17 +339,31 @@ bool_t sem_lock( sem_t * sem )
 }
 //----------------------------------------------------------------------
 //15
+void scall_sem_try_lock( void * arg )
+{
+    ((sem_lock_arg_t *)arg)->scall_ret = _sem_try_lock( ((sem_lock_arg_t *)arg)->sem );
+}
+bool_t sem_try_lock( sem_t * sem )
+{
+
+    sem_lock_arg_t scarg;
+    scarg.sem = sem;
+    syscall( 15, (void *)&scarg );
+    return scarg.scall_ret;
+}
+//----------------------------------------------------------------------
+//16
 void scall_sem_unlock( void * arg )
 {
     _sem_unlock( (sem_t *)arg );
 }
 void sem_unlock( sem_t * sem )
 {
-    syscall( 15, (void *)sem );
+    syscall( 16, (void *)sem );
 }
 ///=================================================================
 ///                         Мьютексы
-//16
+//17
 void scall_mutex_init(void * arg)
 {
     mutex_init_isr(
@@ -370,10 +385,10 @@ void mutex_init(
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     scarg.prio = prio;
 #endif // CONFIG_USE_HIGHEST_LOCKER
-    syscall( 16, (void *)&scarg );
+    syscall( 17, (void *)&scarg );
 }
 //----------------------------------------------------------------------
-//17
+//18
 void scall_mutex_lock(void * arg)
 {
     ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
@@ -382,12 +397,12 @@ bool_t mutex_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    syscall( 17, (void *)&scarg );
+    syscall( 18, (void *)&scarg );
     return scarg.scall_ret;
 }
 // Захват
 //----------------------------------------------------------------------
-//18
+//19
 void scall_mutex_try_lock(void * arg)
 {
     ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
@@ -397,11 +412,11 @@ bool_t mutex_try_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    syscall( 18, (void *)&scarg );
+    syscall( 19, (void *)&scarg );
     return scarg.scall_ret;
 }
 //----------------------------------------------------------------------
-//19
+//20
 void scall_mutex_unlock(void * arg)
 {
     _mutex_unlock( (mutex_t *)arg );
@@ -409,5 +424,5 @@ void scall_mutex_unlock(void * arg)
 // Освобождение
 void mutex_unlock( mutex_t * mutex )
 {
-    syscall( 19, (void *)mutex );
+    syscall( 20, (void *)mutex );
 }

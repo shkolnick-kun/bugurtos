@@ -77,7 +77,7 @@
 		<Cursor position="5937" topLine="103" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="9981" topLine="191" />
+		<Cursor position="9981" topLine="140" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="6" />
@@ -92,7 +92,7 @@
 		<Cursor position="512" topLine="125" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="8010" topLine="142" />
+		<Cursor position="8010" topLine="25" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="273" topLine="27" />

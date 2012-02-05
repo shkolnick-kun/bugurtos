@@ -142,6 +142,7 @@ typedef struct {
     bool_t scall_ret;
 }sem_lock_arg_t;
 void scall_sem_lock( void * arg );
+void scall_sem_try_lock( void * arg );
 //----------------------------------------------------------------------
 void scall_sem_unlock( void * arg );
 ///=================================================================
