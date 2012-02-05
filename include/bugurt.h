@@ -136,6 +136,10 @@ typedef void (* code_t)(void *);
 //   Внешние функции, определяемые пользователем
 //======================================================
 #ifdef CONFIG_MP
+
+#define ENTER_CRIT_SEC() core_id_t current_core = _enter_crit_sec()
+#define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
+
 /*!
 \brief
 Инициализация спин-блокировки на многопроцессорной системе.
@@ -236,6 +240,10 @@ extern load_t stat_calc_load(prio_t prio, stat_t * stat);
 */
 extern void resched(core_id_t core_id);
 #else
+
+#define ENTER_CRIT_SEC() enter_crit_sec()
+#define EXIT_CRIT_SEC() exit_crit_sec()
+
 /*!
 \brief
 Перепланировка.
@@ -294,17 +302,5 @@ extern void init_bugurt(void);
 Запуск Ядра. После вызова этой функции можно ничего не писать - всеравно исполняться не будет.
 */
 extern void start_bugurt(void);
-
-#ifdef CONFIG_MP
-
-#define ENTER_CRIT_SEC() core_id_t current_core = _enter_crit_sec()
-#define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
-
-#else
-
-#define ENTER_CRIT_SEC() enter_crit_sec()
-#define EXIT_CRIT_SEC() exit_crit_sec()
-
-#endif // CONFIG_MP
 
 #endif //_BUGURT_H_

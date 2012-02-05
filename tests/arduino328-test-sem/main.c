@@ -49,6 +49,7 @@ sem_t sem;
 
 void main0(void * t)
 {
+    wait_time(1000);
     while(1)
     {
         sem_lock(&sem);
@@ -58,6 +59,7 @@ void main0(void * t)
 }
 void main1(void * t)
 {
+    wait_time(1000);
     while(1)
     {
         sem_lock(&sem);
@@ -77,6 +79,20 @@ void main2(void * t)
 }
 void main3(void * t)
 {
+    wait_time(500);
+    if(sem_try_lock(&sem))
+    {
+        blink_10(0);
+        wait_time(250);
+        if(sem_try_lock(&sem))
+        {
+            blink_11(0);
+            wait_time(100);
+            blink_11(0);
+        }
+        sem_unlock(&sem);
+        blink_10(0);
+    }
     while(1)
     {
         for(unsigned char i=0;i<10;i++);
@@ -84,6 +100,7 @@ void main3(void * t)
 }
 void idle_main(void * t)
 {
+    wait_time(1000);
     // Insert code
     while(1)
     {
@@ -128,7 +145,6 @@ int main(void)
 
     proc_run_isr(&proc[0]);
     proc_run_isr(&proc[1]);
-    proc_run_isr(&proc[2]);
     proc_run_isr(&proc[3]);
 
     sem_init_isr(&sem,1);

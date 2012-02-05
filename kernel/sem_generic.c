@@ -94,6 +94,15 @@ bool_t sem_lock( sem_t * sem )
     return ret;
 }
 
+bool_t sem_try_lock( sem_t * sem )
+{
+    bool_t ret;
+    disable_interrupts();
+    ret = _sem_try_lock( sem );
+    enable_interrupts();
+    return ret;
+}
+
 void sem_unlock( sem_t * sem )
 {
     disable_interrupts();

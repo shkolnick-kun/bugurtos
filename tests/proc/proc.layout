@@ -19,20 +19,20 @@
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="3">
 		<Cursor position="6348" topLine="85" />
 	</File>
-	<File name="../../kernel/proc.c" open="1" top="0" tabpos="4">
-		<Cursor position="9768" topLine="248" />
+	<File name="../../kernel/proc.c" open="1" top="0" tabpos="3">
+		<Cursor position="9768" topLine="207" />
 	</File>
 	<File name="../../kernel/proc_generic.c" open="1" top="0" tabpos="2">
-		<Cursor position="9825" topLine="246" />
+		<Cursor position="9825" topLine="99" />
 	</File>
-	<File name="../../kernel/sched.c" open="1" top="0" tabpos="3">
-		<Cursor position="13806" topLine="196" />
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="3">
+		<Cursor position="13806" topLine="94" />
 	</File>
-	<File name="../../kernel/sem.c" open="1" top="0" tabpos="1">
-		<Cursor position="6827" topLine="0" />
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="1">
+		<Cursor position="7869" topLine="123" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="2">
-		<Cursor position="6521" topLine="184" />
+		<Cursor position="6853" topLine="89" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1115" topLine="76" />
