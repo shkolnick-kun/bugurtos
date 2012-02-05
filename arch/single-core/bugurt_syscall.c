@@ -220,17 +220,7 @@ void proc_self_stop(void)
 /// Останов процесса после выхода из pmain, для обертки proc_run_wrapper
 void scall_proc_terminate( void * arg )
 {
-    proc_t * proc = (proc_t *)arg;
-    // Обрабатываем флаги
-    // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
-    if( proc->flags & PROC_FLG_HOLD ) proc->flags |= PROC_FLG_DEAD;
-    // В противном случае - просто завершаем процесс
-    else proc->flags |= PROC_FLG_END;
-    proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
-    // Останов
-    _proc_stop_( proc );
-    // Выполнить перепланировку
-    resched();
+    _proc_terminate_isr((proc_t *)arg);
 }
 void proc_run_wrapper( proc_t * proc )
 {
