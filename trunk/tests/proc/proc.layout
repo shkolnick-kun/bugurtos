@@ -20,10 +20,10 @@
 		<Cursor position="6348" topLine="85" />
 	</File>
 	<File name="../../kernel/proc.c" open="1" top="0" tabpos="3">
-		<Cursor position="9768" topLine="207" />
+		<Cursor position="13141" topLine="344" />
 	</File>
 	<File name="../../kernel/proc_generic.c" open="1" top="0" tabpos="2">
-		<Cursor position="9825" topLine="99" />
+		<Cursor position="7611" topLine="120" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="3">
 		<Cursor position="13806" topLine="94" />

@@ -6,7 +6,7 @@
 	"../../include/bugurt.h"
 	"../single-core/bugurt_syscall.h"
 
-1326636954 /home/anonimous/Документы/bugurtos/include/bugurt.h
+1328423204 /home/anonimous/Документы/bugurtos/include/bugurt.h
 	"index.h"
 	"item.h"
 	"xlist.h"
@@ -39,7 +39,7 @@
 
 1326636954 /home/anonimous/Документы/bugurtos/include/crit_sec.h
 
-1327851441 /home/anonimous/Документы/bugurtos/include/proc.h
+1328454981 /home/anonimous/Документы/bugurtos/include/proc.h
 
 1326636954 /home/anonimous/Документы/bugurtos/include/sched.h
 
@@ -47,7 +47,7 @@
 
 1326636954 /home/anonimous/Документы/bugurtos/include/sig.h
 
-1326636954 /home/anonimous/Документы/bugurtos/include/sem.h
+1328440324 /home/anonimous/Документы/bugurtos/include/sem.h
 
 1326636954 /home/anonimous/Документы/bugurtos/include/mutex.h
 
@@ -86,22 +86,22 @@
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/kernel.c
 	"../include/bugurt.h"
 
-1327827811 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
+1328370712 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
 	"../include/bugurt.h"
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/pcounter.c
 	"../include/bugurt.h"
 
-1327851358 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+1328454981 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
-1326636933 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
+1328439246 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
 	"../include/bugurt.h"
 
-1327834653 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
+1328368557 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
 	"../include/bugurt.h"
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/timer.c
@@ -116,9 +116,9 @@
 1327242113 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel_asm.S
 	<avr/io.h>
 
-1327851844 /home/anonimous/Документы/bugurtos/arch/single-core/bugurt_syscall.h
+1328439691 /home/anonimous/Документы/bugurtos/arch/single-core/bugurt_syscall.h
 	"../../include/bugurt.h"
 
-1327851719 source:/home/anonimous/Документы/bugurtos/arch/single-core/bugurt_syscall.c
+1328455049 source:/home/anonimous/Документы/bugurtos/arch/single-core/bugurt_syscall.c
 	"bugurt_syscall.h"
 

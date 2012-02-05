@@ -13,6 +13,9 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="7400" topLine="106" />
 	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="14421" topLine="217" />
+	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="291" topLine="28" />
 	</File>
@@ -35,7 +38,7 @@
 		<Cursor position="0" topLine="81" />
 	</File>
 	<File name="config.h" open="1" top="0" tabpos="2">
-		<Cursor position="273" topLine="58" />
+		<Cursor position="273" topLine="46" />
 	</File>
 	<File name="main.c" open="1" top="1" tabpos="1">
 		<Cursor position="1744" topLine="79" />

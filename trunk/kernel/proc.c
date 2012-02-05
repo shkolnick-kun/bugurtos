@@ -279,8 +279,28 @@ void _proc_flag_stop_isr( flag_t mask )
     spin_unlock( &proc->lock );
 #endif //CONFIG_MP
 }
-// Когда буду писать mutex-ы, есть идея реализовать вариант highest-locker
-// Это потребует перекраить поле lres (это будет не один счетчик, а индексированний массив счетчиков)
+void _proc_terminate_isr( proc_t * proc )
+{
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+#endif // CONFIG_MP
+    // Обрабатываем флаги
+    // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
+    if( proc->flags & PROC_FLG_HOLD ) proc->flags |= PROC_FLG_DEAD;
+    // В противном случае - просто завершаем процесс
+    else proc->flags |= PROC_FLG_END;
+    proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+    // Останов
+    _proc_stop_( proc );
+    // Выполнить перепланировку
+#ifdef CONFIG_MP
+    resched( proc->core_id );
+    // На многопроцессорной системе - освободить блокировку
+    spin_unlock( &proc->lock );
+#else
+    resched();
+#endif // CONFIG_MP
+}
 void _proc_lres_inc(
     proc_t * proc
 #ifdef CONFIG_USE_HIGHEST_LOCKER
