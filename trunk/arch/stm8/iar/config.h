@@ -19,13 +19,13 @@ typedef unsigned char stack_t;
 ///               Edit this part carefully!!!
 ///==================================================================
 
-// Max priority levels are defined by index_t, 
-// you must specify BITS_IN_INDEX_T to show 
+// Max priority levels are defined by index_t,
+// you must specify BITS_IN_INDEX_T to show
 // how many levels you actually are going to use.
 typedef unsigned char index_t;
 #define BITS_IN_INDEX_T (8)
 
-// Even if index_t is unsigned long long, 
+// Even if index_t is unsigned long long,
 // there will be only 64 priority levels available,
 // so unsigned char is allways enough.
 typedef unsigned char prio_t;
@@ -34,7 +34,7 @@ typedef unsigned char prio_t;
 typedef unsigned char flag_t;
 
 // For STM8 only 64Kib of stack space
-// may be available, so count_t can be 
+// may be available, so count_t can be
 // unsigned char or unsigned short.
 // Unsigned short is enough.
 typedef unsigned short count_t;
@@ -45,6 +45,10 @@ typedef unsigned short timer_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef unsigned char bool_t;
+
+// Unsigned char is enough.
+// There is no reason to make it bigger.
+typedef unsigned char syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
