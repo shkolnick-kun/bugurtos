@@ -78,6 +78,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "../include/bugurt.h"
 ///========================================================================================
+///                              Internal usage functions !!!
+///========================================================================================
 // Инициация, тут все понятно.
 void proc_init_isr(
     proc_t * proc, //Указатель на инициируемый процесс
@@ -244,26 +246,7 @@ bool_t proc_stop_isr(proc_t * proc)
     return ret;
 }
 
-void proc_reset_watchdog_isr(
-#ifdef CONFIG_MP
-                             core_id_t current_core
-#endif
-                             )
-{
-    proc_t * proc;
-#ifdef CONFIG_MP
-    proc = ((sched_t *)kernel.sched + current_core)->current_proc;
-    spin_lock(&proc->lock);
-#else
-    proc = kernel.sched.current_proc;
-#endif
-    if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
-#ifdef CONFIG_MP
-    spin_lock(&proc->lock);
-#endif
-}
-
-void _proc_flag_stop_isr( flag_t mask )
+void _proc_flag_stop( flag_t mask )
 {
     proc_t * proc = current_proc();
 #ifdef CONFIG_MP
@@ -279,7 +262,8 @@ void _proc_flag_stop_isr( flag_t mask )
     spin_unlock( &proc->lock );
 #endif //CONFIG_MP
 }
-void _proc_terminate_isr( proc_t * proc )
+
+void _proc_terminate( proc_t * proc )
 {
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
@@ -301,6 +285,20 @@ void _proc_terminate_isr( proc_t * proc )
     resched();
 #endif // CONFIG_MP
 }
+
+void _proc_reset_watchdog( void )
+{
+    proc_t * proc;
+    proc = current_proc();
+#ifdef CONFIG_MP
+    spin_lock(&proc->lock);
+#endif
+    if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
+#ifdef CONFIG_MP
+    spin_lock(&proc->lock);
+#endif
+}
+
 void _proc_lres_inc(
     proc_t * proc
 #ifdef CONFIG_USE_HIGHEST_LOCKER
@@ -316,6 +314,7 @@ void _proc_lres_inc(
     proc->lres++;
 #endif
 }
+
 void _proc_lres_dec(
     proc_t * proc
 #ifdef CONFIG_USE_HIGHEST_LOCKER
@@ -331,6 +330,7 @@ void _proc_lres_dec(
     if( proc->lres == (count_t)0 )proc->flags &= ~PROC_FLG_HOLD;
 #endif
 }
+
 #ifdef CONFIG_USE_HIGHEST_LOCKER
 // Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
 void _proc_prio_control_stoped( proc_t * proc )
@@ -441,5 +441,27 @@ void _proc_global_lazy_load_balancer(void)
     // Перенос нагрузки на самый не нагруженный процессор
     _proc_lazy_load_balancer( object_core );
 }
-#endif // CONFIG_MP CONFIG_USE_ALB
 
+// Локальный
+void proc_lazy_local_load_balancer(void)
+{
+    core_id_t current_core = _enter_crit_sec();
+    _proc_lazy_load_balancer( current_core );
+    _exit_crit_sec( current_core );
+}
+// Глобальный
+void proc_lazy_global_load_balancer(void)
+{
+    core_id_t current_core = _enter_crit_sec();
+    _proc_global_lazy_load_balancer();
+    _exit_crit_sec( current_core );
+}
+#endif // CONFIG_MP CONFIG_USE_ALB
+///========================================================================================
+///                              Internal usage functions !!!
+///                                 System call handlers !
+///========================================================================================
+
+///========================================================================================
+///                              General usage functions !!!
+///========================================================================================

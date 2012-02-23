@@ -67,16 +67,10 @@
 		<Unit filename="../../kernel/mutex.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../kernel/mutex_generic.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../../kernel/pcounter.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/proc.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../kernel/proc_generic.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/sched.c">
@@ -85,13 +79,10 @@
 		<Unit filename="../../kernel/sem.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../kernel/sem_generic.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../../kernel/sig.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../kernel/sig_generic.c">
+		<Unit filename="../../kernel/syscall.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/xlist.c">

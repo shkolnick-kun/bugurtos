@@ -60,6 +60,13 @@ sig_t sig[1];
 sem_t sem;
 mutex_t mut[1];
 
+void syscall_bugurt( syscall_t num, void * arg )
+{
+    syscall_num = num;
+    syscall_arg = arg;
+    do_syscall();
+}
+
 int main()
 {
     kernel_init();
@@ -158,13 +165,13 @@ int main()
     // Текущий процесс prc0
     ///-------------------------------------------------
     /// Тест сигналов
-    sig_wait_stage_1((sig_t *)sig);
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc1
-    sig_wait_stage_1((sig_t *)sig);
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc2
-    sig_wait_stage_1((sig_t *)sig);
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc3
     sig_signal((sig_t *)sig);
@@ -172,13 +179,13 @@ int main()
     sig_signal((sig_t *)sig);
     sched_reschedule();
     // Текущий процесс prc0
-    sig_wait_stage_1((sig_t *)sig);
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc1
-    sig_wait_stage_1((sig_t *)sig);
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc2
-    sig_wait_stage_1((sig_t *)sig);
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc3
     sig_broadcast((sig_t *)sig);
@@ -197,11 +204,11 @@ int main()
     sched_reschedule();
     // Текущий процесс prc3
 
-    _sem_unlock( &sem );
+    sem_unlock_isr( &sem );
     sched_reschedule();
     // Текущий процесс prc0
 
-    _sem_unlock( &sem );
+    sem_unlock_isr( &sem );
     sched_schedule();
     // Текущий процесс prc0
     sched_schedule();
@@ -209,13 +216,13 @@ int main()
      sched_schedule();
     // Текущий процесс prc1
 
-    _sem_unlock( &sem );
+    sem_unlock_isr( &sem );
     sched_schedule();
     // Текущий процесс prc1
     sched_schedule();
     // Текущий процесс prc2
 
-    _sem_unlock( &sem );
+    sem_unlock_isr( &sem );
     sched_schedule();
     ///---------------------------------------------
     /// Тест мьютексов

@@ -227,7 +227,7 @@ void proc_run_wrapper(proc_t * proc);
 
 \param proc - Указатель на запускаемый процесс.
 */
-void _proc_terminate_isr(proc_t * proc);
+void _proc_terminate(proc_t * proc);
 /*!
 \brief Запуск процесса.
 
@@ -296,11 +296,7 @@ void proc_reset_watchdog(void);
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
 Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
 */
-void proc_reset_watchdog_isr(
-#ifdef CONFIG_MP
-                             core_id_t current_core
-#endif
-                             );
+void _proc_reset_watchdog(void);
 
 //  Функция для внутреннего использования - собственно запуск процесса
 #ifdef CONFIG_MP
@@ -338,7 +334,7 @@ void _proc_stop(proc_t * proc);
 /*!
 \brief Останов процесса по флагу PROC_FLG_PRE_END из критической секции или обработчика прерывания, для внутреннего использования.
 */
-void _proc_flag_stop_isr( flag_t mask );
+void _proc_flag_stop( flag_t mask );
 /*!
 \brief Останов процесса по флагу PROC_FLG_PRE_END.
 */

@@ -76,11 +76,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include "bugurt_syscall.h"
-
-unsigned char syscall_num = 0;
-void * syscall_arg = (void *)0;
-
+#include "../include/bugurt.h"
 const code_t syscall_routine[] =
 {
     // Упавление процессами
@@ -109,21 +105,31 @@ const code_t syscall_routine[] =
     scall_mutex_unlock
 };
 
-void do_syscall(void)
+#ifdef CONFIG_MP
+// In MP system do_syscall must be reentrant.
+void do_syscall( syscall_t syscall_num, void * syscall_arg )
+#else
+//In single processor system reentrancy is not necessary.
+syscall_t syscall_num = (syscall_t)0;
+void * syscall_arg = (void *)0;
+
+void do_syscall( void )
+#endif // CONFIG_MP
 {
-    if( syscall_num != (unsigned char)0 )
+    if( syscall_num != (syscall_t)0 )
     {
         syscall_num--;
         syscall_routine[syscall_num](syscall_arg);
-        syscall_num = (unsigned char)0;
+        syscall_num = (syscall_t)0;
     }
 }
 
 ///=================================================================
-///                 ОБРАБОТЧИКИ СИСТЕМНЫХ ВЫЗОВОВ
+///                  System call handlers !!!
 ///=================================================================
-///                   Управление процессами
-//1
+///                      Process control !!!
+///=================================================================
+/// SYSCALL_PROC_INIT
 void scall_proc_init( void * arg )
 {
     proc_init_isr(
@@ -136,6 +142,9 @@ void scall_proc_init( void * arg )
               ((proc_init_arg_t *)arg)->prio,
               ((proc_init_arg_t *)arg)->time_quant,
               ((proc_init_arg_t *)arg)->is_rt
+#ifdef CONFIG_MP
+              ,((proc_init_arg_t *)arg)-> affinity
+#endif // CONFIG_MP
               );
 }
 void proc_init(
@@ -148,10 +157,17 @@ void proc_init(
                     prio_t prio,
                     timer_t time_quant,
                     bool_t is_rt // если true, значит процесс будет иметть поведение RT
+#ifdef CONFIG_MP
+                    ,affinity_t affinity
+#endif // CONFIG_MP
                   )
 {
+#ifdef CONFIG_MP
+    proc_init_arg_t scarg;
+#else
     static proc_init_arg_t scarg;
-    disable_interrupts(); // прерывания будут разрешены на выходе из _syscall()
+    disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
+#endif
     scarg.proc = proc;
     scarg.pmain = pmain;
     scarg.sv_hook = sv_hook;
@@ -161,10 +177,13 @@ void proc_init(
     scarg.prio = prio;
     scarg.time_quant = time_quant;
     scarg.is_rt = is_rt;
-    syscall(1,(void *)&scarg);
+#ifdef CONFIG_MP
+    scarg.affinity = affinity;
+#endif
+    syscall_bugurt( SYSCALL_PROC_INIT, (void *)&scarg );
 }
-//---------------------------------------------------------------------------------------------
-//2
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_RUN
 void scall_proc_run( void * arg )
 {
     ((proc_runtime_arg_t *)arg)->scall_ret = proc_run_isr( ((proc_runtime_arg_t *)arg)->proc );
@@ -174,11 +193,11 @@ bool_t proc_run( proc_t * proc )
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
     scarg.scall_ret = (bool_t)0;
-    syscall(2,(void *)&scarg);
+    syscall_bugurt( SYSCALL_PROC_RUN, (void *)&scarg );
     return scarg.scall_ret;
 }
-//---------------------------------------------------------------------------------------------
-//3
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_RESTART
 void scall_proc_restart( void * arg )
 {
     ((proc_runtime_arg_t *)arg)->scall_ret = proc_restart_isr( ((proc_runtime_arg_t *)arg)->proc );
@@ -187,11 +206,11 @@ bool_t proc_restart( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    syscall(3,(void *)&scarg);
+    syscall_bugurt( SYSCALL_PROC_RESTART, (void *)&scarg );
     return scarg.scall_ret;
 }
-//---------------------------------------------------------------------------------------------
-//4
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_STOP
 void scall_proc_stop( void * arg )
 {
     ((proc_runtime_arg_t *)arg)->scall_ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
@@ -200,24 +219,30 @@ bool_t proc_stop( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    syscall(4,(void *)&scarg);
+    syscall_bugurt( SYSCALL_PROC_STOP, (void *)&scarg);
     return scarg.scall_ret;
 }
 
-//---------------------------------------------------------------------------------------------
-//5
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_SELF_STOP
 void scall_proc_self_stop( void * arg )
 {
-    proc_t * proc = kernel.sched.current_proc;
+    proc_t * proc = current_proc();
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+#endif
     _proc_stop( proc );
+#ifdef CONFIG_MP
+    spin_unlock( &proc->lock );
+#endif
 }
 void proc_self_stop(void)
 {
-    syscall(5,(void *)1);
+    syscall_bugurt( SYSCALL_PROC_SELF_STOP, (void *)1 );
 }
-//---------------------------------------------------------------------------------------------
-//6
-/// Останов процесса после выхода из pmain, для обертки proc_run_wrapper
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_TERMINATE
+// Останов процесса после выхода из pmain, для обертки proc_run_wrapper
 void scall_proc_terminate( void * arg )
 {
     _proc_terminate((proc_t *)arg);
@@ -226,17 +251,23 @@ void proc_run_wrapper( proc_t * proc )
 {
     //Атомарно читаем pmain и arg
     disable_interrupts();
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+#endif // CONFIG_MP
     code_t pmain = proc->pmain;
     void * arg = proc->arg;
+#ifdef CONFIG_MP
+    spin_unlock( &proc->lock );
+#endif // CONFIG_MP
     enable_interrupts();
     //Выполняем pmain
     pmain( arg );
     // Завершаем процесс
-    disable_interrupts(); // прерывания будут разрешены на выходе из _syscall()
-    syscall(6,(void *)proc);
+    //disable_interrupts(); // прерывания будут разрешены на выходе из _syscall_bugurt()
+    syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)proc );
 }
-//---------------------------------------------------------------------------------------------
-//7
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_FLAG_STOP
 void scall_proc_flag_stop( void * arg )
 {
     _proc_flag_stop( *((flag_t *)arg) );
@@ -244,31 +275,31 @@ void scall_proc_flag_stop( void * arg )
 void proc_flag_stop( flag_t mask )
 {
     flag_t msk = mask;
-    syscall( 7, (void *)&msk );
+    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&msk );
 }
-//---------------------------------------------------------------------------------------------
-//8
+///---------------------------------------------------------------------------------------------
+/// SYSCALL_PROC_RESET_WATCHDOG
 void scall_proc_reset_watchdog( void * arg )
 {
     _proc_reset_watchdog();
 }
 void proc_reset_watchdog(void)
 {
-    syscall( 8, (void *)0 );
+    syscall_bugurt( SYSCALL_PROC_RESET_WATCHDOG, (void *)0 );
 }
 ///=================================================================
 ///                         Сигналы
-//9
+/// SYSCALL_SIG_INIT
 void scall_sig_init( void * arg )
 {
     sig_init_isr( (sig_t *)arg );
 }
 void sig_init( sig_t * sig )
 {
-    syscall( 9, (void *)sig );
+    syscall_bugurt( SYSCALL_SIG_INIT, (void *)sig );
 }
-//---------------------------------------------------------------------------------------------
-//10
+///--------------------------------------------------------------------------------------------
+///SYSCALL_SIG_WAIT
 void scall_sig_wait( void * arg )
 {
     _sig_wait_prologue( (sig_t *)arg );
@@ -276,32 +307,32 @@ void scall_sig_wait( void * arg )
 void sig_wait( sig_t * sig )
 {
     const flag_t mask = ~PROC_FLG_WAIT;
-    syscall( 10, (void *)sig );
-    syscall( 7, (void *)&mask );/// Останов в случае необходимости
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
+    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&mask );// Останов в случае необходимости
 }
-//---------------------------------------------------------------------------------------------
-//11
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_SIG_SIGNAL
 void scall_sig_signal( void * arg )
 {
     sig_signal_isr( (sig_t *)arg );
 }
 void sig_signal( sig_t * sig )
 {
-    syscall( 11, (void *)sig );
+    syscall_bugurt( SYSCALL_SIG_SIGNAL, (void *)sig );
 }
-//---------------------------------------------------------------------------------------------
-//12
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_SIG_BROADCAST
 void scall_sig_broadcast( void * arg )
 {
     sig_broadcast_isr( (sig_t *)arg );
 }
 void sig_broadcast( sig_t * sig )
 {
-    syscall( 12, (void *)sig );
+    syscall_bugurt( SYSCALL_SIG_BROADCAST, (void *)sig );
 }
 ///=================================================================
 ///                         Семафоры
-//13
+/// SYSCALL_SEM_INIT
 void scall_sem_init( void * arg )
 {
     sem_init_isr( ((sem_init_arg_t *)arg)->sem, ((sem_init_arg_t *)arg)->count );
@@ -311,10 +342,10 @@ void sem_init( sem_t * sem, count_t count )
     sem_init_arg_t scarg;
     scarg.sem = sem;
     scarg.count = count;
-    syscall( 13, (void *)&scarg );
+    syscall_bugurt( SYSCALL_SEM_INIT, (void *)&scarg );
 }
-//----------------------------------------------------------------------
-//14
+///--------------------------------------------------------------------------------------------
+///SYSCALL_SEM_LOCK
 void scall_sem_lock( void * arg )
 {
     ((sem_lock_arg_t *)arg)->scall_ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
@@ -324,11 +355,11 @@ bool_t sem_lock( sem_t * sem )
 
     sem_lock_arg_t scarg;
     scarg.sem = sem;
-    syscall( 14, (void *)&scarg );
+    syscall_bugurt( SYSCALL_SEM_LOCK, (void *)&scarg );
     return scarg.scall_ret;
 }
-//----------------------------------------------------------------------
-//15
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_SEM_TRY_LOCK
 void scall_sem_try_lock( void * arg )
 {
     ((sem_lock_arg_t *)arg)->scall_ret = _sem_try_lock( ((sem_lock_arg_t *)arg)->sem );
@@ -338,22 +369,22 @@ bool_t sem_try_lock( sem_t * sem )
 
     sem_lock_arg_t scarg;
     scarg.sem = sem;
-    syscall( 15, (void *)&scarg );
+    syscall_bugurt( SYSCALL_SEM_TRY_LOCK, (void *)&scarg );
     return scarg.scall_ret;
 }
-//----------------------------------------------------------------------
-//16
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_SEM_UNLOCK
 void scall_sem_unlock( void * arg )
 {
-    _sem_unlock( (sem_t *)arg );
+    sem_unlock_isr( (sem_t *)arg );
 }
 void sem_unlock( sem_t * sem )
 {
-    syscall( 16, (void *)sem );
+    syscall_bugurt( SYSCALL_SEM_UNLOCK, (void *)sem );
 }
 ///=================================================================
 ///                         Мьютексы
-//17
+/// SYSCALL_MUTEX_INIT
 void scall_mutex_init(void * arg)
 {
     mutex_init_isr(
@@ -375,10 +406,10 @@ void mutex_init(
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     scarg.prio = prio;
 #endif // CONFIG_USE_HIGHEST_LOCKER
-    syscall( 17, (void *)&scarg );
+    syscall_bugurt( SYSCALL_MUTEX_INIT, (void *)&scarg );
 }
-//----------------------------------------------------------------------
-//18
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_MUTEX_LOCK
 void scall_mutex_lock(void * arg)
 {
     ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
@@ -387,12 +418,12 @@ bool_t mutex_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    syscall( 18, (void *)&scarg );
+    syscall_bugurt( SYSCALL_MUTEX_LOCK, (void *)&scarg );
     return scarg.scall_ret;
 }
 // Захват
-//----------------------------------------------------------------------
-//19
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_MUTEX_TRY_LOCK
 void scall_mutex_try_lock(void * arg)
 {
     ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
@@ -402,11 +433,11 @@ bool_t mutex_try_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
-    syscall( 19, (void *)&scarg );
+    syscall_bugurt( SYSCALL_MUTEX_TRY_LOCK, (void *)&scarg );
     return scarg.scall_ret;
 }
-//----------------------------------------------------------------------
-//20
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_MUTEX_UNLOCK
 void scall_mutex_unlock(void * arg)
 {
     _mutex_unlock( (mutex_t *)arg );
@@ -414,5 +445,5 @@ void scall_mutex_unlock(void * arg)
 // Освобождение
 void mutex_unlock( mutex_t * mutex )
 {
-    syscall( 20, (void *)mutex );
+    syscall_bugurt( SYSCALL_MUTEX_UNLOCK, (void *)mutex );
 }

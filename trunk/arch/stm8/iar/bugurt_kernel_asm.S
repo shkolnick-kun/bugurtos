@@ -95,7 +95,7 @@ bugurt_save_context:
     popw Y
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
     pop A
-#endif    
+#endif
     ; Save vregs to stack
     push ?b11
     push ?b10
@@ -126,10 +126,10 @@ bugurt_restore_context:
     popw Y
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
     pop A
-#endif 
+#endif
 ;stack pointer value is allways 16bit, and not dependent on __DATA_MODEL__
-    ldw SP,X     ; SP = X 
-    ; restore vregs 
+    ldw SP,X     ; SP = X
+    ; restore vregs
     pop ?b12
     pop ?b13
     pop ?b14
@@ -159,7 +159,7 @@ bugurt_set_stack_pointer:
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
     pop A
 #endif
-    ldw SP,X     ; SP = X 
+    ldw SP,X     ; SP = X
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
     push A
 #endif
@@ -170,8 +170,8 @@ bugurt_set_stack_pointer:
 #else
     retf
 #endif
-  PUBLIC syscall
-syscall:
+  PUBLIC syscall_bugurt
+syscall_bugurt:
     trap
 #if (__CODE_MODEL__==__SMALL_CODE_MODEL__)
     ret

@@ -87,19 +87,18 @@ stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
 {
     return (stack_t)0;
 }
-#ifdef CONFIG_MP
+
 void resched(core_id_t core_id)
 {
     pthread_spin_lock(test_vm_lock + core_id);
     test_vm_resched[core_id] = 1;
     pthread_spin_unlock(test_vm_lock + core_id);
 }
-#else
-void resched(void)
+
+void syscall_bugurt( syscall_t num, void * arg )
 {
-    sched_reschedule( 0, &kernel.sched);
+    do_syscall(num, arg);
 }
-#endif
 
 proc_t * current_proc(void)
 {
@@ -210,11 +209,11 @@ void * test_vm( void * arg )
             switch(*current_vm[core_id].pcounter++)
             {
                 case 0:
-                    sig_wait_stage_1((sig_t *)sig);
+                    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
                     print_op_result(core_id,current_vm[core_id].name,"SW1",0);
                     break;
                 case 1:
-                    sig_wait_stage_1((sig_t *)sig+1);
+                    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)((sig_t *)sig+1) );
                     print_op_result(core_id,current_vm[core_id].name,"SW1",1);
                     break;
                 default:

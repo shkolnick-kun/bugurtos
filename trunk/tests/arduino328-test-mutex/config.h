@@ -33,6 +33,8 @@ typedef unsigned short count_t;
 typedef volatile unsigned short timer_t;
 
 typedef unsigned char bool_t;
+
+typedef unsigned char syscall_t;
 ///=================================================================
 /// project stecific stuff
 ///=================================================================

@@ -241,7 +241,7 @@ syscall_data_t * _syscall( syscall_data_t * arg )
 }
 
 static syscall_data_t scdata;
-void syscall( unsigned char num, void * arg )
+void syscall_bugurt( unsigned char num, void * arg )
 {
      cli();
      scdata.num = num;
@@ -261,7 +261,7 @@ __attribute__ (( naked )) void _syscall(void)
     BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
 }
 ///Если не используется программное прерывание - прямая передача управления
-void syscall( unsigned char num, void * arg )
+void syscall_bugurt( unsigned char num, void * arg )
 {
     cli();
     syscall_num = num;

@@ -97,7 +97,7 @@ void sig_init_isr( sig_t * sig )
 }
 //========================================================================================
 // Это выполнится при постановке процесса в список ожидания сигнала
-void sig_wait_stage_1_isr( sig_t * sig )
+void _sig_wait_prologue( sig_t * sig )
 {
 #ifdef CONFIG_MP
     spin_lock( &sig->lock );

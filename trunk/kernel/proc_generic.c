@@ -128,7 +128,7 @@ void proc_run_wrapper(proc_t * proc)
     pmain( arg );
     //Завершаем работу процесса
     disable_interrupts();
-    _proc_terminate_isr(proc);
+    _proc_terminate(proc);
     enable_interrupts();
 }
 
@@ -184,7 +184,7 @@ void proc_reset_watchdog(void)
 void proc_flag_stop( flag_t mask )
 {
     disable_interrupts();
-    _proc_flag_stop_isr( mask );
+    _proc_flag_stop( mask );
     enable_interrupts();
 }
 // самоостанов процесса
@@ -206,31 +206,3 @@ void proc_self_stop(void)
     exit_crit_sec();
 #endif // CONFIG_MP
 }
-
-#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
-/************************************
-  "Ленивые" балансировщики нагрузки
-
-,предназначены для запуска из тел
-процессов, если не используется
-активная схема балансировки нагрузки.
-
-Можно использовать только один,
-или оба в различных комбинациях
-
-************************************/
-// Локальный
-void proc_lazy_local_load_balancer(void)
-{
-    core_id_t current_core = _enter_crit_sec();
-    _proc_lazy_load_balancer( current_core );
-    _exit_crit_sec( current_core );
-}
-// Глобальный
-void proc_lazy_global_load_balancer(void)
-{
-    core_id_t current_core = _enter_crit_sec();
-    _proc_global_lazy_load_balancer();
-    _exit_crit_sec( current_core );
-}
-#endif // CONFIG_MP CONFIG_USE_ALB

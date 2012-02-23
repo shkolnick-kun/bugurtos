@@ -34,6 +34,8 @@ typedef volatile unsigned short timer_t;
 
 typedef unsigned char bool_t;
 
+typedef unsigned char syscall_t;
+
 // defines
 // defines
 #define CONFIG_IDLE_STACK_SIZE 128

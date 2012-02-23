@@ -67,9 +67,6 @@
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="6507" topLine="119" />
 	</File>
-	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="6495" topLine="79" />
-	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="7027" topLine="102" />
 	</File>
@@ -77,9 +74,9 @@
 		<Cursor position="30" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="804" topLine="22" />
+		<Cursor position="804" topLine="23" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="4745" topLine="250" />
+		<Cursor position="7269" topLine="257" />
 	</File>
 </CodeBlocks_layout_file>

@@ -49,10 +49,6 @@
 		</Unit>
 		<Unit filename="../../arch/avr-gcc/bugurt_kernel.h" />
 		<Unit filename="../../arch/avr-gcc/bugurt_kernel_asm.S" />
-		<Unit filename="../../arch/single-core/bugurt_syscall.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../arch/single-core/bugurt_syscall.h" />
 		<Unit filename="../../include/bugurt.h" />
 		<Unit filename="../../include/crit_sec.h" />
 		<Unit filename="../../include/gitem.h" />
@@ -66,6 +62,7 @@
 		<Unit filename="../../include/sched.h" />
 		<Unit filename="../../include/sem.h" />
 		<Unit filename="../../include/sig.h" />
+		<Unit filename="../../include/syscall.h" />
 		<Unit filename="../../include/timer.h" />
 		<Unit filename="../../include/xlist.h" />
 		<Unit filename="../../kernel/crit_sec.c">
@@ -102,6 +99,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/syscall.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/timer.c">

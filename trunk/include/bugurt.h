@@ -131,6 +131,7 @@ typedef void (* code_t)(void *);
 #include "sem.h"
 #include "mutex.h"
 #include "timer.h"
+#include "syscall.h"
 
 //======================================================
 //   Внешние функции, определяемые пользователем
@@ -303,4 +304,5 @@ extern void init_bugurt(void);
 */
 extern void start_bugurt(void);
 
+extern void syscall_bugurt( syscall_t num, void * arg );
 #endif //_BUGURT_H_

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="3">
-		<Cursor position="9027" topLine="243" />
+		<Cursor position="10982" topLine="150" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="6173" topLine="0" />
+		<Cursor position="6172" topLine="67" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="135" topLine="0" />
 	</File>
-	<File name="../../arch/single-core/bugurt_syscall.c" open="1" top="1" tabpos="1">
-		<Cursor position="10428" topLine="212" />
-	</File>
-	<File name="../../arch/single-core/bugurt_syscall.h" open="1" top="0" tabpos="2">
-		<Cursor position="8108" topLine="131" />
-	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="13581" topLine="274" />
+	</File>
+	<File name="../../include/group.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="87" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="8437" topLine="96" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="8872" topLine="127" />
@@ -25,16 +25,28 @@
 	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="3">
 		<Cursor position="6841" topLine="69" />
 	</File>
+	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="7444" topLine="118" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="11857" topLine="255" />
+	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
+	</File>
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="149" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="6835" topLine="88" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="7155" topLine="104" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
-		<Cursor position="672" topLine="12" />
+		<Cursor position="275" topLine="0" />
 	</File>
-	<File name="main.c" open="1" top="0" tabpos="5">
+	<File name="main.c" open="0" top="0" tabpos="5">
 		<Cursor position="28" topLine="4" />
 	</File>
 </CodeBlocks_layout_file>

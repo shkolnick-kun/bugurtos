@@ -19,9 +19,6 @@
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="7419" topLine="62" />
 	</File>
-	<File name="../../kernel/sem_generic.c" open="0" top="0" tabpos="0">
-		<Cursor position="6729" topLine="91" />
-	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="1908" topLine="121" />
 	</File>
