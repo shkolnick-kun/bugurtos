@@ -14,13 +14,16 @@
 		<Cursor position="0" topLine="24" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="8174" topLine="256" />
+		<Cursor position="19057" topLine="436" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="7419" topLine="62" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="1908" topLine="121" />
+	</File>
+	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="9549" topLine="425" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="19042" topLine="861" />
