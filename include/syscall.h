@@ -76,59 +76,118 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include "../include/bugurt.h"
-kernel_t kernel;// Ядро, оно одно на всю систему!!!
+#ifndef _SYSCALL_H_
+#define _SYSCALL_H_
 
-WEAK void idle_main(void * arg)
-{
-    while(1);
-}
+/// System call numbers!
+#define SYSCALL_PROC_INIT                       ((syscall_t)(1))
+#define SYSCALL_PROC_RUN                        (SYSCALL_PROC_INIT + (syscall_t)(1))
+#define SYSCALL_PROC_RESTART                    (SYSCALL_PROC_RUN + (syscall_t)(1))
+#define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))
+#define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))
+#define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))
+#define SYSCALL_PROC_FLAG_STOP                  (SYSCALL_PROC_TERMINATE + (syscall_t)(1))
+#define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FLAG_STOP + (syscall_t)(1))
 
-void kernel_init(void)
-{
+#define SYSCALL_SIG_INIT                        (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))
+#define SYSCALL_SIG_WAIT                        (SYSCALL_SIG_INIT + (syscall_t)(1))
+#define SYSCALL_SIG_SIGNAL                      (SYSCALL_SIG_WAIT + (syscall_t)(1))
+#define SYSCALL_SIG_BROADCAST                   (SYSCALL_SIG_SIGNAL + (syscall_t)(1))
+
+#define SYSCALL_SEM_INIT                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))
+#define SYSCALL_SEM_LOCK                        (SYSCALL_SEM_INIT + (syscall_t)(1))
+#define SYSCALL_SEM_TRY_LOCK                    (SYSCALL_SEM_LOCK + (syscall_t)(1))
+#define SYSCALL_SEM_UNLOCK                      (SYSCALL_SEM_TRY_LOCK + (syscall_t)(1))
+
+#define SYSCALL_MUTEX_INIT                      (SYSCALL_SEM_UNLOCK + (syscall_t)(1))
+#define SYSCALL_MUTEX_LOCK                      (SYSCALL_MUTEX_INIT + (syscall_t)(1))
+#define SYSCALL_MUTEX_TRY_LOCK                  (SYSCALL_MUTEX_LOCK + (syscall_t)(1))
+#define SYSCALL_MUTEX_UNLOCK                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))
+
 #ifdef CONFIG_MP
-    core_id_t i;
-
-    //Инициируем пул
-    spin_init( &kernel.pool_lock );
-    spin_lock( &kernel.pool_lock );
-    kernel.pool = (group_t *)0;
-    spin_unlock( &kernel.pool_lock );
-
-    spin_init( &kernel.stat_lock );
-    spin_lock( &kernel.stat_lock );
-    //Инициация собственно ядра
-    for( i = (core_id_t)0; i<(core_id_t)MAX_CORES; i++ )
-    {
-        proc_init_isr(
-            kernel.idle + i, //процесс kernel.idle[i]
-            idle_main, // тут все понятно
-            (code_t)0, // нету
-            (code_t)0, // нету
-            (void *)0, // нуль
-            0, // это не важно, при первой же смене контекста будет сохранен текущий указатель стека
-            ((prio_t)BITS_IN_INDEX_T - (prio_t)1),// низший приоритет
-            (timer_t)1,//минимальный квант времени
-            (bool_t)0,// не RT
-            ((affinity_t)1)<<i // привязка  строго к одному процессору, а то его как сбалансирует отсюда
-        );
-        kernel.idle[i].core_id = i;
-        stat_init( (stat_t *)kernel.stat + i );
-        sched_init( (sched_t *)kernel.sched + i, (proc_t *)kernel.idle + i );
-    }
-    spin_unlock( &kernel.stat_lock );
+void do_syscall( syscall_t syscall_num, void * syscall_arg );
 #else
-    proc_init_isr(
-        &kernel.idle, //процесс kernel.idle
-        idle_main, // тут все понятно
-        (code_t)0, // нету
-        (code_t)0, // нету
-        (void *)0, // нуль
-        0, // это не важно, при первой же смене контекста будет сохранен текущий указатель стека
-        ((prio_t)BITS_IN_INDEX_T - (prio_t)1),// низший приоритет
-        (timer_t)1,//минимальный квант времени
-        (bool_t)0// не RT
-    );
-    sched_init( (sched_t *)&kernel.sched, (proc_t *)&kernel.idle );
+extern syscall_t syscall_num;
+extern void * syscall_arg;
+
+void do_syscall( void );
+#endif
+
+///=================================================================
+///                   System call handlers !!!
+///=================================================================
+///                      Process control !
+typedef struct {
+    proc_t * proc;
+    code_t pmain;
+    code_t sv_hook;
+    code_t rs_hook;
+    void * arg;
+    stack_t *sstart;
+    prio_t prio;
+    timer_t time_quant;
+    bool_t is_rt;
+#ifdef CONFIG_MP
+    affinity_t affinity;
 #endif // CONFIG_MP
-}
+} proc_init_arg_t;
+
+void scall_proc_init( void * arg );
+//----------------------------------------------------------------------
+typedef struct{
+    proc_t * proc;
+    bool_t scall_ret;
+}proc_runtime_arg_t;
+
+void scall_proc_run( void * arg );
+void scall_proc_restart( void * arg );
+void scall_proc_stop( void * arg );
+//----------------------------------------------------------------------
+void scall_proc_self_stop( void * arg );
+//----------------------------------------------------------------------
+void scall_proc_terminate( void * arg );
+//----------------------------------------------------------------------
+void scall_proc_flag_stop( void * arg );
+//----------------------------------------------------------------------
+void scall_proc_reset_watchdog( void * arg );
+///=================================================================
+///                       Signal control!
+void scall_sig_init( void * arg );
+void scall_sig_wait( void * arg );
+void scall_sig_signal( void * arg );
+void scall_sig_broadcast( void * arg );
+///=================================================================
+///                     Semaphore control !
+typedef struct {
+    sem_t * sem;
+    count_t count;
+}sem_init_arg_t;
+void scall_sem_init( void * arg );
+//----------------------------------------------------------------------
+typedef struct {
+    sem_t * sem;
+    bool_t scall_ret;
+}sem_lock_arg_t;
+void scall_sem_lock( void * arg );
+void scall_sem_try_lock( void * arg );
+//----------------------------------------------------------------------
+void scall_sem_unlock( void * arg );
+///=================================================================
+///                         Мьютексы
+typedef struct {
+    mutex_t * mutex;
+#ifdef CONFIG_USE_HIGHEST_LOCKER
+    prio_t prio;
+#endif // CONFIG_USE_HIGHEST_LOCKER
+}mutex_init_arg_t;
+void scall_mutex_init(void * arg);
+//----------------------------------------------------------------------
+typedef struct {
+    mutex_t * mutex;
+    bool_t scall_ret;
+} mutex_lock_arg_t;
+void scall_mutex_lock(void * arg);
+void scall_mutex_try_lock(void * arg);
+void scall_mutex_unlock(void * arg);
+
+#endif // _SYSCALL_H_

@@ -107,6 +107,8 @@ typedef struct _stat
 
 typedef long signal_t;
 
+typedef unsigned char syscall_t;
+
 #define WEAK __attribute__((__weak__))
 
 // defines

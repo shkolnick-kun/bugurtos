@@ -105,7 +105,8 @@ typedef struct _stat
     count_t total_proc_count;
 } stat_t;
 
-typedef long signal_t;
+//typedef long signal_t;
+typedef unsigned char syscall_t;
 
 #define WEAK __attribute__((__weak__))
 

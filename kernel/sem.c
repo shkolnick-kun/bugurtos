@@ -141,8 +141,11 @@ bool_t _sem_try_lock( sem_t * sem )
     return ret;
 }
 
-void _sem_unlock( sem_t * sem )
+void sem_unlock_isr( sem_t * sem )
 {
+#ifdef CONFIG_MP
+    spin_lock( &sem->lock );//Захват спин-блокировки семафора
+#endif //CONFIG_MP
     if( ((xlist_t *)sem)->index == (index_t)0  )
     {
         sem->counter++;
@@ -157,16 +160,6 @@ void _sem_unlock( sem_t * sem )
     _proc_run( proc );
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );// Освобождение спин-блокировки процесса
-#endif //CONFIG_MP
-}
-
-void sem_unlock_isr( sem_t * sem )
-{
-#ifdef CONFIG_MP
-    spin_lock( &sem->lock );//Захват спин-блокировки семафора
-#endif //CONFIG_MP
-    _sem_unlock( sem );
-#ifdef CONFIG_MP
     spin_unlock( &sem->lock );//Освобождение спин-блокировки семафора
 #endif //CONFIG_MP
 }

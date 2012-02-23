@@ -70,6 +70,11 @@ core_id_t current_core(void)
     return 0;
 }
 
+void syscall_bugurt( syscall_t num, void * arg )
+{
+    do_syscall(num, arg);
+}
+
 proc_t proc;
 int main()
 {

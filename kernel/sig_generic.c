@@ -84,15 +84,15 @@ void sig_init( sig_t * sig )
     EXIT_CRIT_SEC();
 }
 
-void sig_wait_stage_1( sig_t * sig )
+void sig_wait_prologue( sig_t * sig )
 {
     disable_interrupts();
-    sig_wait_stage_1_isr( sig );
+    _sig_wait_prologue( sig );
     enable_interrupts();
 }
 void sig_wait( sig_t * sig )
 {
-    sig_wait_stage_1( sig );
+    sig_wait_prologue( sig );
     proc_flag_stop(~PROC_FLG_WAIT);
 }
 

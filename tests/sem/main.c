@@ -61,8 +61,8 @@ int main()
         char name[10];
         sprintf(name,"prc%d ",(int)i);
         test_vm_init(tvm + i,idle_prorgam,name);
-        proc_init(proc+i,idle_main,0,0,tvm+i,0,pr[i],tq[i],rt[i],af[i]);
-        proc_run(proc+i);
+        proc_init_isr(proc+i,idle_main,0,0,tvm+i,0,pr[i],tq[i],rt[i],af[i]);
+        proc_run_isr(proc+i);
     }
     tvm[4].pstart = glb_program;
     tvm[4].pcounter = glb_program;

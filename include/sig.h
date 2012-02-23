@@ -136,7 +136,7 @@ void sig_wait( sig_t * sig );
 
 \param sig Указатель на сигнал.
 */
-void sig_wait_stage_1_isr( sig_t * sig );
+void _sig_wait_prologue( sig_t * sig );
 /*!
 \brief Встать в список ожидания сигнала, для внутреннего использования.
 
@@ -144,7 +144,7 @@ void sig_wait_stage_1_isr( sig_t * sig );
 
 \param sig Указатель на сигнал.
 */
-void sig_wait_stage_1( sig_t * sig );
+void sig_wait_prologue( sig_t * sig );
 
 // Разбудить 1 процесс
 /*!
