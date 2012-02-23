@@ -263,7 +263,6 @@ void proc_run_wrapper( proc_t * proc )
     //Выполняем pmain
     pmain( arg );
     // Завершаем процесс
-    //disable_interrupts(); // прерывания будут разрешены на выходе из _syscall_bugurt()
     syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)proc );
 }
 ///--------------------------------------------------------------------------------------------
