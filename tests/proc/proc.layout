@@ -19,7 +19,7 @@
 	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="7960" topLine="98" />
 	</File>
-	<File name="../../kernel/kernel.c" open="1" top="0" tabpos="3">
+	<File name="../../kernel/kernel.c" open="1" top="1" tabpos="2">
 		<Cursor position="7326" topLine="89" />
 	</File>
 	<File name="../../kernel/mutex.c" open="1" top="0" tabpos="1">
