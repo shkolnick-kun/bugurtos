@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="pcouter" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/pcouter" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/pcouter" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-Wall" />
+			<Add option='-include &quot;${PROJECT_DIR}config.h&quot;' />
+		</Compiler>
+		<Unit filename="../../include/gitem.h" />
+		<Unit filename="../../include/group.h" />
+		<Unit filename="../../include/index.h" />
+		<Unit filename="../../include/item.h" />
+		<Unit filename="../../include/kernel.h" />
+		<Unit filename="../../include/pcounter.h" />
+		<Unit filename="../../include/proc.h" />
+		<Unit filename="../../include/sched.h" />
+		<Unit filename="../../include/sem.h" />
+		<Unit filename="../../include/sig.h" />
+		<Unit filename="../../include/xlist.h" />
+		<Unit filename="../../kernel/pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

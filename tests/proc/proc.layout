@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="14214" topLine="285" />
+	</File>
+	<File name="../../include/gitem.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="75" />
+	</File>
+	<File name="../../include/kernel.h" open="0" top="0" tabpos="3">
+		<Cursor position="0" topLine="1" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="3">
+		<Cursor position="19614" topLine="286" />
+	</File>
+	<File name="../../include/sched.h" open="0" top="0" tabpos="6">
+		<Cursor position="64" topLine="8" />
+	</File>
+	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="7960" topLine="98" />
+	</File>
+	<File name="../../kernel/kernel.c" open="1" top="1" tabpos="2">
+		<Cursor position="7326" topLine="89" />
+	</File>
+	<File name="../../kernel/mutex.c" open="1" top="0" tabpos="1">
+		<Cursor position="8494" topLine="83" />
+	</File>
+	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="3">
+		<Cursor position="6348" topLine="85" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="6">
+		<Cursor position="8319" topLine="118" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="3">
+		<Cursor position="12225" topLine="165" />
+	</File>
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="1">
+		<Cursor position="8449" topLine="74" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="1">
+		<Cursor position="6851" topLine="89" />
+	</File>
+	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="1">
+		<Cursor position="18920" topLine="472" />
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="2">
+		<Cursor position="6513" topLine="99" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="1">
+		<Cursor position="1437" topLine="67" />
+	</File>
+</CodeBlocks_layout_file>

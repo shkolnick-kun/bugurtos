@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="sched" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/sched" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/sched" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-lpthread" />
+			<Add option='-include &quot;${PROJECT_DIR}config.h&quot;' />
+		</Compiler>
+		<Linker>
+			<Add library="/lib/libpthread.so.0" />
+		</Linker>
+		<Unit filename="../../include/bugurt.h" />
+		<Unit filename="../../include/gitem.h" />
+		<Unit filename="../../include/group.h" />
+		<Unit filename="../../include/index.h" />
+		<Unit filename="../../include/item.h" />
+		<Unit filename="../../include/kernel.h" />
+		<Unit filename="../../include/mutex.h" />
+		<Unit filename="../../include/pcounter.h" />
+		<Unit filename="../../include/proc.h" />
+		<Unit filename="../../include/sched.h" />
+		<Unit filename="../../include/sem.h" />
+		<Unit filename="../../include/sig.h" />
+		<Unit filename="../../include/syscall.h" />
+		<Unit filename="../../include/xlist.h" />
+		<Unit filename="../../kernel/gitem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/group.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/mutex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/syscall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/xlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="config.h" />
+		<Unit filename="log.txt" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../test_vm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../test_vm.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
