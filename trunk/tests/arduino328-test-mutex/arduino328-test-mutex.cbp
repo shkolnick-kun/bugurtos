@@ -54,6 +54,7 @@
 		<Unit filename="../../include/gitem.h" />
 		<Unit filename="../../include/group.h" />
 		<Unit filename="../../include/index.h" />
+		<Unit filename="../../include/ipc.h" />
 		<Unit filename="../../include/item.h" />
 		<Unit filename="../../include/kernel.h" />
 		<Unit filename="../../include/mutex.h" />
@@ -75,6 +76,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/ipc.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/item.c">

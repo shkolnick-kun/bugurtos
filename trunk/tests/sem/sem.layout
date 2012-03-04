@@ -25,6 +25,9 @@
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="9549" topLine="425" />
 	</File>
+	<File name="config.h" open="0" top="0" tabpos="0">
+		<Cursor position="6489" topLine="97" />
+	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="19042" topLine="861" />
 	</File>

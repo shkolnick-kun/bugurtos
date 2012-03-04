@@ -16,6 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     Please contact with me by E-mail: shkolnick.kun@gmail.com
+
+    A special exception to the GPL can be applied should you wish to distribute
+    a combined work that includes BuguRTOS, without being obliged to provide
+    the source code for any proprietary components. See the file exception.txt
+    for full details of how and when the exception can be applied.
 **************************************************************************/
 
 /*****************************************************************************************
@@ -71,54 +76,62 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _CONFIG_H_
-// Тестовый конфиг-файл, в последствии будет заменен
-#define _CONFIG_H_
-
-// data types
-typedef unsigned char index_t;
-#define BITS_IN_INDEX_T (8)
-
-typedef unsigned char prio_t;
-typedef int * stack_t;
-
-typedef unsigned int flag_t;
-
-typedef unsigned int affinity_t;
-
-typedef unsigned long load_t;
-
-typedef unsigned long count_t;
-
-#define timer_t unsigned long
-//typedef unsigned long timer_t;
-
-typedef volatile int lock_t;
-
-typedef unsigned long bool_t;
-
-typedef unsigned long core_id_t;
-
-typedef struct _stat
+#include "../include/bugurt.h"
+void _ipc_wait( flag_t wait_flag, void * ipc_pointer )
 {
-    timer_t total_time_quant;
-    count_t total_proc_count;
-} stat_t;
+    proc_t * proc = current_proc();
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+#endif // CONFIG_MP
+    // Останавливаем процесс
+    proc->flags |= wait_flag;
+    proc->ipc = ipc_pointer;
+    _proc_stop_( proc );
+#ifdef CONFIG_MP
+    resched( proc->core_id );
+#else
+    resched();
+#endif // CONFIG_MP
+#ifdef CONFIG_MP
+    spin_unlock( &proc->lock );
+#endif // CONFIG_MP
+}
 
-typedef long signal_t;
+bool_t ipc_send_pointer_isr( proc_t * proc, void * pointer )
+{
+    bool_t ret = (bool_t)0;
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+#endif // CONFIG_MP
+    if( proc->flags & PROC_FLG_IPCW_P )
+    {
+        ret = (bool_t)1; // информация будет передана
+        proc->flags &= ~PROC_FLG_IPCW_P;
+        *(void **)proc->ipc = pointer;
+        _proc_run( proc );
+    }
+#ifdef CONFIG_MP
+    spin_unlock( &proc->lock );
+#endif // CONFIG_MP
+    return ret;
+}
 
-typedef unsigned char syscall_t;
+bool_t ipc_send_data_isr( proc_t * proc, ipc_data_t data )
+{
+    bool_t ret = (bool_t)0;
+#ifdef CONFIG_MP
+    spin_lock( &proc->lock );
+#endif // CONFIG_MP
+    if( proc->flags & PROC_FLG_IPCW_D )
+    {
+        ret = (bool_t)1; // информация будет передана
+        proc->flags &= ~PROC_FLG_IPCW_D;
+        *(ipc_data_t *)proc->ipc = data;
+        _proc_run( proc );
+    }
+#ifdef CONFIG_MP
+    spin_unlock( &proc->lock );
+#endif // CONFIG_MP
+    return ret;
+}
 
-typedef unsigned char ipc_data_t;
-
-#define WEAK __attribute__((__weak__))
-
-// defines
-#define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
-#define CONFIG_MP
-#define MAX_CORES (4)
-//#define CONFIG_USE_ALB
-//#define CONFIG_HARD_RT
-
-#endif //_CONFIG_H_

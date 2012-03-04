@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6483" topLine="81" />
+		<Cursor position="8629" topLine="165" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="9049" topLine="128" />
@@ -26,7 +26,7 @@
 		<Cursor position="7088" topLine="51" />
 	</File>
 	<File name="../../include/kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="7436" topLine="0" />
+		<Cursor position="7530" topLine="93" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="8000" topLine="162" />
@@ -38,16 +38,19 @@
 		<Cursor position="1619" topLine="42" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="18913" topLine="278" />
+		<Cursor position="11954" topLine="211" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="7153" topLine="124" />
+		<Cursor position="7165" topLine="90" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="6819" topLine="135" />
 	</File>
 	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
 		<Cursor position="7319" topLine="168" />
+	</File>
+	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="8161" topLine="91" />
 	</File>
 	<File name="../../include/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="6261" topLine="97" />
@@ -71,7 +74,7 @@
 		<Cursor position="5810" topLine="82" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="5937" topLine="103" />
+		<Cursor position="5937" topLine="85" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
 		<Cursor position="9981" topLine="140" />
@@ -83,7 +86,7 @@
 		<Cursor position="7735" topLine="124" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="10555" topLine="156" />
+		<Cursor position="9181" topLine="126" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="512" topLine="125" />
@@ -92,7 +95,7 @@
 		<Cursor position="8010" topLine="25" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="273" topLine="57" />
+		<Cursor position="678" topLine="17" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
 		<Cursor position="2082" topLine="94" />

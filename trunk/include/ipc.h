@@ -16,6 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     Please contact with me by E-mail: shkolnick.kun@gmail.com
+
+    A special exception to the GPL can be applied should you wish to distribute
+    a combined work that includes BuguRTOS, without being obliged to provide
+    the source code for any proprietary components. See the file exception.txt
+    for full details of how and when the exception can be applied.
 **************************************************************************/
 
 /*****************************************************************************************
@@ -71,54 +76,42 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _CONFIG_H_
-// Тестовый конфиг-файл, в последствии будет заменен
-#define _CONFIG_H_
+#ifndef _IPC_H_
+#define _IPC_H_
 
-// data types
-typedef unsigned char index_t;
-#define BITS_IN_INDEX_T (8)
+/*!
+\brief
+Переход процесса к ожиданию получения указателя или данных через IPC.
 
-typedef unsigned char prio_t;
-typedef int * stack_t;
+Переход процесса к ожиданию получения указателя или данных через IPC.
+Для внутреннего использования.
+\param PROC_FLG_IPCW_P - если ждем указатель, либо PROC_FLG_IPCW_D - если ждем данные.
+\param указатель на хранилище для передаваемых данных.
+*/
+void _ipc_wait( flag_t wait_flag, void * ipc_pointer );
 
-typedef unsigned int flag_t;
+/*!
+\brief
+Переход процесса к ожиданию получения указателя через IPC.
 
-typedef unsigned int affinity_t;
+Переход процесса к ожиданию получения указателя через IPC.
+\return Указатель.
+*/
+void * ipc_wait_pointer( void );
 
-typedef unsigned long load_t;
+/*!
+\brief
+Переход процесса к ожиданию получения данных через IPC.
 
-typedef unsigned long count_t;
+Переход процесса к ожиданию получения данных через IPC.
+\return Данные.
+*/
+ipc_data_t ipc_wait_data( void );
 
-#define timer_t unsigned long
-//typedef unsigned long timer_t;
+bool_t ipc_send_pointer( proc_t * proc, void * pointer );
+bool_t ipc_send_data( proc_t * proc, ipc_data_t data );
 
-typedef volatile int lock_t;
+bool_t ipc_send_pointer_isr( proc_t * proc, void * pointer );
+bool_t ipc_send_data_isr( proc_t * proc, ipc_data_t data );
 
-typedef unsigned long bool_t;
-
-typedef unsigned long core_id_t;
-
-typedef struct _stat
-{
-    timer_t total_time_quant;
-    count_t total_proc_count;
-} stat_t;
-
-typedef long signal_t;
-
-typedef unsigned char syscall_t;
-
-typedef unsigned char ipc_data_t;
-
-#define WEAK __attribute__((__weak__))
-
-// defines
-#define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
-#define CONFIG_MP
-#define MAX_CORES (4)
-//#define CONFIG_USE_ALB
-//#define CONFIG_HARD_RT
-
-#endif //_CONFIG_H_
+#endif // _IPC_H_

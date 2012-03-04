@@ -25,7 +25,7 @@ typedef unsigned char index_t;
 typedef unsigned char prio_t;
 typedef unsigned char stack_t;
 
-typedef unsigned char flag_t;
+typedef unsigned short flag_t;
 
 typedef unsigned short count_t;
 
@@ -35,6 +35,8 @@ typedef volatile unsigned short timer_t;
 typedef unsigned char bool_t;
 
 typedef unsigned char syscall_t;
+
+typedef unsigned char ipc_data_t;
 
 // defines
 // defines

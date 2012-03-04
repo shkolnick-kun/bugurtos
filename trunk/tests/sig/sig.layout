@@ -31,6 +31,9 @@
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="3167" topLine="176" />
 	</File>
+	<File name="config.h" open="0" top="0" tabpos="0">
+		<Cursor position="6489" topLine="97" />
+	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="28571" topLine="1158" />
 	</File>

@@ -107,6 +107,8 @@ typedef struct _stat
 
 typedef unsigned char syscall_t;
 
+typedef unsigned char ipc_data_t;
+
 #define WEAK __attribute__((__weak__))
 
 // defines
