@@ -181,12 +181,14 @@ __attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void)
     BUGURT_ISR_START();
 
     kernel.timer++;
+    if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
     sched_schedule();
 
     BUGURT_ISR_EXIT();
 }
+
 #ifdef SYSCALL_ISR
-/// Если используется программное прерывание - вот его обработчик
+
 #ifdef RAMPZ
 #define PROC_STACK_OFFSET 8
 #else
@@ -198,6 +200,9 @@ typedef struct
     unsigned char num;
     void * arg;
 } syscall_data_t;
+
+static syscall_data_t scdata;
+/// Если используется программное прерывание - вот его обработчик
 __attribute__ (( signal, naked )) void SYSCALL_ISR(void)
 {
     BUGURT_ISR_START();
@@ -205,7 +210,6 @@ __attribute__ (( signal, naked )) void SYSCALL_ISR(void)
     // Получаем информацию о системном вызове из стека процесса
     unsigned char * tos;
     unsigned short temp;
-    /// Извлечение syscall_num и syscall_arg из стека процесса
     tos = (unsigned char *)kernel.sched.current_proc->spointer + PROC_STACK_OFFSET;
     temp = (unsigned short)*tos++;
     temp <<= 8;
@@ -239,8 +243,6 @@ syscall_data_t * _syscall( syscall_data_t * arg )
     sei();
     return arg;
 }
-
-static syscall_data_t scdata;
 void syscall_bugurt( unsigned char num, void * arg )
 {
      cli();
@@ -268,6 +270,7 @@ void syscall_bugurt( unsigned char num, void * arg )
     syscall_arg = arg;
     _syscall();
 }
+
 #endif
 /***************************************************************************************************************/
 // Функции общего пользования

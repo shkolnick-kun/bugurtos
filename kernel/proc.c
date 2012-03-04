@@ -158,7 +158,7 @@ bool_t proc_run_isr(proc_t * proc)
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_END|PROC_FLG_DEAD) )
+    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_END|PROC_FLG_IPCW_D|PROC_FLG_IPCW_P|PROC_FLG_DEAD) )
     {
         ret = (bool_t)0;
         goto end;
@@ -177,7 +177,7 @@ bool_t proc_restart_isr(proc_t * proc)
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_DEAD) )
+    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW_D|PROC_FLG_IPCW_P|PROC_FLG_DEAD) )
     {
         ret = (bool_t)0;
         goto end;
@@ -233,8 +233,9 @@ bool_t proc_stop_isr(proc_t * proc)
 #endif // CONFIG_MP
     //Проверка флагов
     //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
-    //В случае PROC_FLG_HOLD или PROC_FLG_QUEUE будем обрабатывать PROC_FLG_PRE_END на выходе из функции, освобождающей общий ресурс.
-    if( proc->flags & (PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT) )proc->flags |= PROC_FLG_PRE_END;
+    //В случае PROC_FLG_HOLD или PROC_FLG_QUEUE будем обрабатывать PROC_FLG_PRE_END при освобождении общего ресурса.
+    //В случае ожидания IPC флаг будет обрабатывать ожидающий процесс.
+    if( proc->flags & (PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW_D|PROC_FLG_IPCW_P) )proc->flags |= PROC_FLG_PRE_END;
     else if( proc->flags & PROC_FLG_RUN )
     {
         _proc_stop( proc );

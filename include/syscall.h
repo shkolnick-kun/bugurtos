@@ -104,6 +104,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_MUTEX_TRY_LOCK                  (SYSCALL_MUTEX_LOCK + (syscall_t)(1))
 #define SYSCALL_MUTEX_UNLOCK                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))
 
+#define SYSCALL_IPC_WAIT_P                      (SYSCALL_MUTEX_UNLOCK + (syscall_t)(1))
+#define SYSCALL_IPC_WAIT_D                      (SYSCALL_IPC_WAIT_P + (syscall_t)(1))
+#define SYSCALL_IPC_SEND_P                      (SYSCALL_IPC_WAIT_D + (syscall_t)(1))
+#define SYSCALL_IPC_SEND_D                      (SYSCALL_IPC_SEND_P + (syscall_t)(1))
+
 #ifdef CONFIG_MP
 void do_syscall( syscall_t syscall_num, void * syscall_arg );
 #else
@@ -189,5 +194,23 @@ typedef struct {
 void scall_mutex_lock(void * arg);
 void scall_mutex_try_lock(void * arg);
 void scall_mutex_unlock(void * arg);
+///=================================================================
+///                           IPC
 
+typedef struct {
+    proc_t * proc;
+    bool_t ret;
+    ipc_data_t data;
+} ipc_send_data_arg_t;
+
+typedef struct {
+    proc_t * proc;
+    bool_t ret;
+    void * pointer;
+} ipc_send_pointer_arg_t;
+
+void scall_ipc_wait_pointer(void * arg);
+void scall_ipc_wait_data(void * arg);
+void scall_ipc_send_pointer(void * arg);
+void scall_ipc_send_data(void * arg);
 #endif // _SYSCALL_H_

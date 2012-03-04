@@ -36,6 +36,8 @@ typedef struct _stat
 
 typedef unsigned char syscall_t;
 
+typedef unsigned char ipc_data_t;
+
 // defines
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER

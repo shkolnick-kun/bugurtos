@@ -4,10 +4,7 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="1026" topLine="21" />
 	</File>
-	<File name="../../include/config.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="10" />
-	</File>
-	<File name="../../include/kernel.h" open="0" top="0" tabpos="0">
+	<File name="../../include/kernel.h" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="42" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="1">
@@ -17,7 +14,7 @@
 		<Cursor position="19607" topLine="298" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="0" topLine="84" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="1">
 		<Cursor position="7453" topLine="137" />
@@ -27,6 +24,9 @@
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="1900" topLine="20" />
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="0">
+		<Cursor position="6421" topLine="97" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="15" topLine="0" />

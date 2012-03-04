@@ -52,21 +52,13 @@
 
 1326636954 /home/anonimous/Документы/bugurtos/include/mutex.h
 
+1330846410 /home/anonimous/Документы/bugurtos/include/ipc.h
+
 1326636954 /home/anonimous/Документы/bugurtos/include/timer.h
 
-1325846562 /home/anonimous/Документы/bugurtos/arch/osbme/osbme.h
+1330798496 /home/anonimous/Документы/bugurtos/include/syscall.h
 
-1326047119 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.h
-
-1326630796 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_syscall.c
-	"bugurt_kernel.h"
-	<avr/pgmspace.h>
-
-1321714634 source:/home/anonimous/Документы/bugurtos/arch/osbme/arch/avr/osbme.c
-	<avr/io.h>
-	"../../osbme.h"
-
-1325850631 source:/home/anonimous/Документы/bugurtos/arch/osbme/arch/avr/osbme_asm.S
+1327242113 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel_asm.S
 	<avr/io.h>
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/crit_sec.c
@@ -79,6 +71,9 @@
 	"../include/bugurt.h"
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1330848419 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
 	"../include/bugurt.h"
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/item.c
@@ -105,31 +100,15 @@
 1330798995 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
 	"../include/bugurt.h"
 
+1330874543 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/timer.c
 	"../include/bugurt.h"
 
 1326636933 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
-1327251043 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-1/main.c
+1330874089 source:/home/anonimous/Документы/bugurtos/tests/arduino328-test-ipc/main.c
 	<bugurt.h>
-
-1327242113 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel_asm.S
-	<avr/io.h>
-
-1328439691 /home/anonimous/Документы/bugurtos/arch/single-core/bugurt_syscall.h
-	"../../include/bugurt.h"
-
-1328455049 source:/home/anonimous/Документы/bugurtos/arch/single-core/bugurt_syscall.c
-	"bugurt_syscall.h"
-
-1330846410 /home/anonimous/Документы/bugurtos/include/ipc.h
-
-1330798496 /home/anonimous/Документы/bugurtos/include/syscall.h
-
-1330848419 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
-	"../include/bugurt.h"
-
-1330846514 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
-	"../include/bugurt.h"
 

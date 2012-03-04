@@ -102,7 +102,12 @@ const code_t syscall_routine[] =
     scall_mutex_init,
     scall_mutex_lock,
     scall_mutex_try_lock,
-    scall_mutex_unlock
+    scall_mutex_unlock,
+    // IPC
+    scall_ipc_wait_pointer,
+    scall_ipc_wait_data,
+    scall_ipc_send_pointer,
+    scall_ipc_send_data
 };
 
 #ifdef CONFIG_MP
@@ -445,4 +450,58 @@ void scall_mutex_unlock(void * arg)
 void mutex_unlock( mutex_t * mutex )
 {
     syscall_bugurt( SYSCALL_MUTEX_UNLOCK, (void *)mutex );
+}
+///=================================================================
+///                           IPC
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_IPC_WAIT_P
+void scall_ipc_wait_pointer(void * arg)
+{
+    _ipc_wait( PROC_FLG_IPCW_P, arg );
+}
+void * ipc_wait_pointer( void )
+{
+    void * ret = (void *)0;
+    syscall_bugurt( SYSCALL_IPC_WAIT_P, (void *)&ret );
+    return ret;
+}
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_IPC_WAIT_D
+void scall_ipc_wait_data(void * arg)
+{
+    _ipc_wait( PROC_FLG_IPCW_D, arg );
+}
+ipc_data_t ipc_wait_data( void )
+{
+    ipc_data_t ret;
+    syscall_bugurt( SYSCALL_IPC_WAIT_D, (void *)&ret );
+    return ret;
+}
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_IPC_SEND_P
+void scall_ipc_send_pointer(void * arg)
+{
+    ((ipc_send_pointer_arg_t *)arg)->ret = ipc_send_pointer_isr( ((ipc_send_pointer_arg_t *)arg)->proc, ((ipc_send_pointer_arg_t *)arg)->pointer );
+}
+bool_t ipc_send_pointer( proc_t * proc, void * pointer )
+{
+    ipc_send_pointer_arg_t arg;
+    arg.proc = proc;
+    arg.pointer = pointer;
+    syscall_bugurt( SYSCALL_IPC_SEND_P, (void *)&arg );
+    return arg.ret;
+}
+///--------------------------------------------------------------------------------------------
+/// SYSCALL_IPC_SEND_D
+void scall_ipc_send_data(void * arg)
+{
+    ((ipc_send_data_arg_t *)arg)->ret = ipc_send_data_isr( ((ipc_send_data_arg_t *)arg)->proc, ((ipc_send_data_arg_t *)arg)->data );
+}
+bool_t ipc_send_data( proc_t * proc, ipc_data_t data )
+{
+    volatile ipc_send_data_arg_t arg;
+    arg.proc = proc;
+    arg.data = data;
+    syscall_bugurt( SYSCALL_IPC_SEND_D, (void *)&arg );
+    return arg.ret;
 }

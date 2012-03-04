@@ -180,6 +180,7 @@ __interrupt void system_timer_isr(void)
     SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     kernel.timer++;
+    if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
     sched_schedule();
 
     bugurt_restore_context( kernel.sched.current_proc->spointer );
