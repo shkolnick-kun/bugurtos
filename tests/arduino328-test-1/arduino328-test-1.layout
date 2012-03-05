@@ -20,7 +20,7 @@
 		<Cursor position="6657" topLine="82" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="9434" topLine="405" />
+		<Cursor position="12308" topLine="261" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="8872" topLine="127" />
@@ -35,10 +35,10 @@
 		<Cursor position="7444" topLine="118" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="7425" topLine="142" />
+		<Cursor position="9508" topLine="148" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="87" />
+		<Cursor position="0" topLine="204" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="149" />

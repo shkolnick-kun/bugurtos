@@ -188,6 +188,10 @@ struct _proc_t
 \brief Флаг ожидания передачи данных через IPC.
 */
 #define PROC_FLG_IPCW_D     ((flag_t)512)
+/*!
+\brief Флаг останова по watch_dog.
+*/
+#define PROC_FLG_WD_STOP    ((flag_t)1024)
 
 // Методы
 /*!

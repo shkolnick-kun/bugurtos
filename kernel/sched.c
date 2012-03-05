@@ -217,6 +217,7 @@ void sched_schedule(
                 spin_unlock( &kernel.stat_lock );
 #endif // CONFIG_MP
                 ((gitem_t *)current_proc)->group->link = (void *)0;// Просто вырезали из списка, как в gitem_cut
+                current_proc->flags |= PROC_FLG_WD_STOP;//Остановлен по WD
                 current_proc->flags &= ~PROC_FLG_RUN;
             }
         }
