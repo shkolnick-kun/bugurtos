@@ -85,8 +85,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BUGURT_CONCAT(a,b) a##b
 
 // Пролог обработчика прерывания
+///                         АХТУНГ !!!
+/// Используется переменная saved_proc_sp для временного хранения
+/// указателя стека прерываемого процесса, если так не делать,
+/// компилятор будет стирать r16, r17 до сохранения контекста.
 #define BUGURT_ISR_START() \
-    kernel.sched.current_proc->spointer = bugurt_save_context();\
+    saved_proc_sp = bugurt_save_context();\
+    kernel.sched.current_proc->spointer = saved_proc_sp;\
     bugurt_set_stack_pointer( kernel.idle.spointer )
 
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
@@ -131,6 +136,8 @@ void BUGURT_CONCAT(v,_func)(void)
 #endif // SYSCALL_ISR
 
 unsigned char kernel_state;
+//Временное хранилище для указателей стеков процессов.
+stack_t * saved_proc_sp;
 
 //Внешние функции, специфичные для AVR
 extern void start_scheduler( void );
