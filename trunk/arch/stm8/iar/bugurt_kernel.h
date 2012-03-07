@@ -81,6 +81,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include"../../../include/bugurt.h"
 
+// Подстановка_строки
+#define BUGURT_ARG_TO_STR(a) #a
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
@@ -98,10 +100,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     bugurt_check_resched();\
     BUGURT_ISR_EXIT()
 
-// Шаблон обработчика прерывания для внутреннего пользования
+// Подстановка вектора для шаблона обработчика прерывания
+#define BUGURT_VECTOR_STR(v) BUGURT_ARG_TO_STR( vector = (v) )
+
+// Шаблон обертки обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
-_Pragma( vector = v ) \
-__interrupt void v(void) \
+_Pragma( BUGURT_VECTOR_STR(v) ) \
+__interrupt void BUGURT_CONCAT(v,_wrapper)(void) \
 { \
     BUGURT_ISR_START();\
     f();\

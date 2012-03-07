@@ -152,6 +152,8 @@ proc_t * current_proc(void)
 
 // Состояние ядра, выполняем перепланиировку
 unsigned char kernel_state = KRN_FLG_RESCHED;
+//Временное хранилище для указателей стеков процессов.
+stack_t * saved_proc_sp;
 // Функция перепланировки
 void resched( void )
 {
@@ -176,6 +178,8 @@ void bugurt_check_resched( void )
         sched_reschedule();
     }
 }
+
+
 __attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void)
 {
     BUGURT_ISR_START();
