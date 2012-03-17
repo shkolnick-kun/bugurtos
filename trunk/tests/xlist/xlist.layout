@@ -4,7 +4,7 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="1026" topLine="21" />
 	</File>
-	<File name="../../include/kernel.h" open="0" top="0" tabpos="1">
+	<File name="../../include/kernel.h" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="118" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="1">

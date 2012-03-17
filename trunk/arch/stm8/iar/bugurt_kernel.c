@@ -171,19 +171,21 @@ void bugurt_check_resched( void )
         sched_reschedule();
     }
 }
+
+
+
 #pragma vector = SYSTEM_TIMER_VECTOR
 __interrupt void system_timer_isr(void)
 {
-    kernel.sched.current_proc->spointer = bugurt_save_context();
-    bugurt_set_stack_pointer( kernel.idle.spointer );
-
+    BUGURT_ISR_START();
+   
     SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
     sched_schedule();
-
-    bugurt_restore_context( kernel.sched.current_proc->spointer );
+    
+    BUGURT_ISR_END();
 }
 
 static stack_t * proc_stack;

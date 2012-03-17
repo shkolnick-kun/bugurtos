@@ -19,6 +19,9 @@
 	<File name="../../include/ipc.h" open="0" top="0" tabpos="0">
 		<Cursor position="6657" topLine="82" />
 	</File>
+	<File name="../../include/kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="7017" topLine="118" />
+	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="12308" topLine="261" />
 	</File>
@@ -50,7 +53,7 @@
 		<Cursor position="17825" topLine="463" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="7155" topLine="104" />
+		<Cursor position="7155" topLine="92" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
 		<Cursor position="275" topLine="46" />

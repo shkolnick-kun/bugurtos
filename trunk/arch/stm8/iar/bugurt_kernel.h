@@ -106,12 +106,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Шаблон обертки обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
 _Pragma( BUGURT_VECTOR_STR(v) ) \
-__interrupt void BUGURT_CONCAT(v,_wrapper)(void) \
+__interrupt void BUGURT_CONCAT(vector_wrapper_,v)(void) \
 { \
     BUGURT_ISR_START();\
     f();\
     BUGURT_ISR_END();\
-} \
+}
 
 /*
 Объявление обработчика прерывания.
@@ -123,9 +123,9 @@ __interrupt void BUGURT_CONCAT(v,_wrapper)(void) \
 зато память экономится.
 */
 #define BUGURT_INTERRUPT(v) \
-void BUGURT_CONCAT(v,_func)(void);\
-_BUGURT_ISR(v,BUGURT_CONCAT(v,_func)) \
-void BUGURT_CONCAT(v,_func)(void)
+void BUGURT_CONCAT(vector_func_,v)(void);\
+_BUGURT_ISR(v,BUGURT_CONCAT(vector_func_,v)) \
+void BUGURT_CONCAT(vector_func_,v)(void)
 
 // Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
