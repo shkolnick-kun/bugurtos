@@ -99,10 +99,11 @@ void sig_init_isr( sig_t * sig )
 // Это выполнится при постановке процесса в список ожидания сигнала
 void _sig_wait_prologue( sig_t * sig )
 {
+    proc_t * proc;
 #ifdef CONFIG_MP
     spin_lock( &sig->lock );
 #endif // CONFIG_MP
-    proc_t * proc = current_proc();
+    proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
@@ -122,7 +123,8 @@ void _sig_wait_prologue( sig_t * sig )
         в этом случае получается сделать sig_broadcast  с временем выполнения O(1),
         однако про hotplug  придется забыть, ну и ладно.
         */
-        core_id_t sig_core = sched_load_balancer( proc, (stat_t *)sig->sig_stat );
+        core_id_t sig_core;
+        sig_core = sched_load_balancer( proc, (stat_t *)sig->sig_stat );
 
         proc->core_id = sig_core;
         gitem_insert_group((gitem_t *)proc, (xlist_t *)sig + sig_core);
@@ -139,14 +141,16 @@ void _sig_wait_prologue( sig_t * sig )
 void sig_signal_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
+    core_id_t core;
+    proc_t * proc;
     // Поиск процесса для запуска
     spin_lock( &sig->lock );// Захват блокировки сигнала
     // Находим самую нагруженную  структуру stat_t в сигнале
-    core_id_t core = sched_highest_load_core( (stat_t *)sig->sig_stat );
-    proc_t * proc;
+    core = sched_highest_load_core( (stat_t *)sig->sig_stat );
     // Этот процесс мы будем запускать
     {
-        xlist_t * sig_list = (xlist_t *)sig->sig_list + core;
+        xlist_t * sig_list;
+        sig_list = (xlist_t *)sig->sig_list + core;
         if(sig_list->index == (index_t)0)
         {
             spin_unlock( &sig->lock );
@@ -164,7 +168,8 @@ void sig_signal_isr( sig_t * sig )
     stat_inc( proc, (stat_t *)kernel.stat + core ); // Обновление статистики
     spin_unlock( &kernel.stat_lock );
     {
-        sched_t * sched = kernel.sched + core;// Дада, нагрузка была сбалансирована на этапе постановки в список ожидания
+        sched_t * sched;
+        sched = kernel.sched + core;// Дада, нагрузка была сбалансирована на этапе постановки в список ожидания
         spin_lock( &sched->lock );
         gitem_insert((gitem_t *)proc, sched->ready );
         spin_unlock( &sched->lock );
@@ -173,8 +178,9 @@ void sig_signal_isr( sig_t * sig )
     spin_unlock( &proc->lock );// Освобождение блокировки процесса
     spin_unlock( &sig->lock );// Освобождение блокировки сигнала
 #else
+    proc_t * proc;
     if( ((xlist_t *)sig)->index == (index_t)0 )return;
-    proc_t * proc = (proc_t *)xlist_head( (xlist_t *)sig );
+    proc = (proc_t *)xlist_head( (xlist_t *)sig );
     gitem_fast_cut( (gitem_t *)proc );
     gitem_insert( (gitem_t *)proc, kernel.sched.ready );
     resched();

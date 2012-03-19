@@ -98,7 +98,8 @@ void xlist_init(
 item_t * xlist_head(xlist_t * xlist)
 {
     item_t * ret_val = (item_t *)0;
-    index_t index = xlist->index;
+    index_t index;
+    index = xlist->index;
 
     if( index != (index_t)0 )
     {
@@ -111,7 +112,8 @@ item_t * xlist_head(xlist_t * xlist)
 // переключение указателя в массиве на следующий элемент, пригодится в планировщике
 void xlist_switch(xlist_t * xlist, prio_t prio)
 {
-    item_t ** current = xlist->item + prio;
+    item_t ** current;
+    current = xlist->item + prio;
     *current = (*current)->next;
     //*current = (item_t *)*(item_t **)*(item_t ***)current;
 }

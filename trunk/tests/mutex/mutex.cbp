@@ -58,6 +58,9 @@
 		<Unit filename="../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../kernel/ipc.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../kernel/item.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -128,7 +128,8 @@ void proc_init_isr(
 #ifdef CONFIG_MP
 void _proc_run_( proc_t * proc )
 {
-    sched_t * proc_sched = (sched_t *)kernel.sched + proc->core_id;
+    sched_t * proc_sched;
+    proc_sched = (sched_t *)kernel.sched + proc->core_id;
     spin_lock( &proc_sched->lock );
     gitem_insert( (gitem_t *)proc, proc_sched->ready );
     spin_unlock( &proc_sched->lock );
@@ -249,7 +250,8 @@ bool_t proc_stop_isr(proc_t * proc)
 
 void _proc_flag_stop( flag_t mask )
 {
-    proc_t * proc = current_proc();
+    proc_t * proc;
+    proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif //CONFIG_MP
@@ -338,7 +340,8 @@ void _proc_prio_control_stoped( proc_t * proc )
 {
     if(proc->lres.index != (index_t)0)
     {
-        prio_t locker_prio = index_search( proc->lres.index );
+        prio_t locker_prio;
+        locker_prio = index_search( proc->lres.index );
         ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
     }
     else
@@ -351,7 +354,8 @@ void _proc_prio_control_running( proc_t * proc )
     prio_t new_prio;
     if(proc->lres.index != (index_t)0)
     {
-        prio_t locker_prio = index_search( proc->lres.index );
+        prio_t locker_prio;
+        locker_prio = index_search( proc->lres.index );
         new_prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
     }
     else
@@ -391,7 +395,8 @@ void _proc_prio_control_running( proc_t * proc )
 ************************************/
 void _proc_lazy_load_balancer(core_id_t object_core)
 {
-    sched_t * sched = (sched_t *)kernel.sched + object_core;
+    sched_t * sched;
+    sched = (sched_t *)kernel.sched + object_core;
 
     //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
     spin_lock( &sched->lock );
@@ -434,9 +439,10 @@ void _proc_lazy_load_balancer(core_id_t object_core)
 }
 void _proc_global_lazy_load_balancer(void)
 {
+    core_id_t object_core;
     // Поиск самого нагруженного процессора
     spin_lock( &kernel.stat_lock );
-    core_id_t object_core = sched_highest_load_core( (stat_t *)kernel.stat );
+    object_core = sched_highest_load_core( (stat_t *)kernel.stat );
     spin_unlock( &kernel.stat_lock );
 
     // Перенос нагрузки на самый не нагруженный процессор
@@ -446,14 +452,16 @@ void _proc_global_lazy_load_balancer(void)
 // Локальный
 void proc_lazy_local_load_balancer(void)
 {
-    core_id_t current_core = _enter_crit_sec();
+    core_id_t current_core;
+    current_core = _enter_crit_sec();
     _proc_lazy_load_balancer( current_core );
     _exit_crit_sec( current_core );
 }
 // Глобальный
 void proc_lazy_global_load_balancer(void)
 {
-    core_id_t current_core = _enter_crit_sec();
+    core_id_t current_core;
+    current_core = _enter_crit_sec();
     _proc_global_lazy_load_balancer();
     _exit_crit_sec( current_core );
 }

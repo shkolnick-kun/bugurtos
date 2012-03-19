@@ -81,7 +81,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void _clear_timer(timer_t * t)
 {
 #ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
+    core_id_t current_core;
+    current_core = _enter_crit_sec();
     spin_lock( &kernel.timer_lock );
 #else
     enter_crit_sec();
@@ -99,7 +100,8 @@ timer_t _timer(timer_t t)
 {
     timer_t ret;
 #ifdef CONFIG_MP
-    core_id_t current_core = _enter_crit_sec();
+    core_id_t current_core;
+    current_core = _enter_crit_sec();
     spin_lock( &kernel.timer_lock );
 #else
     enter_crit_sec();

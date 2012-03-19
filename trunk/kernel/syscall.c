@@ -254,13 +254,15 @@ void scall_proc_terminate( void * arg )
 }
 void proc_run_wrapper( proc_t * proc )
 {
+    code_t pmain;
+    void * arg;
     //Атомарно читаем pmain и arg
     disable_interrupts();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
-    code_t pmain = proc->pmain;
-    void * arg = proc->arg;
+    pmain = proc->pmain;
+    arg = proc->arg;
 #ifdef CONFIG_MP
     spin_unlock( &proc->lock );
 #endif // CONFIG_MP
@@ -278,7 +280,8 @@ void scall_proc_flag_stop( void * arg )
 }
 void proc_flag_stop( flag_t mask )
 {
-    flag_t msk = mask;
+    flag_t msk;
+    msk = mask;
     syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&msk );
 }
 ///---------------------------------------------------------------------------------------------

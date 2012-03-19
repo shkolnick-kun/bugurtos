@@ -88,8 +88,9 @@ void item_init(item_t *item)
 void item_insert(item_t *item, item_t *head)
 {
     // "хвост" списка
-    item_t * tail = head->prev;
+    item_t * tail;
 
+    tail = head->prev;
     // Вставляем элемент между "головой" и "хвостом"
     item->prev = tail;
     item->next = head;
@@ -100,9 +101,11 @@ void item_insert(item_t *item, item_t *head)
 //Вырезать элемент
 void item_cut( item_t *item )
 {
-    item_t * prev = item->prev; //Предыдущий элемент
-    item_t * next = item->next; //Следующий элемент
+    item_t * prev;
+    item_t * next;
 
+    prev = item->prev; //Предыдущий элемент
+    next = item->next; //Следующий элемент
     next->prev = prev;
     prev->next = next;
 

@@ -98,7 +98,7 @@ bool_t _sem_lock( sem_t * sem )
 #ifdef CONFIG_MP
     spin_lock( &sem->lock );// Захват спин-блокировки семафора
 #endif //CONFIG_MP
-    bool_t ret = 0;
+    bool_t ret = (bool_t)0;
     if( sem->counter != 0 )
     {
         sem->counter--;
@@ -106,7 +106,8 @@ bool_t _sem_lock( sem_t * sem )
     }
     else
     {
-        proc_t * proc = current_proc();
+        proc_t * proc;
+        proc = current_proc();
 #ifdef CONFIG_MP
         spin_lock( &proc->lock );// Захват блокировки процесса
 #endif //CONFIG_MP
@@ -129,7 +130,7 @@ bool_t _sem_try_lock( sem_t * sem )
 #ifdef CONFIG_MP
     spin_lock( &sem->lock );// Захват спин-блокировки семафора
 #endif //CONFIG_MP
-    bool_t ret = 0;
+    bool_t ret = (bool_t)0;
     if( sem->counter != 0 )
     {
         sem->counter--;
@@ -143,6 +144,7 @@ bool_t _sem_try_lock( sem_t * sem )
 
 void sem_unlock_isr( sem_t * sem )
 {
+    proc_t * proc;
 #ifdef CONFIG_MP
     spin_lock( &sem->lock );//Захват спин-блокировки семафора
 #endif //CONFIG_MP
@@ -151,7 +153,7 @@ void sem_unlock_isr( sem_t * sem )
         sem->counter++;
         return;
     }
-    proc_t * proc = (proc_t *)xlist_head((xlist_t *)sem);
+    proc = (proc_t *)xlist_head((xlist_t *)sem);
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );// Захват спин-блокировки процесса
 #endif //CONFIG_MP
