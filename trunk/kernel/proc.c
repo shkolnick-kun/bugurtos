@@ -208,7 +208,8 @@ void _proc_stop_(proc_t * proc)
     stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
     spin_unlock( &kernel.stat_lock );
     {
-        lock_t * xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
+        lock_t * xlist_lock;
+        xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
         spin_lock( xlist_lock );
         gitem_cut( (gitem_t *)proc );
         spin_unlock( xlist_lock );
@@ -396,6 +397,7 @@ void _proc_prio_control_running( proc_t * proc )
 void _proc_lazy_load_balancer(core_id_t object_core)
 {
     sched_t * sched;
+    proc_t * proc;
     sched = (sched_t *)kernel.sched + object_core;
 
     //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
@@ -405,7 +407,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
         spin_unlock( &sched->lock );
         return;
     }
-    proc_t * proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
+    proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
     spin_unlock( &sched->lock );
 
     spin_lock( &proc->lock );

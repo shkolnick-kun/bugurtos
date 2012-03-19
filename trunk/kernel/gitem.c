@@ -95,7 +95,7 @@ void gitem_insert(gitem_t * gitem, xlist_t *xlist)
     item_t ** head;
 
     prio = gitem->group->prio;
-    mask  = ((index_t)1)<<prio;
+    mask = ((index_t)1)<<prio;
     head = (item_t **)xlist + prio;
     // Пуста ли часть списка с таким приоритетом
     if( ( xlist->index )& mask)
