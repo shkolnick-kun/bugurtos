@@ -220,12 +220,13 @@ void gitem_xlist_merge(xlist_t * source, xlist_t * destignation)
                 // Сшиваем 2 2-связных списка!!!
                 item_t * src;
                 item_t * dst;
+                item_t * buf;
 
                 src = source->item[current_prio];
                 dst = destignation->item[current_prio];
                 src->prev->next = dst;
                 dst->prev->next = src;
-                item_t * buf = dst->prev;
+                buf = dst->prev;
                 dst->prev = src->prev;
                 src->prev = buf;
             }

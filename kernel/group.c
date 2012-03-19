@@ -107,7 +107,8 @@ group_t * group_pop(void)
     // блокируем пул
     spin_lock( &kernel.pool_lock );
 #endif
-    group_t * group = kernel.pool;
+    group_t * group;
+    group = kernel.pool;
     kernel.pool = (group_t *)group->link;
 #ifdef CONFIG_MP
     // разблокируем пул
