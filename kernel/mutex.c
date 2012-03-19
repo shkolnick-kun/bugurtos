@@ -102,11 +102,13 @@ void mutex_init_isr(
 // К моменту вызова захвачена блокировка mutex-а, запрещены прерывания
 bool_t _mutex_lock( mutex_t * mutex )
 {
+    bool_t ret;
+    proc_t * proc;
 #ifdef CONFIG_MP
     spin_lock( &mutex->lock );
 #endif //CONFIG_MP
-    bool_t ret = mutex->free;
-    proc_t * proc = current_proc();
+    ret = mutex->free;
+    proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
@@ -145,11 +147,13 @@ bool_t _mutex_lock( mutex_t * mutex )
 
 bool_t _mutex_try_lock( mutex_t * mutex )
 {
+    bool_t ret;
+    proc_t * proc;
 #ifdef CONFIG_MP
     spin_lock( &mutex->lock );
 #endif //CONFIG_MP
-    bool_t ret = mutex->free;
-    proc_t * proc = current_proc();
+    ret = mutex->free;
+    proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP
@@ -172,10 +176,11 @@ bool_t _mutex_try_lock( mutex_t * mutex )
 
 void _mutex_unlock( mutex_t *  mutex )
 {
+    proc_t * proc;
 #ifdef CONFIG_MP
     spin_lock( &mutex->lock );
 #endif //CONFIG_MP
-    proc_t * proc = current_proc();
+    proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP

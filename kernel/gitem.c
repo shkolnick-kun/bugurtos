@@ -80,7 +80,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Инициация
 void gitem_init(gitem_t * gitem, prio_t prio)
 {
-    group_t * group = &gitem->grp;
+    group_t * group;
+
+    group = &gitem->grp;
     item_init( (item_t *)gitem );
     group_init( group, prio );
     gitem->group = group;
@@ -88,9 +90,13 @@ void gitem_init(gitem_t * gitem, prio_t prio)
 // Вставить в список
 void gitem_insert(gitem_t * gitem, xlist_t *xlist)
 {
-    prio_t prio = gitem->group->prio;
-    index_t mask = ((index_t)1)<<prio;
-    item_t ** head = (item_t **)xlist + prio;
+    prio_t prio;
+    index_t mask;
+    item_t ** head;
+
+    prio = gitem->group->prio;
+    mask  = ((index_t)1)<<prio;
+    head = (item_t **)xlist + prio;
     // Пуста ли часть списка с таким приоритетом
     if( ( xlist->index )& mask)
     {
@@ -115,10 +121,15 @@ void gitem_insert(gitem_t * gitem, xlist_t *xlist)
 */
 void gitem_insert_group(gitem_t * gitem, xlist_t *xlist)
 {
-    prio_t prio = gitem->group->prio;
-    index_t mask = ((index_t)1)<<prio;
-    item_t ** head = (item_t **)xlist + prio;
-    group_t * group = gitem->group;
+    prio_t prio;
+    index_t mask;
+    item_t ** head;
+    group_t * group;
+
+    prio = gitem->group->prio;
+    mask = ((index_t)1)<<prio;
+    head = (item_t **)xlist + prio;
+    group = gitem->group;
     // Пуста ли часть списка с таким приоритетом
     if( ( xlist->index )& mask)
     {
@@ -143,8 +154,11 @@ void gitem_insert_group(gitem_t * gitem, xlist_t *xlist)
 // Быстро вырезать из списка (не обнуляется указатель gitem->group->link)
 void gitem_fast_cut(gitem_t * gitem)
 {
-    prio_t prio = gitem->group->prio;
-    xlist_t * xlist = (xlist_t *)gitem->group->link;
+    prio_t prio;
+    xlist_t * xlist;
+
+    prio = gitem->group->prio;
+    xlist = (xlist_t *)gitem->group->link;
     // Является ли эта часть списка группированной?
     if( gitem->group->el_num > (count_t)1 )
     {
@@ -204,8 +218,11 @@ void gitem_xlist_merge(xlist_t * source, xlist_t * destignation)
             {
                 //Есть!
                 // Сшиваем 2 2-связных списка!!!
-                item_t * src = source->item[current_prio];
-                item_t * dst = destignation->item[current_prio];
+                item_t * src;
+                item_t * dst;
+
+                src = source->item[current_prio];
+                dst = destignation->item[current_prio];
                 src->prev->next = dst;
                 dst->prev->next = src;
                 item_t * buf = dst->prev;

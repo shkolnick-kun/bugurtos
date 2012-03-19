@@ -81,8 +81,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // блокировку захватывать не надо - все изменения происходят локально!
 core_id_t _enter_crit_sec(void)
 {
+    core_id_t ret;
     disable_interrupts();
-    core_id_t ret = current_core();
+    ret = current_core();
     kernel.sched[ret].nested_crit_sec++;
     return ret;
 }

@@ -32,13 +32,13 @@
 		<Cursor position="3167" topLine="176" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="6489" topLine="97" />
+		<Cursor position="6489" topLine="67" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
-		<Cursor position="28571" topLine="1158" />
+		<Cursor position="1611" topLine="46" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="2648" topLine="130" />
+		<Cursor position="3086" topLine="141" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
 		<Cursor position="7890" topLine="209" />

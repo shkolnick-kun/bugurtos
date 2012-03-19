@@ -69,6 +69,7 @@ int main()
     proc[2].affinity = 15;
     proc[6].affinity = 9;
     proc[11].timer = proc[11].time_quant;
+    proc[11].flags &= ~PROC_FLG_WD_STOP;
     proc_run(proc+11);
     printf("\n=========================================================\n");
     for(s = 0; s < 22; s++)

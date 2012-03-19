@@ -82,7 +82,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void sched_init(sched_t * sched, proc_t * idle)
 {
 #ifdef CONFIG_MP
-    lock_t * sched_lock = &sched->lock;
+    lock_t * sched_lock;
+    sched_lock = &sched->lock;
     spin_init( sched_lock );
     spin_lock( sched_lock );
 #endif // CONFIG_MP
@@ -103,7 +104,8 @@ static void _sched_list_switch( sched_t * sched )
     // Список ready опустел, переключаем списки
     if( sched->ready->index == (index_t)0 )
     {
-        xlist_t * buf = sched->ready;
+        xlist_t * buf;
+        buf = sched->ready;
         sched->ready = sched->expired;
         sched->expired = buf;
     }
@@ -130,11 +132,13 @@ void sched_schedule(
 #endif // CONFIG_MP
                     )
 {
+    proc_t * current_proc;
 #ifndef CONFIG_MP
-    sched_t * sched = (sched_t *)&kernel.sched;
+    sched_t * sched;
+    sched = (sched_t *)&kernel.sched;
 #endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
-    proc_t * current_proc = sched->current_proc;
+    current_proc = sched->current_proc;
 #ifdef CONFIG_MP
     // А вот эту блокировку обязательно надо захватить!
     spin_lock( &current_proc->lock );
@@ -156,6 +160,7 @@ void sched_schedule(
         if( current_proc->timer > (timer_t)1 )current_proc->timer--;// Не истек, уменьшаем таймер
         else
         {
+            flag_t flags;
             // Истек, вырезаем процесс из списка
 #ifdef CONFIG_MP
             spin_lock( &sched->lock );
@@ -170,7 +175,7 @@ void sched_schedule(
 #endif // CONFIG_USE_ALB
 #endif // CONFIG_MP
             // А что за процесс собственно?
-            flag_t flags = current_proc->flags;
+            flags = current_proc->flags;
             if(
                 (!(flags & PROC_FLG_RT))
 #ifndef CONFIG_HARD_RT
@@ -178,13 +183,13 @@ void sched_schedule(
 #endif // CONFIG_HARD_RT
             )
             {
-                //Процесс общего назначения, либо он удерживает общий ресурс, сбрасываем таймер и переносим в очередь expired
-                current_proc->timer = current_proc->time_quant;
+                //Процесс общего назначения, либо он удерживает общий ресурс, переносим в очередь expired и сбрасываем таймер
 #if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
+                sched_t * new_sched;
                 // Балансировка нагрузки
                 current_proc->core_id = sched_load_balancer( current_proc, (stat_t *)kernel.stat );
                 // Получаем указатель на новый планиировщик
-                sched_t * new_sched = (sched_t *)kernel.sched + current_proc->core_id;
+                new_sched = (sched_t *)kernel.sched + current_proc->core_id;
                 // Обновляем нагрузку на новом ядре
                 stat_inc( current_proc, (stat_t *)kernel.stat + current_proc->core_id );
                 spin_unlock( &kernel.stat_lock );
@@ -204,6 +209,7 @@ void sched_schedule(
 #endif // CONFIG_MP
 
 #endif // CONFIG_MP CONFIG_USE_ALB
+                current_proc->timer = current_proc->time_quant; // Сбросили таймер!
             }
             else
             {
@@ -253,7 +259,8 @@ void sched_reschedule(
                        )
 {
 #ifndef CONFIG_MP
-    sched_t * sched = (sched_t *)&kernel.sched;
+    sched_t * sched;
+    sched = (sched_t *)&kernel.sched;
 #endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     proc_t * current_proc = sched->current_proc;
@@ -301,8 +308,11 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
     core_id_t ret = core++;
     mask<<=1;
     {
-        prio_t proc_prio = ((gitem_t *)proc)->group->prio;
-        load_t current_load, min_load = stat_calc_load( proc_prio, stat++ );
+        prio_t proc_prio;
+        load_t current_load, min_load;
+
+        proc_prio = ((gitem_t *)proc)->group->prio;
+        min_load = stat_calc_load( proc_prio, stat++ );
         // Проверка всего остального, тупой поиск минимума
         while( core < (core_id_t)MAX_CORES )
         {
@@ -323,13 +333,15 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
 core_id_t sched_highest_load_core( stat_t * stat )
 {
     // Начальное предположение
-    load_t max_load = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat ); // максимальная нагрузка
+    load_t max_load;
     core_id_t object_core = (core_id_t)0; //процессор с максимальной нагрузкой, с которого эту нагрузку будем снимать
-
     core_id_t core = (core_id_t)1;
+    max_load  = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat ); // максимальная нагрузка
+
     while( core < (core_id_t)MAX_CORES )
     {
-        load_t current_load = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat + core );
+        load_t current_load;
+        current_load = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat + core );
         if( current_load > max_load )
         {
             max_load = current_load;

@@ -133,6 +133,10 @@ int main()
     proc[7].timer = proc[7].time_quant;
     proc[8].timer = proc[8].time_quant;
     proc[9].timer = proc[9].time_quant;
+    proc[7].flags &= ~PROC_FLG_WD_STOP;
+    proc[8].flags &= ~PROC_FLG_WD_STOP;
+    proc[9].flags &= ~PROC_FLG_WD_STOP;
+
     proc_run(proc+7);
     proc_run(proc+8);
     proc_run(proc+9);
@@ -151,12 +155,17 @@ int main()
     proc[7].timer = proc[7].time_quant;
     proc[8].timer = proc[8].time_quant;
     proc[9].timer = proc[9].time_quant;
+    proc[7].flags &= ~PROC_FLG_WD_STOP;
+    proc[8].flags &= ~PROC_FLG_WD_STOP;
+    proc[9].flags &= ~PROC_FLG_WD_STOP;
     proc_run(proc+7);
     proc_run(proc+8);
     proc_run(proc+9);
     proc[7].flags |= PROC_FLG_PRE_END;
     proc[8].flags |= PROC_FLG_PRE_END;
     proc[9].flags |= PROC_FLG_PRE_END;
+
+
     printf("\n=========================================================\n");
     for(s = 0; s < 100; s++)
     {
