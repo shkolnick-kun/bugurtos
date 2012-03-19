@@ -87,9 +87,13 @@ void pitem_init( pitem_t * pitem, prio_t prio )
 // Вставка в список
 void pitem_insert( pitem_t * pitem, xlist_t * xlist )
 {
-    prio_t prio = pitem->prio;
-    index_t mask = ((index_t)1)<<prio;
-    item_t ** head = (item_t **)xlist + prio;
+    prio_t prio;
+    index_t mask;
+    item_t ** head;
+
+    prio = pitem->prio;
+    mask = ((index_t)1)<<prio;
+    head = (item_t **)xlist + prio;
     // Пуста ли часть списка с таким приоритетом
     if( ( xlist->index )& mask)
     {
@@ -107,8 +111,11 @@ void pitem_insert( pitem_t * pitem, xlist_t * xlist )
 // Быстрая вырезка из списка
 void pitem_fast_cut( pitem_t * pitem )
 {
-    prio_t prio = pitem->prio;
-    xlist_t * xlist = (xlist_t *)pitem->list;
+    prio_t prio;
+    xlist_t * xlist;
+
+    prio = pitem->prio;
+    xlist  = (xlist_t *)pitem->list;
     //Является ли элемент единственным в своей части списка?
     if( ((item_t *)pitem)->next == (item_t *)pitem )
     {
