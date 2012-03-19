@@ -79,7 +79,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../include/bugurt.h"
 void _ipc_wait( flag_t wait_flag, void * ipc_pointer )
 {
-    proc_t * proc = current_proc();
+    proc_t * proc;
+    proc = current_proc();
 #ifdef CONFIG_MP
     spin_lock( &proc->lock );
 #endif // CONFIG_MP

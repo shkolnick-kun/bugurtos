@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="../../kernel/group.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="1" />
+	</File>
+	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="99" />
+	</File>
+	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="6171" topLine="115" />
+	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1421" topLine="108" />
 	</File>
