@@ -258,12 +258,13 @@ void sched_reschedule(
 #endif // CONFIG_MP
                        )
 {
+    proc_t * current_proc;
 #ifndef CONFIG_MP
     sched_t * sched;
     sched = (sched_t *)&kernel.sched;
 #endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
-    proc_t * current_proc = sched->current_proc;
+    current_proc = sched->current_proc;
 #ifdef CONFIG_MP
     // А вот эту блокировку обязательно надо захватить!
     spin_lock( &current_proc->lock );
@@ -295,7 +296,7 @@ void sched_reschedule(
 // Балансировщик нагрузки
 core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
 {
-    core_id_t core = (core_id_t)0;
+    core_id_t core = (core_id_t)0, ret;
     affinity_t mask = (affinity_t)1;
     while( core < (core_id_t)MAX_CORES )
     {
@@ -305,7 +306,7 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
     }
     // Начальное предположение
     stat += (core_id_t)core;
-    core_id_t ret = core++;
+    ret = core++;
     mask<<=1;
     {
         prio_t proc_prio;
