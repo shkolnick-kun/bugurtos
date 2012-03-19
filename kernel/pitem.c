@@ -115,7 +115,7 @@ void pitem_fast_cut( pitem_t * pitem )
     xlist_t * xlist;
 
     prio = pitem->prio;
-    xlist  = (xlist_t *)pitem->list;
+    xlist = (xlist_t *)pitem->list;
     //Является ли элемент единственным в своей части списка?
     if( ((item_t *)pitem)->next == (item_t *)pitem )
     {
