@@ -95,10 +95,10 @@ void sem_init_isr( sem_t * sem, count_t count )
 // То же, для внутреннего использования
 bool_t _sem_lock( sem_t * sem )
 {
+    bool_t ret = (bool_t)0;
 #ifdef CONFIG_MP
     spin_lock( &sem->lock );// Захват спин-блокировки семафора
 #endif //CONFIG_MP
-    bool_t ret = (bool_t)0;
     if( sem->counter != 0 )
     {
         sem->counter--;

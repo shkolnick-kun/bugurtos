@@ -19,8 +19,8 @@
 	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="7960" topLine="98" />
 	</File>
-	<File name="../../kernel/ipc.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
+	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="6138" topLine="68" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="2">
 		<Cursor position="7326" topLine="89" />
@@ -29,7 +29,7 @@
 		<Cursor position="8494" topLine="83" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="1" top="0" tabpos="3">
-		<Cursor position="6348" topLine="85" />
+		<Cursor position="6145" topLine="68" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="6">
 		<Cursor position="8319" topLine="46" />
@@ -41,7 +41,7 @@
 		<Cursor position="8449" topLine="74" />
 	</File>
 	<File name="../../kernel/sig.c" open="1" top="0" tabpos="1">
-		<Cursor position="6851" topLine="89" />
+		<Cursor position="6253" topLine="70" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="1">
 		<Cursor position="18920" topLine="472" />
