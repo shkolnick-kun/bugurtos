@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="6270" topLine="70" />
+	</File>
+	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="6161" topLine="69" />
+	</File>
 	<File name="../../kernel/group.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="1" />
+		<Cursor position="6184" topLine="70" />
 	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="99" />
+		<Cursor position="6740" topLine="80" />
 	</File>
 	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6171" topLine="115" />
+		<Cursor position="6138" topLine="68" />
+	</File>
+	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
+		<Cursor position="6239" topLine="70" />
+	</File>
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="6124" topLine="68" />
+	</File>
+	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="6149" topLine="70" />
+	</File>
+	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
+		<Cursor position="6145" topLine="68" />
+	</File>
+	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="6445" topLine="73" />
+	</File>
+	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="6253" topLine="70" />
+	</File>
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="6679" topLine="144" />
+	</File>
+	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="6354" topLine="190" />
+	</File>
+	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="6128" topLine="68" />
+	</File>
+	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="7205" topLine="106" />
+	</File>
+	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="6369" topLine="75" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1421" topLine="108" />

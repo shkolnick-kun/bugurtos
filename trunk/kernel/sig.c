@@ -82,9 +82,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void sig_init_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
+    core_id_t i;
     spin_init( &sig->lock );
     spin_lock( &sig->lock );
-    core_id_t i;
     for( i = 0; i < (core_id_t)MAX_CORES; i++ )
     {
         xlist_init( (xlist_t *)sig->sig_list + i );

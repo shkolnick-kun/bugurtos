@@ -19,8 +19,8 @@
 	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
 		<Cursor position="6185" topLine="82" />
 	</File>
-	<File name="../../kernel/index.c" open="1" top="0" tabpos="2">
-		<Cursor position="101" topLine="93" />
+	<File name="../../kernel/index.c" open="0" top="0" tabpos="2">
+		<Cursor position="7395" topLine="99" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="1">
 		<Cursor position="101" topLine="1" />

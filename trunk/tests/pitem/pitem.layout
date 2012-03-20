@@ -10,8 +10,8 @@
 	<File name="../../include/pitem.h" open="0" top="0" tabpos="0">
 		<Cursor position="6083" topLine="120" />
 	</File>
-	<File name="../../kernel/pitem.c" open="1" top="1" tabpos="0">
-		<Cursor position="7108" topLine="121" />
+	<File name="../../kernel/pitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="6340" topLine="76" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="5930" topLine="90" />
