@@ -28,7 +28,7 @@
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="8872" topLine="127" />
 	</File>
-	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="3">
+	<File name="../../kernel/crit_sec.c" open="1" top="0" tabpos="3">
 		<Cursor position="6312" topLine="85" />
 	</File>
 	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
@@ -67,7 +67,7 @@
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="13135" topLine="487" />
 	</File>
-	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/timer.c" open="1" top="0" tabpos="0">
 		<Cursor position="6785" topLine="88" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
