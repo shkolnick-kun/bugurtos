@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1332174158 source:/home/anonimous/Документы/bugurtos/kernel/gitem.c
+1332182157 source:/home/anonimous/Документы/bugurtos/kernel/gitem.c
 	"../include/bugurt.h"
 
 1330957595 /home/anonimous/Документы/bugurtos/include/bugurt.h
@@ -51,13 +51,13 @@
 
 1330957595 /home/anonimous/Документы/bugurtos/include/timer.h
 
-1330957594 source:/home/anonimous/Документы/bugurtos/kernel/group.c
+1332343179 source:/home/anonimous/Документы/bugurtos/kernel/group.c
 	"../include/bugurt.h"
 
 1330957594 source:/home/anonimous/Документы/bugurtos/kernel/index.c
 	"../include/bugurt.h"
 
-1332174289 source:/home/anonimous/Документы/bugurtos/kernel/item.c
+1332343235 source:/home/anonimous/Документы/bugurtos/kernel/item.c
 	"../include/bugurt.h"
 
 1330957594 source:/home/anonimous/Документы/bugurtos/kernel/kernel.c
@@ -72,22 +72,22 @@
 1332174465 source:/home/anonimous/Документы/bugurtos/kernel/pcounter.c
 	"../include/bugurt.h"
 
-1332174674 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+1332181452 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
 1328371123 source:/home/anonimous/Документы/bugurtos/kernel/proc_generic.c
 	"../include/bugurt.h"
 
-1332175162 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+1332181869 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
-1332175228 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
+1332343446 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
 	"../include/bugurt.h"
 
 1328371309 source:/home/anonimous/Документы/bugurtos/kernel/sem_generic.c
 	"../include/bugurt.h"
 
-1332175365 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
+1332229519 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
 	"../include/bugurt.h"
 
 1328370820 source:/home/anonimous/Документы/bugurtos/kernel/sig_generic.c
@@ -96,7 +96,7 @@
 1332175573 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
-1316870059 source:/home/anonimous/Документы/bugurtos/tests/sched/main.c
+1332344408 source:/home/anonimous/Документы/bugurtos/tests/sched/main.c
 	"../test_vm.h"
 
 1330957595 /home/anonimous/Документы/bugurtos/tests/test_vm.h
@@ -112,7 +112,7 @@
 
 1330957595 /home/anonimous/Документы/bugurtos/include/syscall.h
 
-1330957594 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
+1332180807 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
 	"../include/bugurt.h"
 
 1332175499 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c

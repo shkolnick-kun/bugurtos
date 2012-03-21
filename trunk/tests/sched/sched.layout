@@ -25,17 +25,17 @@
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="3">
 		<Cursor position="2090" topLine="42" />
 	</File>
-	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="6514" topLine="98" />
+	<File name="config.h" open="1" top="0" tabpos="3">
+		<Cursor position="6672" topLine="100" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="213" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1228" topLine="59" />
+	<File name="main.c" open="1" top="1" tabpos="2">
+		<Cursor position="1379" topLine="57" />
 	</File>
-	<File name="../test_vm.c" open="0" top="0" tabpos="0">
-		<Cursor position="10765" topLine="300" />
+	<File name="../test_vm.c" open="1" top="0" tabpos="1">
+		<Cursor position="6244" topLine="189" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="56" topLine="26" />

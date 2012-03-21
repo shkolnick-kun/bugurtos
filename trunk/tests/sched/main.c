@@ -59,7 +59,7 @@ int main()
 #else
     _proc_lres_inc(proc + 6);
 #endif
-    for(s = 0; s < 22; s++)
+    for(s = 0; s < 100; s++)
     {
         printf("\n----------------------------------\n");
         test_system_timer_interrupt();
@@ -72,7 +72,7 @@ int main()
     proc[11].flags &= ~PROC_FLG_WD_STOP;
     proc_run(proc+11);
     printf("\n=========================================================\n");
-    for(s = 0; s < 22; s++)
+    for(s = 0; s < 100; s++)
     {
         printf("\n----------------------------------\n");
         test_system_timer_interrupt();
