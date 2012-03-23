@@ -19,10 +19,10 @@
 	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="7960" topLine="98" />
 	</File>
-	<File name="../../kernel/ipc.c" open="1" top="0" tabpos="0">
+	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
 		<Cursor position="6138" topLine="68" />
 	</File>
-	<File name="../../kernel/kernel.c" open="1" top="0" tabpos="2">
+	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="2">
 		<Cursor position="7326" topLine="89" />
 	</File>
 	<File name="../../kernel/mutex.c" open="1" top="0" tabpos="1">
@@ -43,7 +43,7 @@
 	<File name="../../kernel/sig.c" open="1" top="0" tabpos="1">
 		<Cursor position="6253" topLine="70" />
 	</File>
-	<File name="../../kernel/syscall.c" open="1" top="0" tabpos="1">
+	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="1">
 		<Cursor position="18920" topLine="472" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
