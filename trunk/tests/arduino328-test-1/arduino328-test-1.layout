@@ -13,6 +13,9 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="14283" topLine="287" />
 	</File>
+	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
+		<Cursor position="6885" topLine="112" />
+	</File>
 	<File name="../../include/group.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
 	</File>
@@ -28,8 +31,8 @@
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="8872" topLine="127" />
 	</File>
-	<File name="../../kernel/crit_sec.c" open="1" top="0" tabpos="3">
-		<Cursor position="6312" topLine="85" />
+	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="3">
+		<Cursor position="6312" topLine="76" />
 	</File>
 	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
 		<Cursor position="12504" topLine="225" />
@@ -67,7 +70,7 @@
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="13135" topLine="487" />
 	</File>
-	<File name="../../kernel/timer.c" open="1" top="0" tabpos="0">
+	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6785" topLine="88" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">

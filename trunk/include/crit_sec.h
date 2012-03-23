@@ -90,6 +90,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 
 #ifdef CONFIG_MP
+
+#define ENTER_CRIT_SEC() core_id_t current_core; \
+                         current_core = _enter_crit_sec()
+#define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
+
 /*!
 
 \brief Вход в критическую секцию на многопроцессорной системе.
@@ -109,6 +114,10 @@ core_id_t _enter_crit_sec(void);
 */
 void _exit_crit_sec(core_id_t core);
 #else
+
+#define ENTER_CRIT_SEC() enter_crit_sec()
+#define EXIT_CRIT_SEC() exit_crit_sec()
+
 /*!
 
 \brief Вход в критическую секцию.
