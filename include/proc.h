@@ -82,6 +82,27 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief Заголовок процессов.
 */
+
+#ifdef CONFIG_USE_HIGHEST_LOCKER
+
+#define PROC_LRES_INIT(a) pcounter_init(&a->lres)
+#define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
+#define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
+
+#define PROC_PRIO_CONTROL_RUNNING(a) _proc_prio_control_running(a)
+#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
+
+#else
+
+#define PROC_LRES_INIT(a) a->lres = (count_t)0
+#define PROC_LRES_INC(a,b) _proc_lres_inc(a)
+#define PROC_LRES_DEC(a,b) _proc_lres_dec(a)
+
+#define PROC_PRIO_CONTROL_RUNNING(a)
+#define PROC_PRIO_CONTROL_STOPED(a)
+
+#endif
+
 //Процесс
 typedef struct _proc_t proc_t;
 // Свойства

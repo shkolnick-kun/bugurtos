@@ -87,6 +87,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \warning Программные таймеры нельзя использовать для точного измерения интервалов времени!
 */
 
+#ifdef CONFIG_MP
+
+#define SPIN_LOCK_KERNEL_TIMER() spin_lock( &kernel.timer_lock )
+#define SPIN_UNLOCK_KERNEL_TIMER() spin_unlock( &kernel.timer_lock )
+
+#else
+
+#define SPIN_LOCK_KERNEL_TIMER()
+#define SPIN_UNLOCK_KERNEL_TIMER()
+
+#endif
+
 // Работа с программными таймерами
 /*!
 \brief Сброс программного таймера.

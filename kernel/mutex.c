@@ -85,18 +85,14 @@ void mutex_init_isr(
 #endif // CONFIG_USE_HIGHEST_LOCKER
 )
 {
-#ifdef CONFIG_MP
-    spin_init( &mutex->lock );
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
+    SPIN_INIT( mutex );
+    SPIN_LOCK( mutex );
     xlist_init( (xlist_t *)mutex );
     mutex->free = (bool_t)1;
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     mutex->prio = prio;
 #endif // CONFIG_USE_HIGHEST_LOCKER
-#ifdef CONFIG_MP
-    spin_unlock( &mutex->lock );
-#endif //CONFIG_MP
+    SPIN_UNLOCK( mutex );
 }
 
 // К моменту вызова захвачена блокировка mutex-а, запрещены прерывания
@@ -104,26 +100,18 @@ bool_t _mutex_lock( mutex_t * mutex )
 {
     bool_t ret;
     proc_t * proc;
-#ifdef CONFIG_MP
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
+    // Захват блокировки мьютекса
+    SPIN_LOCK( mutex );
     ret = mutex->free;
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    _proc_lres_inc( proc, mutex->prio );
-#else // !CONFIG_USE_HIGHEST_LOCKER
-    _proc_lres_inc( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+    // Захват блокировки процесса
+    SPIN_LOCK( proc );
+    PROC_LRES_INC( proc, GET_PRIO(mutex) );
+
     if( ret )
     {
         mutex->free = (bool_t)0;
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-        // Меняем приоритет только здесь
-        _proc_prio_control_running( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+        PROC_PRIO_CONTROL_RUNNING( proc );
     }
     else
     {
@@ -132,16 +120,10 @@ bool_t _mutex_lock( mutex_t * mutex )
         _proc_stop_( proc );
         gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
         // Нужна перепланировка
-#ifdef CONFIG_MP
-        resched( proc->core_id );
-#else
-        resched();
-#endif // CONFIG_MP
+        RESCHED_PROC( proc );
     }
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-    spin_unlock( &mutex->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( proc );
+    SPIN_UNLOCK( mutex );
     return ret;
 }
 
@@ -149,95 +131,63 @@ bool_t _mutex_try_lock( mutex_t * mutex )
 {
     bool_t ret;
     proc_t * proc;
-#ifdef CONFIG_MP
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
+
+    SPIN_LOCK( mutex );
     ret = mutex->free;
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_LOCK( proc );
     if( ret )
     {
         mutex->free = (bool_t)0;
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-        _proc_lres_inc( proc, mutex->prio );
-        _proc_prio_control_running( proc );
-#else // CONFIG_USE_HIGHEST_LOCKER
-        _proc_lres_inc( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+        PROC_LRES_INC( proc, GET_PRIO( mutex ) );
+        PROC_PRIO_CONTROL_RUNNING( proc );
     }
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-    spin_unlock( &mutex->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( proc );
+    SPIN_UNLOCK( mutex );
     return ret;
 }
 
 void _mutex_unlock( mutex_t *  mutex )
 {
     proc_t * proc;
-#ifdef CONFIG_MP
-    spin_lock( &mutex->lock );
-#endif //CONFIG_MP
+
+    SPIN_LOCK(mutex);
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    _proc_lres_dec( proc, mutex->prio );
-#else
-    _proc_lres_dec( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+
+    SPIN_LOCK(proc);
+    PROC_LRES_DEC( proc, GET_PRIO(mutex) );
     // Если проготовлен и готов к остановке - останавливаем
     if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
     {
         proc->flags &= ~(PROC_FLG_RUN|PROC_FLG_PRE_END);
         _proc_stop_( proc );
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-        _proc_prio_control_stoped( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+        PROC_PRIO_CONTROL_STOPED( proc );
         // Нужна перепланировка, процесс остановили и не запустили обратно
-#ifdef CONFIG_MP
-        resched( proc->core_id );
-#else
-        resched();
-#endif // CONFIG_MP
+        RESCHED_PROC( proc );
     }
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     // Не останавливаем - меняем проиритет на ходу
-    else _proc_prio_control_running( proc );
+    else PROC_PRIO_CONTROL_RUNNING( proc );
 #endif // CONFIG_USE_HIGHEST_LOCKER
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( proc );
     // Обрабока самого мьютекса
     if( ((xlist_t *)mutex)->index == (index_t)0  )
     {
         // Список ожидающих пуст, выходим
         mutex->free = (bool_t)1;
-#ifdef CONFIG_MP
-        goto exit_label;
-#else
-        return;
-#endif // CONFIG_MP
+        goto end;
     }
     // Список ожидающих не пуст, запускаем голову
     proc = (proc_t *)xlist_head((xlist_t *)mutex);
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( proc );
     // Сначала надо вырезать
     proc->flags &= ~PROC_FLG_QUEUE;
     gitem_cut( (gitem_t *)proc );
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    // Меняем приоритет
-    _proc_prio_control_stoped( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+    // Управление приоритетом процесса
+    PROC_PRIO_CONTROL_STOPED( proc );
     _proc_run( proc );
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-exit_label:
-    spin_unlock( &mutex->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( proc );
+end:
+    SPIN_UNLOCK( mutex );
 }

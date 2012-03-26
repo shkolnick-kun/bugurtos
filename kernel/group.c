@@ -89,30 +89,18 @@ void group_init(group_t * group, prio_t prio)
 // положить в ПУЛ
 void group_push(group_t * group)
 {
-#ifdef CONFIG_MP
-    // блокируем пул
-    spin_lock( &kernel.pool_lock );
-#endif
+    SPIN_LOCK_POOL();
     group->link = (void *)kernel.pool;
     kernel.pool = group;
-#ifdef CONFIG_MP
-    // разблокируем пул
-    spin_unlock( &kernel.pool_lock );
-#endif
+    SPIN_UNLOCK_POOL();
 }
 // взять из пула, если есть, а есть всегда, избыточность же!
 group_t * group_pop(void)
 {
     group_t * group;
-#ifdef CONFIG_MP
-    // блокируем пул
-    spin_lock( &kernel.pool_lock );
-#endif
+    SPIN_LOCK_POOL();
     group = kernel.pool;
     kernel.pool = (group_t *)group->link;
-#ifdef CONFIG_MP
-    // разблокируем пул
-    spin_unlock( &kernel.pool_lock );
-#endif
+    SPIN_UNLOCK_POOL();
     return group;
 }

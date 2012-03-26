@@ -82,6 +82,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief Заголовок элементов групп.
 */
+
+#ifdef CONFIG_MP
+
+#define SPIN_INIT_POOL() spin_init( &kernel.pool_lock )
+#define SPIN_LOCK_POOL() spin_lock( &kernel.pool_lock )
+#define SPIN_UNLOCK_POOL() spin_unlock( &kernel.pool_lock )
+
+#else
+
+#define SPIN_INIT_POOL()
+#define SPIN_LOCK_POOL()
+#define SPIN_UNLOCK_POOL()
+
+#endif
+
 typedef struct _group_t group_t;
 //свойства
 /*!

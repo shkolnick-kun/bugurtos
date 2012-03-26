@@ -134,6 +134,21 @@ typedef void (* code_t)(void *);
 #include "timer.h"
 #include "syscall.h"
 
+#ifdef CONFIG_MP
+
+#define SPIN_INIT(arg) spin_init( &arg->lock )
+#define SPIN_LOCK(arg) spin_lock( &arg->lock )
+#define SPIN_UNLOCK(arg) spin_unlock( &arg->lock )
+#define RESCHED_PROC(proc) resched( proc->core_id )
+
+#else
+
+#define SPIN_INIT(arg)
+#define SPIN_LOCK(arg)
+#define SPIN_UNLOCK(arg)
+#define RESCHED_PROC(proc) resched()
+
+#endif
 //======================================================
 //   Внешние функции, определяемые пользователем
 //======================================================

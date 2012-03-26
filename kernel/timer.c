@@ -80,39 +80,26 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 //========================================================================================
 void _clear_timer(timer_t * t)
 {
-#ifdef CONFIG_MP
-    core_id_t current_core;
-    current_core = _enter_crit_sec();
-    spin_lock( &kernel.timer_lock );
-#else
-    enter_crit_sec();
-#endif //CONFIG_MP
+    ENTER_CRIT_SEC();
+    SPIN_LOCK_KERNEL_TIMER();
+
     *t = kernel.timer;
-#ifdef CONFIG_MP
-    spin_unlock( &kernel.timer_lock );
-    _exit_crit_sec(current_core);
-#else
-    exit_crit_sec();
-#endif //CONFIG_MP
+
+    SPIN_UNLOCK_KERNEL_TIMER();
+    EXIT_CRIT_SEC();
 }
 //----------------------------------------------------------------------------------------
 timer_t _timer(timer_t t)
 {
     timer_t ret;
-#ifdef CONFIG_MP
-    core_id_t current_core;
-    current_core = _enter_crit_sec();
-    spin_lock( &kernel.timer_lock );
-#else
-    enter_crit_sec();
-#endif //CONFIG_MP
+    ENTER_CRIT_SEC();
+    SPIN_LOCK_KERNEL_TIMER();
+
     ret = (timer_t)kernel.timer - (timer_t)t;
-#ifdef CONFIG_MP
-    spin_unlock( &kernel.timer_lock );
-    _exit_crit_sec(current_core);
-#else
-    exit_crit_sec();
-#endif //CONFIG_MP
+
+    SPIN_UNLOCK_KERNEL_TIMER();
+    EXIT_CRIT_SEC();
+
     return ret;
 }
 

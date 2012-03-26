@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="12011" topLine="215" />
+		<Cursor position="7967" topLine="263" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="409" />
@@ -14,13 +14,13 @@
 		<Cursor position="1037" topLine="20" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="643" topLine="11" />
+		<Cursor position="7612" topLine="111" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="6268" topLine="170" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="11422" topLine="447" />
+		<Cursor position="7358" topLine="64" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="14272" topLine="234" />
@@ -38,7 +38,7 @@
 		<Cursor position="1379" topLine="57" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="1">
-		<Cursor position="6244" topLine="189" />
+		<Cursor position="3400" topLine="125" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="56" topLine="26" />

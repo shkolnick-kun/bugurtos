@@ -90,10 +90,10 @@ void kernel_init(void)
     core_id_t i;
 
     //Инициируем пул
-    spin_init( &kernel.pool_lock );
-    spin_lock( &kernel.pool_lock );
+    SPIN_INIT_POOL();
+    SPIN_LOCK_POOL();
     kernel.pool = (group_t *)0;
-    spin_unlock( &kernel.pool_lock );
+    SPIN_UNLOCK_POOL();
 
     spin_init( &kernel.stat_lock );
     spin_lock( &kernel.stat_lock );
@@ -117,6 +117,7 @@ void kernel_init(void)
         sched_init( (sched_t *)kernel.sched + i, (proc_t *)kernel.idle + i );
     }
     spin_unlock( &kernel.stat_lock );
+
 #else
     proc_init_isr(
         &kernel.idle, //процесс kernel.idle

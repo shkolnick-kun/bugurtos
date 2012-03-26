@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../include/bugurt.h" open="1" top="0" tabpos="1">
-		<Cursor position="14263" topLine="287" />
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="1">
+		<Cursor position="14076" topLine="281" />
 	</File>
 	<File name="../../include/group.h" open="0" top="0" tabpos="1">
-		<Cursor position="6755" topLine="75" />
+		<Cursor position="6209" topLine="76" />
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="2">
 		<Cursor position="1694" topLine="14" />
 	</File>
 	<File name="../../kernel/group.c" open="0" top="0" tabpos="1">
-		<Cursor position="101" topLine="0" />
+		<Cursor position="101" topLine="83" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
