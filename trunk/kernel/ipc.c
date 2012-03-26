@@ -81,29 +81,20 @@ void _ipc_wait( flag_t wait_flag, void * ipc_pointer )
 {
     proc_t * proc;
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( proc );
     // Останавливаем процесс
     proc->flags |= wait_flag;
     proc->ipc = ipc_pointer;
     _proc_stop_( proc );
-#ifdef CONFIG_MP
-    resched( proc->core_id );
-#else
-    resched();
-#endif // CONFIG_MP
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+    RESCHED_PROC( proc );
+
+    SPIN_UNLOCK( proc );
 }
 
 bool_t ipc_send_pointer_isr( proc_t * proc, void * pointer )
 {
     bool_t ret = (bool_t)0;
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( proc );
     if( proc->flags & PROC_FLG_IPCW_P )
     {
         ret = (bool_t)1; // информация будет передана
@@ -111,18 +102,14 @@ bool_t ipc_send_pointer_isr( proc_t * proc, void * pointer )
         *(void **)proc->ipc = pointer;
         _proc_run( proc );
     }
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( proc );
     return ret;
 }
 
 bool_t ipc_send_data_isr( proc_t * proc, ipc_data_t data )
 {
     bool_t ret = (bool_t)0;
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( proc );
     if( proc->flags & PROC_FLG_IPCW_D )
     {
         ret = (bool_t)1; // информация будет передана
@@ -130,9 +117,7 @@ bool_t ipc_send_data_isr( proc_t * proc, ipc_data_t data )
         *(ipc_data_t *)proc->ipc = data;
         _proc_run( proc );
     }
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( proc );
     return ret;
 }
 

@@ -83,14 +83,14 @@ void sig_init_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
     core_id_t i;
-    spin_init( &sig->lock );
-    spin_lock( &sig->lock );
+    SPIN_INIT( sig );
+    SPIN_LOCK( sig );
     for( i = 0; i < (core_id_t)MAX_CORES; i++ )
     {
         xlist_init( (xlist_t *)sig->sig_list + i );
         stat_init( (stat_t *)sig->sig_stat + i );
     }
-    spin_unlock( &sig->lock );
+    SPIN_UNLOCK( sig );
 #else
     xlist_init( (xlist_t *)sig );
 #endif
@@ -100,21 +100,16 @@ void sig_init_isr( sig_t * sig )
 void _sig_wait_prologue( sig_t * sig )
 {
     proc_t * proc;
-#ifdef CONFIG_MP
-    spin_lock( &sig->lock );
-#endif // CONFIG_MP
+
+    SPIN_LOCK( sig );
+
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( proc );
+
     // Останавливаем процесс
     proc->flags |= PROC_FLG_WAIT;
     _proc_stop_( proc );
-#ifdef CONFIG_MP
-    resched( proc->core_id );
-#else
-    resched();
-#endif // CONFIG_MP
+    RESCHED_PROC( proc );
     // Вставляем процесс в группированный список ожидания сигнала
 #ifdef CONFIG_MP
     {
@@ -130,21 +125,21 @@ void _sig_wait_prologue( sig_t * sig )
         gitem_insert_group((gitem_t *)proc, (xlist_t *)sig + sig_core);
         stat_inc( proc, (stat_t *)sig->sig_stat + sig_core );
     }
-    spin_unlock( &proc->lock );
-    spin_unlock( &sig->lock );
 #else
     gitem_insert_group( (gitem_t *)proc, (xlist_t *)sig );
 #endif //CONFIG_MP
+    SPIN_UNLOCK( proc );
+    SPIN_UNLOCK( sig );
 }
 //========================================================================================
-// Тоже самое что и предыдущие, олько для вызова из обработчиков прерываний и из критических секций
+// Будит 1 процесс, для вызова из обработчиков прерываний
 void sig_signal_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
     core_id_t core;
     proc_t * proc;
     // Поиск процесса для запуска
-    spin_lock( &sig->lock );// Захват блокировки сигнала
+    SPIN_LOCK( sig );// Захват блокировки сигнала
     // Находим самую нагруженную  структуру stat_t в сигнале
     core = sched_highest_load_core( (stat_t *)sig->sig_stat );
     // Этот процесс мы будем запускать
@@ -153,12 +148,12 @@ void sig_signal_isr( sig_t * sig )
         sig_list = (xlist_t *)sig->sig_list + core;
         if(sig_list->index == (index_t)0)
         {
-            spin_unlock( &sig->lock );
+            SPIN_UNLOCK( sig );
             return;
         }
         proc = (proc_t *)xlist_head( sig_list );
     }
-    spin_lock( &proc->lock );// Захват блокировки процесса
+    SPIN_LOCK( proc );// Захват блокировки процесса
     // Вырезаем процесс из списка ожидания сигнала
     gitem_fast_cut( (gitem_t *)proc );
     stat_dec( proc, (stat_t *)sig->sig_stat + core );
@@ -170,13 +165,13 @@ void sig_signal_isr( sig_t * sig )
     {
         sched_t * sched;
         sched = kernel.sched + core;// Дада, нагрузка была сбалансирована на этапе постановки в список ожидания
-        spin_lock( &sched->lock );
+        SPIN_LOCK( sched );
         gitem_insert((gitem_t *)proc, sched->ready );
-        spin_unlock( &sched->lock );
+        SPIN_UNLOCK( sched );
     }
     resched(core);// Перепланировка
-    spin_unlock( &proc->lock );// Освобождение блокировки процесса
-    spin_unlock( &sig->lock );// Освобождение блокировки сигнала
+    SPIN_UNLOCK( proc );// Освобождение блокировки процесса
+    SPIN_UNLOCK( sig );// Освобождение блокировки сигнала
 #else
     proc_t * proc;
     if( ((xlist_t *)sig)->index == (index_t)0 )return;
@@ -187,11 +182,12 @@ void sig_signal_isr( sig_t * sig )
 #endif //CONFIG_MP
 }
 //----------------------------------------------------------------------------------------
+// Будит все ожидающие процессы
 void sig_broadcast_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
     core_id_t core;
-    spin_lock( &sig->lock );
+    SPIN_LOCK( sig );
     for(core = 0; core < (core_id_t)MAX_CORES; core++)
     {
         spin_lock( &kernel.sched[core].lock );
@@ -204,7 +200,7 @@ void sig_broadcast_isr( sig_t * sig )
 
         resched(core);
     }
-    spin_unlock( &sig->lock );
+    SPIN_UNLOCK( sig );
 #else
     gitem_xlist_merge( (xlist_t *)sig, kernel.sched.ready );
     resched();

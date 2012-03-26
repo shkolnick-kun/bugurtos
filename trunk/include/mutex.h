@@ -78,6 +78,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
+
+#ifdef CONFIG_USE_HIGHEST_LOCKER
+
+#define GET_PRIO(mutex) mutex->prio
+
+#else
+
+#define GET_PRIO(mutex) ((prio_t)0)
+
+#endif
+
+
 /*!
 \file
 \brief Заголовок мьютекса.

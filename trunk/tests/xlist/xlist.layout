@@ -10,17 +10,17 @@
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="1">
 		<Cursor position="8173" topLine="157" />
 	</File>
-	<File name="../../include/proc.h" open="1" top="0" tabpos="1">
+	<File name="../../include/proc.h" open="0" top="0" tabpos="1">
 		<Cursor position="19607" topLine="298" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="84" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="1">
-		<Cursor position="7453" topLine="137" />
+		<Cursor position="7453" topLine="104" />
 	</File>
 	<File name="../../include/sig.h" open="0" top="0" tabpos="5">
-		<Cursor position="7619" topLine="139" />
+		<Cursor position="7619" topLine="174" />
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="1900" topLine="20" />

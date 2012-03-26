@@ -141,7 +141,11 @@ int main(void)
     proc_run_isr(&proc[2]);
     proc_run_isr(&proc[3]);
 
+#ifdef CONFIG_USE_HIGHEST_LOCKER
     mutex_init_isr(&mut,1);
+#else
+    mutex_init_isr(&mut);
+#endif
 
     start_bugurt();
     // Insert code

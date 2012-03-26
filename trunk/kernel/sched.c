@@ -139,36 +139,31 @@ void sched_schedule(
 #endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     current_proc = sched->current_proc;
-#ifdef CONFIG_MP
     // А вот эту блокировку обязательно надо захватить!
-    spin_lock( &current_proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( current_proc );
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
     // Проверяем, что процесс находится в списке ready
     if( (xlist_t *)((gitem_t *)current_proc)->group->link == sched->ready )
     {
         // Переключаем cписок на следующий за текущим процесс
-#ifdef CONFIG_MP
-        spin_lock( &sched->lock );
-#endif // CONFIG_MP
+        SPIN_LOCK( sched );
+
         xlist_switch( sched->ready, ((gitem_t *)current_proc)->group->prio );
-#ifdef CONFIG_MP
-        spin_unlock( &sched->lock );
-#endif // CONFIG_MP
+
+        SPIN_UNLOCK( sched );
         //Проверяем, не истек ли квант времени процесса
         if( current_proc->timer > (timer_t)1 )current_proc->timer--;// Не истек, уменьшаем таймер
         else
         {
             flag_t flags;
             // Истек, вырезаем процесс из списка
-#ifdef CONFIG_MP
-            spin_lock( &sched->lock );
-#endif // CONFIG_MP
+            SPIN_LOCK( sched );
+
             gitem_fast_cut( (gitem_t *)current_proc );
-#ifdef CONFIG_MP
-            spin_unlock( &sched->lock );
-#ifdef CONFIG_USE_ALB
+
+            SPIN_UNLOCK( sched );
+#if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
             /***********************************************************************
             Захватываем тут, если используется активная схема балансировки нагрузки.
             В этом случае освобождение этой спин блокировки нужно в обеих ветвях
@@ -178,7 +173,6 @@ void sched_schedule(
             // Обновили статистику после удаления процесса из списка ready
             stat_dec( current_proc, (stat_t *)kernel.stat + current_proc->core_id );
 #endif // CONFIG_USE_ALB
-#endif // CONFIG_MP
             // А что за процесс собственно?
             flags = current_proc->flags;
             if(
@@ -204,18 +198,16 @@ void sched_schedule(
                 spin_unlock( &kernel.stat_lock );
 
                 // Вставляем процесс в список  expired
-                spin_lock( &new_sched->lock );
+                SPIN_LOCK( new_sched );
                 gitem_insert( (gitem_t *)current_proc, new_sched->expired );
-                spin_unlock( &new_sched->lock );
+                SPIN_UNLOCK( new_sched );
 #else // CONFIG_MP CONFIG_USE_ALB
                 // Тупо переносим процесс в список expired
-#ifdef CONFIG_MP
-                spin_lock( &sched->lock );
-#endif // CONFIG_MP
+                SPIN_LOCK( sched );
+
                 gitem_insert( (gitem_t *)current_proc, sched->expired );
-#ifdef CONFIG_MP
-                spin_unlock( &sched->lock );
-#endif // CONFIG_MP
+
+                SPIN_UNLOCK( sched );
 
 #endif // CONFIG_MP CONFIG_USE_ALB
                 current_proc->timer = current_proc->time_quant; // Сбросили таймер!
@@ -249,25 +241,22 @@ void sched_schedule(
             }
         }
     }
-#ifdef CONFIG_MP
     //Текущий процесс более не нужен, освобождаем его блокировку
-    spin_unlock( &current_proc->lock );
-    spin_lock( &sched->lock );
-#endif // CONFIG_MP
+    SPIN_UNLOCK( current_proc );
+    SPIN_LOCK( sched );
+
     _sched_list_switch( sched );
     // Изменять указатель будем при захваченной блокировке,
     // чтобы процессы на других процессорах не прочитали неизвестно что.
     current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
     sched->current_proc = current_proc;
-#ifdef CONFIG_MP
-    spin_unlock( &sched->lock );
-    spin_lock( &current_proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( sched );
+    SPIN_LOCK( current_proc );
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
-#ifdef CONFIG_MP
-    spin_unlock( &current_proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( current_proc );
 }
 //----------------------------------------------------------------------------------------
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
@@ -286,31 +275,25 @@ void sched_reschedule(
 #endif // nCONFIG_MP
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     current_proc = sched->current_proc;
-#ifdef CONFIG_MP
     // А вот эту блокировку обязательно надо захватить!
-    spin_lock( &current_proc->lock );
-#endif // CONFIG_MP
+    SPIN_LOCK( current_proc );
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
-#ifdef CONFIG_MP
-    spin_unlock( &current_proc->lock );
-    spin_lock( &sched->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( current_proc );
+    SPIN_LOCK( sched );
+
     _sched_list_switch( sched );
     current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
     sched->current_proc = current_proc;
-#ifdef CONFIG_MP
-    spin_unlock( &sched->lock );
-#endif // CONFIG_MP
 
-#ifdef CONFIG_MP
-    spin_lock(&current_proc->lock);
-#endif // CONFIG_MP
+    SPIN_UNLOCK( sched );
+
+    SPIN_LOCK( current_proc );
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
-#ifdef CONFIG_MP
-    spin_unlock( &current_proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( current_proc );
 }
 #ifdef CONFIG_MP
 //========================================================================================

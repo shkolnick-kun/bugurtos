@@ -96,17 +96,15 @@ void proc_init_isr(
 #endif // CONFIG_MP
 )
 {
-#ifdef CONFIG_MP
-    spin_init( &proc->lock );
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+    SPIN_INIT( proc );
+    SPIN_LOCK( proc );
+
     gitem_init( (gitem_t *)proc, prio );
     proc->flags = ( is_rt )?PROC_FLG_RT:(flag_t)0;
+
+    PROC_LRES_INIT( proc );
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    pcounter_init(&proc->lres);
     proc->base_prio = prio;
-#else
-    proc->lres = (count_t)0;
 #endif
     proc->time_quant = time_quant;
     proc->timer = time_quant;
@@ -120,9 +118,8 @@ void proc_init_isr(
     proc->arg = arg;
     proc->sstart = sstart;
     if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)proc_run_wrapper, (void *)proc);
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( proc );
 }
 //  Функция для внутреннего использования - собственно запуск процесса
 #ifdef CONFIG_MP
@@ -130,9 +127,9 @@ void _proc_run_( proc_t * proc )
 {
     sched_t * proc_sched;
     proc_sched = (sched_t *)kernel.sched + proc->core_id;
-    spin_lock( &proc_sched->lock );
+    SPIN_LOCK( proc_sched );
     gitem_insert( (gitem_t *)proc, proc_sched->ready );
-    spin_unlock( &proc_sched->lock );
+    SPIN_UNLOCK( proc_sched );
 }
 #endif // CONFIG_MP
 
@@ -146,19 +143,16 @@ void _proc_run( proc_t * proc )
     spin_unlock( &kernel.stat_lock );
 #endif
     _proc_run_( proc );
-#ifdef CONFIG_MP
-    resched( proc->core_id );
-#else
-    resched();
-#endif // CONFIG_MP
+
+    RESCHED_PROC( proc );
 }
 // Функция общего пользования - запуск процесса из обработчика прерывания, прерывания должны быть запрещены во время запуска
 bool_t proc_run_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)1;
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_LOCK( proc );
+
     if( proc->flags & (PROC_FLG_RUN|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_END|PROC_FLG_IPCW_D|PROC_FLG_IPCW_P|PROC_FLG_DEAD|PROC_FLG_WD_STOP) )
     {
         ret = (bool_t)0;
@@ -166,37 +160,35 @@ bool_t proc_run_isr(proc_t * proc)
     }
     _proc_run( proc );
 end:
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( proc );
+
     return ret;
 }
 // Перезепуск процесса из обработчика прерываний, прерывания должны быть запрещены
 bool_t proc_restart_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)1;
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif
+
+    SPIN_LOCK( proc );
+
     if( proc->flags & (PROC_FLG_RUN|PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW_D|PROC_FLG_IPCW_P|PROC_FLG_DEAD) )
     {
         ret = (bool_t)0;
         goto end;
     }
     proc->flags = ( proc->flags & PROC_FLG_RT )?PROC_FLG_RT:(flag_t)0;
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    pcounter_init(&proc->lres);
-#else
-    proc->lres = (count_t)0;
-#endif
+
+    PROC_LRES_INIT( proc );
+
     proc->timer = proc->time_quant;
 
     if( proc->sstart )proc->spointer = proc_stack_init( proc->sstart, (code_t)proc_run_wrapper, (void *)proc );
     _proc_run( proc );
 end:
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif
+
+    SPIN_UNLOCK( proc );
+
     return ret;
 }
 // Функция для внутреннего использования, останов процесса
@@ -216,23 +208,20 @@ void _proc_stop_(proc_t * proc)
     }
 }
 #endif // CONFIG_MP
+
 void _proc_stop(proc_t * proc)
 {
     proc->flags &= ~PROC_FLG_RUN;
     _proc_stop_( proc );
-#ifdef CONFIG_MP
-    resched( proc->core_id );
-#else
-    resched();
-#endif // CONFIG_MP
+
+    RESCHED_PROC( proc );
 }
 // Останов процесса из обработчика прерываний, прерывания должны быть запрещены
 bool_t proc_stop_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)0;
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_LOCK( proc );
     //Проверка флагов
     //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
     //В случае PROC_FLG_HOLD или PROC_FLG_QUEUE будем обрабатывать PROC_FLG_PRE_END при освобождении общего ресурса.
@@ -243,9 +232,9 @@ bool_t proc_stop_isr(proc_t * proc)
         _proc_stop( proc );
         ret = (bool_t)1;
     }
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( proc );
+
     return ret;
 }
 
@@ -253,25 +242,25 @@ void _proc_flag_stop( flag_t mask )
 {
     proc_t * proc;
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif //CONFIG_MP
+
+    SPIN_LOCK( proc );
+
     proc->flags &= mask;
     if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
     {
         proc->flags &= ~PROC_FLG_PRE_END;
         _proc_stop( proc );
     }
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif //CONFIG_MP
+
+    SPIN_UNLOCK( proc );
+
 }
 
 void _proc_terminate( proc_t * proc )
 {
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_LOCK( proc );
+
     // Обрабатываем флаги
     // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
     if( proc->flags & PROC_FLG_HOLD ) proc->flags |= PROC_FLG_DEAD;
@@ -281,26 +270,21 @@ void _proc_terminate( proc_t * proc )
     // Останов
     _proc_stop_( proc );
     // Выполнить перепланировку
-#ifdef CONFIG_MP
-    resched( proc->core_id );
-    // На многопроцессорной системе - освободить блокировку
-    spin_unlock( &proc->lock );
-#else
-    resched();
-#endif // CONFIG_MP
+    RESCHED_PROC( proc );
+
+    SPIN_UNLOCK( proc );
 }
 
 void _proc_reset_watchdog( void )
 {
     proc_t * proc;
     proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock(&proc->lock);
-#endif
+
+    SPIN_LOCK( proc );
+
     if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
-#ifdef CONFIG_MP
-    spin_lock(&proc->lock);
-#endif
+
+    SPIN_UNLOCK( proc );
 }
 
 void _proc_lres_inc(
@@ -373,11 +357,7 @@ void _proc_prio_control_running( proc_t * proc )
         spin_unlock( &kernel.stat_lock );
 #endif
         _proc_run_( proc );
-#ifdef CONFIG_MP
-        resched(proc->core_id);
-#else
-        resched();
-#endif
+        RESCHED_PROC( proc );
     }
 }
 #endif
@@ -401,23 +381,23 @@ void _proc_lazy_load_balancer(core_id_t object_core)
     sched = (sched_t *)kernel.sched + object_core;
 
     //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
-    spin_lock( &sched->lock );
+    SPIN_LOCK( sched );
     if(sched->expired->index == (index_t)0)
     {
-        spin_unlock( &sched->lock );
+        SPIN_UNLOCK( sched );
         return;
     }
     proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
-    spin_unlock( &sched->lock );
+    SPIN_UNLOCK( sched );
 
-    spin_lock( &proc->lock );
+    SPIN_LOCK( proc );
     // Пока захватывалась блокировка процесса, его могли остановить, подстраховываемся.
     if( proc->flags & PROC_FLG_RUN )
     {
         // Остановили выполнение процесса на старом процессоре
-        spin_lock( &sched->lock );
+        SPIN_LOCK( sched );
         gitem_fast_cut( (gitem_t *)proc );
-        spin_unlock( &sched->lock );
+        SPIN_UNLOCK( sched );
         resched(object_core); // Процесс мог быть поставлен на выполнение, пока мы захватывали его блокировку, перепланируем
 
         // Проводим операции над статистикой
@@ -433,11 +413,11 @@ void _proc_lazy_load_balancer(core_id_t object_core)
 
         // Переносим процесс на новый процессор, продолжаем выполнение там. Перепланировку не делаем, проуесс не выполняет требования реального времени.
         proc->core_id = object_core;
-        spin_lock( &sched->lock );
+        SPIN_LOCK( sched );
         gitem_insert( (gitem_t *)proc, sched->expired );
-        spin_unlock( &sched->lock );
+        SPIN_UNLOCK( sched );
     }
-    spin_unlock( &proc->lock );
+    SPIN_UNLOCK( proc );
 }
 void _proc_global_lazy_load_balancer(void)
 {

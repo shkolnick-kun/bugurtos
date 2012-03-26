@@ -81,24 +81,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Инициализация
 void sem_init_isr( sem_t * sem, count_t count )
 {
-#ifdef CONFIG_MP
-    spin_init( &sem->lock );
-    spin_lock( &sem->lock );
-#endif //CONFIG_MP
+    SPIN_INIT( sem );
+    SPIN_LOCK( sem );
+
     xlist_init( (xlist_t *)sem );
     sem->counter = count;
-#ifdef CONFIG_MP
-    spin_unlock( &sem->lock );
-#endif //CONFIG_MP
+    SPIN_UNLOCK( sem );
 }
 
-// То же, для внутреннего использования
 bool_t _sem_lock( sem_t * sem )
 {
     bool_t ret = (bool_t)0;
-#ifdef CONFIG_MP
-    spin_lock( &sem->lock );// Захват спин-блокировки семафора
-#endif //CONFIG_MP
+    SPIN_LOCK( sem );
     if( sem->counter != 0 )
     {
         sem->counter--;
@@ -108,60 +102,49 @@ bool_t _sem_lock( sem_t * sem )
     {
         proc_t * proc;
         proc = current_proc();
-#ifdef CONFIG_MP
-        spin_lock( &proc->lock );// Захват блокировки процесса
-#endif //CONFIG_MP
+        SPIN_LOCK( proc );
+
         proc->flags |= PROC_FLG_QUEUE;
         _proc_stop( proc );
         gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
-#ifdef CONFIG_MP
-        spin_unlock( &proc->lock );// Освобождение блокировки процесса
-#endif //CONFIG_MP
+
+        SPIN_UNLOCK( proc );
     }
-#ifdef CONFIG_MP
-    spin_unlock( &sem->lock );// Освобождение спин-блокировки семафора
-#endif //CONFIG_MP
+    SPIN_UNLOCK( sem );
     return ret;
 }
 
-// То же, для внутреннего использования
 bool_t _sem_try_lock( sem_t * sem )
 {
     bool_t ret = (bool_t)0;
-#ifdef CONFIG_MP
-    spin_lock( &sem->lock );// Захват спин-блокировки семафора
-#endif //CONFIG_MP
+    SPIN_LOCK( sem );
     if( sem->counter != 0 )
     {
         sem->counter--;
         ret = (bool_t)1;
     }
-#ifdef CONFIG_MP
-    spin_unlock( &sem->lock );// Освобождение спин-блокировки семафора
-#endif //CONFIG_MP
+    SPIN_UNLOCK( sem );
     return ret;
 }
 
 void sem_unlock_isr( sem_t * sem )
 {
     proc_t * proc;
-#ifdef CONFIG_MP
-    spin_lock( &sem->lock );//Захват спин-блокировки семафора
-#endif //CONFIG_MP
+    SPIN_LOCK( sem );
+
     if( ((xlist_t *)sem)->index == (index_t)0  )
     {
         sem->counter++;
-        return;
+        goto end;
     }
     proc = (proc_t *)xlist_head((xlist_t *)sem);
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );// Захват спин-блокировки процесса
-#endif //CONFIG_MP
+    SPIN_LOCK( proc );
+
     proc->flags &= ~PROC_FLG_QUEUE;
     gitem_cut( (gitem_t *)proc );
     _proc_run( proc );
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );// Освобождение спин-блокировки процесса
-    spin_unlock( &sem->lock );//Освобождение спин-блокировки семафора
-#endif //CONFIG_MP
+
+    SPIN_UNLOCK( proc );
+end:
+    SPIN_UNLOCK( sem );
 }
