@@ -43,7 +43,7 @@ typedef unsigned char ipc_data_t;
 
 // defines
 #define CONFIG_USE_O1_SEARCH
-//#define CONFIG_USE_HIGHEST_LOCKER
+#define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
 
 ///=================================================================
