@@ -25,8 +25,8 @@
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="5">
 		<Cursor position="7406" topLine="112" />
 	</File>
-	<File name="../../kernel/mutex.c" open="1" top="0" tabpos="1">
-		<Cursor position="8494" topLine="83" />
+	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
+		<Cursor position="8494" topLine="0" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="3">
 		<Cursor position="6145" topLine="44" />
