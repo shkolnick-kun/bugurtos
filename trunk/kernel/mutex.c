@@ -106,7 +106,7 @@ bool_t _mutex_lock( mutex_t * mutex )
     proc = current_proc();
     // Захват блокировки процесса
     SPIN_LOCK( proc );
-    PROC_LRES_INC( proc, GET_PRIO(mutex) );
+    PROC_LRES_INC( proc, GET_PRIO( mutex ) );
 
     if( ret )
     {
@@ -152,11 +152,11 @@ void _mutex_unlock( mutex_t *  mutex )
 {
     proc_t * proc;
 
-    SPIN_LOCK(mutex);
+    SPIN_LOCK( mutex );
     proc = current_proc();
 
     SPIN_LOCK(proc);
-    PROC_LRES_DEC( proc, GET_PRIO(mutex) );
+    PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
     // Если проготовлен и готов к остановке - останавливаем
     if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
     {
@@ -166,10 +166,11 @@ void _mutex_unlock( mutex_t *  mutex )
         // Нужна перепланировка, процесс остановили и не запустили обратно
         RESCHED_PROC( proc );
     }
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    // Не останавливаем - меняем проиритет на ходу
-    else PROC_PRIO_CONTROL_RUNNING( proc );
-#endif // CONFIG_USE_HIGHEST_LOCKER
+    else
+    {
+        // Не останавливаем - меняем проиритет на ходу
+        PROC_PRIO_CONTROL_RUNNING( proc );
+    }
     SPIN_UNLOCK( proc );
     // Обрабока самого мьютекса
     if( ((xlist_t *)mutex)->index == (index_t)0  )
@@ -179,7 +180,7 @@ void _mutex_unlock( mutex_t *  mutex )
         goto end;
     }
     // Список ожидающих не пуст, запускаем голову
-    proc = (proc_t *)xlist_head((xlist_t *)mutex);
+    proc = (proc_t *)xlist_head( (xlist_t *)mutex );
     SPIN_LOCK( proc );
     // Сначала надо вырезать
     proc->flags &= ~PROC_FLG_QUEUE;

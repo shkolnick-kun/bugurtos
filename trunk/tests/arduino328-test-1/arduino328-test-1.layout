@@ -74,7 +74,7 @@
 		<Cursor position="0" topLine="87" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="9409" topLine="0" />
+		<Cursor position="6935" topLine="66" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="6292" topLine="99" />
@@ -100,7 +100,7 @@
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="7234" topLine="96" />
 	</File>
-	<File name="config.h" open="0" top="0" tabpos="2">
+	<File name="config.h" open="1" top="1" tabpos="0">
 		<Cursor position="1093" topLine="25" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
