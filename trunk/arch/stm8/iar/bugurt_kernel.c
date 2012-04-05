@@ -178,13 +178,13 @@ void bugurt_check_resched( void )
 __interrupt void system_timer_isr(void)
 {
     BUGURT_ISR_START();
-   
+
     SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
     sched_schedule();
-    
+
     BUGURT_ISR_END();
 }
 
@@ -229,8 +229,8 @@ __interrupt  void system_call_handler(void)
 void init_bugurt(void)
 {
     disable_interrupts();
-    kernel.sched.nested_crit_sec = (count_t)1;
     kernel_init();
+    kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
 }
 void start_bugurt(void)
 {

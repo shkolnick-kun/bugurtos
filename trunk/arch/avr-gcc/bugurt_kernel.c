@@ -282,8 +282,8 @@ void syscall_bugurt( unsigned char num, void * arg )
 void init_bugurt(void)
 {
     cli();
-    kernel.sched.nested_crit_sec = (count_t)1;
     kernel_init();
+    kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
 }
 void start_bugurt(void)
 {
