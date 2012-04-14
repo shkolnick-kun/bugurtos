@@ -4,7 +4,7 @@
 	<File name="../../include/item.h" open="0" top="0" tabpos="1">
 		<Cursor position="6983" topLine="93" />
 	</File>
-	<File name="../../kernel/item.c" open="0" top="0" tabpos="1">
+	<File name="../../kernel/item.c" open="1" top="0" tabpos="1">
 		<Cursor position="101" topLine="82" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
