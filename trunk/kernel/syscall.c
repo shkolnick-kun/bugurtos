@@ -464,10 +464,8 @@ void scall_ipc_wait_pointer(void * arg)
 }
 void * ipc_wait_pointer( void )
 {
-    const flag_t mask = ~(flag_t)0;
     void * ret = (void *)0;
     syscall_bugurt( SYSCALL_IPC_WAIT_P, (void *)&ret );
-    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&mask );// Останов в случае необходимости
     return ret;
 }
 ///--------------------------------------------------------------------------------------------
@@ -478,10 +476,8 @@ void scall_ipc_wait_data(void * arg)
 }
 ipc_data_t ipc_wait_data( void )
 {
-    const flag_t mask = ~(flag_t)0;
-    ipc_data_t ret;
+    ipc_data_t ret = (ipc_data_t)0;
     syscall_bugurt( SYSCALL_IPC_WAIT_D, (void *)&ret );
-    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&mask );// Останов в случае необходимости
     return ret;
 }
 ///--------------------------------------------------------------------------------------------

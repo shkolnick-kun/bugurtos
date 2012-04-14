@@ -14,7 +14,7 @@
 		<Cursor position="6962" topLine="99" />
 	</File>
 	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6138" topLine="113" />
+		<Cursor position="7270" topLine="126" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="6860" topLine="78" />
@@ -29,7 +29,7 @@
 		<Cursor position="6145" topLine="99" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6445" topLine="447" />
+		<Cursor position="11940" topLine="205" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="6253" topLine="333" />
@@ -41,7 +41,7 @@
 		<Cursor position="6354" topLine="190" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="6128" topLine="487" />
+		<Cursor position="18204" topLine="457" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="7348" topLine="106" />

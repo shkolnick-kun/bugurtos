@@ -97,11 +97,24 @@ bool_t ipc_send_pointer_isr( proc_t * proc, void * pointer )
     SPIN_LOCK( proc );
     if( proc->flags & PROC_FLG_IPCW_P )
     {
-        ret = (bool_t)1; // информация будет передана
         proc->flags &= ~PROC_FLG_IPCW_P;
+        ///Обработка флага останова целевого процесса
+        if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+        {
+            /*
+            Если был запрошен останов целевого процесса,
+            и целевой процесс не удерживает общие ресурсы,
+            то мы не будем возобновлять его работу
+            и передавать ему указатель.
+            */
+            proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+            goto end;
+        }
+        ret = (bool_t)1; // информация будет передана
         *(void **)proc->ipc = pointer;
         _proc_run( proc );
     }
+end:
     SPIN_UNLOCK( proc );
     return ret;
 }
@@ -112,11 +125,24 @@ bool_t ipc_send_data_isr( proc_t * proc, ipc_data_t data )
     SPIN_LOCK( proc );
     if( proc->flags & PROC_FLG_IPCW_D )
     {
-        ret = (bool_t)1; // информация будет передана
         proc->flags &= ~PROC_FLG_IPCW_D;
+        ///Обработка флага останова целевого процесса
+        if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+        {
+            /*
+            Если был запрошен останов целевого процесса,
+            и целевой процесс не удерживает общие ресурсы,
+            то мы не будем возобновлять его работу
+            и передавать ему информацию.
+            */
+            proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+            goto end;
+        }
+        ret = (bool_t)1; // информация будет передана
         *(ipc_data_t *)proc->ipc = data;
         _proc_run( proc );
     }
+end:
     SPIN_UNLOCK( proc );
     return ret;
 }
