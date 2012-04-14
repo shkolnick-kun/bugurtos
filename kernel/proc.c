@@ -225,7 +225,7 @@ bool_t proc_stop_isr(proc_t * proc)
     //Проверка флагов
     //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
     //В случае PROC_FLG_HOLD или PROC_FLG_QUEUE будем обрабатывать PROC_FLG_PRE_END при освобождении общего ресурса.
-    //В случае ожидания IPC флаг будет обрабатывать ожидающий процесс.
+    //В случае ожидания IPC флаг будем обрабатывать при попытке передать данные или указатель целевому процессу.
     if( proc->flags & (PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW_D|PROC_FLG_IPCW_P) )proc->flags |= PROC_FLG_PRE_END;
     else if( proc->flags & PROC_FLG_RUN )
     {
@@ -237,7 +237,7 @@ bool_t proc_stop_isr(proc_t * proc)
 
     return ret;
 }
-
+// Обработка флага останова процесса, для использования с семафорами, мьютексами и сигналами.
 void _proc_flag_stop( flag_t mask )
 {
     proc_t * proc;
@@ -248,6 +248,11 @@ void _proc_flag_stop( flag_t mask )
     proc->flags &= mask;
     if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
     {
+        /*
+        Если был запрошен останов целевого процесса,
+        и целевой процесс не удерживает общие ресурсы,
+        то мы остановим процесс
+        */
         proc->flags &= ~PROC_FLG_PRE_END;
         _proc_stop( proc );
     }
