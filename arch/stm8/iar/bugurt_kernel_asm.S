@@ -1,5 +1,5 @@
 ;/**************************************************************************
-;    BuguRTOS-0.3.x(Bugurt real time operating system).
+;    BuguRTOS-0.4.x(Bugurt real time operating system).
 ;    Copyright (C) 2010  anonimous
 ;
 ;    This program is free software: you can redistribute it and/or modify
