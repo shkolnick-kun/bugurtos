@@ -41,7 +41,7 @@
 		<Cursor position="7426" topLine="74" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="2">
-		<Cursor position="6253" topLine="70" />
+		<Cursor position="6253" topLine="121" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="5">
 		<Cursor position="18216" topLine="464" />

@@ -180,7 +180,8 @@ void bugurt_check_resched( void )
 }
 
 
-__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void)
+__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
+void SYSTEM_TIMER_ISR(void)
 {
     BUGURT_ISR_START();
 
@@ -207,7 +208,8 @@ typedef struct
 
 static syscall_data_t scdata;
 /// Если используется программное прерывание - вот его обработчик
-__attribute__ (( signal, naked )) void SYSCALL_ISR(void)
+__attribute__ (( signal, naked )) void SYSCALL_ISR(void);
+void SYSCALL_ISR(void)
 {
     BUGURT_ISR_START();
 
@@ -257,7 +259,8 @@ void syscall_bugurt( unsigned char num, void * arg )
      while( kernel_state & KRN_FLG_DO_SCALL );
 }
 #else
-__attribute__ (( naked )) void _syscall(void)
+__attribute__ (( naked )) void _syscall(void);
+void _syscall(void)
 {
     BUGURT_ISR_START();
 
