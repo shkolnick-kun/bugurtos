@@ -12,11 +12,11 @@
 		<Project filename="pcouter/pcouter.cbp" />
 		<Project filename="mutex/mutex.cbp" />
 		<Project filename="single_proc_test/single_proc_test.cbp" />
-		<Project filename="arduino328-test-1/arduino328-test-1.cbp" />
+		<Project filename="arduino328-test-1/arduino328-test-1.cbp" active="1" />
 		<Project filename="arduino328-test-sem/arduino328-test-sem.cbp" />
 		<Project filename="arduino328-test-mutex/arduino328-test-mutex.cbp" />
 		<Project filename="pitem/pitem.cbp" />
 		<Project filename="arduino328-test-sig/arduino328-test-sig.cbp" />
-		<Project filename="arduino328-test-ipc/arduino328-test-ipc.cbp" active="1" />
+		<Project filename="arduino328-test-ipc/arduino328-test-ipc.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

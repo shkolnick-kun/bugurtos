@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
-		<Cursor position="11440" topLine="271" />
+		<Cursor position="8734" topLine="163" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="6333" topLine="98" />
@@ -65,7 +65,7 @@
 		<Cursor position="0" topLine="99" />
 	</File>
 	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6217" topLine="100" />
+		<Cursor position="6217" topLine="108" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="6741" topLine="90" />
@@ -80,7 +80,7 @@
 		<Cursor position="6292" topLine="93" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="10035" topLine="373" />
+		<Cursor position="10035" topLine="31" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="9050" topLine="130" />
@@ -89,7 +89,7 @@
 		<Cursor position="7154" topLine="127" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="9299" topLine="186" />
+		<Cursor position="9299" topLine="99" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="13135" topLine="487" />
