@@ -129,11 +129,11 @@ void do_syscall( void )
     }
 }
 
-///=================================================================
-///                  System call handlers !!!
-///=================================================================
-///                      Process control !!!
-///=================================================================
+/**********************************************************************************************
+                                  System call handlers !!!
+***********************************************************************************************
+                                    Process control !!!
+**********************************************************************************************/
 /// SYSCALL_PROC_INIT
 void scall_proc_init( void * arg )
 {
@@ -187,49 +187,51 @@ void proc_init(
 #endif
     syscall_bugurt( SYSCALL_PROC_INIT, (void *)&scarg );
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_RUN
+/**********************************************************************************************
+                                       SYSCALL_PROC_RUN
+**********************************************************************************************/
 void scall_proc_run( void * arg )
 {
-    ((proc_runtime_arg_t *)arg)->scall_ret = proc_run_isr( ((proc_runtime_arg_t *)arg)->proc );
+    ((proc_runtime_arg_t *)arg)->ret = proc_run_isr( ((proc_runtime_arg_t *)arg)->proc );
 }
 bool_t proc_run( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    scarg.scall_ret = (bool_t)0;
     syscall_bugurt( SYSCALL_PROC_RUN, (void *)&scarg );
-    return scarg.scall_ret;
+    return scarg.ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_RESTART
+/**********************************************************************************************
+                                       SYSCALL_PROC_RESTART
+**********************************************************************************************/
 void scall_proc_restart( void * arg )
 {
-    ((proc_runtime_arg_t *)arg)->scall_ret = proc_restart_isr( ((proc_runtime_arg_t *)arg)->proc );
+    ((proc_runtime_arg_t *)arg)->ret = proc_restart_isr( ((proc_runtime_arg_t *)arg)->proc );
 }
 bool_t proc_restart( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
     syscall_bugurt( SYSCALL_PROC_RESTART, (void *)&scarg );
-    return scarg.scall_ret;
+    return scarg.ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_STOP
+/**********************************************************************************************
+                                        SYSCALL_PROC_STOP
+**********************************************************************************************/
 void scall_proc_stop( void * arg )
 {
-    ((proc_runtime_arg_t *)arg)->scall_ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
+    ((proc_runtime_arg_t *)arg)->ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
 }
 bool_t proc_stop( proc_t * proc )
 {
     proc_runtime_arg_t scarg;
     scarg.proc = proc;
     syscall_bugurt( SYSCALL_PROC_STOP, (void *)&scarg);
-    return scarg.scall_ret;
+    return scarg.ret;
 }
-
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_SELF_STOP
+/**********************************************************************************************
+                                    SYSCALL_PROC_SELF_STOP
+**********************************************************************************************/
 void scall_proc_self_stop( void * arg )
 {
     proc_t * proc = current_proc();
@@ -245,8 +247,9 @@ void proc_self_stop(void)
 {
     syscall_bugurt( SYSCALL_PROC_SELF_STOP, (void *)1 );
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_TERMINATE
+/**********************************************************************************************
+                                    SYSCALL_PROC_TERMINATE
+**********************************************************************************************/
 // Останов процесса после выхода из pmain, для обертки proc_run_wrapper
 void scall_proc_terminate( void * arg )
 {
@@ -272,8 +275,9 @@ void proc_run_wrapper( proc_t * proc )
     // Завершаем процесс
     syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)proc );
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_FLAG_STOP
+/**********************************************************************************************
+                                       SYSCALL_PROC_FLAG_STOP
+**********************************************************************************************/
 void scall_proc_flag_stop( void * arg )
 {
     _proc_flag_stop( *((flag_t *)arg) );
@@ -284,8 +288,9 @@ void proc_flag_stop( flag_t mask )
     msk = mask;
     syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&msk );
 }
-///---------------------------------------------------------------------------------------------
-/// SYSCALL_PROC_RESET_WATCHDOG
+/**********************************************************************************************
+                                       SYSCALL_PROC_RESET_WATCHDOG
+**********************************************************************************************/
 void scall_proc_reset_watchdog( void * arg )
 {
     _proc_reset_watchdog();
@@ -294,9 +299,11 @@ void proc_reset_watchdog(void)
 {
     syscall_bugurt( SYSCALL_PROC_RESET_WATCHDOG, (void *)0 );
 }
-///=================================================================
-///                         Сигналы
-/// SYSCALL_SIG_INIT
+/**********************************************************************************************
+                                            Сигналы
+***********************************************************************************************
+                                      SYSCALL_PROC_RESTART
+**********************************************************************************************/
 void scall_sig_init( void * arg )
 {
     sig_init_isr( (sig_t *)arg );
@@ -305,8 +312,9 @@ void sig_init( sig_t * sig )
 {
     syscall_bugurt( SYSCALL_SIG_INIT, (void *)sig );
 }
-///--------------------------------------------------------------------------------------------
-///SYSCALL_SIG_WAIT
+/**********************************************************************************************
+                                       SYSCALL_SIG_WAIT
+**********************************************************************************************/
 void scall_sig_wait( void * arg )
 {
     _sig_wait_prologue( (sig_t *)arg );
@@ -317,8 +325,9 @@ void sig_wait( sig_t * sig )
     syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&mask );// Останов в случае необходимости
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_SIG_SIGNAL
+/**********************************************************************************************
+                                       SYSCALL_SIG_SIGNAL
+**********************************************************************************************/
 void scall_sig_signal( void * arg )
 {
     sig_signal_isr( (sig_t *)arg );
@@ -327,8 +336,9 @@ void sig_signal( sig_t * sig )
 {
     syscall_bugurt( SYSCALL_SIG_SIGNAL, (void *)sig );
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_SIG_BROADCAST
+/**********************************************************************************************
+                                       SYSCALL_SIG_BROADCAST
+**********************************************************************************************/
 void scall_sig_broadcast( void * arg )
 {
     sig_broadcast_isr( (sig_t *)arg );
@@ -337,9 +347,11 @@ void sig_broadcast( sig_t * sig )
 {
     syscall_bugurt( SYSCALL_SIG_BROADCAST, (void *)sig );
 }
-///=================================================================
-///                         Семафоры
-/// SYSCALL_SEM_INIT
+/**********************************************************************************************
+                                           Семафоры
+***********************************************************************************************
+                                       SYSCALL_SEM_INIT
+**********************************************************************************************/
 void scall_sem_init( void * arg )
 {
     sem_init_isr( ((sem_init_arg_t *)arg)->sem, ((sem_init_arg_t *)arg)->count );
@@ -351,11 +363,12 @@ void sem_init( sem_t * sem, count_t count )
     scarg.count = count;
     syscall_bugurt( SYSCALL_SEM_INIT, (void *)&scarg );
 }
-///--------------------------------------------------------------------------------------------
-///SYSCALL_SEM_LOCK
+/**********************************************************************************************
+                                         SYSCALL_SEM_LOCK
+**********************************************************************************************/
 void scall_sem_lock( void * arg )
 {
-    ((sem_lock_arg_t *)arg)->scall_ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
+    ((sem_lock_arg_t *)arg)->ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
 }
 bool_t sem_lock( sem_t * sem )
 {
@@ -363,13 +376,14 @@ bool_t sem_lock( sem_t * sem )
     sem_lock_arg_t scarg;
     scarg.sem = sem;
     syscall_bugurt( SYSCALL_SEM_LOCK, (void *)&scarg );
-    return scarg.scall_ret;
+    return scarg.ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_SEM_TRY_LOCK
+/**********************************************************************************************
+                                       SYSCALL_SEM_TRY_LOCK
+**********************************************************************************************/
 void scall_sem_try_lock( void * arg )
 {
-    ((sem_lock_arg_t *)arg)->scall_ret = _sem_try_lock( ((sem_lock_arg_t *)arg)->sem );
+    ((sem_lock_arg_t *)arg)->ret = _sem_try_lock( ((sem_lock_arg_t *)arg)->sem );
 }
 bool_t sem_try_lock( sem_t * sem )
 {
@@ -377,10 +391,11 @@ bool_t sem_try_lock( sem_t * sem )
     sem_lock_arg_t scarg;
     scarg.sem = sem;
     syscall_bugurt( SYSCALL_SEM_TRY_LOCK, (void *)&scarg );
-    return scarg.scall_ret;
+    return scarg.ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_SEM_UNLOCK
+/**********************************************************************************************
+                                       SYSCALL_SEM_UNLOCK
+**********************************************************************************************/
 void scall_sem_unlock( void * arg )
 {
     sem_unlock_isr( (sem_t *)arg );
@@ -389,9 +404,11 @@ void sem_unlock( sem_t * sem )
 {
     syscall_bugurt( SYSCALL_SEM_UNLOCK, (void *)sem );
 }
-///=================================================================
-///                         Мьютексы
-/// SYSCALL_MUTEX_INIT
+/**********************************************************************************************
+                                          Мьютексы
+***********************************************************************************************
+                                     SYSCALL_MUTEX_INIT
+**********************************************************************************************/
 void scall_mutex_init(void * arg)
 {
     mutex_init_isr(
@@ -415,25 +432,27 @@ void mutex_init(
 #endif // CONFIG_USE_HIGHEST_LOCKER
     syscall_bugurt( SYSCALL_MUTEX_INIT, (void *)&scarg );
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_MUTEX_LOCK
+/**********************************************************************************************
+                                    SYSCALL_MUTEX_LOCK
+**********************************************************************************************/
 void scall_mutex_lock(void * arg)
 {
-    ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
 }
 bool_t mutex_lock( mutex_t * mutex )
 {
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
     syscall_bugurt( SYSCALL_MUTEX_LOCK, (void *)&scarg );
-    return scarg.scall_ret;
+    return scarg.ret;
 }
 // Захват
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_MUTEX_TRY_LOCK
+/**********************************************************************************************
+                                    SYSCALL_MUTEX_TRY_LOCK
+**********************************************************************************************/
 void scall_mutex_try_lock(void * arg)
 {
-    ((mutex_lock_arg_t *)arg)->scall_ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
 }
 // Попытка захвата
 bool_t mutex_try_lock( mutex_t * mutex )
@@ -441,10 +460,11 @@ bool_t mutex_try_lock( mutex_t * mutex )
     mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
     syscall_bugurt( SYSCALL_MUTEX_TRY_LOCK, (void *)&scarg );
-    return scarg.scall_ret;
+    return scarg.ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_MUTEX_UNLOCK
+/**********************************************************************************************
+                                   SYSCALL_MUTEX_UNLOCK
+**********************************************************************************************/
 void scall_mutex_unlock(void * arg)
 {
     _mutex_unlock( (mutex_t *)arg );
@@ -454,10 +474,11 @@ void mutex_unlock( mutex_t * mutex )
 {
     syscall_bugurt( SYSCALL_MUTEX_UNLOCK, (void *)mutex );
 }
-///=================================================================
-///                           IPC
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_IPC_WAIT_P
+/**********************************************************************************************
+                                           IPC
+***********************************************************************************************
+                                    SYSCALL_IPC_WAIT_P
+**********************************************************************************************/
 void scall_ipc_wait_pointer(void * arg)
 {
     _ipc_wait( PROC_FLG_IPCW_P, arg );
@@ -468,8 +489,9 @@ void * ipc_wait_pointer( void )
     syscall_bugurt( SYSCALL_IPC_WAIT_P, (void *)&ret );
     return ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_IPC_WAIT_D
+/**********************************************************************************************
+                                       SYSCALL_IPC_WAIT_D
+**********************************************************************************************/
 void scall_ipc_wait_data(void * arg)
 {
     _ipc_wait( PROC_FLG_IPCW_D, arg );
@@ -480,8 +502,9 @@ ipc_data_t ipc_wait_data( void )
     syscall_bugurt( SYSCALL_IPC_WAIT_D, (void *)&ret );
     return ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_IPC_SEND_P
+/**********************************************************************************************
+                                       SYSCALL_IPC_SEND_P
+**********************************************************************************************/
 void scall_ipc_send_pointer(void * arg)
 {
     ((ipc_send_pointer_arg_t *)arg)->ret = ipc_send_pointer_isr( ((ipc_send_pointer_arg_t *)arg)->proc, ((ipc_send_pointer_arg_t *)arg)->pointer );
@@ -494,8 +517,9 @@ bool_t ipc_send_pointer( proc_t * proc, void * pointer )
     syscall_bugurt( SYSCALL_IPC_SEND_P, (void *)&arg );
     return arg.ret;
 }
-///--------------------------------------------------------------------------------------------
-/// SYSCALL_IPC_SEND_D
+/**********************************************************************************************
+                                       SYSCALL_IPC_SEND_D
+**********************************************************************************************/
 void scall_ipc_send_data(void * arg)
 {
     ((ipc_send_data_arg_t *)arg)->ret = ipc_send_data_isr( ((ipc_send_data_arg_t *)arg)->proc, ((ipc_send_data_arg_t *)arg)->data );

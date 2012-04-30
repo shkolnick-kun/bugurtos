@@ -16,10 +16,10 @@
 	<File name="../../include/sched.h" open="0" top="0" tabpos="6">
 		<Cursor position="64" topLine="8" />
 	</File>
-	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
+	<File name="../../include/syscall.h" open="1" top="0" tabpos="0">
 		<Cursor position="7960" topLine="98" />
 	</File>
-	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="1">
+	<File name="../../kernel/ipc.c" open="1" top="0" tabpos="1">
 		<Cursor position="6364" topLine="64" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="6">
@@ -43,7 +43,7 @@
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="2">
 		<Cursor position="6253" topLine="121" />
 	</File>
-	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="5">
+	<File name="../../kernel/syscall.c" open="1" top="0" tabpos="5">
 		<Cursor position="18216" topLine="464" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
