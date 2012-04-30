@@ -22,8 +22,8 @@
 	<File name="../../include/group.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
 	</File>
-	<File name="../../include/ipc.h" open="0" top="0" tabpos="0">
-		<Cursor position="9548" topLine="97" />
+	<File name="../../include/ipc.h" open="1" top="1" tabpos="0">
+		<Cursor position="8577" topLine="84" />
 	</File>
 	<File name="../../include/item.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="105" />
@@ -47,7 +47,7 @@
 		<Cursor position="0" topLine="174" />
 	</File>
 	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="193" />
+		<Cursor position="8218" topLine="193" />
 	</File>
 	<File name="../../include/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="103" />
@@ -68,7 +68,7 @@
 		<Cursor position="0" topLine="99" />
 	</File>
 	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6217" topLine="108" />
+		<Cursor position="6217" topLine="126" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="6741" topLine="90" />
@@ -95,7 +95,7 @@
 		<Cursor position="9299" topLine="99" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="13135" topLine="487" />
+		<Cursor position="6844" topLine="487" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6785" topLine="93" />

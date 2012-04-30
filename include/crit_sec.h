@@ -89,10 +89,25 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 когда произошел выход из всех критических секций.
 */
 
+/*!
+\def ENTER_CRIT_SEC()
+\brief Макрос-обертка.
+
+Вход в критическую секцию.
+\warning Использовать в начале блока!
+\warning Все локальные переменные должны быть объявлены до #ENTER_CRIT_SEC
+
+\def EXIT_CRIT_SEC()
+\brief Макрос-обертка.
+
+Выход из критической секции.
+\warning Использовать в конце блока!
+*/
 #ifdef CONFIG_MP
 
 #define ENTER_CRIT_SEC() core_id_t current_core; \
                          current_core = _enter_crit_sec()
+
 #define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
 
 /*!
@@ -119,15 +134,15 @@ void _exit_crit_sec(core_id_t core);
 #define EXIT_CRIT_SEC() exit_crit_sec()
 
 /*!
-
 \brief Вход в критическую секцию.
 
+Вход в критическую секцию.
 */
 void enter_crit_sec(void);
 /*!
-
 \brief Выход из критической секции.
 
+Вход в критическую секцию.
 */
 void exit_crit_sec(void);
 #endif // CONFIG_MP

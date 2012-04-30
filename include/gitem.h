@@ -108,27 +108,27 @@ struct _gitem_t
 //Методы
 /*!
 \brief
-Инициализация объекта типа gitem_t.
+Инициализация объекта типа #gitem_t.
 
-\param gitem Указатель на объект gitem_t.
+\param gitem Указатель на объект #gitem_t.
 \param prio Приоритет элемента.
 */
 void gitem_init(gitem_t * gitem, prio_t prio);
 /*!
 \brief
-Вставка элемента типа gitem_t в список типа xlist_t без группировки.
+Вставка элемента типа #gitem_t в список типа #xlist_t без группировки.
 
-\param gitem Указатель на объект gitem_t.
+\param gitem Указатель на объект #gitem_t.
 \param xlist Указатель на список.
 */
 void gitem_insert(gitem_t * gitem, xlist_t *xlist);
 /*!
 \brief
-Вставка элемента типа gitem_t в список типа xlist_t с группировкой.
+Вставка элемента типа #gitem_t в список типа #xlist_t с группировкой.
 
 Вставляет в часть списка с приоритетом prio = gitem->group->prio, и переносит элемент в группу xlist->item[prio]->group, при этом gitem->group переходит в Пул.
 
-\param gitem Указатель на объект gitem_t.
+\param gitem Указатель на объект #gitem_t.
 \param xlist Указатель на список.
 */
 void gitem_insert_group(gitem_t * gitem, xlist_t *xlist);
@@ -136,25 +136,25 @@ void gitem_insert_group(gitem_t * gitem, xlist_t *xlist);
 \brief
 Быстро вырезать из списка.
 
-Вырезает объект типа gitem_t, из списка типа xlist_t, если объект был сгруппирован, то он вырезается из группы, и для него выделяется группа из Пула. При этом не обнуляется указатель gitem->group->link.
+Вырезает объект типа #gitem_t, из списка типа #xlist_t, если объект был сгруппирован, то он вырезается из группы, и для него выделяется группа из Пула. При этом не обнуляется указатель gitem->group->link.
 
-\param gitem Указатель на объект gitem_t.
+\param gitem Указатель на объект #gitem_t.
 */
 void gitem_fast_cut(gitem_t * gitem);
 /*!
 \brief
 Вырезать из списка.
 
-Вызывает gitem_fast_cut, а потом таки обнуляет gitem->group->link
+Вызывает #gitem_fast_cut, а потом таки обнуляет gitem->group->link
 
-\param gitem Указатель на объект gitem_t.
+\param gitem Указатель на объект #gitem_t.
 */
 void gitem_cut(gitem_t * gitem);
 /*!
 \brief
 Переносит все элементы из одного группированного списка в другой
 
-Перенести все элементы из группированного списка типа xlist_t в другой список типа xlist_t. Выполняется за O(1) шагов.
+Перенести все элементы из группированного списка типа #xlist_t в другой список типа #xlist_t. Выполняется за O(1) шагов.
 
 \param source Указатель на список из которого переносим элементы.
 \param destignation Указатель на список в который преносим элементы.
