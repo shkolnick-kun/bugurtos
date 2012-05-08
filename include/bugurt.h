@@ -83,26 +83,45 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*!
 \mainpage
 
-BuguRTOS - ядро операционной системы реального времени.
-Написано анонимусом ДЛЯ УДОВОЛЬСТВИЯ.
+\~russian
+BuguRTOS - ядро операционной системы реального времени. Написано анонимусом ДЛЯ УДОВОЛЬСТВИЯ.
 \warning Распространяется под измененной лицензией GPLv3, смотрите exception.txt.
+
+\~english
+The BuguRTOS is a RTOS kernel. It is written by anonimous JUST FOR FUN.
+\warning BuguRTOS license is modifyed GPLv3, look at exception.txt for more info.
+
 */
 
 /*!
 \file
+\~russian
 \brief Главный заголовочный файл.
 
 В этот файл включены все заголовочные файлы BuguRTOS.
 В свою очередь все исходные тексты включают этот файл.
+\~english
+\brief The top header file.
+
+All other BuguRTOS headers are included here.
+On the other hand all BuguRTOS source files include this file.
 */
 //======================================================
 //                ОПРЕДЕЛЕНИЯ ТИПОВ
+//                     TYPEDEFS
 //======================================================
 /*!
+\~russian
 \brief
 Исполняемый код.
 
 Указатель на функцию типа void, принимающую в качестве аргумента указатель типа void.
+
+\~english
+\brief
+Executable code.
+
+A pointer to a void function, that takes void pointer as argument.
 */
 typedef void (* code_t)(void *);
 
@@ -135,24 +154,44 @@ typedef void (* code_t)(void *);
 
 /*!
 \def SPIN_INIT(arg)
+\~russian
 \brief Макрос-обертка.
 
 Обертка инициализации спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
+\~english
+\brief Wrapper macro.
+
+Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 
 \def SPIN_LOCK(arg)
+\~russian
 \brief Макрос-обертка.
 
 Обертка захвата спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
+\~english
+\brief Wrapper macro.
+
+Lock wrapper for arg->lock spinlock. Emty macro in single core system.
 
 \def SPIN_UNLOCK(arg)
+\~russian
 \brief Макрос-обертка.
 
 Обертка освобождения спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
+\~english
+\brief Wrapper macro.
+
+Lock wrapper for arg->lock spinlock. Emty macro in single core system.
 
 \def RESCHED_PROC(arg)
+\~russian
 \brief Макрос-обертка.
 
 Обертка функции #resched.
+\~english
+\brief Wrapper macro.
+
+A wrapper for #resched function.
 */
 
 #ifdef CONFIG_MP
@@ -172,6 +211,7 @@ typedef void (* code_t)(void *);
 #endif
 //======================================================
 //   Внешние функции, определяемые пользователем
+//        User defined external functions
 //======================================================
 #ifdef CONFIG_MP
 

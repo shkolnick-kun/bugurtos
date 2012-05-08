@@ -202,21 +202,15 @@ struct _proc_t
 */
 #define PROC_FLG_DEAD       ((flag_t)128)
 /*!
-\brief Флаг ожидания передачи указателя через IPC.
-
-Показывает, что процесс ждет передачи указателя через IPC.
-*/
-#define PROC_FLG_IPCW_P     ((flag_t)256)
-/*!
 \brief Флаг ожидания передачи данных через IPC.
 
 Показывает, что процесс ждет передачи данных через IPC.
 */
-#define PROC_FLG_IPCW_D     ((flag_t)512)
+#define PROC_FLG_IPCW       ((flag_t)256)
 /*!
 \brief Флаг останова по watch_dog.
 */
-#define PROC_FLG_WD_STOP    ((flag_t)1024)
+#define PROC_FLG_WD_STOP    ((flag_t)512)
 
 // Методы
 /*!

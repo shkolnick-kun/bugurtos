@@ -51,9 +51,11 @@ typedef unsigned char bool_t;
 // There is no reason to make it bigger.
 typedef unsigned char syscall_t;
 
-// Unsigned char is enough.
-// There is no reason to make it bigger.
-typedef unsigned char ipc_data_t;
+// Unsigned long is enough
+// to handle data and pointers.
+// There is no reason to make it bigger
+// or smaller.
+typedef unsigned long ipc_data_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================

@@ -56,15 +56,15 @@ void main1(void * t)
         wait_time(50);
     }
 }
-void * test2 = (void *)0;
+ipc_data_t test2 = 0;
 void main2(void * t)
 {
     while(1)
     {
-        test2 = ipc_wait_pointer();
+        test2 = ipc_wait();
         wait_time(200);
-        test2 = (void *)0;
-        ipc_send_data(&proc[3],1);
+        ipc_exchange(&proc[3],1,&test2);
+        wait_time(200);
     }
 }
 ipc_data_t test3 = 0;
@@ -72,9 +72,10 @@ void main3(void * t)
 {
     while(1)
     {
-        test3 = ipc_wait_data();
+        test3 = ipc_wait();
         wait_time(200);
         test3 = 0;
+        ipc_send(&proc[2],0);
     }
 }
 void idle_main(void * t)
@@ -82,9 +83,9 @@ void idle_main(void * t)
     while(1)
     {
          wait_time(1000);
-         ipc_send_pointer(&proc[2], (void *)1);
-         ipc_send_pointer(&proc[1], (void *)1);
-         ipc_send_data(&proc[0], 1);
+         ipc_send(&proc[2], 1);
+         ipc_send(&proc[1], 1);
+         ipc_send(&proc[0], 1);
     }
 }
 int main(void)
