@@ -320,7 +320,7 @@ void scall_sig_wait( void * arg )
 }
 void sig_wait( sig_t * sig )
 {
-    const flag_t mask = ~PROC_FLG_WAIT;
+    const flag_t mask = PROC_FLG_WAIT;
     syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&mask );// Останов в случае необходимости
 }

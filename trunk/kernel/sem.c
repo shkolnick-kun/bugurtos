@@ -92,6 +92,13 @@ void sem_init_isr( sem_t * sem, count_t count )
 bool_t _sem_lock( sem_t * sem )
 {
     bool_t ret = (bool_t)0;
+    proc_t * proc;
+    proc = current_proc();
+    // Выставляем флаг захватат семафора
+    SPIN_LOCK( proc );
+    proc->flags |= PROC_FLG_SEM;
+    SPIN_UNLOCK( proc );
+    // Собственно захват семафора
     SPIN_LOCK( sem );
     if( sem->counter != 0 )
     {
@@ -100,14 +107,10 @@ bool_t _sem_lock( sem_t * sem )
     }
     else
     {
-        proc_t * proc;
-        proc = current_proc();
         SPIN_LOCK( proc );
-
         proc->flags |= PROC_FLG_QUEUE;
         _proc_stop( proc );
         gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
-
         SPIN_UNLOCK( proc );
     }
     SPIN_UNLOCK( sem );
@@ -120,8 +123,15 @@ bool_t _sem_try_lock( sem_t * sem )
     SPIN_LOCK( sem );
     if( sem->counter != 0 )
     {
+        proc_t * proc;
+        proc = current_proc();
+
         sem->counter--;
         ret = (bool_t)1;
+        // Выставляем флаг захватат семафора
+        SPIN_LOCK( proc );
+        proc->flags |= PROC_FLG_SEM;
+        SPIN_UNLOCK( proc );
     }
     SPIN_UNLOCK( sem );
     return ret;
@@ -138,10 +148,11 @@ void sem_unlock_isr( sem_t * sem )
         goto end;
     }
     proc = (proc_t *)xlist_head((xlist_t *)sem);
+
     SPIN_LOCK( proc );
 
-    proc->flags &= ~PROC_FLG_QUEUE;
     gitem_cut( (gitem_t *)proc );
+    proc->flags &= ~PROC_FLG_QUEUE;
     _proc_run( proc );
 
     SPIN_UNLOCK( proc );

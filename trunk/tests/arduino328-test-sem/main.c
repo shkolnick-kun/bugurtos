@@ -55,6 +55,7 @@ void main0(void * t)
         sem_lock(&sem);
         wait_time(100);
         sem_unlock(&sem);
+        proc_flag_stop(PROC_FLG_SEM);
     }
 }
 void main1(void * t)
@@ -65,6 +66,7 @@ void main1(void * t)
         sem_lock(&sem);
         wait_time(100);
         sem_unlock(&sem);
+        proc_flag_stop(PROC_FLG_SEM);
     }
 }
 void main2(void * t)
@@ -75,6 +77,7 @@ void main2(void * t)
         proc_reset_watchdog();
         proc_self_stop();
         sem_unlock(&sem);
+        proc_flag_stop(PROC_FLG_SEM);
     }
 }
 void main3(void * t)
@@ -91,6 +94,7 @@ void main3(void * t)
             blink_11(0);
         }
         sem_unlock(&sem);
+        proc_flag_stop(PROC_FLG_SEM);
         blink_10(0);
     }
     while(1)

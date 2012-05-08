@@ -116,11 +116,8 @@ bool_t _mutex_lock( mutex_t * mutex )
     else
     {
         proc->flags |= PROC_FLG_QUEUE;
-        proc->flags &= ~PROC_FLG_RUN;
-        _proc_stop_( proc );
+        _proc_stop( proc );
         gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
-        // Нужна перепланировка
-        RESCHED_PROC( proc );
     }
     SPIN_UNLOCK( proc );
     SPIN_UNLOCK( mutex );
@@ -158,9 +155,9 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK(proc);
     PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
     // Если проготовлен и готов к остановке - останавливаем
-    if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+    if(  ( proc->flags & PROC_FLG_PRE_STOP ) && (!(proc->flags & PROC_FLG_MUTEX))  )
     {
-        proc->flags &= ~(PROC_FLG_RUN|PROC_FLG_PRE_END);
+        proc->flags &= ~(PROC_FLG_RUN|PROC_FLG_PRE_STOP);
         _proc_stop_( proc );
         PROC_PRIO_CONTROL_STOPED( proc );
         // Нужна перепланировка, процесс остановили и не запустили обратно
@@ -183,8 +180,8 @@ void _mutex_unlock( mutex_t *  mutex )
     proc = (proc_t *)xlist_head( (xlist_t *)mutex );
     SPIN_LOCK( proc );
     // Сначала надо вырезать
-    proc->flags &= ~PROC_FLG_QUEUE;
     gitem_cut( (gitem_t *)proc );
+    proc->flags &= ~PROC_FLG_QUEUE;
     // Управление приоритетом процесса
     PROC_PRIO_CONTROL_STOPED( proc );
     _proc_run( proc );

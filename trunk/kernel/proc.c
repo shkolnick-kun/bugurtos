@@ -153,7 +153,7 @@ bool_t proc_run_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_END|PROC_FLG_IPCW|PROC_FLG_DEAD|PROC_FLG_WD_STOP) )
+    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_END|PROC_FLG_DEAD|PROC_FLG_WD_STOP) )
     {
         ret = (bool_t)0;
         goto end;
@@ -172,7 +172,7 @@ bool_t proc_restart_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_DEAD) )
+    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_MUTEX|PROC_FLG_SEM|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_DEAD) )
     {
         ret = (bool_t)0;
         goto end;
@@ -213,7 +213,6 @@ void _proc_stop(proc_t * proc)
 {
     proc->flags &= ~PROC_FLG_RUN;
     _proc_stop_( proc );
-
     RESCHED_PROC( proc );
 }
 // Останов процесса из обработчика прерываний, прерывания должны быть запрещены
@@ -224,9 +223,9 @@ bool_t proc_stop_isr(proc_t * proc)
     SPIN_LOCK( proc );
     //Проверка флагов
     //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
-    //В случае PROC_FLG_HOLD или PROC_FLG_QUEUE будем обрабатывать PROC_FLG_PRE_END при освобождении общего ресурса.
+    //В случае PROC_FLG_MUTEX или PROC_FLG_SEM будем обрабатывать PROC_FLG_PRE_STOP при освобождении общего ресурса.
     //В случае ожидания IPC флаг будем обрабатывать при попытке передать данные или указатель целевому процессу.
-    if( proc->flags & (PROC_FLG_HOLD|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW) )proc->flags |= PROC_FLG_PRE_END;
+    if( proc->flags & (PROC_FLG_MUTEX|PROC_FLG_SEM|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW) )proc->flags |= PROC_FLG_PRE_STOP;
     else if( proc->flags & PROC_FLG_RUN )
     {
         _proc_stop( proc );
@@ -245,15 +244,15 @@ void _proc_flag_stop( flag_t mask )
 
     SPIN_LOCK( proc );
 
-    proc->flags &= mask;
-    if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+    proc->flags &= ~mask;
+    if(  ( proc->flags & PROC_FLG_PRE_STOP ) && (!(proc->flags & PROC_FLG_MUTEX))  )
     {
         /*
         Если был запрошен останов целевого процесса,
         и целевой процесс не удерживает общие ресурсы,
         то мы остановим процесс
         */
-        proc->flags &= ~PROC_FLG_PRE_END;
+        proc->flags &= ~PROC_FLG_PRE_STOP;
         _proc_stop( proc );
     }
 
@@ -268,10 +267,10 @@ void _proc_terminate( proc_t * proc )
 
     // Обрабатываем флаги
     // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
-    if( proc->flags & PROC_FLG_HOLD ) proc->flags |= PROC_FLG_DEAD;
+    if( proc->flags & PROC_FLG_MUTEX ) proc->flags |= PROC_FLG_DEAD;
     // В противном случае - просто завершаем процесс
     else proc->flags |= PROC_FLG_END;
-    proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+    proc->flags &= ~(PROC_FLG_PRE_STOP|PROC_FLG_RUN);
     // Останов
     _proc_stop_( proc );
     // Выполнить перепланировку
@@ -300,10 +299,10 @@ void _proc_lres_inc(
 )
 {
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_HOLD;
+    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_MUTEX;
     pcounter_inc( &proc->lres, prio );
 #else
-    if( proc->lres == (count_t)0 )proc->flags |= PROC_FLG_HOLD;
+    if( proc->lres == (count_t)0 )proc->flags |= PROC_FLG_MUTEX;
     proc->lres++;
 #endif
 }
@@ -317,10 +316,10 @@ void _proc_lres_dec(
 {
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     pcounter_dec( &proc->lres, prio );
-    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_HOLD;
+    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
 #else
     if( proc->lres!= (count_t)0 )proc->lres--;
-    if( proc->lres == (count_t)0 )proc->flags &= ~PROC_FLG_HOLD;
+    if( proc->lres == (count_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
 #endif
 }
 
