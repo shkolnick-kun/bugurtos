@@ -99,7 +99,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
     {
         proc->flags &= ~PROC_FLG_IPCW;
         ///Обработка флага останова целевого процесса
-        if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+        if(  ( proc->flags & PROC_FLG_PRE_STOP ) && (!(proc->flags & PROC_FLG_MUTEX))  )
         {
             /*
             Если был запрошен останов целевого процесса,
@@ -107,7 +107,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
             то мы не будем возобновлять его работу
             и передавать ему информацию.
             */
-            proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+            proc->flags &= ~(PROC_FLG_PRE_STOP|PROC_FLG_RUN);
             goto end;
         }
         ret = (bool_t)1; // информация будет передана
@@ -127,7 +127,7 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
     {
         proc->flags &= ~PROC_FLG_IPCW;
         ///Обработка флага останова целевого процесса
-        if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+        if(  ( proc->flags & PROC_FLG_PRE_STOP ) && (!(proc->flags & PROC_FLG_MUTEX))  )
         {
             /*
             Если был запрошен останов целевого процесса,
@@ -135,7 +135,7 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
             то мы не будем возобновлять его работу
             и передавать ему информацию.
             */
-            proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+            proc->flags &= ~(PROC_FLG_PRE_STOP|PROC_FLG_RUN);
             goto end;
         }
         ret = (bool_t)1; // информация будет передана

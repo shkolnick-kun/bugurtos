@@ -298,7 +298,7 @@ void sched_reschedule(
 #ifdef CONFIG_MP
 //========================================================================================
 // Балансировщик нагрузки
-core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
+WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
 {
     core_id_t core = (core_id_t)0, ret;
     affinity_t mask = (affinity_t)1;
@@ -335,7 +335,7 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
 }
 //----------------------------------------------------------------------------------------
 //Поиск самой нагруженной структуры stat_t в массиве
-core_id_t sched_highest_load_core( stat_t * stat )
+WEAK core_id_t sched_highest_load_core( stat_t * stat )
 {
     // Начальное предположение
     load_t max_load;
