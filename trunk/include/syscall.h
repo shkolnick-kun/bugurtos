@@ -109,10 +109,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_MUTEX_TRY_LOCK                  (SYSCALL_MUTEX_LOCK + (syscall_t)(1))           /*!< Попытка захвата мьютекса. */
 #define SYSCALL_MUTEX_UNLOCK                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))       /*!< Освобождение мьютекса. */
 
-#define SYSCALL_IPC_WAIT_P                      (SYSCALL_MUTEX_UNLOCK + (syscall_t)(1))         /*!< Ожидание передачи указателя. */
-#define SYSCALL_IPC_WAIT_D                      (SYSCALL_IPC_WAIT_P + (syscall_t)(1))           /*!< Ожидание передачи данных. */
-#define SYSCALL_IPC_SEND_P                      (SYSCALL_IPC_WAIT_D + (syscall_t)(1))           /*!< Передача указателя. */
-#define SYSCALL_IPC_SEND_D                      (SYSCALL_IPC_SEND_P + (syscall_t)(1))           /*!< Передача данных. */
+#define SYSCALL_IPC_WAIT                        (SYSCALL_MUTEX_UNLOCK + (syscall_t)(1))         /*!< Ожидание передачи данных. */
+#define SYSCALL_IPC_SEND                        (SYSCALL_IPC_WAIT + (syscall_t)(1))             /*!< Передача данных. */
+#define SYSCALL_IPC_EXCHANGE                    (SYSCALL_IPC_SEND + (syscall_t)(1))             /*!< Обмен данными. */
 
 /*!
 \brief
@@ -411,56 +410,48 @@ void scall_mutex_unlock(void * arg);
 /*                                     IPC                                               */
 /*!
 \brief
-Параметр системного вызова #SYSCALL_IPC_SEND_D.
+Параметр системного вызова #SYSCALL_IPC_SEND.
 */
 typedef struct {
     proc_t * proc;  /*!< указатель на процесс-адресат. */
     bool_t ret;     /*!< хранилище результата выполнения операции. */
     ipc_data_t data;/*!< данные для передачи. */
-} ipc_send_data_arg_t;
+} ipc_send_arg_t;
 /*!
 \brief
-Параметр системного вызова #SYSCALL_IPC_SEND_P.
+Параметр системного вызова #SYSCALL_IPC_SEND.
 */
 typedef struct {
-    proc_t * proc;  /*!< указатель на процесс-адресат. */
-    bool_t ret;     /*!< хранилище результата выполнения операции. */
-    void * pointer; /*!< указатель для передачи. */
-} ipc_send_pointer_arg_t;
+    ipc_send_arg_t send;
+    ipc_data_t * receive;
+} ipc_exchange_arg_t;
 /*!
 \brief
-Обработчик вызова #SYSCALL_IPC_WAIT_P.
-
-Переводит вызывающий процесс в состояние ожидания получения указателя через IPC. Вызывает #_ipc_wait.
-
-\param arg указатель на хранилище для передачи указателя.
-*/
-void scall_ipc_wait_pointer(void * arg);
-/*!
-\brief
-Обработчик вызова #SYSCALL_IPC_WAIT_D.
+Обработчик вызова #SYSCALL_IPC_WAIT.
 
 Переводит вызывающий процесс в состояние ожидания получения данных через IPC. Вызывает #_ipc_wait.
 
 \param arg указатель на хранилище для передачи данных.
 */
-void scall_ipc_wait_data(void * arg);
+void scall_ipc_wait(void * arg);
 /*!
 \brief
-Обработчик вызова #SYSCALL_IPC_SEND_P.
+Обработчик вызова #SYSCALL_IPC_SEND.
 
-Вызывает #ipc_send_pointer_isr.
-
-\param arg указатель на аргумент типа #ipc_send_pointer_arg_t.
-*/
-void scall_ipc_send_pointer(void * arg);
-/*!
-\brief
-Обработчик вызова #SYSCALL_IPC_SEND_D.
-
-Вызывает #ipc_send_data_isr.
+Вызывает #ipc_send_isr.
 
 \param arg указатель на аргумент типа #ipc_send_data_arg_t.
 */
-void scall_ipc_send_data(void * arg);
+void scall_ipc_send(void * arg);
+
+
+/*!
+\brief
+Обработчик вызова #SYSCALL_IPC_EXCHANGE.
+
+Вызывает #_ipc_exchange.
+
+\param arg указатель на аргумент типа #ipc_send_data_arg_t.
+*/
+void scall_ipc_exchange( void * arg );
 #endif // _SYSCALL_H_

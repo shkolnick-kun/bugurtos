@@ -77,13 +77,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-void _ipc_wait( flag_t wait_flag, void * ipc_pointer )
+void _ipc_wait( void * ipc_pointer )
 {
     proc_t * proc;
     proc = current_proc();
     SPIN_LOCK( proc );
     // Останавливаем процесс
-    proc->flags |= wait_flag;
+    proc->flags |= PROC_FLG_IPCW;
     proc->ipc = ipc_pointer;
     _proc_stop_( proc );
     RESCHED_PROC( proc );
@@ -91,41 +91,13 @@ void _ipc_wait( flag_t wait_flag, void * ipc_pointer )
     SPIN_UNLOCK( proc );
 }
 
-bool_t ipc_send_pointer_isr( proc_t * proc, void * pointer )
+bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
 {
     bool_t ret = (bool_t)0;
     SPIN_LOCK( proc );
-    if( proc->flags & PROC_FLG_IPCW_P )
+    if( proc->flags & PROC_FLG_IPCW )
     {
-        proc->flags &= ~PROC_FLG_IPCW_P;
-        ///Обработка флага останова целевого процесса
-        if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
-        {
-            /*
-            Если был запрошен останов целевого процесса,
-            и целевой процесс не удерживает общие ресурсы,
-            то мы не будем возобновлять его работу
-            и передавать ему указатель.
-            */
-            proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
-            goto end;
-        }
-        ret = (bool_t)1; // информация будет передана
-        *(void **)proc->ipc = pointer;
-        _proc_run( proc );
-    }
-end:
-    SPIN_UNLOCK( proc );
-    return ret;
-}
-
-bool_t ipc_send_data_isr( proc_t * proc, ipc_data_t data )
-{
-    bool_t ret = (bool_t)0;
-    SPIN_LOCK( proc );
-    if( proc->flags & PROC_FLG_IPCW_D )
-    {
-        proc->flags &= ~PROC_FLG_IPCW_D;
+        proc->flags &= ~PROC_FLG_IPCW;
         ///Обработка флага останова целевого процесса
         if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
         {
@@ -147,3 +119,31 @@ end:
     return ret;
 }
 
+bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
+{
+    bool_t ret = (bool_t)0;
+    SPIN_LOCK( proc );
+    if( proc->flags & PROC_FLG_IPCW )
+    {
+        proc->flags &= ~PROC_FLG_IPCW;
+        ///Обработка флага останова целевого процесса
+        if(  ( proc->flags & PROC_FLG_PRE_END ) && (!(proc->flags & PROC_FLG_HOLD))  )
+        {
+            /*
+            Если был запрошен останов целевого процесса,
+            и целевой процесс не удерживает общие ресурсы,
+            то мы не будем возобновлять его работу
+            и передавать ему информацию.
+            */
+            proc->flags &= ~(PROC_FLG_PRE_END|PROC_FLG_RUN);
+            goto end;
+        }
+        ret = (bool_t)1; // информация будет передана
+        *(ipc_data_t *)proc->ipc = send;
+        _ipc_wait( receive ); // Готовимся к приему данных!
+        _proc_run( proc );   // И только после этого запускаем процесс-адресат!
+    }
+end:
+    SPIN_UNLOCK( proc );
+    return ret;
+}
