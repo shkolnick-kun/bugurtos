@@ -80,9 +80,61 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _PROC_H_
 /*!
 \file
+\~russian
 \brief Заголовок процессов.
+\~english
+\brief A process header.
 */
 
+/*!
+\~russian
+
+\def PROC_LRES_INIT(a)
+\brief Макрос-обертка.
+
+Инициирует поле proc->lres процесса.
+
+\param a указатель на процесс.
+
+\def PROC_LRES_INC(a,b)
+\brief Макрос-обертка.
+
+Инкремент счетчика захваченных мьютексов.
+
+\param a указатель на процесс.
+\param b приоритет захваченного мьютекса, если используется протокол highest locker.
+
+\def PROC_LRES_DEC(a,b)
+\brief Макрос-обертка.
+
+Декремент счетчика захваченных мьютексов.
+
+\param a указатель на процесс.
+\param b приоритет захваченного мьютекса, если используется протокол highest locker.
+
+\def PROC_PRIO_CONTROL_RUNNING(a)
+\brief Макрос-обертка.
+
+Управление приоритетом запущенного процесса.
+В случае использования протокола highest locker приводит
+поле proc->group->prio в соответствие с полем proc-lres,
+иначе - пустой макрос.
+
+\param a указатель на процесс.
+
+\def PROC_PRIO_CONTROL_STOPED(a)
+\brief Макрос-обертка.
+
+Управление приоритетом остановленного процесса.
+В случае использования протокола highest locker приводит
+поле proc->group->prio в соответствие с полем proc-lres,
+иначе - пустой макрос.
+
+\param a указатель на процесс.
+
+\~english
+
+*/
 #ifdef CONFIG_USE_HIGHEST_LOCKER
 
 #define PROC_LRES_INIT(a) pcounter_init(&a->lres)
@@ -374,11 +426,11 @@ void _proc_stop_(proc_t * proc);
 void _proc_stop(proc_t * proc);
 
 /*!
-\brief Останов процесса по флагу #PROC_FLG_PRE_END из критической секции или обработчика прерывания, для внутреннего использования.
+\brief Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования.
 */
 void _proc_flag_stop( flag_t mask );
 /*!
-\brief Останов процесса по флагу #PROC_FLG_PRE_END.
+\brief Останов процесса по флагу #PROC_FLG_PRE_STOP.
 */
 void proc_flag_stop( flag_t mask );
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования

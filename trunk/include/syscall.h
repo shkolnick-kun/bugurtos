@@ -236,7 +236,7 @@ void scall_proc_terminate( void * arg );
 \brief
 Обработчик вызова #SYSCALL_PROC_FLAG_STOP.
 
-Пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_END, обнуляет флаги, заданные маской.
+Пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP, обнуляет флаги, заданные маской.
 Вызывает #_proc_flag_stop.
 
 \param arg указатель на маску обнуления флагов процесса.
@@ -440,7 +440,7 @@ void scall_ipc_wait(void * arg);
 
 Вызывает #ipc_send_isr.
 
-\param arg указатель на аргумент типа #ipc_send_data_arg_t.
+\param arg указатель на аргумент типа #ipc_send_arg_t.
 */
 void scall_ipc_send(void * arg);
 
@@ -451,7 +451,7 @@ void scall_ipc_send(void * arg);
 
 Вызывает #_ipc_exchange.
 
-\param arg указатель на аргумент типа #ipc_send_data_arg_t.
+\param arg указатель на аргумент типа #ipc_send_arg_t.
 */
 void scall_ipc_exchange( void * arg );
 #endif // _SYSCALL_H_

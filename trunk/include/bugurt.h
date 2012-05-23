@@ -216,55 +216,90 @@ A wrapper for #resched function.
 #ifdef CONFIG_MP
 
 /*!
+\~russian
 \brief
 Инициализация спин-блокировки на многопроцессорной системе.
 
 Инициализация спин-блокировки на многопроцессорной системе.
 
 \param lock Указатель на спин-блокировку.
+\~english
+\brief
+Spin-lock initialization for MP system.
+
+Spin-lock initialization for MP system.
+\param lock a pointer to a spin-lock
 */
 extern void spin_init(lock_t * lock);
 
 /*!
+\~russian
 \brief
 Захват спин-блокировки на многопроцессорной системе.
 
 Захват спин-блокировки на многопроцессорной системе.
 
 \param lock Указатель на спин-блокировку.
+\~english
+\brief
+Lock spin-lock on MP system.
+
+Lock spin-lock on MP system.
+\param lock a pointer to a spin-lock
 */
 extern void spin_lock(lock_t * lock);
 
 /*!
+\~russian
 \brief
 Освобождение спин-блокировки на многопроцессорной системе.
 
 Освобождение спин-блокировки на многопроцессорной системе.
 
 \param lock Указатель на спин-блокировку.
+\~english
+\brief
+Unlock spin-lock on MP system.
+
+Unlock spin-lock on MP system.
+\param lock a pointer to a spin-lock
 */
 extern void spin_unlock(lock_t * lock);
 
 /*!
+\~russian
 \brief
-Возвращает id процессорного ядра, на котором исполняется.
+Возвращает id процессорного ядра.
 
 Возвращает id процессорного ядра, на котором исполняется.
+\~english
+\brief
+Returns processor core id.
+
+This function returns an id of a processor core on which it is run.
 */
 extern core_id_t current_core(void);
 
 // Доступ к объектам типа stat_t должен быть атомарным!!!
-
+// A stat_t access must be atomic!!!
 /*!
+\~russian
 \brief
 Инициализция статистики
 
 Инициализирует структуру stat_t, в которой хранится статистика.
 
 \param stat Указатель на структуру статистики.
+\~english
+\brief
+Statistic initialization.
+
+Initiates a stat_t structure, in whitch processor core load information is stored.
+\param stat a pointer to a stat_t structure.
 */
 extern void stat_init(stat_t * stat);
 /*!
+\~russian
 \brief
 Обновление статистики при запуске процесса/ всатвки процесса в очередь сигнала.
 
@@ -272,9 +307,17 @@ extern void stat_init(stat_t * stat);
 
 \param proc Указатель на процесс.
 \param stat Указатель на структуру статистики.
+\~english
+\brief
+Statistic update on load increase.
+
+Statistic increase on a process run or a process insert to a signal wait list.
+\param proc a pointer to a process.
+\param stat a pointer to a stat_t structure.
 */
 extern void stat_inc(proc_t * proc, stat_t * stat);
 /*!
+\~russian
 \brief
 Обновление статистики при останове процесса/ удаления процесса из очереди сигнала.
 
@@ -282,9 +325,17 @@ extern void stat_inc(proc_t * proc, stat_t * stat);
 
 \param proc Указатель на процесс.
 \param stat Указатель на структуру статистики.
+\~english
+\brief
+Statistic update on load decrease.
+
+Statistic update on a process stop or a process cut from a signal wait list.
+\param proc a pointer to a process.
+\param stat a pointer to a stat_t structure.
 */
 extern void stat_dec(proc_t * proc, stat_t * stat);
 /*!
+\~russian
 \brief
 Перенос статистики.
 
@@ -292,9 +343,18 @@ extern void stat_dec(proc_t * proc, stat_t * stat);
 
 \param src_stat Указатель на структуру статистики сигнала.
 \param dst_stat Указатель на структуру статистики Ядра.
+\~english
+\brief
+Statistic merge.
+
+Updates Kernel and a signal statistic when signal wait list is merged with scheduler ready process list.
+
+\param src_stat a pointer to a signal statistic structure.
+\param dst_stat a pointer to a Kernel statistic structure.
 */
 extern void stat_merge(stat_t * src_stat, stat_t * dst_stat);
 /*!
+\~russian
 \brief
 Расчет нагрузки.
 
@@ -303,53 +363,95 @@ extern void stat_merge(stat_t * src_stat, stat_t * dst_stat);
 \param prio Приоритет процесса, для которого считаем нагрузку.
 \param stat Указатель на структуру статистики Ядра.
 \return Текущую оценку нагрузки на процессорном ядре, за которое отвечает stat.
+\~english
+Load calculation.
+
+Processor core load calculation.
+
+\param prio a priority of a process for which we want to compute a load.
+\param stat a pointer to a Kernel statistic structure.
+\return current estimation of the core load.
 */
 extern load_t stat_calc_load(prio_t prio, stat_t * stat);
 /*!
+\~russian
 \brief
 Перепланировка.
 
 Запускает перепланировку на одном из процессорных ядер.
 
 \param core_id ID ядра, на котором надо перепланировать исполнение процессов.
+\~english
+\brief
+Rescheduling.
+
+Launces a reschedule sequence on one of the processor cores of the system.
+
+\param core_id a processor core id.
 */
 extern void resched(core_id_t core_id);
 #else
 
 /*!
+\~russian
 \brief
 Перепланировка.
 
-Запускает перепланировку, точнее генерирует программное прерывание, боработчик которого перепланирует выполнение процессов.
+Запускает перепланировку.
+\~english
+\brief
+Rescheduling.
+
+Launces a reschedule sequence.
 */
 extern void resched(void);
 #endif // CONFIG_MP
 
 /*!
+\~russian
 \brief
 Запрет прерываний.
 
 Глобальный запрет прерываний на системе.
+\~english
+\brief
+Interrupt disable.
+
+Disables interrupts globally.
 */
 extern void disable_interrupts(void);
 /*!
+\~russian
 \brief
 Разрешение прерываний.
 
 Глобальное разрешение прерываний на системе.
+\~english
+\brief
+Interrupt enable.
+
+Enables interrupts globally.
 */
 extern void enable_interrupts(void);
 
 /*!
+\~russian
 \brief
 Текущий процесс.
 
 Текущий процесс.
 \return Указатель на текущий процесс, исполняемый на локальном процессре.
+\~english
+\brief
+Current process.
+
+Current process.
+\return a pointer to a current process on a local processor core.
 */
 extern proc_t * current_proc(void);
 
 /*!
+\~russian
 \brief
 Инициализация стека процесса.
 
@@ -358,23 +460,47 @@ extern proc_t * current_proc(void);
 \param code Функция, которая будет вызвана после восстановления контекста.
 \param arg Аргумент вызываемой функции.
 \return Указатель на вершину подготовленного стека.
+\~english
+\brief
+A process stack initialization.
+
+This function prepares a process stack for running a process.
+It treats a pocess stack in such a way that code(arg) is called when a process context is restored from a process stack.
+
+\param sstart a process stack bottom.
+\param code a poiter to a function to call.
+\param arg an argument to a function to call.
+\return a pointer to a prepared process stack top.
 */
 extern stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg);
 /*!
+\~russian
 \brief
 Инициализация Ядра.
 
 Подготовка Ядра к запуску.
+\~english
+\brief
+The Kernel initiation.
+
+Initiates the Kernel before the OS start.
 */
 extern void init_bugurt(void);
 /*!
+\~russian
 \brief
 Запуск Ядра.
 
 Запуск Ядра. После вызова этой функции можно ничего не писать - всеравно исполняться не будет.
+\~english
+\brief
+The OS start.
+
+The OS start. It is not necessary to write any code after call of this function, because such a code won't be run normally.
 */
 extern void start_bugurt(void);
 /*!
+\~russian
 \brief
 Системный вызов.
 
@@ -386,6 +512,18 @@ extern void start_bugurt(void);
 
 \param num номер системного вызова (что именно надо выполнить).
 \param arg аргумент системного вызова (над чем это надо выполнить).
+\~english
+\brief
+A system call.
+
+This function switches a processor core from a process context to the kernel context.
+The kernel code is allways run in the kernel context. This is done to save memory in process stacks.
+A system calls are done on every operations with processes, mutexes, semaphores and signals.
+The Kernel does all of this job.
+
+
+\param num a number of a system call (what is going to be done).
+\param arg a system call argument (a pointer to an object to be processed).
 */
 extern void syscall_bugurt( syscall_t num, void * arg );
 
