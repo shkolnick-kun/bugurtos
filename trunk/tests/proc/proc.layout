@@ -34,11 +34,11 @@
 	<File name="../../kernel/proc.c" open="1" top="0" tabpos="2">
 		<Cursor position="8649" topLine="144" />
 	</File>
-	<File name="../../kernel/sched.c" open="0" top="0" tabpos="4">
+	<File name="../../kernel/sched.c" open="1" top="0" tabpos="4">
 		<Cursor position="6117" topLine="0" />
 	</File>
-	<File name="../../kernel/sem.c" open="1" top="0" tabpos="1">
-		<Cursor position="6516" topLine="91" />
+	<File name="../../kernel/sem.c" open="0" top="0" tabpos="1">
+		<Cursor position="7754" topLine="0" />
 	</File>
 	<File name="../../kernel/sig.c" open="1" top="0" tabpos="2">
 		<Cursor position="6253" topLine="121" />

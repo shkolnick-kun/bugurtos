@@ -14,12 +14,12 @@
 		<Cursor position="16987" topLine="272" />
 	</File>
 	<File name="../../include/sched.h" open="1" top="0" tabpos="1">
-		<Cursor position="0" topLine="84" />
+		<Cursor position="0" topLine="129" />
 	</File>
-	<File name="../../include/sem.h" open="0" top="0" tabpos="1">
+	<File name="../../include/sem.h" open="1" top="0" tabpos="1">
 		<Cursor position="7453" topLine="104" />
 	</File>
-	<File name="../../include/sig.h" open="0" top="0" tabpos="5">
+	<File name="../../include/sig.h" open="1" top="0" tabpos="5">
 		<Cursor position="7619" topLine="174" />
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">

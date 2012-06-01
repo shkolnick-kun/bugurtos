@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="13623" topLine="450" />
+	</File>
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="8781" topLine="199" />
+	</File>
+	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
+		<Cursor position="6204" topLine="77" />
+	</File>
+	<File name="../../include/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="8348" topLine="108" />
+	</File>
+	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="21502" topLine="434" />
+	</File>
 	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6270" topLine="85" />
 	</File>
@@ -14,7 +29,7 @@
 		<Cursor position="6962" topLine="99" />
 	</File>
 	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="7270" topLine="126" />
+		<Cursor position="7213" topLine="96" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="6860" topLine="78" />
@@ -23,25 +38,25 @@
 		<Cursor position="6335" topLine="110" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="6149" topLine="171" />
+		<Cursor position="9007" topLine="168" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="6145" topLine="99" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="11940" topLine="205" />
+		<Cursor position="11052" topLine="431" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="6253" topLine="333" />
+		<Cursor position="17803" topLine="244" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="7426" topLine="127" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="6354" topLine="57" />
+		<Cursor position="6354" topLine="186" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="21494" topLine="468" />
+		<Cursor position="14560" topLine="313" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="7348" topLine="106" />
@@ -49,7 +64,7 @@
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6369" topLine="54" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="0">
+	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1312" topLine="60" />
 	</File>
 </CodeBlocks_layout_file>
