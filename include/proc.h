@@ -127,12 +127,55 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 Управление приоритетом остановленного процесса.
 В случае использования протокола highest locker приводит
-поле proc->group->prio в соответствие с полем proc-lres,
+поле proc->group->prio в соответствие с полем proc->lres,
 иначе - пустой макрос.
 
 \param a указатель на процесс.
 
 \~english
+
+\def PROC_LRES_INIT(a)
+\brief Wrapper macro.
+
+Initiates proc->lres field of a process.
+
+\param a a pointer to a process.
+
+\def PROC_LRES_INC(a,b)
+\brief Wrapper macro.
+
+An increment of locked mutex counter field of a process.
+
+\param a a pointer to a process.
+\param b a priority of a locked mutex for highest locker protocol.
+
+\def PROC_LRES_DEC(a,b)
+\brief Wrapper macro.
+
+A decrement of locked mutex counter field of a process.
+
+\param a a pointer to a process.
+\param b a priority of a locked mutex for highest locker protocol.
+
+\def PROC_PRIO_CONTROL_RUNNING(a)
+\brief Wrapper macro.
+
+Running process priority control.
+If highest locker protocol is used,
+then this macro computes a proc->group->prio using proc->lres field,
+else this macro does nothing.
+
+\param a a pointer to a process.
+
+\def PROC_PRIO_CONTROL_STOPED(a)
+\brief Wrapper macro.
+
+Stoped process priority control.
+If highest locker protocol is used,
+then this macro computes a proc->group->prio using proc->lres field,
+else this macro does nothing.
+
+\param a a pointer to a process.
 
 */
 #ifdef CONFIG_USE_HIGHEST_LOCKER
@@ -159,6 +202,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 typedef struct _proc_t proc_t;
 // Свойства
 /*!
+\~russian
 \brief Процесс.
 
 В разных ОС это называется по разному: процесс, поток, задача и пр., суть такова: это независимый поток исполнения инструкций процессора.
@@ -167,36 +211,51 @@ typedef struct _proc_t proc_t;
 
 Можно использовать 1 функцию pmain для нескольких процессов, каждый запущенный экземпляр pmain не зависит от других, но есть одно но.
 \warning Осторожно со статическими переменными, они будут общими для всех запущенных экземпляров,  доступ к ним необходимо организовывать только с помощью средств синхронизации процессов.
+
+\~english
+\brief A process.
+
+There are many OSes, so It may be called a process, a thread, a task etc.
+The point of all these names is: independent sequence of CPU instructions.
+
+So a process is a part of your program, that has its own "main" routine (stored in pmain field of #proc_t object).
+A process "main" routine can be written in a way as if there were no other processes!
+
+It's possible to use one "main" routine for many processes, as differents processes are independent, but you have to remember one thing aboun static variables in such "main" routine.
+
+\warning
+Be carefull with static variables, these variables are common for all processes sharing one routine!
+You must access such static variables using process synchronization facilities.
 */
 struct _proc_t
 {
-    gitem_t parent;     /*!< Родитель - gitem. */
-    flag_t flags;       /*!< Флаги (для ускорения анализа состояния процесса). */
+    gitem_t parent;     /*!<\~russian Родитель - #gitem_t. \~english A parent is #gitem_t.*/
+    flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    prio_t base_prio;     /*!< Базовый приоритет. */
-    pcounter_t lres;     /*!< Счетчик захваченных ресурсов. */
+    prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
+    pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
 #else
-    count_t lres;       /*!< Счетчик захваченных ресурсов. */
+    count_t lres;       /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
 #endif
-    timer_t time_quant; /*!< Квант времени процесса. */
-    timer_t timer;      /*!< Таймер процесса, для процессов жесткого реального времени используется как watchdog. */
+    timer_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
+    timer_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
 
 #ifdef CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
-    core_id_t core_id;      /*!< Идентификатор процессора, на котором исполняется процесс. */
-    affinity_t affinity;    /*!< Аффинность (индекс процессоров, на котором может исполняться процесс). */
-    lock_t lock;            /*!< Спин блокировка процесса. */
+    core_id_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
+    affinity_t affinity;    /*!<\~russian  Аффинность (индекс процессоров, на котором может исполняться процесс). \~english An Affinity of a process.*/
+    lock_t lock;            /*!<\~russian  Спин блокировка процесса. \~english  A process spin-lock.*/
 #endif
 
-    code_t pmain;       /*!< Главная функция процесса. */
-    code_t sv_hook;     /*!< Хук, исполняется планировщиком после сохранения контекста процесса. */
-    code_t rs_hook;     /*!< Хук, исполняется планировщиком перед восстановлением контекста процесса. */
-    void * arg;         /*!< Аргумент для pmain, sv_hook, rs_hook, может хранить ссылку на локальные данные конкретного экземпляра процесса. */
+    code_t pmain;       /*!<\~russian  Главная функция процесса. \~english A pointer to a process "main" routine.*/
+    code_t sv_hook;     /*!<\~russian  Хук, исполняется планировщиком после сохранения контекста процесса. \~english A context save hook, it is run after saving a process context.*/
+    code_t rs_hook;     /*!<\~russian  Хук, исполняется планировщиком перед восстановлением контекста процесса. \~english  A context restore hook, it is run before restoring a process context.*/
+    void * arg;         /*!<\~russian  Аргумент для pmain, sv_hook, rs_hook, может хранить ссылку на локальные данные конкретного экземпляра процесса. \~english An argument for pmain, sv_hook, rs_hook, may be used to store process local data.*/
 
-    void * ipc;         /*!< Указатель на хранилище для передачи данных через IPC */
+    void * ipc;         /*!<\~russian  Указатель на хранилище для передачи данных через IPC. \~english A pointer to process IPC data storage.*/
 
-    stack_t * sstart;   /*!< Указатель на дно стека экземпляра процесса. */
-    stack_t * spointer; /*!< Указатель на вершину стека экземпляра процесса. */
+    stack_t * sstart;   /*!<\~russian  Указатель на дно стека экземпляра процесса. \~english A process stack bottom pointer.*/
+    stack_t * spointer; /*!<\~russian Указатель на вершину стека экземпляра процесса. \~english A process stack top pointer.*/
 };
 /*
 Порядок захвата блокировок:
@@ -206,70 +265,128 @@ struct _proc_t
 */
 // Флаги
 /*!
+\~russian
 \brief Флаг реального времени.
 
 Для этого процесса используется политика планирования жесткого реального времени.
+\~english
+\brief A real time flag.
+
+This flag enables real time process scheduling policy.
 */
 #define PROC_FLG_RT         ((flag_t)1)
 /*!
+\~russian
 \brief Флаг запущен.
 
 Процесс исполняется или готов к исполнению.
+\~english
+\brief A process launch flag.
+
+A process has been launched.
 */
 #define PROC_FLG_RUN        ((flag_t)2)
 /*!
+\~russian
 \brief Флаг захвата мьютексов.
 
 Процесс удерживает мьютекс.
+\~english
+\brief A mutex lock flag.
+
+A process has locked some mutex controled resources.
 */
 #define PROC_FLG_MUTEX       ((flag_t)4)
 /*!
+\~russian
 \brief Флаг захвата семафора.
 
 Выставляется при вызове #sem_lock и при удачном вызове #sem_try_lock.
 Обнулять необходимо вручную, при освобождении общего ресурса, охраняемого семафором.
 Обнуляется вызовом #proc_flag_stop.
+\~english
+\brief A semaphore lock flag.
+
+It is set on #sem_lock call or on succesfull #sem_try_lock call.
+It is necessary to clear this flag manually, when semaphore controled resource is released.
+Use #proc_flag_stop call to clear this flag.
 */
 #define PROC_FLG_SEM      ((flag_t)8)
 /*!
+\~russian
 \brief Флаг постановки в список ожидания.
 
 Процесс стоит в списке ожидающих захвата семафора или мьютекса.
+\~english
+\brief A queue flag.
+
+A process is waiting for semaphore or mutex release.
 */
 #define PROC_FLG_QUEUE      ((flag_t)16)
 /*!
+\~russian
 \brief Флаг постановки в список ожидания сигнала.
 
 Процесс стоит в списке ожидающих сигнал.
+\~english
+\brief A signal wait flag.
+
+A process is waiting for signal.
 */
 #define PROC_FLG_WAIT       ((flag_t)32)
 /*!
+\~russian
 \brief Флаг ожидания передачи данных через IPC.
 
 Показывает, что процесс ждет передачи данных через IPC.
+\~english
+\brief An IPC wait flag.
+
+A process is waiting for data.
 */
 #define PROC_FLG_IPCW       ((flag_t)64)
 
 /*!
+\~russian
 \brief Флаг запроса останова.
 
 Произошел запрос на останов процесса. Процесс будет остановлен при первой же возможности.
+\~english
+\brief A proces stop preparation flag.
+
+A process must be stoped, but it can't be stoped now. It'll be stoped when possible.
 */
 #define PROC_FLG_PRE_STOP    ((flag_t)128)
 /*!
+\~russian
 \brief Окончания работы.
 
 Процесс завершился - произошел возврат из pmain.
+\~english
+\brief A process end flag.
+
+A process "main" routine returned, a process has been terminated normally.
 */
 #define PROC_FLG_END        ((flag_t)256)
 /*!
+\~russian
 \brief Флаг останова по watch_dog.
+\~english
+\brief A watchdog stop flag.
+
+A real time process failed to reset its watchdog, it has been tertminated.
 */
 #define PROC_FLG_WD_STOP    ((flag_t)512)
 /*!
+\~russian
 \brief Флаг "мертвого" процесса.
 
 Процесс выполнил недопустимую операцию и был "убит", раньше надо было думать.
+\~english
+\brief A "dead" process flag.
+
+A process "main" routine returned, but process hadn't released some mutex controled resources.
+A process has been terminated abnormally.
 */
 #define PROC_FLG_DEAD       ((flag_t)1024)
 
