@@ -385,15 +385,19 @@ void _proc_lazy_load_balancer(core_id_t object_core)
     sched = (sched_t *)kernel.sched + object_core;
 
     //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
+    disable_interrupts();
     SPIN_LOCK( sched );
     if(sched->expired->index == (index_t)0)
     {
         SPIN_UNLOCK( sched );
+        enable_interrupts();
         return;
     }
     proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
     SPIN_UNLOCK( sched );
+    enable_interrupts();
 
+    disable_interrupts();
     SPIN_LOCK( proc );
     // Пока захватывалась блокировка процесса, его могли остановить, подстраховываемся.
     if( proc->flags & PROC_FLG_RUN )
@@ -422,15 +426,17 @@ void _proc_lazy_load_balancer(core_id_t object_core)
         SPIN_UNLOCK( sched );
     }
     SPIN_UNLOCK( proc );
+    enable_interrupts();
 }
 void _proc_global_lazy_load_balancer(void)
 {
     core_id_t object_core;
     // Поиск самого нагруженного процессора
+    disable_interrupts();
     spin_lock( &kernel.stat_lock );
     object_core = sched_highest_load_core( (stat_t *)kernel.stat );
     spin_unlock( &kernel.stat_lock );
-
+    enable_interrupts();
     // Перенос нагрузки на самый не нагруженный процессор
     _proc_lazy_load_balancer( object_core );
 }
@@ -438,17 +444,11 @@ void _proc_global_lazy_load_balancer(void)
 // Локальный
 void proc_lazy_local_load_balancer(void)
 {
-    core_id_t current_core;
-    current_core = _enter_crit_sec();
-    _proc_lazy_load_balancer( current_core );
-    _exit_crit_sec( current_core );
+    _proc_lazy_load_balancer( current_core() );
 }
 // Глобальный
 void proc_lazy_global_load_balancer(void)
 {
-    core_id_t current_core;
-    current_core = _enter_crit_sec();
     _proc_global_lazy_load_balancer();
-    _exit_crit_sec( current_core );
 }
 #endif // CONFIG_MP CONFIG_USE_ALB

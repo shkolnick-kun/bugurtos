@@ -221,7 +221,7 @@ The point of all these names is: independent sequence of CPU instructions.
 So a process is a part of your program, that has its own "main" routine (stored in pmain field of #proc_t object).
 A process "main" routine can be written in a way as if there were no other processes!
 
-It's possible to use one "main" routine for many processes, as differents processes are independent, but you have to remember one thing aboun static variables in such "main" routine.
+It's possible to use one "main" routine for many processes, as differents processes are independent, but you have to remember one thing about static variables in such "main" routine.
 
 \warning
 Be carefull with static variables, these variables are common for all processes sharing one routine!
@@ -374,7 +374,7 @@ A process "main" routine returned, a process has been terminated normally.
 \~english
 \brief A watchdog stop flag.
 
-A real time process failed to reset its watchdog, it has been tertminated.
+A real time process failed to reset its watchdog, it has been tertminated due to abnormall behavior.
 */
 #define PROC_FLG_WD_STOP    ((flag_t)512)
 /*!
@@ -386,202 +386,288 @@ A real time process failed to reset its watchdog, it has been tertminated.
 \brief A "dead" process flag.
 
 A process "main" routine returned, but process hadn't released some mutex controled resources.
-A process has been terminated abnormally.
+A process has been terminated due to abnormall behavior.
 */
 #define PROC_FLG_DEAD       ((flag_t)1024)
 
 
 // Методы
 /*!
-\brief Инициализация процесса из обработчика прерывания, либо из критической секции.
+\brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
 void proc_init_isr(
-    proc_t * proc,      /*!<Указатель на инициируемый процесс.*/
-    code_t pmain,       /*!<Указатель на главную функцию процесса.*/
-    code_t sv_hook,     /*!<Указатель на хук proc->sv_hook.*/
-    code_t rs_hook,     /*!<Указатель на хук proc->rs_hook.*/
-    void * arg,         /*!<Указатель на аргумент.*/
-    stack_t *sstart,    /*!<Указатель на дно стека процесса.*/
-    prio_t prio,        /*!<Приоритет.*/
-    timer_t time_quant, /*!<Квант времени.*/
-    bool_t is_rt        /*!Флаг реального времени, если true, значит процесс будет иметь поведение RT.*/
+    proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A ponter to a initialized process.*/
+    code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
+    code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
+    code_t rs_hook,     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*/
+    void * arg,         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
+    stack_t *sstart,    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
+    prio_t prio,        /*!< \~russian Приоритет. \~english A process priority.*/
+    timer_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
+    bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If frue, then a process is scheduled in a real time manner.*/
 #ifdef CONFIG_MP
-    ,affinity_t affinity/*!<Афинность.*/
+    ,affinity_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
 #endif // CONFIG_MP
 );
 /*!
-\brief Инициализация процесса.
+\brief \~russian Инициализация процесса. \~english A process initialization.
 */
 void proc_init(
-    proc_t * proc,      /*!<Указатель на инициируемый процесс.*/
-    code_t pmain,       /*!<Указатель на главную функцию процесса.*/
-    code_t sv_hook,     /*!<Указатель на хук proc->sv_hook.*/
-    code_t rs_hook,     /*!<Указатель на хук proc->rs_hook.*/
-    void * arg,         /*!<Указатель на аргумент.*/
-    stack_t *sstart,    /*!<Указатель на дно стека процесса.*/
-    prio_t prio,        /*!<Приоритет.*/
-    timer_t time_quant, /*!<Квант времени.*/
-    bool_t is_rt        /*!Флаг реального времени, если true, значит процесс будет иметь поведение RT.*/
+    proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A ponter to a initialized process.*/
+    code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
+    code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
+    code_t rs_hook,     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*/
+    void * arg,         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
+    stack_t *sstart,    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
+    prio_t prio,        /*!< \~russian Приоритет. \~english A process priority.*/
+    timer_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
+    bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If frue, then a process is scheduled in a real time manner.*/
 #ifdef CONFIG_MP
-    ,affinity_t affinity/*!<Афинность.*/
+    ,affinity_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
 #endif // CONFIG_MP
 );
 /*!
+\~russian
 \brief Обертка для запуска процессов.
 
 Эта функция  вызывает proc->pmain(proc->arg), и если происходит возврат из pmain, то #proc_run_wrapper корректно завершает процесс.
 \param proc - Указатель на запускаемый процесс.
+\~english
+\brief A wrapper for process "main" routines.
+
+This function calls proc->pmain(proc->arg), and if pmain returns, then #proc_run_wrapper terminates process correctly.
+\param proc - A pointer to a process to launch.
 */
 void proc_run_wrapper(proc_t * proc);
 /*!
+\~russian
 \brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
 
 \param proc - Указатель на запускаемый процесс.
+\~english
+\brief A process termination routine called after proc->pmain return. Internal usage function.
+
+\param proc - A pointer to terminated process.
 */
 void _proc_terminate(proc_t * proc);
 /*!
+\~russian
 \brief Запуск процесса.
 
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\~english
+\brief A process launch routine.
+
+This function schedules a process if possible.
+
+\param proc - A pointer to a process to launch.
+\return 1 - if a process has been scheduled, 0 in other cases.
 */
 bool_t proc_run(proc_t * proc);
 /*!
+\~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
 
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\~english
+\brief A process launch routine for usage in interrupt service routines and critical sections.
+
+This function schedules a process if possible.
+
+\param proc - A pointer to a process to launch.
+\return 1 - if a process has been scheduled, 0 in other cases.
 */
 bool_t proc_run_isr(proc_t * proc);
 
 /*!
+\~russian
 \brief Перезапуск процесса.
 
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\~english
+\brief A process restart routine.
+
+This function reinitializes a process and schedules it if possible.
+
+\param proc - A pointer to a process to launch.
+\return 1 - if a process has been scheduled, 0 in other cases.
 */
 bool_t proc_restart(proc_t * proc);
 /*!
+\~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
 
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #proc_init, и ставит процесс в список готовых к выполнению, производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\~english
+\brief A process restart routine for usage in interrupt service routines and critical sections.
+
+This function reinitializes a process and schedules it if possible.
+
+\param proc - A pointer to a process to launch.
+\return 1 - if a process has been scheduled, 0 in other cases.
 */
 bool_t proc_restart_isr(proc_t * proc);
 /*!
+\~russian
 \brief Останов процесса.
 
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
-\param proc - Указатель на запускаемый процесс.
-\return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\param proc - Указатель на останавливаемый процесс.
+\return 1 - если процесс был вырезан из списка готовых к выполнению, 0 во всех остальных случаях.
+\~english
+\brief A process stop routine.
+
+This function stops a process if possible.
+\param proc - A pointer to a process to stop.
+\return 1 - if a process has been stoped, 0 in other cases.
 */
 bool_t proc_stop(proc_t * proc);
 /*!
+\~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
 
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
-\param proc - Указатель на запускаемый процесс.
-\return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\param proc - Указатель на останавливаемый процесс.
+\return 1 - если процесс был вырезан из списка готовых к выполнению, 0 во всех остальных случаях.
+\~english
+\brief A process stop routine for usage in interrupts service routines and critical sections.
+
+This function stops a process if possible.
+\param proc - A pointer to a process to stop.
+\return 1 - if a process has been stoped, 0 in other cases.
 */
 bool_t proc_stop_isr(proc_t * proc);
 /*!
+\~russian
 \brief Самоостанов процесса.
 
 Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
+\~english
+\brief A process self stop routine.
+
+This function stops caller process.
 */
 void proc_self_stop(void);
 /*!
+\~russian
 \brief Сброс watchdog для процесса реального времени.
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
 Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
+\~english
+\brief A watchdog reset routine for real time processes.
+
+If a caller process is real time, then this function resets its timer.
+If a real time process failes to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
 void proc_reset_watchdog(void);
 /*!
+\~russian
 \brief Сброс watchdog для процесса реального времени из обработчика прерывания (для внутреннего использования).
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
 Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
+\~english
+\brief A watchdog reset routine for real time processes for internal usage.
+
+If a caller process is real time, then this function resets its timer.
+If a real time process failes to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
 void _proc_reset_watchdog(void);
 
 //  Функция для внутреннего использования - собственно запуск процесса
 #ifdef CONFIG_MP
 /*!
-\brief Вставка процесса в список готовых к выполнению, для внутреннего использования.
+\brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
 */
 void _proc_run_( proc_t * proc );
 #else
 /*!
-\brief Вставка процесса в список готовых к выполнению, для внутреннего использования.
+\brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
 */
 #define _proc_run_(proc) gitem_insert( (gitem_t *)proc, kernel.sched.ready )
 #endif
 /*!
-\brief "Низкоуровневый" запуск процесса, для внутреннего использования.
+\brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
 void _proc_run( proc_t * proc );
 
 #ifdef CONFIG_MP
 /*!
-\brief Вырезка процесса из списка готовых к выполнению с обновлением статистики, для внутреннего использования.
+\brief \~russian Вырезка процесса из списка готовых к выполнению с обновлением статистики, для внутреннего использования. \~english A routine that cuts a process from ready process list and updates statistics.
 */
 void _proc_stop_(proc_t * proc);
 #else
 /*!
-\brief Вырезка процесса из списка готовых к выполнению, для внутреннего использования.
+\brief \~russian Вырезка процесса из списка готовых к выполнению, для внутреннего использования. \~english A routine that cuts a process from ready process list.
 */
 #define _proc_stop_(proc) gitem_cut((gitem_t *)proc)
 #endif
 /*!
-\brief "Низкоуровневый" останов процесса, для внутреннего использования.
+\brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
 void _proc_stop(proc_t * proc);
 
 /*!
-\brief Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования.
+\brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования. \~english A #PROC_FLG_PRE_STOP flag processing routine. For internal usage.
 */
 void _proc_flag_stop( flag_t mask );
 /*!
-\brief Останов процесса по флагу #PROC_FLG_PRE_STOP.
+\brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english A #PROC_FLG_PRE_STOP flag processing routine.
 */
 void proc_flag_stop( flag_t mask );
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
-\brief Инкремент счетчика захваченных ресурсов, для внутреннего использования.
+\brief \~russian Инкремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter increment routine. For internal usage.
 */
 void _proc_lres_inc(
-    proc_t * proc /*!< Указатель на процесс, захвативший ресурс. */
+    proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. */
+    ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
 #endif
 );
 /*!
-\brief Декремент счетчика захваченных ресурсов, для внутреннего использования.
+\brief \~russian Декремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter decrement routine. For internal usage.
 */
 void _proc_lres_dec(
-    proc_t * proc /*!< Указатель на процесс, захвативший ресурс. */
+    proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. */
+    ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
 #endif
 );
 #ifdef CONFIG_USE_HIGHEST_LOCKER
 /*!
+\~russian
 \brief Управление приоритетом процесса, для внутреннего использования.
 
 Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
 \param proc - Указатель на процесс.
+\~english
+\brief A stoped process priority control routine.
+
+Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stoped before call of the routine.
+\param proc - A pointer to a process.
 */
 void _proc_prio_control_stoped( proc_t * proc );
 /*!
+\~russian
 \brief Управление приоритетом процесса, для внутреннего использования.
 
 Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть запущен на момент вызова.
 \param proc - Указатель на процесс.
+\~english
+\brief A running process priority control routine.
+
+Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be running when the routine is called.
+\param proc - A pointer to a process.
 */
 void _proc_prio_control_running( proc_t * proc );
 #endif
@@ -599,29 +685,50 @@ void _proc_prio_control_running( proc_t * proc );
 
 ************************************/
 /*!
+\~russian
 \brief Ленивая балансировка нагрузки, для внутренненго использования.
 
 Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
 \param object_core - процессорное ядро, с которого будем снимать нагрузку.
+\~english
+\brief A lazy load balancer routine. For internal usage.
+
+This function transfers one process on the least loaded CPU core from the object core.
+\param object_core - A CPU core to decrease a load on.
 */
 void _proc_lazy_load_balancer(core_id_t object_core);
 /*!
+\~russian
 \brief Ленивая балансировка нагрузки, для внутреннего использования.
 
 Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
+\~english
+\brief A lazy load balancer routine. For internal usage.
+
+Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
 */
 void _proc_global_lazy_load_balancer(void);
 
 /*!
+\~russian
 \brief Ленивая балансировка нагрузки, локальный балансировщик.
 
 Переносит 1 процесс с ядра, на котором выполняется на самое не нагруженное процессорное ядро в системе.
+\~english
+\brief A lazy local load balancer routine.
+
+Transfers one process from a current CPU core to the least loaded CPU core on the system.
 */
 void proc_lazy_local_load_balancer(void);
 /*!
+\~russian
 \brief Ленивая балансировка нагрузки, глобальный балансировщик.
 
 Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
+\~english
+\brief A lazy global load balancer routine.
+
+Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
 */
 void proc_lazy_global_load_balancer(void);
 
