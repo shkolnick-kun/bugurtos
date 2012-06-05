@@ -374,7 +374,7 @@ A process "main" routine returned, a process has been terminated normally.
 \~english
 \brief A watchdog stop flag.
 
-A real time process failed to reset its watchdog, it has been tertminated due to abnormall behavior.
+A real time process failed to reset its watchdog, it has been tertminated due to abnormal behavior.
 */
 #define PROC_FLG_WD_STOP    ((flag_t)512)
 /*!
@@ -386,7 +386,7 @@ A real time process failed to reset its watchdog, it has been tertminated due to
 \brief A "dead" process flag.
 
 A process "main" routine returned, but process hadn't released some mutex controled resources.
-A process has been terminated due to abnormall behavior.
+A process has been terminated due to abnormal behavior.
 */
 #define PROC_FLG_DEAD       ((flag_t)1024)
 

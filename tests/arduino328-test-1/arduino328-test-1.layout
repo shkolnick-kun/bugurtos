@@ -13,7 +13,7 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="9836" topLine="369" />
 	</File>
-	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
+	<File name="../../include/crit_sec.h" open="1" top="0" tabpos="0">
 		<Cursor position="7353" topLine="0" />
 	</File>
 	<File name="../../include/gitem.h" open="0" top="0" tabpos="0">
@@ -22,7 +22,7 @@
 	<File name="../../include/group.h" open="0" top="0" tabpos="0">
 		<Cursor position="8585" topLine="84" />
 	</File>
-	<File name="../../include/ipc.h" open="0" top="0" tabpos="1">
+	<File name="../../include/ipc.h" open="1" top="0" tabpos="1">
 		<Cursor position="9255" topLine="125" />
 	</File>
 	<File name="../../include/item.h" open="0" top="0" tabpos="0">
