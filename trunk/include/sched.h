@@ -80,58 +80,70 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _SCHED_H_
 /*!
 \file
-\brief Заголовок планировщика
+\brief \~russian Заголовок планировщика \~english A scheduler header.
 
-\warning Все функции в этом файле для внутреннего использования!!!
+\warning \~russian Все функции в этом файле для внутреннего использования!!! \~english All functions in this file are internel usage functins!!!
 */
 // Планировшик
 typedef struct _sched_t sched_t;
 // Свойства
 /*!
-\brief Планировщик.
+\brief \~russian Планировщик. \~english A scheduler.
 
-Планировщик содержит информацию о процессах, запущенных на процессоре (процессорном ядре).
+\~russian Планировщик содержит информацию о процессах, запущенных на процессоре (процессорном ядре).
+\~english A scheduler oject contains an information about processes, running on some CPU core.
 */
 struct _sched_t
 {
-    proc_t * current_proc;      /*!< Текущий процесс. */
-    xlist_t * ready;            /*!< Указатель на список готовых к выполнению процессов. */
-    xlist_t * expired;          /*!< Указатель на список процессов, исчерпавших свой квант времени. */
-    xlist_t plst[2];            /*!< Сами списки процесов. */
-    count_t nested_crit_sec;    /*!< Счетчик вложенности критических секций. */
+    proc_t * current_proc;      /*!< \~russian Текущий процесс. \~english A currently running process. */
+    xlist_t * ready;            /*!< \~russian Указатель на список готовых к выполнению процессов. \~english A pointer to a ready process list. */
+    xlist_t * expired;          /*!< \~russian Указатель на список процессов, исчерпавших свой квант времени. \~english A pointer to an expired process list. */
+    xlist_t plst[2];            /*!< \~russian Сами списки процесов. \~english A storage for a ready and for an expired process lists. */
+    count_t nested_crit_sec;    /*!< \~russian Счетчик вложенности критических секций. \~english A critical section nesting count. */
 #ifdef CONFIG_MP
-    lock_t lock;                /*!< Спин-блокировка планировщика. */
+    lock_t lock;                /*!< \~russian Спин-блокировка планировщика. \~english A schrduler spin-lock. */
 #endif // CONFIG_MP
 };
 // Методы
 
 
 /*!
+\~russian
 \brief Инициализация планировщика.
 
 Готовит планировщик к запуску.
 \param sched - Указатель на планировщик.
 \param idle - Указатель на процесс холостого хода.
+
+\~english
+\brief A scheduler initiation routine.
+
+This function prepares a scheduler object for work.
+\param sched - A sceduler pointer.
+\param idle - An IDLE process pointer.
 */
 void sched_init(sched_t * sched, proc_t * idle);
 /*!
-\brief Функция планирования.
-Переключает процессы в обработчике прерывания системного таймера.
+\brief \~russian Функция планирования. \~english A scheduler routine.
+\~russian Переключает процессы в обработчике прерывания системного таймера.
+\~english This function switches processes in system timer interrupt handler.
 */
 void sched_schedule(
 #ifdef CONFIG_MP
-                        sched_t * sched /*!< Работаем с этим экземпляром планировщика*/
+                        sched_t * sched /*!< \~russian Работаем с этим экземпляром планировщика \~english A scheduler object pointer. */
 #else
                         void
 #endif // CONFIG_MP
                        );
 /*!
-\brief Функция перепланирования.
-Переключает процессы в обработчике прерывания перепланирования.
+\brief \~russian Функция перепланирования. \~english Recheduler routine.
+
+\~russian Переключает процессы в случае необходимости.
+\~english This function switches processes if needed.
 */
 void sched_reschedule(
 #ifdef CONFIG_MP
-                        sched_t * sched /*!< Работаем с этим экземпляром планировщика*/
+                        sched_t * sched /*!< \~russian Работаем с этим экземпляром планировщика \~english A scheduler object pointer. */
 #else
                         void
 #endif // CONFIG_MP
@@ -139,6 +151,7 @@ void sched_reschedule(
 #ifdef CONFIG_MP
 // Балансировщик нагрузки
 /*!
+\~russian
 \brief Балансировщик нагрузки.
 
 Используется для балансировки нагрузки в Ядре, а также для предварительной балансировки нагрузки в сигналах.
@@ -146,15 +159,31 @@ void sched_reschedule(
 \param proc Указатель на процесс, который надо перенести на новое процессорное ядро.
 \param stat Указатель на массив статистики Ядра, либо сигнала.
 \return ID процессороного ядра с наименьшей нагрузкой.
+\~english
+\brief A load balancer routine.
+
+This function is used for load balancing of the kernel and of signals.
+
+\param proc A pointer to a process that we want to plase on a process list.
+\param stat A pointer to a stat_t array, that controls corespondent process list.
+\return An ID of the least loaded process list.
 */
 core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 /*!
+\~russian
 \brief Функция поиска процессорного Ядра с максимальной нагрузкой.
 
 Используется в глобальном ленивом балансировщике нагрузки и функции #sig_signal.
 
 \param stat Указатель на массив статистики Ядра, либо сигнала.
 \return ID процессороного ядра с наибольшей нагрузкой.
+\~english
+\brief Find most loaded core.
+
+ This function is used in Kernel load balancing and in #sig_signal function.
+
+\param stat A pointer to a stat_t array of the kernel or of a signal.
+\return An ID of the most loaded process list.
 */
 core_id_t sched_highest_load_core( stat_t * stat );
 #endif // CONFIG_MP

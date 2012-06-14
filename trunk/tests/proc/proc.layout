@@ -17,9 +17,9 @@
 		<Cursor position="64" topLine="8" />
 	</File>
 	<File name="../../include/syscall.h" open="1" top="0" tabpos="1">
-		<Cursor position="9552" topLine="422" />
+		<Cursor position="9552" topLine="645" />
 	</File>
-	<File name="../../kernel/ipc.c" open="1" top="0" tabpos="1">
+	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="1">
 		<Cursor position="6456" topLine="0" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="6">

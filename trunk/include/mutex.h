@@ -92,116 +92,145 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /*!
 \file
-\brief Заголовок мьютекса.
+\brief \~russian Заголовок мьютекса. \~english A mutex header.
 */
 //          Мьютекс
 typedef struct _mutex_t mutex_t;
 // Свойства
 /*!
 \brief
-Мьютекс.
+\~russian Мьютекс. \~english A mutex.
 
+\~russian
 Используется для управления доступом к общим ресурсам, в тех случаях, когда общий ресурс нужен в течение долгого времени.
 Поддерживается произвольная вложенность мьютексов. При использовании опции CONFIG_USE_HIGHEST_LOCKER, работа с мьютексами производится по протоколу highest locker, более подробно написано в Википедии.
 
-\warning Мьютексы захватываются и освобожаются только процессами. Нельзя делать это из обработчиков прерываний.
-\warning Мьютекс должен освободить ИМЕННО ТОТ процесс, который его захватил.
+\~english
+Mutexes are used to control an access to common data. If your code needs yo use some common data for a long time,
+then you should use mutex instead of critical section. Mutex nesting is supported.
+Highest locker protocol is supported when CONFIG_USE_HIGHEST_LOCKER option is defined.
+
+\~russian
+\warning  Мьютексы захватываются и освобожаются только процессами. Нельзя делать это из обработчиков прерываний.
+\warning  Мьютекс должен освободить ИМЕННО ТОТ процесс, который его захватил.
+
+\~english
+\warning  Only a process can lock or unlock a mutex!
+\warning  Locked mutex can be unlocked only by a locker process!
 */
 struct _mutex_t
 {
-    xlist_t mutex_list; /*!< Список ожидающих процессов. */
+    xlist_t mutex_list; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    prio_t prio;/*!< Приоритет. */
+    prio_t prio;/*!< \~russian Приоритет. \~english A priority of a mutex. */
 #endif // CONFIG_USE_HIGHEST_LOCKER
-    bool_t free;/*!< Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. */
+    bool_t free;/*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
 #ifdef CONFIG_MP
-    lock_t lock;/*!< Спин-блокировка. */
+    lock_t lock;/*!< \~russian Спин-блокировка. \~english A mutex spin-lock. */
 #endif // CONFIG_MP
 };
 // Методы
 /*!
 \brief
-Инициализация мьютекса из критической секции, или обработчика прерываний.
+\~russian Инициализация мьютекса из критической секции, или обработчика прерываний.
+\~english A mutex initiation for usage in ISRs or in critical sections.
 
-Да, инициировать из обработчика прерывания можно!
+\~russian Да, инициировать из обработчика прерывания можно!
 */
 void mutex_init_isr(
-    mutex_t * mutex /*!< Указатель на мьютекс. */
+    mutex_t * mutex /*!< \~russian Указатель на мьютекс. \~english A mutex pointer. */
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. */
+    ,prio_t prio /*!< \~russian В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. \~english A mutex priority. Used with CONFIG_USE_HIGHEST_LOCKER option. */
 #endif // CONFIG_USE_HIGHEST_LOCKER
 );
 /*!
 \brief
-Инициализация мьютекса.
+\~russian Инициализация мьютекса.
+\~english A mutex initiation
 */
 void mutex_init(
-    mutex_t * mutex /*!< Указатель на мьютекс. */
+    mutex_t * mutex /*!< \~russian Указатель на мьютекс. \~english A mutex pointer. */
 #ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. */
+    ,prio_t prio /*!< \~russian В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. \~english A mutex priority. Used with CONFIG_USE_HIGHEST_LOCKER option. */
 #endif // CONFIG_USE_HIGHEST_LOCKER
 );
 /*!
 \brief
-Захват мьютекса.
+\~russian Захват мьютекса.
+\~english Lock a mutex.
 
-Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс останавливается и записывается в список ожидающих.
+\~russian Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс останавливается и записывается в список ожидающих.
+\~english If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets unlocked.
 
-\param mutex Указатель на мьютекс.
-\return 1 - если уддалось захватить без ожидания, 0 - если пришлось ждать.
+\param mutex \~russian Указатель на мьютекс. \~english A mutex pointer.
+\return \~russian 1 - если удалось захватить без ожидания, 0 - если пришлось ждать. \~english 1 if mutex was locked without wait, else 0.
 */
 bool_t mutex_lock( mutex_t * mutex );
 // Попытка захвата
 /*!
 \brief
-Попытка захвата мьютекса.
+\~russian Попытка захвата мьютекса.
+\~english Try to lock a mutex.
 
-Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс проболжает выполнение.
+\~russian Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс продолжает выполнение.
+\~english If mutex is free then caller process locks it and continues, if not caller process continues without wait.
 
-\param mutex Указатель на мьютекс.
-\return 1 - если уддалось захватить, 0 - если не удалось.
+\param mutex \~russian Указатель на мьютекс. \~english A mutex pointer.
+\return \~russian 1 - если уддалось захватить, 0 - если не удалось. \~english 1 - if mutex was succefully locked else - 0.
 */
 bool_t mutex_try_lock( mutex_t * mutex );
 /*!
 \brief
-Освобождение мьютекса.
+\~russian Освобождение мьютекса. \~english Mutex unlock.
 
+\~russian
 Если список ожидающих процессов пуст - вызывающий процесс освобождает мьютекс, если список не пуст - ставит на выполнение голову списка.
 Также происходит обработка флагов, при необходимости вызывающий процесс останавливается.
 
-\param mutex Указатель на мьютекс.
+\~english
+If a mutex wait list is empty, then caller process unlocks a mutex, else mutex wait lish head gets launched.
+
+\param mutex \~russian Указатель на мьютекс. \~english A mutex pointer.
 */
 void mutex_unlock( mutex_t * mutex );
 
 //Функции для врутреннего использования
 /*!
 \brief
-Захват мьютекса, для внутреннего использования.
+\~russian Захват мьютекса, для внутреннего использования.
+\~english Lock a mutex kernel part.
 
-Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс останавливается и записывается в список ожидающих.
+\~russian Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс останавливается и записывается в список ожидающих.
+\~english If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets unlocked.
 
-\param mutex Указатель на мьютекс.
-\return 1 - если удалось захватить без ожидания, 0 - если пришлось ждать.
+\param mutex \~russian Указатель на мьютекс. \~english A mutex pointer.
+\return \~russian 1 - если удалось захватить без ожидания, 0 - если пришлось ждать. \~english 1 if mutex was locked without wait, else 0.
 */
 bool_t _mutex_lock( mutex_t * mutex );
 /*!
 \brief
-Попытка захвата мьютекса, для внутреннего использования.
+\~russian Попытка захвата мьютекса, для внутреннего использования.
+\~english Try to lock a mutex kernel part.
 
-Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс продолжает выполнение.
+\~russian Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс продолжает выполнение.
+\~english If mutex is free then caller process locks it and continues, if not caller process continues without wait.
 
-\param mutex Указатель на мьютекс.
-\return 1 - если уддалось захватить, 0 - если не удалось.
+\param mutex \~russian Указатель на мьютекс. \~english A mutex pointer.
+\return \~russian 1 - если уддалось захватить, 0 - если не удалось. \~english 1 - if mutex was succefully locked else - 0.
 */
 bool_t _mutex_try_lock( mutex_t * mutex );
 /*!
 \brief
-Освобождение мьютекса, для внутреннего использования.
+\~russian Освобождение мьютекса, для внутреннего использования. \~english Mutex unlock kernel part.
 
+\~russian
 Если список ожидающих процессов пуст - вызывающий процесс освобождает мьютекс, если список не пуст - ставит на выполнение голову списка.
 Также происходит обработка флагов, при необходимости вызывающий процесс останавливается.
 
-\param mutex Указатель на мьютекс.
+\~english
+If a mutex wait list is empty, then caller process unlocks a mutex, else mutex wait lish head gets launched.
+
+\param mutex \~russian Указатель на мьютекс. \~english A mutex pointer.
 */
 void _mutex_unlock( mutex_t * mutex );
 

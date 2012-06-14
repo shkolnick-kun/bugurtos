@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _GROUP_H_
 /*!
 \file
-\brief Заголовок элементов групп.
+\brief \~russian Заголовок групп. \~english A group header.
 */
 
 #ifdef CONFIG_MP
@@ -101,48 +101,52 @@ typedef struct _group_t group_t;
 //свойства
 /*!
 \brief
-Группа элементов типа #gitem_t.
+\~russian Группа элементов типа #gitem_t. \~english. A group of #gitem_t objects.
 
-Группа элементов типа #gitem_t, хранит информацию о приоритете входящих в нее элементов, а так же указатель на список #xlist_t, которому принадлежат эти элементы.
-
+\~russian Группа элементов типа #gitem_t, хранит информацию о приоритете входящих в нее элементов, а так же указатель на список #xlist_t, которому принадлежат эти элементы.
 Каждый элемент #gitem_t имеет поле типа #group_t, изначально  принадлежит этой самой группе, однако при включении элемента в группированный список, где уже есть элементы с таким же приоритетом, собственная группа будет передана в Пул, и элемент будет включен в группу, которая уже есть в списке.
+
+\~english A #group_t object stores information about priority of included #gitem_t objects and about their #xlist_t container.
+Every #gitem_t object has #group_t field, which is the initial group of such object.
+When #gitem_t object oject is inserted to #xlist_t container with grouping, its group may be to the kernel.pool.
+This hapens when at least one #gitem_t object oject of a same piority is already in destignation container.
 */
 struct _group_t
 {
-    void * link;   /*!< Поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в Пуле.*/
-    prio_t prio;    /*!< Приоритет группы.*/
-    count_t el_num; /*!< Количество элементов в группе, подсчет ссылок же! */
+    void * link;   /*!< \~russian Поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в Пуле. \~english This pointer may be used to store a pointer to 3xlist_t object, or to store a pointer to next group in kernel.pool.*/
+    prio_t prio;    /*!< \~russian Приоритет группы. \~english A group priority.*/
+    count_t el_num; /*!< \~russian Количество элементов в группе, подсчет ссылок же! \~english A #gitem_t object cointer.*/
 };
 
 /*!
-   Статическая инициализация объекта типа #group_t
-   \param p - Приоритет.
+   \~russian Статическая инициализация объекта типа #group_t \~english A static #group_t object initiation.
+   \param p \~russian Приоритет. \~english A priotity.
 */
 #define INIT_GROUP_T(p) { (void *)0, (prio_t)p, (count_t)1 }
 
 // методы
 /*!
 \brief
-Инициализация группы.
+\~russian Инициализация группы. \~english A group initiation.
 
-\param group Указатель на объект #group_t.
-\param prio Приоритет элемента.
+\param group \~russian Указатель на объект #group_t. \~english A #group_t pointer.
+\param prio \~russian Приоритет элемента. \~english A priority.
 */
 void group_init(group_t * group, prio_t prio);
 /*!
 \brief
-Положить группу в Пул.
+\~russian Положить группу в Пул. \~english Push a group t a kernel.pool.
 
-\param group Указатель на объект #group_t.
+\param group \~russian Указатель на объект #group_t. \~english A #group_t pointer.
 */
 void group_push(group_t * group);
 /*!
 \brief
-Взять группу из Пула.
+\~russian Взять группу из Пула. \~english Pop a group from the kernel.pool.
 
-Если есть что брать, а есть всегда, избыточность же!
+Если есть что брать, а есть всегда, избыточность же! \~english This function pops a #group_t object from the kernel.pool. It is supposed that the kernel.pool is not empty at function call time.
 
-\return Указатель на объект #group_t, который был взят из Пула.
+\return \~russian Указатель на объект #group_t, который был взят из Пула. \~english A pointer to an #group_t object poped from the kernel.pool.
 */
 group_t * group_pop(void);
 
