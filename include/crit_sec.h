@@ -81,27 +81,50 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /*!
 \file
+\~russain
 \brief Заголовок критических секций.
 
 Критическая секция - область кода, в которой запрещены все прерывания. Критические секции используются, когда надо использовать общий ресурс в течение короткого ввремени.
 
 Критические секции могут быть вложенные, в этом случае прерывания разрешаются,
 когда произошел выход из всех критических секций.
+
+\~english
+\brief A critical section header.
+
+A critical section is a part of a code where interrupts are disabled.
+Critical sections are used when a common data are used for a short time.
+Critical sections may be nested, in this case interrupts get enabled on exit from all critical sections.
 */
 
 /*!
 \def ENTER_CRIT_SEC()
+\~russain
 \brief Макрос-обертка.
 
 Вход в критическую секцию.
 \warning Использовать в начале блока!
 \warning Все локальные переменные должны быть объявлены до #ENTER_CRIT_SEC
 
+\~english
+\brief A wraper macro.
+
+A critical section start.
+\warning Must be used on a start of a code block!
+\warning All local variables must be declared before #ENTER_CRIT_SEC, and all executable code must be below it.
+
 \def EXIT_CRIT_SEC()
+\~russain
 \brief Макрос-обертка.
 
 Выход из критической секции.
 \warning Использовать в конце блока!
+
+\~english
+\brief A wraper macro.
+
+A critical section end.
+\warning Must be used at the end of a code block.
 */
 #ifdef CONFIG_MP
 
@@ -111,21 +134,31 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
 
 /*!
-
+\~russain
 \brief Вход в критическую секцию на многопроцессорной системе.
 
 \return
  ID процессорного ядра, на котором выполняется.
+\~english
+\brief A critical section start on a multicore system.
 
+\return
+ An ID of the local CPU core.
 */
 core_id_t _enter_crit_sec(void);
 /*!
-
+\~russain
 \brief Выход из критической секции на многопроцессорной системе
 
 \param core ID процессороного ядра, на котором выполняется.
 
 \warning Передача ID процессорного ядра, отличного от того, где запускается функция приведет к непредсказуемым последствиям.
+\~english
+\brief A critical section end on a multicore system.
+
+\param core An id of a local CPU core.
+
+\warning If core param don't match the local CPU core the behavior is undefined.
 */
 void _exit_crit_sec(core_id_t core);
 #else
@@ -134,15 +167,25 @@ void _exit_crit_sec(core_id_t core);
 #define EXIT_CRIT_SEC() exit_crit_sec()
 
 /*!
+\~russain
 \brief Вход в критическую секцию.
 
 Вход в критическую секцию.
+\~english
+\brief A critical section start.
+
+A critical section start.
 */
 void enter_crit_sec(void);
 /*!
+\~russain
 \brief Выход из критической секции.
 
 Вход в критическую секцию.
+\~english
+\brief A critical section end.
+
+A critical section end.
 */
 void exit_crit_sec(void);
 #endif // CONFIG_MP

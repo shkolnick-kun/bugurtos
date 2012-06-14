@@ -80,61 +80,66 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _KERNEL_H_
 /*!
 \file
-\brief Заголовок Ядра.
+\brief \~russian Заголовок Ядра. \~english A kernel header.
 */
 //Ядро
 typedef struct _kernel_t kernel_t;
 /*!
 \brief
-Ядро BuguRTOS.
+\~russian Ядро BuguRTOS. \~english A BuguRTOS kernel structure.
 
-В ядре хранится информация о запущенных процессах, процессе(ах) холостого хода.
+\~russian В ядре хранится информация о запущенных процессах, процессе(ах) холостого хода.
+\~english The kernel stores information about launched processes, system time and other important information.
 */
 struct _kernel_t
 {
 #ifdef CONFIG_MP
-    sched_t sched[MAX_CORES];   /*!<Планировщики для каждого процессорного ядра. */
-    proc_t idle[MAX_CORES];     /*!<Процессы холостого хода. */
-    stat_t stat[MAX_CORES];     /*!<Статистика для балансировки нагузки, на Hotplug работать не собираемся, все будет статично. */
-    lock_t stat_lock; /*!< Спин-блокировка статистики. */
-    lock_t timer_lock; /*!< Спин-блокировка таймера. */
+    sched_t sched[MAX_CORES];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
+    proc_t idle[MAX_CORES];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
+    stat_t stat[MAX_CORES];     /*!< \~russian Статистика для балансировки нагузки, на Hotplug работать не собираемся, все будет статично. \~english A stsatistic for load balansing, CPU hotplug is not supported. */
+    lock_t stat_lock; /*!< \~russian Спин-блокировка статистики. \~english A statistic spin-lock. */
+    lock_t timer_lock; /*!< \~russian Спин-блокировка таймера. \~english A system timer spin-lock. */
 #else
-    sched_t sched; /*!< Планировшик. */
-    proc_t idle; /*!< Процесс холостого хода. */
+    sched_t sched; /*!< \~russian Планировшик. \~english The scheduler. */
+    proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
 #endif // CONFIG_MP
-    group_t * pool; /*!< Пул. В пуле хранятся свободные группы элементов списков. */
+    group_t * pool; /*!< \~russian Пул. В пуле хранятся свободные группы элементов списков. \~english The pool, it stores free #group_t objects.*/
 #ifdef CONFIG_MP
-    lock_t pool_lock; /*!< На многопроцессорной системе Пул защищатеся спин-блокировкой. */
+    lock_t pool_lock; /*!< \~russian На многопроцессорной системе Пул защищатеся спин-блокировкой. \~english The pool is spin-lock protected on multicore systems. */
 #endif
-    timer_t timer; /*!< Системный таймер. */
-    void (*timer_tick)(void);/*!< Хук обработчика системного таймера*/
+    timer_t timer; /*!< \~russian Системный таймер. \~english The system timer. */
+    void (*timer_tick)(void);/*!< \~russian Хук обработчика системного таймера. \~english The system timer tick hook pointer. */
 };
 /*!
 \brief
-Ядро BuguRTOS.
+\~russian Ядро BuguRTOS. \~english The BuguRTOS kernel.
 
-Оно одно на всю систему!
+\~russian Оно одно на всю систему! \~english It's the one for the entire system!
 */
 extern kernel_t kernel;
 // Методы
 /*!
 \brief
-Инициализация Ядра
+\~russian Инициализация Ядра. \~english The kernel initiation.
 
-Готовит ядро к запуску.
+\~russian Готовит ядро к запуску. \~english This function prepares the kernel to work.
 */
 void kernel_init(void);
 
 /*!
 \brief
-Главная функция процесса холостого хода.
+\~russian Главная функция процесса холостого хода. \~english An IDLE process main function.
 
+\~russian
 Можно использовать встроенную функцию, а можно определить ее самому.
 Из #idle_main можно работать с программными таймерами, подавать сигналы, ОСВОБОЖДАТЬ семафоры.
+\~english
+You can use builtin function, or you can write your own.
+IDLE process can work with timers, fire signals and UNLOCK semaphores, SEND IPC data!
 
-\warning Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семаформы и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил!
+\warning \~russian Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семаформы и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил! \~english An idle_main sholud NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
 
-\param arg Указатель на аргумент.
+\param arg \~russian Указатель на аргумент. \~english An argument pointer.
 */
 void idle_main(void * arg);
 

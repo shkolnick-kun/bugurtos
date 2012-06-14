@@ -605,7 +605,7 @@ typedef struct {
 /*!
 \brief
 \~russian Параметр системного вызова #SYSCALL_IPC_EXCHANGE.
-\~english An argument structure for #YSCALL_IPC_EXCHANGE.
+\~english An argument structure for #SYSCALL_IPC_EXCHANGE.
 */
 typedef struct {
     ipc_send_arg_t send;  /*!< \~russian Родитель. \~english A parent. */

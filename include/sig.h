@@ -80,117 +80,144 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _SIG_H_
 /*!
 \file
-\brief Заголовок сигналов.
+\brief \~russian Заголовок сигналов. \~english A signal header.
 */
 //Сигнал
 #ifdef CONFIG_MP
 typedef struct _sig_t sig_t;
 // Свойства
 /*!
-\brief Сигнал
+\brief \~russian Сигнал. \~english A signal.
 
+\~russian
 Сигналы используются для синхронизации процессов по событиям. Процесс может встать в список ожидания сигнала.
 Другой процесс, или обработчик прерывания может подать сигнал и возобновить выполнение 1 или всех процессов, ожидающих этот сигнал.
+\~english
+Signals are used for process-event synchronization. A process can wait for a signal.
+Other process or interrupt handler can fire a signal and launch one or all processes waiting for that signal.
 */
 struct _sig_t
 {
-    xlist_t sig_list[MAX_CORES]; /*!< Массив списков ожидания, по 1 на каждое процессорное ядро в системе. */
-    stat_t sig_stat[MAX_CORES]; /*!< Массив статистических данных для предварительной балансировки нагрузки. */
-    lock_t lock; /*!< На многопроцессорной системе сигнал защищен спин-блокитровкой. */
+    xlist_t sig_list[MAX_CORES]; /*!< \~russian Массив списков ожидания, по 1 на каждое процессорное ядро в системе. \~english An array of signal wait lists, one for each CPU core. */
+    stat_t sig_stat[MAX_CORES]; /*!< \~russian Массив статистических данных для предварительной балансировки нагрузки. \~english An array of statistic information. */
+    lock_t lock; /*!< \~russian На многопроцессорной системе сигнал защищен спин-блокитровкой. \~english A spin-lock. */
 };
 #else
-typedef xlist_t sig_t; /*!< На 1 процессорной системе сигнал - просто список ожидания. */
+typedef xlist_t sig_t; /*!< \~russian На 1 процессорной системе сигнал - просто список ожидания. \~english On one core system a signal is just a wait list. */
 #endif
 
 // Методы
 // Инициация
 /*!
-\brief Инициализация сигнала из обработчика прерывания или критической секции.
+\brief \~russian Инициализация сигнала из обработчика прерывания или критической секции. \~english A signal initiation from ISR or critical section.
 
-\param sig Указатель на сигнал.
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_init_isr( sig_t * sig );
 /*!
 \brief Инициализация сигнала.
 
-\param sig Указатель на сигнал.
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_init( sig_t * sig );
 // Встать на ожидание
 /*!
-\brief Встать в список ожидания сигнала.
+\brief Встать в список ожидания сигнала. \~english Wait for a singnal.
 
+\~russian
 Останавливает вызвавший процесс и ставит его в список ожидания. На многопроцессорной системе при этом происходит предварительная балансировка нагрузки.
-После возобноаления работы процесса делается попытка остановить его по флагу #PROC_FLG_PRE_STOP.
+После возобновления работы процесса делается попытка остановить его по флагу #PROC_FLG_PRE_STOP.
+\~english
+This function stops caller process and inserts it to signal wait list.
+On multicore system signal has one wait list per CPU core, so load prebalancing is done.
+After firing a signal process will be lounched #PROC_FLG_PRE_STOP processing will be done.
 
-\param sig Указатель на сигнал.
+
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_wait( sig_t * sig );
 
 //Для внутреннего использования
 /*!
-\brief Встать в список ожидания сигнала, для внутреннего использования.
+\brief \~russian Встать в список ожидания сигнала, для внутреннего использования. \~english A signal wait prologue kernel part.
 
-Используется в критических секциях и обработчиках прерываний.
+\~russian
 Останавливает вызвавший процесс и ставит его в список ожидания. На многопроцессорной системе при этом происходит предварительная балансировка нагрузки.
+\~english
+This function stops cureent running process and insert it to signal wait list.
+On multicore system it allso does load prebalancing.
 
-\param sig Указатель на сигнал.
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void _sig_wait_prologue( sig_t * sig );
-/*!
-\brief Встать в список ожидания сигнала, для внутреннего использования.
-
-Останавливает вызвавший процесс и ставит его в список ожидания. На многопроцессорной системе при этом происходит предварительная балансировка нагрузки.
-
-\param sig Указатель на сигнал.
-*/
-void sig_wait_prologue( sig_t * sig );
 
 // Разбудить 1 процесс
 /*!
-\brief Возобновить работу 1 процесса ожидающего сигнал.
+\brief \~russian Возобновить работу 1 процесса ожидающего сигнал. \~english Fire a signal, launch one waiting process.
 
+\~russian
 На мнгогопроцессорной системе:
 Ищет в массиве статистики сигнала самое "нагруженное" ядро.
 Далее возобновляет работу головы списка ожидающих сигнал для этого ядра, при этом происходит балансировка нагрузци - запускаемый процесс будет выполняться на самом ненагруженном процессорном ядре из возможных.
 
 На 1 процессорной системе: просто возобновляет работу голоы списка ожидающих.
 
-\param sig Указатель на сигнал.
+\~english
+On multicore system:
+This functin finds most loaded signal wait list (using signal statistic array) and launches its head on the least loaded CPU core.
+On one coresystem:
+This function launches signal wait list head.
+
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_signal( sig_t * sig );
 // Разбудить все процессы
 /*!
-\brief Возобновить работу всех ожидающих процессов.
+\brief \~russian Возобновить работу всех ожидающих процессов. \~english Fire a signal, launch all waiting processes.
 
+\~russian
 Возобновляет работу всех ожидающих процессов.
 Процессы в списках ожидания сигналов сгруппированы, что дает возможность за ограниченное время перенести весь список ожидающих в соотетствующий список готовых к выполнению.
+\~english
+This function launches all processes waiting for certain signal.
+This function is O(1), as processes in signal wait lists a grouped, #gitem_xlist_merge is used.
 
-\param sig Указатель на сигнал.
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_broadcast( sig_t * sig );
 
 // Тоже самое что и предыдущие, олько для вызова из обработчиков прерываний
 // Во время выполнения прерывания должны быть запрещены!
 /*!
-\brief Возобновить работу 1 процесса ожидающего сигнал, для использования в критических секциях и обработчиках прерываний.
+\brief \~russian Возобновить работу 1 процесса ожидающего сигнал из обработчика прерывания. \~english Fire a signal from ISR, launch one waiting process.
 
+\~russian
 На мнгогопроцессорной системе:
 Ищет в массиве статистики сигнала самое "нагруженное" ядро.
 Далее возобновляет работу головы списка ожидающих сигнал для этого ядра, при этом происходит балансировка нагрузци - запускаемый процесс будет выполняться на самом ненагруженном процессорном ядре из возможных.
 
-На 1 процессорной системе: просто возобновляет работу головы списка ожидающих.
+На 1 процессорной системе: просто возобновляет работу голоы списка ожидающих.
 
-\param sig Указатель на сигнал.
+\~english
+On multicore system:
+This functin finds most loaded signal wait list (using signal statistic array) and launches its head on the least loaded CPU core.
+On one coresystem:
+This function launches signal wait list head.
+
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_signal_isr( sig_t * sig );
 /*!
-\brief Возобновить работу всех ожидающих процессов, для использования в критических секциях и обработчиках прерываний.
+\brief \~russian Возобновить работу всех ожидающих процессов из обработчика прерывания. \~english Fire a signal from ISR, launch all waiting processes.
 
+\~russian
 Возобновляет работу всех ожидающих процессов.
 Процессы в списках ожидания сигналов сгруппированы, что дает возможность за ограниченное время перенести весь список ожидающих в соотетствующий список готовых к выполнению.
+\~english
+This function launches all processes waiting for certain signal.
+This function is O(1), as processes in signal wait lists a grouped, #gitem_xlist_merge is used.
 
-\param sig Указатель на сигнал.
+\param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void sig_broadcast_isr( sig_t * sig );
 

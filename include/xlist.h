@@ -80,43 +80,50 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _XLIST_H_
 /*!
 \file
-\brief Заголовок списков с приоритетами.
+\brief \~russian Заголовок списков с приоритетами. \~english A prioritized list header.
 */
 typedef struct _xlist_t xlist_t;
 // свойства
 /*!
-\brief Список с приоритетами.
+\brief \~russian Список с приоритетами. \~english A prioritized list.
 
+\~russian
 Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типов #pitem_t и #gitem_t.
+\~english
+A container type, #xlist_t objects store lists of #item_t objects.
+In fact these containers store lists of #pitem_t or #gitem_t objects.
 */
 struct _xlist_t
 {
-    item_t * item[BITS_IN_INDEX_T]; /*!<Массив указателей на элементы. */
-    index_t index; /*!< Индекс, показывает, где в массиве ненулевые указатели. */
+    item_t * item[BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
+    index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
 };
 // методы
 /*!
-\brief Инициализация списка.
+\brief \~russian Инициализация списка. \~english An #xlist_t object initiation.
 
-\param xlist Указатель на список.
+\param xlist \~russian Указатель на список. \~english An #xlist_t pointer.
 */
 void xlist_init(
     xlist_t * xlist
 );
 /*!
-\brief Поиск головы списка.
+\brief \~russian Поиск головы списка. \~english List head search.
 
-\param xlist Указатель на список.
-\return Указатель на голову - самый приоритетный элемент в массиве указателей.
+\param xlist \~russian Указатель на список. \~english An #xlist_t pointer.
+\return \~russian Указатель на голову - самый приоритетный элемент в массиве указателей. \~english The head pointer, wich is the most prioritized pointer in the list head pointer array.
 */
 item_t * xlist_head(xlist_t * xlist);
 /*!
-\brief Переключение списка.
+\brief \~russian Переключение списка. \~english Switch a head pointer.
 
+\~russian
 Изменяет указатель xlist->item[prio] на xlist->item[prio]->next.
+\~english
+Does xlist->item[prio] = xlist->item[prio]->next.
 
-\param xlist Указатель на список.
-\param prio Приоритет переключаемой части списка.
+\param xlist \~russian Указатель на список. \~english An #xlist_t pointer.
+\param prio \~russian Приоритет переключаемой части списка. \~english A priority to switch.
 */
 void xlist_switch(xlist_t * xlist, prio_t prio);
 
