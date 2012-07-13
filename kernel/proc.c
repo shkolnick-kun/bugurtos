@@ -428,7 +428,8 @@ void _proc_lazy_load_balancer(core_id_t object_core)
     SPIN_UNLOCK( proc );
     enable_interrupts();
 }
-void _proc_global_lazy_load_balancer(void)
+// Глобальный
+void proc_lazy_global_load_balancer(void)
 {
     core_id_t object_core;
     // Поиск самого нагруженного процессора
@@ -445,10 +446,5 @@ void _proc_global_lazy_load_balancer(void)
 void proc_lazy_local_load_balancer(void)
 {
     _proc_lazy_load_balancer( current_core() );
-}
-// Глобальный
-void proc_lazy_global_load_balancer(void)
-{
-    _proc_global_lazy_load_balancer();
 }
 #endif // CONFIG_MP CONFIG_USE_ALB

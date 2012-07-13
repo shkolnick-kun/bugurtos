@@ -4,14 +4,17 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="1">
 		<Cursor position="12240" topLine="507" />
 	</File>
-	<File name="../../include/group.h" open="1" top="0" tabpos="1">
+	<File name="../../include/group.h" open="0" top="0" tabpos="1">
 		<Cursor position="6209" topLine="76" />
 	</File>
-	<File name="../../include/xlist.h" open="1" top="0" tabpos="2">
+	<File name="../../include/xlist.h" open="0" top="0" tabpos="2">
 		<Cursor position="1694" topLine="14" />
 	</File>
 	<File name="../../kernel/group.c" open="0" top="0" tabpos="1">
 		<Cursor position="101" topLine="83" />
+	</File>
+	<File name="config.h" open="0" top="0" tabpos="0">
+		<Cursor position="6316" topLine="84" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />

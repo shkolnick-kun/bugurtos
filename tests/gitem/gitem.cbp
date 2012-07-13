@@ -54,6 +54,7 @@
 		<Unit filename="../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="config.h" />
 		<Unit filename="log.txt" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

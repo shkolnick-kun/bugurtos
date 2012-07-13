@@ -178,8 +178,10 @@ void sched_schedule(
             if(
                 (!(flags & PROC_FLG_RT))
 #ifndef CONFIG_HARD_RT
-                ||(flags & PROC_FLG_HOLD)
+                ||(flags & PROC_FLG_MUTEX)
+                ||(flags & PROC_FLG_SEM)
 #endif // CONFIG_HARD_RT
+
             )
             {
                 //Процесс общего назначения, либо он удерживает общий ресурс, переносим в очередь expired и сбрасываем таймер
@@ -298,7 +300,7 @@ void sched_reschedule(
 #ifdef CONFIG_MP
 //========================================================================================
 // Балансировщик нагрузки
-WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
+WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
 {
     core_id_t core = (core_id_t)0, ret;
     affinity_t mask = (affinity_t)1;
@@ -335,7 +337,7 @@ WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
 }
 //----------------------------------------------------------------------------------------
 //Поиск самой нагруженной структуры stat_t в массиве
-WEAK core_id_t sched_highest_load_core( stat_t * stat )
+WEAK core_id_t sched_highest_load_core( stat_t * stat )
 {
     // Начальное предположение
     load_t max_load;
