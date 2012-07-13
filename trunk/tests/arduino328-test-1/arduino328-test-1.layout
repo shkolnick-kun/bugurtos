@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
+	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="1" top="0" tabpos="1">
 		<Cursor position="92" topLine="0" />
 	</File>
 	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
@@ -13,7 +13,7 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="9836" topLine="369" />
 	</File>
-	<File name="../../include/crit_sec.h" open="1" top="0" tabpos="0">
+	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="7353" topLine="0" />
 	</File>
 	<File name="../../include/gitem.h" open="0" top="0" tabpos="0">
@@ -22,7 +22,7 @@
 	<File name="../../include/group.h" open="0" top="0" tabpos="0">
 		<Cursor position="8585" topLine="84" />
 	</File>
-	<File name="../../include/ipc.h" open="1" top="0" tabpos="1">
+	<File name="../../include/ipc.h" open="0" top="0" tabpos="2">
 		<Cursor position="9255" topLine="119" />
 	</File>
 	<File name="../../include/item.h" open="0" top="0" tabpos="0">
@@ -52,7 +52,7 @@
 	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="22204" topLine="78" />
 	</File>
-	<File name="../../include/timer.h" open="1" top="0" tabpos="0">
+	<File name="../../include/timer.h" open="0" top="0" tabpos="1">
 		<Cursor position="6849" topLine="126" />
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
@@ -100,14 +100,14 @@
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="9948" topLine="251" />
 	</File>
-	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
+	<File name="../../kernel/timer.c" open="1" top="0" tabpos="0">
 		<Cursor position="6115" topLine="68" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="7234" topLine="96" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="1245" topLine="39" />
+		<Cursor position="982" topLine="25" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
 		<Cursor position="122" topLine="4" />

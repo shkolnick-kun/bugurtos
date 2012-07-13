@@ -95,6 +95,10 @@ typedef unsigned long count_t;
 
 typedef volatile int lock_t;
 
+typedef unsigned int syscall_t;
+
+typedef unsigned int ipc_data_t;
+
 typedef unsigned long bool_t;
 
 typedef unsigned long core_id_t;

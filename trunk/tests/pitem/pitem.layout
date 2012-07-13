@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="684" topLine="6" />
 	</File>
@@ -14,7 +14,7 @@
 		<Cursor position="6340" topLine="76" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="5930" topLine="90" />
+		<Cursor position="6507" topLine="96" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="226" topLine="0" />

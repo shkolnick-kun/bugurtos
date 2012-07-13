@@ -5,7 +5,7 @@
 1334501420 /home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel.h
 	"../../include/bugurt.h"
 
-1335843517 /home/anonimous/Документы/bugurtos/include/bugurt.h
+1337786889 /home/anonimous/Документы/bugurtos/include/bugurt.h
 	"index.h"
 	"item.h"
 	"xlist.h"
@@ -24,39 +24,39 @@
 	"timer.h"
 	"syscall.h"
 
-1334501555 /home/anonimous/Документы/bugurtos/include/index.h
+1339351368 /home/anonimous/Документы/bugurtos/include/index.h
 
-1335706128 /home/anonimous/Документы/bugurtos/include/item.h
+1339406664 /home/anonimous/Документы/bugurtos/include/item.h
 
-1335706381 /home/anonimous/Документы/bugurtos/include/xlist.h
+1339512790 /home/anonimous/Документы/bugurtos/include/xlist.h
 
-1335706068 /home/anonimous/Документы/bugurtos/include/group.h
+1339351135 /home/anonimous/Документы/bugurtos/include/group.h
 
-1335706020 /home/anonimous/Документы/bugurtos/include/gitem.h
+1339348995 /home/anonimous/Документы/bugurtos/include/gitem.h
 
-1334501583 /home/anonimous/Документы/bugurtos/include/pitem.h
+1339421796 /home/anonimous/Документы/bugurtos/include/pitem.h
 
-1334501580 /home/anonimous/Документы/bugurtos/include/pcounter.h
+1339422244 /home/anonimous/Документы/bugurtos/include/pcounter.h
 
-1335721702 /home/anonimous/Документы/bugurtos/include/crit_sec.h
+1339346078 /home/anonimous/Документы/bugurtos/include/crit_sec.h
 
-1336281556 /home/anonimous/Документы/bugurtos/include/proc.h
+1342192353 /home/anonimous/Документы/bugurtos/include/proc.h
 
-1335706278 /home/anonimous/Документы/bugurtos/include/sched.h
+1339323345 /home/anonimous/Документы/bugurtos/include/sched.h
 
-1335706161 /home/anonimous/Документы/bugurtos/include/kernel.h
+1339407933 /home/anonimous/Документы/bugurtos/include/kernel.h
 
-1335706337 /home/anonimous/Документы/bugurtos/include/sig.h
+1339508811 /home/anonimous/Документы/bugurtos/include/sig.h
 
-1335706303 /home/anonimous/Документы/bugurtos/include/sem.h
+1339506678 /home/anonimous/Документы/bugurtos/include/sem.h
 
-1334501574 /home/anonimous/Документы/bugurtos/include/mutex.h
+1339513307 /home/anonimous/Документы/bugurtos/include/mutex.h
 
-1336284702 /home/anonimous/Документы/bugurtos/include/ipc.h
+1339398750 /home/anonimous/Документы/bugurtos/include/ipc.h
 
-1335720922 /home/anonimous/Документы/bugurtos/include/timer.h
+1339512171 /home/anonimous/Документы/bugurtos/include/timer.h
 
-1336285699 /home/anonimous/Документы/bugurtos/include/syscall.h
+1339398842 /home/anonimous/Документы/bugurtos/include/syscall.h
 
 1334501487 source:/home/anonimous/Документы/bugurtos/arch/avr-gcc/bugurt_kernel_asm.S
 	<avr/io.h>
@@ -73,7 +73,7 @@
 1334501710 source:/home/anonimous/Документы/bugurtos/kernel/index.c
 	"../include/bugurt.h"
 
-1336456423 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
+1336475004 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
 	"../include/bugurt.h"
 
 1334501718 source:/home/anonimous/Документы/bugurtos/kernel/item.c
@@ -82,25 +82,25 @@
 1334501722 source:/home/anonimous/Документы/bugurtos/kernel/kernel.c
 	"../include/bugurt.h"
 
-1334501726 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
+1336477077 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
 	"../include/bugurt.h"
 
 1334501730 source:/home/anonimous/Документы/bugurtos/kernel/pcounter.c
 	"../include/bugurt.h"
 
-1336281541 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+1342193080 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
-1335698719 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+1342192986 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
-1334501747 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
+1336476934 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
 	"../include/bugurt.h"
 
 1334501751 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
 	"../include/bugurt.h"
 
-1336456942 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
+1336474833 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
 	"../include/bugurt.h"
 
 1334501759 source:/home/anonimous/Документы/bugurtos/kernel/timer.c

@@ -99,6 +99,10 @@ typedef unsigned long bool_t;
 
 typedef unsigned long core_id_t;
 
+typedef unsigned int syscall_t;
+
+typedef unsigned int ipc_data_t;
+
 typedef struct _stat
 {
     timer_t total_time_quant;

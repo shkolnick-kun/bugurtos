@@ -35,7 +35,7 @@
 		<Cursor position="6834" topLine="93" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="591" topLine="0" />
+		<Cursor position="11307" topLine="162" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="657" topLine="0" />
@@ -47,7 +47,7 @@
 		<Cursor position="591" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
-		<Cursor position="6587" topLine="101" />
+		<Cursor position="6504" topLine="99" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="261516" topLine="9986" />
@@ -56,7 +56,7 @@
 		<Cursor position="1333" topLine="85" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
-		<Cursor position="2378" topLine="74" />
+		<Cursor position="11030" topLine="383" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="530" topLine="3" />

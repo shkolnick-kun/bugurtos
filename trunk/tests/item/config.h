@@ -84,6 +84,10 @@ typedef int * stack_t;
 
 typedef unsigned int flag_t;
 
+typedef unsigned int ipc_data_t;
+
+typedef unsigned int syscall_t;
+
 typedef unsigned int affinity_t;
 
 typedef unsigned long load_t;

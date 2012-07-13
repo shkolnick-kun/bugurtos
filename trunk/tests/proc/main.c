@@ -106,13 +106,13 @@ int main()
     // Тест останова, должен выставиться флаг PROC_FLAG_PRE_END
     test = proc_stop(&proc);
     proc.flags &= ~PROC_FLG_QUEUE;
-    proc.flags &= ~PROC_FLG_PRE_END;
+    proc.flags &= ~PROC_FLG_PRE_STOP;
 
     proc.flags |= PROC_FLG_WAIT;
     // Тест останова, должен выставиться флаг PROC_FLAG_PRE_END
     test = proc_stop(&proc);
     proc.flags &= ~PROC_FLG_WAIT;
-    proc.flags &= ~PROC_FLG_PRE_END;
+    proc.flags &= ~PROC_FLG_PRE_STOP;
 
     // Типа захватили ресурс;
 #ifdef CONFIG_USE_HIGHEST_LOCKER
@@ -122,7 +122,7 @@ int main()
 #endif
     // Тест останова, должен выставиться флаг PROC_FLAG_PRE_END
     test = proc_stop(&proc);
-    proc.flags &= ~PROC_FLG_PRE_END;
+    proc.flags &= ~PROC_FLG_PRE_STOP;
     //Типа освободили ресурс
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     _proc_lres_dec(&proc, 0);

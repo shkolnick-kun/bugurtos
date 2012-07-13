@@ -697,17 +697,6 @@ This function transfers one process on the least loaded CPU core from the object
 \param object_core - A CPU core to decrease a load on.
 */
 void _proc_lazy_load_balancer(core_id_t object_core);
-/*!
-\~russian
-\brief Ленивая балансировка нагрузки, для внутреннего использования.
-
-Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
-\~english
-\brief A lazy load balancer routine. For internal usage.
-
-Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
-*/
-void _proc_global_lazy_load_balancer(void);
 
 /*!
 \~russian

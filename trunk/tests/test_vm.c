@@ -275,13 +275,14 @@ void * test_vm( void * arg )
         case TVM_SLOCK1:
             current_vm[core_id].pcounter++;
             {
-                bool_t test = _sem_lock(&sem);
+                bool_t test = sem_lock(&sem);
                 print_op_result(core_id,current_vm[core_id].name,"SL1",(int)test);
             }
             break;
         case TVM_SULOCK:
             current_vm[core_id].pcounter++;
             sem_unlock(&sem);
+            _proc_flag_stop( PROC_FLG_SEM );
             print_op_result(core_id,current_vm[core_id].name,"SUL", (int)sem.counter);
             break;
         case TVM_MLOCK:

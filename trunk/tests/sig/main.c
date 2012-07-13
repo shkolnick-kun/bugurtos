@@ -161,9 +161,9 @@ int main()
     proc_run(proc+7);
     proc_run(proc+8);
     proc_run(proc+9);
-    proc[7].flags |= PROC_FLG_PRE_END;
-    proc[8].flags |= PROC_FLG_PRE_END;
-    proc[9].flags |= PROC_FLG_PRE_END;
+    proc[7].flags |= PROC_FLG_PRE_STOP;
+    proc[8].flags |= PROC_FLG_PRE_STOP;
+    proc[9].flags |= PROC_FLG_PRE_STOP;
 
 
     printf("\n=========================================================\n");

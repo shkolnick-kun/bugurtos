@@ -29,7 +29,7 @@
 		<Cursor position="2090" topLine="42" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="3">
-		<Cursor position="6672" topLine="100" />
+		<Cursor position="6512" topLine="98" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="1368" />
@@ -37,7 +37,7 @@
 	<File name="main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1379" topLine="57" />
 	</File>
-	<File name="../test_vm.c" open="0" top="0" tabpos="1">
+	<File name="../test_vm.c" open="1" top="0" tabpos="1">
 		<Cursor position="3400" topLine="125" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
