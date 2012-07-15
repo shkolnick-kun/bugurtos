@@ -171,7 +171,7 @@ void * test_vm( void * arg )
             test_vm_t * vm = (test_vm_t *)(sched->current_proc->arg);
             *vm = current_vm[core_id];// Сохранение контекста
             // Перепланирование
-            sched_reschedule( sched );
+            sched_reschedule();
             vm = (test_vm_t *)(sched->current_proc->arg);
             current_vm[core_id] = *vm;// Восстановление контекста
         }
@@ -334,7 +334,7 @@ void * test_vm( void * arg )
             test_vm_t * vm = (test_vm_t *)(sched->current_proc->arg);
             *vm = current_vm[core_id];// Сохранение контекста
             // Планирование
-            sched_schedule(sched);
+            sched_schedule();
             vm = (test_vm_t *)(sched->current_proc->arg);
             current_vm[core_id] = *vm;// Восстановление контекста
         }
