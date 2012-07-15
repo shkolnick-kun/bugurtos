@@ -245,7 +245,7 @@ void _proc_flag_stop( flag_t mask )
     SPIN_LOCK( proc );
 
     proc->flags &= ~mask;
-    if(  ( proc->flags & PROC_FLG_PRE_STOP ) && (!(proc->flags & PROC_FLG_MUTEX))  )
+    if(  PROC_PRE_STOP_TEST(proc)  )
     {
         /*
         Если был запрошен останов целевого процесса,
@@ -270,7 +270,7 @@ void _proc_terminate( proc_t * proc )
     if( proc->flags & PROC_FLG_MUTEX ) proc->flags |= PROC_FLG_DEAD;
     // В противном случае - просто завершаем процесс
     else proc->flags |= PROC_FLG_END;
-    proc->flags &= ~(PROC_FLG_PRE_STOP|PROC_FLG_RUN);
+    proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
     // Останов
     _proc_stop_( proc );
     // Выполнить перепланировку

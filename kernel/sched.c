@@ -178,7 +178,7 @@ void sched_schedule(void)
             if(
                 (!(flags & PROC_FLG_RT))
 #ifndef CONFIG_HARD_RT
-                ||(flags & (PROC_FLG_MUTEX|PROC_FLG_SEM))
+                ||(flags & PROC_FLG_LOCK_MASK)
 #endif // CONFIG_HARD_RT
 
             )

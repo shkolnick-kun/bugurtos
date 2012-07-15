@@ -197,7 +197,6 @@ else this macro does nothing.
 #define PROC_PRIO_CONTROL_STOPED(a)
 
 #endif
-
 //Процесс
 typedef struct _proc_t proc_t;
 // Свойства
@@ -390,6 +389,44 @@ A process has been terminated due to abnormal behavior.
 */
 #define PROC_FLG_DEAD       ((flag_t)1024)
 
+// Служебные макрсы / Service macros
+/*!
+\~russian
+\brief Маска #PROC_FLG_RUN или #PROC_FLG_PRE_STOP.
+
+Используется для сброса соответствующих флагов.
+\~english
+\brief A #PROC_FLG_RUN or #PROC_FLG_PRE_STOP mask.
+
+Used to clear correspondent process state flags
+*/
+#define PROC_FLG_PRE_STOP_MASK ((flag_t)(PROC_FLG_RUN|PROC_FLG_PRE_STOP))
+/*!
+\~russian
+\brief Маска #PROC_FLG_MUTEX или #PROC_FLG_SEM.
+
+Нужна, чтобы определить, удерживает ли процесс общие ресурсы.
+\~english
+\brief A #PROC_FLG_MUTEX or #PROC_FLG_SEM mask.
+
+Used to test if a process has locked some resources.
+*/
+#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_MUTEX|PROC_FLG_SEM))
+
+/*!
+\~russian
+\brief Макрос проверки условий останова по флагу #PROC_FLG_PRE_STOP.
+
+Используется для проверки процессов на возможность останова по флагу #PROC_FLG_PRE_STOP.
+Процесс не должен удерживать общие ресурсы в момент останова по флагу.
+
+\~english
+\brief A #PROC_FLG_PRE_STOP condition test macro.
+
+Used to test if a process can be stoped on #PROC_FLG_PRE_STOP flag.
+A process should not have locked resources at a moment of a flag stop.
+*/
+#define PROC_PRE_STOP_TEST(a) (  ( a->flags & PROC_FLG_PRE_STOP ) && ( !( a->flags & PROC_FLG_LOCK_MASK ) )  )
 
 // Методы
 /*!

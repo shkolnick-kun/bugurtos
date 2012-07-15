@@ -155,9 +155,9 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK(proc);
     PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
     // Если проготовлен и готов к остановке - останавливаем
-    if(  ( proc->flags & PROC_FLG_PRE_STOP ) && (!(proc->flags & PROC_FLG_MUTEX))  )
+    if(  PROC_PRE_STOP_TEST(proc)  )
     {
-        proc->flags &= ~(PROC_FLG_RUN|PROC_FLG_PRE_STOP);
+        proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
         _proc_stop_( proc );
         PROC_PRIO_CONTROL_STOPED( proc );
         // Нужна перепланировка, процесс остановили и не запустили обратно

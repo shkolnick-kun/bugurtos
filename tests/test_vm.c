@@ -226,11 +226,11 @@ void * test_vm( void * arg )
             switch(*current_vm[core_id].pcounter++)
             {
                 case 0:
-                    proc_flag_stop(~PROC_FLG_WAIT);
+                    proc_flag_stop(PROC_FLG_WAIT);
                     print_op_result(core_id,current_vm[core_id].name,"SW2",0);
                     break;
                 case 1:
-                    proc_flag_stop(~PROC_FLG_WAIT);
+                    proc_flag_stop(PROC_FLG_WAIT);
                     print_op_result(core_id,current_vm[core_id].name,"SW2",1);
                     break;
                 default:
