@@ -40,9 +40,9 @@
 
 1339346078 /home/anonimous/Документы/bugurtos/include/crit_sec.h
 
-1342192353 /home/anonimous/Документы/bugurtos/include/proc.h
+1342360536 /home/anonimous/Документы/bugurtos/include/proc.h
 
-1339323345 /home/anonimous/Документы/bugurtos/include/sched.h
+1342284450 /home/anonimous/Документы/bugurtos/include/sched.h
 
 1339407933 /home/anonimous/Документы/bugurtos/include/kernel.h
 
@@ -91,7 +91,7 @@
 1342193080 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
-1342192986 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+1342284229 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
 1336476934 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
