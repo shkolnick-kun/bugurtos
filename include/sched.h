@@ -84,6 +84,23 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 \warning \~russian Все функции в этом файле для внутреннего использования!!! \~english All functions in this file are internel usage functins!!!
 */
+/*!
+\def _SCHED_INIT()
+\~russian
+\brief Макрос-обертка.
+
+Обертка инициализации переменной sched в функциях #sched_schedule и #sched_reschedule.
+\~english
+\brief Wrapper macro.
+
+Initialization wrapper for sched variable in #sched_schedule and #sched_reschedule functions.
+*/
+#ifdef CONFIG_MP
+#define _SCHED_INIT() (((sched_t *)kernel.sched) + current_core())
+#else
+#define _SCHED_INIT() ((sched_t *)&kernel.sched)
+#endif // CONFIG_MP
+
 // Планировшик
 typedef struct _sched_t sched_t;
 // Свойства
@@ -128,26 +145,14 @@ void sched_init(sched_t * sched, proc_t * idle);
 \~russian Переключает процессы в обработчике прерывания системного таймера.
 \~english This function switches processes in system timer interrupt handler.
 */
-void sched_schedule(
-#ifdef CONFIG_MP
-                        sched_t * sched /*!< \~russian Работаем с этим экземпляром планировщика \~english A scheduler object pointer. */
-#else
-                        void
-#endif // CONFIG_MP
-                       );
+void sched_schedule(void);
 /*!
 \brief \~russian Функция перепланирования. \~english Recheduler routine.
 
 \~russian Переключает процессы в случае необходимости.
 \~english This function switches processes if needed.
 */
-void sched_reschedule(
-#ifdef CONFIG_MP
-                        sched_t * sched /*!< \~russian Работаем с этим экземпляром планировщика \~english A scheduler object pointer. */
-#else
-                        void
-#endif // CONFIG_MP
-                       );
+void sched_reschedule(void);
 #ifdef CONFIG_MP
 // Балансировщик нагрузки
 /*!

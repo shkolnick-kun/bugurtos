@@ -99,9 +99,11 @@ void sched_init(sched_t * sched, proc_t * idle)
     stat_inc( idle, (stat_t *)kernel.stat + idle->core_id );
 #endif // CONFIG_MP
 }
-static void _sched_list_switch( sched_t * sched )
+static void _sched_switch_current( sched_t * sched, proc_t ** current_proc )
 {
-    // Список ready опустел, переключаем списки
+
+    SPIN_LOCK( sched );
+    // Если список ready опустел, - переключаем списки
     if( sched->ready->index == (index_t)0 )
     {
         xlist_t * buf;
@@ -109,6 +111,12 @@ static void _sched_list_switch( sched_t * sched )
         sched->ready = sched->expired;
         sched->expired = buf;
     }
+    // Изменять указатель будем при захваченной блокировке,
+    // чтобы процессы на других процессорах не прочитали неизвестно что.
+    sched->current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
+    *current_proc = sched->current_proc;
+
+    SPIN_UNLOCK( sched );
 }
 /******************************************************************************************
 Если у нас есть процессор и отвечающий за управление этим процессором объект типа sched_t,
@@ -124,19 +132,11 @@ static void _sched_list_switch( sched_t * sched )
 на исполняющем функции процессоре.
 ******************************************************************************************/
 // Функция планирования, переключает процессы в обработчике системмного таймера
-void sched_schedule(
-#ifdef CONFIG_MP
-                    sched_t * sched
-#else
-                    void
-#endif // CONFIG_MP
-                    )
+void sched_schedule(void)
 {
     proc_t * current_proc;
-#ifndef CONFIG_MP
     sched_t * sched;
-    sched = (sched_t *)&kernel.sched;
-#endif // nCONFIG_MP
+    sched = _SCHED_INIT();
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     current_proc = sched->current_proc;
     // А вот эту блокировку обязательно надо захватить!
@@ -178,8 +178,7 @@ void sched_schedule(
             if(
                 (!(flags & PROC_FLG_RT))
 #ifndef CONFIG_HARD_RT
-                ||(flags & PROC_FLG_MUTEX)
-                ||(flags & PROC_FLG_SEM)
+                ||(flags & (PROC_FLG_MUTEX|PROC_FLG_SEM))
 #endif // CONFIG_HARD_RT
 
             )
@@ -245,15 +244,9 @@ void sched_schedule(
     }
     //Текущий процесс более не нужен, освобождаем его блокировку
     SPIN_UNLOCK( current_proc );
-    SPIN_LOCK( sched );
 
-    _sched_list_switch( sched );
-    // Изменять указатель будем при захваченной блокировке,
-    // чтобы процессы на других процессорах не прочитали неизвестно что.
-    current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
-    sched->current_proc = current_proc;
+    _sched_switch_current( sched, &current_proc );
 
-    SPIN_UNLOCK( sched );
     SPIN_LOCK( current_proc );
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
@@ -262,19 +255,11 @@ void sched_schedule(
 }
 //----------------------------------------------------------------------------------------
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
-void sched_reschedule(
-#ifdef CONFIG_MP
-                        sched_t * sched
-#else
-                        void
-#endif // CONFIG_MP
-                       )
+void sched_reschedule(void)
 {
     proc_t * current_proc;
-#ifndef CONFIG_MP
     sched_t * sched;
-    sched = (sched_t *)&kernel.sched;
-#endif // nCONFIG_MP
+    sched = _SCHED_INIT();
     // Меняем только с локального процессора, блокировку sched->lock можно не захватывать!
     current_proc = sched->current_proc;
     // А вот эту блокировку обязательно надо захватить!
@@ -283,13 +268,8 @@ void sched_reschedule(
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
 
     SPIN_UNLOCK( current_proc );
-    SPIN_LOCK( sched );
 
-    _sched_list_switch( sched );
-    current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
-    sched->current_proc = current_proc;
-
-    SPIN_UNLOCK( sched );
+    _sched_switch_current( sched, &current_proc );
 
     SPIN_LOCK( current_proc );
     //Хук "восстановление контекста"

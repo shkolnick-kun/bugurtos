@@ -2,13 +2,13 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="7967" topLine="263" />
+		<Cursor position="8518" topLine="89" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="409" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="8055" topLine="113" />
+		<Cursor position="6781" topLine="97" />
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="1037" topLine="20" />
@@ -29,16 +29,16 @@
 		<Cursor position="2090" topLine="42" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="3">
-		<Cursor position="6512" topLine="98" />
+		<Cursor position="6512" topLine="76" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="1368" />
+		<Cursor position="29058" topLine="1096" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1379" topLine="57" />
+		<Cursor position="1379" topLine="21" />
 	</File>
-	<File name="../test_vm.c" open="1" top="0" tabpos="1">
-		<Cursor position="3400" topLine="125" />
+	<File name="../test_vm.c" open="0" top="0" tabpos="1">
+		<Cursor position="2965" topLine="108" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="56" topLine="26" />
