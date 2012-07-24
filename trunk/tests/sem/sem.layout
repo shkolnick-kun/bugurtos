@@ -29,10 +29,10 @@
 		<Cursor position="6489" topLine="97" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
-		<Cursor position="9427" topLine="986" />
+		<Cursor position="441" topLine="986" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="969" topLine="30" />
+		<Cursor position="969" topLine="54" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
 		<Cursor position="9549" topLine="273" />

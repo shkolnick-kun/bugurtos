@@ -23,7 +23,7 @@
 		<Cursor position="6456" topLine="0" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="6">
-		<Cursor position="7406" topLine="112" />
+		<Cursor position="7406" topLine="73" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="1">
 		<Cursor position="8494" topLine="135" />
@@ -31,11 +31,11 @@
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="3">
 		<Cursor position="6145" topLine="44" />
 	</File>
-	<File name="../../kernel/proc.c" open="0" top="0" tabpos="2">
-		<Cursor position="8649" topLine="144" />
+	<File name="../../kernel/proc.c" open="1" top="0" tabpos="2">
+		<Cursor position="11476" topLine="238" />
 	</File>
-	<File name="../../kernel/sched.c" open="0" top="0" tabpos="4">
-		<Cursor position="11046" topLine="165" />
+	<File name="../../kernel/sched.c" open="1" top="0" tabpos="4">
+		<Cursor position="11046" topLine="319" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="1">
 		<Cursor position="6360" topLine="138" />
@@ -44,7 +44,7 @@
 		<Cursor position="6253" topLine="121" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="5">
-		<Cursor position="16569" topLine="364" />
+		<Cursor position="12911" topLine="273" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
 		<Cursor position="6446" topLine="99" />

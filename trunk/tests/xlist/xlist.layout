@@ -5,7 +5,7 @@
 		<Cursor position="1026" topLine="21" />
 	</File>
 	<File name="../../include/kernel.h" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="118" />
+		<Cursor position="0" topLine="123" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="8173" topLine="4" />
@@ -13,8 +13,8 @@
 	<File name="../../include/pcounter.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../include/proc.h" open="0" top="0" tabpos="2">
-		<Cursor position="11288" topLine="598" />
+	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="16201" topLine="288" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="129" />

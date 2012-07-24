@@ -35,13 +35,13 @@
 		<Cursor position="6422" topLine="97" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
-		<Cursor position="57712" topLine="2453" />
+		<Cursor position="57390" topLine="2031" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="3390" topLine="156" />
+		<Cursor position="2769" topLine="156" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
-		<Cursor position="7890" topLine="209" />
+		<Cursor position="7624" topLine="222" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
 		<Cursor position="336" topLine="0" />
