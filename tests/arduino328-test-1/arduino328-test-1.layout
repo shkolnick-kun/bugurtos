@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
 		<Cursor position="92" topLine="0" />
 	</File>
@@ -38,7 +38,7 @@
 		<Cursor position="0" topLine="28" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="12713" topLine="176" />
+		<Cursor position="19299" topLine="383" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="9470" topLine="117" />
@@ -71,7 +71,7 @@
 		<Cursor position="0" topLine="99" />
 	</File>
 	<File name="../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="7537" topLine="114" />
+		<Cursor position="8180" topLine="126" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="6741" topLine="90" />
@@ -80,25 +80,25 @@
 		<Cursor position="0" topLine="112" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="6935" topLine="171" />
+		<Cursor position="8019" topLine="150" />
 	</File>
 	<File name="../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="6292" topLine="93" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6266" topLine="70" />
+		<Cursor position="12500" topLine="334" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="7356" topLine="271" />
+		<Cursor position="11592" topLine="169" />
 	</File>
 	<File name="../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="7154" topLine="127" />
+		<Cursor position="7154" topLine="63" />
 	</File>
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="9299" topLine="99" />
+		<Cursor position="9299" topLine="186" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="9948" topLine="251" />
+		<Cursor position="9948" topLine="499" />
 	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6115" topLine="89" />

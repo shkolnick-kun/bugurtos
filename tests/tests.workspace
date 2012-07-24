@@ -10,9 +10,9 @@
 		<Project filename="sig/sig.cbp" />
 		<Project filename="sem/sem.cbp" />
 		<Project filename="pcouter/pcouter.cbp" />
-		<Project filename="mutex/mutex.cbp" />
+		<Project filename="mutex/mutex.cbp" active="1" />
 		<Project filename="single_proc_test/single_proc_test.cbp" />
-		<Project filename="arduino328-test-1/arduino328-test-1.cbp" active="1" />
+		<Project filename="arduino328-test-1/arduino328-test-1.cbp" />
 		<Project filename="arduino328-test-sem/arduino328-test-sem.cbp" />
 		<Project filename="arduino328-test-mutex/arduino328-test-mutex.cbp" />
 		<Project filename="pitem/pitem.cbp" />

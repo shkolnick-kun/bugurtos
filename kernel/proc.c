@@ -267,7 +267,7 @@ void _proc_terminate( proc_t * proc )
 
     // Обрабатываем флаги
     // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
-    if( proc->flags & PROC_FLG_MUTEX ) proc->flags |= PROC_FLG_DEAD;
+    if( proc->flags & PROC_FLG_LOCK_MASK ) proc->flags |= PROC_FLG_DEAD;
     // В противном случае - просто завершаем процесс
     else proc->flags |= PROC_FLG_END;
     proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
