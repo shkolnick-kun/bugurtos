@@ -18,9 +18,6 @@ void spin_unlock(lock_t * lock)
 
 int main()
 {
-    spin_init( &kernel.pool_lock );
-    kernel.pool = (group_t *)0;
-
     item_t item[3], *test;
     xlist_t list1;
 
