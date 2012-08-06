@@ -188,7 +188,43 @@ int main()
     syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
     sched_reschedule();
     // Текущий процесс prc3
+
     sig_broadcast((sig_t *)sig);
+    sched_reschedule();
+
+    // Текущий процесс prc0
+    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );
+    sched_schedule();
+    sched_schedule();
+    // Текущий процесс prc1
+    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );
+    sched_schedule();
+    // Текущий процесс prc2
+    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );
+    sched_reschedule();
+    // Текущий процесс prc2
+    sched_schedule();
+    // Текущий процесс prc1
+    sched_schedule();
+    // Текущий процесс prc2
+    sched_reschedule();
+    // Текущий процесс prc2
+    sched_schedule();
+    // Текущий процесс prc3
+    sched_schedule();
+    // Текущий процесс prc4
+    sched_schedule();
+    // Текущий процесс prc5
+    sched_schedule();
+    // Текущий процесс prc3
+    sched_schedule();
+    // Текущий процесс prc4
+    sched_schedule();
+    // Текущий процесс prc5
+    sched_schedule();
+    // Текущий процесс idle
+    sched_schedule();
+    // Текущий процесс prc0
     ///----------------------------------------
     /// Тест семафоров
     _sem_lock( &sem );
@@ -218,7 +254,7 @@ int main()
 
     sem_unlock_isr( &sem );
     sched_schedule();
-    // Текущий процесс prc1
+    // Текущий процесс prc2
     sched_schedule();
     // Текущий процесс prc2
 

@@ -69,12 +69,6 @@
 		<Unit filename="../../kernel/crit_sec.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../kernel/gitem.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../kernel/group.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -91,6 +85,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../kernel/pitem.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../kernel/proc.c">

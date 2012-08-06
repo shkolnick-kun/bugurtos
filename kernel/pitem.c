@@ -142,3 +142,47 @@ void pitem_cut(pitem_t * pitem)
     pitem_fast_cut( pitem );
     pitem->list = (xlist_t *)0;
 }
+
+pitem_t * pitem_xlist_chain( xlist_t * src )
+{
+    pitem_t * ret;  // return value
+    ret = (pitem_t *)xlist_head( src );     // will return former xlist head
+    if(ret)
+    {
+        index_t mask,   // index mask to check for items in xlist
+                index;  // buffer for xlist index
+        prio_t  prio;   // current working priority
+        item_t * tail;  // current list tail;
+
+
+        tail = ((item_t *)ret)->prev;           // current list tail initial value
+        prio = ret->prio;                       // initial working prio
+        src->item[prio++] = (item_t *)0;        // cut all items from current xlist part
+        index = src->index;                     // remember xlist index to improve performance
+        mask = ((index_t)1) << prio;            // initial mask value
+        // cut all items from xlist and form an ordinary list of them
+        while(mask)
+        {
+            if( index & mask )
+            {
+                // current part of xlist has some items to cut
+                item_t * xhead;
+                item_t * buf;
+                xhead = src->item[prio];                    // current xlist head;
+                src->item[prio] = (item_t *)0;              // cut all items from current xlist part
+                // chain former xlist head to a list tail
+                tail->next = xhead;
+                buf = xhead->prev;
+                xhead->prev = tail;
+                tail = buf;
+            }
+            mask <<= (prio_t)1;
+            prio++;
+        }
+        // complete the list by chaining tail and head
+        ((item_t *)ret)->prev = tail;
+        tail->next = (item_t *)ret;
+        src->index = (index_t)0;        // xlist is empty.
+    }
+    return ret;                     // return list head;
+}

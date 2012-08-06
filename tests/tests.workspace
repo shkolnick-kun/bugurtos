@@ -2,16 +2,14 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="item/item.cbp" />
-		<Project filename="igroup/igroup.cbp" />
-		<Project filename="gitem/gitem.cbp" />
 		<Project filename="xlist/xlist.cbp" />
 		<Project filename="proc/proc.cbp" />
 		<Project filename="sched/sched.cbp" />
 		<Project filename="sig/sig.cbp" />
 		<Project filename="sem/sem.cbp" />
 		<Project filename="pcouter/pcouter.cbp" />
-		<Project filename="mutex/mutex.cbp" active="1" />
-		<Project filename="single_proc_test/single_proc_test.cbp" />
+		<Project filename="mutex/mutex.cbp" />
+		<Project filename="single_proc_test/single_proc_test.cbp" active="1" />
 		<Project filename="arduino328-test-1/arduino328-test-1.cbp" />
 		<Project filename="arduino328-test-sem/arduino328-test-sem.cbp" />
 		<Project filename="arduino328-test-mutex/arduino328-test-mutex.cbp" />

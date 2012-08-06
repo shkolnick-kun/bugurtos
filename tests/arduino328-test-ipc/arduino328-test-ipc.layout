@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="154" />
 	</File>
@@ -9,12 +9,6 @@
 	</File>
 	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="9599" topLine="170" />
-	</File>
-	<File name="../../include/gitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="11817" topLine="153" />
-	</File>
-	<File name="../../include/group.h" open="0" top="0" tabpos="0">
-		<Cursor position="9686" topLine="0" />
 	</File>
 	<File name="../../include/index.h" open="0" top="0" tabpos="0">
 		<Cursor position="6658" topLine="71" />
@@ -57,12 +51,6 @@
 	</File>
 	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6270" topLine="85" />
-	</File>
-	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="6161" topLine="223" />
-	</File>
-	<File name="../../kernel/group.c" open="0" top="0" tabpos="0">
-		<Cursor position="6859" topLine="95" />
 	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6962" topLine="99" />

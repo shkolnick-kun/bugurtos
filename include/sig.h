@@ -150,6 +150,7 @@ On multicore system it allso does load prebalancing.
 \param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
 void _sig_wait_prologue( sig_t * sig );
+void _sig_wait_epilogue( void );
 
 // Разбудить 1 процесс
 /*!

@@ -103,10 +103,6 @@ struct _kernel_t
     sched_t sched; /*!< \~russian Планировшик. \~english The scheduler. */
     proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
 #endif // CONFIG_MP
-    group_t * pool; /*!< \~russian Пул. В пуле хранятся свободные группы элементов списков. \~english The pool, it stores free #group_t objects.*/
-#ifdef CONFIG_MP
-    lock_t pool_lock; /*!< \~russian На многопроцессорной системе Пул защищатеся спин-блокировкой. \~english The pool is spin-lock protected on multicore systems. */
-#endif
     timer_t timer; /*!< \~russian Системный таймер. \~english The system timer. */
     void (*timer_tick)(void);/*!< \~russian Хук обработчика системного таймера. \~english The system timer tick hook pointer. */
 };

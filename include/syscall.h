@@ -96,7 +96,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define SYSCALL_SIG_INIT                        (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian Инициация сигнала. \~english A signal initialization. */
 #define SYSCALL_SIG_WAIT                        (SYSCALL_SIG_INIT + (syscall_t)(1))             /*!< \~russian Ожидание сигнала. \~english Wait for signal. */
-#define SYSCALL_SIG_SIGNAL                      (SYSCALL_SIG_WAIT + (syscall_t)(1))             /*!< \~russian Подача сигнала одному процессу. \~english Signal to one waiting process. */
+#define SYSCALL_SIG_WAKEUP                      (SYSCALL_SIG_WAIT + (syscall_t)(1))             /*!< \~russian Обработка запуска по сигналу. \~english Signal wakeup processing. */
+#define SYSCALL_SIG_SIGNAL                      (SYSCALL_SIG_WAKEUP + (syscall_t)(1))           /*!< \~russian Подача сигнала одному процессу. \~english Signal to one waiting process. */
 #define SYSCALL_SIG_BROADCAST                   (SYSCALL_SIG_SIGNAL + (syscall_t)(1))           /*!< \~russian Подача сигнала всем ожидающим процессам. \~english Signal to all waiting processes. */
 
 #define SYSCALL_SEM_INIT                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))        /*!< \~russian Инициация семафора. \~english A semaphore initialization. */
@@ -370,6 +371,7 @@ Transfers a caller process in to signal wait state by #_sig_wait_prologue call.
 \param arg A pointer to a signal.
 */
 void scall_sig_wait( void * arg );
+void scall_sig_wakeup( void *arg );
 /*!
 \~russian
 \brief

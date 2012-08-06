@@ -99,7 +99,7 @@ void proc_init_isr(
     SPIN_INIT( proc );
     SPIN_LOCK( proc );
 
-    gitem_init( (gitem_t *)proc, prio );
+    pitem_init( (pitem_t *)proc, prio );
     proc->flags = ( is_rt )?PROC_FLG_RT:(flag_t)0;
 
     PROC_LRES_INIT( proc );
@@ -128,7 +128,7 @@ void _proc_run_( proc_t * proc )
     sched_t * proc_sched;
     proc_sched = (sched_t *)kernel.sched + proc->core_id;
     SPIN_LOCK( proc_sched );
-    gitem_insert( (gitem_t *)proc, proc_sched->ready );
+    pitem_insert( (pitem_t *)proc, proc_sched->ready );
     SPIN_UNLOCK( proc_sched );
 }
 #endif // CONFIG_MP
@@ -203,7 +203,7 @@ void _proc_stop_(proc_t * proc)
         lock_t * xlist_lock;
         xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
         spin_lock( xlist_lock );
-        gitem_cut( (gitem_t *)proc );
+        pitem_cut( (pitem_t *)proc );
         spin_unlock( xlist_lock );
     }
 }
@@ -331,11 +331,11 @@ void _proc_prio_control_stoped( proc_t * proc )
     {
         prio_t locker_prio;
         locker_prio = index_search( proc->lres.index );
-        ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
+        ((pitem_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
     }
     else
     {
-        ((gitem_t *)proc)->group->prio = proc->base_prio;
+        ((pitem_t *)proc)->prio = proc->base_prio;
     }
 }
 void _proc_prio_control_running( proc_t * proc )
@@ -351,10 +351,10 @@ void _proc_prio_control_running( proc_t * proc )
     {
         new_prio = proc->base_prio;
     }
-    if(((gitem_t *)proc)->group->prio != new_prio)
+    if(((pitem_t *)proc)->prio != new_prio)
     {
         _proc_stop_( proc );
-        ((gitem_t *)proc)->group->prio = new_prio;
+        ((pitem_t *)proc)->prio = new_prio;
 #ifdef CONFIG_MP
         spin_lock( &kernel.stat_lock );
         stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
@@ -404,7 +404,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
     {
         // Остановили выполнение процесса на старом процессоре
         SPIN_LOCK( sched );
-        gitem_fast_cut( (gitem_t *)proc );
+        pitem_fast_cut( (pitem_t *)proc );
         SPIN_UNLOCK( sched );
         resched(object_core); // Процесс мог быть поставлен на выполнение, пока мы захватывали его блокировку, перепланируем
 
@@ -422,7 +422,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
         // Переносим процесс на новый процессор, продолжаем выполнение там. Перепланировку не делаем, проуесс не выполняет требования реального времени.
         proc->core_id = object_core;
         SPIN_LOCK( sched );
-        gitem_insert( (gitem_t *)proc, sched->expired );
+        pitem_insert( (pitem_t *)proc, sched->expired );
         SPIN_UNLOCK( sched );
     }
     SPIN_UNLOCK( proc );

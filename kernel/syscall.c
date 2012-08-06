@@ -91,6 +91,7 @@ const code_t syscall_routine[] =
     // Сигналы
     scall_sig_init,
     scall_sig_wait,
+    scall_sig_wakeup,
     scall_sig_signal,
     scall_sig_broadcast,
     // Семафоры
@@ -318,11 +319,19 @@ void scall_sig_wait( void * arg )
 {
     _sig_wait_prologue( (sig_t *)arg );
 }
+/**********************************************************************************************
+                                       SYSCALL_SIG_WAKEUP
+**********************************************************************************************/
+void scall_sig_wakeup( void *arg )
+{
+    _sig_wait_epilogue();
+    _proc_flag_stop( PROC_FLG_WAIT );
+}
+
 void sig_wait( sig_t * sig )
 {
-    const flag_t mask = PROC_FLG_WAIT;
     syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
-    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&mask );// Останов в случае необходимости
+    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );// Останов в случае необходимости
 }
 /**********************************************************************************************
                                        SYSCALL_SIG_SIGNAL

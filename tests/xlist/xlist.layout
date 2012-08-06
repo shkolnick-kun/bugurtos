@@ -4,8 +4,8 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="1026" topLine="21" />
 	</File>
-	<File name="../../include/kernel.h" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="123" />
+	<File name="../../include/kernel.h" open="1" top="0" tabpos="1">
+		<Cursor position="0" topLine="119" />
 	</File>
 	<File name="../../include/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="8173" topLine="4" />
@@ -13,8 +13,8 @@
 	<File name="../../include/pcounter.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="16201" topLine="288" />
+	<File name="../../include/proc.h" open="0" top="0" tabpos="1">
+		<Cursor position="16201" topLine="189" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="129" />

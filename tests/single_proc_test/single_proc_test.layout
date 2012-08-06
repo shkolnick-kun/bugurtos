@@ -4,12 +4,6 @@
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="8772" topLine="269" />
 	</File>
-	<File name="../../include/gitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="6104" topLine="70" />
-	</File>
-	<File name="../../include/group.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="105" />
-	</File>
 	<File name="../../include/index.h" open="0" top="0" tabpos="0">
 		<Cursor position="6036" topLine="65" />
 	</File>
@@ -39,9 +33,6 @@
 	</File>
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="6986" topLine="106" />
-	</File>
-	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="885" topLine="0" />
 	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="30" topLine="0" />
@@ -74,9 +65,9 @@
 		<Cursor position="30" topLine="0" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="1">
-		<Cursor position="682" topLine="25" />
+		<Cursor position="682" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="7269" topLine="257" />
+		<Cursor position="5396" topLine="200" />
 	</File>
 </CodeBlocks_layout_file>

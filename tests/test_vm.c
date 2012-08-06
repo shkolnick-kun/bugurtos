@@ -127,7 +127,7 @@ void print_op_result(core_id_t core, char *name, char *inst, int result)
     pthread_spin_unlock(&kernel.stat_lock);
 
     pthread_spin_lock(&kernel.sched[core].current_proc->lock);
-    m = (int)kernel.sched[core].current_proc->parent.group->prio;
+    m = (int)kernel.sched[core].current_proc->parent.prio;
     c = ( kernel.sched[core].current_proc->flags & PROC_FLG_RT )?'x':'0';
     t = (int)kernel.sched[core].current_proc->timer;
     pthread_spin_unlock(&kernel.sched[core].current_proc->lock);
@@ -226,11 +226,11 @@ void * test_vm( void * arg )
             switch(*current_vm[core_id].pcounter++)
             {
                 case 0:
-                    proc_flag_stop(PROC_FLG_WAIT);
+                    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );
                     print_op_result(core_id,current_vm[core_id].name,"SW2",0);
                     break;
                 case 1:
-                    proc_flag_stop(PROC_FLG_WAIT);
+                    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );
                     print_op_result(core_id,current_vm[core_id].name,"SW2",1);
                     break;
                 default:

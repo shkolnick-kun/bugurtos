@@ -228,7 +228,7 @@ You must access such static variables using process synchronization facilities.
 */
 struct _proc_t
 {
-    gitem_t parent;     /*!<\~russian Родитель - #gitem_t. \~english A parent is #gitem_t.*/
+    pitem_t parent;     /*!<\~russian Родитель - #pitem_t. \~english A parent is #pitem_t.*/
     flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
@@ -238,7 +238,7 @@ struct _proc_t
 #endif
     timer_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     timer_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
-
+    void * buf;         /*!<\~russian  Указатель на хранилище для передачи данных через IPC. \~english A pointer to process IPC data storage.*/
 #ifdef CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
     core_id_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
@@ -250,8 +250,6 @@ struct _proc_t
     code_t sv_hook;     /*!<\~russian  Хук, исполняется планировщиком после сохранения контекста процесса. \~english A context save hook, it is run after saving a process context.*/
     code_t rs_hook;     /*!<\~russian  Хук, исполняется планировщиком перед восстановлением контекста процесса. \~english  A context restore hook, it is run before restoring a process context.*/
     void * arg;         /*!<\~russian  Аргумент для pmain, sv_hook, rs_hook, может хранить ссылку на локальные данные конкретного экземпляра процесса. \~english An argument for pmain, sv_hook, rs_hook, may be used to store process local data.*/
-
-    void * ipc;         /*!<\~russian  Указатель на хранилище для передачи данных через IPC. \~english A pointer to process IPC data storage.*/
 
     stack_t * sstart;   /*!<\~russian  Указатель на дно стека экземпляра процесса. \~english A process stack bottom pointer.*/
     stack_t * spointer; /*!<\~russian Указатель на вершину стека экземпляра процесса. \~english A process stack top pointer.*/
@@ -630,7 +628,7 @@ void _proc_run_( proc_t * proc );
 /*!
 \brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
 */
-#define _proc_run_(proc) gitem_insert( (gitem_t *)proc, kernel.sched.ready )
+#define _proc_run_(proc) pitem_insert( (pitem_t *)proc, kernel.sched.ready )
 #endif
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
@@ -646,7 +644,7 @@ void _proc_stop_(proc_t * proc);
 /*!
 \brief \~russian Вырезка процесса из списка готовых к выполнению, для внутреннего использования. \~english A routine that cuts a process from ready process list.
 */
-#define _proc_stop_(proc) gitem_cut((gitem_t *)proc)
+#define _proc_stop_(proc) pitem_cut((pitem_t *)proc)
 #endif
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.

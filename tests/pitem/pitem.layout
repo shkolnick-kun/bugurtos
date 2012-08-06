@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="684" topLine="6" />
 	</File>
 	<File name="../../include/item.h" open="0" top="0" tabpos="0">
-		<Cursor position="693" topLine="0" />
+		<Cursor position="693" topLine="78" />
 	</File>
-	<File name="../../include/pitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="8821" topLine="121" />
+	<File name="../../include/pitem.h" open="0" top="0" tabpos="2">
+		<Cursor position="9549" topLine="132" />
 	</File>
-	<File name="../../kernel/pitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="6340" topLine="76" />
+	<File name="../../kernel/pitem.c" open="0" top="0" tabpos="2">
+		<Cursor position="8301" topLine="161" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="6507" topLine="96" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="0">
-		<Cursor position="226" topLine="0" />
+	<File name="main.c" open="0" top="0" tabpos="1">
+		<Cursor position="633" topLine="6" />
 	</File>
 </CodeBlocks_layout_file>
