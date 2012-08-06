@@ -28,19 +28,22 @@
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="3">
 		<Cursor position="2090" topLine="42" />
 	</File>
+	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="14907" topLine="317" />
+	</File>
 	<File name="config.h" open="0" top="0" tabpos="3">
-		<Cursor position="6512" topLine="76" />
+		<Cursor position="6670" topLine="100" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
-		<Cursor position="29058" topLine="1096" />
+		<Cursor position="28649" topLine="1380" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1379" topLine="21" />
+		<Cursor position="1353" topLine="60" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="1">
-		<Cursor position="2965" topLine="87" />
+		<Cursor position="3562" topLine="186" />
 	</File>
 	<File name="../test_vm.h" open="0" top="0" tabpos="0">
-		<Cursor position="56" topLine="26" />
+		<Cursor position="56" topLine="27" />
 	</File>
 </CodeBlocks_layout_file>

@@ -84,7 +84,7 @@ void _ipc_wait( void * ipc_pointer )
     SPIN_LOCK( proc );
     // Останавливаем процесс
     proc->flags |= PROC_FLG_IPCW;
-    proc->ipc = ipc_pointer;
+    proc->buf = ipc_pointer;
     _proc_stop_( proc );
     RESCHED_PROC( proc );
 
@@ -111,7 +111,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
             goto end;
         }
         ret = (bool_t)1; // информация будет передана
-        *(ipc_data_t *)proc->ipc = data;
+        *(ipc_data_t *)proc->buf = data;
         _proc_run( proc );
     }
 end:
@@ -139,7 +139,7 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
             goto end;
         }
         ret = (bool_t)1; // информация будет передана
-        *(ipc_data_t *)proc->ipc = send;
+        *(ipc_data_t *)proc->buf = send;
         _ipc_wait( receive ); // Готовимся к приему данных!
         _proc_run( proc );   // И только после этого запускаем процесс-адресат!
     }

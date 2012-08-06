@@ -89,12 +89,6 @@ void kernel_init(void)
 #ifdef CONFIG_MP
     core_id_t i;
 
-    //Инициируем пул
-    SPIN_INIT_POOL();
-    SPIN_LOCK_POOL();
-    kernel.pool = (group_t *)0;
-    SPIN_UNLOCK_POOL();
-
     spin_init( &kernel.stat_lock );
     spin_lock( &kernel.stat_lock );
     //Инициация собственно ядра

@@ -110,7 +110,7 @@ bool_t _sem_lock( sem_t * sem )
         SPIN_LOCK( proc );
         proc->flags |= PROC_FLG_QUEUE;
         _proc_stop( proc );
-        gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
+        pitem_insert( (pitem_t *)proc, (xlist_t *)sem );
         SPIN_UNLOCK( proc );
     }
     SPIN_UNLOCK( sem );
@@ -151,7 +151,7 @@ void sem_unlock_isr( sem_t * sem )
 
     SPIN_LOCK( proc );
 
-    gitem_cut( (gitem_t *)proc );
+    pitem_cut( (pitem_t *)proc );
     proc->flags &= ~PROC_FLG_QUEUE;
     _proc_run( proc );
 

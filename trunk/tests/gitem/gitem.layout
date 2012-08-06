@@ -16,14 +16,14 @@
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="13" />
 	</File>
-	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="1">
-		<Cursor position="6185" topLine="82" />
+	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="5">
+		<Cursor position="6185" topLine="223" />
 	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="3">
 		<Cursor position="7395" topLine="99" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="2">
-		<Cursor position="101" topLine="1" />
+		<Cursor position="6725" topLine="87" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="0">
 		<Cursor position="6328" topLine="90" />
@@ -32,6 +32,6 @@
 		<Cursor position="53948" topLine="2647" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="3">
-		<Cursor position="15" topLine="0" />
+		<Cursor position="15" topLine="174" />
 	</File>
 </CodeBlocks_layout_file>

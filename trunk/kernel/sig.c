@@ -122,14 +122,46 @@ void _sig_wait_prologue( sig_t * sig )
         sig_core = sched_load_balancer( proc, (stat_t *)sig->sig_stat );
 
         proc->core_id = sig_core;
-        gitem_insert_group((gitem_t *)proc, (xlist_t *)sig + sig_core);
+        pitem_insert((pitem_t *)proc, (xlist_t *)sig + sig_core);
         stat_inc( proc, (stat_t *)sig->sig_stat + sig_core );
     }
 #else
-    gitem_insert_group( (gitem_t *)proc, (xlist_t *)sig );
+    pitem_insert( (pitem_t *)proc, (xlist_t *)sig );
 #endif //CONFIG_MP
     SPIN_UNLOCK( proc );
     SPIN_UNLOCK( sig );
+}
+//========================================================================================
+//
+static void _sig_wakeup_list_proc( proc_t * proc )
+{
+    SPIN_LOCK( proc );
+    proc->buf = ((item_t *)proc)->next;
+    item_cut( (item_t *)proc );                  // Вырезать процесс из простого списка гораздо проще, чем из xlist
+    _proc_run_( proc );
+    SPIN_UNLOCK( proc );
+}
+
+void _sig_wait_epilogue( void )
+{
+    proc_t * proc;
+    proc_t * wakeup_proc;
+    proc = current_proc();
+
+    SPIN_LOCK( proc );
+    wakeup_proc = (proc_t *)proc->buf;
+    proc->buf = (void *)0;
+    SPIN_UNLOCK( proc );
+    // Надо разбудить следующий процесс в списке.
+    if( wakeup_proc )
+    {
+        // Если есть другие процессы для пробуждения, то "будим" самый приоритетный из них, он продолжит "побудку".
+        if( wakeup_proc != proc )
+        {
+            //Нельзя будить себя! Будим только другой процесс!
+            _sig_wakeup_list_proc( wakeup_proc );
+        }
+    }
 }
 //========================================================================================
 // Будит 1 процесс, для вызова из обработчиков прерываний
@@ -155,7 +187,7 @@ void sig_signal_isr( sig_t * sig )
     }
     SPIN_LOCK( proc );// Захват блокировки процесса
     // Вырезаем процесс из списка ожидания сигнала
-    gitem_fast_cut( (gitem_t *)proc );
+    pitem_fast_cut( (pitem_t *)proc );
     stat_dec( proc, (stat_t *)sig->sig_stat + core );
     //Запуск процесса
     // Вставляем его в список ready соответствующего планировщика
@@ -166,7 +198,7 @@ void sig_signal_isr( sig_t * sig )
         sched_t * sched;
         sched = kernel.sched + core;// Дада, нагрузка была сбалансирована на этапе постановки в список ожидания
         SPIN_LOCK( sched );
-        gitem_insert((gitem_t *)proc, sched->ready );
+        pitem_insert((pitem_t *)proc, sched->ready );
         SPIN_UNLOCK( sched );
     }
     resched(core);// Перепланировка
@@ -176,8 +208,8 @@ void sig_signal_isr( sig_t * sig )
     proc_t * proc;
     if( ((xlist_t *)sig)->index == (index_t)0 )return;
     proc = (proc_t *)xlist_head( (xlist_t *)sig );
-    gitem_fast_cut( (gitem_t *)proc );
-    gitem_insert( (gitem_t *)proc, kernel.sched.ready );
+    pitem_fast_cut( (pitem_t *)proc );
+    pitem_insert( (pitem_t *)proc, kernel.sched.ready );
     resched();
 #endif //CONFIG_MP
 }
@@ -190,19 +222,37 @@ void sig_broadcast_isr( sig_t * sig )
     SPIN_LOCK( sig );
     for(core = 0; core < (core_id_t)MAX_CORES; core++)
     {
-        spin_lock( &kernel.sched[core].lock );
-        gitem_xlist_merge( (xlist_t *)sig + core, kernel.sched[core].ready );
-        spin_unlock( &kernel.sched[core].lock );
-
+        proc_t * wakeup_proc;
+        /*
+        Фактически процессы еще не поставлены на выполнение,
+        но обязательно будут, это надо учитывать при баланисировке нагрузки.
+        */
         spin_lock( &kernel.stat_lock );
         stat_merge( (stat_t *)sig->sig_stat + core, (stat_t *)kernel.stat + core );
         spin_unlock( &kernel.stat_lock );
+        /*
+        Сцепляем список и будим его голову.
+        */
+        wakeup_proc = (proc_t *)pitem_xlist_chain( (xlist_t *)sig + core );
+        if( wakeup_proc )
+        {
+            _sig_wakeup_list_proc( wakeup_proc );
+        }
 
         resched(core);
     }
     SPIN_UNLOCK( sig );
 #else
-    gitem_xlist_merge( (xlist_t *)sig, kernel.sched.ready );
+    proc_t * wakeup_proc;
+    /*
+    Сцепляем список и будим его голову.
+    */
+    wakeup_proc = (proc_t *)pitem_xlist_chain( (xlist_t *)sig );
+    if( wakeup_proc )
+    {
+        _sig_wakeup_list_proc( wakeup_proc );
+    }
+
     resched();
 #endif //CONFIG_MP
 }

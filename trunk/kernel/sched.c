@@ -91,7 +91,7 @@ void sched_init(sched_t * sched, proc_t * idle)
     xlist_init( sched->ready );
     sched->expired = (xlist_t *)sched->plst + 1;
     xlist_init( sched->expired );
-    gitem_insert( (gitem_t *)idle, sched->ready );
+    pitem_insert( (pitem_t *)idle, sched->ready );
     sched->current_proc = idle;
     sched->nested_crit_sec = (count_t)0;//вообще это выполняется при запрещенных прерываниях, но не известно, на этом ли процессоре
 #ifdef CONFIG_MP
@@ -144,12 +144,12 @@ void sched_schedule(void)
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
     // Проверяем, что процесс находится в списке ready
-    if( (xlist_t *)((gitem_t *)current_proc)->group->link == sched->ready )
+    if( (xlist_t *)((pitem_t *)current_proc)->list == sched->ready )
     {
         // Переключаем cписок на следующий за текущим процесс
         SPIN_LOCK( sched );
 
-        xlist_switch( sched->ready, ((gitem_t *)current_proc)->group->prio );
+        xlist_switch( sched->ready, ((pitem_t *)current_proc)->prio );
 
         SPIN_UNLOCK( sched );
         //Проверяем, не истек ли квант времени процесса
@@ -160,7 +160,7 @@ void sched_schedule(void)
             // Истек, вырезаем процесс из списка
             SPIN_LOCK( sched );
 
-            gitem_fast_cut( (gitem_t *)current_proc );
+            pitem_fast_cut( (pitem_t *)current_proc );
 
             SPIN_UNLOCK( sched );
 #if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
@@ -200,13 +200,13 @@ void sched_schedule(void)
 
                 // Вставляем процесс в список  expired
                 SPIN_LOCK( new_sched );
-                gitem_insert( (gitem_t *)current_proc, new_sched->expired );
+                pitem_insert( (pitem_t *)current_proc, new_sched->expired );
                 SPIN_UNLOCK( new_sched );
 #else // CONFIG_MP CONFIG_USE_ALB
                 // Тупо переносим процесс в список expired
                 SPIN_LOCK( sched );
 
-                gitem_insert( (gitem_t *)current_proc, sched->expired );
+                pitem_insert( (pitem_t *)current_proc, sched->expired );
 
                 SPIN_UNLOCK( sched );
 
@@ -236,7 +236,7 @@ void sched_schedule(void)
                 *********************************************************/
                 spin_unlock( &kernel.stat_lock );
 #endif // CONFIG_MP
-                ((gitem_t *)current_proc)->group->link = (void *)0;// Просто вырезали из списка, как в gitem_cut
+                ((pitem_t *)current_proc)->list = (xlist_t *)0;// Просто вырезали из списка, как в pitem_cut
                 current_proc->flags |= PROC_FLG_WD_STOP;//Остановлен по WD
                 current_proc->flags &= ~PROC_FLG_RUN;
             }
@@ -298,7 +298,7 @@ WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
         prio_t proc_prio;
         load_t current_load, min_load;
 
-        proc_prio = ((gitem_t *)proc)->group->prio;
+        proc_prio = ((pitem_t *)proc)->prio;
         min_load = stat_calc_load( proc_prio, stat++ );
         // Проверка всего остального, тупой поиск минимума
         while( core < (core_id_t)MAX_CORES )

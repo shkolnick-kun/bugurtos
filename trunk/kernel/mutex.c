@@ -117,7 +117,7 @@ bool_t _mutex_lock( mutex_t * mutex )
     {
         proc->flags |= PROC_FLG_QUEUE;
         _proc_stop( proc );
-        gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
+        pitem_insert( (pitem_t *)proc, (xlist_t *)mutex );
     }
     SPIN_UNLOCK( proc );
     SPIN_UNLOCK( mutex );
@@ -180,7 +180,7 @@ void _mutex_unlock( mutex_t *  mutex )
     proc = (proc_t *)xlist_head( (xlist_t *)mutex );
     SPIN_LOCK( proc );
     // Сначала надо вырезать
-    gitem_cut( (gitem_t *)proc );
+    pitem_cut( (pitem_t *)proc );
     proc->flags &= ~PROC_FLG_QUEUE;
     // Управление приоритетом процесса
     PROC_PRIO_CONTROL_STOPED( proc );

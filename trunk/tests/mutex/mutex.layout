@@ -17,7 +17,7 @@
 		<Cursor position="0" topLine="121" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="14634" topLine="228" />
+		<Cursor position="14634" topLine="399" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="172" />
@@ -31,20 +31,14 @@
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="831" topLine="119" />
 	</File>
-	<File name="../../kernel/gitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="591" topLine="0" />
-	</File>
-	<File name="../../kernel/group.c" open="0" top="0" tabpos="0">
-		<Cursor position="657" topLine="0" />
-	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="591" topLine="0" />
 	</File>
 	<File name="../../kernel/item.c" open="0" top="0" tabpos="0">
-		<Cursor position="657" topLine="0" />
+		<Cursor position="657" topLine="69" />
 	</File>
 	<File name="../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6309" topLine="34" />
+		<Cursor position="6309" topLine="112" />
 	</File>
 	<File name="../../kernel/mutex.c" open="0" top="0" tabpos="3">
 		<Cursor position="9916" topLine="187" />
@@ -71,10 +65,10 @@
 		<Cursor position="6504" topLine="99" />
 	</File>
 	<File name="log.txt" open="0" top="0" tabpos="0">
-		<Cursor position="286705" topLine="9452" />
+		<Cursor position="264321" topLine="9239" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="1">
-		<Cursor position="1389" topLine="4" />
+		<Cursor position="1389" topLine="85" />
 	</File>
 	<File name="../test_vm.c" open="0" top="0" tabpos="0">
 		<Cursor position="11030" topLine="383" />

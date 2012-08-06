@@ -116,7 +116,7 @@ typedef unsigned int ipc_data_t;
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_MP
 #define MAX_CORES (4)
-//#define CONFIG_USE_ALB
+#define CONFIG_USE_ALB
 //#define CONFIG_HARD_RT
 
 #endif //_CONFIG_H_
