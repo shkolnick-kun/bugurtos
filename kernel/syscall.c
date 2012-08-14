@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-const code_t syscall_routine[] =
+SYSCALL_TABLE( syscall_routine[] ) =
 {
     // Упавление процессами
     scall_proc_init,
@@ -124,7 +124,7 @@ void do_syscall( void )
     if( syscall_num != (syscall_t)0 )
     {
         syscall_num--;
-        syscall_routine[syscall_num](syscall_arg);
+        (SYSCALL_TABLE_READ(syscall_routine[syscall_num]))(syscall_arg);
         syscall_num = (syscall_t)0;
     }
 }

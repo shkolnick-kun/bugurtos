@@ -4,6 +4,10 @@
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================
+
+#define SYSCALL_TABLE(a) const code_t a
+#define SYSCALL_TABLE_READ(a) a
+
 #define WEAK __weak
 #define NOP __no_operation
 #define disable_interrupts __disable_interrupt

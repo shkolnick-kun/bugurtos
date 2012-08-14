@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
-		<Cursor position="92" topLine="0" />
+	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="1" top="0" tabpos="1">
+		<Cursor position="9418" topLine="183" />
 	</File>
-	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="92" topLine="0" />
+	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="1" top="0" tabpos="2">
+		<Cursor position="8778" topLine="135" />
 	</File>
-	<File name="../../arch/avr-gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
-		<Cursor position="135" topLine="0" />
+	<File name="../../arch/avr-gcc/bugurt_kernel_asm.S" open="1" top="0" tabpos="4">
+		<Cursor position="9518" topLine="192" />
 	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="7902" topLine="136" />
+		<Cursor position="7902" topLine="118" />
 	</File>
 	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="7353" topLine="0" />
@@ -35,7 +35,7 @@
 		<Cursor position="9469" topLine="131" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="19299" topLine="383" />
+		<Cursor position="14631" topLine="227" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="9470" topLine="117" />
@@ -47,7 +47,7 @@
 		<Cursor position="8331" topLine="78" />
 	</File>
 	<File name="../../include/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="22204" topLine="78" />
+		<Cursor position="22204" topLine="102" />
 	</File>
 	<File name="../../include/timer.h" open="0" top="0" tabpos="1">
 		<Cursor position="6849" topLine="126" />
@@ -55,8 +55,8 @@
 	<File name="../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="6522" topLine="58" />
 	</File>
-	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="3">
-		<Cursor position="6923" topLine="73" />
+	<File name="../../kernel/crit_sec.c" open="0" top="0" tabpos="7">
+		<Cursor position="6675" topLine="73" />
 	</File>
 	<File name="../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="99" />
@@ -77,7 +77,7 @@
 		<Cursor position="6292" topLine="93" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="12500" topLine="334" />
+		<Cursor position="6994" topLine="0" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="11592" topLine="169" />
@@ -89,18 +89,18 @@
 		<Cursor position="9299" topLine="186" />
 	</File>
 	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="9948" topLine="499" />
+		<Cursor position="6151" topLine="77" />
 	</File>
-	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="6115" topLine="89" />
+	<File name="../../kernel/timer.c" open="0" top="0" tabpos="5">
+		<Cursor position="6488" topLine="81" />
 	</File>
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="7234" topLine="96" />
 	</File>
-	<File name="config.h" open="0" top="0" tabpos="0">
-		<Cursor position="982" topLine="25" />
+	<File name="config.h" open="1" top="0" tabpos="3">
+		<Cursor position="274" topLine="0" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="2688" topLine="96" />
+	<File name="main.c" open="1" top="1" tabpos="5">
+		<Cursor position="1298" topLine="109" />
 	</File>
 </CodeBlocks_layout_file>

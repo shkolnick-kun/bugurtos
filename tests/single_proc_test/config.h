@@ -2,6 +2,9 @@
 // Тестовый конфиг-файл, в последствии будет заменен
 #define _CONFIG_H_
 
+#define SYSCALL_TABLE(a) const code_t a
+#define SYSCALL_TABLE_READ(a) a
+
 #define WEAK __attribute__((__weak__))
 
 // data types

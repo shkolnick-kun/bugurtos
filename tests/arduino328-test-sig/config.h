@@ -12,6 +12,10 @@
 
 #ifndef __ASSEMBLER__
 
+#include <avr/pgmspace.h>
+#define SYSCALL_TABLE(a) const PROGMEM code_t a
+#define SYSCALL_TABLE_READ(a) (code_t)pgm_read_word(&a)
+
 #define INLINE __attribute__((__always_inline__))
 #define WEAK __attribute__((__weak__))
 

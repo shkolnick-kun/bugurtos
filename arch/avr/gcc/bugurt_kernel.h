@@ -79,7 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BUGURT_KERNEL_H_
 #define _BUGURT_KERNEL_H_
 
-#include"../../include/bugurt.h"
+#include"../../../include/bugurt.h"
 
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
