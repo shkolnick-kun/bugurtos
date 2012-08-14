@@ -325,10 +325,12 @@ void _proc_lres_dec(
 
 #ifdef CONFIG_USE_HIGHEST_LOCKER
 // Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
+
 void _proc_prio_control_stoped( proc_t * proc )
 {
     if(proc->lres.index != (index_t)0)
     {
+
         prio_t locker_prio;
         locker_prio = index_search( proc->lres.index );
         ((pitem_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
@@ -338,6 +340,7 @@ void _proc_prio_control_stoped( proc_t * proc )
         ((pitem_t *)proc)->prio = proc->base_prio;
     }
 }
+
 void _proc_prio_control_running( proc_t * proc )
 {
     prio_t new_prio;

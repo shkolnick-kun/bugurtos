@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="7453" topLine="113" />
 	</File>
@@ -17,7 +17,7 @@
 		<Cursor position="6191" topLine="71" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="6212" topLine="76" />
+		<Cursor position="9014" topLine="247" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="406" topLine="161" />
@@ -38,7 +38,7 @@
 		<Cursor position="6927" topLine="170" />
 	</File>
 	<File name="../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="7735" topLine="223" />
+		<Cursor position="8210" topLine="241" />
 	</File>
 	<File name="../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="14599" topLine="337" />
@@ -49,11 +49,14 @@
 	<File name="../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="10784" topLine="186" />
 	</File>
+	<File name="../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="225" />
+	</File>
 	<File name="../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6511" topLine="93" />
 	</File>
 	<File name="config.h" open="0" top="0" tabpos="2">
-		<Cursor position="1200" topLine="29" />
+		<Cursor position="504" topLine="0" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="0">
 		<Cursor position="2894" topLine="127" />

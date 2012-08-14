@@ -75,6 +75,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Тестовый конфиг-файл, в последствии будет заменен
 #define _CONFIG_H_
 
+#define SYSCALL_TABLE(a) const code_t a
+#define SYSCALL_TABLE_READ(a) a
+
 // data types
 typedef unsigned char index_t;
 #define BITS_IN_INDEX_T (8)

@@ -77,6 +77,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define _TIME_H
 
+#define SYSCALL_TABLE(a) const code_t a
+#define SYSCALL_TABLE_READ(a) a
+
 // data types
 typedef unsigned char index_t;
 #define BITS_IN_INDEX_T (8)
