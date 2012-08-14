@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
-	<File name="../../arch/avr-gcc/bugurt_kernel.c" open="1" top="0" tabpos="1">
-		<Cursor position="9418" topLine="183" />
-	</File>
-	<File name="../../arch/avr-gcc/bugurt_kernel.h" open="1" top="0" tabpos="2">
-		<Cursor position="8778" topLine="135" />
-	</File>
-	<File name="../../arch/avr-gcc/bugurt_kernel_asm.S" open="1" top="0" tabpos="4">
-		<Cursor position="9518" topLine="192" />
-	</File>
+	<ActiveTarget name="Release" />
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="7902" topLine="118" />
 	</File>
@@ -97,10 +88,10 @@
 	<File name="../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="7234" topLine="96" />
 	</File>
-	<File name="config.h" open="1" top="0" tabpos="3">
+	<File name="config.h" open="0" top="0" tabpos="3">
 		<Cursor position="274" topLine="0" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="5">
-		<Cursor position="1298" topLine="109" />
+	<File name="main.c" open="0" top="0" tabpos="5">
+		<Cursor position="1298" topLine="88" />
 	</File>
 </CodeBlocks_layout_file>

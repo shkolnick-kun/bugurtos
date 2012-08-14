@@ -44,11 +44,18 @@
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 			<Add after="avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_FILE).lss" />
 		</ExtraCommands>
-		<Unit filename="../../arch/avr-gcc/bugurt_kernel.c">
+		<Unit filename="../../arch/avr/gcc/bugurt_kernel.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../arch/avr-gcc/bugurt_kernel.h" />
-		<Unit filename="../../arch/avr-gcc/bugurt_kernel_asm.S" />
+		<Unit filename="../../arch/avr/gcc/bugurt_kernel.h" />
+		<Unit filename="../../arch/avr/gcc/bugurt_kernel_asm.S" />
+		<Unit filename="../../arch/avr/gcc/bugurt_proc_stack_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../arch/stm8/iar/bugurt_proc_stack_init.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="../../include/bugurt.h" />
 		<Unit filename="../../include/crit_sec.h" />
 		<Unit filename="../../include/index.h" />
