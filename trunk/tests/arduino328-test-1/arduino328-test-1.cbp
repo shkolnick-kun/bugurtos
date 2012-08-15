@@ -52,10 +52,6 @@
 		<Unit filename="../../arch/avr/gcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../arch/stm8/iar/bugurt_proc_stack_init.c">
-			<Option compilerVar="CC" />
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="../../include/bugurt.h" />
 		<Unit filename="../../include/crit_sec.h" />
 		<Unit filename="../../include/index.h" />

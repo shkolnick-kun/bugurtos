@@ -209,6 +209,17 @@ bugurt_set_stack_pointer:
     clr     r1                          ;zero register,lol
     ret
 ;-------------------------------------------------------------------------------
+	.global bugurt_push_pointer
+bugurt_push_pointer:
+    pop     r1
+    pop     r0
+    push    r24
+    push    r25
+    push    r0
+    push    r1
+    clr     r1                          ;zero register,lol
+    ret
+;-------------------------------------------------------------------------------
 	.global bugurt_reverse_byte_order
 bugurt_reverse_byte_order:
     mov     r0,  r24

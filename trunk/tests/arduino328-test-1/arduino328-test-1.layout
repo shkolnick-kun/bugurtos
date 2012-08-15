@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="7455" topLine="129" />
+	</File>
+	<File name="../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="7038" topLine="90" />
+	</File>
 	<File name="../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="7902" topLine="118" />
 	</File>
 	<File name="../../include/crit_sec.h" open="0" top="0" tabpos="0">
-		<Cursor position="7353" topLine="0" />
+		<Cursor position="8401" topLine="128" />
 	</File>
 	<File name="../../include/ipc.h" open="0" top="0" tabpos="2">
 		<Cursor position="9255" topLine="119" />

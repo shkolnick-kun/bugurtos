@@ -1,0 +1,1167 @@
+
+bin/Debug/vsmp-sandbox.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000007c0  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000214  00800100  00800100  00000834  2**0
+                  ALLOC
+  2 .stab         00001f2c  00000000  00000000  00000834  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      00002912  00000000  00000000  00002760  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  1c:	0c 94 a3 01 	jmp	0x346	; 0x346 <__vector_7>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e0 ec       	ldi	r30, 0xC0	; 192
+  7c:	f7 e0       	ldi	r31, 0x07	; 7
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <.do_copy_data_start>
+
+00000080 <.do_copy_data_loop>:
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+
+00000084 <.do_copy_data_start>:
+  84:	a0 30       	cpi	r26, 0x00	; 0
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <.do_copy_data_loop>
+
+0000008a <__do_clear_bss>:
+  8a:	13 e0       	ldi	r17, 0x03	; 3
+  8c:	a0 e0       	ldi	r26, 0x00	; 0
+  8e:	b1 e0       	ldi	r27, 0x01	; 1
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	a4 31       	cpi	r26, 0x14	; 20
+  96:	b1 07       	cpc	r27, r17
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 c1 03 	call	0x782	; 0x782 <main>
+  9e:	0c 94 de 03 	jmp	0x7bc	; 0x7bc <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <bugurt_save_context>:
+  a6:	2f 92       	push	r2
+  a8:	2f b6       	in	r2, 0x3f	; 63
+  aa:	2f 92       	push	r2
+  ac:	3f 92       	push	r3
+  ae:	4f 92       	push	r4
+  b0:	5f 92       	push	r5
+  b2:	6f 92       	push	r6
+  b4:	7f 92       	push	r7
+  b6:	8f 92       	push	r8
+  b8:	9f 92       	push	r9
+  ba:	af 92       	push	r10
+  bc:	bf 92       	push	r11
+  be:	cf 92       	push	r12
+  c0:	df 92       	push	r13
+  c2:	ef 92       	push	r14
+  c4:	ff 92       	push	r15
+  c6:	0f 93       	push	r16
+  c8:	1f 93       	push	r17
+  ca:	2f 93       	push	r18
+  cc:	3f 93       	push	r19
+  ce:	4f 93       	push	r20
+  d0:	5f 93       	push	r21
+  d2:	6f 93       	push	r22
+  d4:	7f 93       	push	r23
+  d6:	8f 93       	push	r24
+  d8:	9f 93       	push	r25
+  da:	af 93       	push	r26
+  dc:	bf 93       	push	r27
+  de:	cf 93       	push	r28
+  e0:	df 93       	push	r29
+  e2:	ef 93       	push	r30
+  e4:	ff 93       	push	r31
+  e6:	ed b7       	in	r30, 0x3d	; 61
+  e8:	fe b7       	in	r31, 0x3e	; 62
+  ea:	21 a1       	ldd	r18, Z+33	; 0x21
+  ec:	30 a1       	ldd	r19, Z+32	; 0x20
+  ee:	01 a2       	std	Z+33, r0	; 0x21
+  f0:	10 a2       	std	Z+32, r1	; 0x20
+  f2:	11 24       	eor	r1, r1
+  f4:	8d b7       	in	r24, 0x3d	; 61
+  f6:	9e b7       	in	r25, 0x3e	; 62
+  f8:	2f 93       	push	r18
+  fa:	3f 93       	push	r19
+  fc:	08 95       	ret
+
+000000fe <bugurt_pop_context>:
+  fe:	3f 91       	pop	r19
+ 100:	2f 91       	pop	r18
+ 102:	04 c0       	rjmp	.+8      	; 0x10c <_bugurt_pop_context>
+
+00000104 <bugurt_restore_context>:
+ 104:	3f 91       	pop	r19
+ 106:	2f 91       	pop	r18
+ 108:	9e bf       	out	0x3e, r25	; 62
+ 10a:	8d bf       	out	0x3d, r24	; 61
+
+0000010c <_bugurt_pop_context>:
+ 10c:	fe b7       	in	r31, 0x3e	; 62
+ 10e:	ed b7       	in	r30, 0x3d	; 61
+ 110:	10 a0       	ldd	r1, Z+32	; 0x20
+ 112:	01 a0       	ldd	r0, Z+33	; 0x21
+ 114:	30 a3       	std	Z+32, r19	; 0x20
+ 116:	21 a3       	std	Z+33, r18	; 0x21
+ 118:	ff 91       	pop	r31
+ 11a:	ef 91       	pop	r30
+ 11c:	df 91       	pop	r29
+ 11e:	cf 91       	pop	r28
+ 120:	bf 91       	pop	r27
+ 122:	af 91       	pop	r26
+ 124:	9f 91       	pop	r25
+ 126:	8f 91       	pop	r24
+ 128:	7f 91       	pop	r23
+ 12a:	6f 91       	pop	r22
+ 12c:	5f 91       	pop	r21
+ 12e:	4f 91       	pop	r20
+ 130:	3f 91       	pop	r19
+ 132:	2f 91       	pop	r18
+ 134:	1f 91       	pop	r17
+ 136:	0f 91       	pop	r16
+ 138:	ff 90       	pop	r15
+ 13a:	ef 90       	pop	r14
+ 13c:	df 90       	pop	r13
+ 13e:	cf 90       	pop	r12
+ 140:	bf 90       	pop	r11
+ 142:	af 90       	pop	r10
+ 144:	9f 90       	pop	r9
+ 146:	8f 90       	pop	r8
+ 148:	7f 90       	pop	r7
+ 14a:	6f 90       	pop	r6
+ 14c:	5f 90       	pop	r5
+ 14e:	4f 90       	pop	r4
+ 150:	3f 90       	pop	r3
+ 152:	2f 90       	pop	r2
+ 154:	2f be       	out	0x3f, r2	; 63
+ 156:	2f 90       	pop	r2
+ 158:	08 95       	ret
+
+0000015a <bugurt_set_stack_pointer>:
+ 15a:	1f 90       	pop	r1
+ 15c:	0f 90       	pop	r0
+ 15e:	9e bf       	out	0x3e, r25	; 62
+ 160:	8d bf       	out	0x3d, r24	; 61
+ 162:	0f 92       	push	r0
+ 164:	1f 92       	push	r1
+ 166:	11 24       	eor	r1, r1
+ 168:	08 95       	ret
+
+0000016a <bugurt_push_pointer>:
+ 16a:	1f 90       	pop	r1
+ 16c:	0f 90       	pop	r0
+ 16e:	8f 93       	push	r24
+ 170:	9f 93       	push	r25
+ 172:	0f 92       	push	r0
+ 174:	1f 92       	push	r1
+ 176:	11 24       	eor	r1, r1
+ 178:	08 95       	ret
+
+0000017a <bugurt_reverse_byte_order>:
+ 17a:	08 2e       	mov	r0, r24
+ 17c:	89 2f       	mov	r24, r25
+ 17e:	90 2d       	mov	r25, r0
+ 180:	08 95       	ret
+
+00000182 <vsmp_do_interrupt>:
+{
+    while(1);
+}
+
+bool_t vsmp_do_interrupt(void)
+{
+ 182:	df 93       	push	r29
+ 184:	cf 93       	push	r28
+ 186:	0f 92       	push	r0
+ 188:	cd b7       	in	r28, 0x3d	; 61
+ 18a:	de b7       	in	r29, 0x3e	; 62
+    // if current vm is interruptible and there are some interrupts in fifo,
+    if( (vm_state[current_vm].int_enabled) && (vm_state[current_vm].int_fifo) )
+ 18c:	80 91 00 01 	lds	r24, 0x0100
+ 190:	28 2f       	mov	r18, r24
+ 192:	30 e0       	ldi	r19, 0x00	; 0
+ 194:	c9 01       	movw	r24, r18
+ 196:	88 0f       	add	r24, r24
+ 198:	99 1f       	adc	r25, r25
+ 19a:	88 0f       	add	r24, r24
+ 19c:	99 1f       	adc	r25, r25
+ 19e:	82 0f       	add	r24, r18
+ 1a0:	93 1f       	adc	r25, r19
+ 1a2:	fc 01       	movw	r30, r24
+ 1a4:	ed 5f       	subi	r30, 0xFD	; 253
+ 1a6:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1a8:	80 81       	ld	r24, Z
+ 1aa:	88 23       	and	r24, r24
+ 1ac:	09 f4       	brne	.+2      	; 0x1b0 <vsmp_do_interrupt+0x2e>
+ 1ae:	71 c0       	rjmp	.+226    	; 0x292 <vsmp_do_interrupt+0x110>
+ 1b0:	80 91 00 01 	lds	r24, 0x0100
+ 1b4:	28 2f       	mov	r18, r24
+ 1b6:	30 e0       	ldi	r19, 0x00	; 0
+ 1b8:	c9 01       	movw	r24, r18
+ 1ba:	88 0f       	add	r24, r24
+ 1bc:	99 1f       	adc	r25, r25
+ 1be:	88 0f       	add	r24, r24
+ 1c0:	99 1f       	adc	r25, r25
+ 1c2:	82 0f       	add	r24, r18
+ 1c4:	93 1f       	adc	r25, r19
+ 1c6:	fc 01       	movw	r30, r24
+ 1c8:	ef 5f       	subi	r30, 0xFF	; 255
+ 1ca:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1cc:	80 81       	ld	r24, Z
+ 1ce:	91 81       	ldd	r25, Z+1	; 0x01
+ 1d0:	00 97       	sbiw	r24, 0x00	; 0
+ 1d2:	09 f4       	brne	.+2      	; 0x1d6 <vsmp_do_interrupt+0x54>
+ 1d4:	5e c0       	rjmp	.+188    	; 0x292 <vsmp_do_interrupt+0x110>
+    {
+        // cut head interrupt,
+        vm_buf = (void *)vm_state[current_vm].int_fifo;
+ 1d6:	80 91 00 01 	lds	r24, 0x0100
+ 1da:	28 2f       	mov	r18, r24
+ 1dc:	30 e0       	ldi	r19, 0x00	; 0
+ 1de:	c9 01       	movw	r24, r18
+ 1e0:	88 0f       	add	r24, r24
+ 1e2:	99 1f       	adc	r25, r25
+ 1e4:	88 0f       	add	r24, r24
+ 1e6:	99 1f       	adc	r25, r25
+ 1e8:	82 0f       	add	r24, r18
+ 1ea:	93 1f       	adc	r25, r19
+ 1ec:	fc 01       	movw	r30, r24
+ 1ee:	ef 5f       	subi	r30, 0xFF	; 255
+ 1f0:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1f2:	80 81       	ld	r24, Z
+ 1f4:	91 81       	ldd	r25, Z+1	; 0x01
+ 1f6:	90 93 11 01 	sts	0x0111, r25
+ 1fa:	80 93 10 01 	sts	0x0110, r24
+        if( vm_buf == (void *)((item_t *)vm_buf)->next )
+ 1fe:	80 91 10 01 	lds	r24, 0x0110
+ 202:	90 91 11 01 	lds	r25, 0x0111
+ 206:	fc 01       	movw	r30, r24
+ 208:	20 81       	ld	r18, Z
+ 20a:	31 81       	ldd	r19, Z+1	; 0x01
+ 20c:	80 91 10 01 	lds	r24, 0x0110
+ 210:	90 91 11 01 	lds	r25, 0x0111
+ 214:	28 17       	cp	r18, r24
+ 216:	39 07       	cpc	r19, r25
+ 218:	89 f4       	brne	.+34     	; 0x23c <vsmp_do_interrupt+0xba>
+        {
+            /* only one interrupt in fifo */
+            vm_state[current_vm].int_fifo = (item_t *)0;
+ 21a:	80 91 00 01 	lds	r24, 0x0100
+ 21e:	28 2f       	mov	r18, r24
+ 220:	30 e0       	ldi	r19, 0x00	; 0
+ 222:	c9 01       	movw	r24, r18
+ 224:	88 0f       	add	r24, r24
+ 226:	99 1f       	adc	r25, r25
+ 228:	88 0f       	add	r24, r24
+ 22a:	99 1f       	adc	r25, r25
+ 22c:	82 0f       	add	r24, r18
+ 22e:	93 1f       	adc	r25, r19
+ 230:	fc 01       	movw	r30, r24
+ 232:	ef 5f       	subi	r30, 0xFF	; 255
+ 234:	fe 4f       	sbci	r31, 0xFE	; 254
+ 236:	11 82       	std	Z+1, r1	; 0x01
+ 238:	10 82       	st	Z, r1
+ 23a:	1d c0       	rjmp	.+58     	; 0x276 <vsmp_do_interrupt+0xf4>
+        }
+        else
+        {
+            /* many interrupts in fifo */
+            vm_state[current_vm].int_fifo = (void *)((item_t *)vm_buf)->next;
+ 23c:	80 91 00 01 	lds	r24, 0x0100
+ 240:	28 2f       	mov	r18, r24
+ 242:	30 e0       	ldi	r19, 0x00	; 0
+ 244:	80 91 10 01 	lds	r24, 0x0110
+ 248:	90 91 11 01 	lds	r25, 0x0111
+ 24c:	fc 01       	movw	r30, r24
+ 24e:	40 81       	ld	r20, Z
+ 250:	51 81       	ldd	r21, Z+1	; 0x01
+ 252:	c9 01       	movw	r24, r18
+ 254:	88 0f       	add	r24, r24
+ 256:	99 1f       	adc	r25, r25
+ 258:	88 0f       	add	r24, r24
+ 25a:	99 1f       	adc	r25, r25
+ 25c:	82 0f       	add	r24, r18
+ 25e:	93 1f       	adc	r25, r19
+ 260:	fc 01       	movw	r30, r24
+ 262:	ef 5f       	subi	r30, 0xFF	; 255
+ 264:	fe 4f       	sbci	r31, 0xFE	; 254
+ 266:	51 83       	std	Z+1, r21	; 0x01
+ 268:	40 83       	st	Z, r20
+            item_cut( (item_t *)vm_buf );
+ 26a:	80 91 10 01 	lds	r24, 0x0110
+ 26e:	90 91 11 01 	lds	r25, 0x0111
+ 272:	0e 94 63 03 	call	0x6c6	; 0x6c6 <item_cut>
+        }
+        // write its isr pointer to vm_buf,
+        vm_buf = (void *)(((vinterrupt_t *)vm_buf)->isr);
+ 276:	80 91 10 01 	lds	r24, 0x0110
+ 27a:	90 91 11 01 	lds	r25, 0x0111
+ 27e:	fc 01       	movw	r30, r24
+ 280:	84 81       	ldd	r24, Z+4	; 0x04
+ 282:	95 81       	ldd	r25, Z+5	; 0x05
+ 284:	90 93 11 01 	sts	0x0111, r25
+ 288:	80 93 10 01 	sts	0x0110, r24
+        // and return 1;
+        return (bool_t)1;
+ 28c:	81 e0       	ldi	r24, 0x01	; 1
+ 28e:	89 83       	std	Y+1, r24	; 0x01
+ 290:	01 c0       	rjmp	.+2      	; 0x294 <vsmp_do_interrupt+0x112>
+    }
+    // else return 0.
+    return (bool_t)0;
+ 292:	19 82       	std	Y+1, r1	; 0x01
+ 294:	89 81       	ldd	r24, Y+1	; 0x01
+}
+ 296:	0f 90       	pop	r0
+ 298:	cf 91       	pop	r28
+ 29a:	df 91       	pop	r29
+ 29c:	08 95       	ret
+
+0000029e <_vinterrupt_wrapper>:
+                       Virtual interrupts wrapper functions.
+    Local variable is used to call virtual ISR, so wrapper must have two parts.
+*/
+// Nested part, uses local variables, so compiler generated prologue and epilogue are needed.
+static void _vinterrupt_wrapper(void)
+{
+ 29e:	df 93       	push	r29
+ 2a0:	cf 93       	push	r28
+ 2a2:	00 d0       	rcall	.+0      	; 0x2a4 <_vinterrupt_wrapper+0x6>
+ 2a4:	cd b7       	in	r28, 0x3d	; 61
+ 2a6:	de b7       	in	r29, 0x3e	; 62
+    void (*isr)(void);
+    vm_state[current_vm].int_enabled = (bool_t)0; // Virtual interrupt nesting is not alowed by default.
+ 2a8:	80 91 00 01 	lds	r24, 0x0100
+ 2ac:	28 2f       	mov	r18, r24
+ 2ae:	30 e0       	ldi	r19, 0x00	; 0
+ 2b0:	c9 01       	movw	r24, r18
+ 2b2:	88 0f       	add	r24, r24
+ 2b4:	99 1f       	adc	r25, r25
+ 2b6:	88 0f       	add	r24, r24
+ 2b8:	99 1f       	adc	r25, r25
+ 2ba:	82 0f       	add	r24, r18
+ 2bc:	93 1f       	adc	r25, r19
+ 2be:	fc 01       	movw	r30, r24
+ 2c0:	ed 5f       	subi	r30, 0xFD	; 253
+ 2c2:	fe 4f       	sbci	r31, 0xFE	; 254
+ 2c4:	10 82       	st	Z, r1
+    isr = (void (*)(void))vm_buf;
+ 2c6:	80 91 10 01 	lds	r24, 0x0110
+ 2ca:	90 91 11 01 	lds	r25, 0x0111
+ 2ce:	9a 83       	std	Y+2, r25	; 0x02
+ 2d0:	89 83       	std	Y+1, r24	; 0x01
+    // After vm-buf read we can re enable real interrupts!
+    sei();
+ 2d2:	78 94       	sei
+    isr();
+ 2d4:	e9 81       	ldd	r30, Y+1	; 0x01
+ 2d6:	fa 81       	ldd	r31, Y+2	; 0x02
+ 2d8:	09 95       	icall
+}
+ 2da:	0f 90       	pop	r0
+ 2dc:	0f 90       	pop	r0
+ 2de:	cf 91       	pop	r28
+ 2e0:	df 91       	pop	r29
+ 2e2:	08 95       	ret
+
+000002e4 <vinterrupt_wrapper>:
+// Nesting part, no prologue and hand made epilogue.
+__attribute__ (( naked )) void vinterrupt_wrapper(void)
+{
+    _vinterrupt_wrapper();
+ 2e4:	0e 94 4f 01 	call	0x29e	; 0x29e <_vinterrupt_wrapper>
+    cli();
+ 2e8:	f8 94       	cli
+    vm_buf = (void *)bugurt_save_context();
+    vm_state[current_vm].sp = (stack_t *)vm_buf;
+}
+__MACRO_FUNCTION__( _vsmp_interrupt_epilogue )
+{
+    if( vsmp_do_interrupt() ) goto vinterrupt_return;
+ 2ea:	0e 94 c1 00 	call	0x182	; 0x182 <vsmp_do_interrupt>
+ 2ee:	88 23       	and	r24, r24
+ 2f0:	99 f4       	brne	.+38     	; 0x318 <vinterrupt_wrapper+0x34>
+
+    bugurt_restore_context( vm_state[current_vm].sp ); // Will return to current vm operation!
+ 2f2:	80 91 00 01 	lds	r24, 0x0100
+ 2f6:	28 2f       	mov	r18, r24
+ 2f8:	30 e0       	ldi	r19, 0x00	; 0
+ 2fa:	c9 01       	movw	r24, r18
+ 2fc:	88 0f       	add	r24, r24
+ 2fe:	99 1f       	adc	r25, r25
+ 300:	88 0f       	add	r24, r24
+ 302:	99 1f       	adc	r25, r25
+ 304:	82 0f       	add	r24, r18
+ 306:	93 1f       	adc	r25, r19
+ 308:	fc 01       	movw	r30, r24
+ 30a:	ec 5f       	subi	r30, 0xFC	; 252
+ 30c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 30e:	80 81       	ld	r24, Z
+ 310:	91 81       	ldd	r25, Z+1	; 0x01
+ 312:	0e 94 82 00 	call	0x104	; 0x104 <bugurt_restore_context>
+    __asm__ __volatile__("reti"::);
+ 316:	18 95       	reti
+
+vinterrupt_return:
+    bugurt_set_stack_pointer( vm_state[current_vm].sp );
+ 318:	80 91 00 01 	lds	r24, 0x0100
+ 31c:	28 2f       	mov	r18, r24
+ 31e:	30 e0       	ldi	r19, 0x00	; 0
+ 320:	c9 01       	movw	r24, r18
+ 322:	88 0f       	add	r24, r24
+ 324:	99 1f       	adc	r25, r25
+ 326:	88 0f       	add	r24, r24
+ 328:	99 1f       	adc	r25, r25
+ 32a:	82 0f       	add	r24, r18
+ 32c:	93 1f       	adc	r25, r19
+ 32e:	fc 01       	movw	r30, r24
+ 330:	ec 5f       	subi	r30, 0xFC	; 252
+ 332:	fe 4f       	sbci	r31, 0xFE	; 254
+ 334:	80 81       	ld	r24, Z
+ 336:	91 81       	ldd	r25, Z+1	; 0x01
+ 338:	0e 94 ad 00 	call	0x15a	; 0x15a <bugurt_set_stack_pointer>
+    bugurt_push_pointer( (void *)vinterrupt_wrapper ); // Will return to vinterrupt_wrapper() entry point!
+ 33c:	82 e7       	ldi	r24, 0x72	; 114
+ 33e:	91 e0       	ldi	r25, 0x01	; 1
+ 340:	0e 94 b5 00 	call	0x16a	; 0x16a <bugurt_push_pointer>
+    __asm__ __volatile__("ret"::);
+ 344:	08 95       	ret
+
+00000346 <__vector_7>:
+}
+
+/* Virtual interrupt prologue and epilogue inline functions (I can,t debug macros !) */
+__MACRO_FUNCTION__( _vsmp_interrupt_prologue )
+{
+    vm_buf = (void *)bugurt_save_context();
+ 346:	0e 94 53 00 	call	0xa6	; 0xa6 <bugurt_save_context>
+ 34a:	90 93 11 01 	sts	0x0111, r25
+ 34e:	80 93 10 01 	sts	0x0110, r24
+    vm_state[current_vm].sp = (stack_t *)vm_buf;
+ 352:	80 91 00 01 	lds	r24, 0x0100
+ 356:	28 2f       	mov	r18, r24
+ 358:	30 e0       	ldi	r19, 0x00	; 0
+ 35a:	80 91 10 01 	lds	r24, 0x0110
+ 35e:	90 91 11 01 	lds	r25, 0x0111
+ 362:	ac 01       	movw	r20, r24
+ 364:	c9 01       	movw	r24, r18
+ 366:	88 0f       	add	r24, r24
+ 368:	99 1f       	adc	r25, r25
+ 36a:	88 0f       	add	r24, r24
+ 36c:	99 1f       	adc	r25, r25
+ 36e:	82 0f       	add	r24, r18
+ 370:	93 1f       	adc	r25, r19
+ 372:	fc 01       	movw	r30, r24
+ 374:	ec 5f       	subi	r30, 0xFC	; 252
+ 376:	fe 4f       	sbci	r31, 0xFE	; 254
+ 378:	51 83       	std	Z+1, r21	; 0x01
+ 37a:	40 83       	st	Z, r20
+__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
+void SYSTEM_TIMER_ISR(void)
+{
+    _vsmp_interrupt_prologue();
+
+    current_vm++;
+ 37c:	80 91 00 01 	lds	r24, 0x0100
+ 380:	8f 5f       	subi	r24, 0xFF	; 255
+ 382:	80 93 00 01 	sts	0x0100, r24
+    if(current_vm >= MAX_CORES)current_vm = (core_id_t)0;
+ 386:	80 91 00 01 	lds	r24, 0x0100
+ 38a:	83 30       	cpi	r24, 0x03	; 3
+ 38c:	10 f0       	brcs	.+4      	; 0x392 <__vector_7+0x4c>
+ 38e:	10 92 00 01 	sts	0x0100, r1
+    vm_buf = (void *)bugurt_save_context();
+    vm_state[current_vm].sp = (stack_t *)vm_buf;
+}
+__MACRO_FUNCTION__( _vsmp_interrupt_epilogue )
+{
+    if( vsmp_do_interrupt() ) goto vinterrupt_return;
+ 392:	0e 94 c1 00 	call	0x182	; 0x182 <vsmp_do_interrupt>
+ 396:	88 23       	and	r24, r24
+ 398:	99 f4       	brne	.+38     	; 0x3c0 <__vector_7+0x7a>
+
+    bugurt_restore_context( vm_state[current_vm].sp ); // Will return to current vm operation!
+ 39a:	80 91 00 01 	lds	r24, 0x0100
+ 39e:	28 2f       	mov	r18, r24
+ 3a0:	30 e0       	ldi	r19, 0x00	; 0
+ 3a2:	c9 01       	movw	r24, r18
+ 3a4:	88 0f       	add	r24, r24
+ 3a6:	99 1f       	adc	r25, r25
+ 3a8:	88 0f       	add	r24, r24
+ 3aa:	99 1f       	adc	r25, r25
+ 3ac:	82 0f       	add	r24, r18
+ 3ae:	93 1f       	adc	r25, r19
+ 3b0:	fc 01       	movw	r30, r24
+ 3b2:	ec 5f       	subi	r30, 0xFC	; 252
+ 3b4:	fe 4f       	sbci	r31, 0xFE	; 254
+ 3b6:	80 81       	ld	r24, Z
+ 3b8:	91 81       	ldd	r25, Z+1	; 0x01
+ 3ba:	0e 94 82 00 	call	0x104	; 0x104 <bugurt_restore_context>
+    __asm__ __volatile__("reti"::);
+ 3be:	18 95       	reti
+
+vinterrupt_return:
+    bugurt_set_stack_pointer( vm_state[current_vm].sp );
+ 3c0:	80 91 00 01 	lds	r24, 0x0100
+ 3c4:	28 2f       	mov	r18, r24
+ 3c6:	30 e0       	ldi	r19, 0x00	; 0
+ 3c8:	c9 01       	movw	r24, r18
+ 3ca:	88 0f       	add	r24, r24
+ 3cc:	99 1f       	adc	r25, r25
+ 3ce:	88 0f       	add	r24, r24
+ 3d0:	99 1f       	adc	r25, r25
+ 3d2:	82 0f       	add	r24, r18
+ 3d4:	93 1f       	adc	r25, r19
+ 3d6:	fc 01       	movw	r30, r24
+ 3d8:	ec 5f       	subi	r30, 0xFC	; 252
+ 3da:	fe 4f       	sbci	r31, 0xFE	; 254
+ 3dc:	80 81       	ld	r24, Z
+ 3de:	91 81       	ldd	r25, Z+1	; 0x01
+ 3e0:	0e 94 ad 00 	call	0x15a	; 0x15a <bugurt_set_stack_pointer>
+    bugurt_push_pointer( (void *)vinterrupt_wrapper ); // Will return to vinterrupt_wrapper() entry point!
+ 3e4:	82 e7       	ldi	r24, 0x72	; 114
+ 3e6:	91 e0       	ldi	r25, 0x01	; 1
+ 3e8:	0e 94 b5 00 	call	0x16a	; 0x16a <bugurt_push_pointer>
+    __asm__ __volatile__("ret"::);
+ 3ec:	08 95       	ret
+
+000003ee <proc_stack_init>:
+#include"../../../include/bugurt.h"
+stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
+{
+ 3ee:	df 93       	push	r29
+ 3f0:	cf 93       	push	r28
+ 3f2:	cd b7       	in	r28, 0x3d	; 61
+ 3f4:	de b7       	in	r29, 0x3e	; 62
+ 3f6:	2a 97       	sbiw	r28, 0x0a	; 10
+ 3f8:	0f b6       	in	r0, 0x3f	; 63
+ 3fa:	f8 94       	cli
+ 3fc:	de bf       	out	0x3e, r29	; 62
+ 3fe:	0f be       	out	0x3f, r0	; 63
+ 400:	cd bf       	out	0x3d, r28	; 61
+ 402:	9e 83       	std	Y+6, r25	; 0x06
+ 404:	8d 83       	std	Y+5, r24	; 0x05
+ 406:	78 87       	std	Y+8, r23	; 0x08
+ 408:	6f 83       	std	Y+7, r22	; 0x07
+ 40a:	5a 87       	std	Y+10, r21	; 0x0a
+ 40c:	49 87       	std	Y+9, r20	; 0x09
+    stack_t * tos = (stack_t *)sstart;
+ 40e:	8d 81       	ldd	r24, Y+5	; 0x05
+ 410:	9e 81       	ldd	r25, Y+6	; 0x06
+ 412:	9c 83       	std	Y+4, r25	; 0x04
+ 414:	8b 83       	std	Y+3, r24	; 0x03
+    // return address
+    unsigned short tmp = (unsigned short)code;
+ 416:	8f 81       	ldd	r24, Y+7	; 0x07
+ 418:	98 85       	ldd	r25, Y+8	; 0x08
+ 41a:	9a 83       	std	Y+2, r25	; 0x02
+ 41c:	89 83       	std	Y+1, r24	; 0x01
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
+ 41e:	89 81       	ldd	r24, Y+1	; 0x01
+ 420:	eb 81       	ldd	r30, Y+3	; 0x03
+ 422:	fc 81       	ldd	r31, Y+4	; 0x04
+ 424:	80 83       	st	Z, r24
+ 426:	8b 81       	ldd	r24, Y+3	; 0x03
+ 428:	9c 81       	ldd	r25, Y+4	; 0x04
+ 42a:	01 97       	sbiw	r24, 0x01	; 1
+ 42c:	9c 83       	std	Y+4, r25	; 0x04
+ 42e:	8b 83       	std	Y+3, r24	; 0x03
+    tmp>>=8;
+ 430:	89 81       	ldd	r24, Y+1	; 0x01
+ 432:	9a 81       	ldd	r25, Y+2	; 0x02
+ 434:	89 2f       	mov	r24, r25
+ 436:	99 27       	eor	r25, r25
+ 438:	9a 83       	std	Y+2, r25	; 0x02
+ 43a:	89 83       	std	Y+1, r24	; 0x01
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
+ 43c:	89 81       	ldd	r24, Y+1	; 0x01
+ 43e:	eb 81       	ldd	r30, Y+3	; 0x03
+ 440:	fc 81       	ldd	r31, Y+4	; 0x04
+ 442:	80 83       	st	Z, r24
+ 444:	8b 81       	ldd	r24, Y+3	; 0x03
+ 446:	9c 81       	ldd	r25, Y+4	; 0x04
+ 448:	01 97       	sbiw	r24, 0x01	; 1
+ 44a:	9c 83       	std	Y+4, r25	; 0x04
+ 44c:	8b 83       	std	Y+3, r24	; 0x03
+
+    // s
+    *tos-- = 0x00;
+ 44e:	eb 81       	ldd	r30, Y+3	; 0x03
+ 450:	fc 81       	ldd	r31, Y+4	; 0x04
+ 452:	10 82       	st	Z, r1
+ 454:	8b 81       	ldd	r24, Y+3	; 0x03
+ 456:	9c 81       	ldd	r25, Y+4	; 0x04
+ 458:	01 97       	sbiw	r24, 0x01	; 1
+ 45a:	9c 83       	std	Y+4, r25	; 0x04
+ 45c:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x00;// r1 must B 0
+ 45e:	eb 81       	ldd	r30, Y+3	; 0x03
+ 460:	fc 81       	ldd	r31, Y+4	; 0x04
+ 462:	10 82       	st	Z, r1
+ 464:	8b 81       	ldd	r24, Y+3	; 0x03
+ 466:	9c 81       	ldd	r25, Y+4	; 0x04
+ 468:	01 97       	sbiw	r24, 0x01	; 1
+ 46a:	9c 83       	std	Y+4, r25	; 0x04
+ 46c:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x02;// r2
+ 46e:	eb 81       	ldd	r30, Y+3	; 0x03
+ 470:	fc 81       	ldd	r31, Y+4	; 0x04
+ 472:	82 e0       	ldi	r24, 0x02	; 2
+ 474:	80 83       	st	Z, r24
+ 476:	8b 81       	ldd	r24, Y+3	; 0x03
+ 478:	9c 81       	ldd	r25, Y+4	; 0x04
+ 47a:	01 97       	sbiw	r24, 0x01	; 1
+ 47c:	9c 83       	std	Y+4, r25	; 0x04
+ 47e:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x80;// SREG: enable interrupts
+ 480:	eb 81       	ldd	r30, Y+3	; 0x03
+ 482:	fc 81       	ldd	r31, Y+4	; 0x04
+ 484:	80 e8       	ldi	r24, 0x80	; 128
+ 486:	80 83       	st	Z, r24
+ 488:	8b 81       	ldd	r24, Y+3	; 0x03
+ 48a:	9c 81       	ldd	r25, Y+4	; 0x04
+ 48c:	01 97       	sbiw	r24, 0x01	; 1
+ 48e:	9c 83       	std	Y+4, r25	; 0x04
+ 490:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x03;
+ 492:	eb 81       	ldd	r30, Y+3	; 0x03
+ 494:	fc 81       	ldd	r31, Y+4	; 0x04
+ 496:	83 e0       	ldi	r24, 0x03	; 3
+ 498:	80 83       	st	Z, r24
+ 49a:	8b 81       	ldd	r24, Y+3	; 0x03
+ 49c:	9c 81       	ldd	r25, Y+4	; 0x04
+ 49e:	01 97       	sbiw	r24, 0x01	; 1
+ 4a0:	9c 83       	std	Y+4, r25	; 0x04
+ 4a2:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x04;
+ 4a4:	eb 81       	ldd	r30, Y+3	; 0x03
+ 4a6:	fc 81       	ldd	r31, Y+4	; 0x04
+ 4a8:	84 e0       	ldi	r24, 0x04	; 4
+ 4aa:	80 83       	st	Z, r24
+ 4ac:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4ae:	9c 81       	ldd	r25, Y+4	; 0x04
+ 4b0:	01 97       	sbiw	r24, 0x01	; 1
+ 4b2:	9c 83       	std	Y+4, r25	; 0x04
+ 4b4:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x05;
+ 4b6:	eb 81       	ldd	r30, Y+3	; 0x03
+ 4b8:	fc 81       	ldd	r31, Y+4	; 0x04
+ 4ba:	85 e0       	ldi	r24, 0x05	; 5
+ 4bc:	80 83       	st	Z, r24
+ 4be:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4c0:	9c 81       	ldd	r25, Y+4	; 0x04
+ 4c2:	01 97       	sbiw	r24, 0x01	; 1
+ 4c4:	9c 83       	std	Y+4, r25	; 0x04
+ 4c6:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x06;
+ 4c8:	eb 81       	ldd	r30, Y+3	; 0x03
+ 4ca:	fc 81       	ldd	r31, Y+4	; 0x04
+ 4cc:	86 e0       	ldi	r24, 0x06	; 6
+ 4ce:	80 83       	st	Z, r24
+ 4d0:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4d2:	9c 81       	ldd	r25, Y+4	; 0x04
+ 4d4:	01 97       	sbiw	r24, 0x01	; 1
+ 4d6:	9c 83       	std	Y+4, r25	; 0x04
+ 4d8:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x07;
+ 4da:	eb 81       	ldd	r30, Y+3	; 0x03
+ 4dc:	fc 81       	ldd	r31, Y+4	; 0x04
+ 4de:	87 e0       	ldi	r24, 0x07	; 7
+ 4e0:	80 83       	st	Z, r24
+ 4e2:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4e4:	9c 81       	ldd	r25, Y+4	; 0x04
+ 4e6:	01 97       	sbiw	r24, 0x01	; 1
+ 4e8:	9c 83       	std	Y+4, r25	; 0x04
+ 4ea:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x08;
+ 4ec:	eb 81       	ldd	r30, Y+3	; 0x03
+ 4ee:	fc 81       	ldd	r31, Y+4	; 0x04
+ 4f0:	88 e0       	ldi	r24, 0x08	; 8
+ 4f2:	80 83       	st	Z, r24
+ 4f4:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4f6:	9c 81       	ldd	r25, Y+4	; 0x04
+ 4f8:	01 97       	sbiw	r24, 0x01	; 1
+ 4fa:	9c 83       	std	Y+4, r25	; 0x04
+ 4fc:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x09;
+ 4fe:	eb 81       	ldd	r30, Y+3	; 0x03
+ 500:	fc 81       	ldd	r31, Y+4	; 0x04
+ 502:	89 e0       	ldi	r24, 0x09	; 9
+ 504:	80 83       	st	Z, r24
+ 506:	8b 81       	ldd	r24, Y+3	; 0x03
+ 508:	9c 81       	ldd	r25, Y+4	; 0x04
+ 50a:	01 97       	sbiw	r24, 0x01	; 1
+ 50c:	9c 83       	std	Y+4, r25	; 0x04
+ 50e:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x10;
+ 510:	eb 81       	ldd	r30, Y+3	; 0x03
+ 512:	fc 81       	ldd	r31, Y+4	; 0x04
+ 514:	80 e1       	ldi	r24, 0x10	; 16
+ 516:	80 83       	st	Z, r24
+ 518:	8b 81       	ldd	r24, Y+3	; 0x03
+ 51a:	9c 81       	ldd	r25, Y+4	; 0x04
+ 51c:	01 97       	sbiw	r24, 0x01	; 1
+ 51e:	9c 83       	std	Y+4, r25	; 0x04
+ 520:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x11;
+ 522:	eb 81       	ldd	r30, Y+3	; 0x03
+ 524:	fc 81       	ldd	r31, Y+4	; 0x04
+ 526:	81 e1       	ldi	r24, 0x11	; 17
+ 528:	80 83       	st	Z, r24
+ 52a:	8b 81       	ldd	r24, Y+3	; 0x03
+ 52c:	9c 81       	ldd	r25, Y+4	; 0x04
+ 52e:	01 97       	sbiw	r24, 0x01	; 1
+ 530:	9c 83       	std	Y+4, r25	; 0x04
+ 532:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x12;
+ 534:	eb 81       	ldd	r30, Y+3	; 0x03
+ 536:	fc 81       	ldd	r31, Y+4	; 0x04
+ 538:	82 e1       	ldi	r24, 0x12	; 18
+ 53a:	80 83       	st	Z, r24
+ 53c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 53e:	9c 81       	ldd	r25, Y+4	; 0x04
+ 540:	01 97       	sbiw	r24, 0x01	; 1
+ 542:	9c 83       	std	Y+4, r25	; 0x04
+ 544:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x13;
+ 546:	eb 81       	ldd	r30, Y+3	; 0x03
+ 548:	fc 81       	ldd	r31, Y+4	; 0x04
+ 54a:	83 e1       	ldi	r24, 0x13	; 19
+ 54c:	80 83       	st	Z, r24
+ 54e:	8b 81       	ldd	r24, Y+3	; 0x03
+ 550:	9c 81       	ldd	r25, Y+4	; 0x04
+ 552:	01 97       	sbiw	r24, 0x01	; 1
+ 554:	9c 83       	std	Y+4, r25	; 0x04
+ 556:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x14;
+ 558:	eb 81       	ldd	r30, Y+3	; 0x03
+ 55a:	fc 81       	ldd	r31, Y+4	; 0x04
+ 55c:	84 e1       	ldi	r24, 0x14	; 20
+ 55e:	80 83       	st	Z, r24
+ 560:	8b 81       	ldd	r24, Y+3	; 0x03
+ 562:	9c 81       	ldd	r25, Y+4	; 0x04
+ 564:	01 97       	sbiw	r24, 0x01	; 1
+ 566:	9c 83       	std	Y+4, r25	; 0x04
+ 568:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x15;
+ 56a:	eb 81       	ldd	r30, Y+3	; 0x03
+ 56c:	fc 81       	ldd	r31, Y+4	; 0x04
+ 56e:	85 e1       	ldi	r24, 0x15	; 21
+ 570:	80 83       	st	Z, r24
+ 572:	8b 81       	ldd	r24, Y+3	; 0x03
+ 574:	9c 81       	ldd	r25, Y+4	; 0x04
+ 576:	01 97       	sbiw	r24, 0x01	; 1
+ 578:	9c 83       	std	Y+4, r25	; 0x04
+ 57a:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x16;
+ 57c:	eb 81       	ldd	r30, Y+3	; 0x03
+ 57e:	fc 81       	ldd	r31, Y+4	; 0x04
+ 580:	86 e1       	ldi	r24, 0x16	; 22
+ 582:	80 83       	st	Z, r24
+ 584:	8b 81       	ldd	r24, Y+3	; 0x03
+ 586:	9c 81       	ldd	r25, Y+4	; 0x04
+ 588:	01 97       	sbiw	r24, 0x01	; 1
+ 58a:	9c 83       	std	Y+4, r25	; 0x04
+ 58c:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x17;
+ 58e:	eb 81       	ldd	r30, Y+3	; 0x03
+ 590:	fc 81       	ldd	r31, Y+4	; 0x04
+ 592:	87 e1       	ldi	r24, 0x17	; 23
+ 594:	80 83       	st	Z, r24
+ 596:	8b 81       	ldd	r24, Y+3	; 0x03
+ 598:	9c 81       	ldd	r25, Y+4	; 0x04
+ 59a:	01 97       	sbiw	r24, 0x01	; 1
+ 59c:	9c 83       	std	Y+4, r25	; 0x04
+ 59e:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x18;
+ 5a0:	eb 81       	ldd	r30, Y+3	; 0x03
+ 5a2:	fc 81       	ldd	r31, Y+4	; 0x04
+ 5a4:	88 e1       	ldi	r24, 0x18	; 24
+ 5a6:	80 83       	st	Z, r24
+ 5a8:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5aa:	9c 81       	ldd	r25, Y+4	; 0x04
+ 5ac:	01 97       	sbiw	r24, 0x01	; 1
+ 5ae:	9c 83       	std	Y+4, r25	; 0x04
+ 5b0:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x19;
+ 5b2:	eb 81       	ldd	r30, Y+3	; 0x03
+ 5b4:	fc 81       	ldd	r31, Y+4	; 0x04
+ 5b6:	89 e1       	ldi	r24, 0x19	; 25
+ 5b8:	80 83       	st	Z, r24
+ 5ba:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5bc:	9c 81       	ldd	r25, Y+4	; 0x04
+ 5be:	01 97       	sbiw	r24, 0x01	; 1
+ 5c0:	9c 83       	std	Y+4, r25	; 0x04
+ 5c2:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x20;
+ 5c4:	eb 81       	ldd	r30, Y+3	; 0x03
+ 5c6:	fc 81       	ldd	r31, Y+4	; 0x04
+ 5c8:	80 e2       	ldi	r24, 0x20	; 32
+ 5ca:	80 83       	st	Z, r24
+ 5cc:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5ce:	9c 81       	ldd	r25, Y+4	; 0x04
+ 5d0:	01 97       	sbiw	r24, 0x01	; 1
+ 5d2:	9c 83       	std	Y+4, r25	; 0x04
+ 5d4:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x21;
+ 5d6:	eb 81       	ldd	r30, Y+3	; 0x03
+ 5d8:	fc 81       	ldd	r31, Y+4	; 0x04
+ 5da:	81 e2       	ldi	r24, 0x21	; 33
+ 5dc:	80 83       	st	Z, r24
+ 5de:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5e0:	9c 81       	ldd	r25, Y+4	; 0x04
+ 5e2:	01 97       	sbiw	r24, 0x01	; 1
+ 5e4:	9c 83       	std	Y+4, r25	; 0x04
+ 5e6:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x22;
+ 5e8:	eb 81       	ldd	r30, Y+3	; 0x03
+ 5ea:	fc 81       	ldd	r31, Y+4	; 0x04
+ 5ec:	82 e2       	ldi	r24, 0x22	; 34
+ 5ee:	80 83       	st	Z, r24
+ 5f0:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5f2:	9c 81       	ldd	r25, Y+4	; 0x04
+ 5f4:	01 97       	sbiw	r24, 0x01	; 1
+ 5f6:	9c 83       	std	Y+4, r25	; 0x04
+ 5f8:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x23;
+ 5fa:	eb 81       	ldd	r30, Y+3	; 0x03
+ 5fc:	fc 81       	ldd	r31, Y+4	; 0x04
+ 5fe:	83 e2       	ldi	r24, 0x23	; 35
+ 600:	80 83       	st	Z, r24
+ 602:	8b 81       	ldd	r24, Y+3	; 0x03
+ 604:	9c 81       	ldd	r25, Y+4	; 0x04
+ 606:	01 97       	sbiw	r24, 0x01	; 1
+ 608:	9c 83       	std	Y+4, r25	; 0x04
+ 60a:	8b 83       	std	Y+3, r24	; 0x03
+
+    tmp = (unsigned short)arg;
+ 60c:	89 85       	ldd	r24, Y+9	; 0x09
+ 60e:	9a 85       	ldd	r25, Y+10	; 0x0a
+ 610:	9a 83       	std	Y+2, r25	; 0x02
+ 612:	89 83       	std	Y+1, r24	; 0x01
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff); // r24 LSByte of arg
+ 614:	89 81       	ldd	r24, Y+1	; 0x01
+ 616:	eb 81       	ldd	r30, Y+3	; 0x03
+ 618:	fc 81       	ldd	r31, Y+4	; 0x04
+ 61a:	80 83       	st	Z, r24
+ 61c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 61e:	9c 81       	ldd	r25, Y+4	; 0x04
+ 620:	01 97       	sbiw	r24, 0x01	; 1
+ 622:	9c 83       	std	Y+4, r25	; 0x04
+ 624:	8b 83       	std	Y+3, r24	; 0x03
+    tmp>>=8;
+ 626:	89 81       	ldd	r24, Y+1	; 0x01
+ 628:	9a 81       	ldd	r25, Y+2	; 0x02
+ 62a:	89 2f       	mov	r24, r25
+ 62c:	99 27       	eor	r25, r25
+ 62e:	9a 83       	std	Y+2, r25	; 0x02
+ 630:	89 83       	std	Y+1, r24	; 0x01
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff); // r25 MSByte of arg
+ 632:	89 81       	ldd	r24, Y+1	; 0x01
+ 634:	eb 81       	ldd	r30, Y+3	; 0x03
+ 636:	fc 81       	ldd	r31, Y+4	; 0x04
+ 638:	80 83       	st	Z, r24
+ 63a:	8b 81       	ldd	r24, Y+3	; 0x03
+ 63c:	9c 81       	ldd	r25, Y+4	; 0x04
+ 63e:	01 97       	sbiw	r24, 0x01	; 1
+ 640:	9c 83       	std	Y+4, r25	; 0x04
+ 642:	8b 83       	std	Y+3, r24	; 0x03
+
+    *tos-- = 0x26;
+ 644:	eb 81       	ldd	r30, Y+3	; 0x03
+ 646:	fc 81       	ldd	r31, Y+4	; 0x04
+ 648:	86 e2       	ldi	r24, 0x26	; 38
+ 64a:	80 83       	st	Z, r24
+ 64c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 64e:	9c 81       	ldd	r25, Y+4	; 0x04
+ 650:	01 97       	sbiw	r24, 0x01	; 1
+ 652:	9c 83       	std	Y+4, r25	; 0x04
+ 654:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x27;
+ 656:	eb 81       	ldd	r30, Y+3	; 0x03
+ 658:	fc 81       	ldd	r31, Y+4	; 0x04
+ 65a:	87 e2       	ldi	r24, 0x27	; 39
+ 65c:	80 83       	st	Z, r24
+ 65e:	8b 81       	ldd	r24, Y+3	; 0x03
+ 660:	9c 81       	ldd	r25, Y+4	; 0x04
+ 662:	01 97       	sbiw	r24, 0x01	; 1
+ 664:	9c 83       	std	Y+4, r25	; 0x04
+ 666:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x28;
+ 668:	eb 81       	ldd	r30, Y+3	; 0x03
+ 66a:	fc 81       	ldd	r31, Y+4	; 0x04
+ 66c:	88 e2       	ldi	r24, 0x28	; 40
+ 66e:	80 83       	st	Z, r24
+ 670:	8b 81       	ldd	r24, Y+3	; 0x03
+ 672:	9c 81       	ldd	r25, Y+4	; 0x04
+ 674:	01 97       	sbiw	r24, 0x01	; 1
+ 676:	9c 83       	std	Y+4, r25	; 0x04
+ 678:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x29;
+ 67a:	eb 81       	ldd	r30, Y+3	; 0x03
+ 67c:	fc 81       	ldd	r31, Y+4	; 0x04
+ 67e:	89 e2       	ldi	r24, 0x29	; 41
+ 680:	80 83       	st	Z, r24
+ 682:	8b 81       	ldd	r24, Y+3	; 0x03
+ 684:	9c 81       	ldd	r25, Y+4	; 0x04
+ 686:	01 97       	sbiw	r24, 0x01	; 1
+ 688:	9c 83       	std	Y+4, r25	; 0x04
+ 68a:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x30;
+ 68c:	eb 81       	ldd	r30, Y+3	; 0x03
+ 68e:	fc 81       	ldd	r31, Y+4	; 0x04
+ 690:	80 e3       	ldi	r24, 0x30	; 48
+ 692:	80 83       	st	Z, r24
+ 694:	8b 81       	ldd	r24, Y+3	; 0x03
+ 696:	9c 81       	ldd	r25, Y+4	; 0x04
+ 698:	01 97       	sbiw	r24, 0x01	; 1
+ 69a:	9c 83       	std	Y+4, r25	; 0x04
+ 69c:	8b 83       	std	Y+3, r24	; 0x03
+    *tos-- = 0x31;
+ 69e:	eb 81       	ldd	r30, Y+3	; 0x03
+ 6a0:	fc 81       	ldd	r31, Y+4	; 0x04
+ 6a2:	81 e3       	ldi	r24, 0x31	; 49
+ 6a4:	80 83       	st	Z, r24
+ 6a6:	8b 81       	ldd	r24, Y+3	; 0x03
+ 6a8:	9c 81       	ldd	r25, Y+4	; 0x04
+ 6aa:	01 97       	sbiw	r24, 0x01	; 1
+ 6ac:	9c 83       	std	Y+4, r25	; 0x04
+ 6ae:	8b 83       	std	Y+3, r24	; 0x03
+#ifdef RAMPZ
+    *tos-- = 0xff;
+#endif
+    return tos;
+ 6b0:	8b 81       	ldd	r24, Y+3	; 0x03
+ 6b2:	9c 81       	ldd	r25, Y+4	; 0x04
+}
+ 6b4:	2a 96       	adiw	r28, 0x0a	; 10
+ 6b6:	0f b6       	in	r0, 0x3f	; 63
+ 6b8:	f8 94       	cli
+ 6ba:	de bf       	out	0x3e, r29	; 62
+ 6bc:	0f be       	out	0x3f, r0	; 63
+ 6be:	cd bf       	out	0x3d, r28	; 61
+ 6c0:	cf 91       	pop	r28
+ 6c2:	df 91       	pop	r29
+ 6c4:	08 95       	ret
+
+000006c6 <item_cut>:
+    head->prev = item;
+    tail->next = item;
+}
+//Вырезать элемент
+void item_cut( item_t *item )
+{
+ 6c6:	df 93       	push	r29
+ 6c8:	cf 93       	push	r28
+ 6ca:	00 d0       	rcall	.+0      	; 0x6cc <item_cut+0x6>
+ 6cc:	00 d0       	rcall	.+0      	; 0x6ce <item_cut+0x8>
+ 6ce:	00 d0       	rcall	.+0      	; 0x6d0 <item_cut+0xa>
+ 6d0:	cd b7       	in	r28, 0x3d	; 61
+ 6d2:	de b7       	in	r29, 0x3e	; 62
+ 6d4:	9e 83       	std	Y+6, r25	; 0x06
+ 6d6:	8d 83       	std	Y+5, r24	; 0x05
+    item_t * prev;
+    item_t * next;
+    prev = item->prev; //Предыдущий элемент
+ 6d8:	ed 81       	ldd	r30, Y+5	; 0x05
+ 6da:	fe 81       	ldd	r31, Y+6	; 0x06
+ 6dc:	82 81       	ldd	r24, Z+2	; 0x02
+ 6de:	93 81       	ldd	r25, Z+3	; 0x03
+ 6e0:	9c 83       	std	Y+4, r25	; 0x04
+ 6e2:	8b 83       	std	Y+3, r24	; 0x03
+    next = item->next; //Следующий элемент
+ 6e4:	ed 81       	ldd	r30, Y+5	; 0x05
+ 6e6:	fe 81       	ldd	r31, Y+6	; 0x06
+ 6e8:	80 81       	ld	r24, Z
+ 6ea:	91 81       	ldd	r25, Z+1	; 0x01
+ 6ec:	9a 83       	std	Y+2, r25	; 0x02
+ 6ee:	89 83       	std	Y+1, r24	; 0x01
+
+    next->prev = prev;
+ 6f0:	e9 81       	ldd	r30, Y+1	; 0x01
+ 6f2:	fa 81       	ldd	r31, Y+2	; 0x02
+ 6f4:	8b 81       	ldd	r24, Y+3	; 0x03
+ 6f6:	9c 81       	ldd	r25, Y+4	; 0x04
+ 6f8:	93 83       	std	Z+3, r25	; 0x03
+ 6fa:	82 83       	std	Z+2, r24	; 0x02
+    prev->next = next;
+ 6fc:	eb 81       	ldd	r30, Y+3	; 0x03
+ 6fe:	fc 81       	ldd	r31, Y+4	; 0x04
+ 700:	89 81       	ldd	r24, Y+1	; 0x01
+ 702:	9a 81       	ldd	r25, Y+2	; 0x02
+ 704:	91 83       	std	Z+1, r25	; 0x01
+ 706:	80 83       	st	Z, r24
+
+    item->prev = item;
+ 708:	ed 81       	ldd	r30, Y+5	; 0x05
+ 70a:	fe 81       	ldd	r31, Y+6	; 0x06
+ 70c:	8d 81       	ldd	r24, Y+5	; 0x05
+ 70e:	9e 81       	ldd	r25, Y+6	; 0x06
+ 710:	93 83       	std	Z+3, r25	; 0x03
+ 712:	82 83       	std	Z+2, r24	; 0x02
+    item->next = item;
+ 714:	ed 81       	ldd	r30, Y+5	; 0x05
+ 716:	fe 81       	ldd	r31, Y+6	; 0x06
+ 718:	8d 81       	ldd	r24, Y+5	; 0x05
+ 71a:	9e 81       	ldd	r25, Y+6	; 0x06
+ 71c:	91 83       	std	Z+1, r25	; 0x01
+ 71e:	80 83       	st	Z, r24
+}
+ 720:	26 96       	adiw	r28, 0x06	; 6
+ 722:	0f b6       	in	r0, 0x3f	; 63
+ 724:	f8 94       	cli
+ 726:	de bf       	out	0x3e, r29	; 62
+ 728:	0f be       	out	0x3f, r0	; 63
+ 72a:	cd bf       	out	0x3d, r28	; 61
+ 72c:	cf 91       	pop	r28
+ 72e:	df 91       	pop	r29
+ 730:	08 95       	ret
+
+00000732 <vm_interrupt>:
+stack_t * vm_main_sp;
+stack_t vm_stack[128];
+
+__attribute__ (( naked )) void vm_interrupt(void)
+{
+    PORTB ^= 0x40;
+ 732:	a5 e2       	ldi	r26, 0x25	; 37
+ 734:	b0 e0       	ldi	r27, 0x00	; 0
+ 736:	e5 e2       	ldi	r30, 0x25	; 37
+ 738:	f0 e0       	ldi	r31, 0x00	; 0
+ 73a:	90 81       	ld	r25, Z
+ 73c:	80 e4       	ldi	r24, 0x40	; 64
+ 73e:	89 27       	eor	r24, r25
+ 740:	8c 93       	st	X, r24
+    bugurt_pop_context();
+ 742:	0e 94 7f 00 	call	0xfe	; 0xfe <bugurt_pop_context>
+    __asm__ __volatile__("ret"::);
+ 746:	08 95       	ret
+
+00000748 <vm_main>:
+}
+
+void vm_main(void)
+{
+ 748:	df 93       	push	r29
+ 74a:	cf 93       	push	r28
+ 74c:	cd b7       	in	r28, 0x3d	; 61
+ 74e:	de b7       	in	r29, 0x3e	; 62
+    PORTB ^= 0x20;
+ 750:	a5 e2       	ldi	r26, 0x25	; 37
+ 752:	b0 e0       	ldi	r27, 0x00	; 0
+ 754:	e5 e2       	ldi	r30, 0x25	; 37
+ 756:	f0 e0       	ldi	r31, 0x00	; 0
+ 758:	90 81       	ld	r25, Z
+ 75a:	80 e2       	ldi	r24, 0x20	; 32
+ 75c:	89 27       	eor	r24, r25
+ 75e:	8c 93       	st	X, r24
+    while(1)
+    {
+        PORTB ^= 0x20;
+ 760:	a5 e2       	ldi	r26, 0x25	; 37
+ 762:	b0 e0       	ldi	r27, 0x00	; 0
+ 764:	e5 e2       	ldi	r30, 0x25	; 37
+ 766:	f0 e0       	ldi	r31, 0x00	; 0
+ 768:	90 81       	ld	r25, Z
+ 76a:	80 e2       	ldi	r24, 0x20	; 32
+ 76c:	89 27       	eor	r24, r25
+ 76e:	8c 93       	st	X, r24
+        PORTB ^= 0x40;
+ 770:	a5 e2       	ldi	r26, 0x25	; 37
+ 772:	b0 e0       	ldi	r27, 0x00	; 0
+ 774:	e5 e2       	ldi	r30, 0x25	; 37
+ 776:	f0 e0       	ldi	r31, 0x00	; 0
+ 778:	90 81       	ld	r25, Z
+ 77a:	80 e4       	ldi	r24, 0x40	; 64
+ 77c:	89 27       	eor	r24, r25
+ 77e:	8c 93       	st	X, r24
+ 780:	ef cf       	rjmp	.-34     	; 0x760 <vm_main+0x18>
+
+00000782 <main>:
+    }
+}
+
+int main(void)
+{
+ 782:	df 93       	push	r29
+ 784:	cf 93       	push	r28
+ 786:	cd b7       	in	r28, 0x3d	; 61
+ 788:	de b7       	in	r29, 0x3e	; 62
+
+    vm_main_sp = proc_stack_init( &vm_stack[127], (code_t)vm_main, (void *)0 );
+ 78a:	24 ea       	ldi	r18, 0xA4	; 164
+ 78c:	33 e0       	ldi	r19, 0x03	; 3
+ 78e:	81 e9       	ldi	r24, 0x91	; 145
+ 790:	91 e0       	ldi	r25, 0x01	; 1
+ 792:	b9 01       	movw	r22, r18
+ 794:	40 e0       	ldi	r20, 0x00	; 0
+ 796:	50 e0       	ldi	r21, 0x00	; 0
+ 798:	0e 94 f7 01 	call	0x3ee	; 0x3ee <proc_stack_init>
+ 79c:	90 93 13 03 	sts	0x0313, r25
+ 7a0:	80 93 12 03 	sts	0x0312, r24
+
+    /// Работает !!! Можно делать BuguRTThreads !!!
+    bugurt_set_stack_pointer(vm_main_sp);
+ 7a4:	80 91 12 03 	lds	r24, 0x0312
+ 7a8:	90 91 13 03 	lds	r25, 0x0313
+ 7ac:	0e 94 ad 00 	call	0x15a	; 0x15a <bugurt_set_stack_pointer>
+    bugurt_push_pointer( (void *)vm_interrupt );
+ 7b0:	89 e9       	ldi	r24, 0x99	; 153
+ 7b2:	93 e0       	ldi	r25, 0x03	; 3
+ 7b4:	0e 94 b5 00 	call	0x16a	; 0x16a <bugurt_push_pointer>
+    __asm__ __volatile__("ret"::);
+ 7b8:	08 95       	ret
+ 7ba:	ff cf       	rjmp	.-2      	; 0x7ba <main+0x38>
+
+000007bc <_exit>:
+ 7bc:	f8 94       	cli
+
+000007be <__stop_program>:
+ 7be:	ff cf       	rjmp	.-2      	; 0x7be <__stop_program>

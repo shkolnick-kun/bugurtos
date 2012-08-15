@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../include/bugurt.h" open="0" top="0" tabpos="1">
-		<Cursor position="1026" topLine="90" />
+	<File name="../../include/bugurt.h" open="0" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../include/kernel.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="119" />
@@ -14,10 +14,10 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../include/proc.h" open="0" top="0" tabpos="2">
-		<Cursor position="9015" topLine="171" />
+		<Cursor position="13358" topLine="235" />
 	</File>
 	<File name="../../include/sched.h" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="129" />
+		<Cursor position="10519" topLine="168" />
 	</File>
 	<File name="../../include/sem.h" open="0" top="0" tabpos="2">
 		<Cursor position="7453" topLine="104" />
