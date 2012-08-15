@@ -1,0 +1,539 @@
+Archive member included because of file (symbol)
+
+/usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+                              /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o (exit)
+/usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+                              obj/Debug/arch/avr/gcc-vsmp/vsmp.o (__do_copy_data)
+/usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+                              obj/Debug/arch/avr/gcc-vsmp/vsmp.o (__do_clear_bss)
+
+Allocating common symbols
+Common symbol       size              file
+
+current_vm          0x1               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_state            0xf               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_main_sp          0x2               obj/Debug/main.o
+vm_buf              0x2               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_stack            0x200             obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+
+Discarded input sections
+
+ .data          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ .bss           0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ .text          0x00000000        0x0 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .data          0x00000000        0x0 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .bss           0x00000000        0x0 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vsmp_vm_init
+                0x00000000       0x3e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vsmp_init
+                0x00000000       0x76 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vsmp_run
+                0x00000000       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vsmp_idle_main
+                0x00000000       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text._vsmp_vinterrupt
+                0x00000000       0x92 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vsmp_vinterrupt_isr
+                0x00000000       0x8a obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vsmp_vinterrupt
+                0x00000000       0x30 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .data          0x00000000        0x0 obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+ .bss           0x00000000        0x0 obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+ .text          0x00000000        0x0 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+ .data          0x00000000        0x0 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+ .bss           0x00000000        0x0 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+ .text          0x00000000        0x0 obj/Debug/kernel/item.o
+ .data          0x00000000        0x0 obj/Debug/kernel/item.o
+ .bss           0x00000000        0x0 obj/Debug/kernel/item.o
+ .text.item_init
+                0x00000000       0x30 obj/Debug/kernel/item.o
+ .text.item_insert
+                0x00000000       0x64 obj/Debug/kernel/item.o
+ .text          0x00000000        0x0 obj/Debug/main.o
+ .data          0x00000000        0x0 obj/Debug/main.o
+ .bss           0x00000000        0x0 obj/Debug/main.o
+ .text          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .data          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .text          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00020000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800100
+LOAD /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+LOAD obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+LOAD obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+LOAD obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+LOAD obj/Debug/kernel/item.o
+LOAD obj/Debug/main.o
+LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
+LOAD /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/libm.a
+LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
+LOAD /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/libc.a
+LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0x7c0
+ *(.vectors)
+ .vectors       0x00000000       0x68 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x00000068                . = ALIGN (0x2)
+                0x00000068                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000068        0x0 linker stubs
+ *(.trampolines*)
+                0x00000068                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000068                __ctors_start = .
+ *(.ctors)
+                0x00000068                __ctors_end = .
+                0x00000068                __dtors_start = .
+ *(.dtors)
+                0x00000068                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000068        0x0 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+                0x00000068                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000068        0xc /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000074       0x16 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+                0x00000074                __do_copy_data
+ .init4         0x0000008a       0x10 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+                0x0000008a                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x0000009a        0x8 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ *(.init9)
+ *(.text)
+ .text          0x000000a2        0x4 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+                0x000000a2                __vector_22
+                0x000000a2                __vector_1
+                0x000000a2                __vector_24
+                0x000000a2                __vector_12
+                0x000000a2                __bad_interrupt
+                0x000000a2                __vector_6
+                0x000000a2                __vector_3
+                0x000000a2                __vector_23
+                0x000000a2                __vector_25
+                0x000000a2                __vector_11
+                0x000000a2                __vector_13
+                0x000000a2                __vector_17
+                0x000000a2                __vector_19
+                0x000000a2                __vector_5
+                0x000000a2                __vector_4
+                0x000000a2                __vector_9
+                0x000000a2                __vector_2
+                0x000000a2                __vector_21
+                0x000000a2                __vector_15
+                0x000000a2                __vector_8
+                0x000000a2                __vector_14
+                0x000000a2                __vector_10
+                0x000000a2                __vector_16
+                0x000000a2                __vector_18
+                0x000000a2                __vector_20
+ .text          0x000000a6       0xdc obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+                0x000000a6                bugurt_save_context
+                0x000000fe                bugurt_pop_context
+                0x00000104                bugurt_restore_context
+                0x0000015a                bugurt_set_stack_pointer
+                0x0000016a                bugurt_push_pointer
+                0x0000017a                bugurt_reverse_byte_order
+                0x00000182                . = ALIGN (0x2)
+ *(.text.*)
+ .text.vsmp_do_interrupt
+                0x00000182      0x11c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000182                vsmp_do_interrupt
+ .text._vinterrupt_wrapper
+                0x0000029e       0x46 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .text.vinterrupt_wrapper
+                0x000002e4       0x62 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x000002e4                vinterrupt_wrapper
+ .text.__vector_7
+                0x00000346       0xa8 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000346                __vector_7
+ .text.proc_stack_init
+                0x000003ee      0x2d8 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                0x000003ee                proc_stack_init
+ .text.item_cut
+                0x000006c6       0x6c obj/Debug/kernel/item.o
+                0x000006c6                item_cut
+ .text.vm_interrupt
+                0x00000732       0x16 obj/Debug/main.o
+                0x00000732                vm_interrupt
+ .text.vm_main  0x00000748       0x3a obj/Debug/main.o
+                0x00000748                vm_main
+ .text.main     0x00000782       0x3a obj/Debug/main.o
+                0x00000782                main
+                0x000007bc                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x000007bc        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+                0x000007bc                exit
+                0x000007bc                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x000007bc        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ *(.fini0)
+                0x000007c0                _etext = .
+
+.data           0x00800100        0x0 load address 0x000007c0
+                0x00800100                PROVIDE (__data_start, .)
+ *(.data)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x00800100                . = ALIGN (0x2)
+                0x00800100                _edata = .
+                0x00800100                PROVIDE (__data_end, .)
+
+.bss            0x00800100      0x214
+                0x00800100                PROVIDE (__bss_start, .)
+ *(.bss)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00800100      0x212 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00800100                current_vm
+                0x00800101                vm_state
+                0x00800110                vm_buf
+                0x00800112                vm_stack
+ COMMON         0x00800312        0x2 obj/Debug/main.o
+                0x00800312                vm_main_sp
+                0x00800314                PROVIDE (__bss_end, .)
+                0x000007c0                __data_load_start = LOADADDR (.data)
+                0x000007c0                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800314        0x0
+                0x00800314                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00800314                PROVIDE (__noinit_end, .)
+                0x00800314                _end = .
+                0x00800314                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab           0x00000000     0x1f2c
+ *(.stab)
+ .stab          0x00000000      0x6b4 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ .stab          0x000006b4      0xa5c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                                0xd98 (size before relaxing)
+ .stab          0x00001110      0x648 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                                0x960 (size before relaxing)
+ .stab          0x00001758      0x4a4 obj/Debug/kernel/item.o
+                                0x8d0 (size before relaxing)
+ .stab          0x00001bfc      0x330 obj/Debug/main.o
+                                0x870 (size before relaxing)
+
+.stabstr        0x00000000     0x2912
+ *(.stabstr)
+ .stabstr       0x00000000     0x2912 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(bin/Debug/vsmp-sandbox.elf elf32-avr)
+LOAD linker stubs
+
+Cross Reference Table
+
+Symbol                                            File
+__bad_interrupt                                   /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__bss_end                                         /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+__bss_start                                       /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+__data_end                                        /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+__data_load_start                                 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+__data_start                                      /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+__do_clear_bss                                    /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_clear_bss.o)
+                                                  obj/Debug/main.o
+                                                  obj/Debug/kernel/item.o
+                                                  obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+__do_copy_data                                    /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_copy_data.o)
+                                                  obj/Debug/main.o
+                                                  obj/Debug/kernel/item.o
+                                                  obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+__heap_end                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__init                                            /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__stack                                           /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_1                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_10                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_11                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_12                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_13                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_14                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_15                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_16                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_17                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_18                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_19                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_2                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_20                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_21                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_22                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_23                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_24                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_25                                       /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_3                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_4                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_5                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_6                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_7                                        obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                                                  /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_8                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_9                                        /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vector_default                                  /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+__vectors                                         /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+_exit                                             /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+bugurt_pop_context                                obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+                                                  obj/Debug/main.o
+bugurt_push_pointer                               obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+                                                  obj/Debug/main.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+bugurt_restore_context                            obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+bugurt_reverse_byte_order                         obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+bugurt_save_context                               obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+bugurt_set_stack_pointer                          obj/Debug/arch/avr/gcc/bugurt_kernel_asm.o
+                                                  obj/Debug/main.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+current_vm                                        obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+exit                                              /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+                                                  /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+item_cut                                          obj/Debug/kernel/item.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+item_init                                         obj/Debug/kernel/item.o
+item_insert                                       obj/Debug/kernel/item.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+main                                              obj/Debug/main.o
+                                                  /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+proc_stack_init                                   obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                                                  obj/Debug/main.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vinterrupt_wrapper                                obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_buf                                            obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_interrupt                                      obj/Debug/main.o
+vm_main                                           obj/Debug/main.o
+vm_main_sp                                        obj/Debug/main.o
+vm_stack                                          obj/Debug/main.o
+                                                  obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_state                                          obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_do_interrupt                                 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_idle_main                                    obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_init                                         obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_run                                          obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_vinterrupt                                   obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_vinterrupt_isr                               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vsmp_vm_init                                      obj/Debug/arch/avr/gcc-vsmp/vsmp.o

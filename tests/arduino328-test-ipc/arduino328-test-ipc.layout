@@ -4,6 +4,9 @@
 	<File name="../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="6154" topLine="71" />
 	</File>
+	<File name="../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="9709" topLine="211" />
+	</File>
 	<File name="../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="12" topLine="0" />
 	</File>
