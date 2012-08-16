@@ -99,6 +99,8 @@ void vsmp_init( void )
     for( current_vm = 1; current_vm < MAX_CORES; current_vm++ )
     {
         stack_t * vm_sp;
+        unsigned short i;
+        for(i = 0; i < VM_STACK_SIZE; i++ )vm_stack[current_vm - 1][i] = 0x55;
         vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0 );
         vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp );
     }

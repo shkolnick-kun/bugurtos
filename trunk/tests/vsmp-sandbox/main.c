@@ -43,6 +43,13 @@ int main(void)
         vsmp_vinterrupt( i, &test_vector2 );
         for(j=0;j<1000;j++);
     }
+    for(i=0; i<MAX_CORES; i++)
+    {
+        cli();
+        vsmp_vinterrupt_isr( i, &test_vector );
+        vsmp_vinterrupt( i, &test_vector2 );
+        for(j=0;j<1000;j++);
+    }
 
     while(1)
     {
