@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="1" tabpos="1">
-		<Cursor position="8909" topLine="173" />
+	<File name="../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="3">
+		<Cursor position="6151" topLine="69" />
 	</File>
-	<File name="../../arch/avr/gcc-vsmp/vsmp.h" open="1" top="0" tabpos="2">
-		<Cursor position="6188" topLine="78" />
+	<File name="../../arch/avr/gcc-vsmp/vsmp.h" open="1" top="0" tabpos="1">
+		<Cursor position="7153" topLine="91" />
 	</File>
 	<File name="../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="148" />
 	</File>
-	<File name="config.h" open="1" top="0" tabpos="3">
-		<Cursor position="2702" topLine="6" />
+	<File name="config.h" open="1" top="0" tabpos="2">
+		<Cursor position="2725" topLine="65" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="4">
-		<Cursor position="401" topLine="0" />
+	<File name="main.c" open="1" top="1" tabpos="4">
+		<Cursor position="795" topLine="17" />
 	</File>
 </CodeBlocks_layout_file>
