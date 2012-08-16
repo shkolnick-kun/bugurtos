@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "vsmp.h"
 
 vsmp_vm_t vm_state[MAX_CORES];
-stack_t vm_stack[MAX_CORES -1][256];
+stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
 core_id_t current_vm;
 void * vm_buf;
 
@@ -99,8 +99,8 @@ void vsmp_init( void )
     for( current_vm = 1; current_vm < MAX_CORES; current_vm++ )
     {
         stack_t * vm_sp;
-        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][255], (code_t)vsmp_idle_main, (void *)0 );
-        vsmp_vm_init( &vm_state[0], (stack_t *)vm_sp );
+        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0 );
+        vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp );
     }
     current_vm = 0;
 }
@@ -178,6 +178,8 @@ __attribute__ (( naked )) void vinterrupt_wrapper(void)
 {
     _vinterrupt_wrapper();
     cli();
+    // Virtual interrupts are enabled after interrupt processing.
+    vm_state[current_vm].int_enabled = (bool_t)1;
     // Tail recursion, will return to it self entry point untill all virtual interrupts are processed, lol!
     _vsmp_interrupt_epilogue();
 }
@@ -202,8 +204,14 @@ __attribute__ (( naked )) static void _vsmp_vinterrupt(void)
 // Software virtual interrupt ( For ISR usage only ! Do NOT call from "main"!)
 void vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector )
 {
-    if( vm_state[vm].int_fifo ) item_insert( (item_t *)vector, (item_t *)&vm_state[vm].int_fifo );
-    else vm_state[vm].int_fifo = (item_t *)vector;
+    if( vm_state[vm].int_fifo )
+    {
+        item_insert( (item_t *)vector, (item_t *)vm_state[vm].int_fifo );
+    }
+    else
+    {
+        vm_state[vm].int_fifo = (item_t *)vector;
+    }
 }
 // Software virtual interrupt ( Use in "main" only ! Do NOT call from ISR!)
 void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector )

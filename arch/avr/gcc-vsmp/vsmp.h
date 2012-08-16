@@ -106,10 +106,16 @@ struct _vinterrupt_t
     void (*isr)(void); // Virtual Interrupt Service Routine
 };
 
+#define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), f }
+
 void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp );
+
 void vsmp_init( void );
 void vsmp_run( void );
+
 void vsmp_idle_main( void * arg );
+
+void vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector );
 void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector );
 void vinterrupt_wrapper(void);
 bool_t vsmp_do_interrupt(void);
