@@ -12,10 +12,10 @@ Common symbol       size              file
 
 j                   0x2               obj/Debug/main.o
 current_vm          0x1               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-vm_state            0xf               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_state            0x14              obj/Debug/arch/avr/gcc-vsmp/vsmp.o
 i                   0x1               obj/Debug/main.o
 vm_buf              0x2               obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-vm_stack            0x200             obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+vm_stack            0x300             obj/Debug/arch/avr/gcc-vsmp/vsmp.o
 
 Discarded input sections
 
@@ -165,7 +165,7 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xb0a
+.text           0x00000000      0xbb0
  *(.vectors)
  .vectors       0x00000000       0x68 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
                 0x00000000                __vectors
@@ -259,55 +259,55 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
                 0x00000182       0x3e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
                 0x00000182                vsmp_vm_init
  .text.vsmp_init
-                0x000001c0       0x8c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x000001c0       0xd0 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
                 0x000001c0                vsmp_init
  .text.vsmp_run
-                0x0000024c       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x0000024c                vsmp_run
+                0x00000290       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000290                vsmp_run
  .text.vsmp_idle_main
-                0x0000025c       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x0000025c                vsmp_idle_main
+                0x000002a0       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x000002a0                vsmp_idle_main
  .text.vsmp_do_interrupt
-                0x0000026c      0x11c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x0000026c                vsmp_do_interrupt
+                0x000002b0      0x11c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x000002b0                vsmp_do_interrupt
  .text._vinterrupt_wrapper
-                0x00000388       0x46 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x000003cc       0x46 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
  .text.vinterrupt_wrapper
-                0x000003ce       0x82 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x000003ce                vinterrupt_wrapper
+                0x00000412       0x82 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000412                vinterrupt_wrapper
  .text.__vector_7
-                0x00000450       0xa8 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000450                __vector_7
+                0x00000494       0xa8 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000494                __vector_7
  .text._vsmp_vinterrupt
-                0x000004f8       0x92 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x0000053c       0x92 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
  .text.vsmp_vinterrupt_isr
-                0x0000058a       0x8e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x0000058a                vsmp_vinterrupt_isr
+                0x000005ce       0x8e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x000005ce                vsmp_vinterrupt_isr
  .text.vsmp_vinterrupt
-                0x00000618       0x30 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000618                vsmp_vinterrupt
+                0x0000065c       0x30 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x0000065c                vsmp_vinterrupt
  .text.proc_stack_init
-                0x00000648      0x2d8 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
-                0x00000648                proc_stack_init
+                0x0000068c      0x2d8 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                0x0000068c                proc_stack_init
  .text.item_insert
-                0x00000920       0x64 obj/Debug/kernel/item.o
-                0x00000920                item_insert
+                0x00000964       0x64 obj/Debug/kernel/item.o
+                0x00000964                item_insert
  .text.item_cut
-                0x00000984       0x6c obj/Debug/kernel/item.o
-                0x00000984                item_cut
+                0x000009c8       0x6c obj/Debug/kernel/item.o
+                0x000009c8                item_cut
  .text.test_visr
-                0x000009f0       0x1e obj/Debug/main.o
-                0x000009f0                test_visr
+                0x00000a34       0x1e obj/Debug/main.o
+                0x00000a34                test_visr
  .text.test_visr2
-                0x00000a0e       0x1e obj/Debug/main.o
-                0x00000a0e                test_visr2
- .text.main     0x00000a2c       0xda obj/Debug/main.o
-                0x00000a2c                main
-                0x00000b06                . = ALIGN (0x2)
+                0x00000a52       0x1e obj/Debug/main.o
+                0x00000a52                test_visr2
+ .text.main     0x00000a70      0x13c obj/Debug/main.o
+                0x00000a70                main
+                0x00000bac                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000b06        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
-                0x00000b06                exit
-                0x00000b06                _exit
+ .fini9         0x00000bac        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+                0x00000bac                exit
+                0x00000bac                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -326,11 +326,11 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000b06        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .fini0         0x00000bac        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000b0a                _etext = .
+                0x00000bb0                _etext = .
 
-.data           0x00800100        0xc load address 0x00000b0a
+.data           0x00800100        0xc load address 0x00000bb0
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0xc obj/Debug/main.o
@@ -344,29 +344,29 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
                 0x0080010c                _edata = .
                 0x0080010c                PROVIDE (__data_end, .)
 
-.bss            0x0080010c      0x215
+.bss            0x0080010c      0x31a
                 0x0080010c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
- COMMON         0x0080010c      0x212 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ COMMON         0x0080010c      0x317 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
                 0x0080010c                current_vm
                 0x0080010d                vm_state
-                0x0080011c                vm_buf
-                0x0080011e                vm_stack
- COMMON         0x0080031e        0x3 obj/Debug/main.o
-                0x0080031e                j
-                0x00800320                i
-                0x00800321                PROVIDE (__bss_end, .)
-                0x00000b0a                __data_load_start = LOADADDR (.data)
-                0x00000b16                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800121                vm_buf
+                0x00800123                vm_stack
+ COMMON         0x00800423        0x3 obj/Debug/main.o
+                0x00800423                j
+                0x00800425                i
+                0x00800426                PROVIDE (__bss_end, .)
+                0x00000bb0                __data_load_start = LOADADDR (.data)
+                0x00000bbc                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800321        0x0
-                0x00800321                PROVIDE (__noinit_start, .)
+.noinit         0x00800426        0x0
+                0x00800426                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x00800321                PROVIDE (__noinit_end, .)
-                0x00800321                _end = .
-                0x00800321                PROVIDE (__heap_start, .)
+                0x00800426                PROVIDE (__noinit_end, .)
+                0x00800426                _end = .
+                0x00800426                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -384,21 +384,21 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x23e8
+.stab           0x00000000     0x2448
  *(.stab)
  .stab          0x00000000      0x6b4 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
- .stab          0x000006b4      0xda4 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                                0xdb0 (size before relaxing)
- .stab          0x00001458      0x648 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+ .stab          0x000006b4      0xdbc obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                                0xdc8 (size before relaxing)
+ .stab          0x00001470      0x648 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
                                 0x960 (size before relaxing)
- .stab          0x00001aa0      0x558 obj/Debug/kernel/item.o
+ .stab          0x00001ab8      0x558 obj/Debug/kernel/item.o
                                 0x8d0 (size before relaxing)
- .stab          0x00001ff8      0x3f0 obj/Debug/main.o
-                                0x930 (size before relaxing)
+ .stab          0x00002010      0x438 obj/Debug/main.o
+                                0x978 (size before relaxing)
 
-.stabstr        0x00000000     0x2913
+.stabstr        0x00000000     0x291b
  *(.stabstr)
- .stabstr       0x00000000     0x2913 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
+ .stabstr       0x00000000     0x291b /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
 
 .stab.excl
  *(.stab.excl)
