@@ -51,10 +51,8 @@ int main(void)
         for(j=0;j<1000;j++);
     }
 
-    while(1)
-    {
-        PORTB ^= 0x20;
-    }
+    init_bugurt();
+    start_bugurt();
 
     return 0;
 }

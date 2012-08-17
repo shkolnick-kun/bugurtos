@@ -83,6 +83,7 @@ vsmp_vm_t vm_state[MAX_CORES];
 stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
 core_id_t current_vm;
 void * vm_buf;
+void (*vsmp_systimer_hook)(void);
 
 
 
@@ -194,10 +195,15 @@ void SYSTEM_TIMER_ISR(void)
     current_vm++;
     if(current_vm >= MAX_CORES)current_vm = (core_id_t)0;
 
+    if(vsmp_systimer_hook)
+    {
+        vsmp_systimer_hook();
+    }
+
     _vsmp_interrupt_epilogue();
 }
 // Software virtual interrupt tail function
-__attribute__ (( naked )) static void _vsmp_vinterrupt(void)
+__attribute__ (( naked )) void _vsmp_vinterrupt(void)
 {
     _vsmp_interrupt_prologue();
     _vsmp_interrupt_epilogue();
@@ -221,4 +227,10 @@ void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector )
     cli();
     vsmp_vinterrupt_isr( vm, vector );
     _vsmp_vinterrupt();
+}
+
+void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) )
+{
+    item_init( (item_t *)vector );
+    vector->isr = isr;
 }

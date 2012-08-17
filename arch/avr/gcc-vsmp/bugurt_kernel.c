@@ -76,166 +76,277 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include"bugurt_kernel.h"
+#include "bugurt_kernel.h"
 
-// Платформеннозависимый код
-// Просто функции, специфичные для AVR
-
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+stack_t * saved_vm_sp[MAX_CORES];
+__MACRO_FUNCTION__(_bugurt_isr_prologue)
+{
+    cli();
+    saved_vm_sp[current_vm] = (stack_t *)SP; // I didn't write bugurt_get_stack_pointer();
+    bugurt_set_stack_pointer( kernel.idle[current_vm].spointer );
+    sei();
+}
+__MACRO_FUNCTION__(_bugurt_isr_epilogue)
+{
+    cli();
+    bugurt_set_stack_pointer( saved_vm_sp[current_vm] );
+    sei();
+}
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void disable_interrupts(void)
 {
     cli();
+    vm_state[current_vm].int_enabled = (bool_t)0;
+    sei();
 }
+
 void enable_interrupts(void)
 {
+    cli();
+    vm_state[current_vm].int_enabled = (bool_t)1;
     sei();
 }
 
 proc_t * current_proc(void)
 {
-    return kernel.sched.current_proc;
+    proc_t * ret;
+    cli();
+    ret = kernel.sched[current_vm].current_proc;
+    sei();
+    return ret;
+}
+
+core_id_t current_core(void)
+{
+    core_id_t ret;
+    cli();
+    ret = current_vm;
+    sei();
+    return ret;
+}
+
+void spin_init( lock_t * lock )
+{
+    cli();
+    *lock = (lock_t)0;
+    sei();
+}
+
+void spin_lock( lock_t * lock )
+{
+    while(1)
+    {
+        cli();
+        if(!*lock)
+        {
+            *lock = (lock_t)1;
+            sei();
+            return;
+        }
+        sei();
+    }
+}
+void spin_unlock(lock_t * lock)
+{
+    unsigned char i;
+    for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
+    cli();
+    *lock = (lock_t)0;
+    sei();
+}
+// stat_t is simply prcess counter here!
+void stat_init( stat_t * stat )
+{
+    *stat = 0; // no lad on a system
+}
+void stat_dec( proc_t * proc, stat_t * stat )
+{
+    *stat--;
+}
+void stat_inc( proc_t * proc, stat_t * stat )
+{
+    *stat++;
+}
+void stat_merge( stat_t *src_stat, stat_t * dst_stat  )
+{
+    *dst_stat += *src_stat;
+    *src_stat = (stat_t)0;
+}
+load_t stat_calc_load(prio_t prio, stat_t * stat)
+{
+    return (load_t)*stat;
+}
+void resched(core_id_t core_id)
+{
+    vsmp_vinterrupt_isr( core_id, ( vinterrupt_t * )resched_vectors + core_id );
 }
 
 /******************************************************************************************************/
 // Код ядра
+vinterrupt_t resched_vectors[MAX_CORES];
+__attribute__ (( naked )) void resched_isr(void)
+{
+    _bugurt_isr_prologue();
 
-// Состояние ядра, выполняем перепланиировку
-unsigned char kernel_state = KRN_FLG_RESCHED;
-//Временное хранилище для указателей стеков процессов.
-stack_t * saved_proc_sp;
-// Функция перепланировки
-void resched( void )
-{
-    kernel_state |= KRN_FLG_RESCHED;
+    sched_reschedule();
+
+    _bugurt_isr_epilogue();
 }
-/*
-  Перепланировка при необхродимости,
-в случае использования системных вызовов
-на основе программного прерывания -
-- проверка на гонки с прерыванием системного вызова.
-*/
-void bugurt_check_resched( void )
+void resched_vectors_init(void)
 {
-    if(
-    ( kernel_state & KRN_FLG_RESCHED )
-#ifdef SYSCALL_ISR
-    && ( (~kernel_state) & KRN_FLG_DO_SCALL )
-#endif // SYSCALL_ISR
-    )
+    core_id_t i;
+    for(i = 0; i < MAX_CORES; i++)
     {
-        kernel_state &= ~KRN_FLG_RESCHED;
-        sched_reschedule();
+        vsmp_vinterrupt_init( ( vinterrupt_t * )resched_vectors + i, resched_isr );
     }
 }
 
-
-__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
-void SYSTEM_TIMER_ISR(void)
+vinterrupt_t systimer_vectors[MAX_CORES];
+void _systimer_tick_isr(void)
 {
-    BUGURT_ISR_START();
-
+    SPIN_LOCK_KERNEL_TIMER();
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
+    SPIN_UNLOCK_KERNEL_TIMER();
+
+    sched_schedule();
+}
+__attribute__ (( naked )) void systimer_tick_isr(void)
+{
+    _bugurt_isr_prologue();
+
+    _systimer_tick_isr();
+
+    _bugurt_isr_epilogue();
+}
+
+
+__attribute__ (( naked )) void systimer_sched_isr(void)
+{
+    _bugurt_isr_prologue();
+
     sched_schedule();
 
-    BUGURT_ISR_EXIT();
+    _bugurt_isr_epilogue();
 }
 
-#ifdef SYSCALL_ISR
-
-#ifdef RAMPZ
-#define PROC_STACK_OFFSET 8
-#else
-#define PROC_STACK_OFFSET 7
-#endif
-
-typedef struct
+void systimer_vectors_init(void)
 {
-    unsigned char num;
-    void * arg;
-} syscall_data_t;
-
-/// Если используется программное прерывание - вот его обработчик
-__attribute__ (( signal, naked )) void SYSCALL_ISR(void);
-void SYSCALL_ISR(void)
-{
-    BUGURT_ISR_START();
-
-    // Получаем информацию о системном вызове из стека процесса
-    saved_proc_sp += PROC_STACK_OFFSET;
-    saved_proc_sp = bugurt_reverse_byte_order( *(stack_t **)saved_proc_sp );
-
-    syscall_num = ((syscall_data_t *)saved_proc_sp)->num;
-    syscall_arg = ((syscall_data_t *)saved_proc_sp)->arg;
-
-    // Обрабатываем системный вызов
-    do_syscall();
-    kernel_state &= ~KRN_FLG_DO_SCALL;
-
-    // Перепланировка при необходимости
-    if( kernel_state & KRN_FLG_RESCHED )
+    core_id_t i;
+    vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors, systimer_tick_isr ); // Zero core is "mater", it handles kernel.timer
+    for(i = 1; i < MAX_CORES; i++)
     {
-        kernel_state &= ~KRN_FLG_RESCHED;
-        sched_reschedule();
+        vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors + i, systimer_sched_isr ); // Other cores are slaves they just shedule.
     }
-
-    // Разрешаем обработку прерывания системного таймера.
-    start_scheduler();
-
-    BUGURT_ISR_EXIT();
 }
 
-syscall_data_t * _syscall( syscall_data_t * arg )
+void systimer_vectors_fire(void)
 {
-    kernel_state |= KRN_FLG_DO_SCALL;
-    stop_scheduler(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
-    raise_syscall_interrupt();
-    sei();
-    return arg;
+    core_id_t i;
+    for(i = 0; i < MAX_CORES; i++)
+    {
+        vsmp_vinterrupt_isr( i, (vinterrupt_t *)systimer_vectors + i );
+    }
 }
+
+#define SYSTIMER_HOOK_THR 10
+count_t systimer_hook_counter;
+void vsmp_systimer_hook_bugurt(void)
+{
+    if(!current_vm)
+    {
+        systimer_hook_counter++;
+        if( systimer_hook_counter >= SYSTIMER_HOOK_THR )
+        {
+            systimer_hook_counter = (count_t)0;
+            systimer_vectors_fire();
+        }
+
+    }
+}
+
+vinterrupt_t syscall_vectors[MAX_CORES];
+syscall_t syscall_num[MAX_CORES];
+void * syscall_arg[MAX_CORES];
+
+// Local variable is used compiler generated prologue and epilogue needed
+void _syscall_isr(void)
+{
+    core_id_t core;
+    core = current_core();
+    do_syscall( syscall_num[core], syscall_arg[core] );
+}
+__attribute__ (( naked )) void syscall_isr(void)
+{
+    _bugurt_isr_prologue();
+
+    _syscall_isr();
+
+    _bugurt_isr_epilogue();
+}
+
+
+void syscall_vectors_init(void)
+{
+    core_id_t i;
+    for(i = 0; i < MAX_CORES; i++)
+    {
+        vsmp_vinterrupt_init( ( vinterrupt_t * )syscall_vectors + i, syscall_isr );
+        syscall_num[i] = (syscall_t)0;
+        syscall_arg[i] = (void *)0;
+    }
+}
+
 void syscall_bugurt( unsigned char num, void * arg )
 {
-     syscall_data_t scdata;
-     scdata.num = num;
-     scdata.arg = arg;
-     cli();
-     _syscall( &scdata );
-     SYSCALL_DELLAY();
-     while( kernel_state & KRN_FLG_DO_SCALL );
-}
-#else
-__attribute__ (( naked )) void _syscall(void);
-void _syscall(void)
-{
-    BUGURT_ISR_START();
+    core_id_t core;
+    item_t * vector;
 
-    // Обрабатываем системный вызов
-    do_syscall();
+    disable_interrupts();
 
-    BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
-}
-///Если не используется программное прерывание - прямая передача управления
-void syscall_bugurt( unsigned char num, void * arg )
-{
     cli();
-    syscall_num = num;
-    syscall_arg = arg;
-    _syscall();
-}
+    core = current_vm;
+    sei();
 
-#endif
+    syscall_num[core] = (syscall_t)num;
+    syscall_arg[core] = (void *)arg;
+    vector = (item_t *)( &syscall_vectors[core] );
+
+    cli();
+    vm_state[current_vm].int_enabled = (bool_t)1; // Virtual interrupts MUST be eanabled !!!
+    // System call is not an ordinary interrupt!!!
+    // It MUST be serviced FIRST!!!
+    if( vm_state[current_vm].int_fifo )
+    {
+        item_insert( (item_t *)vector, ((item_t *)vm_state[current_vm].int_fifo)->next );
+    }
+    vm_state[current_vm].int_fifo = (item_t *)vector;
+    _vsmp_vinterrupt();
+}
 /***************************************************************************************************************/
 // Функции общего пользования
 
 void init_bugurt(void)
 {
-    cli();
+    core_id_t i;
+    disable_interrupts();
+    resched_vectors_init();
+    systimer_vectors_init();
+    syscall_vectors_init();
     kernel_init();
-    kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
+    kernel.sched[current_core()].nested_crit_sec = (count_t)1;
+    for(i = 1; i < MAX_CORES; i++)
+    {
+        kernel.idle[i].pmain = vsmp_idle_main;
+    }
 }
 void start_bugurt(void)
 {
-    start_scheduler();
-    kernel.sched.nested_crit_sec = (count_t)0;
+    kernel.sched[current_core()].nested_crit_sec = (count_t)0;
+    enable_interrupts();
+    cli();
+    vsmp_systimer_hook = vsmp_systimer_hook_bugurt;
     sei();
     idle_main( (void *)0 );
 }

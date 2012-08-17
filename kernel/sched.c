@@ -77,6 +77,70 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
+
+#ifdef CONFIG_MP
+//========================================================================================
+// Балансировщик нагрузки
+WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
+{
+    core_id_t core = (core_id_t)0, ret;
+    affinity_t mask = (affinity_t)1;
+    while( core < (core_id_t)MAX_CORES )
+    {
+        if( proc->affinity & mask )break;
+        mask<<=1;
+        core++;
+    }
+    // Начальное предположение
+    stat += (core_id_t)core;
+    ret = core++;
+    mask<<=1;
+    {
+        prio_t proc_prio;
+        load_t current_load, min_load;
+
+        proc_prio = ((pitem_t *)proc)->prio;
+        min_load = stat_calc_load( proc_prio, stat++ );
+        // Проверка всего остального, тупой поиск минимума
+        while( core < (core_id_t)MAX_CORES )
+        {
+            current_load = stat_calc_load( proc_prio, stat++ );
+            if( (proc->affinity & mask) && (current_load < min_load) )
+            {
+                min_load = current_load;
+                ret = core;
+            }
+            mask<<=1;
+            core++;
+        }
+    }
+    return ret;
+}
+//----------------------------------------------------------------------------------------
+//Поиск самой нагруженной структуры stat_t в массиве
+WEAK core_id_t sched_highest_load_core( stat_t * stat )
+{
+    // Начальное предположение
+    load_t max_load;
+    core_id_t object_core = (core_id_t)0; //процессор с максимальной нагрузкой, с которого эту нагрузку будем снимать
+    core_id_t core = (core_id_t)1;
+    max_load  = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat ); // максимальная нагрузка
+
+    while( core < (core_id_t)MAX_CORES )
+    {
+        load_t current_load;
+        current_load = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat + core );
+        if( current_load > max_load )
+        {
+            max_load = current_load;
+            object_core = core;
+        }
+        core++;
+    }
+
+    return object_core;
+}
+#endif // CONFIG_MP
 //========================================================================================
 // Инициация
 void sched_init(sched_t * sched, proc_t * idle)
@@ -277,66 +341,3 @@ void sched_reschedule(void)
 
     SPIN_UNLOCK( current_proc );
 }
-#ifdef CONFIG_MP
-//========================================================================================
-// Балансировщик нагрузки
-WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
-{
-    core_id_t core = (core_id_t)0, ret;
-    affinity_t mask = (affinity_t)1;
-    while( core < (core_id_t)MAX_CORES )
-    {
-        if( proc->affinity & mask )break;
-        mask<<=1;
-        core++;
-    }
-    // Начальное предположение
-    stat += (core_id_t)core;
-    ret = core++;
-    mask<<=1;
-    {
-        prio_t proc_prio;
-        load_t current_load, min_load;
-
-        proc_prio = ((pitem_t *)proc)->prio;
-        min_load = stat_calc_load( proc_prio, stat++ );
-        // Проверка всего остального, тупой поиск минимума
-        while( core < (core_id_t)MAX_CORES )
-        {
-            current_load = stat_calc_load( proc_prio, stat++ );
-            if( (proc->affinity & mask) && (current_load < min_load) )
-            {
-                min_load = current_load;
-                ret = core;
-            }
-            mask<<=1;
-            core++;
-        }
-    }
-    return ret;
-}
-//----------------------------------------------------------------------------------------
-//Поиск самой нагруженной структуры stat_t в массиве
-WEAK core_id_t sched_highest_load_core( stat_t * stat )
-{
-    // Начальное предположение
-    load_t max_load;
-    core_id_t object_core = (core_id_t)0; //процессор с максимальной нагрузкой, с которого эту нагрузку будем снимать
-    core_id_t core = (core_id_t)1;
-    max_load  = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat ); // максимальная нагрузка
-
-    while( core < (core_id_t)MAX_CORES )
-    {
-        load_t current_load;
-        current_load = stat_calc_load( (prio_t)BITS_IN_INDEX_T, stat + core );
-        if( current_load > max_load )
-        {
-            max_load = current_load;
-            object_core = core;
-        }
-        core++;
-    }
-
-    return object_core;
-}
-#endif // CONFIG_MP

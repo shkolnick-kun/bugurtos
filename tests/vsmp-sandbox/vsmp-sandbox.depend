@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1345131132 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
+1345199724 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	"vsmp.h"
 
-1345099104 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.h
+1345195712 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.h
 	"../../../include/bugurt.h"
 
 1344254047 /home/anonimous/Документы/bugurtos/include/bugurt.h
@@ -58,9 +58,57 @@
 1344933104 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
 	"../../../include/bugurt.h"
 
-1345131572 source:/home/anonimous/Документы/bugurtos/tests/vsmp-sandbox/main.c
+1345199681 source:/home/anonimous/Документы/bugurtos/tests/vsmp-sandbox/main.c
 	"../../arch/avr/gcc-vsmp/vsmp.h"
 
 1334501718 source:/home/anonimous/Документы/bugurtos/kernel/item.c
+	"../include/bugurt.h"
+
+1345199904 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.c
+	"bugurt_kernel.h"
+
+1345200120 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.h
+	"vsmp.h"
+
+1334501697 source:/home/anonimous/Документы/bugurtos/kernel/crit_sec.c
+	"../include/bugurt.h"
+
+1334501710 source:/home/anonimous/Документы/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1344155318 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
+	"../include/bugurt.h"
+
+1344152940 source:/home/anonimous/Документы/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1344152890 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
+	"../include/bugurt.h"
+
+1334501730 source:/home/anonimous/Документы/bugurtos/kernel/pcounter.c
+	"../include/bugurt.h"
+
+1344233593 source:/home/anonimous/Документы/bugurtos/kernel/pitem.c
+	"../include/bugurt.h"
+
+1344621573 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+	"../include/bugurt.h"
+
+1345200052 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1344153214 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
+	"../include/bugurt.h"
+
+1344234100 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
+	"../include/bugurt.h"
+
+1344620324 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
+1334501759 source:/home/anonimous/Документы/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
+1334501763 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
