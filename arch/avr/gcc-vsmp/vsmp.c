@@ -81,29 +81,33 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 vsmp_vm_t vm_state[MAX_CORES];
 stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
+stack_t vm_int_stack[MAX_CORES][VM_INT_STACK_SIZE];
+
 core_id_t current_vm;
 void * vm_buf;
 void (*vsmp_systimer_hook)(void);
 
 
 
-void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp )
+void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp, stack_t * int_sp )
 {
     vm->int_fifo = (item_t *)0; // Нет прерываний;
     vm->int_enabled = 1;// прерывания разрешены
     vm->sp = (stack_t *)sp;
+    vm->int_sp = (stack_t *)int_sp;
+    vm->int_nest_count = (count_t)0;
 }
 void vsmp_init( void )
 {
     cli();
-    vsmp_vm_init( &vm_state[0], (stack_t *)0 );
+    vsmp_vm_init( &vm_state[0], (stack_t *)0 , &vm_int_stack[0][VM_INT_STACK_SIZE-1] );
     for( current_vm = 1; current_vm < MAX_CORES; current_vm++ )
     {
         stack_t * vm_sp;
         unsigned short i;
         for(i = 0; i < VM_STACK_SIZE; i++ )vm_stack[current_vm - 1][i] = 0x55;
         vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0 );
-        vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp );
+        vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
     }
     current_vm = 0;
 }
@@ -148,17 +152,32 @@ bool_t vsmp_do_interrupt(void)
 __MACRO_FUNCTION__( _vsmp_interrupt_prologue )
 {
     vm_buf = (void *)bugurt_save_context();
-    vm_state[current_vm].sp = (stack_t *)vm_buf;
+    if( vm_state[current_vm].int_nest_count++ )
+    {
+        vm_state[current_vm].int_sp = vm_buf;
+    }
+    else
+    {
+        vm_state[current_vm].sp = (stack_t *)vm_buf;
+    }
+    bugurt_set_stack_pointer( vm_state[current_vm].int_sp );
 }
 __MACRO_FUNCTION__( _vsmp_interrupt_epilogue )
 {
-    if( vsmp_do_interrupt() ) goto vinterrupt_return;
+    if( vsmp_do_interrupt() ) goto chained_vinterrupt_return;
+
+    if( vm_state[current_vm].int_nest_count )vm_state[current_vm].int_nest_count--;
+    if( vm_state[current_vm].int_nest_count ) goto nesting_vinterrupt_return;
 
     bugurt_restore_context( vm_state[current_vm].sp ); // Will return to current vm operation!
     __asm__ __volatile__("reti"::);
 
-vinterrupt_return:
-    bugurt_set_stack_pointer( vm_state[current_vm].sp );
+nesting_vinterrupt_return:
+    bugurt_pop_context(); //Will return to nesting virtual interrupt;
+    __asm__ __volatile__("reti"::);
+
+chained_vinterrupt_return:
+    bugurt_set_stack_pointer( vm_state[current_vm].int_sp );
     bugurt_push_pointer( (void *)vinterrupt_wrapper ); // Will return to vinterrupt_wrapper() entry point!
     __asm__ __volatile__("ret"::);
 }
@@ -233,4 +252,19 @@ void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) )
 {
     item_init( (item_t *)vector );
     vector->isr = isr;
+}
+
+void disable_interrupts(void)
+{
+    cli();
+    vm_state[current_vm].int_enabled = (bool_t)0;
+    sei();
+}
+
+void enable_interrupts(void)
+{
+    cli();
+    vm_state[current_vm].int_enabled = (bool_t)1;
+    if(vm_state[current_vm].int_fifo)_vsmp_vinterrupt();
+    else sei();
 }

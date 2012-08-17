@@ -7,12 +7,22 @@ void test_visr(void)
 {
     PORTB^=0x10;
 }
-void test_visr2(void)
+void test_visr3(void)
 {
     PORTB^=0x10;
 }
+vinterrupt_t test_vector3 = VINTERRUPT_INIT(test_vector3,test_visr3);
+void test_visr2(void)
+{
+    core_id_t core;
+    core = current_core();
+    PORTB^=0x10;
+    vsmp_vinterrupt_isr( core, &test_vector3 ); // nested interrupt
+    enable_interrupts();
+}
 vinterrupt_t test_vector = VINTERRUPT_INIT(test_vector,test_visr);
 vinterrupt_t test_vector2 = VINTERRUPT_INIT(test_vector2,test_visr2);
+
 core_id_t i;
 unsigned short j;
 

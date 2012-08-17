@@ -80,10 +80,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 stack_t * saved_vm_sp[MAX_CORES];
+bool_t is_idle[MAX_CORES];
 __MACRO_FUNCTION__(_bugurt_isr_prologue)
 {
     cli();
     saved_vm_sp[current_vm] = (stack_t *)SP; // I didn't write bugurt_get_stack_pointer();
+    kernel.sched[current_vm].current_proc->spointer = vm_state[current_vm].sp;
     bugurt_set_stack_pointer( kernel.idle[current_vm].spointer );
     sei();
 }
@@ -92,23 +94,9 @@ __MACRO_FUNCTION__(_bugurt_isr_epilogue)
     cli();
     vm_state[current_vm].sp = kernel.sched[current_vm].current_proc->spointer;
     bugurt_set_stack_pointer( saved_vm_sp[current_vm] );
-    sei();
+    __asm__ __volatile__("reti"::);
 }
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-void disable_interrupts(void)
-{
-    cli();
-    vm_state[current_vm].int_enabled = (bool_t)0;
-    sei();
-}
-
-void enable_interrupts(void)
-{
-    cli();
-    vm_state[current_vm].int_enabled = (bool_t)1;
-    sei();
-}
-
 proc_t * current_proc(void)
 {
     proc_t * ret;
@@ -150,8 +138,8 @@ void spin_lock( lock_t * lock )
 }
 void spin_unlock(lock_t * lock)
 {
-    unsigned char i;
-    for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
+    unsigned short i;
+    //for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
     cli();
     *lock = (lock_t)0;
     sei();
@@ -252,7 +240,7 @@ void systimer_vectors_fire(void)
 }
 
 #define SYSTIMER_HOOK_THR 10
-count_t systimer_hook_counter;
+count_t systimer_hook_counter = 0;
 void vsmp_systimer_hook_bugurt(void)
 {
     if(!current_vm)

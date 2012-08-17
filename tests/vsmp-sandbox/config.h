@@ -86,7 +86,8 @@ typedef unsigned char load_t;
 #define CONFIG_MP
 //#define CONFIG_USE_ALB
 #define MAX_CORES (2)
-#define VM_STACK_SIZE (256)
+#define VM_STACK_SIZE (128)
+#define VM_INT_STACK_SIZE (128)
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
 ///=================================================================

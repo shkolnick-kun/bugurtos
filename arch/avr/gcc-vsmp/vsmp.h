@@ -96,7 +96,9 @@ struct _vsmp_vm_t
 {
     item_t * int_fifo; // Virtual interrupt fifo;
     bool_t int_enabled;// Virtual interrupts enabled flag;
+    count_t int_nest_count;
     stack_t * sp; // VM stack pointer
+    stack_t * int_sp; // VM virtual interrupt stack pointer
 };
 
 typedef struct _vinterrupt_t  vinterrupt_t;
@@ -108,13 +110,14 @@ struct _vinterrupt_t
 
 vsmp_vm_t vm_state[MAX_CORES];
 stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
+stack_t vm_int_stack[MAX_CORES][VM_INT_STACK_SIZE];
 core_id_t current_vm;
 void * vm_buf;
 void (*vsmp_systimer_hook)(void);
 
 #define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), f }
 
-void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp );
+void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp, stack_t * int_sp );
 
 void vsmp_init( void );
 void vsmp_run( void );
