@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="1" top="0" tabpos="5">
+		<Cursor position="7084" topLine="90" />
+	</File>
 	<File name="../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="3">
-		<Cursor position="11757" topLine="0" />
+		<Cursor position="10549" topLine="210" />
 	</File>
 	<File name="../../arch/avr/gcc-vsmp/vsmp.h" open="1" top="0" tabpos="1">
 		<Cursor position="7153" topLine="91" />
@@ -14,6 +17,6 @@
 		<Cursor position="2702" topLine="65" />
 	</File>
 	<File name="main.c" open="1" top="1" tabpos="4">
-		<Cursor position="742" topLine="3" />
+		<Cursor position="74" topLine="7" />
 	</File>
 </CodeBlocks_layout_file>

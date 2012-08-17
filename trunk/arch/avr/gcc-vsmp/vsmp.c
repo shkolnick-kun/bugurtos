@@ -99,13 +99,18 @@ void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp, stack_t * int_sp )
 }
 void vsmp_init( void )
 {
+    unsigned short i;
     cli();
+    for(i = 0; i < VM_STACK_SIZE; i++ )vm_int_stack[0][i] = 0x55;
     vsmp_vm_init( &vm_state[0], (stack_t *)0 , &vm_int_stack[0][VM_INT_STACK_SIZE-1] );
     for( current_vm = 1; current_vm < MAX_CORES; current_vm++ )
     {
         stack_t * vm_sp;
-        unsigned short i;
-        for(i = 0; i < VM_STACK_SIZE; i++ )vm_stack[current_vm - 1][i] = 0x55;
+        for(i = 0; i < VM_STACK_SIZE; i++ )
+        {
+            vm_stack[current_vm - 1][i] = 0x55;
+            vm_int_stack[current_vm][i] = 0x55;
+        }
         vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0 );
         vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
     }
@@ -152,9 +157,9 @@ bool_t vsmp_do_interrupt(void)
 __MACRO_FUNCTION__( _vsmp_interrupt_prologue )
 {
     vm_buf = (void *)bugurt_save_context();
-    if( vm_state[current_vm].int_nest_count++ )
+    if( vm_state[current_vm].int_nest_count )
     {
-        vm_state[current_vm].int_sp = vm_buf;
+        vm_state[current_vm].int_sp = (stack_t *)vm_buf;
     }
     else
     {
@@ -166,18 +171,18 @@ __MACRO_FUNCTION__( _vsmp_interrupt_epilogue )
 {
     if( vsmp_do_interrupt() ) goto chained_vinterrupt_return;
 
-    if( vm_state[current_vm].int_nest_count )vm_state[current_vm].int_nest_count--;
-    if( vm_state[current_vm].int_nest_count ) goto nesting_vinterrupt_return;
+    if( --vm_state[current_vm].int_nest_count )goto nesting_vinterrupt_return;
 
+    vm_state[current_vm].int_sp = &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1];
     bugurt_restore_context( vm_state[current_vm].sp ); // Will return to current vm operation!
     __asm__ __volatile__("reti"::);
 
 nesting_vinterrupt_return:
-    bugurt_pop_context(); //Will return to nesting virtual interrupt;
+
+    bugurt_pop_context(); //Will return to nesting virtual interrupt!
     __asm__ __volatile__("reti"::);
 
 chained_vinterrupt_return:
-    bugurt_set_stack_pointer( vm_state[current_vm].int_sp );
     bugurt_push_pointer( (void *)vinterrupt_wrapper ); // Will return to vinterrupt_wrapper() entry point!
     __asm__ __volatile__("ret"::);
 }
@@ -219,12 +224,18 @@ void SYSTEM_TIMER_ISR(void)
         vsmp_systimer_hook();
     }
 
+    vm_state[current_vm].int_nest_count++;
+    bugurt_set_stack_pointer( vm_state[current_vm].int_sp );
+
     _vsmp_interrupt_epilogue();
 }
 // Software virtual interrupt tail function
 __attribute__ (( naked )) void _vsmp_vinterrupt(void)
 {
     _vsmp_interrupt_prologue();
+
+    vm_state[current_vm].int_nest_count++;
+
     _vsmp_interrupt_epilogue();
 }
 
@@ -265,6 +276,6 @@ void enable_interrupts(void)
 {
     cli();
     vm_state[current_vm].int_enabled = (bool_t)1;
-    if(vm_state[current_vm].int_fifo)_vsmp_vinterrupt();
+    if( vm_state[current_vm].int_fifo )_vsmp_vinterrupt();
     else sei();
 }
