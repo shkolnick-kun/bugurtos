@@ -2,7 +2,7 @@
  */
 
 #include "../../arch/avr/gcc-vsmp/vsmp.h"
-
+/*
 void test_visr(void)
 {
     PORTB^=0x10;
@@ -25,7 +25,7 @@ vinterrupt_t test_vector2 = VINTERRUPT_INIT(test_vector2,test_visr2);
 
 core_id_t i;
 unsigned short j;
-
+*/
 int main(void)
 {
     vsmp_init();
@@ -45,7 +45,7 @@ int main(void)
     PORTD = 0x00;
 
     vsmp_run();
-
+/*
     for(i=0; i<MAX_CORES; i++)
     {
         cli();
@@ -60,6 +60,7 @@ int main(void)
         vsmp_vinterrupt( i, &test_vector2 );
         for(j=0;j<10000;j++);
     }
+    */
     init_bugurt();
     start_bugurt();
 
