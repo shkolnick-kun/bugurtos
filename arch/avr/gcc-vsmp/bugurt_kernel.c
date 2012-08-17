@@ -79,21 +79,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "bugurt_kernel.h"
 
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-stack_t * saved_vm_sp[MAX_CORES];
-bool_t is_idle[MAX_CORES];
 __MACRO_FUNCTION__(_bugurt_isr_prologue)
 {
     cli();
-    saved_vm_sp[current_vm] = (stack_t *)SP; // I didn't write bugurt_get_stack_pointer();
     kernel.sched[current_vm].current_proc->spointer = vm_state[current_vm].sp;
-    bugurt_set_stack_pointer( kernel.idle[current_vm].spointer );
     sei();
 }
 __MACRO_FUNCTION__(_bugurt_isr_epilogue)
 {
     cli();
     vm_state[current_vm].sp = kernel.sched[current_vm].current_proc->spointer;
-    bugurt_set_stack_pointer( saved_vm_sp[current_vm] );
     __asm__ __volatile__("reti"::);
 }
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
