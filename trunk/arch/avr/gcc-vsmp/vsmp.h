@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _VSMP_H_
 #define _VSMP_H_
 
-#include"../../../include/bugurt.h"
+#include "../../../include/bugurt.h"
 
 #define __MACRO_FUNCTION__(f) static inline __attribute__ (( always_inline, naked )) void f(void)
 
@@ -106,6 +106,12 @@ struct _vinterrupt_t
     void (*isr)(void); // Virtual Interrupt Service Routine
 };
 
+vsmp_vm_t vm_state[MAX_CORES];
+stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
+core_id_t current_vm;
+void * vm_buf;
+void (*vsmp_systimer_hook)(void);
+
 #define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), f }
 
 void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp );
@@ -115,8 +121,11 @@ void vsmp_run( void );
 
 void vsmp_idle_main( void * arg );
 
+void _vsmp_vinterrupt(void);
+void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) );
 void vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector );
 void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector );
+
 void vinterrupt_wrapper(void);
 bool_t vsmp_do_interrupt(void);
 #endif // _VSMP_H_

@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="1" tabpos="3">
-		<Cursor position="6852" topLine="96" />
+		<Cursor position="6852" topLine="195" />
 	</File>
 	<File name="../../arch/avr/gcc-vsmp/vsmp.h" open="1" top="0" tabpos="1">
 		<Cursor position="7153" topLine="91" />

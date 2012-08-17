@@ -82,9 +82,10 @@ typedef unsigned char load_t;
 ///=================================================================
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
-#define CONFIG_HARD_RT
+//#define CONFIG_HARD_RT
 #define CONFIG_MP
-#define MAX_CORES (4)
+//#define CONFIG_USE_ALB
+#define MAX_CORES (2)
 #define VM_STACK_SIZE (256)
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!

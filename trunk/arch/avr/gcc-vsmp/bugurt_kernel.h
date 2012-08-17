@@ -79,77 +79,24 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BUGURT_KERNEL_H_
 #define _BUGURT_KERNEL_H_
 
-#include"../../../include/bugurt.h"
+#include "vsmp.h"
 
-// Конкатенация строк
-#define BUGURT_CONCAT(a,b) a##b
+vinterrupt_t resched_vectors[MAX_CORES];
+void resched_isr(void);
+void resched_vectors_init(void);
 
-// Пролог обработчика прерывания
-///                         АХТУНГ !!!
-/// Используется переменная saved_proc_sp для временного хранения
-/// указателя стека прерываемого процесса, если так не делать,
-/// компилятор будет стирать r16, r17 до сохранения контекста.
-#define BUGURT_ISR_START() \
-    saved_proc_sp = bugurt_save_context();\
-    kernel.sched.current_proc->spointer = saved_proc_sp;\
-    bugurt_set_stack_pointer( kernel.idle.spointer )
-// Выход из обработчика прерывания, восстановление контекста текущего процесса
-#define BUGURT_ISR_EXIT() \
-    bugurt_restore_context( kernel.sched.current_proc->spointer );\
-    __asm__ __volatile__("reti"::)
+vinterrupt_t systimer_vectors[MAX_CORES];
+void systimer_tick_isr(void);
+void systimer_sched_isr(void);
+void systimer_vectors_init(void);
+void systimer_vectors_fire(void);
+void vsmp_systimer_hook_bugurt(void);
 
-// Эпилог обработчика прерывания
-#define BUGURT_ISR_END() \
-    bugurt_check_resched();\
-    BUGURT_ISR_EXIT()
+vinterrupt_t syscall_vectors[MAX_CORES];
+syscall_t syscall_num[MAX_CORES];
+void * syscall_arg[MAX_CORES];
+void syscall_isr(void);
+void syscall_vectors_init(void);
 
-// Шаблон обработчика прерывания для внутреннего пользования
-#define _BUGURT_ISR(v,f) \
-__attribute__ (( signal, naked )) void v(void); \
-void v(void) \
-{ \
-    BUGURT_ISR_START();\
-    f();\
-    BUGURT_ISR_END();\
-} \
-
-/*
-Объявление обработчика прерывания.
-
-Обработка прерываний происходит в контексте main,
-он же контекст процесса холостого хода.
-
-Не очень быстро,
-зато память экономится.
-*/
-#define BUGURT_INTERRUPT(v) \
-void BUGURT_CONCAT(v,_func)(void);\
-_BUGURT_ISR(v,BUGURT_CONCAT(v,_func)) \
-void BUGURT_CONCAT(v,_func)(void)
-
-// Флаги состояния ядра
-#define KRN_FLG_RESCHED ((unsigned char)1)
-
-#ifdef SYSCALL_ISR
-#define KRN_FLG_DO_SCALL ((unsigned char)2)
-#endif // SYSCALL_ISR
-
-unsigned char kernel_state;
-//Временное хранилище для указателей стеков процессов.
-stack_t * saved_proc_sp;
-
-//Внешние функции, специфичные для AVR
-extern void start_scheduler( void );
-extern void stop_scheduler( void );
-#ifdef SYSCALL_ISR
-extern void raise_syscall_interrupt(void);
-#endif
-
-void bugurt_check_resched( void );
-
-extern stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( stack_t * new_sp );
-extern void bugurt_set_stack_pointer( stack_t * new_sp );
-extern stack_t * bugurt_reverse_byte_order ( stack_t * arg );
 
 #endif // _BUGURT_KERNEL_H_
