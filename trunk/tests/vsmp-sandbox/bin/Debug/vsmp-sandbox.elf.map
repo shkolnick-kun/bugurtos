@@ -296,7 +296,7 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x38d8
+.text           0x00000000     0x3a08
  *(.vectors)
  .vectors       0x00000000       0x68 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
                 0x00000000                __vectors
@@ -427,339 +427,339 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
  .text.resched  0x000003bc       0x36 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
                 0x000003bc                resched
  .text.resched_isr
-                0x000003f2       0x72 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000003f2       0xbe obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
                 0x000003f2                resched_isr
  .text.resched_vectors_init
-                0x00000464       0x44 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x00000464                resched_vectors_init
+                0x000004b0       0x44 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000004b0                resched_vectors_init
  .text._systimer_tick_isr
-                0x000004a8       0x4a obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000004a8                _systimer_tick_isr
+                0x000004f4       0x4a obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000004f4                _systimer_tick_isr
  .text.systimer_tick_isr
-                0x000004f2       0x72 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000004f2                systimer_tick_isr
+                0x0000053e       0xbe obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x0000053e                systimer_tick_isr
  .text.systimer_sched_isr
-                0x00000564       0x72 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x00000564                systimer_sched_isr
+                0x000005fc       0xbe obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000005fc                systimer_sched_isr
  .text.systimer_vectors_init
-                0x000005d6       0x54 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000005d6                systimer_vectors_init
+                0x000006ba       0x54 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000006ba                systimer_vectors_init
  .text.systimer_vectors_fire
-                0x0000062a       0x44 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x0000062a                systimer_vectors_fire
+                0x0000070e       0x44 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x0000070e                systimer_vectors_fire
  .text.vsmp_systimer_hook_bugurt
-                0x0000066e       0x42 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x0000066e                vsmp_systimer_hook_bugurt
+                0x00000752       0x42 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x00000752                vsmp_systimer_hook_bugurt
  .text._syscall_isr
-                0x000006b0       0x42 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000006b0                _syscall_isr
+                0x00000794       0x42 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x00000794                _syscall_isr
  .text.syscall_isr
-                0x000006f2       0x72 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000006f2                syscall_isr
+                0x000007d6       0xbe obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000007d6                syscall_isr
  .text.syscall_vectors_init
-                0x00000764       0x66 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x00000764                syscall_vectors_init
+                0x00000894       0x66 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x00000894                syscall_vectors_init
  .text.syscall_bugurt
-                0x000007ca      0x11a obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000007ca                syscall_bugurt
+                0x000008fa      0x11a obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x000008fa                syscall_bugurt
  .text.init_bugurt
-                0x000008e4       0x8a obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x000008e4                init_bugurt
+                0x00000a14       0x8a obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x00000a14                init_bugurt
  .text.start_bugurt
-                0x0000096e       0x50 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                0x0000096e                start_bugurt
+                0x00000a9e       0x50 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                0x00000a9e                start_bugurt
  .text.vsmp_vm_init
-                0x000009be       0x3e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x000009be                vsmp_vm_init
+                0x00000aee       0x3e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000aee                vsmp_vm_init
  .text.vsmp_init
-                0x000009fc       0xd0 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x000009fc                vsmp_init
+                0x00000b2c       0xd0 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000b2c                vsmp_init
  .text.vsmp_run
-                0x00000acc       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000acc                vsmp_run
+                0x00000bfc       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000bfc                vsmp_run
  .text.vsmp_idle_main
-                0x00000adc       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000adc                vsmp_idle_main
+                0x00000c0c       0x10 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000c0c                vsmp_idle_main
  .text.vsmp_do_interrupt
-                0x00000aec      0x11c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000aec                vsmp_do_interrupt
+                0x00000c1c      0x11c obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000c1c                vsmp_do_interrupt
  .text._vinterrupt_wrapper
-                0x00000c08       0x46 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000d38       0x46 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
  .text.vinterrupt_wrapper
-                0x00000c4e       0x82 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000c4e                vinterrupt_wrapper
+                0x00000d7e       0x82 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000d7e                vinterrupt_wrapper
  .text.__vector_7
-                0x00000cd0       0xbe obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000cd0                __vector_7
+                0x00000e00       0xbe obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000e00                __vector_7
  .text._vsmp_vinterrupt
-                0x00000d8e       0x92 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000d8e                _vsmp_vinterrupt
+                0x00000ebe       0x92 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000ebe                _vsmp_vinterrupt
  .text.vsmp_vinterrupt_isr
-                0x00000e20       0x8e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000e20                vsmp_vinterrupt_isr
+                0x00000f50       0x8e obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000f50                vsmp_vinterrupt_isr
  .text.vsmp_vinterrupt
-                0x00000eae       0x30 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000eae                vsmp_vinterrupt
+                0x00000fde       0x30 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x00000fde                vsmp_vinterrupt
  .text.vsmp_vinterrupt_init
-                0x00000ede       0x36 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                0x00000ede                vsmp_vinterrupt_init
+                0x0000100e       0x36 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+                0x0000100e                vsmp_vinterrupt_init
  .text.proc_stack_init
-                0x00000f14      0x2d8 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
-                0x00000f14                proc_stack_init
+                0x00001044      0x2d8 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+                0x00001044                proc_stack_init
  .text.index_search
-                0x000011ec       0x7e obj/Debug/kernel/index.o
-                0x000011ec                index_search
+                0x0000131c       0x7e obj/Debug/kernel/index.o
+                0x0000131c                index_search
  .text._ipc_wait
-                0x0000126a       0x6a obj/Debug/kernel/ipc.o
-                0x0000126a                _ipc_wait
+                0x0000139a       0x6a obj/Debug/kernel/ipc.o
+                0x0000139a                _ipc_wait
  .text.ipc_send_isr
-                0x000012d4       0xb2 obj/Debug/kernel/ipc.o
-                0x000012d4                ipc_send_isr
+                0x00001404       0xb2 obj/Debug/kernel/ipc.o
+                0x00001404                ipc_send_isr
  .text._ipc_exchange
-                0x00001386       0xc6 obj/Debug/kernel/ipc.o
-                0x00001386                _ipc_exchange
+                0x000014b6       0xc6 obj/Debug/kernel/ipc.o
+                0x000014b6                _ipc_exchange
  .text.item_init
-                0x0000144c       0x30 obj/Debug/kernel/item.o
-                0x0000144c                item_init
+                0x0000157c       0x30 obj/Debug/kernel/item.o
+                0x0000157c                item_init
  .text.item_insert
-                0x0000147c       0x64 obj/Debug/kernel/item.o
-                0x0000147c                item_insert
+                0x000015ac       0x64 obj/Debug/kernel/item.o
+                0x000015ac                item_insert
  .text.item_cut
-                0x000014e0       0x6c obj/Debug/kernel/item.o
-                0x000014e0                item_cut
+                0x00001610       0x6c obj/Debug/kernel/item.o
+                0x00001610                item_cut
  .text.idle_main
-                0x0000154c       0x10 obj/Debug/kernel/kernel.o
-                0x0000154c                idle_main
+                0x0000167c       0x10 obj/Debug/kernel/kernel.o
+                0x0000167c                idle_main
  .text.kernel_init
-                0x0000155c      0x142 obj/Debug/kernel/kernel.o
-                0x0000155c                kernel_init
+                0x0000168c      0x142 obj/Debug/kernel/kernel.o
+                0x0000168c                kernel_init
  .text.mutex_init_isr
-                0x0000169e       0x54 obj/Debug/kernel/mutex.o
-                0x0000169e                mutex_init_isr
+                0x000017ce       0x54 obj/Debug/kernel/mutex.o
+                0x000017ce                mutex_init_isr
  .text._mutex_lock
-                0x000016f2       0xaa obj/Debug/kernel/mutex.o
-                0x000016f2                _mutex_lock
+                0x00001822       0xaa obj/Debug/kernel/mutex.o
+                0x00001822                _mutex_lock
  .text._mutex_try_lock
-                0x0000179c       0x80 obj/Debug/kernel/mutex.o
-                0x0000179c                _mutex_try_lock
+                0x000018cc       0x80 obj/Debug/kernel/mutex.o
+                0x000018cc                _mutex_try_lock
  .text._mutex_unlock
-                0x0000181c      0x112 obj/Debug/kernel/mutex.o
-                0x0000181c                _mutex_unlock
+                0x0000194c      0x112 obj/Debug/kernel/mutex.o
+                0x0000194c                _mutex_unlock
  .text.pcounter_init
-                0x0000192e       0x4a obj/Debug/kernel/pcounter.o
-                0x0000192e                pcounter_init
+                0x00001a5e       0x4a obj/Debug/kernel/pcounter.o
+                0x00001a5e                pcounter_init
  .text.pcounter_inc
-                0x00001978       0x78 obj/Debug/kernel/pcounter.o
-                0x00001978                pcounter_inc
+                0x00001aa8       0x78 obj/Debug/kernel/pcounter.o
+                0x00001aa8                pcounter_inc
  .text.pcounter_dec
-                0x000019f0       0xa4 obj/Debug/kernel/pcounter.o
-                0x000019f0                pcounter_dec
+                0x00001b20       0xa4 obj/Debug/kernel/pcounter.o
+                0x00001b20                pcounter_dec
  .text.pitem_init
-                0x00001a94       0x36 obj/Debug/kernel/pitem.o
-                0x00001a94                pitem_init
+                0x00001bc4       0x36 obj/Debug/kernel/pitem.o
+                0x00001bc4                pitem_init
  .text.pitem_insert
-                0x00001aca       0xac obj/Debug/kernel/pitem.o
-                0x00001aca                pitem_insert
+                0x00001bfa       0xac obj/Debug/kernel/pitem.o
+                0x00001bfa                pitem_insert
  .text.pitem_fast_cut
-                0x00001b76       0xbe obj/Debug/kernel/pitem.o
-                0x00001b76                pitem_fast_cut
+                0x00001ca6       0xbe obj/Debug/kernel/pitem.o
+                0x00001ca6                pitem_fast_cut
  .text.pitem_cut
-                0x00001c34       0x28 obj/Debug/kernel/pitem.o
-                0x00001c34                pitem_cut
+                0x00001d64       0x28 obj/Debug/kernel/pitem.o
+                0x00001d64                pitem_cut
  .text.pitem_xlist_chain
-                0x00001c5c      0x132 obj/Debug/kernel/pitem.o
-                0x00001c5c                pitem_xlist_chain
+                0x00001d8c      0x132 obj/Debug/kernel/pitem.o
+                0x00001d8c                pitem_xlist_chain
  .text.proc_init_isr
-                0x00001d8e      0x146 obj/Debug/kernel/proc.o
-                0x00001d8e                proc_init_isr
+                0x00001ebe      0x146 obj/Debug/kernel/proc.o
+                0x00001ebe                proc_init_isr
  .text._proc_run_
-                0x00001ed4       0x6a obj/Debug/kernel/proc.o
-                0x00001ed4                _proc_run_
+                0x00002004       0x6a obj/Debug/kernel/proc.o
+                0x00002004                _proc_run_
  .text._proc_run
-                0x00001f3e       0x7a obj/Debug/kernel/proc.o
-                0x00001f3e                _proc_run
+                0x0000206e       0x7a obj/Debug/kernel/proc.o
+                0x0000206e                _proc_run
  .text.proc_run_isr
-                0x00001fb8       0x52 obj/Debug/kernel/proc.o
-                0x00001fb8                proc_run_isr
+                0x000020e8       0x52 obj/Debug/kernel/proc.o
+                0x000020e8                proc_run_isr
  .text.proc_restart_isr
-                0x0000200a       0xc6 obj/Debug/kernel/proc.o
-                0x0000200a                proc_restart_isr
+                0x0000213a       0xc6 obj/Debug/kernel/proc.o
+                0x0000213a                proc_restart_isr
  .text._proc_stop_
-                0x000020d0       0x88 obj/Debug/kernel/proc.o
-                0x000020d0                _proc_stop_
+                0x00002200       0x88 obj/Debug/kernel/proc.o
+                0x00002200                _proc_stop_
  .text._proc_stop
-                0x00002158       0x3c obj/Debug/kernel/proc.o
-                0x00002158                _proc_stop
+                0x00002288       0x3c obj/Debug/kernel/proc.o
+                0x00002288                _proc_stop
  .text.proc_stop_isr
-                0x00002194       0x74 obj/Debug/kernel/proc.o
-                0x00002194                proc_stop_isr
+                0x000022c4       0x74 obj/Debug/kernel/proc.o
+                0x000022c4                proc_stop_isr
  .text._proc_flag_stop
-                0x00002208       0x90 obj/Debug/kernel/proc.o
-                0x00002208                _proc_flag_stop
+                0x00002338       0x90 obj/Debug/kernel/proc.o
+                0x00002338                _proc_flag_stop
  .text._proc_terminate
-                0x00002298       0x86 obj/Debug/kernel/proc.o
-                0x00002298                _proc_terminate
+                0x000023c8       0x86 obj/Debug/kernel/proc.o
+                0x000023c8                _proc_terminate
  .text._proc_reset_watchdog
-                0x0000231e       0x50 obj/Debug/kernel/proc.o
-                0x0000231e                _proc_reset_watchdog
+                0x0000244e       0x50 obj/Debug/kernel/proc.o
+                0x0000244e                _proc_reset_watchdog
  .text._proc_lres_inc
-                0x0000236e       0x46 obj/Debug/kernel/proc.o
-                0x0000236e                _proc_lres_inc
+                0x0000249e       0x46 obj/Debug/kernel/proc.o
+                0x0000249e                _proc_lres_inc
  .text._proc_lres_dec
-                0x000023b4       0x46 obj/Debug/kernel/proc.o
-                0x000023b4                _proc_lres_dec
+                0x000024e4       0x46 obj/Debug/kernel/proc.o
+                0x000024e4                _proc_lres_dec
  .text._proc_prio_control_stoped
-                0x000023fa       0x7a obj/Debug/kernel/proc.o
-                0x000023fa                _proc_prio_control_stoped
+                0x0000252a       0x7a obj/Debug/kernel/proc.o
+                0x0000252a                _proc_prio_control_stoped
  .text._proc_prio_control_running
-                0x00002474       0xb8 obj/Debug/kernel/proc.o
-                0x00002474                _proc_prio_control_running
+                0x000025a4       0xb8 obj/Debug/kernel/proc.o
+                0x000025a4                _proc_prio_control_running
  .text.sched_load_balancer
-                0x0000252c       0xe4 obj/Debug/kernel/sched.o
-                0x0000252c                sched_load_balancer
+                0x0000265c       0xe4 obj/Debug/kernel/sched.o
+                0x0000265c                sched_load_balancer
  .text.sched_highest_load_core
-                0x00002610       0x70 obj/Debug/kernel/sched.o
-                0x00002610                sched_highest_load_core
+                0x00002740       0x70 obj/Debug/kernel/sched.o
+                0x00002740                sched_highest_load_core
  .text.sched_init
-                0x00002680       0xbe obj/Debug/kernel/sched.o
-                0x00002680                sched_init
+                0x000027b0       0xbe obj/Debug/kernel/sched.o
+                0x000027b0                sched_init
  .text._sched_switch_current
-                0x0000273e       0x98 obj/Debug/kernel/sched.o
+                0x0000286e       0x98 obj/Debug/kernel/sched.o
  .text.sched_schedule
-                0x000027d6      0x20a obj/Debug/kernel/sched.o
-                0x000027d6                sched_schedule
+                0x00002906      0x20a obj/Debug/kernel/sched.o
+                0x00002906                sched_schedule
  .text.sched_reschedule
-                0x000029e0       0xc2 obj/Debug/kernel/sched.o
-                0x000029e0                sched_reschedule
+                0x00002b10       0xc2 obj/Debug/kernel/sched.o
+                0x00002b10                sched_reschedule
  .text.sem_init_isr
-                0x00002aa2       0x54 obj/Debug/kernel/sem.o
-                0x00002aa2                sem_init_isr
+                0x00002bd2       0x54 obj/Debug/kernel/sem.o
+                0x00002bd2                sem_init_isr
  .text._sem_lock
-                0x00002af6       0xc8 obj/Debug/kernel/sem.o
-                0x00002af6                _sem_lock
+                0x00002c26       0xc8 obj/Debug/kernel/sem.o
+                0x00002c26                _sem_lock
  .text._sem_try_lock
-                0x00002bbe       0x8a obj/Debug/kernel/sem.o
-                0x00002bbe                _sem_try_lock
+                0x00002cee       0x8a obj/Debug/kernel/sem.o
+                0x00002cee                _sem_try_lock
  .text.sem_unlock_isr
-                0x00002c48       0x92 obj/Debug/kernel/sem.o
-                0x00002c48                sem_unlock_isr
+                0x00002d78       0x92 obj/Debug/kernel/sem.o
+                0x00002d78                sem_unlock_isr
  .text.sig_init_isr
-                0x00002cda       0x86 obj/Debug/kernel/sig.o
-                0x00002cda                sig_init_isr
+                0x00002e0a       0x86 obj/Debug/kernel/sig.o
+                0x00002e0a                sig_init_isr
  .text._sig_wait_prologue
-                0x00002d60       0xe0 obj/Debug/kernel/sig.o
-                0x00002d60                _sig_wait_prologue
+                0x00002e90       0xe0 obj/Debug/kernel/sig.o
+                0x00002e90                _sig_wait_prologue
  .text._sig_wakeup_list_proc
-                0x00002e40       0x4c obj/Debug/kernel/sig.o
+                0x00002f70       0x4c obj/Debug/kernel/sig.o
  .text._sig_wait_epilogue
-                0x00002e8c       0x68 obj/Debug/kernel/sig.o
-                0x00002e8c                _sig_wait_epilogue
+                0x00002fbc       0x68 obj/Debug/kernel/sig.o
+                0x00002fbc                _sig_wait_epilogue
  .text.sig_signal_isr
-                0x00002ef4      0x13e obj/Debug/kernel/sig.o
-                0x00002ef4                sig_signal_isr
+                0x00003024      0x13e obj/Debug/kernel/sig.o
+                0x00003024                sig_signal_isr
  .text.sig_broadcast_isr
-                0x00003032       0xc0 obj/Debug/kernel/sig.o
-                0x00003032                sig_broadcast_isr
+                0x00003162       0xc0 obj/Debug/kernel/sig.o
+                0x00003162                sig_broadcast_isr
  .text.do_syscall
-                0x000030f2       0x6a obj/Debug/kernel/syscall.o
-                0x000030f2                do_syscall
+                0x00003222       0x6a obj/Debug/kernel/syscall.o
+                0x00003222                do_syscall
  .text.scall_proc_init
-                0x0000315c       0xa4 obj/Debug/kernel/syscall.o
-                0x0000315c                scall_proc_init
+                0x0000328c       0xa4 obj/Debug/kernel/syscall.o
+                0x0000328c                scall_proc_init
  .text.scall_proc_run
-                0x00003200       0x34 obj/Debug/kernel/syscall.o
-                0x00003200                scall_proc_run
+                0x00003330       0x34 obj/Debug/kernel/syscall.o
+                0x00003330                scall_proc_run
  .text.scall_proc_restart
-                0x00003234       0x34 obj/Debug/kernel/syscall.o
-                0x00003234                scall_proc_restart
+                0x00003364       0x34 obj/Debug/kernel/syscall.o
+                0x00003364                scall_proc_restart
  .text.scall_proc_stop
-                0x00003268       0x34 obj/Debug/kernel/syscall.o
-                0x00003268                scall_proc_stop
+                0x00003398       0x34 obj/Debug/kernel/syscall.o
+                0x00003398                scall_proc_stop
  .text.scall_proc_self_stop
-                0x0000329c       0x42 obj/Debug/kernel/syscall.o
-                0x0000329c                scall_proc_self_stop
+                0x000033cc       0x42 obj/Debug/kernel/syscall.o
+                0x000033cc                scall_proc_self_stop
  .text.scall_proc_terminate
-                0x000032de       0x20 obj/Debug/kernel/syscall.o
-                0x000032de                scall_proc_terminate
+                0x0000340e       0x20 obj/Debug/kernel/syscall.o
+                0x0000340e                scall_proc_terminate
  .text.proc_run_wrapper
-                0x000032fe       0x6e obj/Debug/kernel/syscall.o
-                0x000032fe                proc_run_wrapper
+                0x0000342e       0x6e obj/Debug/kernel/syscall.o
+                0x0000342e                proc_run_wrapper
  .text.scall_proc_flag_stop
-                0x0000336c       0x24 obj/Debug/kernel/syscall.o
-                0x0000336c                scall_proc_flag_stop
+                0x0000349c       0x24 obj/Debug/kernel/syscall.o
+                0x0000349c                scall_proc_flag_stop
  .text.scall_proc_reset_watchdog
-                0x00003390       0x1c obj/Debug/kernel/syscall.o
-                0x00003390                scall_proc_reset_watchdog
+                0x000034c0       0x1c obj/Debug/kernel/syscall.o
+                0x000034c0                scall_proc_reset_watchdog
  .text.scall_sig_init
-                0x000033ac       0x20 obj/Debug/kernel/syscall.o
-                0x000033ac                scall_sig_init
+                0x000034dc       0x20 obj/Debug/kernel/syscall.o
+                0x000034dc                scall_sig_init
  .text.scall_sig_wait
-                0x000033cc       0x20 obj/Debug/kernel/syscall.o
-                0x000033cc                scall_sig_wait
+                0x000034fc       0x20 obj/Debug/kernel/syscall.o
+                0x000034fc                scall_sig_wait
  .text.scall_sig_wakeup
-                0x000033ec       0x24 obj/Debug/kernel/syscall.o
-                0x000033ec                scall_sig_wakeup
+                0x0000351c       0x24 obj/Debug/kernel/syscall.o
+                0x0000351c                scall_sig_wakeup
  .text.scall_sig_signal
-                0x00003410       0x20 obj/Debug/kernel/syscall.o
-                0x00003410                scall_sig_signal
+                0x00003540       0x20 obj/Debug/kernel/syscall.o
+                0x00003540                scall_sig_signal
  .text.scall_sig_broadcast
-                0x00003430       0x20 obj/Debug/kernel/syscall.o
-                0x00003430                scall_sig_broadcast
+                0x00003560       0x20 obj/Debug/kernel/syscall.o
+                0x00003560                scall_sig_broadcast
  .text.scall_sem_init
-                0x00003450       0x2e obj/Debug/kernel/syscall.o
-                0x00003450                scall_sem_init
+                0x00003580       0x2e obj/Debug/kernel/syscall.o
+                0x00003580                scall_sem_init
  .text.scall_sem_lock
-                0x0000347e       0x34 obj/Debug/kernel/syscall.o
-                0x0000347e                scall_sem_lock
+                0x000035ae       0x34 obj/Debug/kernel/syscall.o
+                0x000035ae                scall_sem_lock
  .text.scall_sem_try_lock
-                0x000034b2       0x34 obj/Debug/kernel/syscall.o
-                0x000034b2                scall_sem_try_lock
+                0x000035e2       0x34 obj/Debug/kernel/syscall.o
+                0x000035e2                scall_sem_try_lock
  .text.scall_sem_unlock
-                0x000034e6       0x20 obj/Debug/kernel/syscall.o
-                0x000034e6                scall_sem_unlock
+                0x00003616       0x20 obj/Debug/kernel/syscall.o
+                0x00003616                scall_sem_unlock
  .text.scall_mutex_init
-                0x00003506       0x2c obj/Debug/kernel/syscall.o
-                0x00003506                scall_mutex_init
+                0x00003636       0x2c obj/Debug/kernel/syscall.o
+                0x00003636                scall_mutex_init
  .text.scall_mutex_lock
-                0x00003532       0x34 obj/Debug/kernel/syscall.o
-                0x00003532                scall_mutex_lock
+                0x00003662       0x34 obj/Debug/kernel/syscall.o
+                0x00003662                scall_mutex_lock
  .text.scall_mutex_try_lock
-                0x00003566       0x34 obj/Debug/kernel/syscall.o
-                0x00003566                scall_mutex_try_lock
+                0x00003696       0x34 obj/Debug/kernel/syscall.o
+                0x00003696                scall_mutex_try_lock
  .text.scall_mutex_unlock
-                0x0000359a       0x20 obj/Debug/kernel/syscall.o
-                0x0000359a                scall_mutex_unlock
+                0x000036ca       0x20 obj/Debug/kernel/syscall.o
+                0x000036ca                scall_mutex_unlock
  .text.scall_ipc_wait
-                0x000035ba       0x20 obj/Debug/kernel/syscall.o
-                0x000035ba                scall_ipc_wait
+                0x000036ea       0x20 obj/Debug/kernel/syscall.o
+                0x000036ea                scall_ipc_wait
  .text.scall_ipc_send
-                0x000035da       0x3e obj/Debug/kernel/syscall.o
-                0x000035da                scall_ipc_send
+                0x0000370a       0x3e obj/Debug/kernel/syscall.o
+                0x0000370a                scall_ipc_send
  .text.scall_ipc_exchange
-                0x00003618       0x48 obj/Debug/kernel/syscall.o
-                0x00003618                scall_ipc_exchange
+                0x00003748       0x48 obj/Debug/kernel/syscall.o
+                0x00003748                scall_ipc_exchange
  .text.xlist_init
-                0x00003660       0x54 obj/Debug/kernel/xlist.o
-                0x00003660                xlist_init
+                0x00003790       0x54 obj/Debug/kernel/xlist.o
+                0x00003790                xlist_init
  .text.xlist_head
-                0x000036b4       0x58 obj/Debug/kernel/xlist.o
-                0x000036b4                xlist_head
+                0x000037e4       0x58 obj/Debug/kernel/xlist.o
+                0x000037e4                xlist_head
  .text.xlist_switch
-                0x0000370c       0x50 obj/Debug/kernel/xlist.o
-                0x0000370c                xlist_switch
+                0x0000383c       0x50 obj/Debug/kernel/xlist.o
+                0x0000383c                xlist_switch
  .text.test_visr
-                0x0000375c       0x1e obj/Debug/main.o
-                0x0000375c                test_visr
+                0x0000388c       0x1e obj/Debug/main.o
+                0x0000388c                test_visr
  .text.test_visr2
-                0x0000377a       0x1e obj/Debug/main.o
-                0x0000377a                test_visr2
- .text.main     0x00003798      0x13c obj/Debug/main.o
-                0x00003798                main
-                0x000038d4                . = ALIGN (0x2)
+                0x000038aa       0x1e obj/Debug/main.o
+                0x000038aa                test_visr2
+ .text.main     0x000038c8      0x13c obj/Debug/main.o
+                0x000038c8                main
+                0x00003a04                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000038d4        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
-                0x000038d4                exit
-                0x000038d4                _exit
+ .fini9         0x00003a04        0x0 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+                0x00003a04                exit
+                0x00003a04                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -778,11 +778,11 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000038d4        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
+ .fini0         0x00003a04        0x4 /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a(_exit.o)
  *(.fini0)
-                0x000038d8                _etext = .
+                0x00003a08                _etext = .
 
-.data           0x00800100        0xc load address 0x000038d8
+.data           0x00800100        0xc load address 0x00003a08
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0xc obj/Debug/main.o
@@ -820,8 +820,8 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
                 0x00800309                j
                 0x0080030b                i
                 0x0080030c                PROVIDE (__bss_end, .)
-                0x000038d8                __data_load_start = LOADADDR (.data)
-                0x000038e4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00003a08                __data_load_start = LOADADDR (.data)
+                0x00003a14                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0080030c        0x0
                 0x0080030c                PROVIDE (__noinit_start, .)
@@ -846,46 +846,46 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x8cf4
+.stab           0x00000000     0x8d24
  *(.stab)
  .stab          0x00000000      0x6b4 /usr/lib/gcc/avr/4.3.4/../../../avr/lib/avr5/crtm328p.o
- .stab          0x000006b4     0x16ec obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
-                               0x16f8 (size before relaxing)
- .stab          0x00001da0      0x924 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
+ .stab          0x000006b4     0x171c obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
+                               0x1728 (size before relaxing)
+ .stab          0x00001dd0      0x924 obj/Debug/arch/avr/gcc-vsmp/vsmp.o
                                 0xe64 (size before relaxing)
- .stab          0x000026c4      0x648 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
+ .stab          0x000026f4      0x648 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
                                 0x960 (size before relaxing)
- .stab          0x00002d0c      0x3d8 obj/Debug/kernel/crit_sec.o
+ .stab          0x00002d3c      0x3d8 obj/Debug/kernel/crit_sec.o
                                 0x7e0 (size before relaxing)
- .stab          0x000030e4      0x300 obj/Debug/kernel/index.o
+ .stab          0x00003114      0x300 obj/Debug/kernel/index.o
                                 0x804 (size before relaxing)
- .stab          0x000033e4      0x4c8 obj/Debug/kernel/ipc.o
+ .stab          0x00003414      0x4c8 obj/Debug/kernel/ipc.o
                                 0x9cc (size before relaxing)
- .stab          0x000038ac      0x3cc obj/Debug/kernel/item.o
+ .stab          0x000038dc      0x3cc obj/Debug/kernel/item.o
                                 0x8d0 (size before relaxing)
- .stab          0x00003c78      0x30c obj/Debug/kernel/kernel.o
+ .stab          0x00003ca8      0x30c obj/Debug/kernel/kernel.o
                                 0x810 (size before relaxing)
- .stab          0x00003f84      0x624 obj/Debug/kernel/mutex.o
+ .stab          0x00003fb4      0x624 obj/Debug/kernel/mutex.o
                                 0xb28 (size before relaxing)
- .stab          0x000045a8      0x3a8 obj/Debug/kernel/pcounter.o
+ .stab          0x000045d8      0x3a8 obj/Debug/kernel/pcounter.o
                                 0x9f0 (size before relaxing)
- .stab          0x00004950      0x690 obj/Debug/kernel/pitem.o
+ .stab          0x00004980      0x690 obj/Debug/kernel/pitem.o
                                 0xb94 (size before relaxing)
- .stab          0x00004fe0      0xd8c obj/Debug/kernel/proc.o
+ .stab          0x00005010      0xd8c obj/Debug/kernel/proc.o
                                0x1548 (size before relaxing)
- .stab          0x00005d6c      0x990 obj/Debug/kernel/sched.o
+ .stab          0x00005d9c      0x990 obj/Debug/kernel/sched.o
                                 0xe94 (size before relaxing)
- .stab          0x000066fc      0x5c4 obj/Debug/kernel/sem.o
+ .stab          0x0000672c      0x5c4 obj/Debug/kernel/sem.o
                                 0xac8 (size before relaxing)
- .stab          0x00006cc0      0x804 obj/Debug/kernel/sig.o
+ .stab          0x00006cf0      0x804 obj/Debug/kernel/sig.o
                                 0xd08 (size before relaxing)
- .stab          0x000074c4      0xde0 obj/Debug/kernel/syscall.o
+ .stab          0x000074f4      0xde0 obj/Debug/kernel/syscall.o
                                0x1e6c (size before relaxing)
- .stab          0x000082a4      0x1f8 obj/Debug/kernel/timer.o
+ .stab          0x000082d4      0x1f8 obj/Debug/kernel/timer.o
                                 0x90c (size before relaxing)
- .stab          0x0000849c      0x3c0 obj/Debug/kernel/xlist.o
+ .stab          0x000084cc      0x3c0 obj/Debug/kernel/xlist.o
                                 0x8c4 (size before relaxing)
- .stab          0x0000885c      0x498 obj/Debug/main.o
+ .stab          0x0000888c      0x498 obj/Debug/main.o
                                 0x9d8 (size before relaxing)
 
 .stabstr        0x00000000     0x3f7d
