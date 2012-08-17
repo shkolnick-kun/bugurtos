@@ -90,6 +90,7 @@ __MACRO_FUNCTION__(_bugurt_isr_prologue)
 __MACRO_FUNCTION__(_bugurt_isr_epilogue)
 {
     cli();
+    vm_state[current_vm].sp = kernel.sched[current_vm].current_proc->spointer;
     bugurt_set_stack_pointer( saved_vm_sp[current_vm] );
     sei();
 }
