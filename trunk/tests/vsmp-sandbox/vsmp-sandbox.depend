@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1345227682 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
+1345230739 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	"vsmp.h"
 
 1345210031 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.h
@@ -58,13 +58,13 @@
 1344933104 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
 	"../../../include/bugurt.h"
 
-1345228295 source:/home/anonimous/Документы/bugurtos/tests/vsmp-sandbox/main.c
+1345383825 source:/home/anonimous/Документы/bugurtos/tests/vsmp-sandbox/main.c
 	"../../arch/avr/gcc-vsmp/vsmp.h"
 
 1334501718 source:/home/anonimous/Документы/bugurtos/kernel/item.c
 	"../include/bugurt.h"
 
-1345227991 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.c
+1345355908 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.c
 	"bugurt_kernel.h"
 
 1345200120 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.h

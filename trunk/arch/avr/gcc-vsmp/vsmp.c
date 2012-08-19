@@ -279,3 +279,12 @@ void enable_interrupts(void)
     if( vm_state[current_vm].int_fifo )_vsmp_vinterrupt();
     else sei();
 }
+
+core_id_t current_core(void)
+{
+    core_id_t ret;
+    cli();
+    ret = current_vm;
+    sei();
+    return ret;
+}
