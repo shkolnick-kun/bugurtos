@@ -101,15 +101,6 @@ proc_t * current_proc(void)
     return ret;
 }
 
-core_id_t current_core(void)
-{
-    core_id_t ret;
-    cli();
-    ret = current_vm;
-    sei();
-    return ret;
-}
-
 void spin_init( lock_t * lock )
 {
     cli();
@@ -119,22 +110,23 @@ void spin_init( lock_t * lock )
 
 void spin_lock( lock_t * lock )
 {
+    unsigned short i;
     while(1)
     {
         cli();
         if(!*lock)
         {
             *lock = (lock_t)1;
-            sei();
-            return;
+            goto end;
         }
         sei();
     }
+end:
+    sei();
+    for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
 }
 void spin_unlock(lock_t * lock)
 {
-    unsigned short i;
-    //for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
     cli();
     *lock = (lock_t)0;
     sei();
@@ -146,11 +138,11 @@ void stat_init( stat_t * stat )
 }
 void stat_dec( proc_t * proc, stat_t * stat )
 {
-    *stat--;
+    (*stat)--;
 }
 void stat_inc( proc_t * proc, stat_t * stat )
 {
-    *stat++;
+    (*stat)++;
 }
 void stat_merge( stat_t *src_stat, stat_t * dst_stat  )
 {
@@ -185,7 +177,7 @@ void resched_vectors_init(void)
         vsmp_vinterrupt_init( ( vinterrupt_t * )resched_vectors + i, resched_isr );
     }
 }
-
+vinterrupt_t systimer_tick_vector;
 vinterrupt_t systimer_vectors[MAX_CORES];
 void _systimer_tick_isr(void)
 {
@@ -194,7 +186,7 @@ void _systimer_tick_isr(void)
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
     SPIN_UNLOCK_KERNEL_TIMER();
 
-    sched_schedule();
+    systimer_vectors_fire();
 }
 __attribute__ (( naked )) void systimer_tick_isr(void)
 {
@@ -218,8 +210,8 @@ __attribute__ (( naked )) void systimer_sched_isr(void)
 void systimer_vectors_init(void)
 {
     core_id_t i;
-    vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors, systimer_tick_isr ); // Zero core is "mater", it handles kernel.timer
-    for(i = 1; i < MAX_CORES; i++)
+    vsmp_vinterrupt_init( &systimer_tick_vector, systimer_tick_isr ); // Zero core is "mater", it handles kernel.timer
+    for(i = 0; i < MAX_CORES; i++)
     {
         vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors + i, systimer_sched_isr ); // Other cores are slaves they just shedule.
     }
@@ -234,17 +226,17 @@ void systimer_vectors_fire(void)
     }
 }
 
-#define SYSTIMER_HOOK_THR 10
+
 count_t systimer_hook_counter = 0;
 void vsmp_systimer_hook_bugurt(void)
 {
     if(!current_vm)
     {
         systimer_hook_counter++;
-        if( systimer_hook_counter >= SYSTIMER_HOOK_THR )
+        if( systimer_hook_counter >= CONFIG_SYSTIMER_HOOK_THR )
         {
             systimer_hook_counter = (count_t)0;
-            systimer_vectors_fire();
+            vsmp_vinterrupt_isr(0,&systimer_tick_vector);
         }
 
     }
@@ -328,9 +320,9 @@ void init_bugurt(void)
 void start_bugurt(void)
 {
     kernel.sched[current_core()].nested_crit_sec = (count_t)0;
-    enable_interrupts();
     cli();
     vsmp_systimer_hook = vsmp_systimer_hook_bugurt;
     sei();
+    enable_interrupts();
     idle_main( (void *)0 );
 }
