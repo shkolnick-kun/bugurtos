@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1345230739 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
+1345437954 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	"vsmp.h"
 
-1345210031 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.h
+1345437575 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.h
 	"../../../include/bugurt.h"
 
 1344254047 /home/anonimous/Документы/bugurtos/include/bugurt.h
