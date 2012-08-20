@@ -145,6 +145,7 @@ bool_t vsmp_do_interrupt(void)
             item_cut( (item_t *)vm_buf );
         }
         // write its isr pointer to vm_buf,
+        ((vinterrupt_t *)vm_buf)->num_pending = (count_t)0;
         vm_buf = (void *)(((vinterrupt_t *)vm_buf)->isr);
         // and return 1;
         return (bool_t)1;
@@ -240,8 +241,9 @@ __attribute__ (( naked )) void _vsmp_vinterrupt(void)
 }
 
 // Software virtual interrupt ( For ISR usage only ! Do NOT call from "main"!)
-void vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector )
+bool_t vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector )
 {
+    if( vector->num_pending++ ) return (bool_t)0;
     if( vm_state[vm].int_fifo )
     {
         item_insert( (item_t *)vector, (item_t *)vm_state[vm].int_fifo );
@@ -250,18 +252,24 @@ void vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector )
     {
         vm_state[vm].int_fifo = (item_t *)vector;
     }
+    return (bool_t)1;
 }
 // Software virtual interrupt ( Use in "main" only ! Do NOT call from ISR!)
 void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector )
 {
     cli();
-    vsmp_vinterrupt_isr( vm, vector );
+    if( vsmp_vinterrupt_isr( vm, vector ) ) goto vinterrupt_return;
+    sei();
+    return;
+
+vinterrupt_return:
     _vsmp_vinterrupt();
 }
 
 void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) )
 {
     item_init( (item_t *)vector );
+    vector->num_pending = (count_t)0;
     vector->isr = isr;
 }
 

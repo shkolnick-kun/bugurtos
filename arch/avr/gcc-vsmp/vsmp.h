@@ -105,6 +105,7 @@ typedef struct _vinterrupt_t  vinterrupt_t;
 struct _vinterrupt_t
 {
     item_t parent;
+    count_t num_pending;
     void (*isr)(void); // Virtual Interrupt Service Routine
 };
 
@@ -115,7 +116,7 @@ core_id_t current_vm;
 void * vm_buf;
 void (*vsmp_systimer_hook)(void);
 
-#define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), f }
+#define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), (count_t)0, f }
 
 void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp, stack_t * int_sp );
 
@@ -126,7 +127,7 @@ void vsmp_idle_main( void * arg );
 
 void _vsmp_vinterrupt(void);
 void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) );
-void vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector );
+bool_t vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector );
 void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector );
 
 void vinterrupt_wrapper(void);
