@@ -48,7 +48,11 @@ void main4(void * t)
 }
 void main5(void * t)
 {
-    wait_time(50);
+    while(1)
+    {
+        wait_time(10);
+        proc_lazy_local_load_balancer();
+    }
 }
 void idle_main(void * arg)
 {
@@ -67,12 +71,13 @@ void idle_main(void * arg)
     proc[2].affinity = 0x3;
     proc[3].affinity = 0x3;
     proc[4].affinity = 0x3;
-    proc[5].affinity = 0x3;
+    //proc[5].affinity = 0x3;
     sei();
 
     while(1){
         wait_time(10);
-        proc_lazy_global_load_balancer();
+        proc_lazy_local_load_balancer();
+        //proc_lazy_global_load_balancer();
     }
 }
 
@@ -137,12 +142,13 @@ int main(void)
     //*/
     init_bugurt();
 
-    proc_init_isr(&proc[0], main0, 0, 0, 0, &proc_stack[0][127], 1, 2, 0, 0x1);
-    proc_init_isr(&proc[1], main1, 0, 0, 0, &proc_stack[1][127], 2, 3, 0, 0x1);
-    proc_init_isr(&proc[2], main2, 0, 0, 0, &proc_stack[2][127], 2, 4, 0, 0x1);
-    proc_init_isr(&proc[3], main3, 0, 0, 0, &proc_stack[3][127], 1, 2, 0, 0x1);
-    proc_init_isr(&proc[4], main4, 0, 0, 0, &proc_stack[4][127], 2, 2, 0, 0x1);
-    proc_init_isr(&proc[5], main5, 0, 0, 0, &proc_stack[5][127], 2, 2, 0, 0x1);
+    proc_init_isr(&proc[0], main0, 0, 0, 0, &proc_stack[0][127], 1, 2, 0, 0x2);
+    proc_init_isr(&proc[1], main1, 0, 0, 0, &proc_stack[1][127], 2, 3, 0, 0x2);
+    proc_init_isr(&proc[2], main2, 0, 0, 0, &proc_stack[2][127], 2, 4, 0, 0x2);
+    proc_init_isr(&proc[3], main3, 0, 0, 0, &proc_stack[3][127], 1, 2, 0, 0x2);
+    proc_init_isr(&proc[4], main4, 0, 0, 0, &proc_stack[4][127], 2, 2, 0, 0x2);
+
+    proc_init_isr(&proc[5], main5, 0, 0, 0, &proc_stack[5][127], 7, 1, 0, 0x2);
 
     start_bugurt();
 
