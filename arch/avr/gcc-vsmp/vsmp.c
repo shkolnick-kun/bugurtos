@@ -258,12 +258,8 @@ bool_t vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector )
 void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector )
 {
     cli();
-    if( vsmp_vinterrupt_isr( vm, vector ) ) goto vinterrupt_return;
-    sei();
-    return;
-
-vinterrupt_return:
-    _vsmp_vinterrupt();
+    if( vsmp_vinterrupt_isr( vm, vector ) ) _vsmp_vinterrupt();
+    else sei();
 }
 
 void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) )
@@ -284,7 +280,7 @@ void enable_interrupts(void)
 {
     cli();
     vm_state[current_vm].int_enabled = (bool_t)1;
-    if( vm_state[current_vm].int_fifo )_vsmp_vinterrupt();
+    if( vm_state[current_vm].int_fifo ) _vsmp_vinterrupt();
     else sei();
 }
 

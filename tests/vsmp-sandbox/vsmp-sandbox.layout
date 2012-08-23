@@ -4,8 +4,8 @@
 	<File name="../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="1" top="0" tabpos="5">
 		<Cursor position="7049" topLine="134" />
 	</File>
-	<File name="../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="1">
-		<Cursor position="7409" topLine="124" />
+	<File name="../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="1" tabpos="1">
+		<Cursor position="12155" topLine="217" />
 	</File>
 	<File name="../../arch/avr/gcc-vsmp/vsmp.h" open="1" top="0" tabpos="2">
 		<Cursor position="7510" topLine="104" />
@@ -16,7 +16,7 @@
 	<File name="config.h" open="1" top="0" tabpos="3">
 		<Cursor position="2686" topLine="71" />
 	</File>
-	<File name="main.c" open="1" top="1" tabpos="4">
-		<Cursor position="612" topLine="47" />
+	<File name="main.c" open="1" top="0" tabpos="4">
+		<Cursor position="612" topLine="136" />
 	</File>
 </CodeBlocks_layout_file>
