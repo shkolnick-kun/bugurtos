@@ -868,7 +868,7 @@ LOAD /usr/lib/gcc/avr/4.3.4/avr5/libgcc.a
  .stab          0x000006b4     0x1590 obj/Debug/arch/avr/gcc-vsmp/bugurt_kernel.o
                                0x159c (size before relaxing)
  .stab          0x00001c44      0xbac obj/Debug/arch/avr/gcc-vsmp/vsmp.o
-                               0x1170 (size before relaxing)
+                               0x1164 (size before relaxing)
  .stab          0x000027f0      0x648 obj/Debug/arch/avr/gcc/bugurt_proc_stack_init.o
                                 0x960 (size before relaxing)
  .stab          0x00002e38      0x4c8 obj/Debug/kernel/crit_sec.o
