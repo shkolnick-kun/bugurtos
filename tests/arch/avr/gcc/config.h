@@ -1,5 +1,5 @@
 #ifndef _CONFIG_H_
-// Example config file for avr-vsmp test architecture.
+// Example config file
 #define _CONFIG_H_
 ///==================================================================
 ///               Don't edit this part of the file!!!
@@ -10,22 +10,22 @@
 
 #ifndef __ASSEMBLER__
 
-//vsmp is a test architecture for multicore code testing!
-#define CONFIG_MP
-
-/// Syscall table is allocated in FLASH.
+// Syscall table is allocated in FLASH
 #include <avr/pgmspace.h>
 #define SYSCALL_TABLE(a) const PROGMEM code_t a
 #define SYSCALL_TABLE_READ(a) (code_t)pgm_read_word(&a)
-
-/// Another option is to allocate it in RAM.
+// Another option is to allocate it in RAM
 //#define SYSCALL_TABLE(a) const code_t a
 //#define SYSCALL_TABLE_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
 #define WEAK __attribute__(( __weak__ ))
 
+#define SYS_TMR_ISR_ATTR __attribute__ (( signal, naked ))
+#define RESCHED_ISR_ATTR __attribute__ (( signal, naked ))
+
 #define NOP() __asm__ __volatile__("nop"::)
+#define SYSCALL_DELLAY() NOP();NOP();NOP()
 
 typedef unsigned char stack_t;
 
@@ -36,6 +36,7 @@ typedef unsigned char stack_t;
 // Max priority levels are defined by index_t,
 // you must specify BITS_IN_INDEX_T to show
 // how many levels you actually are going to use.
+// data types
 typedef unsigned char index_t;
 #define BITS_IN_INDEX_T (8)
 
@@ -70,63 +71,43 @@ typedef unsigned char syscall_t;
 // There is no reason to make it bigger
 // or smaller.
 typedef unsigned short ipc_data_t;
-
-// Unsigned char is enough.
-// There is no reason to make it bigger.
-typedef unsigned char core_id_t;
-
-// Unsigned char is enough.
-// There is no reason to make it bigger.
-typedef unsigned char affinity_t;
-
-// Unsigned char is enough.
-// There is no reason to make it bigger.
-typedef unsigned char lock_t;
-
-// Unsigned char is enough for test purposes.
-typedef unsigned char stat_t;
-
-// Unsigned char is enough.
-// There is no reason to make it bigger.
-typedef unsigned char load_t;
-
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
-
-// Use constant time index search.
 #define CONFIG_USE_O1_SEARCH
-
-// Use "Highest locker" protocol for mutex handling.
 #define CONFIG_USE_HIGHEST_LOCKER
-
-// Use "Hard real time" scheduling. RT processes a stoped 
-// on watchdog expire, locked mutexes DO DNOT matter.
 #define CONFIG_HARD_RT
-
-// Use "Active Load Balancing", 
-// sched_schedule() function is responsible for load balancing.
-#define CONFIG_USE_ALB
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
 ///=================================================================
-
-//Atmega328p CAN NOT afford more!
-#define MAX_CORES (2)
-
-// Real system timer interrupt vector.
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
+#define SYSCALL_ISR INT1_vect
 
-// System timer virtual interrupt counter threshold.
-#define CONFIG_SYSTIMER_HOOK_THR 100 // Every 100 REAL ticks.
+#define blink_R1() (PORTC ^= 0x20)
+#define R1_on() (PORTC |= 0x20)
+#define R1_off() (PORTC &= ~0x20)
 
-// Virtual machine main stack size.
-// Main stacks are used by idle processes.
-#define VM_STACK_SIZE (128)
+#define blink_G1() (PORTD ^= 0x10)
+#define G1_on() (PORTD |= 0x10)
+#define G1_off() (PORTD &= ~0x10)
 
-//Virtual machine interrupt stack size.
-#define VM_INT_STACK_SIZE (128)
+#define blink_R2() (PORTD ^= 0x04)
+#define R2_on() (PORTD |= 0x04)
+#define R2_off() (PORTD &= ~0x04)
+
+#define blink_G2() (PORTD ^= 0x08)
+#define G2_on() (PORTD |= 0x08)
+#define G2_off() (PORTD &= ~0x08)
+
+#define blink_R3() (PORTD ^= 0x20)
+#define R3_on() (PORTD |= 0x20)
+#define R3_off() (PORTD &= ~0x20)
+
+#define blink_G3() (PORTD ^= 0x40)
+#define G3_on() (PORTD |= 0x40)
+#define G3_off() (PORTD &= ~0x40)
 
 #endif //__ASSEMBLER__
+
 #endif //_CONFIG_H_
