@@ -100,13 +100,20 @@ typedef unsigned char load_t;
 // Use "Highest locker" protocol for mutex handling.
 #define CONFIG_USE_HIGHEST_LOCKER
 
-// Use "Hard real time" scheduling. RT processes a stoped 
+// Use "Hard real time" scheduling. RT processes a stoped
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define CONFIG_HARD_RT
 
-// Use "Active Load Balancing", 
+//#define CONFIG_LB_SCHEME 0 // No load balancing during runtime
+#define CONFIG_LB_SCHEME 1 // Active load balancing
+//#define CONFIG_LB_SCHEME 2 // Lazy local load balancing
+//#define CONFIG_LB_SCHEME 3 // Lazy global load balancing
+
+#if (CONFIG_LB_SCHEME == 1)
+// Use "Active Load Balancing",
 // sched_schedule() function is responsible for load balancing.
 #define CONFIG_USE_ALB
+#endif
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
@@ -127,6 +134,28 @@ typedef unsigned char load_t;
 
 //Virtual machine interrupt stack size.
 #define VM_INT_STACK_SIZE (128)
+
+#define PROC_STACK_SIZE 128
+
+#define LOWEST (BITS_IN_INDEX_T - 1)
+
+#define SVH0 (code_t)0
+#define RSH0 (code_t)0
+
+#define SVH1 (code_t)0
+#define RSH1 (code_t)0
+
+#define SVH2 (code_t)0
+#define RSH2 (code_t)0
+
+#define SVH3 (code_t)0
+#define RSH3 (code_t)0
+
+#define SVH4 (code_t)0
+#define RSH4 (code_t)0
+
+#define SVH5 (code_t)0
+#define RSH5 (code_t)0
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_
