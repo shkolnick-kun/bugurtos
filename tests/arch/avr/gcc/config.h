@@ -84,6 +84,28 @@ typedef unsigned short ipc_data_t;
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define SYSCALL_ISR INT1_vect
 
+#define PROC_STACK_SIZE 128
+
+#define LOWEST (BITS_IN_INDEX_T - 1)
+
+#define SVH0 (code_t)0
+#define RSH0 (code_t)0
+
+#define SVH1 (code_t)0
+#define RSH1 (code_t)0
+
+#define SVH2 (code_t)0
+#define RSH2 (code_t)0
+
+#define SVH3 (code_t)0
+#define RSH3 (code_t)0
+
+#define SVH4 (code_t)0
+#define RSH4 (code_t)0
+
+#define SVH5 (code_t)0
+#define RSH5 (code_t)0
+
 #define blink_R1() (PORTC ^= 0x20)
 #define R1_on() (PORTC |= 0x20)
 #define R1_off() (PORTC &= ~0x20)
@@ -109,5 +131,4 @@ typedef unsigned short ipc_data_t;
 #define G3_off() (PORTD &= ~0x40)
 
 #endif //__ASSEMBLER__
-
 #endif //_CONFIG_H_
