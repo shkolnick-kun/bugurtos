@@ -50,3 +50,10 @@ void sched_fix_proc_2(void)
     proc[2].flags &= ~(PROC_FLG_RT|PROC_FLG_WD_STOP);
     sei();
 }
+
+void blink_1(void) {PORTB ^= 0x10;}
+void blink_2(void) {PORTB ^= 0x08;}
+void blink_3(void) {PORTB ^= 0x04;}
+void blink_4(void) {PORTB ^= 0x02;}
+void blink_5(void) {PORTB ^= 0x01;}
+void blink_6(void) {PORTD ^= 0x80;}
