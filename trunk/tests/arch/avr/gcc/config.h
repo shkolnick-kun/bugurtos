@@ -88,23 +88,23 @@ typedef unsigned short ipc_data_t;
 
 #define LOWEST (BITS_IN_INDEX_T - 1)
 
-#define SVH0 (code_t)0
-#define RSH0 (code_t)0
+#define SVH0 (code_t)blink_1
+#define RSH0 (code_t)blink_1
 
-#define SVH1 (code_t)0
-#define RSH1 (code_t)0
+#define SVH1 (code_t)blink_2
+#define RSH1 (code_t)blink_2
 
-#define SVH2 (code_t)0
-#define RSH2 (code_t)0
+#define SVH2 (code_t)blink_3
+#define RSH2 (code_t)blink_3
 
-#define SVH3 (code_t)0
-#define RSH3 (code_t)0
+#define SVH3 (code_t)blink_4
+#define RSH3 (code_t)blink_4
 
-#define SVH4 (code_t)0
-#define RSH4 (code_t)0
+#define SVH4 (code_t)blink_5
+#define RSH4 (code_t)blink_5
 
-#define SVH5 (code_t)0
-#define RSH5 (code_t)0
+#define SVH5 (code_t)blink_6
+#define RSH5 (code_t)blink_6
 
 #define blink_R1() (PORTC ^= 0x20)
 #define R1_on() (PORTC |= 0x20)

@@ -13,3 +13,10 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
 void init_hardware(void);
 void sched_fix_proc_2(void);
+
+void blink_1(void);
+void blink_2(void);
+void blink_3(void);
+void blink_4(void);
+void blink_5(void);
+void blink_6(void);
