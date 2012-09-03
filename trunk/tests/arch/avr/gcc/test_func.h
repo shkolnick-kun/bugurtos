@@ -1,7 +1,9 @@
 #include <bugurt_kernel.h>
-
+#include <util/delay.h>
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];
+
+#define ARG_END
 
 // No load balancing, single core!
 #define SCHED_LOCAL_LOAD_BALANCER()
@@ -20,3 +22,8 @@ void blink_3(void);
 void blink_4(void);
 void blink_5(void);
 void blink_6(void);
+
+// proc test functions
+void test_output( bool_t test_result, count_t test_mun );
+void test_start(void);
+void tests_end(void);

@@ -91,7 +91,7 @@ typedef unsigned char stat_t;
 typedef unsigned char load_t;
 
 ///=================================================================
-//     BuguRTOS behavior compilation flags, edit carefully!!!
+///     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
 
 // Use constant time index search.

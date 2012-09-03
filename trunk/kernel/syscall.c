@@ -235,13 +235,12 @@ bool_t proc_stop( proc_t * proc )
 void scall_proc_self_stop( void * arg )
 {
     proc_t * proc = current_proc();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif
+
+    SPIN_LOCK( proc );
+
     _proc_stop( proc );
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif
+
+    SPIN_UNLOCK( proc );
 }
 void proc_self_stop(void)
 {
@@ -261,14 +260,14 @@ void proc_run_wrapper( proc_t * proc )
     void * arg;
     //Атомарно читаем pmain и arg
     disable_interrupts();
-#ifdef CONFIG_MP
-    spin_lock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_LOCK( proc );
+
     pmain = proc->pmain;
     arg = proc->arg;
-#ifdef CONFIG_MP
-    spin_unlock( &proc->lock );
-#endif // CONFIG_MP
+
+    SPIN_UNLOCK( proc );
+
     enable_interrupts();
     //Выполняем pmain
     pmain( arg );

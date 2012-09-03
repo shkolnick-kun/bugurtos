@@ -172,7 +172,7 @@ bool_t proc_restart_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_MUTEX|PROC_FLG_SEM|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_DEAD) )
+    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_DEAD) )
     {
         ret = (bool_t)0;
         goto end;
@@ -225,7 +225,7 @@ bool_t proc_stop_isr(proc_t * proc)
     //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
     //В случае PROC_FLG_MUTEX или PROC_FLG_SEM будем обрабатывать PROC_FLG_PRE_STOP при освобождении общего ресурса.
     //В случае ожидания IPC флаг будем обрабатывать при попытке передать данные или указатель целевому процессу.
-    if( proc->flags & (PROC_FLG_MUTEX|PROC_FLG_SEM|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW) )proc->flags |= PROC_FLG_PRE_STOP;
+    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW) )proc->flags |= PROC_FLG_PRE_STOP;
     else if( proc->flags & PROC_FLG_RUN )
     {
         _proc_stop( proc );
@@ -318,7 +318,7 @@ void _proc_lres_dec(
     pcounter_dec( &proc->lres, prio );
     if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
 #else
-    if( proc->lres!= (count_t)0 )proc->lres--;
+    if( proc->lres != (count_t)0 )proc->lres--;
     if( proc->lres == (count_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
 #endif
 }

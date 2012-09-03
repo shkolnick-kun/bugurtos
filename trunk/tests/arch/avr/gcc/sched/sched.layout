@@ -17,13 +17,13 @@
 		<Cursor position="6238" topLine="63" />
 	</File>
 	<File name="../config.h" open="1" top="0" tabpos="1">
-		<Cursor position="2847" topLine="87" />
+		<Cursor position="2847" topLine="84" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="3">
+	<File name="../test_func.c" open="1" top="0" tabpos="3">
 		<Cursor position="785" topLine="36" />
 	</File>
-	<File name="../test_func.h" open="1" top="0" tabpos="2">
-		<Cursor position="393" topLine="0" />
+	<File name="../test_func.h" open="1" top="1" tabpos="2">
+		<Cursor position="50" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="367" topLine="58" />
