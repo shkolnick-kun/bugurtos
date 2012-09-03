@@ -88,7 +88,7 @@
 1344233593 source:/home/anonimous/Документы/bugurtos/kernel/pitem.c
 	"../include/bugurt.h"
 
-1344621573 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+1346520128 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
 1345200052 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
@@ -109,9 +109,9 @@
 1334501763 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
 	"../include/bugurt.h"
 
-1345922357 source:/home/anonimous/Документы/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
+1346520455 source:/home/anonimous/Документы/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
 	<test_func.h>
 
-1346178695 source:/home/anonimous/Документы/bugurtos/tests/main/sched/main.c
+1346518820 source:/home/anonimous/Документы/bugurtos/tests/main/proc/main.c
 	<test_func.h>
 

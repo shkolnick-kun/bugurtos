@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sched" />
+		<Option title="proc" />
 		<Option pch_mode="2" />
 		<Option compiler="avrgcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/sched.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/proc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="avrgcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/sched.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/proc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="avrgcc" />
@@ -38,7 +38,7 @@
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega328p" />
-			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref,--gc-sections" />
+			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
@@ -115,12 +115,11 @@
 		<Unit filename="../../../../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../config.h" />
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../test_func.h" />
-		<Unit filename="../../../../main/sched/main.c">
+		<Unit filename="../../../../main/proc/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

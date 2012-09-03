@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1065" topLine="40" />
+	</File>
+	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="158" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

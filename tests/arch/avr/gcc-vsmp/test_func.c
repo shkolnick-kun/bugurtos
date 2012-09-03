@@ -52,11 +52,11 @@ void blink_1(void)
     cli();
     if(current_vm)
     {
-        PORTB ^= 0x10;
+        PORTC ^= 0x10;
     }
     else
     {
-        PORTC ^= 0x10;
+        PORTB ^= 0x10;
     }
     sei();
 }
@@ -65,11 +65,11 @@ void blink_2(void)
     cli();
     if(current_vm)
     {
-        PORTB ^= 0x08;
+        PORTC ^= 0x08;
     }
     else
     {
-        PORTC ^= 0x08;
+        PORTB ^= 0x08;
     }
     sei();
 }
@@ -78,11 +78,11 @@ void blink_3(void)
     cli();
     if(current_vm)
     {
-        PORTB ^= 0x04;
+        PORTC ^= 0x04;
     }
     else
     {
-        PORTC ^= 0x04;
+        PORTB ^= 0x04;
     }
     sei();
 }
@@ -91,11 +91,11 @@ void blink_4(void)
     cli();
     if(current_vm)
     {
-        PORTB ^= 0x02;
+        PORTC ^= 0x02;
     }
     else
     {
-        PORTC ^= 0x02;
+        PORTB ^= 0x02;
     }
     sei();
 }
@@ -104,11 +104,11 @@ void blink_5(void)
     cli();
     if(current_vm)
     {
-        PORTB ^= 0x01;
+        PORTC ^= 0x01;
     }
     else
     {
-        PORTC ^= 0x01;
+        PORTB ^= 0x01;
     }
     sei();
 }
@@ -117,11 +117,11 @@ void blink_6(void)
     cli();
     if(current_vm)
     {
-        PORTD ^= 0x80;
+        PORTB ^= 0x20;
     }
     else
     {
-        PORTB ^= 0x20;
+        PORTD ^= 0x80;
     }
     sei();
 }
@@ -168,4 +168,56 @@ void load_bar_graph(void)
             break;
     }
     sei();
+}
+
+static void blink_digit( count_t digit )
+{
+    PORTB &= ~0x20;
+    _delay_ms(200);
+    while(digit--)
+    {
+        PORTB |= 0x20;
+        _delay_ms(200);
+        PORTB &= ~0x20;
+        _delay_ms(200);
+    }
+}
+// Can blink numbers from 0 up to 99.
+static void blink_num( count_t num )
+{
+    PORTB &= ~0x20;
+    PORTD &= ~0x40;
+    PORTD |= 0x20;
+    blink_digit( (num/10)%10 ); // Most significant digit
+    _delay_ms(300);
+    blink_digit( num%10 ); //Least significant digit
+
+}
+void test_output( bool_t test_result, count_t test_num )
+{
+    // If test has failed, then where will be abnormal program termination!
+    if( !test_result )
+    {
+        cli();
+        while(1)
+        {
+            _delay_ms(500);
+            blink_num( test_num );
+        }
+    }
+}
+void test_start(void)
+{
+    PORTD |= 0x40;
+}
+void tests_end(void)
+{
+    cli();
+    while(1)
+    {
+        PORTD |= 0x40;
+        _delay_ms(500);
+        PORTD &= ~0x40;
+        _delay_ms(500);
+    }
 }

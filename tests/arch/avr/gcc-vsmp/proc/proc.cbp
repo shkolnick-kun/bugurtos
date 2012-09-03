@@ -2,38 +2,28 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sched" />
+		<Option title="proc" />
 		<Option pch_mode="2" />
 		<Option compiler="avrgcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/sched.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/proc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="avrgcc" />
 				<Compiler>
 					<Add option="-g" />
-				</Compiler>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/sched.elf" prefix_auto="1" extension_auto="0" />
-				<Option object_output="obj/Release/" />
-				<Option type="1" />
-				<Option compiler="avrgcc" />
-				<Compiler>
-					<Add option="-Os" />
+					<Add option="-O0" />
 				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
-			<Add option="-std=c99" />
 			<Add option='-include &quot;${PROJECT_DIR}../config.h&quot;' />
-			<Add option='-I &quot;${PROJECT_DIR}../../../../../arch/avr/gcc&quot;' />
+			<Add option='-I &quot;${PROJECT_DIR}../../../../../arch/avr/gcc-vsmp&quot;' />
 			<Add option='-I &quot;${PROJECT_DIR}../&quot;' />
 			<Add option="-ffunction-sections" />
-			<Add option="-fdata-sections" />
 			<Add option="-DF_CPU=16000000UL" />
 		</Compiler>
 		<Linker>
@@ -46,10 +36,14 @@
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 			<Add after="avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_FILE).lss" />
 		</ExtraCommands>
-		<Unit filename="../../../../../arch/avr/gcc/bugurt_kernel.c">
+		<Unit filename="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../arch/avr/gcc/bugurt_kernel.h" />
+		<Unit filename="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" />
+		<Unit filename="../../../../../arch/avr/gcc-vsmp/vsmp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../arch/avr/gcc-vsmp/vsmp.h" />
 		<Unit filename="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" />
 		<Unit filename="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
@@ -120,7 +114,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../test_func.h" />
-		<Unit filename="../../../../main/sched/main.c">
+		<Unit filename="../../../../main/proc/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
