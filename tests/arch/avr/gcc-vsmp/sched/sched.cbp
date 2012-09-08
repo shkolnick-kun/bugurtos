@@ -32,6 +32,7 @@
 			<Add option='-I &quot;${PROJECT_DIR}../../../../../arch/avr/gcc-vsmp&quot;' />
 			<Add option='-I &quot;${PROJECT_DIR}../&quot;' />
 			<Add option="-ffunction-sections" />
+			<Add option="-fdata-sections" />
 			<Add option="-DF_CPU=16000000UL" />
 		</Compiler>
 		<Linker>

@@ -168,9 +168,9 @@ void proc_init(
                   )
 {
 #ifdef CONFIG_MP
-    proc_init_arg_t scarg;
+    volatile proc_init_arg_t scarg;
 #else
-    static proc_init_arg_t scarg;
+    static volatile  proc_init_arg_t scarg;
     disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
 #endif
     scarg.proc = proc;
@@ -196,7 +196,7 @@ void scall_proc_run( void * arg )
 }
 bool_t proc_run( proc_t * proc )
 {
-    proc_runtime_arg_t scarg;
+    volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
     syscall_bugurt( SYSCALL_PROC_RUN, (void *)&scarg );
     return scarg.ret;
@@ -210,7 +210,7 @@ void scall_proc_restart( void * arg )
 }
 bool_t proc_restart( proc_t * proc )
 {
-    proc_runtime_arg_t scarg;
+    volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
     syscall_bugurt( SYSCALL_PROC_RESTART, (void *)&scarg );
     return scarg.ret;
@@ -224,7 +224,7 @@ void scall_proc_stop( void * arg )
 }
 bool_t proc_stop( proc_t * proc )
 {
-    proc_runtime_arg_t scarg;
+    volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
     syscall_bugurt( SYSCALL_PROC_STOP, (void *)&scarg);
     return scarg.ret;
@@ -365,7 +365,7 @@ void scall_sem_init( void * arg )
 }
 void sem_init( sem_t * sem, count_t count )
 {
-    sem_init_arg_t scarg;
+    volatile sem_init_arg_t scarg;
     scarg.sem = sem;
     scarg.count = count;
     syscall_bugurt( SYSCALL_SEM_INIT, (void *)&scarg );
@@ -380,7 +380,7 @@ void scall_sem_lock( void * arg )
 bool_t sem_lock( sem_t * sem )
 {
 
-    sem_lock_arg_t scarg;
+    volatile sem_lock_arg_t scarg;
     scarg.sem = sem;
     syscall_bugurt( SYSCALL_SEM_LOCK, (void *)&scarg );
     return scarg.ret;
@@ -395,7 +395,7 @@ void scall_sem_try_lock( void * arg )
 bool_t sem_try_lock( sem_t * sem )
 {
 
-    sem_lock_arg_t scarg;
+    volatile sem_lock_arg_t scarg;
     scarg.sem = sem;
     syscall_bugurt( SYSCALL_SEM_TRY_LOCK, (void *)&scarg );
     return scarg.ret;
@@ -448,7 +448,7 @@ void scall_mutex_lock(void * arg)
 }
 bool_t mutex_lock( mutex_t * mutex )
 {
-    mutex_lock_arg_t scarg;
+    volatile mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
     syscall_bugurt( SYSCALL_MUTEX_LOCK, (void *)&scarg );
     return scarg.ret;
@@ -464,7 +464,7 @@ void scall_mutex_try_lock(void * arg)
 // Попытка захвата
 bool_t mutex_try_lock( mutex_t * mutex )
 {
-    mutex_lock_arg_t scarg;
+    volatile mutex_lock_arg_t scarg;
     scarg.mutex = mutex;
     syscall_bugurt( SYSCALL_MUTEX_TRY_LOCK, (void *)&scarg );
     return scarg.ret;
@@ -492,7 +492,7 @@ void scall_ipc_wait(void * arg)
 }
 ipc_data_t ipc_wait( void )
 {
-    ipc_data_t ret = (ipc_data_t)0;
+    volatile ipc_data_t ret = (ipc_data_t)0;
     syscall_bugurt( SYSCALL_IPC_WAIT, (void *)&ret );
     return ret;
 }

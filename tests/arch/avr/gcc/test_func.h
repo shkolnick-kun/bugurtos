@@ -27,3 +27,8 @@ void blink_6(void);
 void test_output( bool_t test_result, count_t test_mun );
 void test_start(void);
 void tests_end(void);
+
+// signal test functions
+extern unsigned char test_var_sig;
+void test_clear(void);
+void test_inc(void);

@@ -2,6 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="sched/sched.cbp" />
-		<Project filename="proc/proc.cbp" active="1" />
+		<Project filename="proc/proc.cbp" />
+		<Project filename="sig/sig.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
