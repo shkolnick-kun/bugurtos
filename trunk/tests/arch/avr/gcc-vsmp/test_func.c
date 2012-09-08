@@ -221,3 +221,17 @@ void tests_end(void)
         _delay_ms(500);
     }
 }
+
+unsigned char test_var_sig;
+void test_clear(void)
+{
+    cli();
+    test_var_sig = 0;
+    sei();
+}
+void test_inc(void)
+{
+    cli();
+    test_var_sig++;
+    sei();
+}
