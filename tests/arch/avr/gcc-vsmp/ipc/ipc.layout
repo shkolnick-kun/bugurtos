@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="18183" topLine="348" />
+	</File>
+	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="114" />
+	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="88" />
+	</File>
+	<File name="../../../../main/ipc/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="265" topLine="60" />
+	</File>
+</CodeBlocks_layout_file>
