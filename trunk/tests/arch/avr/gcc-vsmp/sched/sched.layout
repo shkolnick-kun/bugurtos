@@ -13,8 +13,11 @@
 	<File name="../../../../../include/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="7846" topLine="89" />
 	</File>
-	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="4">
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="4">
 		<Cursor position="39303" topLine="729" />
+	</File>
+	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6121" topLine="68" />
