@@ -592,6 +592,17 @@ This function stops caller process.
 void proc_self_stop(void);
 /*!
 \~russian
+\brief Самоостанов процесса (для внутреннего использования).
+
+Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
+\~english
+\brief A process self stop routine (for internal usage only!).
+
+This function stops caller process.
+*/
+void _proc_self_stop(void);
+/*!
+\~russian
 \brief Сброс watchdog для процесса реального времени.
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
@@ -658,6 +669,8 @@ void _proc_flag_stop( flag_t mask );
 \brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english A #PROC_FLG_PRE_STOP flag processing routine.
 */
 void proc_flag_stop( flag_t mask );
+
+void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
 \brief \~russian Инкремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter increment routine. For internal usage.

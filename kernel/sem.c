@@ -96,23 +96,23 @@ bool_t _sem_lock( sem_t * sem )
     proc = current_proc();
     // Выставляем флаг захватат семафора
     SPIN_LOCK( proc );
-    proc->flags |= PROC_FLG_SEM;
+    _proc_stop_flags_set( proc, PROC_FLG_SEM );
     SPIN_UNLOCK( proc );
     // Собственно захват семафора
     SPIN_LOCK( sem );
+    SPIN_LOCK( proc );
     if( sem->counter != 0 )
     {
         sem->counter--;
         ret = (bool_t)1;
+        _proc_run( proc );
     }
     else
     {
-        SPIN_LOCK( proc );
         proc->flags |= PROC_FLG_QUEUE;
-        _proc_stop( proc );
         pitem_insert( (pitem_t *)proc, (xlist_t *)sem );
-        SPIN_UNLOCK( proc );
     }
+    SPIN_UNLOCK( proc );
     SPIN_UNLOCK( sem );
     return ret;
 }
@@ -130,7 +130,17 @@ bool_t _sem_try_lock( sem_t * sem )
         ret = (bool_t)1;
         // Выставляем флаг захватат семафора
         SPIN_LOCK( proc );
-        proc->flags |= PROC_FLG_SEM;
+
+        if( proc->flags & PROC_FLG_RUN )
+        {
+            proc->flags |= PROC_FLG_SEM;
+        }
+        else
+        {
+            proc->flags |= (PROC_FLG_SEM|PROC_FLG_PRE_STOP);
+            _proc_run( proc );
+        }
+
         SPIN_UNLOCK( proc );
     }
     SPIN_UNLOCK( sem );

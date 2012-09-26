@@ -106,17 +106,17 @@ bool_t _mutex_lock( mutex_t * mutex )
     proc = current_proc();
     // Захват блокировки процесса
     SPIN_LOCK( proc );
+    _proc_stop_flags_set( proc, (flag_t)0 );
     PROC_LRES_INC( proc, GET_PRIO( mutex ) );
-
+    PROC_PRIO_CONTROL_STOPED( proc );
     if( ret )
     {
         mutex->free = (bool_t)0;
-        PROC_PRIO_CONTROL_RUNNING( proc );
+        _proc_run( proc );
     }
     else
     {
         proc->flags |= PROC_FLG_QUEUE;
-        _proc_stop( proc );
         pitem_insert( (pitem_t *)proc, (xlist_t *)mutex );
     }
     SPIN_UNLOCK( proc );
@@ -137,8 +137,10 @@ bool_t _mutex_try_lock( mutex_t * mutex )
     if( ret )
     {
         mutex->free = (bool_t)0;
+        _proc_stop_flags_set( proc, (flag_t)0 );
         PROC_LRES_INC( proc, GET_PRIO( mutex ) );
-        PROC_PRIO_CONTROL_RUNNING( proc );
+        PROC_PRIO_CONTROL_STOPED( proc );
+        _proc_run( proc );
     }
     SPIN_UNLOCK( proc );
     SPIN_UNLOCK( mutex );
@@ -182,8 +184,6 @@ void _mutex_unlock( mutex_t *  mutex )
     // Сначала надо вырезать
     pitem_cut( (pitem_t *)proc );
     proc->flags &= ~PROC_FLG_QUEUE;
-    // Управление приоритетом процесса
-    PROC_PRIO_CONTROL_STOPED( proc );
     _proc_run( proc );
     SPIN_UNLOCK( proc );
 end:

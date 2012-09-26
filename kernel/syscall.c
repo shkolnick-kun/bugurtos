@@ -234,13 +234,7 @@ bool_t proc_stop( proc_t * proc )
 **********************************************************************************************/
 void scall_proc_self_stop( void * arg )
 {
-    proc_t * proc = current_proc();
-
-    SPIN_LOCK( proc );
-
-    _proc_stop( proc );
-
-    SPIN_UNLOCK( proc );
+    _proc_self_stop();
 }
 void proc_self_stop(void)
 {
