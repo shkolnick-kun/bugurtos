@@ -83,11 +83,8 @@ void _ipc_wait( void * ipc_pointer )
     proc = current_proc();
     SPIN_LOCK( proc );
     // Останавливаем процесс
-    proc->flags |= PROC_FLG_IPCW;
     proc->buf = ipc_pointer;
-    _proc_stop_( proc );
-    RESCHED_PROC( proc );
-
+    _proc_stop_flags_set( proc, PROC_FLG_IPCW );
     SPIN_UNLOCK( proc );
 }
 

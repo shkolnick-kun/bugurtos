@@ -107,9 +107,7 @@ void _sig_wait_prologue( sig_t * sig )
     SPIN_LOCK( proc );
 
     // Останавливаем процесс
-    proc->flags |= PROC_FLG_WAIT;
-    _proc_stop_( proc );
-    RESCHED_PROC( proc );
+    _proc_stop_flags_set( proc, PROC_FLG_WAIT );
     // Вставляем процесс в группированный список ожидания сигнала
 #ifdef CONFIG_MP
     {
@@ -138,6 +136,7 @@ static void _sig_wakeup_list_proc( proc_t * proc )
     SPIN_LOCK( proc );
     proc->buf = ((item_t *)proc)->next;
     item_cut( (item_t *)proc );                  // Вырезать процесс из простого списка гораздо проще, чем из xlist
+    proc->flags |= PROC_FLG_RUN;
     _proc_run_( proc );
     SPIN_UNLOCK( proc );
 }
@@ -190,6 +189,7 @@ void sig_signal_isr( sig_t * sig )
     pitem_fast_cut( (pitem_t *)proc );
     stat_dec( proc, (stat_t *)sig->sig_stat + core );
     //Запуск процесса
+    proc->flags |= PROC_FLG_RUN;
     // Вставляем его в список ready соответствующего планировщика
     spin_lock( &kernel.stat_lock );
     stat_inc( proc, (stat_t *)kernel.stat + core ); // Обновление статистики
@@ -209,6 +209,7 @@ void sig_signal_isr( sig_t * sig )
     if( ((xlist_t *)sig)->index == (index_t)0 )return;
     proc = (proc_t *)xlist_head( (xlist_t *)sig );
     pitem_fast_cut( (pitem_t *)proc );
+    proc->flags |= PROC_FLG_RUN;
     pitem_insert( (pitem_t *)proc, kernel.sched.ready );
     resched();
 #endif //CONFIG_MP

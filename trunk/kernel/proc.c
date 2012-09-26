@@ -225,7 +225,7 @@ bool_t proc_stop_isr(proc_t * proc)
     //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
     //В случае PROC_FLG_MUTEX или PROC_FLG_SEM будем обрабатывать PROC_FLG_PRE_STOP при освобождении общего ресурса.
     //В случае ожидания IPC флаг будем обрабатывать при попытке передать данные или указатель целевому процессу.
-    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW) )proc->flags |= PROC_FLG_PRE_STOP;
+    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_PRE_STOP) )proc->flags |= PROC_FLG_PRE_STOP;
     else if( proc->flags & PROC_FLG_RUN )
     {
         _proc_stop( proc );
@@ -236,6 +236,14 @@ bool_t proc_stop_isr(proc_t * proc)
 
     return ret;
 }
+
+static void _ensure_proc_stop( proc_t * proc )
+{
+    if( proc->flags & PROC_FLG_RUN )
+    {
+        _proc_stop( proc );
+    }
+}
 // Обработка флага останова процесса, для использования с семафорами, мьютексами и сигналами.
 void _proc_flag_stop( flag_t mask )
 {
@@ -244,7 +252,6 @@ void _proc_flag_stop( flag_t mask )
 
     SPIN_LOCK( proc );
 
-    proc->flags &= ~mask;
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
         /*
@@ -252,12 +259,38 @@ void _proc_flag_stop( flag_t mask )
         и целевой процесс не удерживает общие ресурсы,
         то мы остановим процесс
         */
-        proc->flags &= ~PROC_FLG_PRE_STOP;
-        _proc_stop( proc );
+        _ensure_proc_stop( proc );
     }
+    proc->flags &= ~(flag_t)(mask|PROC_FLG_PRE_STOP);
 
     SPIN_UNLOCK( proc );
+}
 
+void _proc_stop_flags_set( proc_t * proc, flag_t mask )
+{
+    // Проверяем, не был ли процесс остановлен где-нибудь еще.
+    if( proc->flags & PROC_FLG_RUN )
+    {
+        // Не был, можно и нужно остановить.
+        proc->flags |= mask;
+        _proc_stop( proc );
+    }
+    else
+    {
+        // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
+        proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
+    }
+}
+
+void _proc_self_stop(void)
+{
+    proc_t * proc = current_proc();
+
+    SPIN_LOCK( proc );
+
+    _ensure_proc_stop( proc );
+
+    SPIN_UNLOCK( proc );
 }
 
 void _proc_terminate( proc_t * proc )
@@ -271,10 +304,8 @@ void _proc_terminate( proc_t * proc )
     // В противном случае - просто завершаем процесс
     else proc->flags |= PROC_FLG_END;
     proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
-    // Останов
-    _proc_stop_( proc );
-    // Выполнить перепланировку
-    RESCHED_PROC( proc );
+
+    _ensure_proc_stop( proc );
 
     SPIN_UNLOCK( proc );
 }
