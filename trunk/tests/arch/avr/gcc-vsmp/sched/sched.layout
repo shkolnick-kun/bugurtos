@@ -16,8 +16,8 @@
 	<File name="../../../../../include/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="7846" topLine="89" />
 	</File>
-	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="4">
-		<Cursor position="20630" topLine="423" />
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="5">
+		<Cursor position="8458" topLine="155" />
 	</File>
 	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -25,31 +25,31 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6121" topLine="68" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="7">
-		<Cursor position="9094" topLine="9" />
+	<File name="../../../../../kernel/mutex.c" open="1" top="1" tabpos="7">
+		<Cursor position="8514" topLine="155" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="5">
-		<Cursor position="11080" topLine="440" />
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="6">
+		<Cursor position="14936" topLine="356" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="0">
 		<Cursor position="17685" topLine="279" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="1" top="1" tabpos="8">
+	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="8">
 		<Cursor position="7543" topLine="55" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="1">
 		<Cursor position="9336" topLine="224" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="2">
 		<Cursor position="15196" topLine="331" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="435" topLine="0" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="3">
+	<File name="../test_func.c" open="1" top="0" tabpos="4">
 		<Cursor position="3151" topLine="69" />
 	</File>
-	<File name="../test_func.h" open="1" top="0" tabpos="2">
+	<File name="../test_func.h" open="1" top="0" tabpos="3">
 		<Cursor position="1819" topLine="34" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">

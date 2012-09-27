@@ -155,20 +155,19 @@ void _mutex_unlock( mutex_t *  mutex )
     proc = current_proc();
 
     SPIN_LOCK(proc);
+    // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
+    _proc_stop( proc );
     PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
+    PROC_PRIO_CONTROL_STOPED( proc );
     // Если проготовлен и готов к остановке - останавливаем
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
-        proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
-        _proc_stop_( proc );
-        PROC_PRIO_CONTROL_STOPED( proc );
-        // Нужна перепланировка, процесс остановили и не запустили обратно
-        RESCHED_PROC( proc );
+        proc->flags &= ~PROC_FLG_PRE_STOP;
     }
     else
     {
-        // Не останавливаем - меняем проиритет на ходу
-        PROC_PRIO_CONTROL_RUNNING( proc );
+        // Не было запроса останова, или процесс еще не освободил ресурсы, запускаем обратно.
+        _proc_run( proc );
     }
     SPIN_UNLOCK( proc );
     // Обрабока самого мьютекса
