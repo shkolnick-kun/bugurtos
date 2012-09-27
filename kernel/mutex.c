@@ -106,9 +106,11 @@ bool_t _mutex_lock( mutex_t * mutex )
     proc = current_proc();
     // Захват блокировки процесса
     SPIN_LOCK( proc );
+
     _proc_stop_flags_set( proc, (flag_t)0 );
     PROC_LRES_INC( proc, GET_PRIO( mutex ) );
     PROC_PRIO_CONTROL_STOPED( proc );
+
     if( ret )
     {
         mutex->free = (bool_t)0;
@@ -120,6 +122,7 @@ bool_t _mutex_lock( mutex_t * mutex )
         pitem_insert( (pitem_t *)proc, (xlist_t *)mutex );
     }
     SPIN_UNLOCK( proc );
+
     SPIN_UNLOCK( mutex );
     return ret;
 }
@@ -130,19 +133,24 @@ bool_t _mutex_try_lock( mutex_t * mutex )
     proc_t * proc;
 
     SPIN_LOCK( mutex );
+
     ret = mutex->free;
     proc = current_proc();
 
-    SPIN_LOCK( proc );
     if( ret )
     {
         mutex->free = (bool_t)0;
+
+        SPIN_LOCK( proc );
+
         _proc_stop_flags_set( proc, (flag_t)0 );
         PROC_LRES_INC( proc, GET_PRIO( mutex ) );
         PROC_PRIO_CONTROL_STOPED( proc );
         _proc_run( proc );
+
+        SPIN_UNLOCK( proc );
     }
-    SPIN_UNLOCK( proc );
+
     SPIN_UNLOCK( mutex );
     return ret;
 }
@@ -179,11 +187,13 @@ void _mutex_unlock( mutex_t *  mutex )
     }
     // Список ожидающих не пуст, запускаем голову
     proc = (proc_t *)xlist_head( (xlist_t *)mutex );
+
     SPIN_LOCK( proc );
     // Сначала надо вырезать
     pitem_cut( (pitem_t *)proc );
     proc->flags &= ~PROC_FLG_QUEUE;
     _proc_run( proc );
+
     SPIN_UNLOCK( proc );
 end:
     SPIN_UNLOCK( mutex );

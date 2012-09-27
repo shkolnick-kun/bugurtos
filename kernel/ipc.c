@@ -81,17 +81,21 @@ void _ipc_wait( void * ipc_pointer )
 {
     proc_t * proc;
     proc = current_proc();
+
     SPIN_LOCK( proc );
     // Останавливаем процесс
-    proc->buf = ipc_pointer;
     _proc_stop_flags_set( proc, PROC_FLG_IPCW );
+    proc->buf = ipc_pointer;
+
     SPIN_UNLOCK( proc );
 }
 
 bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
 {
     bool_t ret = (bool_t)0;
+
     SPIN_LOCK( proc );
+
     if( proc->flags & PROC_FLG_IPCW )
     {
         proc->flags &= ~PROC_FLG_IPCW;
@@ -119,7 +123,9 @@ end:
 bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 {
     bool_t ret = (bool_t)0;
+
     SPIN_LOCK( proc );
+
     if( proc->flags & PROC_FLG_IPCW )
     {
         proc->flags &= ~PROC_FLG_IPCW;

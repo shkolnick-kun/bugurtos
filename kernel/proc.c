@@ -127,8 +127,11 @@ void _proc_run_( proc_t * proc )
 {
     sched_t * proc_sched;
     proc_sched = (sched_t *)kernel.sched + proc->core_id;
+
     SPIN_LOCK( proc_sched );
+
     pitem_insert( (pitem_t *)proc, proc_sched->ready );
+
     SPIN_UNLOCK( proc_sched );
 }
 #endif // CONFIG_MP
@@ -197,13 +200,18 @@ end:
 void _proc_stop_(proc_t * proc)
 {
     spin_lock( &kernel.stat_lock );
+
     stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
+
     spin_unlock( &kernel.stat_lock );
     {
         lock_t * xlist_lock;
         xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
+
         spin_lock( xlist_lock );
+
         pitem_cut( (pitem_t *)proc );
+
         spin_unlock( xlist_lock );
     }
 }
@@ -215,6 +223,31 @@ void _proc_stop(proc_t * proc)
     _proc_stop_( proc );
     RESCHED_PROC( proc );
 }
+
+void _proc_stop_flags_set( proc_t * proc, flag_t mask )
+{
+    // Проверяем, не был ли процесс остановлен где-нибудь еще.
+    if( proc->flags & PROC_FLG_RUN )
+    {
+        // Не был, можно и нужно остановить.
+        _proc_stop( proc );
+        proc->flags |= mask;
+    }
+    else
+    {
+        // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
+        proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
+    }
+}
+
+static void _proc_stop_ensure( proc_t * proc )
+{
+    if( proc->flags & PROC_FLG_RUN )
+    {
+        _proc_stop( proc );
+    }
+}
+
 // Останов процесса из обработчика прерываний, прерывания должны быть запрещены
 bool_t proc_stop_isr(proc_t * proc)
 {
@@ -226,9 +259,9 @@ bool_t proc_stop_isr(proc_t * proc)
     //В случае PROC_FLG_MUTEX или PROC_FLG_SEM будем обрабатывать PROC_FLG_PRE_STOP при освобождении общего ресурса.
     //В случае ожидания IPC флаг будем обрабатывать при попытке передать данные или указатель целевому процессу.
     if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_PRE_STOP) )proc->flags |= PROC_FLG_PRE_STOP;
-    else if( proc->flags & PROC_FLG_RUN )
+    else
     {
-        _proc_stop( proc );
+        _proc_stop_ensure( proc );
         ret = (bool_t)1;
     }
 
@@ -237,13 +270,7 @@ bool_t proc_stop_isr(proc_t * proc)
     return ret;
 }
 
-static void _ensure_proc_stop( proc_t * proc )
-{
-    if( proc->flags & PROC_FLG_RUN )
-    {
-        _proc_stop( proc );
-    }
-}
+
 // Обработка флага останова процесса, для использования с семафорами, мьютексами и сигналами.
 void _proc_flag_stop( flag_t mask )
 {
@@ -259,27 +286,12 @@ void _proc_flag_stop( flag_t mask )
         и целевой процесс не удерживает общие ресурсы,
         то мы остановим процесс
         */
-        _ensure_proc_stop( proc );
+        _proc_stop_ensure( proc );
+        proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
     }
-    proc->flags &= ~(flag_t)(mask|PROC_FLG_PRE_STOP);
+    proc->flags &= ~mask;
 
     SPIN_UNLOCK( proc );
-}
-
-void _proc_stop_flags_set( proc_t * proc, flag_t mask )
-{
-    // Проверяем, не был ли процесс остановлен где-нибудь еще.
-    if( proc->flags & PROC_FLG_RUN )
-    {
-        // Не был, можно и нужно остановить.
-        proc->flags |= mask;
-        _proc_stop( proc );
-    }
-    else
-    {
-        // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
-        proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
-    }
 }
 
 void _proc_self_stop(void)
@@ -288,7 +300,7 @@ void _proc_self_stop(void)
 
     SPIN_LOCK( proc );
 
-    _ensure_proc_stop( proc );
+    _proc_stop_ensure( proc );
 
     SPIN_UNLOCK( proc );
 }
@@ -298,14 +310,13 @@ void _proc_terminate( proc_t * proc )
 
     SPIN_LOCK( proc );
 
+    _proc_stop_ensure( proc );
     // Обрабатываем флаги
     // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
     if( proc->flags & PROC_FLG_LOCK_MASK ) proc->flags |= PROC_FLG_DEAD;
     // В противном случае - просто завершаем процесс
     else proc->flags |= PROC_FLG_END;
     proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
-
-    _ensure_proc_stop( proc );
 
     SPIN_UNLOCK( proc );
 }
@@ -393,7 +404,9 @@ void _proc_lazy_load_balancer(core_id_t object_core)
 
     //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
     disable_interrupts();
+
     SPIN_LOCK( sched );
+
     if(sched->expired->index == (index_t)0)
     {
         SPIN_UNLOCK( sched );
@@ -401,6 +414,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
         return;
     }
     proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
+
     SPIN_UNLOCK( sched );
     enable_interrupts();
 
@@ -411,8 +425,11 @@ void _proc_lazy_load_balancer(core_id_t object_core)
     {
         // Остановили выполнение процесса на старом процессоре
         SPIN_LOCK( sched );
+
         pitem_fast_cut( (pitem_t *)proc );
+
         SPIN_UNLOCK( sched );
+
         resched(object_core); // Процесс мог быть поставлен на выполнение, пока мы захватывали его блокировку, перепланируем
 
         // Проводим операции над статистикой
@@ -428,8 +445,11 @@ void _proc_lazy_load_balancer(core_id_t object_core)
 
         // Переносим процесс на новый процессор, продолжаем выполнение там. Перепланировку не делаем, проуесс не выполняет требования реального времени.
         proc->core_id = object_core;
+
         SPIN_LOCK( sched );
+
         pitem_insert( (pitem_t *)proc, sched->expired );
+
         SPIN_UNLOCK( sched );
     }
     SPIN_UNLOCK( proc );
@@ -442,7 +462,9 @@ void proc_lazy_global_load_balancer(void)
     // Поиск самого нагруженного процессора
     disable_interrupts();
     spin_lock( &kernel.stat_lock );
+
     object_core = sched_highest_load_core( (stat_t *)kernel.stat );
+
     spin_unlock( &kernel.stat_lock );
     enable_interrupts();
     // Перенос нагрузки на самый не нагруженный процессор
