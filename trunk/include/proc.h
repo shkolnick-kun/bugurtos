@@ -648,7 +648,10 @@ void _proc_stop_(proc_t * proc);
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
 void _proc_stop(proc_t * proc);
-
+/*!
+\brief \~russian "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования. \~english A low level process stop with flags set routine. For internal usage.
+*/
+void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 /*!
 \brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования. \~english A #PROC_FLG_PRE_STOP flag processing routine. For internal usage.
 */
@@ -657,8 +660,6 @@ void _proc_flag_stop( flag_t mask );
 \brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english A #PROC_FLG_PRE_STOP flag processing routine.
 */
 void proc_flag_stop( flag_t mask );
-
-void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
 \brief \~russian Инкремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter increment routine. For internal usage.

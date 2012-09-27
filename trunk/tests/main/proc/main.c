@@ -49,8 +49,9 @@ void main_proc_test( void * arg )
     test_output( test , 6 );
 
     // proc_stop test 7
-    // Must NOT stop the process! You can't stop zombie!
-    test = !proc_stop( &proc[2] );
+    // Must return 1, process is not running now!
+    proc[2].flags &= ~(PROC_FLG_MUTEX|PROC_FLG_DEAD);
+    test = proc_stop( &proc[2] );
     test_output( test , 7 );
 
 

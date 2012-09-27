@@ -85,6 +85,7 @@ void sig_init_isr( sig_t * sig )
     core_id_t i;
     SPIN_INIT( sig );
     SPIN_LOCK( sig );
+
     for( i = 0; i < (core_id_t)MAX_CORES; i++ )
     {
         xlist_init( (xlist_t *)sig->sig_list + i );
@@ -104,6 +105,7 @@ void _sig_wait_prologue( sig_t * sig )
     SPIN_LOCK( sig );
 
     proc = current_proc();
+
     SPIN_LOCK( proc );
 
     // Останавливаем процесс
@@ -127,6 +129,7 @@ void _sig_wait_prologue( sig_t * sig )
     pitem_insert( (pitem_t *)proc, (xlist_t *)sig );
 #endif //CONFIG_MP
     SPIN_UNLOCK( proc );
+
     SPIN_UNLOCK( sig );
 }
 //========================================================================================
@@ -134,10 +137,12 @@ void _sig_wait_prologue( sig_t * sig )
 static void _sig_wakeup_list_proc( proc_t * proc )
 {
     SPIN_LOCK( proc );
+
     proc->buf = ((item_t *)proc)->next;
     item_cut( (item_t *)proc );                  // Вырезать процесс из простого списка гораздо проще, чем из xlist
     proc->flags |= PROC_FLG_RUN;
     _proc_run_( proc );
+
     SPIN_UNLOCK( proc );
 }
 
@@ -148,8 +153,10 @@ void _sig_wait_epilogue( void )
     proc = current_proc();
 
     SPIN_LOCK( proc );
+
     wakeup_proc = (proc_t *)proc->buf;
     proc->buf = (void *)0;
+
     SPIN_UNLOCK( proc );
     // Надо разбудить следующий процесс в списке.
     if( wakeup_proc )
@@ -220,7 +227,9 @@ void sig_broadcast_isr( sig_t * sig )
 {
 #ifdef CONFIG_MP
     core_id_t core;
+
     SPIN_LOCK( sig );
+
     for(core = 0; core < (core_id_t)MAX_CORES; core++)
     {
         proc_t * wakeup_proc;
@@ -229,7 +238,9 @@ void sig_broadcast_isr( sig_t * sig )
         но обязательно будут, это надо учитывать при баланисировке нагрузки.
         */
         spin_lock( &kernel.stat_lock );
+
         stat_merge( (stat_t *)sig->sig_stat + core, (stat_t *)kernel.stat + core );
+
         spin_unlock( &kernel.stat_lock );
         /*
         Сцепляем список и будим его голову.
