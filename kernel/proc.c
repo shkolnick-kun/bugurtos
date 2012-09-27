@@ -371,33 +371,6 @@ void _proc_prio_control_stoped( proc_t * proc )
         ((pitem_t *)proc)->prio = proc->base_prio;
     }
 }
-
-void _proc_prio_control_running( proc_t * proc )
-{
-    prio_t new_prio;
-    if(proc->lres.index != (index_t)0)
-    {
-        prio_t locker_prio;
-        locker_prio = index_search( proc->lres.index );
-        new_prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
-    }
-    else
-    {
-        new_prio = proc->base_prio;
-    }
-    if(((pitem_t *)proc)->prio != new_prio)
-    {
-        _proc_stop_( proc );
-        ((pitem_t *)proc)->prio = new_prio;
-#ifdef CONFIG_MP
-        spin_lock( &kernel.stat_lock );
-        stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
-        spin_unlock( &kernel.stat_lock );
-#endif
-        _proc_run_( proc );
-        RESCHED_PROC( proc );
-    }
-}
 #endif
 
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))

@@ -157,16 +157,6 @@ A decrement of locked mutex counter field of a process.
 \param a a pointer to a process.
 \param b a priority of a locked mutex for highest locker protocol.
 
-\def PROC_PRIO_CONTROL_RUNNING(a)
-\brief Wrapper macro.
-
-Running process priority control.
-If highest locker protocol is used,
-then this macro computes a proc->group->prio using proc->lres field,
-else this macro does nothing.
-
-\param a a pointer to a process.
-
 \def PROC_PRIO_CONTROL_STOPED(a)
 \brief Wrapper macro.
 
@@ -184,7 +174,6 @@ else this macro does nothing.
 #define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
 #define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
 
-#define PROC_PRIO_CONTROL_RUNNING(a) _proc_prio_control_running(a)
 #define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 
 #else
@@ -193,7 +182,6 @@ else this macro does nothing.
 #define PROC_LRES_INC(a,b) _proc_lres_inc(a)
 #define PROC_LRES_DEC(a,b) _proc_lres_dec(a)
 
-#define PROC_PRIO_CONTROL_RUNNING(a)
 #define PROC_PRIO_CONTROL_STOPED(a)
 
 #endif
