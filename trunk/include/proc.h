@@ -621,29 +621,17 @@ void _proc_reset_watchdog(void);
 /*!
 \brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
 */
-void _proc_run_( proc_t * proc );
+void __proc_run( proc_t * proc );
 #else
 /*!
 \brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
 */
-#define _proc_run_(proc) pitem_insert( (pitem_t *)proc, kernel.sched.ready )
+#define __proc_run(proc) pitem_insert( (pitem_t *)proc, kernel.sched.ready )
 #endif
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
 void _proc_run( proc_t * proc );
-
-#ifdef CONFIG_MP
-/*!
-\brief \~russian Вырезка процесса из списка готовых к выполнению с обновлением статистики, для внутреннего использования. \~english A routine that cuts a process from ready process list and updates statistics.
-*/
-void _proc_stop_(proc_t * proc);
-#else
-/*!
-\brief \~russian Вырезка процесса из списка готовых к выполнению, для внутреннего использования. \~english A routine that cuts a process from ready process list.
-*/
-#define _proc_stop_(proc) pitem_cut((pitem_t *)proc)
-#endif
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */

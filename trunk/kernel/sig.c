@@ -141,7 +141,7 @@ static void _sig_wakeup_list_proc( proc_t * proc )
     proc->buf = ((item_t *)proc)->next;
     item_cut( (item_t *)proc );                  // Вырезать процесс из простого списка гораздо проще, чем из xlist
     proc->flags |= PROC_FLG_RUN;
-    _proc_run_( proc );
+    __proc_run( proc );
 
     SPIN_UNLOCK( proc );
 }

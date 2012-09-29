@@ -123,7 +123,7 @@ void proc_init_isr(
 }
 //  Функция для внутреннего использования - собственно запуск процесса
 #ifdef CONFIG_MP
-void _proc_run_( proc_t * proc )
+void __proc_run( proc_t * proc )
 {
     sched_t * proc_sched;
     proc_sched = (sched_t *)kernel.sched + proc->core_id;
@@ -145,7 +145,7 @@ void _proc_run( proc_t * proc )
     stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
     spin_unlock( &kernel.stat_lock );
 #endif
-    _proc_run_( proc );
+    __proc_run( proc );
 
     RESCHED_PROC( proc );
 }
@@ -197,7 +197,7 @@ end:
 // Функция для внутреннего использования, останов процесса
 
 #ifdef CONFIG_MP
-void _proc_stop_(proc_t * proc)
+static void __proc_stop(proc_t * proc)
 {
     spin_lock( &kernel.stat_lock );
 
@@ -215,13 +215,25 @@ void _proc_stop_(proc_t * proc)
         spin_unlock( xlist_lock );
     }
 }
+#else // CONFIG_MP
+
+#define __proc_stop(proc) pitem_cut((pitem_t *)proc)
+
 #endif // CONFIG_MP
 
 void _proc_stop(proc_t * proc)
 {
     proc->flags &= ~PROC_FLG_RUN;
-    _proc_stop_( proc );
+    __proc_stop( proc );
     RESCHED_PROC( proc );
+}
+
+static void _proc_stop_ensure( proc_t * proc )
+{
+    if( proc->flags & PROC_FLG_RUN )
+    {
+        _proc_stop( proc );
+    }
 }
 
 void _proc_stop_flags_set( proc_t * proc, flag_t mask )
@@ -237,14 +249,6 @@ void _proc_stop_flags_set( proc_t * proc, flag_t mask )
     {
         // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
         proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
-    }
-}
-
-static void _proc_stop_ensure( proc_t * proc )
-{
-    if( proc->flags & PROC_FLG_RUN )
-    {
-        _proc_stop( proc );
     }
 }
 
