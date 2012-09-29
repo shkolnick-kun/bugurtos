@@ -100,6 +100,8 @@ int main(void)
     proc_init_isr( &proc[4], main_sig,       SVH4, RSH4, 0, &proc_stack[4][PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
     proc_init_isr( &proc[5], main_sig,       SVH5, RSH5, 0, &proc_stack[5][PROC_STACK_SIZE-1], 3,      2, 0 ARG_END );
 
+    sig_init_isr( &test_sig );
+
     proc_run_isr( &proc[0] );
 
     start_bugurt();
