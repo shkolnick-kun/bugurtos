@@ -4,7 +4,6 @@ proc_t proc[6];
 stack_t proc_stack[6][PROC_STACK_SIZE];
 
 sem_t test_sem;
-bool_t test_var_sem;
 
 void main_with_return( void * arg )
 {
@@ -14,8 +13,7 @@ void main_with_return( void * arg )
 
     //sem_try_lock test 1
     //test_output( (test_var_sig == 1), 1 );
-    test_var_sem = sem_try_lock( &test_sem );
-    test_output( test_var_sem, 1 );
+    test_output( sem_try_lock( &test_sem ), 1 );
     //sem_try_lock test 2
     test_output( (test_sem.counter == 0), 2 );
     //sem_lock test 3
@@ -30,26 +28,21 @@ void main_with_return( void * arg )
     test_output( !(proc[2].flags & PROC_FLG_RUN), 5 );
     //sem_lock test 6
     test_output( (proc[2].parent.list == &test_sem.parent), 6 );
-
-    if( test_var_sem )
-    {
-        //sem_try_lock test 7
-        // must not lock
-        test_output( !sem_try_lock( &test_sem ), 7 );
-        //sem_try_lock test 8
-        test_output( (test_sem.counter == 0), 8 );
-        //sem_unlock test 9
-        // proc[2] must get semaphore and self stop
-        sem_unlock( &test_sem );
-        wait_time( 2 );
-        test_output( (test_sem.counter == 0), 9 );
-        //sem_unlock test 10
-        // proc[2] must unlock semaphore and self stop
-        proc_run( &proc[2] );
-        wait_time( 2 );
-        test_output( (test_sem.counter == 1), 10 );
-    }
-
+    //sem_try_lock test 7
+    // must not lock
+    test_output( !sem_try_lock( &test_sem ), 7 );
+    //sem_try_lock test 8
+    test_output( (test_sem.counter == 0), 8 );
+    //sem_unlock test 9
+    // proc[2] must get semaphore and self stop
+    sem_unlock( &test_sem );
+    wait_time( 2 );
+    test_output( (test_sem.counter == 0), 9 );
+    //sem_unlock test 10
+    // proc[2] must unlock semaphore and self stop
+    proc_run( &proc[2] );
+    wait_time( 2 );
+    test_output( (test_sem.counter == 1), 10 );
     // sem_lock test 11
     // proc[2] must lock a test_sem and self ctop
     proc_run( &proc[2] );

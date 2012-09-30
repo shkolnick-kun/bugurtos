@@ -4,7 +4,6 @@ proc_t proc[6];
 stack_t proc_stack[6][PROC_STACK_SIZE];
 
 mutex_t test_mutex;
-bool_t test_var_mutex;
 
 void main_with_return( void * arg )
 {
@@ -13,9 +12,7 @@ void main_with_return( void * arg )
     test_start();
 
     //mutex_try_lock test 1
-    //test_output( (test_var_sig == 1), 1 );
-    test_var_mutex = mutex_try_lock( &test_mutex );
-    test_output( test_var_mutex, 1 );
+    test_output( mutex_try_lock( &test_mutex ), 1 );
     //mutex_try_lock test 2
     test_output( (test_mutex.free == 0), 2 );
     //mutex_try_lock test 3
@@ -32,31 +29,27 @@ void main_with_return( void * arg )
     test_output( !(proc[2].flags & PROC_FLG_RUN), 6 );
     //mutex_lock test 7
     test_output( (proc[2].parent.list == &test_mutex.mutex_list), 7 );
-
-    if( test_var_mutex )
-    {
-        //mutex_try_lock test 8
-        // must not lock
-        test_output( !mutex_try_lock( &test_mutex ), 8 );
-        //mutex_try_lock test 9
-        test_output( (test_mutex.free == 0), 9 );
-        //mutex_unlock test 10
-        // proc[2] must get mutex and self stop
-        mutex_unlock( &test_mutex );
-        test_output( (proc[0].parent.prio == 1), 10 );
-        //mutex_unlock test 11
-        wait_time( 2 );
-        test_output( (test_mutex.free == 0), 11 );
-        //mutex_lock test 12
-        test_output( (proc[2].parent.prio == 1), 12 );
-        //mutex_unlock test 13
-        // proc[2] must unlock mutex and self stop
-        proc_run( &proc[2] );
-        wait_time( 2 );
-        test_output( (test_mutex.free == 1), 13 );
-        //mutex_lock test 14
-        test_output( (proc[2].parent.prio == 2), 14 );
-    }
+    //mutex_try_lock test 8
+    // must not lock
+    test_output( !mutex_try_lock( &test_mutex ), 8 );
+    //mutex_try_lock test 9
+    test_output( (test_mutex.free == 0), 9 );
+    //mutex_unlock test 10
+    // proc[2] must get mutex and self stop
+    mutex_unlock( &test_mutex );
+    test_output( (proc[0].parent.prio == 1), 10 );
+    //mutex_unlock test 11
+    wait_time( 2 );
+    test_output( (test_mutex.free == 0), 11 );
+    //mutex_lock test 12
+    test_output( (proc[2].parent.prio == 1), 12 );
+    //mutex_unlock test 13
+    // proc[2] must unlock mutex and self stop
+    proc_run( &proc[2] );
+    wait_time( 2 );
+    test_output( (test_mutex.free == 1), 13 );
+    //mutex_lock test 14
+    test_output( (proc[2].parent.prio == 2), 14 );
     // mutex_lock test 15
     // proc[2] must lock a test_mutex and self ctop
     proc_run( &proc[2] );

@@ -4,7 +4,7 @@
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="6740" topLine="105" />
 	</File>
-	<File name="../../../../main/sem/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="24" topLine="0" />
+	<File name="../../../../main/sem/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="848" topLine="93" />
 	</File>
 </CodeBlocks_layout_file>
