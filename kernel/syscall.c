@@ -85,6 +85,7 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_proc_restart,
     scall_proc_stop,
     scall_proc_self_stop,
+    scall_proc_yeld,
     scall_proc_terminate,
     scall_proc_flag_stop,
     scall_proc_reset_watchdog,
@@ -107,7 +108,8 @@ SYSCALL_TABLE( syscall_routine[] ) =
     // IPC
     scall_ipc_wait,
     scall_ipc_send,
-    scall_ipc_exchange
+    scall_ipc_exchange,
+    scall_user
 };
 
 #ifdef CONFIG_MP
@@ -239,6 +241,19 @@ void scall_proc_self_stop( void * arg )
 void proc_self_stop(void)
 {
     syscall_bugurt( SYSCALL_PROC_SELF_STOP, (void *)1 );
+}
+/**********************************************************************************************
+                                      SYSCALL_PROC_YELD
+**********************************************************************************************/
+void scall_proc_yeld( void * arg )
+{
+    *((index_t *)arg) = _proc_yeld();
+}
+index_t proc_yeld(void)
+{
+    volatile index_t ret;
+    syscall_bugurt( SYSCALL_PROC_YELD, (void *)&ret );
+    return ret;
 }
 /**********************************************************************************************
                                     SYSCALL_PROC_TERMINATE
@@ -521,4 +536,10 @@ bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
     syscall_bugurt( SYSCALL_IPC_EXCHANGE, (void *)&arg );
     return arg.send.ret;
 }
-
+/**********************************************************************************************
+                                       SYSCALL_USER
+**********************************************************************************************/
+void scall_user(void * arg)
+{
+    ((void (*)(void))arg)();
+}
