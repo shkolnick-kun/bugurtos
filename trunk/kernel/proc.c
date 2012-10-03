@@ -309,6 +309,47 @@ void _proc_self_stop(void)
     SPIN_UNLOCK( proc );
 }
 
+index_t _proc_yeld( void )
+{
+    index_t ret;
+    sched_t * sched;
+    proc_t * proc;
+
+    sched = _SCHED_INIT();
+    proc = sched->current_proc;
+
+    SPIN_LOCK( sched );
+    ret = sched->expired->index;
+    SPIN_UNLOCK( sched );
+
+    SPIN_LOCK( proc );
+
+    if( proc->flags & PROC_FLG_RUN )
+    {
+        SPIN_LOCK( sched );
+
+        if( proc->flags & PROC_FLG_RT )
+        {
+            xlist_switch( ((pitem_t *)proc)->list, ((pitem_t *)proc)->prio );
+        }
+        else
+        {
+            pitem_cut( (pitem_t *)proc );
+            pitem_insert( (pitem_t *)proc, sched->expired );
+        }
+        SPIN_UNLOCK( sched );
+    }
+    SPIN_UNLOCK( proc );
+
+    SPIN_LOCK( sched );
+    ret |= sched->ready->index;
+    SPIN_UNLOCK( sched );
+
+    RESCHED_PROC( proc );
+
+    return ret;
+}
+
 void _proc_terminate( proc_t * proc )
 {
 

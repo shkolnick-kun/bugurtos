@@ -90,7 +90,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_PROC_RESTART                    (SYSCALL_PROC_RUN + (syscall_t)(1))             /*!< \~russian Перезапуск процесса. \~english A Process restart. */
 #define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))         /*!< \~russian Останов процесса. \~english A process stop. */
 #define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))            /*!< \~russian Самоостанов процесса. \~english A process self stop. */
-#define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))       /*!< \~russian Завершение работы процесса. \~english A process termination. */
+#define SYSCALL_PROC_YELD                       (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))       /*!< \~russian Передача управления другому процессу. \~english Transfer control to another process. */
+#define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_YELD + (syscall_t)(1))            /*!< \~russian Завершение работы процесса. \~english A process termination. */
 #define SYSCALL_PROC_FLAG_STOP                  (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english #PROC_FLG_PRE_STOP flag processing. */
 #define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FLAG_STOP + (syscall_t)(1))       /*!< \~russian Сброс watchdog процесса реального времени. \~english A real time process watchdog reset. */
 
@@ -113,6 +114,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_IPC_WAIT                        (SYSCALL_MUTEX_UNLOCK + (syscall_t)(1))         /*!< \~russian Ожидание передачи данных. \~english Wait for data (IPC). */
 #define SYSCALL_IPC_SEND                        (SYSCALL_IPC_WAIT + (syscall_t)(1))             /*!< \~russian Передача данных. \~english Send data via IPC. */
 #define SYSCALL_IPC_EXCHANGE                    (SYSCALL_IPC_SEND + (syscall_t)(1))             /*!< \~russian Обмен данными. \~english Exchange data via IPC. */
+
+#define SYSCALL_USER                            (SYSCALL_IPC_EXCHANGE + (syscall_t)(1))         /*!< \~russian Пользовательский системный вызов. \~english A user syscall. */
 
 /*!
 \~russian
@@ -279,6 +282,24 @@ This function stops calling process.
 \param arg Not used.
 */
 void scall_proc_self_stop( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_YELD.
+
+Передает управление следующему процессу.
+
+\param arg не используется.
+\~english
+\brief
+A #SYSCALL_PROC_YELD handler.
+
+Transfers control to another process.
+
+\param arg Not used.
+*/
+void scall_proc_yeld( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -667,4 +688,24 @@ This function calls #_ipc_exchange.
 \param arg A #ipc_exchange_arg_t pointer.
 */
 void scall_ipc_exchange( void * arg );
+
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_USER.
+
+Вызывает пользовательскую функцию.
+
+\param arg указатель на функцию пользователя.
+\warning Осторожно! Параметр не проверяется!
+\~english
+\brief
+A #SYSCALL_USER handler.
+
+Calls user function.
+
+\param arg A pointer to a callee.
+\warning Be carefull! Callee pointer is not checked before call!
+*/
+void scall_user(void * arg);
 #endif // _SYSCALL_H_

@@ -185,6 +185,7 @@ else this macro does nothing.
 #define PROC_PRIO_CONTROL_STOPED(a)
 
 #endif
+
 //Процесс
 typedef struct _proc_t proc_t;
 // Свойства
@@ -589,6 +590,23 @@ void proc_self_stop(void);
 This function stops caller process.
 */
 void _proc_self_stop(void);
+
+/*!
+\~russian
+\brief Передача управления следующему процессу (для внутреннего использования).
+
+Передает управление следующему процессу, если такой процесс есть.
+
+\return 0 если нет других выполняющихся процессов, не 0 - если есть.
+\~english
+\brief A process self stop routine (for internal usage only!).
+
+If there is another running process, this function passes control to it.
+
+\return Zero if there are no other running processes, none zero if there is at least one.
+*/
+index_t _proc_yeld( void );
+
 /*!
 \~russian
 \brief Сброс watchdog для процесса реального времени.
