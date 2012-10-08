@@ -93,12 +93,23 @@ void main_proc_test( void * arg )
     test = !( proc[5].flags & PROC_FLG_RUN );
     test_output( test , 13 );
 
-    // proc_reset_watchdog test 14
+    // proc_yeld test 14
+    test = 0;
+    proc_run( &proc[5] );
+    wait_time(10);
+    test_output( test , 14 );
+
+    // proc_reset_watchdog test 15
     test = 0;
     proc[5].flags &= ~PROC_FLG_RT;
     proc_run( &proc[5] );
     wait_time(10); // let proc[5] test proc_reset_watchdog!
-    test_output( test , 14 );
+    test_output( test , 15 );
+
+    // proc_reset_watchdog test 16
+    proc_run( &proc[5] );
+    wait_time(10); // let proc[5] test proc_reset_watchdog!
+    test_output( test , 16 );
 
     tests_end();
 }
@@ -121,10 +132,27 @@ void main_wd_ss( void * arg )
     proc_reset_watchdog();
     test = 1; // If wathdog has been reset then test must pass.
     proc_self_stop();
+
+    wait_time(1);
+    proc_yeld();
+    wait_time(1);
+    proc_yeld();
+    wait_time(1);
+    proc_yeld();
+    wait_time(1);
+    proc_yeld();
+    test = 1; // If wathdog has been reset then test must pass.
+    proc_self_stop();
+
     // proc_reset_watchdog test 14
     wait_time(1);
     proc_reset_watchdog();
     test = (proc[5].timer != proc[5].time_quant);
+    proc_self_stop();
+
+    wait_time(1);
+    proc_yeld();
+    test = (proc[5].timer == proc[5].time_quant);
 }
 
 void main_fs( void * arg )
@@ -141,9 +169,9 @@ void main_lb( void * arg )
 {
     while(1)
     {
-        wait_time(10);
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
+        proc_yeld();
     }
 }
 
@@ -151,9 +179,9 @@ void idle_main( void * arg )
 {
     while(1)
     {
-        wait_time(10);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
+        proc_yeld();
     }
 }
 

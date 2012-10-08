@@ -47,7 +47,6 @@ void idle_main( void * arg )
         SCHED_IDLE_LOAD_BALANCER();
     }
 }
-
 int main(void)
 {
     /**************************************************

@@ -339,13 +339,14 @@ index_t _proc_yeld( void )
         }
         SPIN_UNLOCK( sched );
     }
+    proc->timer = proc->time_quant; // reset timer
+    RESCHED_PROC( proc );
+
     SPIN_UNLOCK( proc );
 
     SPIN_LOCK( sched );
     ret |= sched->ready->index;
     SPIN_UNLOCK( sched );
-
-    RESCHED_PROC( proc );
 
     return ret;
 }
