@@ -599,13 +599,30 @@ void _proc_self_stop(void);
 
 \return 0 если нет других выполняющихся процессов, не 0 - если есть.
 \~english
-\brief A process self stop routine (for internal usage only!).
+\brief Pass control to next ready process (for internal usage only!).
 
 If there is another running process, this function passes control to it.
 
 \return Zero if there are no other running processes, none zero if there is at least one.
 */
+
 index_t _proc_yeld( void );
+/*!
+\~russian
+\brief Передача управления следующему процессу.
+
+Передает управление следующему процессу, если такой процесс есть.
+
+\return 0 если нет других выполняющихся процессов, не 0 - если есть.
+\~english
+\brief Pass control to next ready process.
+
+If there is another running process, this function passes control to it.
+
+\return Zero if there are no other running processes, none zero if there is at least one.
+*/
+index_t proc_yeld( void );
+
 
 /*!
 \~russian
