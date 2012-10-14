@@ -14,13 +14,13 @@ void main_proc_test( void * arg )
     // so it's not necessary to disable interrupts or to spin_lock something.
 
     // proc_run test 1
-    proc[2].flags |= PROC_FLG_DEAD;
+    proc[2].flags |= PROC_STATE_DEAD;
     // Must NOT run the process.
     test = !proc_run( &proc[2] );
     test_output( test , 1 );
 
     // proc_run test 2
-    proc[2].flags &= ~PROC_FLG_DEAD;
+    proc[2].flags &= PROC_STATE_CLEAR_MASK;
     proc[2].flags |= PROC_FLG_MUTEX;
     // Must run the process
     test = proc_run( &proc[2] );
@@ -29,13 +29,13 @@ void main_proc_test( void * arg )
     // proc_terminate test 3
     wait_time( 10 );
     // proc[2] has higher priority, so it must BE DEAD now!
-    test = !!(proc[2].flags & PROC_FLG_DEAD);
+    test = (bool_t)( ( proc[2].flags & PROC_STATE_MASK ) == PROC_STATE_DEAD );
     test_output( test , 3 );
 
     // proc_terminate test 4
     proc_run( &proc[3] );
     wait_time( 10 );
-    test = (bool_t)(!(proc[3].flags & PROC_FLG_DEAD)) && (!!(proc[3].flags & PROC_FLG_END));
+    test = (bool_t)( ( proc[3].flags & PROC_STATE_MASK ) == PROC_STATE_END );
     test_output( test , 4 );
 
     // proc_restart test 5
@@ -50,7 +50,8 @@ void main_proc_test( void * arg )
 
     // proc_stop test 7
     // Must return 1, process is not running now!
-    proc[2].flags &= ~(PROC_FLG_MUTEX|PROC_FLG_DEAD);
+    proc[2].flags &= ~PROC_FLG_MUTEX;
+    proc[2].flags &= PROC_STATE_CLEAR_MASK;
     test = proc_stop( &proc[2] );
     test_output( test , 7 );
 
@@ -60,7 +61,7 @@ void main_proc_test( void * arg )
     // proc_flag_stop test 8
     // Must NOT stop the process!
     wait_time(2); // let proc[4] to call proc_flag_stop!
-    test = !!( proc[4].flags & PROC_FLG_RUN );
+    test = (bool_t)PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 8 );
 
     // proc_stop test 9
@@ -79,7 +80,7 @@ void main_proc_test( void * arg )
     // proc_flag_stop test 11
     // Must stop the process!
     wait_time(20); // let proc[4] to call proc_flag_stop!
-    test = !( proc[4].flags & PROC_FLG_RUN );
+    test = !PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 11 );
 
     // proc_reset_watchdog test 12
@@ -90,7 +91,7 @@ void main_proc_test( void * arg )
 
     // proc_self_stop test 13
     wait_time(10); // let proc[4] to call proc_self_stop!
-    test = !( proc[5].flags & PROC_FLG_RUN );
+    test = !PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 13 );
 
     // proc_yeld test 14

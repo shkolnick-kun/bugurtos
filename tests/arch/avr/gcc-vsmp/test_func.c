@@ -24,7 +24,8 @@ void init_hardware(void)
 void sched_fix_proc_2(void)
 {
     cli();
-    proc[2].flags &= ~(PROC_FLG_RT|PROC_FLG_WD_STOP);
+    proc[2].flags &= ~PROC_FLG_RT;
+    proc[2].flags &= PROC_STATE_CLEAR_MASK;
     sei();
 }
 

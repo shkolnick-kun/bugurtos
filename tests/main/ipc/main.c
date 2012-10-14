@@ -22,7 +22,7 @@ void main_proc_test( void * arg )
     // ipc_wait test 3
     proc_run( &proc[2] );
     wait_time( 10 );
-    test_output( (proc[2].flags & PROC_FLG_IPCW), 3 );
+    test_output( PROC_IPC_TEST((&proc[2])), 3 );
 
     // ipc_send test 4
     test = 0;

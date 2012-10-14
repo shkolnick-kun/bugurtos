@@ -138,7 +138,7 @@ void __proc_run( proc_t * proc )
 
 void _proc_run( proc_t * proc )
 {
-    proc->flags |= PROC_FLG_RUN;
+    proc->flags |= PROC_STATE_READY;
 #ifdef CONFIG_MP
     spin_lock( &kernel.stat_lock );
     proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
@@ -156,7 +156,7 @@ bool_t proc_run_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_END|PROC_FLG_DEAD|PROC_FLG_WD_STOP) )
+    if( (proc->flags & PROC_STATE_MASK) != PROC_STATE_STOPED )
     {
         ret = (bool_t)0;
         goto end;
@@ -175,7 +175,7 @@ bool_t proc_restart_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & (PROC_FLG_RUN|PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_DEAD) )
+    if( proc->flags & PROC_STATE_RESTART_MASK )
     {
         ret = (bool_t)0;
         goto end;
@@ -223,14 +223,14 @@ static void __proc_stop(proc_t * proc)
 
 void _proc_stop(proc_t * proc)
 {
-    proc->flags &= ~PROC_FLG_RUN;
+    proc->flags &= PROC_STATE_CLEAR_MASK;
     __proc_stop( proc );
     RESCHED_PROC( proc );
 }
 
 static void _proc_stop_ensure( proc_t * proc )
 {
-    if( proc->flags & PROC_FLG_RUN )
+    if( PROC_RUN_TEST( proc ) )
     {
         _proc_stop( proc );
     }
@@ -239,7 +239,7 @@ static void _proc_stop_ensure( proc_t * proc )
 void _proc_stop_flags_set( proc_t * proc, flag_t mask )
 {
     // Проверяем, не был ли процесс остановлен где-нибудь еще.
-    if( proc->flags & PROC_FLG_RUN )
+    if( PROC_RUN_TEST( proc ) )
     {
         // Не был, можно и нужно остановить.
         _proc_stop( proc );
@@ -259,10 +259,8 @@ bool_t proc_stop_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
     //Проверка флагов
-    //В случчае PROC_FLG_WAIT будем обрабатывать PROC_FLG_PRE_END на выходе из sig_wait.
     //В случае PROC_FLG_MUTEX или PROC_FLG_SEM будем обрабатывать PROC_FLG_PRE_STOP при освобождении общего ресурса.
-    //В случае ожидания IPC флаг будем обрабатывать при попытке передать данные или указатель целевому процессу.
-    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_QUEUE|PROC_FLG_WAIT|PROC_FLG_IPCW|PROC_FLG_PRE_STOP) )proc->flags |= PROC_FLG_PRE_STOP;
+    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_PRE_STOP|PROC_STATE_WAIT_MASK) )proc->flags |= PROC_FLG_PRE_STOP;
     else
     {
         _proc_stop_ensure( proc );
@@ -291,7 +289,7 @@ void _proc_flag_stop( flag_t mask )
         то мы остановим процесс
         */
         _proc_stop_ensure( proc );
-        proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
+        proc->flags &= ~PROC_FLG_PRE_STOP;
     }
     proc->flags &= ~mask;
 
@@ -324,7 +322,7 @@ index_t _proc_yeld( void )
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & PROC_FLG_RUN )
+    if( PROC_RUN_TEST( proc ) )
     {
         SPIN_LOCK( sched );
 
@@ -359,10 +357,10 @@ void _proc_terminate( proc_t * proc )
     _proc_stop_ensure( proc );
     // Обрабатываем флаги
     // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
-    if( proc->flags & PROC_FLG_LOCK_MASK ) proc->flags |= PROC_FLG_DEAD;
+    if( proc->flags & PROC_FLG_LOCK_MASK ) proc->flags |= PROC_STATE_DEAD;
     // В противном случае - просто завершаем процесс
-    else proc->flags |= PROC_FLG_END;
-    proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
+    else proc->flags |= PROC_STATE_END;
+    proc->flags &= ~PROC_FLG_PRE_STOP;
 
     SPIN_UNLOCK( proc );
 }
@@ -467,7 +465,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
     disable_interrupts();
     SPIN_LOCK( proc );
     // Пока захватывалась блокировка процесса, его могли остановить, подстраховываемся.
-    if( proc->flags & PROC_FLG_RUN )
+    if( PROC_RUN_TEST( proc ) )
     {
         // Остановили выполнение процесса на старом процессоре
         SPIN_LOCK( sched );

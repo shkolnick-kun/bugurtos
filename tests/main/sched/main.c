@@ -12,7 +12,7 @@ void main_with_return( void * arg )
     proc_run( &proc[5] );
 
     wait_time(100);
-    // Reset proc[2] PROC_FLG_RT and PROC_FLG_WD_STOP before second run.
+    // Reset proc[2] PROC_FLG_RT and PROC_STATE_WD_STOP before second run.
     SCHED_FIX_PROC_2();
     proc_run( &proc[2] );
 

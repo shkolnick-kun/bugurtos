@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="4">
-		<Cursor position="7012" topLine="86" />
+		<Cursor position="7205" topLine="67" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="75" />
@@ -19,8 +19,8 @@
 	<File name="../../../../../include/mutex.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="3">
-		<Cursor position="33109" topLine="617" />
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="3">
+		<Cursor position="19266" topLine="367" />
 	</File>
 	<File name="../../../../../include/sched.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
@@ -28,43 +28,40 @@
 	<File name="../../../../../include/syscall.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../include/xlist.h" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
 	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="8099" topLine="105" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6121" topLine="68" />
+		<Cursor position="6121" topLine="94" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="5">
-		<Cursor position="8514" topLine="155" />
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="5">
+		<Cursor position="8514" topLine="177" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="4">
-		<Cursor position="12213" topLine="268" />
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="4">
+		<Cursor position="7925" topLine="133" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="0">
-		<Cursor position="17685" topLine="279" />
+		<Cursor position="21585" topLine="331" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="3">
-		<Cursor position="6530" topLine="87" />
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="3">
+		<Cursor position="6530" topLine="148" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="4">
-		<Cursor position="12537" topLine="225" />
+		<Cursor position="8703" topLine="146" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="2">
-		<Cursor position="12775" topLine="333" />
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
+		<Cursor position="7315" topLine="129" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="1">
-		<Cursor position="435" topLine="0" />
+	<File name="../config.h" open="1" top="0" tabpos="1">
+		<Cursor position="3111" topLine="93" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="2">
-		<Cursor position="3151" topLine="69" />
+		<Cursor position="444" topLine="69" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
 		<Cursor position="1337" topLine="39" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="343" topLine="16" />
+		<Cursor position="557" topLine="7" />
 	</File>
 </CodeBlocks_layout_file>

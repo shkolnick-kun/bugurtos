@@ -24,9 +24,9 @@ void main_with_return( void * arg )
 
     // proc[2] must wait on test_mutex.
     //mutex_lock test 5
-    test_output( ((PROC_FLG_MUTEX|PROC_FLG_QUEUE) == (proc[2].flags & (PROC_FLG_MUTEX|PROC_FLG_QUEUE) ) ), 5 );
+    test_output( ((PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[2].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK) ) ), 5 );
     //mutex_lock test 6
-    test_output( !(proc[2].flags & PROC_FLG_RUN), 6 );
+    test_output( !PROC_RUN_TEST( (&proc[2]) ), 6 );
     //mutex_lock test 7
     test_output( (proc[2].parent.list == &test_mutex.mutex_list), 7 );
     //mutex_try_lock test 8
@@ -60,7 +60,7 @@ void main_with_return( void * arg )
     //mutex_lock test 17
     test_output( (PROC_FLG_MUTEX == ( proc[2].flags & PROC_FLG_MUTEX ) ), 17 );
     //mutex_lock test 18
-    test_output( !(proc[2].flags & PROC_FLG_QUEUE), 18 );
+    test_output( (proc[2].flags & PROC_STATE_MASK) != PROC_STATE_W_MUT, 18 );
 
     proc_run( &proc[2] );
 
