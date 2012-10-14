@@ -156,6 +156,7 @@ void sched_init(sched_t * sched, proc_t * idle)
     sched->expired = (xlist_t *)sched->plst + 1;
     xlist_init( sched->expired );
     pitem_insert( (pitem_t *)idle, sched->ready );
+    idle->flags = PROC_STATE_RUNNING;
     sched->current_proc = idle;
     sched->nested_crit_sec = (count_t)0;//вообще это выполняется при запрещенных прерываниях, но не известно, на этом ли процессоре
 #ifdef CONFIG_MP
@@ -179,7 +180,12 @@ static void _sched_switch_current( sched_t * sched, proc_t ** current_proc )
     // чтобы процессы на других процессорах не прочитали неизвестно что.
     sched->current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
     *current_proc = sched->current_proc;
-
+    /***************************************************************************
+    Если процесс был в состоянии READY, то он перейдет в состояние RUNNING,
+    а если в состоянии W_READY, то он перейдет в состояние W_RUNNING!!!
+    ***************************************************************************/
+    (*current_proc)->flags &= PROC_STATE_CLEAR_RUN_MASK;
+    (*current_proc)->flags |= PROC_STATE_RUNNING;
     SPIN_UNLOCK( sched );
 }
 /******************************************************************************************
@@ -210,6 +216,11 @@ void sched_schedule(void)
     // Проверяем, что процесс находится в списке ready
     if( (xlist_t *)((pitem_t *)current_proc)->list == sched->ready )
     {
+        /***************************************************************************
+        Если процесс был в состоянии RUNNING, то он перейдет в состояние STOPED,
+        а если в состоянии W_RUNNING, то он перейдет в состояние W_MUT!!!
+        ***************************************************************************/
+        current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
         // Переключаем cписок на следующий за текущим процесс
         SPIN_LOCK( sched );
 
@@ -217,7 +228,15 @@ void sched_schedule(void)
 
         SPIN_UNLOCK( sched );
         //Проверяем, не истек ли квант времени процесса
-        if( current_proc->timer > (timer_t)1 )current_proc->timer--;// Не истек, уменьшаем таймер
+        if( current_proc->timer > (timer_t)1 )
+        {
+            current_proc->timer--;// Не истек, уменьшаем таймер
+            /**********************************************************************
+            Если процесс был в состоянии STOPED, то он перейдет в состояние READY,
+            а если в состоянии W_MUT, то он перейдет в состояние W_READY!!!
+            **********************************************************************/
+            current_proc->flags |= PROC_STATE_READY;
+        }
         else
         {
             flag_t flags;
@@ -276,6 +295,11 @@ void sched_schedule(void)
 
 #endif // CONFIG_MP CONFIG_USE_ALB
                 current_proc->timer = current_proc->time_quant; // Сбросили таймер!
+                /**********************************************************************
+                Если процесс был в состоянии STOPED, то он перейдет в состояние READY,
+                а если в состоянии W_MUT, то он перейдет в состояние W_READY!!!
+                **********************************************************************/
+                current_proc->flags |= PROC_STATE_READY;
             }
             else
             {
@@ -301,8 +325,37 @@ void sched_schedule(void)
                 spin_unlock( &kernel.stat_lock );
 #endif // CONFIG_MP
                 ((pitem_t *)current_proc)->list = (xlist_t *)0;// Просто вырезали из списка, как в pitem_cut
-                current_proc->flags |= PROC_FLG_WD_STOP;//Остановлен по WD
-                current_proc->flags &= ~PROC_FLG_RUN;
+#ifdef CONFIG_HARD_RT
+                /**********************************************************************
+                Если не удерживает общие ресурсы, то он перейдет в состояние W_WD_STOPED,
+                иначе перейдет в состояние DEAD/W_DEAD.
+                **********************************************************************/
+                if( (flags & PROC_FLG_LOCK_MASK) == (flag_t)0 )
+                {
+                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
+                }
+                else
+                {
+                    // переход в состояние DEAD/W_DEAD
+                    current_proc->flags |= PROC_STATE_DEAD;
+                }
+#else // CONFIG_HARD_RT
+                /**********************************************************************
+                В этой ветке #ifdef CONFIG_HARD_RT, сюда может попасть только процесс
+                реального времени, не удерживающий общие ресурсы.
+
+                Если он находится в состоянии W_MUT, то он перейдет в состояние W_WD_STOPED,
+                иначе он перейдет в состояние WD_STOPED.
+                **********************************************************************/
+                if( flags & PROC_STATE_WAIT_MASK )
+                {
+                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_W_WD_STOPED);
+                }
+                else
+                {
+                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
+                }
+#endif // CONFIG_HARD_RT
             }
         }
     }
@@ -330,6 +383,12 @@ void sched_reschedule(void)
     SPIN_LOCK( current_proc );
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
+
+    if( PROC_RUN_TEST( current_proc ) )
+    {
+        current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
+        current_proc->flags |= PROC_STATE_READY;
+    }
 
     SPIN_UNLOCK( current_proc );
 

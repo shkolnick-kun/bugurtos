@@ -109,7 +109,7 @@ bool_t _sem_lock( sem_t * sem )
     }
     else
     {
-        proc->flags |= PROC_FLG_QUEUE;
+        proc->flags |= PROC_STATE_W_SEM;
         pitem_insert( (pitem_t *)proc, (xlist_t *)sem );
     }
     SPIN_UNLOCK( proc );
@@ -131,7 +131,7 @@ bool_t _sem_try_lock( sem_t * sem )
         // Выставляем флаг захватат семафора
         SPIN_LOCK( proc );
 
-        if( proc->flags & PROC_FLG_RUN )
+        if( PROC_RUN_TEST( proc ) )
         {
             proc->flags |= PROC_FLG_SEM;
         }
@@ -162,7 +162,7 @@ void sem_unlock_isr( sem_t * sem )
     SPIN_LOCK( proc );
 
     pitem_cut( (pitem_t *)proc );
-    proc->flags &= ~PROC_FLG_QUEUE;
+    proc->flags &= PROC_STATE_CLEAR_MASK;
     _proc_run( proc );
 
     SPIN_UNLOCK( proc );

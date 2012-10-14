@@ -23,9 +23,9 @@ void main_with_return( void * arg )
 
     // proc[2] must wait on test_sem.
     //sem_lock test 4
-    test_output( ((PROC_FLG_SEM|PROC_FLG_QUEUE) == (proc[2].flags & (PROC_FLG_SEM|PROC_FLG_QUEUE) ) ), 4 );
+    test_output( ((PROC_FLG_SEM|PROC_STATE_W_SEM) == (proc[2].flags & (PROC_FLG_SEM|PROC_STATE_MASK) ) ), 4 );
     //sem_lock test 5
-    test_output( !(proc[2].flags & PROC_FLG_RUN), 5 );
+    test_output( !PROC_RUN_TEST( (&proc[2]) ), 5 );
     //sem_lock test 6
     test_output( (proc[2].parent.list == &test_sem.parent), 6 );
     //sem_try_lock test 7
@@ -51,7 +51,7 @@ void main_with_return( void * arg )
     //sem_lock test 11
     test_output( (PROC_FLG_SEM == ( proc[2].flags & PROC_FLG_SEM ) ), 11 );
     //sem_lock test 12
-    test_output( !(proc[2].flags & PROC_FLG_QUEUE), 12 );
+    test_output( (proc[2].flags & PROC_STATE_MASK) != PROC_STATE_W_SEM, 12 );
 
     proc_run( &proc[2] );
 

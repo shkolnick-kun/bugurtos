@@ -84,7 +84,7 @@ void _ipc_wait( void * ipc_pointer )
 
     SPIN_LOCK( proc );
     // Останавливаем процесс
-    _proc_stop_flags_set( proc, PROC_FLG_IPCW );
+    _proc_stop_flags_set( proc, PROC_STATE_W_IPC );
     proc->buf = ipc_pointer;
 
     SPIN_UNLOCK( proc );
@@ -96,9 +96,9 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & PROC_FLG_IPCW )
+    if( PROC_IPC_TEST( proc ) )
     {
-        proc->flags &= ~PROC_FLG_IPCW;
+        proc->flags &= PROC_STATE_CLEAR_MASK;
         ///Обработка флага останова целевого процесса
         if(  PROC_PRE_STOP_TEST(proc)  )
         {
@@ -108,7 +108,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
             то мы не будем возобновлять его работу
             и передавать ему информацию.
             */
-            proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
+            proc->flags &= ~PROC_FLG_PRE_STOP;
             goto end;
         }
         ret = (bool_t)1; // информация будет передана
@@ -126,9 +126,9 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & PROC_FLG_IPCW )
+    if( PROC_IPC_TEST( proc ) )
     {
-        proc->flags &= ~PROC_FLG_IPCW;
+        proc->flags &= PROC_STATE_CLEAR_MASK;
         ///Обработка флага останова целевого процесса
         if(  PROC_PRE_STOP_TEST(proc)  )
         {
@@ -138,7 +138,7 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
             то мы не будем возобновлять его работу
             и передавать ему информацию.
             */
-            proc->flags &= ~PROC_FLG_PRE_STOP_MASK;
+            proc->flags &= ~PROC_FLG_PRE_STOP;
             goto end;
         }
         ret = (bool_t)1; // информация будет передана

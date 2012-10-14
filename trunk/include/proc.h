@@ -259,18 +259,7 @@ struct _proc_t
 
 This flag enables real time process scheduling policy.
 */
-#define PROC_FLG_RT         ((flag_t)1)
-/*!
-\~russian
-\brief Флаг запущен.
-
-Процесс исполняется или готов к исполнению.
-\~english
-\brief A process launch flag.
-
-A process has been launched.
-*/
-#define PROC_FLG_RUN        ((flag_t)2)
+#define PROC_FLG_RT         ((flag_t)0x80)
 /*!
 \~russian
 \brief Флаг захвата мьютексов.
@@ -281,7 +270,7 @@ A process has been launched.
 
 A process has locked some mutex controled resources.
 */
-#define PROC_FLG_MUTEX       ((flag_t)4)
+#define PROC_FLG_MUTEX       ((flag_t)0x40)
 /*!
 \~russian
 \brief Флаг захвата семафора.
@@ -296,41 +285,7 @@ It is set on #sem_lock call or on succesfull #sem_try_lock call.
 It is necessary to clear this flag manually, when semaphore controled resource is released.
 Use #proc_flag_stop call to clear this flag.
 */
-#define PROC_FLG_SEM      ((flag_t)8)
-/*!
-\~russian
-\brief Флаг постановки в список ожидания.
-
-Процесс стоит в списке ожидающих захвата семафора или мьютекса.
-\~english
-\brief A queue flag.
-
-A process is waiting for semaphore or mutex release.
-*/
-#define PROC_FLG_QUEUE      ((flag_t)16)
-/*!
-\~russian
-\brief Флаг постановки в список ожидания сигнала.
-
-Процесс стоит в списке ожидающих сигнал.
-\~english
-\brief A signal wait flag.
-
-A process is waiting for signal.
-*/
-#define PROC_FLG_WAIT       ((flag_t)32)
-/*!
-\~russian
-\brief Флаг ожидания передачи данных через IPC.
-
-Показывает, что процесс ждет передачи данных через IPC.
-\~english
-\brief An IPC wait flag.
-
-A process is waiting for data.
-*/
-#define PROC_FLG_IPCW       ((flag_t)64)
-
+#define PROC_FLG_SEM      ((flag_t)0x20)
 /*!
 \~russian
 \brief Флаг запроса останова.
@@ -341,52 +296,8 @@ A process is waiting for data.
 
 A process must be stoped, but it can't be stoped now. It'll be stoped when possible.
 */
-#define PROC_FLG_PRE_STOP    ((flag_t)128)
-/*!
-\~russian
-\brief Окончания работы.
+#define PROC_FLG_PRE_STOP    ((flag_t)0x10)
 
-Процесс завершился - произошел возврат из pmain.
-\~english
-\brief A process end flag.
-
-A process "main" routine returned, a process has been terminated normally.
-*/
-#define PROC_FLG_END        ((flag_t)256)
-/*!
-\~russian
-\brief Флаг останова по watch_dog.
-\~english
-\brief A watchdog stop flag.
-
-A real time process failed to reset its watchdog, it has been tertminated due to abnormal behavior.
-*/
-#define PROC_FLG_WD_STOP    ((flag_t)512)
-/*!
-\~russian
-\brief Флаг "мертвого" процесса.
-
-Процесс выполнил недопустимую операцию и был "убит", раньше надо было думать.
-\~english
-\brief A "dead" process flag.
-
-A process "main" routine returned, but process hadn't released some mutex controled resources.
-A process has been terminated due to abnormal behavior.
-*/
-#define PROC_FLG_DEAD       ((flag_t)1024)
-
-// Служебные макрсы / Service macros
-/*!
-\~russian
-\brief Маска #PROC_FLG_RUN или #PROC_FLG_PRE_STOP.
-
-Используется для сброса соответствующих флагов.
-\~english
-\brief A #PROC_FLG_RUN or #PROC_FLG_PRE_STOP mask.
-
-Used to clear correspondent process state flags
-*/
-#define PROC_FLG_PRE_STOP_MASK ((flag_t)(PROC_FLG_RUN|PROC_FLG_PRE_STOP))
 /*!
 \~russian
 \brief Маска #PROC_FLG_MUTEX или #PROC_FLG_SEM.
@@ -401,6 +312,85 @@ Used to test if a process has locked some resources.
 
 /*!
 \~russian
+\brief Маска очистки состояния исполнения процесса.
+
+Нужна, чтобы очистить биты стотояния выполнения процесса в поле proc->flags.
+\~english
+\brief An execution state clear mask.
+
+Used clear execution state bitts in proc->flags.
+*/
+#define PROC_STATE_CLEAR_MASK ((flag_t)0xF0)
+
+#define PROC_STATE_CLEAR_RUN_MASK ((flag_t)0xF8)
+
+#define PROC_STATE_MASK ((flag_t)0x0F)
+/*!
+\~russian
+\brief Маска проверки состояния процесса.
+
+Используется функциями #proc_restart и #proc_restart_isr, для проверки возможности перезапуска.
+
+\~english
+\brief A process execution state check mask.
+
+Used by #proc_restart and #proc_restart_isr to check for restart posibility.
+*/
+#define PROC_STATE_RESTART_MASK ((flag_t)0xC)
+
+/*!
+\~russian
+\brief Маска проверки состояния процесса.
+
+Используется для того, чтобы проверить, запущен ли процесс.
+
+\~english
+\brief A process execution state check mask.
+
+Used to check if the process has been run.
+*/
+#define PROC_STATE_RUN_MASK ((flag_t)0x7)
+
+/*!
+\~russian
+\brief Маска проверки состояния процесса.
+
+Используется для того, чтобы проверить, ожидате ли процесс получения семафора, мьютекса, сообщения через IPC или сигнала.
+
+\~english
+\brief A process execution state check mask.
+
+Used to check if the process is waiting for semaphore, mutex, ipc or signal.
+*/
+#define PROC_STATE_WAIT_MASK ((flag_t)0x8)
+
+// process states not checked on restart
+#define PROC_STATE_STOPED           ((flag_t)0x0)
+#define PROC_STATE_END              ((flag_t)0x1)
+#define PROC_STATE_W_WD_STOPED      ((flag_t)0x2)
+#define PROC_STATE_WD_STOPED        ((flag_t)0x3)
+
+#define PROC_STATE_DEAD             ((flag_t)0x4)
+// run states
+#define PROC_STATE_READY            ((flag_t)0x5)
+#define PROC_STATE_RESERVED_0x6     ((flag_t)0x6)
+#define PROC_STATE_RUNNING          ((flag_t)0x7)
+
+// wait states
+#define PROC_STATE_W_MUT            ((flag_t)0x8)
+#define PROC_STATE_W_SEM            ((flag_t)0x9)
+#define PROC_STATE_W_SIG            ((flag_t)0xA)
+#define PROC_STATE_W_IPC            ((flag_t)0xB)
+
+//special states
+#define PROC_STATE_W_DEAD           ((flag_t)0xC)
+
+#define PROC_STATE_W_READY          ((flag_t)0xD)
+#define PROC_STATE_RESERVED_0xE     ((flag_t)0xE)
+#define PROC_STATE_W_RUNNING        ((flag_t)0xF)
+
+/*!
+\~russian
 \brief Макрос проверки условий останова по флагу #PROC_FLG_PRE_STOP.
 
 Используется для проверки процессов на возможность останова по флагу #PROC_FLG_PRE_STOP.
@@ -412,7 +402,10 @@ Used to test if a process has locked some resources.
 Used to test if a process can be stoped on #PROC_FLG_PRE_STOP flag.
 A process should not have locked resources at a moment of a flag stop.
 */
-#define PROC_PRE_STOP_TEST(a) (  ( a->flags & PROC_FLG_PRE_STOP ) && ( !( a->flags & PROC_FLG_LOCK_MASK ) )  )
+#define PROC_PRE_STOP_TEST(a) ( ( a->flags & PROC_FLG_PRE_STOP ) && ( !( a->flags & PROC_FLG_LOCK_MASK ) ) )
+
+#define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
+#define PROC_IPC_TEST(a) ( ( a->flags & PROC_STATE_MASK ) == PROC_STATE_W_IPC )
 
 // Методы
 /*!

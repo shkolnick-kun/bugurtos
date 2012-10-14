@@ -333,7 +333,7 @@ void scall_sig_wait( void * arg )
 void scall_sig_wakeup( void *arg )
 {
     _sig_wait_epilogue();
-    _proc_flag_stop( PROC_FLG_WAIT );
+    _proc_flag_stop( (flag_t)0 );
 }
 
 void sig_wait( sig_t * sig )
