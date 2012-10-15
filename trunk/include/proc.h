@@ -322,8 +322,25 @@ Used clear execution state bitts in proc->flags.
 */
 #define PROC_STATE_CLEAR_MASK ((flag_t)0xF0)
 
+/*!
+\~russian
+\brief Маска очистки состояния исполнения процесса.
+
+Нужна, чтобы очистить младшие биты стотояния выполнения процесса в поле proc->flags.
+\~english
+\brief An execution state clear mask.
+
+Used clear execution three LSBs state bitts in proc->flags.
+*/
 #define PROC_STATE_CLEAR_RUN_MASK ((flag_t)0xF8)
 
+/*!
+\~russian
+\brief Маска состояния исполнения процесса.
+
+\~english
+\brief An execution state mask.
+*/
 #define PROC_STATE_MASK ((flag_t)0x0F)
 /*!
 \~russian
