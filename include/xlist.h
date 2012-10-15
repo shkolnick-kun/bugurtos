@@ -91,7 +91,7 @@ typedef struct _xlist_t xlist_t;
 Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типов #pitem_t и #gitem_t.
 \~english
 A container type, #xlist_t objects store lists of #item_t objects.
-In fact these containers store lists of #pitem_t or #gitem_t objects.
+In fact these containers store lists of #pitem_t or other compatible objects.
 */
 struct _xlist_t
 {

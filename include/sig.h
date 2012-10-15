@@ -181,7 +181,7 @@ void sig_signal( sig_t * sig );
 Процессы в списках ожидания сигналов сгруппированы, что дает возможность за ограниченное время перенести весь список ожидающих в соотетствующий список готовых к выполнению.
 \~english
 This function launches all processes waiting for certain signal.
-This function is O(1), as processes in signal wait lists a grouped, #gitem_xlist_merge is used.
+This function is O(1), as #pitem_xlist_chain is used.
 
 \param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
@@ -216,7 +216,7 @@ void sig_signal_isr( sig_t * sig );
 Процессы в списках ожидания сигналов сгруппированы, что дает возможность за ограниченное время перенести весь список ожидающих в соотетствующий список готовых к выполнению.
 \~english
 This function launches all processes waiting for certain signal.
-This function is O(1), as processes in signal wait lists a grouped, #gitem_xlist_merge is used.
+This function is O(1), as #pitem_xlist_chain is used.
 
 \param sig \~russian Указатель на сигнал. \~english A #sig_t pointer.
 */
