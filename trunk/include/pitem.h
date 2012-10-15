@@ -147,7 +147,7 @@ void pitem_cut( pitem_t * pitem );
 
 \~russian Вырезать из списка типа xlist_t все элементы типа #pitem_t и сделать из них простой 2-связный список. \~english Cut all #pitem_t objects from #xlist_t container and form an ordinary list from them.
 
-\param pitem \~russian Указатель на объект #xlist_t. \~english A #xlist_t pointer.
+\param src \~russian Указатель на объект #xlist_t. \~english A #xlist_t pointer.
 \return \~russian Указаьель на голову 2-связного списка. \~english An ordinary list head pointer.
 */
 pitem_t * pitem_xlist_chain( xlist_t * src );

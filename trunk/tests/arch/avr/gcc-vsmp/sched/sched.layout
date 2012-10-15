@@ -16,14 +16,20 @@
 	<File name="../../../../../include/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="7846" topLine="89" />
 	</File>
-	<File name="../../../../../include/mutex.h" open="1" top="0" tabpos="0">
+	<File name="../../../../../include/pitem.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="4">
 		<Cursor position="17898" topLine="0" />
 	</File>
+	<File name="../../../../../include/sig.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="../../../../../include/syscall.h" open="0" top="0" tabpos="1">
 		<Cursor position="6360" topLine="126" />
+	</File>
+	<File name="../../../../../include/xlist.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="1">
 		<Cursor position="8099" topLine="105" />
