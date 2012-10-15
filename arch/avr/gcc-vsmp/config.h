@@ -44,9 +44,8 @@ typedef unsigned char index_t;
 // so unsigned char is allways enough.
 typedef unsigned char prio_t;
 
-// Unsigned char is too small,
-// unsigned short is enough.
-typedef unsigned short flag_t;
+// unsigned char is enough.
+typedef unsigned char flag_t;
 
 // For AVR only 64Kib of RAM
 // may be available, so count_t can be
@@ -100,11 +99,11 @@ typedef unsigned char load_t;
 // Use "Highest locker" protocol for mutex handling.
 #define CONFIG_USE_HIGHEST_LOCKER
 
-// Use "Hard real time" scheduling. RT processes a stoped 
+// Use "Hard real time" scheduling. RT processes a stoped
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define CONFIG_HARD_RT
 
-// Use "Active Load Balancing", 
+// Use "Active Load Balancing",
 // sched_schedule() function is responsible for load balancing.
 #define CONFIG_USE_ALB
 

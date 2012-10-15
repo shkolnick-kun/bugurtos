@@ -44,9 +44,8 @@ typedef unsigned char index_t;
 // so unsigned char is allways enough.
 typedef unsigned char prio_t;
 
-// Unsigned char is too small,
-// unsigned short is enough.
-typedef unsigned short flag_t;
+// unsigned char is enough.
+typedef unsigned char flag_t;
 
 // For AVR only 64Kib of RAM
 // may be available, so count_t can be

@@ -34,9 +34,8 @@ typedef unsigned char index_t;
 // so unsigned char is allways enough.
 typedef unsigned char prio_t;
 
-// Unsigned char is too small,
-// unsigned short is enough.
-typedef unsigned short flag_t;
+// unsigned char is enough.
+typedef unsigned char flag_t;
 
 // For STM8 only 64Kib of stack space
 // may be available, so count_t can be
