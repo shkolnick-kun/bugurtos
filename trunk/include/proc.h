@@ -365,29 +365,29 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 #define PROC_STATE_WAIT_MASK ((flag_t)0x8)
 
 // process states not checked on restart
-#define PROC_STATE_STOPED           ((flag_t)0x0)
-#define PROC_STATE_END              ((flag_t)0x1)
-#define PROC_STATE_W_WD_STOPED      ((flag_t)0x2)
-#define PROC_STATE_WD_STOPED        ((flag_t)0x3)
+#define PROC_STATE_STOPED           ((flag_t)0x0)   /*!< \~russian Начальное состояние, остановлен. \~english Initial state, stoped. */
+#define PROC_STATE_END              ((flag_t)0x1)   /*!< \~russian Завершен. \~english Normal process termination. */
+#define PROC_STATE_W_WD_STOPED      ((flag_t)0x2)   /*!< \~russian Остановлен по вачдог в состоянии RUNNING. \~english Watchdog termination from RUNNING state. */
+#define PROC_STATE_WD_STOPED        ((flag_t)0x3)   /*!< \~russian Остановлен по вачдог. \~english Watchdog termination. */
 
-#define PROC_STATE_DEAD             ((flag_t)0x4)
+#define PROC_STATE_DEAD             ((flag_t)0x4)   /*!< \~russian Завершен до освобождения общих ресурсов. \~english Abnormal termination, terminated with resources locked. */
 // run states
-#define PROC_STATE_READY            ((flag_t)0x5)
-#define PROC_STATE_RESERVED_0x6     ((flag_t)0x6)
-#define PROC_STATE_RUNNING          ((flag_t)0x7)
+#define PROC_STATE_READY            ((flag_t)0x5)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
+#define PROC_STATE_RESERVED_0x6     ((flag_t)0x6)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_RUNNING          ((flag_t)0x7)   /*!< \~russian Выполняется. \~english Is running. */
 
 // wait states
-#define PROC_STATE_W_MUT            ((flag_t)0x8)
-#define PROC_STATE_W_SEM            ((flag_t)0x9)
-#define PROC_STATE_W_SIG            ((flag_t)0xA)
-#define PROC_STATE_W_IPC            ((flag_t)0xB)
+#define PROC_STATE_W_MUT            ((flag_t)0x8)   /*!< \~russian Ожидает мьютекса. \~english Is waiting for mutex. */
+#define PROC_STATE_W_SEM            ((flag_t)0x9)   /*!< \~russian Ожидает семафора. \~english Is waiting for semaphore. */
+#define PROC_STATE_W_SIG            ((flag_t)0xA)   /*!< \~russian Ожидает сигнала. \~english Is waiting for signal. */
+#define PROC_STATE_W_IPC            ((flag_t)0xB)   /*!< \~russian Ожидает IPC. \~english Is waiting for IPC. */
 
 //special states
-#define PROC_STATE_W_DEAD           ((flag_t)0xC)
+#define PROC_STATE_W_DEAD           ((flag_t)0xC)   /*!< \~russian Остановлен по вачдог в состоянии W_RUNNING до освобождения общих ресурсов. \~english Watchdog termination from W_RUNNING state with resources locked. */
 
-#define PROC_STATE_W_READY          ((flag_t)0xD)
-#define PROC_STATE_RESERVED_0xE     ((flag_t)0xE)
-#define PROC_STATE_W_RUNNING        ((flag_t)0xF)
+#define PROC_STATE_W_READY          ((flag_t)0xD)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
+#define PROC_STATE_RESERVED_0xE     ((flag_t)0xE)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_W_RUNNING        ((flag_t)0xF)   /*!< \~russian Выполняется (специальное). \~english Is running (special). */
 
 /*!
 \~russian
@@ -403,8 +403,21 @@ Used to test if a process can be stoped on #PROC_FLG_PRE_STOP flag.
 A process should not have locked resources at a moment of a flag stop.
 */
 #define PROC_PRE_STOP_TEST(a) ( ( a->flags & PROC_FLG_PRE_STOP ) && ( !( a->flags & PROC_FLG_LOCK_MASK ) ) )
+/*!
+\~russian
+\brief Проверяет, запущен ли процесс.
 
+\~english
+\brief Check if process is ready or running
+*/
 #define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
+/*!
+\~russian
+\brief Проверяет ждет ли процесс IPC
+
+\~english
+\brief Checks if process is waiting for IPC.
+*/
 #define PROC_IPC_TEST(a) ( ( a->flags & PROC_STATE_MASK ) == PROC_STATE_W_IPC )
 
 // Методы
