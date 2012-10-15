@@ -384,7 +384,7 @@ void sched_reschedule(void)
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
 
-    if( PROC_RUN_TEST( current_proc ) )
+    if( ( current_proc->flags & PROC_STATE_RUN_MASK ) == PROC_STATE_RUNNING )
     {
         current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
         current_proc->flags |= PROC_STATE_READY;
