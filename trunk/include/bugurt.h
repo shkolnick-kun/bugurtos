@@ -160,7 +160,8 @@ typedef void (* code_t)(void *);
 \brief Wrapper macro.
 
 Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
-
+*/
+/*!
 \def SPIN_LOCK(arg)
 \~russian
 \brief Макрос-обертка.
@@ -170,7 +171,8 @@ Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 \brief Wrapper macro.
 
 Lock wrapper for arg->lock spinlock. Emty macro in single core system.
-
+*/
+/*!
 \def SPIN_UNLOCK(arg)
 \~russian
 \brief Макрос-обертка.
@@ -180,7 +182,8 @@ Lock wrapper for arg->lock spinlock. Emty macro in single core system.
 \brief Wrapper macro.
 
 Lock wrapper for arg->lock spinlock. Emty macro in single core system.
-
+*/
+/*!
 \def RESCHED_PROC(arg)
 \~russian
 \brief Макрос-обертка.

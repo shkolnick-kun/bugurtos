@@ -88,7 +88,7 @@ typedef struct _xlist_t xlist_t;
 \brief \~russian Список с приоритетами. \~english A prioritized list.
 
 \~russian
-Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типов #pitem_t и #gitem_t.
+Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типа #pitem_t.
 \~english
 A container type, #xlist_t objects store lists of #item_t objects.
 In fact these containers store lists of #pitem_t or other compatible objects.
@@ -134,9 +134,6 @@ void xlist_switch(xlist_t * xlist, prio_t prio);
 "вырезать"
 "вставить"
 "переместить в другой список"
-
-для gitem_t - метод:
-"переметсить все элементы в другой список"
 ----------------------------------------------------*/
 
 #endif // _XLIST_H_

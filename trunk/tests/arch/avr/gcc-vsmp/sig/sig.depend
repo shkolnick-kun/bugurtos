@@ -8,7 +8,7 @@
 1345437575 /home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.h
 	"../../../include/bugurt.h"
 
-1344254047 /home/anonimous/Документы/bugurtos/include/bugurt.h
+1350809749 /home/anonimous/Документы/bugurtos/include/bugurt.h
 	"index.h"
 	"item.h"
 	"xlist.h"
@@ -29,21 +29,21 @@
 
 1339406664 /home/anonimous/Документы/bugurtos/include/item.h
 
-1339512790 /home/anonimous/Документы/bugurtos/include/xlist.h
+1350809813 /home/anonimous/Документы/bugurtos/include/xlist.h
 
-1344252052 /home/anonimous/Документы/bugurtos/include/pitem.h
+1350321667 /home/anonimous/Документы/bugurtos/include/pitem.h
 
 1339422244 /home/anonimous/Документы/bugurtos/include/pcounter.h
 
 1339346078 /home/anonimous/Документы/bugurtos/include/crit_sec.h
 
-1350220558 /home/anonimous/Документы/bugurtos/include/proc.h
+1350320037 /home/anonimous/Документы/bugurtos/include/proc.h
 
 1342284450 /home/anonimous/Документы/bugurtos/include/sched.h
 
 1344152990 /home/anonimous/Документы/bugurtos/include/kernel.h
 
-1344155021 /home/anonimous/Документы/bugurtos/include/sig.h
+1350321804 /home/anonimous/Документы/bugurtos/include/sig.h
 
 1339506678 /home/anonimous/Документы/bugurtos/include/sem.h
 
@@ -53,7 +53,7 @@
 
 1339512171 /home/anonimous/Документы/bugurtos/include/timer.h
 
-1349285918 /home/anonimous/Документы/bugurtos/include/syscall.h
+1350810093 /home/anonimous/Документы/bugurtos/include/syscall.h
 
 1345660183 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	"vsmp.h"
@@ -91,13 +91,13 @@
 1350220538 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
-1350230635 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+1350287630 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
 1350192701 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
 	"../include/bugurt.h"
 
-1350229772 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
+1351948063 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
 	"../include/bugurt.h"
 
 1350193446 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
@@ -112,6 +112,6 @@
 1350216880 source:/home/anonimous/Документы/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
 	<test_func.h>
 
-1348923284 source:/home/anonimous/Документы/bugurtos/tests/main/sig/main.c
+1351948182 source:/home/anonimous/Документы/bugurtos/tests/main/sig/main.c
 	<test_func.h>
 

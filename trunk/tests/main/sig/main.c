@@ -6,6 +6,22 @@ stack_t proc_stack[6][PROC_STACK_SIZE];
 sig_t test_sig;
 void (*test_hook)(void);
 
+void test_w_ready (void * arg)
+{
+    test_output( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_W_READY, 3 );
+    proc[0].sv_hook = (code_t)0;
+}
+void test_w_running (void * arg)
+{
+    test_output( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_W_RUNNING, 4 );
+    proc[2].rs_hook = (code_t)0;
+}
+void test_running(void)
+{
+    test_output( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_RUNNING, 5 );
+    test_inc();
+}
+
 void main_proc_test( void * arg )
 {
     proc_run( &proc[1] );
@@ -33,18 +49,28 @@ void main_proc_test( void * arg )
     // All proceeses of interest are waiting for signal now!
     // We can touch test and test_hook;
 
-    // sig_signal test 3
+    // sig_wait (epilogue) test 3
+    // sig_wait (epilogue) test 4
+    // sig_wait (epilogue) test 5
+    // sig_signal test 6
     test_var_sig = 0;
-    test_hook = test_inc;
+    test_hook = test_running;
+    // It is anough to disable interrupts to handle process hook.
+    disable_interrupts();
+    proc[0].sv_hook = (code_t)test_w_ready;
+    enable_interrupts();
+    // Process is NOT RUNNING no need of critical section.
+    proc[2].rs_hook = (code_t)test_w_running;
     sig_signal( &test_sig );
     wait_time( 20 );
-    test_output( (test_var_sig == 1), 3 );
+    test_output( (test_var_sig == 1), 6 );
 
-    // sig_broadcast test 4
+    // sig_broadcast test 7
     test_var_sig = 0;
+    test_hook = test_inc;
     sig_broadcast( &test_sig );
     wait_time( 20 );
-    test_output( (test_var_sig == 4), 4 );
+    test_output( (test_var_sig == 4), 7 );
 
     tests_end();
 }

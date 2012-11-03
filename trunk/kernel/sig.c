@@ -160,7 +160,7 @@ void _sig_wait_epilogue( void )
     SPIN_LOCK( proc );
 
     proc->flags &= PROC_STATE_CLEAR_MASK;
-    proc->flags |= PROC_STATE_READY;
+    proc->flags |= PROC_STATE_RUNNING;
 
     wakeup_proc = (proc_t *)proc->buf;
     proc->buf = (void *)0;

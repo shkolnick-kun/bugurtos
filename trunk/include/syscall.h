@@ -130,11 +130,10 @@ System call processing routine.
 This function calls system call handlers and passes arguments to them.
 */
 #ifdef CONFIG_MP
-/*!
-\param syscall_num \~russian Номер системного вызова. \~english System call number.
-\param syscall_arg \~russian Aргумент системного вызова. \~english System call argument.
-*/
-void do_syscall( syscall_t syscall_num, void * syscall_arg );
+void do_syscall(
+                syscall_t syscall_num,  /*!< \~russian Номер системного вызова. \~english System call number.*/
+                void * syscall_arg      /*!< \~russian Aргумент системного вызова. \~english System call argument.*/
+                );
 #else
 /*!
 \~russian Номер системного вызова. \~english System call number.
