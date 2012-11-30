@@ -34,9 +34,8 @@ typedef unsigned char index_t;
 // so unsigned char is allways enough.
 typedef unsigned char prio_t;
 
-// Unsigned char is too small,
-// unsigned short is enough.
-typedef unsigned short flag_t;
+// Unsigned char is enough.
+typedef unsigned char flag_t;
 
 // For STM8 only 64Kib of stack space
 // may be available, so count_t can be
@@ -74,4 +73,28 @@ typedef unsigned long ipc_data_t;
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_VECTOR TIM4_OVR_UIF_vector
 #define SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
+
+#define PROC_STACK_SIZE 128
+
+#define LOWEST (BITS_IN_INDEX_T - 1)
+
+#define SVH0 (code_t)0
+#define RSH0 (code_t)0
+
+#define SVH1 (code_t)0
+#define RSH1 (code_t)0
+
+#define SVH2 (code_t)0
+#define RSH2 (code_t)0
+
+#define SVH3 (code_t)0
+#define RSH3 (code_t)0
+
+#define SVH4 (code_t)0
+#define RSH4 (code_t)0
+
+#define SVH5 (code_t)0
+#define RSH5 (code_t)0
+
+
 #endif //_CONFIG_H_
