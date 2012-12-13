@@ -86,11 +86,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 typedef struct _item_t item_t;
 //Свойства
 /*!
-\brief \~russian Элемент 2-связного списка. \~english A list item.
-
 \~russian
+\brief Элемент 2-связного списка.
+
 Все структуры, где будут применяться 2-связные списки, унаследуют свойства и методы #item_t.
+
 \~english
+\brief A list item.
+
 All structures, that must be listed, will inherit #item_t properties and methods.
 */
 struct _item_t
@@ -100,32 +103,59 @@ struct _item_t
 };
 
 /*!
-   \~russian Статическая инициализация объекта типа #item_t. \~english Static item initiation.
-   \param a \~russian Имя переменной типа #item_t. \~english An #item_t variable name.
+   \~russian
+   Статическая инициализация объекта типа #item_t.
+   \param a Имя переменной типа #item_t.
+
+   \~english
+   Static item initiation.
+   \param a An #item_t variable name.
 */
 #define INIT_ITEM_T(a) { (item_t *)&a, (item_t *)&a }
 
 //Методы
 /*!
+\~russian
 \brief
-\~russian Инициализация объекта типа #item_t. \~english An #item_t object initiation.
+Инициализация объекта типа #item_t.
 
-\param item \~russian Указатель на объект #item_t. \~english An #item_t pointer.
+\param item Указатель на объект #item_t.
+
+\~english
+\brief
+An #item_t object initiation.
+
+\param item An #item_t pointer.
 */
 void item_init(item_t *item);
 /*!
+\~russian
 \brief
-\~russian Вставка элемента типа #item_t в список. \~english Insert an item to a list.
+Вставка элемента типа #item_t в список.
 
-\param item \~russian Указатель на объект типа #item_t, который будем вставлять. \~english A pointer to an item.
-\param head \~russian Указатель на голову списка типа #item_t. \~english A pointer to a destignation list head.
+\param item Указатель на объект типа #item_t, который будем вставлять.
+\param head Указатель на голову списка типа #item_t.
+
+\~english
+\brief
+Insert an item to a list.
+
+\param item \~english A pointer to an item.
+\param head \~english A pointer to a destignation list head.
 */
 void item_insert(item_t *item, item_t *head);
 /*!
+\~russian
 \brief
-\~russian Вырезать элемент типа #item_t из списка. \~english Cut an item from a list.
+Вырезать элемент типа #item_t из списка.
 
-\param item \~russian Указатель на объект типа #item_t, который будем вырезать. \~english A pointer to an item to cut.
+\param item Указатель на объект типа #item_t, который будем вырезать.
+
+\~english
+\brief
+Cut an item from a list.
+
+\param item A pointer to an item to cut.
 */
 void item_cut(item_t *item);
 #endif //_ITEM_H_

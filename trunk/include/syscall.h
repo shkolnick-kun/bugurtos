@@ -123,6 +123,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 Обработка системного вызова.
 
 Зпускает обработчик системного вызова и передает ему аргумент.
+
 \~english
 \brief
 System call processing routine.
@@ -159,6 +160,7 @@ void do_syscall( void );
 Параметр системного вызова #SYSCALL_PROC_INIT.
 
 Содержит информацию о процессе, и его свойствах.
+
 \~english
 \brief
 An argument for #SYSCALL_PROC_INIT.
@@ -189,6 +191,7 @@ typedef struct {
 Инициализирует процесс, вызывая #proc_init_isr.
 
 \param arg указатель на структуру #proc_init_arg_t.
+
 \~english
 \brief
 A #SYSCALL_PROC_INIT handler.
@@ -203,6 +206,7 @@ void scall_proc_init( void * arg );
 \~russian
 \brief
 Параметр системных вызовов #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+
 \~english
 \brief
 An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
@@ -220,6 +224,7 @@ typedef struct{
 Пытается запустить процесс, вызывая #proc_run_isr.
 
 \param arg указатель на структуру #proc_runtime_arg_t.
+
 \~english
 \brief
 A #SYSCALL_PROC_RUN handler.
@@ -237,6 +242,7 @@ void scall_proc_run( void * arg );
 Пытается перезапустить процесс, вызывая #proc_restart_isr.
 
 \param arg указатель на структуру #proc_runtime_arg_t.
+
 \~english
 \brief
 A #SYSCALL_PROC_RESTART handler.
@@ -254,6 +260,7 @@ void scall_proc_restart( void * arg );
 Пытается остановить процесс, вызывая #proc_stop_isr.
 
 \param arg указатель на структуру #proc_runtime_arg_t.
+
 \~english
 \brief
 A #SYSCALL_PROC_STOP handler.
@@ -272,6 +279,7 @@ void scall_proc_stop( void * arg );
 Останавливает вызывающий процесс.
 
 \param arg не используется.
+
 \~english
 \brief
 A #SYSCALL_PROC_SELF_STOP handler.
@@ -290,6 +298,7 @@ void scall_proc_self_stop( void * arg );
 Передает управление следующему процессу.
 
 \param arg не используется.
+
 \~english
 \brief
 A #SYSCALL_PROC_YELD handler.
@@ -308,6 +317,7 @@ void scall_proc_yeld( void * arg );
 Завершает выполенение процесса после выхода из pmain. Вызывает #_proc_terminate.
 
 \param arg указатель на процесс.
+
 \~english
 \brief
 A #SYSCALL_PROC_TERMINATE handler.
@@ -327,6 +337,7 @@ void scall_proc_terminate( void * arg );
 Вызывает #_proc_flag_stop.
 
 \param arg указатель на маску обнуления флагов процесса.
+
 \~english
 \brief
 A #SYSCALL_PROC_FLAG_STOP handler.
@@ -346,6 +357,7 @@ void scall_proc_flag_stop( void * arg );
 Вызывает #_proc_reset_watchdog.
 
 \param arg не используется.
+
 \~english
 \brief
 A #SYSCALL_PROC_RESET_WATCHDOG handler.
@@ -365,6 +377,7 @@ void scall_proc_reset_watchdog( void * arg );
 Инициализирует сигнал, вызывает #sig_init_isr.
 
 \param arg указатель на сигнал.
+
 \~english
 \brief
 A #SYSCALL_SIG_INIT handler.
@@ -382,6 +395,7 @@ void scall_sig_init( void * arg );
 Переводит вызваший процесс в состояние ожидания сигнала, вызывает #_sig_wait_prologue.
 
 \param arg указатель на сигнал.
+
 \~english
 \brief
 A #SYSCALL_SIG_WAIT hadnler.
@@ -403,6 +417,7 @@ void scall_sig_wakeup( void *arg );
 вставленных в списки ожидания для разных процессоров!
 
 \param arg указатель на сигнал.
+
 \~english
 \brief
 A #SYSCALL_SIG_SIGNAL handler.
@@ -422,6 +437,7 @@ void scall_sig_signal( void * arg );
 "Будит" все процессы , ожидающиe сигнала, вызывает #sig_broadcast_isr.
 
 \param arg указатель на сигнал.
+
 \~english
 \brief
 A #SYSCALL_SIG_BROADCAST handler.
@@ -434,9 +450,13 @@ void scall_sig_broadcast( void * arg );
 /*****************************************************************************************/
 /*                                 Semaphore control !                                   */
 /*!
+\~russian
 \brief
-\~russian Параметр системного вызова #SYSCALL_SEM_INIT.
-\~english A #SYSCALL_SEM_INIT argument structure.
+Параметр системного вызова #SYSCALL_SEM_INIT.
+
+\~english
+\brief
+A #SYSCALL_SEM_INIT argument structure.
 */
 typedef struct {
     sem_t * sem;    /*!< \~russian указатель на семафор. \~english A pointer to a semaphore.*/
@@ -450,6 +470,7 @@ typedef struct {
 Инициирует семафор, вызывает #sem_init_isr.
 
 \param arg указатель на аргумент типа #sem_init_arg_t.
+
 \~english
 \brief
 A #SYSCALL_SEM_INIT handler.
@@ -461,9 +482,13 @@ This function initiates semaphore by #sem_init_isr call.
 void scall_sem_init( void * arg );
 /*****************************************************************************************/
 /*!
+\~russian
 \brief
-\~russian Параметр системных вызовов #SYSCALL_SEM_LOCK и #SYSCALL_SEM_TRY_LOCK.
-\~english An argument structure for #SYSCALL_SEM_LOCK and #SYSCALL_SEM_TRY_LOCK.
+Параметр системных вызовов #SYSCALL_SEM_LOCK и #SYSCALL_SEM_TRY_LOCK.
+
+\~english
+\brief
+An argument structure for #SYSCALL_SEM_LOCK and #SYSCALL_SEM_TRY_LOCK.
 */
 typedef struct {
     sem_t * sem;        /*!< \~russian  указатель на семафор. \~english A pointer to a semaphore.*/
@@ -477,6 +502,7 @@ typedef struct {
 Вызывает #_sem_lock.
 
 \param arg указатель на аргумент типа #sem_lock_arg_t.
+
 \~english
 \brief
 A #SYSCALL_SEM_LOCK handler.
@@ -494,6 +520,7 @@ void scall_sem_lock( void * arg );
 Вызывает #_sem_try_lock.
 
 \param arg указатель на аргумент типа #sem_lock_arg_t.
+
 \~english
 \brief
 A #SYSCALL_SEM_TRY_LOCK handler.
@@ -512,6 +539,7 @@ void scall_sem_try_lock( void * arg );
 Вызывает #sem_unlock_isr.
 
 \param arg указатель на семафор.
+
 \~english
 \brief
 A #SYSCALL_SEM_UNLOCK handler.
@@ -524,9 +552,13 @@ void scall_sem_unlock( void * arg );
 /*****************************************************************************************/
 /*                                     Мьютексы                                          */
 /*!
+\~russian
 \brief
-\~russian Параметр системного вызова #SYSCALL_MUTEX_INIT.
-\~english An argument structure for #SYSCALL_MUTEX_INIT.
+Параметр системного вызова #SYSCALL_MUTEX_INIT.
+
+\~english
+\brief
+An argument structure for #SYSCALL_MUTEX_INIT.
 */
 typedef struct {
     mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
@@ -542,6 +574,7 @@ typedef struct {
 Инициирует мьютекс, вызывает #mutex_init_isr.
 
 \param arg указатель на аргумент типа #mutex_init_arg_t.
+
 \~english
 \brief
 A #SYSCALL_MUTEX_INIT handler.
@@ -553,9 +586,13 @@ This function initiater mutex by #mutex_init_isr call.
 void scall_mutex_init(void * arg);
 /*****************************************************************************************/
 /*!
+\~russian
 \brief
-\~russian Параметр системных вызовов #SYSCALL_MUTEX_LOCK и #SYSCALL_MUTEX_TRY_LOCK.
-\~english An argument structure for #SYSCALL_MUTEX_LOCK and #SYSCALL_MUTEX_TRY_LOCK.
+Параметр системных вызовов #SYSCALL_MUTEX_LOCK и #SYSCALL_MUTEX_TRY_LOCK.
+
+\~english
+\brief
+An argument structure for #SYSCALL_MUTEX_LOCK and #SYSCALL_MUTEX_TRY_LOCK.
 */
 typedef struct {
     mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
@@ -569,6 +606,7 @@ typedef struct {
 Вызывает #_mutex_lock.
 
 \param arg указатель на аргумент типа #mutex_lock_arg_t.
+
 \~english
 \brief
 A #SYSCALL_MUTEX_LOCK handler.
@@ -586,6 +624,7 @@ void scall_mutex_lock(void * arg);
 Вызывает #_mutex_try_lock.
 
 \param arg указатель на аргумент типа #mutex_lock_arg_t.
+
 \~english
 \brief
 A #SYSCALL_MUTEX_TRY_LOCK handler.
@@ -603,6 +642,7 @@ void scall_mutex_try_lock(void * arg);
 Вызывает #_mutex_unlock.
 
 \param arg указатель на мьютекс.
+
 \~english
 \brief
 A #SYSCALL_MUTEX_UNLOCK handler.
@@ -615,9 +655,13 @@ void scall_mutex_unlock(void * arg);
 /*****************************************************************************************/
 /*                                     IPC                                               */
 /*!
+\~russian
 \brief
-\~russian Параметр системного вызова #SYSCALL_IPC_SEND.
-\~english An argument structure for #SYSCALL_IPC_SEND.
+Параметр системного вызова #SYSCALL_IPC_SEND.
+
+\~english
+\brief
+An argument structure for #SYSCALL_IPC_SEND.
 */
 typedef struct {
     proc_t * proc;  /*!< \~russian указатель на процесс-адресат. \~english A pointer to a destignation process. */
@@ -625,9 +669,13 @@ typedef struct {
     ipc_data_t data;/*!< \~russian данные для передачи. \~english A data to send. */
 } ipc_send_arg_t;
 /*!
+\~russian
 \brief
-\~russian Параметр системного вызова #SYSCALL_IPC_EXCHANGE.
-\~english An argument structure for #SYSCALL_IPC_EXCHANGE.
+Параметр системного вызова #SYSCALL_IPC_EXCHANGE.
+
+\~english
+\brief
+An argument structure for #SYSCALL_IPC_EXCHANGE.
 */
 typedef struct {
     ipc_send_arg_t send;  /*!< \~russian Родитель. \~english A parent. */
@@ -641,6 +689,7 @@ typedef struct {
 Переводит вызывающий процесс в состояние ожидания получения данных через IPC. Вызывает #_ipc_wait.
 
 \param arg указатель на хранилище для передачи данных.
+
 \~english
 \brief
 A #SYSCALL_IPC_WAIT handler.
@@ -658,6 +707,7 @@ void scall_ipc_wait(void * arg);
 Вызывает #ipc_send_isr.
 
 \param arg указатель на аргумент типа #ipc_send_arg_t.
+
 \~english
 \brief
 A #SYSCALL_IPC_SEND handler.
@@ -677,6 +727,7 @@ void scall_ipc_send(void * arg);
 Вызывает #_ipc_exchange.
 
 \param arg указатель на аргумент типа #ipc_send_arg_t.
+
 \~english
 \brief
 A #SYSCALL_IPC_EXCHANGE handler.
@@ -697,6 +748,7 @@ void scall_ipc_exchange( void * arg );
 
 \param arg указатель на функцию пользователя.
 \warning Осторожно! Параметр не проверяется!
+
 \~english
 \brief
 A #SYSCALL_USER handler.

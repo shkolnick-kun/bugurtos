@@ -84,12 +84,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 typedef struct _pcounter_t pcounter_t;
 /*!
-\brief
-\~russian Счетчик захваченных ресурсов. \~english A locked resource counter.
-
 \~russian
+\brief
+Счетчик захваченных ресурсов.
+
 При использовании опции CONFIG_USE_HIGHEST_LOCKER используется для пересчета захваченных процессом ресурсов.
+
 \~english
+\brief
+A locked resource counter.
+
 #pcounter_t objects are used to count mutex controled resources locked by processes when CONFIG_USE_HIGHEST_LOCKER is defined.
 */
 struct _pcounter_t
@@ -99,46 +103,88 @@ struct _pcounter_t
 };
 
 /*!
+\~russian
 \brief
-\~russian Инициализация счетчика. \~english A #pcounter_t object initiation.
+Инициализация счетчика.
 
-\param pcounter \~russian указатель на счетчик. \~english A #pcounter_t pointer.
+\param pcounter Указатель на счетчик.
+
+\~english
+\brief
+A #pcounter_t object initiation.
+
+\param pcounter A #pcounter_t pointer.
 */
 void pcounter_init(pcounter_t * pcounter);
 
 /*!
+\~russian
 \brief
-\~russian Инкремент счетчика. \~english Increment counter.
+Инкремент счетчика.
 
-\param pcounter \~russian Указатель на счетчик. \~english A #pcounter_t pointer.
-\param prio \~russian Приоритет. \~english A priority.
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
+
+\~english
+\brief
+Increment counter.
+
+\param pcounter A #pcounter_t pointer.
+\param prio A priority.
 */
 void pcounter_inc(pcounter_t * pcounter, prio_t prio);
 /*!
+\~russian
 \brief
-\~russian Декремент счетчика. \~english Decrement counter.
+Декремент счетчика.
 
-\param pcounter \~russian Указатель на счетчик. \~english A #pcounter_t pointer.
-\param prio \~russian Приоритет. \~english A priority.
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
+
+\~english
+\brief
+Decrement counter.
+
+\param pcounter A #pcounter_t pointer.
+\param prio A priority.
 */
 index_t pcounter_dec(pcounter_t * pcounter, prio_t prio);
 /*!
+\~russian
 \brief
-\~russian Увеличение счетчика на произвольное количество единиц. \~english
+Увеличение счетчика на произвольное количество единиц.
 
-\param pcounter \~russian Указатель на счетчик. \~english A #pcounter_t pointer.
-\param prio \~russian Приоритет. \~english A priority.
-\param count \~russian Количество единиц. \~english A number of increment steps.
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
+\param count Количество единиц.
+
+\~english
+\brief
+Increase counter by a number of steps.
+
+\param pcounter A #pcounter_t pointer.
+\param prio A priority.
+\param count A number of increment steps.
 */
 void pcounter_plus(pcounter_t * pcounter, prio_t prio, count_t count);
 /*!
+\~russian
 \brief
-\~russian Уменьшение счетчика на произвольное количество единиц. \~english
+Уменьшение счетчика на произвольное количество единиц.
 
-\param pcounter \~russian Указатель на счетчик. \~english A #pcounter_t pointer.
-\param prio \~russian Приоритет. \~english A priority.
-\param count \~russian Количество единиц. \~english A number of decrement steps.
-\return \~russian 0 - если соответствующая часть счетчика обнулилась, не 0 - в других случаях \~english 0 if correspondent counter is nulled, not 0 else.
+\param pcounter Указатель на счетчик.
+\param prio Приоритет.
+\param count Количество единиц.
+\return 0 - если соответствующая часть счетчика обнулилась, не 0 - в других случаях.
+
+\~english
+\brief
+Decrease counter by a number of steps;
+
+\param pcounter A #pcounter_t pointer.
+\param prio A priority.
+\param count A number of decrement steps.
+\return 0 if correspondent counter is nulled, not 0 else.
 */
 index_t pcounter_minus(pcounter_t * pcounter, prio_t prio, count_t count);
 #endif // _PCOUNTER_H_

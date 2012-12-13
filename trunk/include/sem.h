@@ -87,13 +87,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 typedef struct _sem_t sem_t;
 // Свойства
 /*!
-\brief \~russian Счетный семафор. \~english A counting semaphore.
-
 \~russian
+\brief
+Счетный семафор.
+
 Счетные семафоры используются для синхронизации процессов. Не рекомендуется их использовать для организации доступа к общим ресурсам, т.к. здесь нет управления приоритетами.
 Счетный семафор может быть захвачен 1 процессом, а освобожден другим.
 
 \~english
+\brief
+A counting semaphore.
+
 Counting semaphores are used for process synchronization.
 It is not recomended to use them in common data access control, because priority inversion is possible.
 A counting semaphore can be locked by one process and unlocked by another.
@@ -109,109 +113,167 @@ struct _sem_t
 // Методы
 // Инициализация
 /*!
-\brief \~russian Инициализация семафора из обработчика прерывания или критической секции. \~english Semaphore initiation from ISR.
+\~russian
+\brief
+Инициализация семафора из обработчика прерывания или критической секции.
 
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
-\param count \~russian Начальное значение счетчика. \~english A counter start value.
+\param sem Указатель на семафор.
+\param count Начальное значение счетчика.
+
+\~english
+\brief
+Semaphore initiation from ISR.
+
+\param sem A #sem_t pointer.
+\param count A counter start value.
 */
 void sem_init_isr( sem_t * sem, count_t count );
 /*!
-\brief \~russian Инициализация семафора. \~english Semaphore initiation.
+\~russian
+\brief
+Инициализация семафора.
 
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
-\param count \~russian Начальное значение счетчика. \~english A counter start value.
+\param sem Указатель на семафор.
+\param count Начальное значение счетчика.
+
+\~english
+\brief
+Semaphore initiation.
+
+\param sem A #sem_t pointer.
+\param count A counter start value.
 */
 void sem_init( sem_t * sem, count_t count );
 // Захват/освобождение
 /*!
-\brief \~russian Захват семафора. \~english A semaphore lock.
-
 \~russian
+\brief
+Захват семафора.
+
 Если значение счетчика семафора больше 0, то процесс уменьшает счетчик семафора на 1 и продолжает выполняться.
 Если значение счетчика семафора равно 0, процесс останавливается и встает в список ожидающих освобождения семафора.
+
+\param sem Указатель на семафор.
+\return 1 если удалось захватить семафор без ожидания, 0 если не удалось.
+
 \~english
+\brief
+A semaphore lock.
+
 If semaphore counter greater than zero, then it will be decreased and caller process will continue,
 else  caller process will stop and wait until semaphore get free.
 
-
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
-\return \~russian 1 если удалось захватить семафор без ожидания, 0 если не удалось. \~english 1 if semaphore was locked without wait, else 0.
+\param sem A #sem_t pointer.
+\return 1 if semaphore was locked without wait, else 0.
 */
 bool_t sem_lock( sem_t * sem );
 /*!
-\brief \~russian Попытка захвата семафора. \~english Try to lock a semaphore.
-
 \~russian
+\brief
+Попытка захвата семафора.
+
 Если значение счетчика семафора больше 0, то процесс уменьшает счетчик семафора на 1 и продолжает выполняться.
 Если значение счетчика семафора равно 0, процесс просто продолжает выполняться.
 
+\param sem Указатель на семафор.
+\return 1 если удалось захватить семафор, 0 если не удалось.
+
 \~english
+\brief
+Try to lock a semaphore.
+
 If semaphore counter greater than zero, then it will be decreased and caller process will continue,
 else caller process will just continue.
 
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
-\return \~russian 1 если удалось захватить семафор, 0 если не удалось. \~english 1 if semaphore was succefully locked, else 0.
+\param sem A #sem_t pointer.
+\return 1 if semaphore was succefully locked, else 0.
 */
 bool_t sem_try_lock( sem_t * sem );
 /*!
-\brief \~russian Освобождение семафора. \~english Semaphore unlock.
-
 \~russian
+\brief
+Освобождение семафора.
+
 Если список ожидающих захвата семафора пуст, то счетчик семафора увеличиваем на 1.
 Если не пуст - возобновляем работу головы списка.
 
+\param sem Указатель на семафор.
+
 \~english
+\brief
+Semaphore unlock.
+
 If semaphore wait lisk is empty, then counter will be encreased,
 else semaphore wait list head will be launched.
 
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
+\param sem A #sem_t pointer.
 */
 void sem_unlock( sem_t * sem );
 
 /*!
-\brief \~russian Освобождение  для использования в обработчиках прерываний \~english Semaphore unlock for ISR usage.
-
 \~russian
+\brief
+Освобождение  для использования в обработчиках прерываний
+
 Если список ожидающих захвата семафора пуст, то счетчик семафора увеличиваем на 1.
 Если не пуст - возобновляем работу головы списка.
 
+\param sem Указатель на семафор.
+
 \~english
+\brief
+Semaphore unlock for ISR usage.
+
 If semaphore wait lisk is empty, then counter will be encreased,
 else semaphore wait list head will be launched.
 
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
+\param sem A #sem_t pointer.
 */
 void sem_unlock_isr( sem_t * sem );
 // То же, для внутреннего использования
 // Захват/освобождение
 /*!
-\brief \~russian Захват семафора для внутреннего использования. \~english A semaphore lock kernel part.
-
 \~russian
+\brief
+Захват семафора для внутреннего использования.
+
 Если значение счетчика семафора больше 0, то процесс уменьшает счетчик семафора на 1 и продолжает выполняться.
 Если значение счетчика семафора равно 0, процесс останавливается и встает в список ожидающих освобождения семафора.
+
+\param sem Указатель на семафор.
+\return 1 если удалось захватить семафор без ожидания, 0 если не удалось.
+
 \~english
+\brief
+A semaphore lock kernel part.
+
 If semaphore counter greater than zero, then it will be decreased and caller process will continue,
 else  caller process will stop and wait until semaphore get free.
 
-
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
-\return \~russian 1 если удалось захватить семафор без ожидания, 0 если не удалось. \~english 1 if semaphore was locked without wait, else 0.
+\param sem A #sem_t pointer.
+\return 1 if semaphore was locked without wait, else 0.
 */
 bool_t _sem_lock( sem_t * sem );
 /*!
-\brief \~russian Попытка захвата семафора для внутреннего использования. \~english Try to lock a semaphore kernel part.
-
 \~russian
+\brief
+Попытка захвата семафора для внутреннего использования.
+
 Если значение счетчика семафора больше 0, то процесс уменьшает счетчик семафора на 1 и продолжает выполняться.
 Если значение счетчика семафора равно 0, процесс просто продолжает выполняться.
 
+\param sem Указатель на семафор.
+\return 1 если удалось захватить семафор, 0 если не удалось.
+
 \~english
+\brief
+Try to lock a semaphore kernel part.
+
 If semaphore counter greater than zero, then it will be decreased and caller process will continue,
 else caller process will just continue.
 
-\param sem \~russian Указатель на семафор. \~english A #sem_t pointer.
-\return \~russian 1 если удалось захватить семафор, 0 если не удалось. \~english 1 if semaphore was succefully locked, else 0.
+\param sem A #sem_t pointer.
+\return 1 if semaphore was succefully locked, else 0.
 */
 bool_t _sem_try_lock( sem_t * sem );
 

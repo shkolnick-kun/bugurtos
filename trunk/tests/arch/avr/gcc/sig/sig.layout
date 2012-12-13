@@ -1,6 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="129" />
+	</File>
+	<File name="../../../../../include/crit_sec.h" open="0" top="0" tabpos="0">
+		<Cursor position="8438" topLine="172" />
+	</File>
+	<File name="../../../../../include/index.h" open="0" top="0" tabpos="0">
+		<Cursor position="6559" topLine="78" />
+	</File>
+	<File name="../../../../../include/ipc.h" open="0" top="0" tabpos="0">
+		<Cursor position="11547" topLine="0" />
+	</File>
+	<File name="../../../../../include/item.h" open="0" top="0" tabpos="0">
+		<Cursor position="8180" topLine="136" />
+	</File>
+	<File name="../../../../../include/kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="8402" topLine="142" />
+	</File>
+	<File name="../../../../../include/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="6421" topLine="90" />
+	</File>
+	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="0">
+		<Cursor position="8972" topLine="167" />
+	</File>
+	<File name="../../../../../include/pitem.h" open="0" top="0" tabpos="0">
+		<Cursor position="9456" topLine="37" />
+	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="6878" topLine="68" />
+	</File>
+	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="10824" topLine="205" />
+	</File>
+	<File name="../../../../../include/sem.h" open="0" top="0" tabpos="0">
+		<Cursor position="13472" topLine="256" />
+	</File>
+	<File name="../../../../../include/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="14464" topLine="109" />
+	</File>
+	<File name="../../../../../include/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="11486" topLine="54" />
+	</File>
+	<File name="../../../../../include/timer.h" open="0" top="0" tabpos="0">
+		<Cursor position="9281" topLine="0" />
+	</File>
+	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
+		<Cursor position="8240" topLine="153" />
+	</File>
+	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="81" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="2764" topLine="78" />
+	</File>
 	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1078" topLine="13" />
 	</File>

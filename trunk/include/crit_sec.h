@@ -81,8 +81,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /*!
 \file
-\~russain
-\brief Заголовок критических секций.
+\~russian
+\brief
+Заголовок критических секций.
 
 Критическая секция - область кода, в которой запрещены все прерывания. Критические секции используются, когда надо использовать общий ресурс в течение короткого ввремени.
 
@@ -90,7 +91,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 когда произошел выход из всех критических секций.
 
 \~english
-\brief A critical section header.
+\brief
+A critical section header.
 
 A critical section is a part of a code where interrupts are disabled.
 Critical sections are used when a common data are used for a short time.
@@ -99,7 +101,7 @@ Critical sections may be nested, in this case interrupts get enabled on exit fro
 
 /*!
 \def ENTER_CRIT_SEC()
-\~russain
+\~russian
 \brief Макрос-обертка.
 
 Вход в критическую секцию.
@@ -114,7 +116,7 @@ A critical section start.
 \warning All local variables must be declared before #ENTER_CRIT_SEC, and all executable code must be below it.
 
 \def EXIT_CRIT_SEC()
-\~russain
+\~russian
 \brief Макрос-обертка.
 
 Выход из критической секции.
@@ -134,7 +136,7 @@ A critical section end.
 #define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
 
 /*!
-\~russain
+\~russian
 \brief Вход в критическую секцию на многопроцессорной системе.
 
 \return
@@ -147,7 +149,7 @@ A critical section end.
 */
 core_id_t _enter_crit_sec(void);
 /*!
-\~russain
+\~russian
 \brief Выход из критической секции на многопроцессорной системе
 
 \param core ID процессороного ядра, на котором выполняется.
@@ -167,7 +169,7 @@ void _exit_crit_sec(core_id_t core);
 #define EXIT_CRIT_SEC() exit_crit_sec()
 
 /*!
-\~russain
+\~russian
 \brief Вход в критическую секцию.
 
 Вход в критическую секцию.
@@ -178,7 +180,7 @@ A critical section start.
 */
 void enter_crit_sec(void);
 /*!
-\~russain
+\~russian
 \brief Выход из критической секции.
 
 Вход в критическую секцию.

@@ -83,11 +83,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок функции поиска в бинарном индексе. \~english An index search header.
 */
 /*!
+\~russian
 \brief
-\~russian Поиск в бинарном индексе. \~english An index search.
+Поиск в бинарном индексе.
 
-\param index \~russian Бинарный индекс. \~english An index.
-\return \~russian Наивысший (с минимальным значением) приоритет в индексе. \~english Highest priority of an index (with minimal value).
+\param index Бинарный индекс.
+\return Наивысший (с минимальным значением) приоритет в индексе.
+
+\brief
+\~russian An index search.
+
+\param index An index.
+\return Highest priority of an index (with minimal value).
 */
 prio_t index_search(index_t index);
 
