@@ -81,31 +81,49 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /*!
 \file
-\brief \~russian Заголовок программных таймеров. \~english A software timer headers.
-
 \~russian
+\brief
+Заголовок программных таймеров.
+
 Программные таймеры используются для синхронизации процессов по времени.
+
+\warning Программные таймеры нельзя использовать для точного измерения интервалов времени!
+
 \~english
+\brief
+A software timer headers.
+
 Software timers used for time-process synchronization.
 
-\warning \~russian Программные таймеры нельзя использовать для точного измерения интервалов времени! \~english Software timers can not be used for precision time interval measurement!
+\warning Software timers can not be used for precision time interval measurement!
 */
 
 /*!
 \def SPIN_LOCK_KERNEL_TIMER()
-\brief \~russian Макрос-обертка. \~english Wrapper macro.
-
 \~russian
+\brief
+Макрос-обертка.
+
 Обертка захвата спин-блокировки таймера ядра, на однопроцессорной системе - пустой макрос.
+
 \~english
+\brief
+Wrapper macro.
+
 A wrapper for kernel timer spin-lock, on single core system - empty macro.
 
 \def SPIN_UNLOCK_KERNEL_TIMER()
-\brief \~russian Макрос-обертка. \~english Wrapper macro.
 
 \~russian
+\brief
+Макрос-обертка.
+
 Обертка освобождения спин-блокировки таймера ядра, на однопроцессорной системе - пустой макрос.
+
 \~english
+\brief
+Wrapper macro.
+
 A wrapper for kernel timer spin-unlock, on single core system - empty macro.
 */
 #ifdef CONFIG_MP
@@ -122,40 +140,79 @@ A wrapper for kernel timer spin-unlock, on single core system - empty macro.
 
 // Работа с программными таймерами
 /*!
-\brief \~russian Сброс программного таймера. \~english Reset software timer.
+\brief
+\~russian
+Сброс программного таймера.
 
-\param t \~russian Указатель на таймер. \~english A pointer to a timer.
+\param t Имя переменной таймера.
+
+\~english
+Reset software timer.
+
+\param t A timer variable name.
 */
 #define CLEAR_TIMER(t) _clear_timer( (timer_t *)&t)
 /*!
-\brief \~russian Получить значение программного таймера, для внутреннего использования. \~english Get software timer value.
 
-\param t \~russian Значение таймера. \~english Software timer value.
+\~russian
+\brief
+Получить значение программного таймера, для внутреннего использования.
+
+\param t Значение таймера.
+
+\~english
+\brief
+Get software timer value.
+
+\param t Software timer value.
 */
 #define TIMER(t) (timer_t)_timer( (timer_t)t )
 /*!
-\brief \~russian Подождать заданный интервал времени. \~english Wait for certain time.
-
 \~russian
+\brief
+Подождать заданный интервал времени.
+
 Просто ждет в цикле пока пройдет время time.
+
+\param time Время ожидания.
+
 \~english
+\brief
+Wait for certain time.
+
 Caller process spins in a loop for a time.
 
-\param time \~russian Время ожидания. \~english Wait time.
+\param time Wait time.
 */
 void wait_time( timer_t time );
 
 // Для внутреннего пользования
 /*!
-\brief \~russian Сброс программного таймера, для внутреннего использования. \~english Clear software timer. For unternal usage.
+\~russian
+\brief
+Сброс программного таймера, для внутреннего использования.
 
-\param t \~russian Указатель на таймер.  \~english A pointer to a timer.
+\param t Указатель на таймер.
+
+\~english
+\brief
+Clear software timer. For unternal usage.
+
+\param t A pointer to a timer.
 */
 void _clear_timer(timer_t * t);
 /*!
-\brief \~russian Получить значение программного таймера, для внутреннего использования. \~english Get software timer. For internal usage.
+\~russian
+\brief
+Получить значение программного таймера, для внутреннего использования.
 
-\param t \~russian Значение таймера.  \~english A timer value.
+\param t Значение таймера.
+
+\~english
+\brief
+Get software timer. For internal usage.
+
+\param t A timer value.
 */
 timer_t _timer(timer_t t);
 

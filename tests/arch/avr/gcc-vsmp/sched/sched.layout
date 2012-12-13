@@ -29,30 +29,30 @@
 		<Cursor position="0" topLine="24" />
 	</File>
 	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="1">
-		<Cursor position="8099" topLine="105" />
+		<Cursor position="8099" topLine="87" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6121" topLine="94" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="5">
-		<Cursor position="6986" topLine="100" />
+	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="4">
+		<Cursor position="6986" topLine="106" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="4">
 		<Cursor position="7925" topLine="115" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="2">
 		<Cursor position="22682" topLine="211" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="2">
 		<Cursor position="6530" topLine="148" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="4">
+	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="3">
 		<Cursor position="8711" topLine="206" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="7315" topLine="129" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="3">
+	<File name="../config.h" open="1" top="0" tabpos="3">
 		<Cursor position="1451" topLine="30" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="2">

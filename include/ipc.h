@@ -85,98 +85,150 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 
 /*!
+\~russian
 \brief
-\~russian Переход процесса к ожиданию получения данных через IPC. \~english Wait for IPC kernel part.
+Переход процесса к ожиданию получения данных через IPC.
 
-\warning \~russian Для внутреннего использования. \~english For internal usage only!!!
-\param ipc_pointer \~russian Указатель на хранилище для передаваемых данных. \~english A pointer to IPC data storage.
+\warning Для внутреннего использования.
+\param ipc_pointer Указатель на хранилище для передаваемых данных.
+
+\~english
+\brief
+Wait for IPC kernel part.
+
+\warning For internal usage only!!!
+\param ipc_pointer A pointer to IPC data storage.
 */
 void _ipc_wait( void * ipc_pointer );
 
 /*!
+\~russian
 \brief
-\~russian Переход процесса к ожиданию получения данных через IPC. \~english Wait for IPC.
+Переход процесса к ожиданию получения данных через IPC.
 
-\return \~russian Данные. \~english IPC data.
+\return Данные.
+
+\~english
+\brief
+Wait for IPC.
+
+\return IPC data.
 */
 ipc_data_t ipc_wait( void );
 
 /*!
+\~russian
 \brief
-\~russian Посылка данных процессу через IPC. \~english IPC data transmition.
+Посылка данных процессу через IPC.
 
-\~russian Проверяет, действительно ли процесс-адресат ждет получения данных через IPC.
+Проверяет, действительно ли процесс-адресат ждет получения данных через IPC.
 Если процесс-адресат действительно ждет, Ядро передает данные и запускает процесс-адресат.
 
-\~english This function checks a destignation process state.
+\param proc Указатель на процесс-адресат.
+\param data Данные для передачи.
+\return 1 - Если удалось передать данные, 0 - если нет.
+
+\~english
+\brief
+IPC data transmition.
+
+This function checks a destignation process state.
 If destignation process is waiting for IPC, then data gets transmited and destignation process gets launched.
 
-\param proc \~russian Указатель на процесс-адресат. \~english A ddestignation process pointer.
-\param data \~russian Данные для передачи. \~english A data to transmit.
-\return \~russian 1 - Если удалось передать данные, 0 - если нет. \~english 1 - if data has been transmited, else 0.
+\param proc A ddestignation process pointer.
+\param data A data to transmit.
+\return 1 - if data has been transmited, else 0.
 */
 bool_t ipc_send( proc_t * proc, ipc_data_t data );
 
 /*!
-\brief
-\~russian Посылка данных процессу через IPC. Для вызова из обработчиков прерываний. \~english IPC data transmition for ISR usage.
-
-\warning \~russian Для вызова из обработчиков прерываний! \~english Use in interrupt service routines.
-
 \~russian
+\brief
+Посылка данных процессу через IPC. Для вызова из обработчиков прерываний.
+
+\warning Для вызова из обработчиков прерываний!
+
 Проверяет, действительно ли процесс-адресат ждет получения данных через IPC.
 Если процесс-адресат действительно ждет, Ядро передает данные и запускает процесс-адресат.
 
-\~english This function checks a destignation process state.
+\param proc Указатель на процесс-адресат.
+\param data Данные для передачи.
+\return 1 - Если удалось передать данные, 0 - если нет.
+
+\~english
+\brief
+IPC data transmition for ISR usage.
+
+\warning Use in interrupt service routines.
+
+This function checks a destignation process state.
 If destignation process is waiting for IPC, then data gets transmited and destignation process gets launched.
 
-\param proc \~russian Указатель на процесс-адресат. \~english A ddestignation process pointer.
-\param data \~russian Данные для передачи. \~english A data to transmit.
-\return \~russian 1 - Если удалось передать данные, 0 - если нет. \~english 1 - if data has been transmited, else 0.
+\param proc A ddestignation process pointer.
+\param data A data to transmit.
+\return 1 - if data has been transmited, else 0.
 */
 bool_t ipc_send_isr( proc_t * proc, ipc_data_t data );
 
 /*!
-\brief
-\~russian Посылка данных процессу через IPC, прием ответа через IPC. \~english An IPC data transmition with wait for answer via IPC kernel part.
-
-\warning \~russian Для внутреннего использования! \~english For internal usage only!
-
 \~russian
+\brief
+Посылка данных процессу через IPC, прием ответа через IPC.
+
+\warning Для внутреннего использования!
+
 Проверяет, действительно ли процесс-адресат ждет получения данных через IPC.
 Если процесс-адресат действительно ждет, Ядро передает данные и запускает процесс-адресат,
 при этом процесс отправитель переходит к ожиданию данных через IPC.
 
+\param proc Указатель на процесс-адресат.
+\param send Данные для передачи.
+\param receive Указатель на хранилище данных для приема.
+\return 1 - если удалось передать данные, 0 - если нет.
+
 \~english
+\brief
+An IPC data transmition with wait for answer via IPC kernel part.
+
+\warning For internal usage only!
+
 This function checks a destignation process state.
 If destignation process is waiting for IPC, then data gets transmited and destignation process gets launched.
 If transmition has been sucessful then caller process wats for answer via IPC.
 
-\param proc \~russian Указатель на процесс-адресат. \~english A ddestignation process pointer.
-\param send \~russian Данные для передачи. \~english A data to transmit.
-\param receive \~russian указатель на хранилище данных для приема. \~english A pointer to receive data storage.
-\return \~russian 1 - если удалось передать данные, 0 - если нет. \~english 1 - if data has been transmited, else 0.
+\param proc A ddestignation process pointer.
+\param send A data to transmit.
+\param receive A pointer to receive data storage.
+\return 1 - if data has been transmited, else 0.
 */
 bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive );
 
 /*!
-\brief
-\~russian Посылка данных процессу через IPC, прием ответа через IPC. \~english An IPC data transmition with wait for answer via IPC kernel part.
-
 \~russian
+\brief
+Посылка данных процессу через IPC, прием ответа через IPC.
+
 Проверяет, действительно ли процесс-адресат ждет получения данных через IPC.
 Если процесс-адресат действительно ждет, Ядро передает данные и запускает процесс-адресат,
 при этом процесс отправитель переходит к ожиданию данных через IPC.
 
+\param proc Указатель на процесс-адресат.
+\param send Данные для передачи.
+\param receive указатель на хранилище данных для приема.
+\return 1 - если удалось передать данные, 0 - если нет.
+
 \~english
+\brief
+An IPC data transmition with wait for answer via IPC kernel part.
+
 This function checks a destignation process state.
 If destignation process is waiting for IPC, then data gets transmited and destignation process gets launched.
 If transmition has been sucessful then caller process wats for answer via IPC.
 
-\param proc \~russian Указатель на процесс-адресат. \~english A ddestignation process pointer.
-\param send \~russian Данные для передачи. \~english A data to transmit.
-\param receive \~russian указатель на хранилище данных для приема. \~english A pointer to receive data storage.
-\return \~russian 1 - если удалось передать данные, 0 - если нет. \~english 1 - if data has been transmited, else 0.
+\param proc A ddestignation process pointer.
+\param send A data to transmit.
+\param receive A pointer to receive data storage.
+\return 1 - if data has been transmited, else 0.
 */
 bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive );
 

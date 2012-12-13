@@ -85,11 +85,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 //Ядро
 typedef struct _kernel_t kernel_t;
 /*!
+\~russian
 \brief
-\~russian Ядро BuguRTOS. \~english A BuguRTOS kernel structure.
+Ядро BuguRTOS.
 
-\~russian В ядре хранится информация о запущенных процессах, процессе(ах) холостого хода.
-\~english The kernel stores information about launched processes, system time and other important information.
+В ядре хранится информация о запущенных процессах, процессе(ах) холостого хода.
+
+\~english
+\brief
+A BuguRTOS kernel structure.
+
+The kernel stores information about launched processes, system time and other important information.
+
 */
 struct _kernel_t
 {
@@ -107,35 +114,57 @@ struct _kernel_t
     void (*timer_tick)(void);/*!< \~russian Хук обработчика системного таймера. \~english The system timer tick hook pointer. */
 };
 /*!
+\~russian
 \brief
-\~russian Ядро BuguRTOS. \~english The BuguRTOS kernel.
+Ядро BuguRTOS.
 
-\~russian Оно одно на всю систему! \~english It's the one for the entire system!
+Оно одно на всю систему!
+
+\~english
+\brief
+The BuguRTOS kernel.
+
+It's the one for the entire system!
 */
 extern kernel_t kernel;
 // Методы
 /*!
+\~russian
 \brief
-\~russian Инициализация Ядра. \~english The kernel initiation.
+Инициализация Ядра.
 
-\~russian Готовит ядро к запуску. \~english This function prepares the kernel to work.
+Готовит ядро к запуску.
+
+\~english
+\brief
+The kernel initiation.
+
+This function prepares the kernel to work.
 */
 void kernel_init(void);
 
 /*!
-\brief
-\~russian Главная функция процесса холостого хода. \~english An IDLE process main function.
-
 \~russian
+\brief
+Главная функция процесса холостого хода.
+
 Можно использовать встроенную функцию, а можно определить ее самому.
 Из #idle_main можно работать с программными таймерами, подавать сигналы, ОСВОБОЖДАТЬ семафоры.
+
+\warning Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семаформы и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил!
+
+\param arg Указатель на аргумент.
+
 \~english
+\brief
+An IDLE process main function.
+
 You can use builtin function, or you can write your own.
 IDLE process can work with timers, fire signals and UNLOCK semaphores, SEND IPC data!
 
-\warning \~russian Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семаформы и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил! \~english An idle_main sholud NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
+\warning An idle_main sholud NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
 
-\param arg \~russian Указатель на аргумент. \~english An argument pointer.
+\param arg An argument pointer.
 */
 void idle_main(void * arg);
 

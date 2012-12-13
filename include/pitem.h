@@ -88,8 +88,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 typedef struct _pitem_t pitem_t;
 //Свойства
 /*!
+\~russian
 \brief
-\~russian Элемент списка с приоритетами \~english A prioritized list item.
+Элемент списка с приоритетами
+
+\~english
+\brief
+A prioritized list item.
 */
 struct _pitem_t
 {
@@ -99,56 +104,108 @@ struct _pitem_t
 };
 
 /*!
-   \~russian Статическая инициализация объекта типа #pitem_t \~english A static #pitem_t object initiation.
-   \param a \~russian Имя переменной. \~english A variable name.
-   \param p \~russian Приоритет. \~english A rpiority.
+   \~russian
+   Статическая инициализация объекта типа #pitem_t
+
+   \param a Имя переменной.
+   \param p Приоритет.
+
+   \~english
+   A static #pitem_t object initiation.
+
+   \param a A variable name.
+   \param p A rpiority.
 */
 #define INIT_P_ITEM_T(a,p) { INIT_ITEM_T(a), (xlist_t *)0, (prio_t)p }
 
 //Методы
 /*!
+\~russian
 \brief
-\~russian Инициализация объект а типа #pitem_t. \~english A #pitem_t object initiation.
+Инициализация объект а типа #pitem_t.
 
-\param pitem \~russian Указатель на объект #pitem_t. \~english A #pitem_t pointer.
-\param prio \~russian Приоритет элемента. \~english A priority.
+\param pitem Указатель на объект #pitem_t.
+\param prio Приоритет элемента.
+
+\~english
+\brief
+A #pitem_t object initiation.
+
+\param pitem A #pitem_t pointer.
+\param prio A priority.
 */
 void pitem_init( pitem_t * pitem, prio_t prio );
 /*!
+\~russian
 \brief
-\~russian Вставка элемента типа #pitem_t в список типа #xlist_t. \~english Insert #pitem_t object to #xlist_t container.
+Вставка элемента типа #pitem_t в список типа #xlist_t.
 
-\param pitem \~russian Указатель на объект #pitem_t. \~english A #pitem_t pointer.
-\param xlist \~russian Указатель на список. \~english A pointer to destignation list.
+\param pitem Указатель на объект #pitem_t.
+\param xlist Указатель на список.
+
+\~english
+\brief
+Insert #pitem_t object to #xlist_t container.
+
+\param pitem A #pitem_t pointer.
+\param xlist A pointer to destignation list.
 */
 void pitem_insert( pitem_t * pitem, xlist_t * xlist );
 /*!
+\~russian
 \brief
-\~russian Быстро вырезать из списка. \~english Fast cut #pitem_t object from #xlist_t container.
+Быстро вырезать из списка.
 
-\~russian Вырезает объект типа #pitem_t, из спика типа #xlist_t, не обнуляет указатель pitem->list. \~english This function cuts #pitem_t object from #xlist_t container without pitem->list field.
+Вырезает объект типа #pitem_t, из спика типа #xlist_t, не обнуляет указатель pitem->list.
 
-\param pitem \~russian Указатель на объект #pitem_t.\~english A #pitem_t pointer.
+\param pitem Указатель на объект #pitem_t.
+
+\~english
+\brief
+Fast cut #pitem_t object from #xlist_t container.
+
+This function cuts #pitem_t object from #xlist_t container without pitem->list field.
+
+\param pitem A #pitem_t pointer.
 */
 void pitem_fast_cut( pitem_t * pitem );
 /*!
+\~russian
 \brief
-\~russian Вырезать из списка. \~english Cut #pitem_t object from #xlist_t container.
+Вырезать из списка.
 
-\~russian Вызывает #pitem_fast_cut и обнуляет указатель pitem->list. \~english This function calls #pitem_fast_cut and then nulls pitem->list field.
+Вызывает #pitem_fast_cut и обнуляет указатель pitem->list.
 
-\param pitem \~russian Указатель на объект #pitem_t. \~english A #pitem_t pointer.
+\param pitem Указатель на объект #pitem_t.
+
+\~english
+\brief
+Cut #pitem_t object from #xlist_t container.
+
+This function calls #pitem_fast_cut and then nulls pitem->list field.
+
+\param pitem A #pitem_t pointer.
 */
 void pitem_cut( pitem_t * pitem );
 
 /*!
+\~russian
 \brief
-\~russian "Сцепить" список типа #xlist_t. \~english "Chain" #pitem_t objects from #xlist_t container.
+"Сцепить" список типа #xlist_t.
 
-\~russian Вырезать из списка типа xlist_t все элементы типа #pitem_t и сделать из них простой 2-связный список. \~english Cut all #pitem_t objects from #xlist_t container and form an ordinary list from them.
+Вырезать из списка типа xlist_t все элементы типа #pitem_t и сделать из них простой 2-связный список.
 
-\param src \~russian Указатель на объект #xlist_t. \~english A #xlist_t pointer.
-\return \~russian Указаьель на голову 2-связного списка. \~english An ordinary list head pointer.
+\param src Указатель на объект #xlist_t.
+\return Указаьель на голову 2-связного списка.
+
+\~english
+\brief
+"Chain" #pitem_t objects from #xlist_t container.
+
+Cut all #pitem_t objects from #xlist_t container and form an ordinary list from them.
+
+\param src A #xlist_t pointer.
+\return An ordinary doublelinked list head pointer.
 */
 pitem_t * pitem_xlist_chain( xlist_t * src );
 #endif // _PITEM_H_

@@ -112,16 +112,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \param a указатель на процесс.
 \param b приоритет захваченного мьютекса, если используется протокол highest locker.
 
-\def PROC_PRIO_CONTROL_RUNNING(a)
-\brief Макрос-обертка.
-
-Управление приоритетом запущенного процесса.
-В случае использования протокола highest locker приводит
-поле proc->group->prio в соответствие с полем proc-lres,
-иначе - пустой макрос.
-
-\param a указатель на процесс.
-
 \def PROC_PRIO_CONTROL_STOPED(a)
 \brief Макрос-обертка.
 
@@ -503,6 +493,7 @@ void _proc_terminate(proc_t * proc);
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+
 \~english
 \brief A process launch routine.
 
@@ -519,6 +510,7 @@ bool_t proc_run(proc_t * proc);
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+
 \~english
 \brief A process launch routine for usage in interrupt service routines and critical sections.
 
@@ -536,6 +528,7 @@ bool_t proc_run_isr(proc_t * proc);
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+
 \~english
 \brief A process restart routine.
 
@@ -552,6 +545,7 @@ bool_t proc_restart(proc_t * proc);
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #proc_init, и ставит процесс в список готовых к выполнению, производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+
 \~english
 \brief A process restart routine for usage in interrupt service routines and critical sections.
 
@@ -568,6 +562,7 @@ bool_t proc_restart_isr(proc_t * proc);
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
 \param proc - Указатель на останавливаемый процесс.
 \return 1 - если процесс был вырезан из списка готовых к выполнению, 0 во всех остальных случаях.
+
 \~english
 \brief A process stop routine.
 
@@ -583,6 +578,7 @@ bool_t proc_stop(proc_t * proc);
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
 \param proc - Указатель на останавливаемый процесс.
 \return 1 - если процесс был вырезан из списка готовых к выполнению, 0 во всех остальных случаях.
+
 \~english
 \brief A process stop routine for usage in interrupts service routines and critical sections.
 
@@ -596,6 +592,7 @@ bool_t proc_stop_isr(proc_t * proc);
 \brief Самоостанов процесса.
 
 Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
+
 \~english
 \brief A process self stop routine.
 
@@ -607,6 +604,7 @@ void proc_self_stop(void);
 \brief Самоостанов процесса (для внутреннего использования).
 
 Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
+
 \~english
 \brief A process self stop routine (for internal usage only!).
 
@@ -621,6 +619,7 @@ void _proc_self_stop(void);
 Передает управление следующему процессу, если такой процесс есть.
 
 \return 0 если нет других выполняющихся процессов, не 0 - если есть.
+
 \~english
 \brief Pass control to next ready process (for internal usage only!).
 
@@ -637,6 +636,7 @@ index_t _proc_yeld( void );
 Передает управление следующему процессу, если такой процесс есть.
 
 \return 0 если нет других выполняющихся процессов, не 0 - если есть.
+
 \~english
 \brief Pass control to next ready process.
 
@@ -653,6 +653,7 @@ index_t proc_yeld( void );
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
 Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
+
 \~english
 \brief A watchdog reset routine for real time processes.
 
@@ -666,6 +667,7 @@ void proc_reset_watchdog(void);
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
 Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
+
 \~english
 \brief A watchdog reset routine for real time processes for internal usage.
 
@@ -732,6 +734,7 @@ void _proc_lres_dec(
 
 Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
 \param proc - Указатель на процесс.
+
 \~english
 \brief A stoped process priority control routine.
 
@@ -745,6 +748,7 @@ void _proc_prio_control_stoped( proc_t * proc );
 
 Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть запущен на момент вызова.
 \param proc - Указатель на процесс.
+
 \~english
 \brief A running process priority control routine.
 
@@ -772,6 +776,7 @@ void _proc_prio_control_running( proc_t * proc );
 
 Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
 \param object_core - процессорное ядро, с которого будем снимать нагрузку.
+
 \~english
 \brief A lazy load balancer routine. For internal usage.
 
@@ -785,6 +790,7 @@ void _proc_lazy_load_balancer(core_id_t object_core);
 \brief Ленивая балансировка нагрузки, локальный балансировщик.
 
 Переносит 1 процесс с ядра, на котором выполняется на самое не нагруженное процессорное ядро в системе.
+
 \~english
 \brief A lazy local load balancer routine.
 
@@ -796,6 +802,7 @@ void proc_lazy_local_load_balancer(void);
 \brief Ленивая балансировка нагрузки, глобальный балансировщик.
 
 Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
+
 \~english
 \brief A lazy global load balancer routine.
 

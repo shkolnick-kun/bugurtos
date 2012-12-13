@@ -20,13 +20,19 @@
 		<Cursor position="0" topLine="177" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="12363" topLine="215" />
+		<Cursor position="9975" topLine="233" />
+	</File>
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="22" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="145" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
 		<Cursor position="8689" topLine="0" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="137" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3353" topLine="215" />

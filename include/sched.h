@@ -80,9 +80,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _SCHED_H_
 /*!
 \file
-\brief \~russian Заголовок планировщика \~english A scheduler header.
+\~russian
+\brief
+Заголовок планировщика
 
-\warning \~russian Все функции в этом файле для внутреннего использования!!! \~english All functions in this file are internel usage functins!!!
+\warning Все функции в этом файле для внутреннего использования!!!
+
+\~english
+\brief
+A scheduler header.
+
+\warning All functions in this file are internel usage functins!!!
 */
 /*!
 \def _SCHED_INIT()
@@ -105,10 +113,17 @@ Initialization wrapper for sched variable in #sched_schedule and #sched_reschedu
 typedef struct _sched_t sched_t;
 // Свойства
 /*!
-\brief \~russian Планировщик. \~english A scheduler.
+\~russian
+\brief
+Планировщик.
 
-\~russian Планировщик содержит информацию о процессах, запущенных на процессоре (процессорном ядре).
-\~english A scheduler oject contains an information about processes, running on some CPU core.
+Планировщик содержит информацию о процессах, запущенных на процессоре (процессорном ядре).
+
+\~english
+\brief
+A scheduler.
+
+A scheduler oject contains an information about processes, running on some CPU core.
 */
 struct _sched_t
 {
@@ -141,16 +156,32 @@ This function prepares a scheduler object for work.
 */
 void sched_init(sched_t * sched, proc_t * idle);
 /*!
-\brief \~russian Функция планирования. \~english A scheduler routine.
-\~russian Переключает процессы в обработчике прерывания системного таймера.
-\~english This function switches processes in system timer interrupt handler.
+\~russian
+\brief
+Функция планирования.
+
+Переключает процессы в обработчике прерывания системного таймера.
+
+\~english
+\brief
+A scheduler routine.
+
+This function switches processes in system timer interrupt handler.
 */
 void sched_schedule(void);
 /*!
-\brief \~russian Функция перепланирования. \~english Recheduler routine.
 
-\~russian Переключает процессы в случае необходимости.
-\~english This function switches processes if needed.
+\~russian
+\brief
+Функция перепланирования.
+
+Переключает процессы в случае необходимости.
+
+\~english
+\brief
+Recheduler routine.
+
+This function switches processes if needed.
 */
 void sched_reschedule(void);
 #ifdef CONFIG_MP
@@ -164,6 +195,7 @@ void sched_reschedule(void);
 \param proc Указатель на процесс, который надо перенести на новое процессорное ядро.
 \param stat Указатель на массив статистики Ядра, либо сигнала.
 \return ID процессороного ядра с наименьшей нагрузкой.
+
 \~english
 \brief A load balancer routine.
 
@@ -182,6 +214,7 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 
 \param stat Указатель на массив статистики Ядра, либо сигнала.
 \return ID процессороного ядра с наибольшей нагрузкой.
+
 \~english
 \brief Find most loaded core.
 
