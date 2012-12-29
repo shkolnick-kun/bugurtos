@@ -178,6 +178,9 @@ void _mutex_unlock( mutex_t *  mutex )
         _proc_run( proc );
     }
     SPIN_UNLOCK( proc );
+    SPIN_UNLOCK( mutex );
+    /// KERNEL_PREEMPT
+    SPIN_LOCK( mutex );
     // Обрабока самого мьютекса
     if( ((xlist_t *)mutex)->index == (index_t)0  )
     {

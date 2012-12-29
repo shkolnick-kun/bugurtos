@@ -98,6 +98,7 @@ bool_t _sem_lock( sem_t * sem )
     SPIN_LOCK( proc );
     _proc_stop_flags_set( proc, PROC_FLG_SEM );
     SPIN_UNLOCK( proc );
+    /// KERNEL_PREEMPT
     // Собственно захват семафора
     SPIN_LOCK( sem );
     SPIN_LOCK( proc );

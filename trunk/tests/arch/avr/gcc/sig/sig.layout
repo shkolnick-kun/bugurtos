@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="81" />
+	</File>
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="129" />
 	</File>
@@ -56,6 +59,6 @@
 		<Cursor position="2764" topLine="78" />
 	</File>
 	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1078" topLine="13" />
+		<Cursor position="14" topLine="60" />
 	</File>
 </CodeBlocks_layout_file>

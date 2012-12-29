@@ -269,14 +269,12 @@ void proc_run_wrapper( proc_t * proc )
     void * arg;
     //Атомарно читаем pmain и arg
     disable_interrupts();
-
     SPIN_LOCK( proc );
 
     pmain = proc->pmain;
     arg = proc->arg;
 
     SPIN_UNLOCK( proc );
-
     enable_interrupts();
     //Выполняем pmain
     pmain( arg );

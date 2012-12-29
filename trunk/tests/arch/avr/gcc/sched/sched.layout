@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="8092" topLine="160" />
+	</File>
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../include/bugurt.h" open="1" top="0" tabpos="0">
 		<Cursor position="7839" topLine="505" />
@@ -49,8 +52,8 @@
 	<File name="../../../../../include/timer.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../include/xlist.h" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
+	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="39" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6766" topLine="73" />
@@ -61,7 +64,7 @@
 	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="81" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="0">
 		<Cursor position="13624" topLine="313" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
@@ -74,7 +77,7 @@
 		<Cursor position="795" topLine="38" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
-		<Cursor position="50" topLine="6" />
+		<Cursor position="50" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="367" topLine="58" />
