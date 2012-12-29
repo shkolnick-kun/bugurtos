@@ -319,7 +319,7 @@ index_t _proc_yeld( void )
     SPIN_LOCK( sched );
     ret = sched->expired->index;
     SPIN_UNLOCK( sched );
-
+    /// KERNEL_PREEMPT
     SPIN_LOCK( proc );
 
     if( PROC_RUN_TEST( proc ) )
@@ -339,9 +339,8 @@ index_t _proc_yeld( void )
     }
     proc->timer = proc->time_quant; // reset timer
     RESCHED_PROC( proc );
-
     SPIN_UNLOCK( proc );
-
+    /// KERNEL_PREEMPT
     SPIN_LOCK( sched );
     ret |= sched->ready->index;
     SPIN_UNLOCK( sched );

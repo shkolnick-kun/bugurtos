@@ -166,6 +166,7 @@ void _sig_wait_epilogue( void )
     proc->buf = (void *)0;
 
     SPIN_UNLOCK( proc );
+    /// KERNEL_PREEMPT
     // Надо разбудить следующий процесс в списке.
     if( wakeup_proc )
     {
@@ -236,11 +237,11 @@ void sig_broadcast_isr( sig_t * sig )
 #ifdef CONFIG_MP
     core_id_t core;
 
-    SPIN_LOCK( sig );
-
     for(core = 0; core < (core_id_t)MAX_CORES; core++)
     {
         proc_t * wakeup_proc;
+
+        SPIN_LOCK( sig );
         /*
         Фактически процессы еще не поставлены на выполнение,
         но обязательно будут, это надо учитывать при баланисировке нагрузки.
@@ -260,8 +261,10 @@ void sig_broadcast_isr( sig_t * sig )
         }
 
         resched(core);
+
+        SPIN_UNLOCK( sig );
+        /// KERNEL_PREEMPT
     }
-    SPIN_UNLOCK( sig );
 #else
     proc_t * wakeup_proc;
     /*

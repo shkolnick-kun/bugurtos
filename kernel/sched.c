@@ -180,13 +180,21 @@ static void _sched_switch_current( sched_t * sched, proc_t ** current_proc )
     // чтобы процессы на других процессорах не прочитали неизвестно что.
     sched->current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
     *current_proc = sched->current_proc;
+    SPIN_UNLOCK( sched );
+}
+static void _sched_switch_to( proc_t * current_proc )
+{
+    SPIN_LOCK( current_proc );
     /***************************************************************************
     Если процесс был в состоянии READY, то он перейдет в состояние RUNNING,
     а если в состоянии W_READY, то он перейдет в состояние W_RUNNING!!!
     ***************************************************************************/
-    (*current_proc)->flags &= PROC_STATE_CLEAR_RUN_MASK;
-    (*current_proc)->flags |= PROC_STATE_RUNNING;
-    SPIN_UNLOCK( sched );
+    current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
+    current_proc->flags |= PROC_STATE_RUNNING;
+    //Хук "восстановление контекста"
+    if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
+
+    SPIN_UNLOCK( current_proc );
 }
 /******************************************************************************************
 Если у нас есть процессор и отвечающий за управление этим процессором объект типа sched_t,
@@ -361,14 +369,10 @@ void sched_schedule(void)
     }
     //Текущий процесс более не нужен, освобождаем его блокировку
     SPIN_UNLOCK( current_proc );
-
+    /// KERNEL_PREEMPT
     _sched_switch_current( sched, &current_proc );
-
-    SPIN_LOCK( current_proc );
-    //Хук "восстановление контекста"
-    if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
-
-    SPIN_UNLOCK( current_proc );
+    /// KERNEL_PREEMPT
+    _sched_switch_to( current_proc );
 }
 //----------------------------------------------------------------------------------------
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
@@ -391,12 +395,8 @@ void sched_reschedule(void)
     }
 
     SPIN_UNLOCK( current_proc );
-
+    /// KERNEL_PREEMPT
     _sched_switch_current( sched, &current_proc );
-
-    SPIN_LOCK( current_proc );
-    //Хук "восстановление контекста"
-    if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
-
-    SPIN_UNLOCK( current_proc );
+    /// KERNEL_PREEMPT
+    _sched_switch_to( current_proc );
 }

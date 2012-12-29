@@ -13,23 +13,38 @@
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="8668" topLine="95" />
 	</File>
+	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="96" />
+	</File>
 	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="33" />
+		<Cursor position="0" topLine="117" />
+	</File>
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="103" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="177" />
+		<Cursor position="8590" topLine="177" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="9975" topLine="233" />
+		<Cursor position="13180" topLine="496" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="22" />
+		<Cursor position="21843" topLine="360" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="145" />
+		<Cursor position="6607" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="8689" topLine="0" />
+		<Cursor position="11945" topLine="256" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="12772" topLine="517" />
+	</File>
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="90" />
+	</File>
+	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="15" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="137" />
