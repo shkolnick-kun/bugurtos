@@ -101,7 +101,7 @@ proc_t * current_proc(void)
 // Состояние ядра, выполняем перепланиировку
 unsigned char kernel_state = KRN_FLG_RESCHED;
 //Временное хранилище для указателей стеков процессов.
-stack_t * saved_proc_sp;
+stack_t * saved_sp;
 #ifdef CONFIG_PREEMPTIVE_KERNEL
 // Счетчик уровней вложенности прерываний
 count_t nested_interrupts = (count_t)0;
@@ -165,11 +165,11 @@ void SYSCALL_ISR(void)
     BUGURT_ISR_START();
 
     // Получаем информацию о системном вызове из стека процесса
-    saved_proc_sp += PROC_STACK_OFFSET;
-    saved_proc_sp = bugurt_reverse_byte_order( *(stack_t **)saved_proc_sp );
+    saved_sp += PROC_STACK_OFFSET;
+    saved_sp = bugurt_reverse_byte_order( *(stack_t **)saved_sp );
 
-    syscall_num = ((syscall_data_t *)saved_proc_sp)->num;
-    syscall_arg = ((syscall_data_t *)saved_proc_sp)->arg;
+    syscall_num = ((syscall_data_t *)saved_sp)->num;
+    syscall_arg = ((syscall_data_t *)saved_sp)->arg;
 
     // Обрабатываем системный вызов
     do_syscall();
@@ -183,7 +183,7 @@ void SYSCALL_ISR(void)
     }
 
     // Разрешаем обработку прерывания системного таймера.
-    start_scheduler();
+    START_SCHEDULER();
 
     BUGURT_ISR_EXIT();
 }
@@ -191,7 +191,7 @@ void SYSCALL_ISR(void)
 syscall_data_t * _syscall( syscall_data_t * arg )
 {
     kernel_state |= KRN_FLG_DO_SCALL;
-    stop_scheduler(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
+    STOP_SCHEDULER(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
     raise_syscall_interrupt();
     sei();
     return arg;
@@ -238,7 +238,7 @@ void init_bugurt(void)
 }
 void start_bugurt(void)
 {
-    start_scheduler();
+    START_SCHEDULER();
     kernel.sched.nested_crit_sec = (count_t)0;
     sei();
     idle_main( (void *)0 );

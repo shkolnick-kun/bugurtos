@@ -86,14 +86,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 // Пролог обработчика прерывания
 ///                         АХТУНГ !!!
-/// Используется переменная saved_proc_sp для временного хранения
+/// Используется переменная saved_sp для временного хранения
 /// указателя стека прерываемого процесса, если так не делать,
 /// компилятор будет стирать r16, r17 до сохранения контекста.
 #ifndef CONFIG_PREEMPTIVE_KERNEL
 
 #define BUGURT_ISR_START() \
-    saved_proc_sp = bugurt_save_context();\
-    kernel.sched.current_proc->spointer = saved_proc_sp;\
+    saved_sp = bugurt_save_context();\
+    kernel.sched.current_proc->spointer = saved_sp;\
     bugurt_set_stack_pointer( kernel.idle.spointer )
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BUGURT_ISR_EXIT() \
@@ -108,10 +108,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #else // CONFIG_PREEMPTIVE_KERNEL
 
 #define BUGURT_ISR_START() \
-    saved_proc_sp = bugurt_save_context();\
+    saved_sp = bugurt_save_context();\
     if( nested_interrupts ) goto  skip_stack_switch;\
-    kernel.sched.current_proc->spointer = saved_proc_sp;\
-    stop_scheduler();\
+    kernel.sched.current_proc->spointer = saved_sp;\
+    STOP_SCHEDULER();\
     bugurt_set_stack_pointer( kernel.idle.spointer );\
 skip_stack_switch:\
     nested_interrupts++
@@ -121,7 +121,7 @@ skip_stack_switch:\
 #define BUGURT_ISR_EXIT() \
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
-    start_scheduler();\
+    START_SCHEDULER();\
     bugurt_restore_context( kernel.sched.current_proc->spointer );\
     __asm__ __volatile__("reti"::); \
 exit_nested: \
@@ -134,7 +134,7 @@ exit_nested: \
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     bugurt_check_resched();\
-    start_scheduler();\
+    START_SCHEDULER();\
     bugurt_restore_context( kernel.sched.current_proc->spointer );\
     __asm__ __volatile__("reti"::); \
 exit_nested: \
@@ -176,14 +176,12 @@ void BUGURT_CONCAT(v,_func)(void)
 
 unsigned char kernel_state;
 //Временное хранилище для указателей стеков процессов.
-stack_t * saved_proc_sp;
+stack_t * saved_sp;
 #ifdef CONFIG_PREEMPTIVE_KERNEL
 count_t nested_interrupts;
 #endif //CONFIG_PREEMPTIVE_KERNEL
 
 //Внешние функции, специфичные для AVR
-extern void start_scheduler( void );
-extern void stop_scheduler( void );
 #ifdef SYSCALL_ISR
 extern void raise_syscall_interrupt(void);
 #endif
