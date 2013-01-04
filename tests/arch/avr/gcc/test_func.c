@@ -7,7 +7,7 @@ void raise_syscall_interrupt(void)
     R2_off();
     G2_on();
 }
-
+/*
 void start_scheduler( void )
 {
     TIMSK2 |= 0x02;
@@ -17,7 +17,7 @@ void stop_scheduler( void )
 {
     TIMSK2 &= ~0x02;
 }
-
+*/
 void init_hardware(void)
 {
     cli();

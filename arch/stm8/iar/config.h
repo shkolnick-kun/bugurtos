@@ -74,8 +74,8 @@ typedef unsigned long ipc_data_t;
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_VECTOR TIM4_OVR_UIF_vector
 #define SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
-#define DISABLE_SCHEDULER() (TIM4_IER = 0x00)
-#define ENABLE_SCHEDULER() (TIM4_IER = 0x01)
+#define STOP_SCHEDULER() (TIM4_IER = 0x00)
+#define START_SCHEDULER() (TIM4_IER = 0x01)
 
 #define PROC_STACK_SIZE 128
 
@@ -105,7 +105,7 @@ typedef unsigned long ipc_data_t;
 
 #ifdef CONFIG_PREEMPTIVE_KERNEL
 #define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
-#else
+#else // CONFIG_PREEMPTIVE_KERNEL
 #define KERNEL_PREEMPT()
 #endif // CONFIG_PREEMPTIVE_KERNEL
 

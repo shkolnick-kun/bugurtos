@@ -83,6 +83,9 @@ typedef unsigned short ipc_data_t;
 ///=================================================================
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define SYSCALL_ISR INT1_vect
+#define START_SCHEDULER() (TIMSK2 |= 0x02)
+#define STOP_SCHEDULER() (TIMSK2 &= ~0x02)
+
 
 #define PROC_STACK_SIZE 128
 
