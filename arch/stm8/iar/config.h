@@ -1,5 +1,5 @@
 #ifndef _CONFIG_H_
-// Тестовый конфиг-файл, в последствии будет заменен
+/// This is example config file
 #define _CONFIG_H_
 ///==================================================================
 ///               Don't edit this part of the file!!!
