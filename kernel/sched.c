@@ -392,8 +392,5 @@ void sched_reschedule(void)
     }
 
     SPIN_UNLOCK( current_proc );
-
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
-
     _sched_switch_current( sched, current_proc );
 }
