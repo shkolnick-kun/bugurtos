@@ -76,6 +76,7 @@ typedef unsigned short ipc_data_t;
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+#define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
@@ -83,6 +84,61 @@ typedef unsigned short ipc_data_t;
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define SYSCALL_ISR INT1_vect
 
-#endif //__ASSEMBLER__
+#define PROC_STACK_SIZE 128
 
+#define LOWEST (BITS_IN_INDEX_T - 1)
+
+#define SVH0 (code_t)blink_1
+#define RSH0 (code_t)blink_1
+
+#define SVH1 (code_t)blink_2
+#define RSH1 (code_t)blink_2
+
+#define SVH2 (code_t)blink_3
+#define RSH2 (code_t)blink_3
+
+#define SVH3 (code_t)blink_4
+#define RSH3 (code_t)blink_4
+
+#define SVH4 (code_t)blink_5
+#define RSH4 (code_t)blink_5
+
+#define SVH5 (code_t)blink_6
+#define RSH5 (code_t)blink_6
+
+#define blink_R1() (PORTC ^= 0x20)
+#define R1_on() (PORTC |= 0x20)
+#define R1_off() (PORTC &= ~0x20)
+
+#define blink_G1() (PORTD ^= 0x10)
+#define G1_on() (PORTD |= 0x10)
+#define G1_off() (PORTD &= ~0x10)
+
+#define blink_R2() (PORTD ^= 0x04)
+#define R2_on() (PORTD |= 0x04)
+#define R2_off() (PORTD &= ~0x04)
+
+#define blink_G2() (PORTD ^= 0x08)
+#define G2_on() (PORTD |= 0x08)
+#define G2_off() (PORTD &= ~0x08)
+
+#define blink_R3() (PORTD ^= 0x20)
+#define R3_on() (PORTD |= 0x20)
+#define R3_off() (PORTD &= ~0x20)
+
+#define blink_G3() (PORTD ^= 0x40)
+#define G3_on() (PORTD |= 0x40)
+#define G3_off() (PORTD &= ~0x40)
+
+///==================================================================
+///               Don't edit this part of the file!!!
+///==================================================================
+
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() sei(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); cli()
+#else // CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT()
+#endif //CONFIG_PREEMPTIVE_KERNEL
+
+#endif //__ASSEMBLER__
 #endif //_CONFIG_H_

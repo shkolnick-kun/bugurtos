@@ -102,6 +102,10 @@ proc_t * current_proc(void)
 unsigned char kernel_state = KRN_FLG_RESCHED;
 //Временное хранилище для указателей стеков процессов.
 stack_t * saved_proc_sp;
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+// Счетчик уровней вложенности прерываний
+count_t nested_interrupts = (count_t)0;
+#endif //CONFIG_PREEMPTIVE_KERNEL
 // Функция перепланировки
 void resched( void )
 {

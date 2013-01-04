@@ -166,7 +166,8 @@ void _sig_wait_epilogue( void )
     proc->buf = (void *)0;
 
     SPIN_UNLOCK( proc );
-    /// KERNEL_PREEMPT
+
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
     // Надо разбудить следующий процесс в списке.
     if( wakeup_proc )
     {
@@ -263,7 +264,8 @@ void sig_broadcast_isr( sig_t * sig )
         resched(core);
 
         SPIN_UNLOCK( sig );
-        /// KERNEL_PREEMPT
+
+        KERNEL_PREEMPT(); /// KERNEL_PREEMPT
     }
 #else
     proc_t * wakeup_proc;

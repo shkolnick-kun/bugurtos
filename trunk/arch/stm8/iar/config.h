@@ -34,7 +34,7 @@ typedef unsigned char index_t;
 // so unsigned char is allways enough.
 typedef unsigned char prio_t;
 
-// unsigned char is enough.
+// Unsigned char is enough.
 typedef unsigned char flag_t;
 
 // For STM8 only 64Kib of stack space
@@ -65,12 +65,48 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+#define CONFIG_PREEMPTIVE_KERNEL
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
 ///=================================================================
-#include <iostm8s105c6.h>///STM8 include!!!!
+#include <iostm8s208mb.h>///STM8 include!!!!
 #include <intrinsics.h>
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_VECTOR TIM4_OVR_UIF_vector
 #define SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
+#define DISABLE_SCHEDULER() (TIM4_IER = 0x00)
+#define ENABLE_SCHEDULER() (TIM4_IER = 0x01)
+
+#define PROC_STACK_SIZE 128
+
+#define LOWEST (BITS_IN_INDEX_T - 1)
+
+#define SVH0 (code_t)0
+#define RSH0 (code_t)0
+
+#define SVH1 (code_t)0
+#define RSH1 (code_t)0
+
+#define SVH2 (code_t)0
+#define RSH2 (code_t)0
+
+#define SVH3 (code_t)0
+#define RSH3 (code_t)0
+
+#define SVH4 (code_t)0
+#define RSH4 (code_t)0
+
+#define SVH5 (code_t)0
+#define RSH5 (code_t)0
+
+///==================================================================
+///               Don't edit this part of the file!!!
+///==================================================================
+
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#else
+#define KERNEL_PREEMPT()
+#endif // CONFIG_PREEMPTIVE_KERNEL
+
 #endif //_CONFIG_H_

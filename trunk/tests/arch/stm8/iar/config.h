@@ -65,14 +65,17 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+#define CONFIG_PRREMTIVE_KERNEL
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
 ///=================================================================
-#include <iostm8s105c6.h>///STM8 include!!!!
+#include <iostm8s208mb.h>///STM8 include!!!!
 #include <intrinsics.h>
 /// porject specific define of system timer ISR
 #define SYSTEM_TIMER_VECTOR TIM4_OVR_UIF_vector
 #define SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
+#define DISABLE_SCHEDULER() (TIM4_IER = 0x00)
+#define ENABLE_SCHEDULER() (TIM4_IER = 0x01)
 
 #define PROC_STACK_SIZE 128
 
@@ -96,5 +99,14 @@ typedef unsigned long ipc_data_t;
 #define SVH5 (code_t)0
 #define RSH5 (code_t)0
 
+///==================================================================
+///               Don't edit this part of the file!!!
+///==================================================================
+
+#ifdef CONFIG_PRREMTIVE_KERNEL
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#else
+#define KERNEL_PREEMPT() 
+#endif
 
 #endif //_CONFIG_H_

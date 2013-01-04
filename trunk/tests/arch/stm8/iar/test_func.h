@@ -12,8 +12,9 @@ extern unsigned char test_is_running;
 #define SCHED_IDLE_LOAD_BALANCER()
 #define SCHED_ARG_END
 #define SCHED_LB_TEST_START()
-#define SCHED_SYSTICK_HOOK_ADD()
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
+
+#define SCHED_SYSTICK_HOOK_ADD() disable_interrupts(); kernel.timer_tick = systick_hook; enable_interrupts()
 
 void init_hardware(void);
 void sched_fix_proc_2(void);
@@ -27,3 +28,5 @@ void tests_end(void);
 extern unsigned char test_var_sig;
 void test_clear(void);
 void test_inc(void);
+
+void systick_hook(void);

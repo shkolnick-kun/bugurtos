@@ -89,6 +89,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /// Используется переменная saved_proc_sp для временного хранения
 /// указателя стека прерываемого процесса, если так не делать,
 /// компилятор будет стирать r16, r17 до сохранения контекста.
+#ifndef CONFIG_PREEMPTIVE_KERNEL
+
 #define BUGURT_ISR_START() \
     saved_proc_sp = bugurt_save_context();\
     kernel.sched.current_proc->spointer = saved_proc_sp;\
@@ -102,6 +104,44 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BUGURT_ISR_END() \
     bugurt_check_resched();\
     BUGURT_ISR_EXIT()
+
+#else // CONFIG_PREEMPTIVE_KERNEL
+
+#define BUGURT_ISR_START() \
+    saved_proc_sp = bugurt_save_context();\
+    if( nested_interrupts ) goto  skip_stack_switch;\
+    kernel.sched.current_proc->spointer = saved_proc_sp;\
+    stop_scheduler();\
+    bugurt_set_stack_pointer( kernel.idle.spointer );\
+skip_stack_switch:\
+    nested_interrupts++
+
+
+// Выход из обработчика прерывания
+#define BUGURT_ISR_EXIT() \
+    nested_interrupts--;\
+    if( nested_interrupts )goto exit_nested;\
+    start_scheduler();\
+    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    __asm__ __volatile__("reti"::); \
+exit_nested: \
+    bugurt_pop_context();\
+    __asm__ __volatile__("reti"::)
+
+// Эпилог обработчика прерывания, отличается от BUGURT_ISR_EXIT вызовом bugurt_check_resched
+#define BUGURT_ISR_END() \
+    disable_interrupts();\
+    nested_interrupts--;\
+    if( nested_interrupts )goto exit_nested;\
+    bugurt_check_resched();\
+    start_scheduler();\
+    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    __asm__ __volatile__("reti"::); \
+exit_nested: \
+    bugurt_pop_context();\
+    __asm__ __volatile__("reti"::)
+
+#endif // CONFIG_PREEMPTIVE_KERNEL
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
@@ -137,6 +177,9 @@ void BUGURT_CONCAT(v,_func)(void)
 unsigned char kernel_state;
 //Временное хранилище для указателей стеков процессов.
 stack_t * saved_proc_sp;
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+count_t nested_interrupts;
+#endif //CONFIG_PREEMPTIVE_KERNEL
 
 //Внешние функции, специфичные для AVR
 extern void start_scheduler( void );
@@ -149,6 +192,7 @@ void bugurt_check_resched( void );
 
 extern stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( stack_t * new_sp );
+extern void bugurt_pop_context( void );
 extern void bugurt_set_stack_pointer( stack_t * new_sp );
 extern stack_t * bugurt_reverse_byte_order ( stack_t * arg );
 

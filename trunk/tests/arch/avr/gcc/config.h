@@ -76,6 +76,7 @@ typedef unsigned short ipc_data_t;
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+#define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
@@ -128,6 +129,16 @@ typedef unsigned short ipc_data_t;
 #define blink_G3() (PORTD ^= 0x40)
 #define G3_on() (PORTD |= 0x40)
 #define G3_off() (PORTD &= ~0x40)
+
+///==================================================================
+///               Don't edit this part of the file!!!
+///==================================================================
+
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() sei(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); cli()
+#else // CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT()
+#endif //CONFIG_PREEMPTIVE_KERNEL
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_
