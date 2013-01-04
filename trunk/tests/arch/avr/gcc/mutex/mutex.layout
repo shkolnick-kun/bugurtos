@@ -2,10 +2,10 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="10257" topLine="215" />
+		<Cursor position="6764" topLine="103" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="111" />
+		<Cursor position="9585" topLine="104" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="9922" topLine="204" />
@@ -38,7 +38,7 @@
 		<Cursor position="0" topLine="81" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="4178" topLine="118" />
+		<Cursor position="4126" topLine="121" />
 	</File>
 	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="3188" topLine="96" />
