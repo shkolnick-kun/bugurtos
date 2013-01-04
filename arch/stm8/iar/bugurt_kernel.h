@@ -86,6 +86,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
+#ifndef CONFIG_PREEMPTIVE_KERNEL
+
 // Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     kernel.sched.current_proc->spointer = bugurt_save_context();\
@@ -99,6 +101,42 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BUGURT_ISR_END() \
     bugurt_check_resched();\
     BUGURT_ISR_EXIT()
+
+#else // CONFIG_PREEMPTIVE_KERNEL
+
+// Пролог обработчика прерывания
+#define BUGURT_ISR_START() \
+    saved_sp = bugurt_save_context();\
+    if( nested_interrupts ) goto  skip_stack_switch;\
+    kernel.sched.current_proc->spointer = saved_sp;\
+    DISABLE_SCHEDULER();\
+    bugurt_set_stack_pointer( kernel.idle.spointer );\
+skip_stack_switch:\
+    nested_interrupts++
+
+// Выход из обработчика прерывания, восстановление контекста текущего процесса
+#define BUGURT_ISR_EXIT() \
+    nested_interrupts--;\
+    if( nested_interrupts )goto exit_nested;\
+    ENABLE_SCHEDULER();\
+    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    return;\
+exit_nested: \
+    bugurt_pop_context()
+
+// Эпилог обработчика прерывания
+#define BUGURT_ISR_END() \
+    disable_interrupts();\
+    nested_interrupts--;\
+    if( nested_interrupts )goto exit_nested;\
+    bugurt_check_resched();\
+    ENABLE_SCHEDULER();\
+    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    return;\
+exit_nested: \
+    bugurt_pop_context()
+
+#endif // CONFIG_PREEMPTIVE_KERNEL
 
 // Подстановка вектора для шаблона обработчика прерывания
 #define BUGURT_VECTOR_STR(v) BUGURT_ARG_TO_STR( vector = (v) )
@@ -131,15 +169,15 @@ void BUGURT_CONCAT(vector_func_,v)(void)
 #define KRN_FLG_RESCHED ((unsigned char)1)
 
 extern unsigned char kernel_state;
-
-//Внешние функции, специфичные для AVR
-extern void start_scheduler( void );
-extern void stop_scheduler( void );
-
+extern stack_t * saved_sp;
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+extern count_t nested_interrupts;
+#endif // CONFIG_PREEMPTIVE_KERNEL
 void bugurt_check_resched( void );
 
 extern stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( stack_t * new_sp );
+extern void bugurt_pop_context( void );
 extern void bugurt_set_stack_pointer( stack_t * new_sp );
 
 #endif // _BUGURT_KERNEL_H_

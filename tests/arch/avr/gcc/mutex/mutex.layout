@@ -1,4 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="10257" topLine="215" />
+	</File>
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="111" />
+	</File>
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="9922" topLine="204" />
+	</File>
+	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="82" />
+	</File>
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="103" />
+	</File>
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="8664" topLine="162" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="13219" topLine="500" />
+	</File>
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="9330" topLine="182" />
+	</File>
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="6626" topLine="148" />
+	</File>
+	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="12834" topLine="258" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="517" />
+	</File>
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="81" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="4178" topLine="118" />
+	</File>
+	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="3188" topLine="96" />
+	</File>
 </CodeBlocks_layout_file>

@@ -164,8 +164,12 @@ void sched_init(sched_t * sched, proc_t * idle)
     stat_inc( idle, (stat_t *)kernel.stat + idle->core_id );
 #endif // CONFIG_MP
 }
-static void _sched_switch_current( sched_t * sched, proc_t ** current_proc )
+static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
 {
+    SPIN_LOCK( current_proc );
+    // Хук "сохранение контекста"
+    if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
+    SPIN_UNLOCK( current_proc );
 
     SPIN_LOCK( sched );
     // Если список ready опустел, - переключаем списки
@@ -178,12 +182,10 @@ static void _sched_switch_current( sched_t * sched, proc_t ** current_proc )
     }
     // Изменять указатель будем при захваченной блокировке,
     // чтобы процессы на других процессорах не прочитали неизвестно что.
-    sched->current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
-    *current_proc = sched->current_proc;
+    current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
+    sched->current_proc = current_proc;
     SPIN_UNLOCK( sched );
-}
-static void _sched_switch_to( proc_t * current_proc )
-{
+
     SPIN_LOCK( current_proc );
     /***************************************************************************
     Если процесс был в состоянии READY, то он перейдет в состояние RUNNING,
@@ -193,7 +195,6 @@ static void _sched_switch_to( proc_t * current_proc )
     current_proc->flags |= PROC_STATE_RUNNING;
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
-
     SPIN_UNLOCK( current_proc );
 }
 /******************************************************************************************
@@ -219,8 +220,6 @@ void sched_schedule(void)
     current_proc = sched->current_proc;
     // А вот эту блокировку обязательно надо захватить!
     SPIN_LOCK( current_proc );
-    // Хук "сохранение контекста"
-    if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
     // Проверяем, что процесс находится в списке ready
     if( (xlist_t *)((pitem_t *)current_proc)->list == sched->ready )
     {
@@ -369,10 +368,10 @@ void sched_schedule(void)
     }
     //Текущий процесс более не нужен, освобождаем его блокировку
     SPIN_UNLOCK( current_proc );
-    /// KERNEL_PREEMPT
-    _sched_switch_current( sched, &current_proc );
-    /// KERNEL_PREEMPT
-    _sched_switch_to( current_proc );
+
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+
+    _sched_switch_current( sched, current_proc );
 }
 //----------------------------------------------------------------------------------------
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
@@ -385,8 +384,6 @@ void sched_reschedule(void)
     current_proc = sched->current_proc;
     // А вот эту блокировку обязательно надо захватить!
     SPIN_LOCK( current_proc );
-    // Хук "сохранение контекста"
-    if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
 
     if( ( current_proc->flags & PROC_STATE_RUN_MASK ) == PROC_STATE_RUNNING )
     {
@@ -395,8 +392,8 @@ void sched_reschedule(void)
     }
 
     SPIN_UNLOCK( current_proc );
-    /// KERNEL_PREEMPT
-    _sched_switch_current( sched, &current_proc );
-    /// KERNEL_PREEMPT
-    _sched_switch_to( current_proc );
+
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+
+    _sched_switch_current( sched, current_proc );
 }

@@ -10,6 +10,10 @@ void init_hardware(void)
     TIM4_CNTR  = 0x00;
     TIM4_PSCR  = 0x07; // 0x07 - 1 мс, 0x05 - 250 мкс
     TIM4_ARR   = 0x7C;
+
+    CLK_PCKENR1|=0x02;
+    SPI_CR1 = 0x04;
+    SPI_CR2 = 0x03;
 }
 
 void sched_fix_proc_2(void)
@@ -55,4 +59,16 @@ void test_inc(void)
     disable_interrupts();
     test_var_sig++;
     enable_interrupts();
+}
+
+void systick_hook(void)
+{
+    SPI_DR = 0xff;
+    SPI_ICR = 0x80;
+    SPI_CR1 |= 0x40;
+}
+BUGURT_INTERRUPT( SPI_TXE_vector )
+{
+    SPI_CR1 &= ~0x40;
+    SPI_ICR &= ~0x80;
 }

@@ -28,9 +28,9 @@ void init_hardware(void)
     TIMSK2 = 0x00; // shceduler not started
     TIFR2  = 0x00;
 
-    EICRA = 0x08; //falling edge
-    EIMSK = 0x02; //resched generates int1, mask 0x02
-    EIFR  |= 0x02;
+    EICRA = 0x0A; //falling edge
+    EIMSK = 0x03; //resched generates int1, mask 0x02
+    EIFR  |= 0x03;
 
     DDRB = 0x3F;
     PORTB = 0x00;
@@ -123,4 +123,35 @@ void test_inc(void)
     cli();
     test_var_sig++;
     sei();
+}
+void show_nested_int(void)
+{
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+    PORTC |= 0x1f;
+    switch(nested_interrupts)
+    {
+        case 0:
+            PORTC &= ~0x10;
+        case 1:
+            PORTC &= ~0x08;
+        case 2:
+            PORTC &= ~0x04;
+        case 3:
+            PORTC &= ~0x02;
+        case 4:
+            PORTC &= ~0x01;
+        default:
+            break;
+    }
+#endif //CONFIG_PREEMPTIVE_KERNEL
+}
+void systick_hook(void)
+{
+    show_nested_int();
+    PORTD ^= 0x04;
+}
+
+BUGURT_INTERRUPT( INT0_vect )
+{
+    show_nested_int();
 }

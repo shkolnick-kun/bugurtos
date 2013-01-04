@@ -90,16 +90,17 @@ proc_t * current_proc(void)
 
 // Состояние ядра, выполняем перепланиировку
 unsigned char kernel_state = KRN_FLG_RESCHED;
+stack_t * saved_sp;
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+count_t nested_interrupts = (count_t)0;
+#endif //CONFIG_PREEMPTIVE_KERNEL
 // Функция перепланировки
 void resched( void )
 {
     kernel_state |= KRN_FLG_RESCHED;
 }
 /*
-  Перепланировка при необхродимости,
-в случае использования системных вызовов
-на основе программного прерывания -
-- проверка на гонки с прерыванием системного вызова.
+  Перепланировка при необхродимости.
 */
 void bugurt_check_resched( void )
 {
@@ -125,39 +126,44 @@ __interrupt void system_timer_isr(void)
 
     BUGURT_ISR_END();
 }
-
-static stack_t * proc_stack;
 #pragma vector = 1 // trap insrtuction vector!
 __interrupt  void system_call_handler(void)
 {
-
-    proc_stack = bugurt_save_context();
-    kernel.sched.current_proc->spointer = proc_stack;
+    saved_sp = bugurt_save_context();
+    kernel.sched.current_proc->spointer = saved_sp;
     bugurt_set_stack_pointer( kernel.idle.spointer );
-
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+    nested_interrupts++;
+#endif
 
     // Set interrupt flags in saved CCR
-    proc_stack[17] |= MASK_CPU_CCR_I1;
-    proc_stack[17] &= ~MASK_CPU_CCR_I0;
+    saved_sp[17] |= MASK_CPU_CCR_I1;
+    saved_sp[17] &= ~MASK_CPU_CCR_I0;
 
     // Set system call params
-    syscall_num = proc_stack[18];
+    syscall_num = saved_sp[18];
 
 #if (__DATA_MODEL__==__LARGE_DATA_MODEL__)
-    syscall_arg = (void *)(((unsigned long)proc_stack[16]) | (((unsigned long)proc_stack[15])<<8) | (((unsigned long)proc_stack[14])<<16));
+    syscall_arg = (void *)(((unsigned long)saved_sp[16]) | (((unsigned long)saved_sp[15])<<8) | (((unsigned long)saved_sp[14])<<16));
 #else // __SMALL_DATA_MODEL__ or __MEDIUM_DATA_MODEL__
-    syscall_arg = (void *)(((unsigned short)proc_stack[19]<<8) | (((unsigned short)proc_stack[20])));
+    syscall_arg = (void *)(((unsigned short)saved_sp[19]<<8) | (((unsigned short)saved_sp[20])));
 #endif
 
     // Обрабатываем системный вызов
     do_syscall();
 
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+    disable_interrupts();
+#endif
     // Перепланировка при необходимости
     if( kernel_state & KRN_FLG_RESCHED )
     {
         kernel_state &= ~KRN_FLG_RESCHED;
         sched_reschedule();
     }
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+    nested_interrupts--;
+#endif
     bugurt_restore_context( kernel.sched.current_proc->spointer );
 }
 

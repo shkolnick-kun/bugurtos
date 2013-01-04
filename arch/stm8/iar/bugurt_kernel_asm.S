@@ -116,6 +116,15 @@ bugurt_save_context:
     retf
 #endif
 ;-------------------------------------------------------------------------------
+; void bugurt_pop_context( void );
+  PUBLIC bugurt_pop_context
+bugurt_pop_context:
+    popw Y
+#if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
+    pop A
+#endif
+    jra ?pop_context
+;-------------------------------------------------------------------------------
 ; void bugurt_restore_context( void [__near] * new_sp );
 ; Initial conditions are:
 ; new_sp is placed in X,
@@ -129,7 +138,7 @@ bugurt_restore_context:
 #endif
 ;stack pointer value is allways 16bit, and not dependent on __DATA_MODEL__
     ldw SP,X     ; SP = X
-    ; restore vregs
+?pop_context:    ; restore vregs
     pop ?b12
     pop ?b13
     pop ?b14

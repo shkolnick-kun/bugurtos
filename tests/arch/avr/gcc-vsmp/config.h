@@ -27,6 +27,8 @@
 
 #define NOP() __asm__ __volatile__("nop"::)
 
+#define KERNEL_PREEMPT()
+
 typedef unsigned char stack_t;
 
 ///==================================================================
