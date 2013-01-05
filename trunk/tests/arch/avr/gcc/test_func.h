@@ -11,10 +11,7 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 #define SCHED_ARG_END
 #define SCHED_LB_TEST_START()
 
-#define SCHED_SYSTICK_HOOK_ADD() \
-    cli(); \
-    kernel.timer_tick = systick_hook; \
-    sei(); \
+#define SCHED_SYSTICK_HOOK_ADD() (kernel.timer_tick = systick_hook)
 
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 

@@ -109,7 +109,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     saved_sp = bugurt_save_context();\
     if( nested_interrupts ) goto  skip_stack_switch;\
     kernel.sched.current_proc->spointer = saved_sp;\
-    SIOP_SCHEDULER();\
+    STOP_SCHEDULER();\
     bugurt_set_stack_pointer( kernel.idle.spointer );\
 skip_stack_switch:\
     nested_interrupts++
