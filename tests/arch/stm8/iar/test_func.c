@@ -65,6 +65,7 @@ void systick_hook(void)
 {
     SPI_DR = 0xff;
     SPI_ICR = 0x80;
+    SPI_SR = 0x00;
     SPI_CR1 |= 0x40;
 }
 BUGURT_INTERRUPT( SPI_TXE_vector )

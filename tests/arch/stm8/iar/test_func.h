@@ -14,7 +14,7 @@ extern unsigned char test_is_running;
 #define SCHED_LB_TEST_START()
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 
-#define SCHED_SYSTICK_HOOK_ADD() disable_interrupts(); kernel.timer_tick = systick_hook; enable_interrupts()
+#define SCHED_SYSTICK_HOOK_ADD() (kernel.timer_tick = systick_hook)
 
 void init_hardware(void);
 void sched_fix_proc_2(void);
