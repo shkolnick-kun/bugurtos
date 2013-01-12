@@ -374,7 +374,7 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 // process states not checked on restart
 #define PROC_STATE_STOPED           ((flag_t)0x0)   /*!< \~russian Начальное состояние, остановлен. \~english Initial state, stoped. */
 #define PROC_STATE_END              ((flag_t)0x1)   /*!< \~russian Завершен. \~english Normal process termination. */
-#define PROC_STATE_W_WD_STOPED      ((flag_t)0x2)   /*!< \~russian Остановлен по вачдог в состоянии RUNNING. \~english Watchdog termination from RUNNING state. */
+#define PROC_STATE_W_WD_STOPED      ((flag_t)0x2)   /*!< \~russian Остановлен по вачдог в состоянии W_RUNNING. \~english Watchdog termination from W_RUNNING state. */
 #define PROC_STATE_WD_STOPED        ((flag_t)0x3)   /*!< \~russian Остановлен по вачдог. \~english Watchdog termination. */
 
 #define PROC_STATE_DEAD             ((flag_t)0x4)   /*!< \~russian Завершен до освобождения общих ресурсов. \~english Abnormal termination, terminated with resources locked. */

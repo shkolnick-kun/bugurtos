@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1357208587 source:/home/anonimous/Документы/bugurtos/tests/arch/avr/gcc/test_func.c
+1357316730 source:/home/anonimous/Документы/bugurtos/tests/arch/avr/gcc/test_func.c
 	<test_func.h>
 
-1357203471 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel.c
+1358011190 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel.c
 	"bugurt_kernel.h"
 
-1357206065 /home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel.h
+1358010772 /home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel.h
 	"../../../include/bugurt.h"
 
 1350809749 /home/anonimous/Документы/bugurtos/include/bugurt.h
@@ -37,7 +37,7 @@
 
 1355420573 /home/anonimous/Документы/bugurtos/include/crit_sec.h
 
-1355418247 /home/anonimous/Документы/bugurtos/include/proc.h
+1357403513 /home/anonimous/Документы/bugurtos/include/proc.h
 
 1355411540 /home/anonimous/Документы/bugurtos/include/sched.h
 
@@ -88,7 +88,7 @@
 1357190782 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
-1357193197 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+1357303664 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
 1357190874 source:/home/anonimous/Документы/bugurtos/kernel/sem.c

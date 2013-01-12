@@ -105,6 +105,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #else // CONFIG_PREEMPTIVE_KERNEL
 
 // Пролог обработчика прерывания
+/// NOTE: No KERNEL_PREEMPT() call on the end of prologue to avoid ISR reentrance!
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
     if( nested_interrupts ) goto  skip_stack_switch;\
@@ -116,6 +117,7 @@ skip_stack_switch:\
 
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BUGURT_ISR_EXIT() \
+    KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     START_SCHEDULER();\
@@ -126,7 +128,7 @@ exit_nested: \
 
 // Эпилог обработчика прерывания
 #define BUGURT_ISR_END() \
-    disable_interrupts();\
+    KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     bugurt_check_resched();\

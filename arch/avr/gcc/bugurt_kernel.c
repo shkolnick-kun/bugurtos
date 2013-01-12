@@ -121,7 +121,7 @@ void bugurt_check_resched( void )
 {
     if(
     ( kernel_state & KRN_FLG_RESCHED )
-#ifdef SYSCALL_ISR
+#if defined( SYSCALL_ISR ) && !defined( CONFIG_PREEMPTIVE_KERNEL )
     && ( (~kernel_state) & KRN_FLG_DO_SCALL )
 #endif // SYSCALL_ISR
     )
@@ -139,9 +139,11 @@ void SYSTEM_TIMER_ISR(void)
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
+
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT()
     sched_schedule();
 
-    BUGURT_ISR_EXIT();
+    BUGURT_ISR_END();
 }
 
 #ifdef SYSCALL_ISR
@@ -163,8 +165,10 @@ __attribute__ (( signal, naked )) void SYSCALL_ISR(void);
 void SYSCALL_ISR(void)
 {
     BUGURT_ISR_START();
-
     // Получаем информацию о системном вызове из стека процесса
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+    saved_sp = kernel.sched.current_proc->spointer; // Syscall interrupt may be nested, so saved_sp may point to kernel stack instead of process stack.
+#endif
     saved_sp += PROC_STACK_OFFSET;
     saved_sp = bugurt_reverse_byte_order( *(stack_t **)saved_sp );
 
@@ -174,18 +178,10 @@ void SYSCALL_ISR(void)
     // Обрабатываем системный вызов
     do_syscall();
     kernel_state &= ~KRN_FLG_DO_SCALL;
-
-    // Перепланировка при необходимости
-    if( kernel_state & KRN_FLG_RESCHED )
-    {
-        kernel_state &= ~KRN_FLG_RESCHED;
-        sched_reschedule();
-    }
-
-    // Разрешаем обработку прерывания системного таймера.
+#ifndef CONFIG_PREEMPTIVE_KERNEL
     START_SCHEDULER();
-
-    BUGURT_ISR_EXIT();
+#endif
+    BUGURT_ISR_END();
 }
 
 syscall_data_t * _syscall( syscall_data_t * arg )

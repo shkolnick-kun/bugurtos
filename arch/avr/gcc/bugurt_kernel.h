@@ -91,6 +91,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /// компилятор будет стирать r16, r17 до сохранения контекста.
 #ifndef CONFIG_PREEMPTIVE_KERNEL
 
+// Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
     kernel.sched.current_proc->spointer = saved_sp;\
@@ -107,6 +108,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #else // CONFIG_PREEMPTIVE_KERNEL
 
+// Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
     if( nested_interrupts ) goto  skip_stack_switch;\
@@ -114,11 +116,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     STOP_SCHEDULER();\
     bugurt_set_stack_pointer( kernel.idle.spointer );\
 skip_stack_switch:\
-    nested_interrupts++
+    nested_interrupts++;\
+    KERNEL_PREEMPT()
 
 
 // Выход из обработчика прерывания
 #define BUGURT_ISR_EXIT() \
+    KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     START_SCHEDULER();\
@@ -130,7 +134,7 @@ exit_nested: \
 
 // Эпилог обработчика прерывания, отличается от BUGURT_ISR_EXIT вызовом bugurt_check_resched
 #define BUGURT_ISR_END() \
-    disable_interrupts();\
+    KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     bugurt_check_resched();\
