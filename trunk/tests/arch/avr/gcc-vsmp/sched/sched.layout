@@ -37,19 +37,16 @@
 	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="2">
 		<Cursor position="8099" topLine="87" />
 	</File>
-	<File name="../../../../../kernel/item.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6121" topLine="94" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="4">
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="4">
 		<Cursor position="6986" topLine="106" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/pitem.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="8">

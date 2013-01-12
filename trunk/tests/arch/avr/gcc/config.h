@@ -86,7 +86,6 @@ typedef unsigned short ipc_data_t;
 #define START_SCHEDULER() (TIMSK2 |= 0x02)
 #define STOP_SCHEDULER() (TIMSK2 &= ~0x02)
 
-
 #define PROC_STACK_SIZE 128
 
 #define LOWEST (BITS_IN_INDEX_T - 1)
@@ -138,7 +137,7 @@ typedef unsigned short ipc_data_t;
 ///==================================================================
 
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() sei(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); cli()
+#define KERNEL_PREEMPT() sei(); NOP(); cli()
 #else // CONFIG_PREEMPTIVE_KERNEL
 #define KERNEL_PREEMPT()
 #endif //CONFIG_PREEMPTIVE_KERNEL

@@ -119,23 +119,27 @@ __interrupt void system_timer_isr(void)
     BUGURT_ISR_START();
 
     SYSTEM_TIMER_INTERRUPT_CLEAR();
+    KERNEL_PREEMPT(); /// Now interrupt flag is clear, we can alow kernel preemption.
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
-    sched_schedule();
 
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    sched_schedule();
+#ifdef CONFIG_PREEMPTIVE_KERNEL
     BUGURT_ISR_END();
+#else
+    BUGURT_ISR_EXIT();
+#endif
 }
 #pragma vector = 1 // trap insrtuction vector!
 __interrupt  void system_call_handler(void)
 {
-    saved_sp = bugurt_save_context();
-    kernel.sched.current_proc->spointer = saved_sp;
-    bugurt_set_stack_pointer( kernel.idle.spointer );
+    BUGURT_ISR_START();
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-    nested_interrupts++;
+    saved_sp = kernel.sched.current_proc->spointer; // Syscall interrupt may be nested, so saved_sp may point to kernel stack instead of process stack.
 #endif
-
     // Set interrupt flags in saved CCR
     saved_sp[17] |= MASK_CPU_CCR_I1;
     saved_sp[17] &= ~MASK_CPU_CCR_I0;
@@ -148,23 +152,12 @@ __interrupt  void system_call_handler(void)
 #else // __SMALL_DATA_MODEL__ or __MEDIUM_DATA_MODEL__
     syscall_arg = (void *)(((unsigned short)saved_sp[19]<<8) | (((unsigned short)saved_sp[20])));
 #endif
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
 
     // Обрабатываем системный вызов
     do_syscall();
 
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-    disable_interrupts();
-#endif
-    // Перепланировка при необходимости
-    if( kernel_state & KRN_FLG_RESCHED )
-    {
-        kernel_state &= ~KRN_FLG_RESCHED;
-        sched_reschedule();
-    }
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-    nested_interrupts--;
-#endif
-    bugurt_restore_context( kernel.sched.current_proc->spointer );
+    BUGURT_ISR_END();
 }
 
 /***************************************************************************************************************/
