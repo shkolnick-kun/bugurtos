@@ -108,6 +108,7 @@ void proc_init_isr(
 #endif
     proc->time_quant = time_quant;
     proc->timer = time_quant;
+    proc->buf = (void *)0;
 #ifdef CONFIG_MP
     proc->core_id = (core_id_t)0;
     proc->affinity = affinity;
