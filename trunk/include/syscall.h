@@ -666,7 +666,7 @@ An argument structure for #SYSCALL_IPC_SEND.
 typedef struct {
     proc_t * proc;  /*!< \~russian указатель на процесс-адресат. \~english A pointer to a destignation process. */
     bool_t ret;     /*!< \~russian хранилище результата выполнения операции. \~english A storage for a result. */
-    ipc_data_t data;/*!< \~russian данные для передачи. \~english A data to send. */
+    ipc_data_t ipc_data;/*!< \~russian данные для передачи. \~english A data to send. */
 } ipc_send_arg_t;
 /*!
 \~russian

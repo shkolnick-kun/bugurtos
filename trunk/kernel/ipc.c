@@ -90,7 +90,7 @@ void _ipc_wait( void * ipc_pointer )
     SPIN_UNLOCK( proc );
 }
 
-bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
+bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data )
 {
     bool_t ret = (bool_t)0;
 
@@ -112,7 +112,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t data )
             goto end;
         }
         ret = (bool_t)1; // информация будет передана
-        *(ipc_data_t *)proc->buf = data;
+        *(ipc_data_t *)proc->buf = ipc_data;
         _proc_run( proc );
     }
 end:

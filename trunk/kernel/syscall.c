@@ -508,13 +508,13 @@ ipc_data_t ipc_wait( void )
 **********************************************************************************************/
 void scall_ipc_send(void * arg)
 {
-    ((ipc_send_arg_t *)arg)->ret = ipc_send_isr( ((ipc_send_arg_t *)arg)->proc, ((ipc_send_arg_t *)arg)->data );
+    ((ipc_send_arg_t *)arg)->ret = ipc_send_isr( ((ipc_send_arg_t *)arg)->proc, ((ipc_send_arg_t *)arg)->ipc_data );
 }
-bool_t ipc_send( proc_t * proc, ipc_data_t data )
+bool_t ipc_send( proc_t * proc, ipc_data_t ipc_data )
 {
     volatile ipc_send_arg_t arg;
     arg.proc = proc;
-    arg.data = data;
+    arg.ipc_data = ipc_data;
     syscall_bugurt( SYSCALL_IPC_SEND, (void *)&arg );
     return arg.ret;
 }
@@ -523,13 +523,13 @@ bool_t ipc_send( proc_t * proc, ipc_data_t data )
 **********************************************************************************************/
 void scall_ipc_exchange(void * arg)
 {
-    ((ipc_send_arg_t *)arg)->ret = _ipc_exchange( ((ipc_send_arg_t *)arg)->proc, ((ipc_send_arg_t *)arg)->data, ((ipc_exchange_arg_t *)arg)->receive );
+    ((ipc_send_arg_t *)arg)->ret = _ipc_exchange( ((ipc_send_arg_t *)arg)->proc, ((ipc_send_arg_t *)arg)->ipc_data, ((ipc_exchange_arg_t *)arg)->receive );
 }
 bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 {
     volatile ipc_exchange_arg_t arg;
     arg.send.proc = proc;
-    arg.send.data = send;
+    arg.send.ipc_data = send;
     arg.receive = receive;
     syscall_bugurt( SYSCALL_IPC_EXCHANGE, (void *)&arg );
     return arg.send.ret;

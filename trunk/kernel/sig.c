@@ -110,6 +110,7 @@ void _sig_wait_prologue( sig_t * sig )
 
     // Останавливаем процесс
     _proc_stop_flags_set( proc, PROC_STATE_W_SIG );
+    proc->buf = (void *)0; //Initialize a pointer before use.
     // Вставляем процесс в группированный список ожидания сигнала
 #ifdef CONFIG_MP
     {

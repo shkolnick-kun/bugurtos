@@ -79,10 +79,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../include/bugurt.h"
 kernel_t kernel;// Ядро, оно одно на всю систему!!!
 
+#ifndef CONFIG_USER_IDLE
 WEAK void idle_main(void * arg)
 {
     while(1);
 }
+#endif
 
 void kernel_init(void)
 {
@@ -112,6 +114,11 @@ void kernel_init(void)
     }
     spin_unlock( &kernel.stat_lock );
 
+    spin_init(&kernel.timer_lock);
+    spin_lock(&kernel.timer_lock);
+    kernel.timer = (timer_t)0;
+    kernel.timer_tick = (void(*)(void))0;
+    spin_unlock(&kernel.timer_lock);
 #else
     proc_init_isr(
         &kernel.idle, //процесс kernel.idle
@@ -125,5 +132,7 @@ void kernel_init(void)
         (bool_t)0// не RT
     );
     sched_init( (sched_t *)&kernel.sched, (proc_t *)&kernel.idle );
+    kernel.timer = (timer_t)0;
+    kernel.timer_tick = (void(*)(void))0;
 #endif // CONFIG_MP
 }

@@ -136,10 +136,10 @@ This function checks a destignation process state.
 If destignation process is waiting for IPC, then data gets transmited and destignation process gets launched.
 
 \param proc A ddestignation process pointer.
-\param data A data to transmit.
+\param ipc_data A data to transmit.
 \return 1 - if data has been transmited, else 0.
 */
-bool_t ipc_send( proc_t * proc, ipc_data_t data );
+bool_t ipc_send( proc_t * proc, ipc_data_t ipc_data );
 
 /*!
 \~russian
@@ -165,10 +165,10 @@ This function checks a destignation process state.
 If destignation process is waiting for IPC, then data gets transmited and destignation process gets launched.
 
 \param proc A ddestignation process pointer.
-\param data A data to transmit.
+\param ipc_data A data to transmit.
 \return 1 - if data has been transmited, else 0.
 */
-bool_t ipc_send_isr( proc_t * proc, ipc_data_t data );
+bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data );
 
 /*!
 \~russian
