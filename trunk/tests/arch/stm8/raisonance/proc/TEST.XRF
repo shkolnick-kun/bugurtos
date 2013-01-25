@@ -1,0 +1,172 @@
+RLSTM8 LINKER/LOCATOR V2.46,  INVOKED BY: 
+C:\Program Files\Raisonance\Ride\Bin\RLSTM8.EXE -CP C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\CRIT_SEC.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\INDEX.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\IPC.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\ITEM.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\KERNEL.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\MUTEX.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\PCOUNTER.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\PITEM.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\PROC.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\SCHED.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\SEM.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\SIG.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\SYSCALL.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\TIMER.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\XLIST.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\BUGURT_KERNEL.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\BUGURT_PROC_STACK_INIT.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\MAIN.OBJ,C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\TEST_FUNC.OBJ TO(C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\TEST.AOF) LIBPATH(C:\PROGRAM FILES\RAISONANCE\RIDE\LIB\ST7) PR(C:\BUGURTOS\TESTS\ARCH\STM8\RAISONANCE\PROC\TEST.MAP) SCINAME(STM8) GENERATEDEPFILE CODESIZE(0X20000) CODESTART(0X8000) RAMSIZE(0X1800) DATASTART(0X0000) EEPROMSTART(0X4000) EEPROMSIZE(0X800) STACKSIZE(0X400) STACKTOP(6144) REMOVEUNCALLED IX CODE(0X8080) 
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+	NAME. . . . . . . . USAGE   MODULE NAMES
+	----------------------------------------
+	?BH . . . . . . . . DATA    [REGISTERS]:  STARTUP_V_Z, MV4_ISA2BC, TEST_FUNC, MAIN, BUGURT_PROC_STACK_INIT, BUGURT_KERNEL, XLIST, SIG, SEM, SCHED, PROC, PITEM, PCOUNTER, MUTEX, IPC, INDEX 
+	?BL . . . . . . . . DATA    [REGISTERS]:  MAIN, BUGURT_PROC_STACK_INIT, SCHED, PROC, PITEM, INDEX 
+	?C?mv4_isa2bc . . . CODE    [MV4_ISA2BC]:  SYSCALL 
+	?C?sll168 . . . . . CODE    [SLL168]:  PITEM, PCOUNTER 
+	?C?srl168 . . . . . CODE    [SRL168]:  INDEX 
+	?CH . . . . . . . . DATA    [REGISTERS]:  STARTUP_V_Z, MV4_ISA2BC, TEST_FUNC, BUGURT_KERNEL, PROC, PITEM, PCOUNTER, INDEX 
+	?CL . . . . . . . . DATA    [REGISTERS]:  PROC, PITEM, PCOUNTER, INDEX 
+	?C_INITSEGSTART . . CODE    [?STATINIT]:  STARTUP_V_Z 
+	?C_ZEROSIZE . . . . NUMBER  [SYSCALL]:  STARTUP_V_Z 
+	?C_ZEROSTART  . . . DATA    [SYSCALL]:  STARTUP_V_Z 
+	?_bugurt_do_nothing CODE    [BUGURT_KERNEL]:  BUGURT_KERNEL 
+	?_clear_timer . . . CODE    [TIMER]: 
+	?_ipc_exchange  . . CODE    [IPC]:  SYSCALL 
+	?_ipc_wait  . . . . CODE    [IPC]:  SYSCALL 
+	?_mutex_lock  . . . CODE    [MUTEX]:  SYSCALL 
+	?_mutex_try_lock  . CODE    [MUTEX]:  SYSCALL 
+	?_mutex_unlock  . . CODE    [MUTEX]:  SYSCALL 
+	?_proc_flag_stop  . CODE    [PROC]:  SYSCALL 
+	?_proc_lres_dec . . CODE    [PROC]:  MUTEX 
+	?_proc_lres_inc . . CODE    [PROC]:  MUTEX 
+	?_proc_prio_control_CODE    [PROC]:  MUTEX 
+	?_proc_reset_watchdoCODE    [PROC]:  SYSCALL 
+	?_proc_run  . . . . CODE    [PROC]:  SEM, MUTEX, IPC 
+	?_proc_self_stop  . CODE    [PROC]:  SYSCALL 
+	?_proc_stop . . . . CODE    [PROC]:  MUTEX 
+	?_proc_stop_ensure?PCODE    [PROC]: 
+	?_proc_stop_flags_seCODE    [PROC]:  SIG, SEM, MUTEX, IPC 
+	?_proc_terminate  . CODE    [PROC]:  SYSCALL 
+	?_proc_yeld . . . . CODE    [PROC]:  SYSCALL 
+	?_sched_switch_curreCODE    [SCHED]: 
+	?_sem_lock  . . . . CODE    [SEM]:  SYSCALL 
+	?_sem_try_lock  . . CODE    [SEM]:  SYSCALL 
+	?_sig_set_wakeup_flaCODE    [SIG]: 
+	?_sig_wait_epilogue CODE    [SIG]:  SYSCALL 
+	?_sig_wait_prologue CODE    [SIG]:  SYSCALL 
+	?_sig_wakeup_list_prCODE    [SIG]: 
+	?_timer . . . . . . CODE    [TIMER]: 
+	?bugurt_check_rescheCODE    [BUGURT_KERNEL]:  TEST_FUNC 
+	?current_proc . . . CODE    [BUGURT_KERNEL]:  SIG, SEM, PROC, MUTEX, IPC 
+	?do_syscall . . . . CODE    [SYSCALL]:  BUGURT_KERNEL 
+	?enter_crit_sec . . CODE    [CRIT_SEC]:  TIMER 
+	?exit_crit_sec  . . CODE    [CRIT_SEC]:  TIMER 
+	?idle_main  . . . . CODE    [MAIN]:  BUGURT_KERNEL, KERNEL 
+	?index_search . . . CODE    [INDEX]:  XLIST, PROC 
+	?init_bugurt  . . . CODE    [BUGURT_KERNEL]:  MAIN 
+	?init_hardware  . . CODE    [TEST_FUNC]:  MAIN 
+	?ipc_exchange . . . CODE    [SYSCALL]: 
+	?ipc_send . . . . . CODE    [SYSCALL]: 
+	?ipc_send_isr . . . CODE    [IPC]:  SYSCALL 
+	?ipc_wait . . . . . CODE    [SYSCALL]: 
+	?item_cut . . . . . CODE    [ITEM]:  SIG, PITEM 
+	?item_init  . . . . CODE    [ITEM]:  PITEM 
+	?item_insert  . . . CODE    [ITEM]:  PITEM 
+	?kernel_init  . . . CODE    [KERNEL]:  BUGURT_KERNEL 
+	?main_fs  . . . . . CODE    [MAIN]: 
+	?main_lb  . . . . . CODE    [MAIN]: 
+	?main_proc_test . . CODE    [MAIN]: 
+	?main_wd_ss . . . . CODE    [MAIN]: 
+	?main_with_return . CODE    [MAIN]: 
+	?mutex_init . . . . CODE    [SYSCALL]: 
+	?mutex_init_isr . . CODE    [MUTEX]:  SYSCALL 
+	?mutex_lock . . . . CODE    [SYSCALL]: 
+	?mutex_try_lock . . CODE    [SYSCALL]: 
+	?mutex_unlock . . . CODE    [SYSCALL]: 
+	?pcounter_dec . . . CODE    [PCOUNTER]:  PROC 
+	?pcounter_inc . . . CODE    [PCOUNTER]:  PROC 
+	?pcounter_init  . . CODE    [PCOUNTER]:  PROC 
+	?pcounter_minus . . CODE    [PCOUNTER]: 
+	?pcounter_plus  . . CODE    [PCOUNTER]: 
+	?pitem_cut  . . . . CODE    [PITEM]:  SEM, PROC, MUTEX 
+	?pitem_fast_cut . . CODE    [PITEM]:  SIG, SCHED 
+	?pitem_init . . . . CODE    [PITEM]:  PROC 
+	?pitem_insert . . . CODE    [PITEM]:  SIG, SEM, SCHED, PROC, MUTEX 
+	?pitem_xlist_chain  CODE    [PITEM]:  SIG 
+	?proc_flag_stop . . CODE    [SYSCALL]:  MAIN 
+	?proc_init  . . . . CODE    [SYSCALL]: 
+	?proc_init_isr  . . CODE    [PROC]:  MAIN, SYSCALL, KERNEL 
+	?proc_reset_watchdog ÿBCODE [SYSCALL]:  MAIN 
+	?proc_restart . . . CODE    [SYSCALL]:  MAIN 
+	?proc_restart_isr . CODE    [PROC]:  SYSCALL 
+	?proc_run . . . . . CODE    [SYSCALL]:  MAIN 
+	?proc_run_isr . . . CODE    [PROC]:  MAIN, SYSCALL 
+	?proc_run_wrapper . CODE    [SYSCALL]:  PROC 
+	?proc_self_stop . . CODE    [SYSCALL]:  MAIN 
+	?proc_stack_init  . CODE    [BUGURT_PROC_STACK_INIT]:  PROC 
+	?proc_stop  . . . . CODE    [SYSCALL]:  MAIN 
+	?proc_stop_isr  . . CODE    [PROC]:  SYSCALL 
+	?proc_yeld  . . . . CODE    [SYSCALL]:  MAIN 
+	?resched  . . . . . CODE    [BUGURT_KERNEL]:  SIG, PROC 
+	?scall_ipc_exchange CODE    [SYSCALL]:  SYSCALL 
+	?scall_ipc_send . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_ipc_wait . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_mutex_init . CODE    [SYSCALL]:  SYSCALL 
+	?scall_mutex_lock . CODE    [SYSCALL]:  SYSCALL 
+	?scall_mutex_try_locCODE    [SYSCALL]:  SYSCALL 
+	?scall_mutex_unlock CODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_flag_stoCODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_init  . CODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_reset_waCODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_restart CODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_run . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_self_stoCODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_stop  . CODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_terminatCODE    [SYSCALL]:  SYSCALL 
+	?scall_proc_yeld  . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sem_init . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sem_lock . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sem_try_lock CODE    [SYSCALL]:  SYSCALL 
+	?scall_sem_unlock . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sig_broadcast scall_p[SYSCALL]:  SYSCALL 
+	?scall_sig_init . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sig_signal . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sig_wait . . CODE    [SYSCALL]:  SYSCALL 
+	?scall_sig_wakeup . CODE    [SYSCALL]:  SYSCALL 
+	?scall_user . . . . CODE    [SYSCALL]:  SYSCALL 
+	?sched_fix_proc_2 . CODE    [TEST_FUNC]: 
+	?sched_init . . . . CODE    [SCHED]:  KERNEL 
+	?sched_reschedule . CODE    [SCHED]:  BUGURT_KERNEL 
+	?sched_schedule . . CODE    [SCHED]:  BUGURT_KERNEL 
+	?sem_init . . . . . CODE    [SYSCALL]: 
+	?sem_init_isr . . . CODE    [SEM]:  SYSCALL 
+	?sem_lock . . . . . CODE    [SYSCALL]: 
+	?sem_try_lock . . . CODE    [SYSCALL]: 
+	?sem_unlock . . . . CODE    [SYSCALL]: 
+	?sem_unlock_isr . . CODE    [SEM]:  SYSCALL 
+	?sig_broadcast  . . CODE    [SYSCALL]: 
+	?sig_broadcast_isr  CODE    [SIG]:  SYSCALL 
+	?sig_init . . . . . CODE    [SYSCALL]: 
+	?sig_init_isr . . . CODE    [SIG]:  SYSCALL 
+	?sig_signal . . . . CODE    [SYSCALL]: 
+	?sig_signal_isr . . CODE    [SIG]:  SYSCALL 
+	?sig_wait . . . . . CODE    [SYSCALL]: 
+	?start_bugurt . . . CODE    [BUGURT_KERNEL]:  MAIN 
+	?syscall_bugurt . . CODE    [BUGURT_KERNEL]:  SYSCALL 
+	?system_call_handler syscall[BUGURT_KERNEL]: 
+	?system_timer_isr . CODE    [BUGURT_KERNEL]: 
+	?systick_hook . . . CODE    [TEST_FUNC]:  MAIN 
+	?test_clear . . . . CODE    [TEST_FUNC]: 
+	?test_inc . . . . . CODE    [TEST_FUNC]: 
+	?test_output  . . . CODE    [TEST_FUNC]:  MAIN 
+	?test_start . . . . CODE    [TEST_FUNC]:  MAIN 
+	?tests_end  . . . . CODE    [TEST_FUNC]:  MAIN 
+	?vector_func_10 . . CODE    [TEST_FUNC]:  TEST_FUNC 
+	?vector_wrapper_10  CODE    [TEST_FUNC]: 
+	?wait_time  . . . . CODE    [TIMER]:  MAIN 
+	?xlist_head . . . . CODE    [XLIST]:  SIG, SEM, SCHED, PITEM, MUTEX 
+	?xlist_init . . . . CODE    [XLIST]:  SIG, SEM, SCHED, MUTEX 
+	?xlist_switch . . . CODE    [XLIST]:  SCHED, PROC, PITEM 
+	CST7_START_V_Z  . . CODE    [STARTUP_V_Z]:  MAIN 
+	_bugurt_do_it . . . DATA    [BUGURT_KERNEL]:  TEST_FUNC 
+	kernel  . . . . . . DATA    [KERNEL]:  TEST_FUNC, MAIN, BUGURT_KERNEL, TIMER, SIG, SCHED, PROC, CRIT_SEC 
+	kernel_state  . . . DATA    [BUGURT_KERNEL]: 
+	main  . . . . . . . CODE    [MAIN]:  STARTUP_V_Z 
+	nested_interrupts . DATA    [BUGURT_KERNEL]:  TEST_FUNC 
+	proc  . . . . . . . DATA    [MAIN]:  TEST_FUNC 
+	proc_stack  . . . . DATA    [MAIN]: 
+	saved_sp  . . . . . DATA    [BUGURT_KERNEL]:  TEST_FUNC 
+	syscall_arg . . . . DATA    [SYSCALL]:  BUGURT_KERNEL 
+	syscall_num . . . . DATA    [SYSCALL]:  BUGURT_KERNEL 
+	syscall_routine . . CODE    [SYSCALL]: 
+	test  . . . . . . . DATA    [MAIN]: 
+	test_fail . . . . . DATA    [TEST_FUNC]: 
+	test_is_running . . DATA    [TEST_FUNC]: 
+	test_var_sig  . . . DATA    [TEST_FUNC]: 
