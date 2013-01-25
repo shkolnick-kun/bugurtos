@@ -1,0 +1,109 @@
+
+<Debug>
+	<test>
+		<SpyWatch>
+			<Report>
+				<Def Header="InspectReport" NbCol="6" >
+					<Col Type="PT_STRING" Header="Name" sizeCache="DDDDDDDDDDDD" AutoSize="1" Edit="1" Sortable="1" />
+					<Col Type="PT_STRING" Header="Value" sizeCache="DDDDDDDDDDDDDDDDDDDDDDD" AutoSize="1" Edit="1" Sortable="0" />
+					<Col Type="PT_STRING" Header="Format" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
+					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
+					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
+					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
+																		
+				</Def>
+				<Rows>
+					<Row Name="syscall_num" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="syscall_num" />
+					<Row Name="syscall_arg" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
+					<Row Name="proc[0].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[0].flags" />
+					<Row Name="proc[1].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[1].flags" />
+					<Row Name="proc[2].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[2].flags" />
+					<Row Name="proc[3].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[3].flags" />
+					<Row Name="proc[4].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[4].flags" />
+					<Row Name="proc[5].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[5].flags" />
+																		
+				</Rows>
+														
+			</Report>
+										
+		</SpyWatch>
+		<CodeView TopRow="39158" Focus="4294967295" >
+			<CodeReport>
+				<0>117</0>
+				<1>129</1>
+				<2>70</2>
+				<3>391</3>
+														
+			</CodeReport>
+										
+		</CodeView>
+						
+	</test>
+	<Flags>
+		<Report>
+			<Def Header="FlagReport" NbCol="9" >
+				<Col Type="PT_BOOL" Header="Check" sizeCache="18" AutoSize="0" Edit="1" Sortable="1" Icon="C:\Program Files\Raisonance\Ride\Config\Resources\check.bmp" />
+				<Col Type="PT_STRING" Header="Kind" sizeCache="DDDDDDDDDDD" AutoSize="1" Edit="0" Sortable="1" />
+				<Col Type="PT_STRING" Header="KindID" sizeCache="DD" AutoSize="1" Edit="0" Sortable="1" Visible="0" />
+				<Col Type="PT_STRING" Header="Space" sizeCache="DDDDDD" AutoSize="1" Edit="0" Sortable="1" />
+				<Col Type="PT_STRING" Header="SpaceID" sizeCache="DD" AutoSize="0" Edit="0" Sortable="0" Visible="0" />
+				<Col Type="PT_STRING" Header="Line" sizeCache="DDDDDDDDD" AutoSize="1" Edit="0" Sortable="1" Visible="1" />
+				<Col Type="PT_STRING" Header="File" sizeCache="DDDDDDDDDDDDDDDDDDDD" AutoSize="1" Edit="0" Sortable="1" Visible="1" />
+				<Col Type="PT_STRING" Header="Path" sizeCache="DDDDDDDDDDDDDDDDDDDD" AutoSize="1" Edit="0" Sortable="0" Visible="0" />
+				<Col Type="PT_STRING" Header="Condition" sizeCache="DDDDDDDDDDDDDDDDDDDDDDDD" AutoSize="1" Edit="0" Sortable="0" />
+				<Col Type="PT_STRING" Header="Condexpr" sizeCache="DD" AutoSize="1" Edit="0" Sortable="0" Visible="0" />
+				<Col Type="PT_STRING" Header="Condcount" sizeCache="DD" AutoSize="1" Edit="0" Sortable="0" Visible="0" />
+							
+			</Def>
+			<Rows>
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:36" File="test_func.C" Path="C:\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:47" File="test_func.C" Path="C:\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
+							
+			</Rows>
+					
+		</Report>
+			
+	</Flags>
+	<Views>
+		<View File="..\test_func.C" Line="46" Index="0" focus="1" />
+		<View File="..\..\..\..\main\ipc\main.c" Line="115" Index="1" />
+	</Views>
+	<BookMarks>
+		<BookMark File="" Line="3936024" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+		<BookMark File="" Line="0" />
+	</BookMarks>
+	<Grep>
+		<GrepIncludeSub>yes</GrepIncludeSub>
+		<GrepMatchCase>no</GrepMatchCase>
+		<GrepMatchWhole>no</GrepMatchWhole>
+		<GrepRegExp>no</GrepRegExp>
+		<GrepReplaceMode>no</GrepReplaceMode>
+		<GrepFileTypes>
+			<GrepFileTypesValue>*.c;*.h</GrepFileTypesValue>
+			<GrepFileType>*.c;*.h</GrepFileType>
+		</GrepFileTypes>
+		<GrepFindWhat>
+			<GrepFindWhatValue/>
+		</GrepFindWhat>
+		<GrepFindWhere>
+			<GrepFindWhereValue>Application Files</GrepFindWhereValue>
+			<GrepPathStr>Application Files</GrepPathStr>
+			<GrepPathStr>Application Path</GrepPathStr>
+		</GrepFindWhere>
+		<GrepReplaceWhat>
+			<GrepReplaceWhatValue/>
+		</GrepReplaceWhat>
+	</Grep>
+	<FindStrings>
+		<Find>MASK_CPU_CCR_I1</Find>
+	</FindStrings>
+	<ReplaceStrings/>
+</Debug>

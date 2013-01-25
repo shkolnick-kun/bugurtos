@@ -150,14 +150,6 @@ void system_call_handler(void) trap
     BUGURT_ISR_START();
     KERNEL_PREEMPT(); /// KERNEL_PREEMPT
 
-    saved_sp = kernel.sched.current_proc->spointer; // Syscall interrupt may be nested, so saved_sp may point to kernel stack instead of process stack.
-
-    // Set interrupt flags in saved CCR
-    //saved_sp[5] |= 0x20; // I1
-    //saved_sp[5] &= ~0x04; // I0
-
-    //KERNEL_PREEMPT(); /// KERNEL_PREEMPT
-
     // Обрабатываем системный вызов
     do_syscall();
 
