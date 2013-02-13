@@ -148,7 +148,6 @@ void syscall_bugurt( syscall_t num, void * arg )
 void system_call_handler(void) trap
 {
     BUGURT_ISR_START();
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
 
     // Обрабатываем системный вызов
     do_syscall();

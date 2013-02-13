@@ -116,8 +116,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     STOP_SCHEDULER();\
     bugurt_set_stack_pointer( kernel.idle.spointer );\
 skip_stack_switch:\
-    nested_interrupts++;\
-    KERNEL_PREEMPT()
+    nested_interrupts++
 
 
 // Выход из обработчика прерывания
@@ -155,7 +154,7 @@ void v(void) \
     BUGURT_ISR_START();\
     f();\
     BUGURT_ISR_END();\
-} \
+}
 
 /*
 Объявление обработчика прерывания.
@@ -174,21 +173,12 @@ void BUGURT_CONCAT(v,_func)(void)
 // Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
 
-#ifdef SYSCALL_ISR
-#define KRN_FLG_DO_SCALL ((unsigned char)2)
-#endif // SYSCALL_ISR
-
 unsigned char kernel_state;
 //Временное хранилище для указателей стеков процессов.
 stack_t * saved_sp;
 #ifdef CONFIG_PREEMPTIVE_KERNEL
 count_t nested_interrupts;
 #endif //CONFIG_PREEMPTIVE_KERNEL
-
-//Внешние функции, специфичные для AVR
-#ifdef SYSCALL_ISR
-extern void raise_syscall_interrupt(void);
-#endif
 
 void bugurt_check_resched( void );
 

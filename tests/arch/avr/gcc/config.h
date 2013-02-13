@@ -82,7 +82,6 @@ typedef unsigned short ipc_data_t;
 ///     Project stecific stuff, you are welcome to edit it!!!
 ///=================================================================
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
-#define SYSCALL_ISR INT1_vect
 #define START_SCHEDULER() (TIMSK2 |= 0x02)
 #define STOP_SCHEDULER() (TIMSK2 &= ~0x02)
 
