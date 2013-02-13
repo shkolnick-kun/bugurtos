@@ -1,12 +1,4 @@
 #include <test_func.h>
-
-void raise_syscall_interrupt(void)
-{
-    //R2_on();
-    G2_off();
-    //R2_off();
-    G2_on();
-}
 void init_hardware(void)
 {
     cli();

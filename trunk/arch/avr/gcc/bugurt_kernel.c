@@ -119,12 +119,7 @@ void resched( void )
 */
 void bugurt_check_resched( void )
 {
-    if(
-    ( kernel_state & KRN_FLG_RESCHED )
-#if defined( SYSCALL_ISR ) && !defined( CONFIG_PREEMPTIVE_KERNEL )
-    && ( (~kernel_state) & KRN_FLG_DO_SCALL )
-#endif // SYSCALL_ISR
-    )
+    if( kernel_state & KRN_FLG_RESCHED )
     {
         kernel_state &= ~KRN_FLG_RESCHED;
         sched_reschedule();
@@ -136,6 +131,7 @@ __attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
 void SYSTEM_TIMER_ISR(void)
 {
     BUGURT_ISR_START();
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT()
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
@@ -146,63 +142,6 @@ void SYSTEM_TIMER_ISR(void)
     BUGURT_ISR_END();
 }
 
-#ifdef SYSCALL_ISR
-
-#ifdef RAMPZ
-#define PROC_STACK_OFFSET 8
-#else
-#define PROC_STACK_OFFSET 7
-#endif
-
-typedef struct
-{
-    unsigned char num;
-    void * arg;
-} syscall_data_t;
-
-/// Если используется программное прерывание - вот его обработчик
-__attribute__ (( signal, naked )) void SYSCALL_ISR(void);
-void SYSCALL_ISR(void)
-{
-    BUGURT_ISR_START();
-    // Получаем информацию о системном вызове из стека процесса
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-    saved_sp = kernel.sched.current_proc->spointer; // Syscall interrupt may be nested, so saved_sp may point to kernel stack instead of process stack.
-#endif
-    saved_sp += PROC_STACK_OFFSET;
-    saved_sp = bugurt_reverse_byte_order( *(stack_t **)saved_sp );
-
-    syscall_num = ((syscall_data_t *)saved_sp)->num;
-    syscall_arg = ((syscall_data_t *)saved_sp)->arg;
-
-    // Обрабатываем системный вызов
-    do_syscall();
-    kernel_state &= ~KRN_FLG_DO_SCALL;
-#ifndef CONFIG_PREEMPTIVE_KERNEL
-    START_SCHEDULER();
-#endif
-    BUGURT_ISR_END();
-}
-
-syscall_data_t * _syscall( syscall_data_t * arg )
-{
-    kernel_state |= KRN_FLG_DO_SCALL;
-    STOP_SCHEDULER(); // Чтобы не было гонок с обработчиком прерывания системного таймера.
-    raise_syscall_interrupt();
-    sei();
-    return arg;
-}
-void syscall_bugurt( unsigned char num, void * arg )
-{
-     syscall_data_t scdata;
-     scdata.num = num;
-     scdata.arg = arg;
-     cli();
-     _syscall( &scdata );
-     SYSCALL_DELLAY();
-     while( kernel_state & KRN_FLG_DO_SCALL );
-}
-#else
 __attribute__ (( naked )) void _syscall(void);
 void _syscall(void)
 {
@@ -221,8 +160,6 @@ void syscall_bugurt( unsigned char num, void * arg )
     syscall_arg = arg;
     _syscall();
 }
-
-#endif
 /***************************************************************************************************************/
 // Функции общего пользования
 

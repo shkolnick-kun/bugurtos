@@ -179,12 +179,12 @@ bugurt_set_stack_pointer:
 #else
     retf
 #endif
-  PUBLIC syscall_bugurt
-syscall_bugurt:
-    trap
-#if (__CODE_MODEL__==__SMALL_CODE_MODEL__)
-    ret
-#else
-    retf
-#endif
+;  PUBLIC syscall_bugurt
+;syscall_bugurt:
+;    trap
+;#if (__CODE_MODEL__==__SMALL_CODE_MODEL__)
+;    ret
+;#else
+;    retf
+;#endif
     end

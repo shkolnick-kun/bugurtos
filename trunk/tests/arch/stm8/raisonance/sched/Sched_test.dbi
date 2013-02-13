@@ -1,5 +1,5 @@
 [Application]
-ApplicationPath=C:\bugurtos\tests\arch\stm8\raisonance\sched\Sched_test.aof
+ApplicationPath=C:\Users\Beltukov\Desktop\tmp\COMMON\BuguRTOS\0.5.1\bugurtos\tests\arch\stm8\raisonance\sched\bin\Sched_test.aof
 Format=AOF
 CodeOffset=0x0
 LoaderTool=ST7

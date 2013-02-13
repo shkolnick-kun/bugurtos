@@ -10,12 +10,12 @@
 					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
-																																				
+																																																																								
 				</Def>
 				<Rows/>
-																												
+																																																								
 			</Report>
-																				
+																																								
 		</SpyWatch>
 		<CodeView TopRow="39001" Focus="4294967295" >
 			<CodeReport>
@@ -23,11 +23,11 @@
 				<1>129</1>
 				<2>70</2>
 				<3>391</3>
-																												
+																																																								
 			</CodeReport>
-																				
+																																								
 		</CodeView>
-												
+																								
 	</test>
 	<Flags>
 		<Report>
@@ -55,9 +55,9 @@
 			
 	</Flags>
 	<Views>
-		<View File="..\test_func.C" Line="44" Index="0" />
-		<View File="..\config.h" Line="72" Index="1" />
-		<View File="..\..\..\..\main\sig\main.c" Line="44" Index="2" focus="1" />
+		<View File="..\test_func.C" Line="42" Index="0" />
+		<View File="..\config.h" Line="70" Index="1" />
+		<View File="..\..\..\..\main\sig\main.c" Line="42" Index="2" focus="1" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
