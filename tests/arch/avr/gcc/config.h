@@ -137,7 +137,7 @@ typedef unsigned short ipc_data_t;
 ///==================================================================
 
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() sei(); NOP(); cli()
+#define KERNEL_PREEMPT() sei(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); cli()
 #else // CONFIG_PREEMPTIVE_KERNEL
 #define KERNEL_PREEMPT()
 #endif //CONFIG_PREEMPTIVE_KERNEL
