@@ -136,23 +136,6 @@ __interrupt void system_timer_isr(void)
 __interrupt  void system_call_handler(void)
 {
     BUGURT_ISR_START();
-/*
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-    saved_sp = kernel.sched.current_proc->spointer; // Syscall interrupt may be nested, so saved_sp may point to kernel stack instead of process stack.
-#endif
-    // Set interrupt flags in saved CCR
-    saved_sp[17] |= MASK_CPU_CCR_I1;
-    saved_sp[17] &= ~MASK_CPU_CCR_I0;
-
-    // Set system call params
-    syscall_num = saved_sp[18];
-
-#if (__DATA_MODEL__==__LARGE_DATA_MODEL__)
-    syscall_arg = (void *)(((unsigned long)saved_sp[16]) | (((unsigned long)saved_sp[15])<<8) | (((unsigned long)saved_sp[14])<<16));
-#else // __SMALL_DATA_MODEL__ or __MEDIUM_DATA_MODEL__
-    syscall_arg = (void *)(((unsigned short)saved_sp[19]<<8) | (((unsigned short)saved_sp[20])));
-#endif
-*/
     // Обрабатываем системный вызов
     do_syscall();
 

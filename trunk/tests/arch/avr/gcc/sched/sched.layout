@@ -4,8 +4,8 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="0">
 		<Cursor position="7890" topLine="125" />
 	</File>
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="1" top="0" tabpos="0">
-		<Cursor position="7395" topLine="102" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="1" top="1" tabpos="1">
+		<Cursor position="7395" topLine="114" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
@@ -109,8 +109,8 @@
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="2748" topLine="68" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="3">
-		<Cursor position="2538" topLine="115" />
+	<File name="../test_func.c" open="1" top="0" tabpos="2">
+		<Cursor position="2500" topLine="115" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="278" topLine="0" />
