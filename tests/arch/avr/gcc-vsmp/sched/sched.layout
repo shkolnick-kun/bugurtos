@@ -31,10 +31,7 @@
 	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/index.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="2">
 		<Cursor position="8099" topLine="87" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
