@@ -29,8 +29,8 @@
 			
 	</Flags>
 	<Views>
-		<View File="..\test_func.C" Line="26" Index="0" />
-		<View File="..\..\..\..\main\ipc\main.c" Line="61" Index="1" focus="1" />
+		<View File="..\test_func.C" Line="24" Index="0" />
+		<View File="..\..\..\..\main\ipc\main.c" Line="69" Index="1" focus="1" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
