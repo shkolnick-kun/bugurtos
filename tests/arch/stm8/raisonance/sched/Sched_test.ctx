@@ -2,7 +2,7 @@
 <Debug>
 	<RFlasher7>
 		<CodeView Focus="0" TopRow="0" NbPerLine="8" />
-																																																																																																																								
+																																																																																																																																				
 	</RFlasher7>
 	<Sched_test>
 		<CodeView TopRow="38620" Focus="4294967295" >
@@ -11,9 +11,9 @@
 				<1>129</1>
 				<2>70</2>
 				<3>391</3>
-																																																								
+																																																																																				
 			</CodeReport>
-																																								
+																																																												
 		</CodeView>
 		<SpyWatch>
 			<Report>
@@ -24,7 +24,7 @@
 					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
-																																																																								
+																																																																																																												
 				</Def>
 				<Rows>
 					<Row Name="proc[0].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[0].flags" />
@@ -35,13 +35,13 @@
 					<Row Name="proc[5].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[5].flags" />
 					<Row Name="nested_interrupts" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="nested_interrupts" />
 					<Row Name="kernel.timer" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="kernel.timer" />
-																																																																								
+																																																																																																												
 				</Rows>
-																																																								
+																																																																																				
 			</Report>
-																																								
+																																																												
 		</SpyWatch>
-																								
+																																				
 	</Sched_test>
 	<Flags>
 		<Report>
@@ -60,12 +60,12 @@
 							
 			</Def>
 			<Rows>
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:7" File="main.c" Path="C:\Projects\SOFT\bugurtos\tests\main\sched\main.c" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:24" File="main.c" Path="C:\Projects\SOFT\bugurtos\tests\main\sched\main.c" />
 				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:24" File="main.c" Path="C:\bugurtos\tests\main\sched\main.c" />
 				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:29" File="main.c" Path="C:\bugurtos\tests\main\sched\main.c" />
 				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:38" File="main.c" Path="C:\bugurtos\tests\main\sched\main.c" />
 				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:45" File="main.c" Path="C:\bugurtos\tests\main\sched\main.c" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:7" File="main.c" Path="C:\Projects\SOFT\bugurtos\tests\main\sched\main.c" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:24" File="main.c" Path="C:\Projects\SOFT\bugurtos\tests\main\sched\main.c" />
 							
 			</Rows>
 					
@@ -74,7 +74,7 @@
 	</Flags>
 	<Views>
 		<View File="..\..\..\..\main\sched\main.c" Line="0" Index="0" />
-		<View File="..\config.h" Line="74" Index="1" focus="1" />
+		<View File="..\config.h" Line="72" Index="1" focus="1" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
