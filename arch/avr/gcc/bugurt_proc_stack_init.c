@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -77,11 +77,23 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include"../../../include/bugurt.h"
-stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg)
+stack_t * proc_stack_init(
+                          stack_t * sstart,
+                          code_t pmain,
+                          void * arg,
+                          void (*return_address)(void)
+                          )
 {
     stack_t * tos = (stack_t *)sstart;
     // return address
-    unsigned short tmp = (unsigned short)code;
+    unsigned short tmp;
+
+    tmp = (unsigned short)return_address;
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
+    tmp>>=8;
+    *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
+
+    tmp = (unsigned short)pmain;
     *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);
     tmp>>=8;
     *tos-- = (stack_t)(tmp&(unsigned short)0x00ff);

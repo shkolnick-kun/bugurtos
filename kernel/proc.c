@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -118,7 +118,7 @@ void proc_init_isr(
     proc->rs_hook = rs_hook;
     proc->arg = arg;
     proc->sstart = sstart;
-    if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)proc_run_wrapper, (void *)proc);
+    if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)pmain, (void *)arg, (void (*)(void))proc_terminate);
 
     SPIN_UNLOCK( proc );
 }
@@ -187,7 +187,7 @@ bool_t proc_restart_isr(proc_t * proc)
 
     proc->timer = proc->time_quant;
 
-    if( proc->sstart )proc->spointer = proc_stack_init( proc->sstart, (code_t)proc_run_wrapper, (void *)proc );
+    if( proc->sstart )proc->spointer = proc_stack_init( proc->sstart, (code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
     _proc_run( proc );
 end:
 
@@ -299,7 +299,8 @@ void _proc_flag_stop( flag_t mask )
 
 void _proc_self_stop(void)
 {
-    proc_t * proc = current_proc();
+    proc_t * proc;
+    proc = current_proc();
 
     SPIN_LOCK( proc );
 
@@ -353,8 +354,10 @@ index_t _proc_yeld( void )
     return ret;
 }
 
-void _proc_terminate( proc_t * proc )
+void _proc_terminate( void )
 {
+    proc_t * proc;
+    proc = current_proc();
 
     SPIN_LOCK( proc );
 

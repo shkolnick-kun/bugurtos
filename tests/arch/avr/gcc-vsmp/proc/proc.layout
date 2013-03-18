@@ -5,7 +5,7 @@
 		<Cursor position="9380" topLine="131" />
 	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="19599" topLine="346" />
+		<Cursor position="26997" topLine="475" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="6745" topLine="118" />
@@ -26,7 +26,7 @@
 		<Cursor position="9112" topLine="177" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="12191" topLine="98" />
+		<Cursor position="13432" topLine="353" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="22738" topLine="346" />
@@ -38,7 +38,7 @@
 		<Cursor position="11521" topLine="253" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="15088" topLine="323" />
+		<Cursor position="12407" topLine="251" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="3109" topLine="87" />

@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../main/ipc/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="1402" topLine="29" />
+	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="17969" topLine="462" />
+	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="26814" topLine="483" />
+	</File>
+	<File name="../../../../../include/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="315" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="13011" topLine="253" />
+	</File>
+	<File name="../../../../main/ipc/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="125" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
