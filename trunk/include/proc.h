@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -479,13 +479,18 @@ void proc_run_wrapper(proc_t * proc);
 \~russian
 \brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
 
-\param proc - Указатель на запускаемый процесс.
 \~english
 \brief A process termination routine called after proc->pmain return. Internal usage function.
-
-\param proc - A pointer to terminated process.
 */
-void _proc_terminate(proc_t * proc);
+void proc_terminate( void );
+/*!
+\~russian
+\brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
+
+\~english
+\brief A process termination routine called after proc->pmain return. Internal usage function.
+*/
+void _proc_terminate( void );
 /*!
 \~russian
 \brief Запуск процесса.

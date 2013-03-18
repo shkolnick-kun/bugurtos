@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -466,14 +466,14 @@ extern proc_t * current_proc(void);
 A process stack initialization.
 
 This function prepares a process stack for running a process.
-It treats a pocess stack in such a way that code(arg) is called when a process context is restored from a process stack.
+It treats a pocess stack in such a way that pmain(arg) is called when a process context is restored from a process stack.
 
 \param sstart a process stack bottom.
-\param code a poiter to a function to call.
+\param pmain a poiter to a function to call.
 \param arg an argument to a function to call.
 \return a pointer to a prepared process stack top.
 */
-extern stack_t * proc_stack_init(stack_t * sstart, code_t code, void * arg);
+extern stack_t * proc_stack_init(stack_t * sstart, code_t pmain, void * arg, void (*return_address)(void));
 /*!
 \~russian
 \brief

@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -88,33 +88,41 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 stack_t * proc_stack_init(
                             stack_t * stack_top,
                             code_t pmain,
-                            void * arg
-                         )
+                            void * arg,
+                            void (*return_address)(void)
+                        )
 {
-     // return address (func)
-     *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
-     *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain>>8)& 0xFF);
+    // return address (func)
+    *stack_top-- = (stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);
+    *stack_top-- = (stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
 #if (__ROM_MODEL__ > 0)
-     *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain>>16)& 0xFF);
+    *stack_top-- = (stack_t)(((BGRT_INT_PTR)return_address>>16)& 0xFF);
 #else
-     *stack_top-- = 0x00;
+    *stack_top-- = 0x00;
 #endif
-     // Y
-     *stack_top-- = 0xAD;
-     *stack_top-- = 0xDE;
-     /** WARNING: LARGE RAM MODEL IS NOT SUPPORTED IN THIS CODE!!! */
-     // X - 1st argument is placed in X
-     *stack_top-- = (stack_t)((unsigned short)arg & 0xFF);
-     *stack_top-- = (stack_t)(((unsigned short)arg>>8)& 0xFF);
-     // A
-     *stack_top-- = 0xAA;
-     // CCR
-     *stack_top-- = 0x20; //Interrupts are enabled
-     // ?BH ?BL ?CH ?CL
-     *stack_top-- = 0xC1;
-     *stack_top-- = 0xC0;
-     *stack_top-- = 0xB1;
-     *stack_top-- = 0xB0;
+    *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
+    *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain>>8)& 0xFF);
+#if (__ROM_MODEL__ > 0)
+    *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain>>16)& 0xFF);
+#else
+    *stack_top-- = 0x00;
+#endif
+    // Y
+    *stack_top-- = 0xAD;
+    *stack_top-- = 0xDE;
+    /** WARNING: LARGE RAM MODEL IS NOT SUPPORTED IN THIS CODE!!! */
+    // X - 1st argument is placed in X
+    *stack_top-- = (stack_t)((unsigned short)arg & 0xFF);
+    *stack_top-- = (stack_t)(((unsigned short)arg>>8)& 0xFF);
+    // A
+    *stack_top-- = 0xAA;
+    // CCR
+    *stack_top-- = 0x20; //Interrupts are enabled
+    // ?BH ?BL ?CH ?CL
+    *stack_top-- = 0xC1;
+    *stack_top-- = 0xC0;
+    *stack_top-- = 0xB1;
+    *stack_top-- = 0xB0;
 
-     return stack_top;
+    return stack_top;
 }

@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -111,7 +111,7 @@ void vsmp_init( void )
             vm_stack[current_vm - 1][i] = 0x55;
             vm_int_stack[current_vm][i] = 0x55;
         }
-        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0 );
+        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0, (void(*)(void))vsmp_idle_main );
         vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
     }
     current_vm = 0;

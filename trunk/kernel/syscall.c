@@ -1,5 +1,5 @@
 /**************************************************************************
-    BuguRTOS-0.5.x(Bugurt real time operating system)
+    BuguRTOS-0.6.x(Bugurt real time operating system)
     Copyright (C) 2013  anonimous
 
     This program is free software: you can redistribute it and/or modify
@@ -261,25 +261,11 @@ index_t proc_yeld(void)
 // Останов процесса после выхода из pmain, для обертки proc_run_wrapper
 void scall_proc_terminate( void * arg )
 {
-    _proc_terminate((proc_t *)arg);
+    _proc_terminate();
 }
-void proc_run_wrapper( proc_t * proc )
+void proc_terminate( void )
 {
-    code_t pmain;
-    void * arg;
-    //Атомарно читаем pmain и arg
-    disable_interrupts();
-    SPIN_LOCK( proc );
-
-    pmain = proc->pmain;
-    arg = proc->arg;
-
-    SPIN_UNLOCK( proc );
-    enable_interrupts();
-    //Выполняем pmain
-    pmain( arg );
-    // Завершаем процесс
-    syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)proc );
+    syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)0 );
 }
 /**********************************************************************************************
                                        SYSCALL_PROC_FLAG_STOP
@@ -527,6 +513,14 @@ void scall_ipc_exchange(void * arg)
 }
 bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 {
+    /*
+#ifdef CONFIG_MP
+    volatile ipc_exchange_arg_t arg;
+#else
+    static volatile  ipc_exchange_arg_t arg;
+    disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
+#endif
+    */
     volatile ipc_exchange_arg_t arg;
     arg.send.proc = proc;
     arg.send.ipc_data = send;

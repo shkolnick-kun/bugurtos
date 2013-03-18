@@ -20,9 +20,9 @@
 		<Cursor position="4164" topLine="125" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="96" topLine="125" />
+		<Cursor position="1690" topLine="66" />
 	</File>
-	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="3135" topLine="114" />
+	<File name="../../../../main/proc/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="95" topLine="7" />
 	</File>
 </CodeBlocks_layout_file>
