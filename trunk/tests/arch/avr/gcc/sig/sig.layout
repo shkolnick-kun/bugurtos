@@ -64,7 +64,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="22" topLine="0" />
 	</File>
-	<File name="../../../../main/sig/main.c" open="1" top="1" tabpos="1">
+	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="1">
 		<Cursor position="123" topLine="8" />
 	</File>
 </CodeBlocks_layout_file>

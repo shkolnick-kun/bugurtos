@@ -10,6 +10,9 @@
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="460" />
 	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="514" />
+	</File>
 	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="2059" topLine="0" />
 	</File>
