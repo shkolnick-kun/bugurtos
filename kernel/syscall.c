@@ -513,15 +513,13 @@ void scall_ipc_exchange(void * arg)
 }
 bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 {
-    /*
+
 #ifdef CONFIG_MP
     volatile ipc_exchange_arg_t arg;
 #else
     static volatile  ipc_exchange_arg_t arg;
     disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
 #endif
-    */
-    volatile ipc_exchange_arg_t arg;
     arg.send.proc = proc;
     arg.send.ipc_data = send;
     arg.receive = receive;
