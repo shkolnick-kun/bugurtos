@@ -113,10 +113,12 @@ SYSCALL_TABLE( syscall_routine[] ) =
 };
 
 #ifdef CONFIG_MP
+
 // In MP system do_syscall must be reentrant.
 void do_syscall( syscall_t syscall_num, void * syscall_arg )
-#else
-//In single processor system reentrancy is not necessary.
+#else // CONFIG_MP
+
+//In single processor system call reentrancy is not necessary.
 syscall_t syscall_num = (syscall_t)0;
 void * syscall_arg = (void *)0;
 
@@ -513,13 +515,7 @@ void scall_ipc_exchange(void * arg)
 }
 bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 {
-
-#ifdef CONFIG_MP
     volatile ipc_exchange_arg_t arg;
-#else
-    static volatile  ipc_exchange_arg_t arg;
-    disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
-#endif
     arg.send.proc = proc;
     arg.send.ipc_data = send;
     arg.receive = receive;
