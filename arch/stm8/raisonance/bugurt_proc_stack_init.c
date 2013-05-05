@@ -97,9 +97,8 @@ stack_t * proc_stack_init(
     *stack_top-- = (stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
 #if (__ROM_MODEL__ > 0)
     *stack_top-- = (stack_t)(((BGRT_INT_PTR)return_address>>16)& 0xFF);
-#else
-    *stack_top-- = 0x00;
 #endif
+    // process main
     *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
     *stack_top-- = (stack_t)(((BGRT_INT_PTR)pmain>>8)& 0xFF);
 #if (__ROM_MODEL__ > 0)
