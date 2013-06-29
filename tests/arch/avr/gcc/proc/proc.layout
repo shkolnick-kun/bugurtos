@@ -7,11 +7,20 @@
 	<File name="../../../../../include/ipc.h" open="0" top="0" tabpos="0">
 		<Cursor position="7840" topLine="212" />
 	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="378" />
+	</File>
 	<File name="../../../../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="118" />
 	</File>
+	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="123" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="9092" topLine="165" />
+	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="22101" topLine="369" />
+		<Cursor position="9796" topLine="166" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="15" />
@@ -20,9 +29,9 @@
 		<Cursor position="4164" topLine="125" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1690" topLine="66" />
+		<Cursor position="1690" topLine="78" />
 	</File>
-	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="1">
+	<File name="../../../../main/proc/main.c" open="1" top="1" tabpos="0">
 		<Cursor position="95" topLine="7" />
 	</File>
 </CodeBlocks_layout_file>
