@@ -173,8 +173,9 @@ static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
 
     SPIN_LOCK( sched );
     // Если список ready опустел, - переключаем списки
-    if( sched->ready->index == (index_t)0 )
+    while( sched->ready->index == (index_t)0 )
     {
+        // Программа зависнет здесь, если юзер остановит процесс холостого хода.
         xlist_t * buf;
         buf = sched->ready;
         sched->ready = sched->expired;

@@ -176,7 +176,7 @@ bool_t proc_restart_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & PROC_STATE_RESTART_MASK )
+    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_STATE_RESTART_MASK) )
     {
         ret = (bool_t)0;
         goto end;
