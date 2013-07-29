@@ -10,6 +10,9 @@
 	<File name="../../../../../include/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="111" />
 	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="18003" topLine="333" />
+	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
 		<Cursor position="8618" topLine="169" />
 	</File>

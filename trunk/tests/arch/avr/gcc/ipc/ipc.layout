@@ -16,7 +16,10 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="13011" topLine="516" />
 	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1690" topLine="72" />
+	</File>
 	<File name="../../../../main/ipc/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="58" topLine="76" />
+		<Cursor position="125" topLine="9" />
 	</File>
 </CodeBlocks_layout_file>
