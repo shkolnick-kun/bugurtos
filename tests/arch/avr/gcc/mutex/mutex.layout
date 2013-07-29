@@ -2,13 +2,16 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="8498" topLine="145" />
+		<Cursor position="7972" topLine="99" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="9585" topLine="104" />
+		<Cursor position="6242" topLine="74" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="9922" topLine="204" />
+	</File>
+	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="75" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="82" />
@@ -32,7 +35,7 @@
 		<Cursor position="12834" topLine="258" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="517" />
+		<Cursor position="0" topLine="120" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="81" />
@@ -40,7 +43,10 @@
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="4126" topLine="121" />
 	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1690" topLine="72" />
+	</File>
 	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2115" topLine="0" />
+		<Cursor position="3194" topLine="103" />
 	</File>
 </CodeBlocks_layout_file>

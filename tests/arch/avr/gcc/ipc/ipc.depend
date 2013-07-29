@@ -82,10 +82,10 @@
 1363617751 source:/home/anonimous/Документы/bugurtos/kernel/pitem.c
 	"../include/bugurt.h"
 
-1363617998 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+1372510053 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
 	"../include/bugurt.h"
 
-1363617751 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+1372510157 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
 	"../include/bugurt.h"
 
 1363617751 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
