@@ -59,105 +59,105 @@ C_DEPS += \
 src/bugurtos/kernel/crit_sec.o: /home/anonimous/bugurtos/kernel/crit_sec.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/index.o: /home/anonimous/bugurtos/kernel/index.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/ipc.o: /home/anonimous/bugurtos/kernel/ipc.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/item.o: /home/anonimous/bugurtos/kernel/item.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/kernel.o: /home/anonimous/bugurtos/kernel/kernel.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/mutex.o: /home/anonimous/bugurtos/kernel/mutex.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/pcounter.o: /home/anonimous/bugurtos/kernel/pcounter.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/pitem.o: /home/anonimous/bugurtos/kernel/pitem.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/proc.o: /home/anonimous/bugurtos/kernel/proc.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/sched.o: /home/anonimous/bugurtos/kernel/sched.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/sem.o: /home/anonimous/bugurtos/kernel/sem.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/sig.o: /home/anonimous/bugurtos/kernel/sig.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/syscall.o: /home/anonimous/bugurtos/kernel/syscall.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/timer.o: /home/anonimous/bugurtos/kernel/timer.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
 src/bugurtos/kernel/xlist.o: /home/anonimous/bugurtos/kernel/xlist.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU C Compiler'
-	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__REDLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	arm-none-eabi-gcc -D__USE_CMSIS=CMSISv2p00_LPC17xx -DDEBUG -D__CODE_RED -D__NEWLIB__ -I"/home/anonimous/bugurtos/tests/arch/cm3/CMSISv2p00_LPC17xx/inc" -I"/home/anonimous/bugurtos/tests/arch/cm3" -I"/home/anonimous/bugurtos/tests/arch/cm3"/../../../include -include"/home/anonimous/bugurtos/tests/arch/cm3"/config.h -O0 -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -mcpu=cortex-m3 -mthumb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

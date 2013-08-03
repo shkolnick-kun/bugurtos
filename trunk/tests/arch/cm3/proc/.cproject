@@ -33,7 +33,6 @@
 								<option id="gnu.c.compiler.option.include.paths.245405318" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CMSISv2p00_LPC17xx/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:}&quot;/../../../include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1699556770" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__USE_CMSIS=CMSISv2p00_LPC17xx"/>
@@ -53,9 +52,7 @@
 								<option id="com.crt.advproject.gas.arch.580646554" name="Architecture" superClass="com.crt.advproject.gas.arch" value="com.crt.advproject.gas.target.cm3" valueType="enumerated"/>
 								<option id="com.crt.advproject.gas.thumb.1131583369" name="Thumb mode" superClass="com.crt.advproject.gas.thumb" value="true" valueType="boolean"/>
 								<option id="gnu.both.asm.option.flags.crt.1198072587" name="Assembler flags" superClass="gnu.both.asm.option.flags.crt" value="-c -x assembler-with-cpp -DDEBUG -D__CODE_RED -D__REDLIB__ " valueType="string"/>
-								<option id="gnu.both.asm.option.include.paths.117072213" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/sched/CMSISv2p00_LPC17xx/inc}&quot;"/>
-								</option>
+								<option id="gnu.both.asm.option.include.paths.117072213" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath"/>
 								<inputType id="com.crt.advproject.assembler.input.633051914" name="Additional Assembly Source Files" superClass="com.crt.advproject.assembler.input"/>
 							</tool>
 							<tool id="com.crt.advproject.link.cpp.exe.debug.487243263" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug">
@@ -856,10 +853,7 @@
 		<projectStorage>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;TargetConfig&gt;
 &lt;Properties property_0="" property_1="" property_2="" property_3="NXP" property_4="LPC1768" property_count="5" version="1"/&gt;
-&lt;infoList vendor="NXP"&gt;
-&lt;info chip="LPC1768" match_id="0x00013f37,0x26013F37,0x26113F37" name="LPC1768" package="lpc17_lqfp100.xml"&gt;
-&lt;chip&gt;
-&lt;name&gt;LPC1768&lt;/name&gt;
+&lt;infoList vendor="NXP"&gt;&lt;info chip="LPC1768" match_id="0x00013f37,0x26013F37,0x26113F37" name="LPC1768" package="lpc17_lqfp100.xml"&gt;&lt;chip&gt;&lt;name&gt;LPC1768&lt;/name&gt;
 &lt;family&gt;LPC17xx&lt;/family&gt;
 &lt;vendor&gt;NXP (formerly Philips)&lt;/vendor&gt;
 &lt;reset board="None" core="Real" sys="Real"/&gt;
@@ -920,8 +914,7 @@
 &lt;peripheralInstance derived_from="LPC17_CANCON" determined="infoFile" enable="SYSCTL.PCONP.PCCAN2&amp;amp;0x1" id="CANCON2" location="0x40048000"/&gt;
 &lt;peripheralInstance derived_from="LPC17_MCPWM" determined="infoFile" enable="SYSCTL.PCONP.PCMCPWM&amp;amp;0x1" id="MCPWM" location="0x400B8000"/&gt;
 &lt;/chip&gt;
-&lt;processor&gt;
-&lt;name gcc_name="cortex-m3"&gt;Cortex-M3&lt;/name&gt;
+&lt;processor&gt;&lt;name gcc_name="cortex-m3"&gt;Cortex-M3&lt;/name&gt;
 &lt;family&gt;Cortex-M&lt;/family&gt;
 &lt;/processor&gt;
 &lt;link href="nxp_lpcxxxx_peripheral.xme" show="embed" type="simple"/&gt;
