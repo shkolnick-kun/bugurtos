@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="sig" />
+		<Option pch_mode="2" />
+		<Option compiler="lpcxpresso" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/sched.axf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="lpcxpresso" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="../../../../../../thirdparty/CMSISv2p00_LPC17xx/Debug/libCMSISv2p00_LPC17xx.a" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/sched.axf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="lpcxpresso" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-mthumb" />
+			<Add option="-O0" />
+			<Add option="-g3" />
+			<Add option="-fmessage-length=0" />
+			<Add option="-fno-builtin" />
+			<Add option="-ffunction-sections" />
+			<Add option="-fdata-sections" />
+			<Add option="-mcpu=cortex-m3" />
+			<Add option='-include&quot;../config.h&quot;' />
+			<Add option="-D__USE_CMSIS=CMSISv2p00_LPC17xx" />
+			<Add option="-DDEBUG" />
+			<Add option="-D__CODE_RED" />
+			<Add option="-D__NEWLIB__" />
+			<Add directory="../../../../../../thirdparty/CMSISv2p00_LPC17xx/inc" />
+			<Add directory="../../gcc" />
+			<Add directory="../../../../../include" />
+		</Compiler>
+		<Linker>
+			<Add option="-nostdlib" />
+			<Add option="-Xlinker" />
+			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
+			<Add option="--gc-sections" />
+			<Add option="-mcpu=cortex-m3" />
+			<Add option="-mthumb" />
+			<Add option='-T &quot;../lpc1768NewLib.ld&quot;' />
+			<Add directory="../../../../../../thirdparty/CMSISv2p00_LPC17xx/Debug" />
+		</Linker>
+		<ExtraCommands>
+			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
+			<Mode after="always" />
+		</ExtraCommands>
+		<Unit filename="../../../../../arch/cm3/gcc/bugurt_kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../include/bugurt.h" />
+		<Unit filename="../../../../../include/crit_sec.h" />
+		<Unit filename="../../../../../include/index.h" />
+		<Unit filename="../../../../../include/ipc.h" />
+		<Unit filename="../../../../../include/item.h" />
+		<Unit filename="../../../../../include/kernel.h" />
+		<Unit filename="../../../../../include/mutex.h" />
+		<Unit filename="../../../../../include/pcounter.h" />
+		<Unit filename="../../../../../include/pitem.h" />
+		<Unit filename="../../../../../include/proc.h" />
+		<Unit filename="../../../../../include/sched.h" />
+		<Unit filename="../../../../../include/sem.h" />
+		<Unit filename="../../../../../include/sig.h" />
+		<Unit filename="../../../../../include/syscall.h" />
+		<Unit filename="../../../../../include/timer.h" />
+		<Unit filename="../../../../../include/xlist.h" />
+		<Unit filename="../../../../../kernel/crit_sec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/ipc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/mutex.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/pitem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/sig.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/syscall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/xlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../config.h" />
+		<Unit filename="../lpc1768NewLib.ld" />
+		<Unit filename="../test_func.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../test_func.h" />
+		<Unit filename="../../../../main/sig/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../thirdparty/cr_startup_lpc176x.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger>
+				<search_path add="bin/Debug" />
+				<remote_debugging>
+					<options conn_type="0" serial_baud="115200" additional_cmds="set mem inaccessible-by-default off&#x0A;set arm force-mode thumb&#x0A;load&#x0A;tb main" additional_cmds_before="target extended-remote :3333&#x0A;set remotetimeout 60000" />
+				</remote_debugging>
+			</debugger>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
