@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../include/bugurt.h" open="1" top="0" tabpos="1">
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="1">
 		<Cursor position="7747" topLine="122" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="324" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="365" topLine="3" />
 	</File>
 	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="3135" topLine="181" />
 	</File>
-	<File name="../../../../../../thirdparty/cr_startup_lpc176x.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../../thirdparty/cr_startup_lpc176x.c" open="0" top="0" tabpos="3">
 		<Cursor position="13202" topLine="305" />
 	</File>
 </CodeBlocks_layout_file>
