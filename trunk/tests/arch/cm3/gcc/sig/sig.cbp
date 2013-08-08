@@ -63,7 +63,7 @@
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../../../arch/cm/gcc/bugurt_kernel.c">
+		<Unit filename="../../../../../arch/cm3/gcc/bugurt_kernel.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../include/bugurt.h" />
