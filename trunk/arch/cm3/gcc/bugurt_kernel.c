@@ -1,41 +1,6 @@
 #include <bugurt.h>
+
 //====================================================================================
-
-#if (CONFIG_CORTEX_M == 0) || (CONFIG_CORTEX_M == 1)
-// 0 - Cortex(tm)-M0
-// 1 - Cortex(tm)-M1
-#ifndef SETUP_SYSTEM_TIMER
-#error "You must define SETUP_SYSTEM_TIMER() macro!!!"
-#endif // SETUP_SYSTEM_TIMER
-
-#elif (CONFIG_CORTEX_M == 2)
-// 2 - reserved!
-#error "This CONFIG_CORTEX_M value is reserved!!!"
-
-#elif (CONFIG_CORTEX_M == 3)
-// 3 - Cortex(tm)-M3
-#define CONFIG_HAS_SYSTICK_TIMER
-
-#elif (CONFIG_CORTEX_M == 4)
-// 4 - reserved!
-#error "This CONFIG_CORTEX_M value is reserved!!!"
-
-#elif (CONFIG_CORTEX_M == 5)
-// 5 - Cortex(tm)-M0 with SysTickTimer
-#define CONFIG_HAS_SYSTICK_TIMER
-
-#elif (CONFIG_CORTEX_M == 6)
-// 6 - Cortex(tm)-M1 with SysTickTimer
-#define CONFIG_HAS_SYSTICK_TIMER
-
-#elif (CONFIG_CORTEX_M == 7)
-// 7 - reserved!
-#error "This CONFIG_CORTEX_M value is reserved!!!"
-
-#else
-#error "Bad CONFIG_CORTEX_M value!!!"
-#endif //CONFIG_CORTEX_M
-
 #define BUGURT_SYS_ICSR 	*(( volatile unsigned long *) 0xE000ED04 )
 //#define BUGURT_SYS_SCR 		*(( volatile unsigned long *) 0xE000ED10 )
 //#define BUGURT_SYS_CCR 		*(( volatile unsigned long *) 0xE000ED14 )
@@ -46,11 +11,16 @@
 //#define BUGURT_SYS_SHCRS 	*(( volatile unsigned long *) 0xE000ED24 )
 //#define BUGURT_SYS_CFSR 	*(( volatile unsigned long *) 0xE000ED28 )
 
+#define BUGURT_SYST_CSR 	*(( volatile unsigned long *) 0xE000E010 )
+#define BUGURT_SYST_RVR 	*(( volatile unsigned long *) 0xE000E014 )
+
+#define BUGURT_SYST_RVR_VALUE ( ( CONFIG_FCPU_HZ / CONFIG_FSYSTICK_HZ ) - 1ul )
+#define BUGURT_SYST_CSR_VALUE ( 0x00000007 ) //Enable clock, interrrupt, timer.
+
 #define BUGURT_PENDSV_SET   (0x10000000)
 #define BUGURT_PENDSV_CLR   (0x08000000)
 
-#ifdef CONFIG_HAS_SYSTICK_TIMER
-
+//====================================================================================
 #ifndef CONFIG_FCPU_HZ
 #error "You must define CONFIG_FCPU_HZ macro!!!"
 #endif //CONFIG_FCPU_HZ
@@ -59,28 +29,13 @@
 #error "You must define CONFIG_FSYSTICK_HZ macro!!!"
 #endif //CONFIG_FSYSTICK_HZ
 
-#define BUGURT_SYST_CSR 	*(( volatile unsigned long *) 0xE000E010 )
-#define BUGURT_SYST_RVR 	*(( volatile unsigned long *) 0xE000E014 )
-
-#define BUGURT_SYST_RVR_VALUE ( ( CONFIG_FCPU_HZ / CONFIG_FSYSTICK_HZ ) - 1ul )
-#define BUGURT_SYST_CSR_VALUE ( 0x00000007 ) //Enable clock, interrrupt, timer.
-
 #if BUGURT_SYST_RVR_VALUE > 0xFFFFFFUL
 #error "Impossible SYST_RVR value!!! "
-#endif
+#endif //BUGURT_SYST_RVR_VALUE
 
-// Конфигурация системного таймера!!!
-#define SETUP_SYSTEM_TIMER() \
-    BUGURT_SYS_SHPR3 |= CONFIG_SCHED_PRIO   << 24; \
-	BUGURT_SYST_RVR = BUGURT_SYST_RVR_VALUE; \
-	BUGURT_SYST_CSR = BUGURT_SYST_CSR_VALUE
-
-#endif
-
-//====================================================================================
 #if (CONFIG_SCHED_PRIO <= CONFIG_SYSCALL_PRIO)
 #error "CONFIG_SCHED_PRIO must be greater or equal to CONFIG_SCHED_PRIO !!!"
-#endif
+#endif //CONFIG_SCHED_PRIO
 //====================================================================================
 volatile stack_t bugurt_idle_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //====================================================================================
@@ -166,8 +121,10 @@ void init_bugurt(void)
     // Устанавливаем приоритеты обработчиков прерываний;
     BUGURT_SYS_SHPR2 |= CONFIG_SYSCALL_PRIO << 24; // SVC
     BUGURT_SYS_SHPR3 |= CONFIG_SCHED_PRIO   << 16; // PendSV
+    BUGURT_SYS_SHPR3 |= CONFIG_SCHED_PRIO   << 24; // SysTick
     // Настраиваем системный таймер и приоритет его прерывания
-    SETUP_SYSTEM_TIMER();
+    BUGURT_SYST_RVR = BUGURT_SYST_RVR_VALUE;
+	BUGURT_SYST_CSR = BUGURT_SYST_CSR_VALUE;
 
 }
 //====================================================================================

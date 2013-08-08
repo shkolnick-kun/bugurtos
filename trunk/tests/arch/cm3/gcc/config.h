@@ -72,18 +72,6 @@ typedef unsigned long ipc_data_t;
 #define RESCHED_ISR			PendSV_Handler
 #define SYSCALL_ISR			SVCall_Handler
 
-/// Uncomment needed !!!
-// 0 - Cortex(tm)-M0
-// 1 - Cortex(tm)-M1
-// 2 - reserved!
-// 3 - Cortex(tm)-M3
-// 4 - reserved!
-// 5 - Cortex(tm)-M0 with SysTickTimer
-// 6 - Cortex(tm)-M1 with SysTickTimer
-// 7 - reserved!
-#define CONFIG_CORTEX_M 3
-
-/// These macro needed when SysTickTimer exists!!!
 #define CONFIG_FCPU_HZ 			( 100000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
