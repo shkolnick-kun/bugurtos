@@ -62,6 +62,7 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+//#define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
@@ -71,12 +72,23 @@ typedef unsigned long ipc_data_t;
 #define RESCHED_ISR			PendSV_Handler
 #define SYSCALL_ISR			SVCall_Handler
 
-#define CONFIG_SYSCALL_PRIO 	254
-#define CONFIG_SCHED_PRIO 		255
+/// Uncomment needed !!!
+// 0 - Cortex(tm)-M0
+// 1 - Cortex(tm)-M1
+// 2 - reserved!
+// 3 - Cortex(tm)-M3
+// 4 - reserved!
+// 5 - Cortex(tm)-M0 with SysTickTimer
+// 6 - Cortex(tm)-M1 with SysTickTimer
+// 7 - reserved!
+#define CONFIG_CORTEX_M 3
 
+/// These macro needed when SysTickTimer exists!!!
 #define CONFIG_FCPU_HZ 			( 100000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
+#define CONFIG_SYSCALL_PRIO 	254
+#define CONFIG_SCHED_PRIO 		255
 
 #define PROC_STACK_SIZE 128
 
@@ -104,7 +116,11 @@ typedef unsigned long ipc_data_t;
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#else // CONFIG_PREEMPTIVE_KERNEL
 #define KERNEL_PREEMPT()
+#endif // CONFIG_PREEMPTIVE_KERNEL
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_
