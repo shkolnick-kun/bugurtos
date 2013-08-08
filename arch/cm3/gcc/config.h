@@ -62,6 +62,7 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_USE_O1_SEARCH
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+//#define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!
@@ -103,7 +104,11 @@ typedef unsigned long ipc_data_t;
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#else // CONFIG_PREEMPTIVE_KERNEL
 #define KERNEL_PREEMPT()
+#endif // CONFIG_PREEMPTIVE_KERNEL
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_
