@@ -75,8 +75,10 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_FCPU_HZ 			( 100000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
-#define CONFIG_SYSCALL_PRIO 	254
-#define CONFIG_SCHED_PRIO 		255
+#define CONFIG_PRIO_BITS        5  // Used upper priority bits
+#define CONFIG_SYSCALL_PRIO 	30 // SysCall prioity
+#define CONFIG_CRITSEC_PRIO 	31 // Critical section priority
+#define CONFIG_SCHED_PRIO 		31 // Scheduler priority
 
 #define PROC_STACK_SIZE 128
 
