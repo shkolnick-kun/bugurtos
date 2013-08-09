@@ -33,8 +33,16 @@
 #error "Impossible SYST_RVR value!!! "
 #endif //BUGURT_SYST_RVR_VALUE
 
-#if (CONFIG_SCHED_PRIO <= CONFIG_SYSCALL_PRIO)
-#error "CONFIG_SCHED_PRIO must be greater or equal to CONFIG_SCHED_PRIO !!!"
+#ifndef CONFIG_PRIO_BITS
+#error "You must define CONFIG_PRIO_BITS macro!!!"
+#endif //CONFIG_PRIO_BITS
+
+#if (CONFIG_CRITSEC_PRIO <= CONFIG_SYSCALL_PRIO)
+#error "CONFIG_SYSCALL_PRIO must be less than CONFIG_CRITSEC_PRIO !!!"
+#endif //CONFIG_CRITSEC_PRIO
+
+#if (CONFIG_SCHED_PRIO < CONFIG_CRITSEC_PRIO)
+#error "CONFIG_SCHED_PRIO must be greater or equal to CONFIG_CRITSEC_PRIO !!!"
 #endif //CONFIG_SCHED_PRIO
 //====================================================================================
 volatile stack_t bugurt_idle_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -57,13 +65,13 @@ volatile stack_t bugurt_idle_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 static stack_t * bugurt_read_psp(void)
 {
     stack_t * ret=0;
-__asm__ __volatile__ ("MRS %0, psp\n\t" : "=r" (ret) );
+    __asm__ __volatile__ ("MRS %0, psp\n\t" : "=r" (ret) );
     return(ret);
 }
 //====================================================================================
 static void bugurt_write_psp( volatile stack_t * ptr )
 {
-__asm__ __volatile__ ("MSR psp, %0\n\t" : : "r" (ptr) );
+    __asm__ __volatile__ ("MSR psp, %0\n\t" : : "r" (ptr) );
 }
 //====================================================================================
 stack_t * proc_stack_init( stack_t * sstart, code_t pmain, void * arg, void(*return_address)(void)  )
@@ -97,12 +105,24 @@ void resched(void)
 //====================================================================================
 void disable_interrupts(void)
 {
-    __asm__ __volatile__ ("cpsid i");
+    __asm__ __volatile__ (
+                          "MOV r0, %0      \n\t"
+                          "MSR basepri, r0 \n\t"
+                          :
+                          : "i" ( CONFIG_CRITSEC_PRIO << ( 8 - CONFIG_PRIO_BITS ) )
+                          : "r0"
+                          );
 }
 //====================================================================================
 void enable_interrupts(void)
 {
-    __asm__ __volatile__ ("cpsie i");
+    __asm__ __volatile__ (
+                          "MOV r0, #0      \n\t"
+                          "MSR basepri, r0  \n\t"
+                          :
+                          :
+                          : "r0"
+                          );
 }
 //====================================================================================
 proc_t * current_proc(void)
@@ -112,16 +132,15 @@ proc_t * current_proc(void)
 //====================================================================================
 void init_bugurt(void)
 {
-    disable_interrupts();
-
+    __asm__ __volatile__ ("cpsid i \n\t");
     kernel_init();
     kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
     // Устанавливаем начальное значение PSP, для процесса idle;
     bugurt_write_psp( (volatile stack_t *)&bugurt_idle_stack[16] ); //  !!! Внимательно смотрим на границы!!!
     // Устанавливаем приоритеты обработчиков прерываний;
-    BUGURT_SYS_SHPR2 |= CONFIG_SYSCALL_PRIO << 24; // SVC
-    BUGURT_SYS_SHPR3 |= CONFIG_SCHED_PRIO   << 16; // PendSV
-    BUGURT_SYS_SHPR3 |= CONFIG_SCHED_PRIO   << 24; // SysTick
+    BUGURT_SYS_SHPR2 |= (CONFIG_SYSCALL_PRIO<< ( 8 - CONFIG_PRIO_BITS )) << 24; // SVC
+    BUGURT_SYS_SHPR3 |= (CONFIG_SCHED_PRIO  << ( 8 - CONFIG_PRIO_BITS )) << 16; // PendSV
+    BUGURT_SYS_SHPR3 |= (CONFIG_SCHED_PRIO  << ( 8 - CONFIG_PRIO_BITS )) << 24; // SysTick
     // Настраиваем системный таймер и приоритет его прерывания
     BUGURT_SYST_RVR = BUGURT_SYST_RVR_VALUE;
 	BUGURT_SYST_CSR = BUGURT_SYST_CSR_VALUE;
@@ -131,18 +150,17 @@ void init_bugurt(void)
 void start_bugurt(void)
 {
     kernel.sched.nested_crit_sec = (count_t)0;
-    enable_interrupts();
+    __asm__ __volatile__ ("cpsie i \n\t");
     idle_main((void *)0);
 }
 //====================================================================================
 void syscall_bugurt( syscall_t num, void * arg )
 {
+    disable_interrupts();
     syscall_num = num;
     syscall_arg = arg;
-    __asm__ __volatile__ (
-        "svc 0 \n\t"
-        "nop   \n\t"
-    );
+    __asm__ __volatile__ ("svc 0 \n\t");
+    enable_interrupts();
 }
 //====================================================================================
 __attribute__ (( naked )) void SYSTEM_TIMER_ISR(void)
@@ -150,7 +168,7 @@ __attribute__ (( naked )) void SYSTEM_TIMER_ISR(void)
     BUGURT_SCHED_ENTER();
     kernel.sched.current_proc->spointer = bugurt_read_psp();
 
-    KERNEL_PREEMPT(); ///KERNEL_PREEMPT
+    disable_interrupts();
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
@@ -159,7 +177,7 @@ __attribute__ (( naked )) void SYSTEM_TIMER_ISR(void)
 
     sched_schedule();
 
-    KERNEL_PREEMPT(); ///KERNEL_PREEMPT
+    enable_interrupts();
 
     bugurt_write_psp( kernel.sched.current_proc->spointer );
     BUGURT_SCHED_EXIT();
@@ -170,12 +188,12 @@ __attribute__ (( naked )) void RESCHED_ISR(void)
     BUGURT_SCHED_ENTER();
     kernel.sched.current_proc->spointer = bugurt_read_psp();
 
-    KERNEL_PREEMPT(); ///KERNEL_PREEMPT
+    disable_interrupts();
 
     sched_reschedule();
     BUGURT_SYS_ICSR |= BUGURT_PENDSV_CLR; // Fix for a hardware race condition.
 
-    KERNEL_PREEMPT(); ///KERNEL_PREEMPT
+    enable_interrupts();
 
     bugurt_write_psp( kernel.sched.current_proc->spointer );
     BUGURT_SCHED_EXIT();
@@ -183,8 +201,6 @@ __attribute__ (( naked )) void RESCHED_ISR(void)
 //====================================================================================
 void SYSCALL_ISR(void)
 {
-    KERNEL_PREEMPT(); ///KERNEL_PREEMPT
     // Обрабатываем системный вызов
     do_syscall();
-    KERNEL_PREEMPT(); ///KERNEL_PREEMPT
 }
