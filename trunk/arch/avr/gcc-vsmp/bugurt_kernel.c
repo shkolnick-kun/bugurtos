@@ -79,18 +79,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "bugurt_kernel.h"
 
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-__MACRO_FUNCTION__(_bugurt_isr_prologue)
-{
-    cli();
-    kernel.sched[current_vm].current_proc->spointer = vm_state[current_vm].sp;
-    sei();
-}
-__MACRO_FUNCTION__(_bugurt_isr_epilogue)
-{
-    cli();
-    vm_state[current_vm].sp = kernel.sched[current_vm].current_proc->spointer;
-    __asm__ __volatile__("reti"::);
-}
+#define _bugurt_isr_prologue() \
+    cli(); \
+    kernel.sched[current_vm].current_proc->spointer = vm_state[current_vm].sp; \
+    sei()
+
+#define _bugurt_isr_epilogue() \
+    cli(); \
+    vm_state[current_vm].sp = kernel.sched[current_vm].current_proc->spointer; \
+    __asm__ __volatile__("reti"::)
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 proc_t * current_proc(void)
 {
