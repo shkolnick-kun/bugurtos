@@ -77,6 +77,7 @@ typedef unsigned short ipc_data_t;
 #define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
 #define CONFIG_PREEMPTIVE_KERNEL
+#define CONFIG_USER_IDLE
 
 ///=================================================================
 ///     Project stecific stuff, you are welcome to edit it!!!

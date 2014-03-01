@@ -82,8 +82,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include "../../../include/bugurt.h"
 
-#define __MACRO_FUNCTION__(f) static inline __attribute__ (( always_inline, naked )) void f(void)
-
 extern stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( stack_t * new_sp );
 extern void bugurt_pop_context(void);

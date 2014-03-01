@@ -155,38 +155,37 @@ bool_t vsmp_do_interrupt(void)
 }
 
 /* Virtual interrupt prologue and epilogue inline functions (I can,t debug macros !) */
-__MACRO_FUNCTION__( _vsmp_interrupt_prologue )
-{
-    vm_buf = (void *)bugurt_save_context();
-    if( vm_state[current_vm].int_nest_count )
-    {
-        vm_state[current_vm].int_sp = (stack_t *)vm_buf;
-    }
-    else
-    {
-        vm_state[current_vm].sp = (stack_t *)vm_buf;
-    }
-    bugurt_set_stack_pointer( vm_state[current_vm].int_sp );
-}
-__MACRO_FUNCTION__( _vsmp_interrupt_epilogue )
-{
-    if( vsmp_do_interrupt() ) goto chained_vinterrupt_return;
+#define _vsmp_interrupt_prologue() \
+    vm_buf = (void *)bugurt_save_context(); \
+    if( vm_state[current_vm].int_nest_count ) \
+    { \
+        vm_state[current_vm].int_sp = (stack_t *)vm_buf; \
+    } \
+    else \
+    { \
+        vm_state[current_vm].sp = (stack_t *)vm_buf; \
+    } \
+    bugurt_set_stack_pointer( vm_state[current_vm].int_sp )
 
-    if( --vm_state[current_vm].int_nest_count )goto nesting_vinterrupt_return;
+#define _vsmp_interrupt_epilogue() \
+ \
+    if( vsmp_do_interrupt() ) goto chained_vinterrupt_return; \
+ \
+    if( --vm_state[current_vm].int_nest_count )goto nesting_vinterrupt_return; \
+ \
+    vm_state[current_vm].int_sp = &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1]; \
+    bugurt_restore_context( vm_state[current_vm].sp ); \
+    __asm__ __volatile__("reti"::); \
+ \
+nesting_vinterrupt_return: \
+ \
+    bugurt_pop_context(); \
+    __asm__ __volatile__("reti"::); \
+ \
+chained_vinterrupt_return: \
+    bugurt_push_pointer( (void *)vinterrupt_wrapper ); \
+    __asm__ __volatile__("ret"::)
 
-    vm_state[current_vm].int_sp = &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1];
-    bugurt_restore_context( vm_state[current_vm].sp ); // Will return to current vm operation!
-    __asm__ __volatile__("reti"::);
-
-nesting_vinterrupt_return:
-
-    bugurt_pop_context(); //Will return to nesting virtual interrupt!
-    __asm__ __volatile__("reti"::);
-
-chained_vinterrupt_return:
-    bugurt_push_pointer( (void *)vinterrupt_wrapper ); // Will return to vinterrupt_wrapper() entry point!
-    __asm__ __volatile__("ret"::);
-}
 /*
                        Virtual interrupts wrapper functions.
     Local variable is used to call virtual ISR, so wrapper must have two parts.
