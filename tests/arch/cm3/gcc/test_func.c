@@ -1,8 +1,8 @@
 #include <test_func.h>
 void init_hardware(void)
 {
-	LPC_PINCON->PINSEL1	&= 0xffffcfff;
-	LPC_GPIO0->FIODIR |= LED_MSK;
+    __asm__ __volatile__ ("cpsid i \n\t");
+    SystemInit();
 }
 
 void sched_fix_proc_2(void)

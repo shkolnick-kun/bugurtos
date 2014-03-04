@@ -70,15 +70,15 @@ typedef unsigned long ipc_data_t;
 // These macros needed to interface cstartup code.
 #define SYSTEM_TIMER_ISR 	SysTick_Handler
 #define RESCHED_ISR			PendSV_Handler
-#define SYSCALL_ISR			SVCall_Handler
+#define SYSCALL_ISR			SVC_Handler
 
-#define CONFIG_FCPU_HZ 			( 100000000ul )
+#define CONFIG_FCPU_HZ 			( 32000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
-#define CONFIG_PRIO_BITS        5  // Used upper priority bits
-#define CONFIG_SYSCALL_PRIO 	30 // SysCall prioity
-#define CONFIG_CRITSEC_PRIO 	31 // Critical section priority
-#define CONFIG_SCHED_PRIO 		31 // Scheduler priority
+#define CONFIG_PRIO_BITS        4  // Used upper priority bits
+#define CONFIG_SYSCALL_PRIO 	16 // SysCall prioity
+#define CONFIG_CRITSEC_PRIO 	17 // Critical section priority
+#define CONFIG_SCHED_PRIO 		17 // Scheduler priority
 
 #define PROC_STACK_SIZE 128
 
