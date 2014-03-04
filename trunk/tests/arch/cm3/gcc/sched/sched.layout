@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/cm3/gcc/bugurt_kernel.c" open="1" top="1" tabpos="2">
-		<Cursor position="6988" topLine="156" />
+	<File name="../../../../../arch/cm3/gcc/bugurt_kernel.c" open="0" top="0" tabpos="2">
+		<Cursor position="3288" topLine="76" />
 	</File>
-	<File name="../../../../../include/bugurt.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="3">
 		<Cursor position="7541" topLine="107" />
 	</File>
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="144" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
-		<Cursor position="6673" topLine="73" />
+		<Cursor position="6850" topLine="76" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="24" topLine="0" />
@@ -23,21 +23,33 @@
 		<Cursor position="12033" topLine="267" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="2">
-		<Cursor position="6560" topLine="81" />
+		<Cursor position="6796" topLine="87" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="1">
-		<Cursor position="480" topLine="15" />
+	<File name="../config.h" open="0" top="0" tabpos="2">
+		<Cursor position="2176" topLine="60" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="48" topLine="0" />
+	<File name="../test_func.c" open="0" top="0" tabpos="1">
+		<Cursor position="110" topLine="0" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="607" topLine="0" />
+	<File name="../test_func.h" open="0" top="0" tabpos="3">
+		<Cursor position="550" topLine="0" />
 	</File>
-	<File name="../../../../../../thirdparty/cr_startup_lpc176x.c" open="0" top="0" tabpos="3">
-		<Cursor position="14060" topLine="329" />
+	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="5">
+		<Cursor position="812" topLine="4" />
+	</File>
+	<File name="../../../../../../thirdparty/stm32l152/stm32l152rb.S" open="0" top="0" tabpos="2">
+		<Cursor position="3986" topLine="133" />
+	</File>
+	<File name="../../../../../../thirdparty/stm32l152/stm32l1xx.h" open="0" top="0" tabpos="0">
+		<Cursor position="257544" topLine="147" />
+	</File>
+	<File name="../../../../../../thirdparty/stm32l152/system_stm32l1xx.c" open="0" top="0" tabpos="4">
+		<Cursor position="7071" topLine="183" />
+	</File>
+	<File name="../../../../../../thirdparty/stm32l152/system_stm32l1xx.h" open="0" top="0" tabpos="0">
+		<Cursor position="1515" topLine="46" />
 	</File>
 </CodeBlocks_layout_file>

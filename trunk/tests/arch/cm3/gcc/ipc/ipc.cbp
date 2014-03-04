@@ -4,25 +4,22 @@
 	<Project>
 		<Option title="ipc" />
 		<Option pch_mode="2" />
-		<Option compiler="lpcxpresso" />
+		<Option compiler="armnoneeabigcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/sched.axf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/ipc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="lpcxpresso" />
+				<Option compiler="armnoneeabigcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add library="../../../../../../thirdparty/CMSISv2p00_LPC17xx/Debug/libCMSISv2p00_LPC17xx.a" />
-				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/sched.axf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/ipc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="lpcxpresso" />
+				<Option compiler="armnoneeabigcc" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -41,11 +38,7 @@
 			<Add option="-fdata-sections" />
 			<Add option="-mcpu=cortex-m3" />
 			<Add option='-include&quot;../config.h&quot;' />
-			<Add option="-D__USE_CMSIS=CMSISv2p00_LPC17xx" />
-			<Add option="-DDEBUG" />
-			<Add option="-D__CODE_RED" />
-			<Add option="-D__NEWLIB__" />
-			<Add directory="../../../../../../thirdparty/CMSISv2p00_LPC17xx/inc" />
+			<Add directory="../../../../../../thirdparty/stm32l152" />
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../include" />
 		</Compiler>
@@ -53,11 +46,10 @@
 			<Add option="-nostdlib" />
 			<Add option="-Xlinker" />
 			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
-			<Add option="--gc-sections" />
+			<Add option="-Wl,--gc-sections" />
 			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
-			<Add option='-T &quot;../lpc1768NewLib.ld&quot;' />
-			<Add directory="../../../../../../thirdparty/CMSISv2p00_LPC17xx/Debug" />
+			<Add option='-T &quot;../../../../../../thirdparty/stm32l152/stm32l152rb.ld&quot;' />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
@@ -128,7 +120,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../config.h" />
-		<Unit filename="../lpc1768NewLib.ld" />
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -136,16 +127,20 @@
 		<Unit filename="../../../../main/ipc/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../thirdparty/cr_startup_lpc176x.c">
+		<Unit filename="../../../../../../thirdparty/stm32l152/stm32l152rb.S" />
+		<Unit filename="../../../../../../thirdparty/stm32l152/stm32l152rb.ld" />
+		<Unit filename="../../../../../../thirdparty/stm32l152/stm32l1xx.h" />
+		<Unit filename="../../../../../../thirdparty/stm32l152/system_stm32l1xx.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../../../../../thirdparty/stm32l152/system_stm32l1xx.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
 			<debugger>
 				<search_path add="bin/Debug" />
 				<remote_debugging>
-					<options conn_type="0" serial_baud="115200" additional_cmds="set mem inaccessible-by-default off&#x0A;set arm force-mode thumb&#x0A;load&#x0A;tb main" additional_cmds_before="target extended-remote :3333&#x0A;set remotetimeout 60000" />
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="4242" additional_cmds="load&#x0A;tb main&#x0A;monitor reset" additional_cmds_before="shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />

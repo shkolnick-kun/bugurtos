@@ -11,9 +11,6 @@
 		<Cursor position="2253" topLine="0" />
 	</File>
 	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2852" topLine="83" />
-	</File>
-	<File name="../../../../../../thirdparty/cr_startup_lpc176x.c" open="0" top="0" tabpos="3">
-		<Cursor position="13202" topLine="305" />
+		<Cursor position="2852" topLine="89" />
 	</File>
 </CodeBlocks_layout_file>

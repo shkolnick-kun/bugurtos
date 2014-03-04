@@ -1,8 +1,6 @@
 #include <bugurt.h>
-#include <LPC11xx.h>
-#include <gpio.h>
-#include <cr_section_macros.h>
-#include <NXP/crp.h>
+#include <stm32f0xx.h>
+
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
@@ -18,10 +16,8 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 
-#define LED_PORT 0
-#define LED_BIT 7
-#define LED_ON()  GPIOSetValue( LED_PORT, LED_BIT, 1 )
-#define LED_OFF() GPIOSetValue( LED_PORT, LED_BIT, 0 )
+#define LED_ON()
+#define LED_OFF()
 
 void init_hardware(void);
 void sched_fix_proc_2(void);

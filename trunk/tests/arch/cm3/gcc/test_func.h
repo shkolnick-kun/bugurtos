@@ -1,5 +1,5 @@
 #include <bugurt.h>
-#include <LPC17xx.h>
+#include <stm32l1xx.h>
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
@@ -15,9 +15,9 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 
-#define LED_MSK (0x400000)
-#define LED_ON()  LPC_GPIO0->FIOSET = LED_MSK
-#define LED_OFF() LPC_GPIO0->FIOCLR = LED_MSK
+/// TODO write led init and control!!!
+#define LED_ON()
+#define LED_OFF()
 
 void init_hardware(void);
 void sched_fix_proc_2(void);
