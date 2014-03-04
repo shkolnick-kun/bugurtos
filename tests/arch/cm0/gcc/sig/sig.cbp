@@ -50,8 +50,6 @@
 			<Add option="-mcpu=cortex-m0" />
 			<Add option='-T &quot;../../../../../../thirdparty/stm32f051/stm32f051r8.ld&quot;' />
 			<Add option="-Wl,--gc-sections" />
-			<Add directory="../../../../../../thirdparty/CMSISv2p00_LPC11xx/Debug" />
-			<Add directory="../../../../../../thirdparty/LPC11xx_cmsis2_Lib/Debug" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
