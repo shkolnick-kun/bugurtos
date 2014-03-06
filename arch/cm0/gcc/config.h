@@ -71,12 +71,12 @@ typedef unsigned long ipc_data_t;
 #define SYSTEM_TIMER_ISR 	SysTick_Handler
 #define SYSCALL_ISR			PendSV_Handler
 
-#define CONFIG_FCPU_HZ 			( 48000000ul )
+#define CONFIG_FCPU_HZ 			( 32000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
-#define CONFIG_PRIO_BITS        5  // Used upper priority bits
-#define CONFIG_SYSCALL_PRIO 	31 // SysCall prioity
-#define CONFIG_SCHED_PRIO 		31 // Scheduler priority
+#define CONFIG_PRIO_BITS        2  // Used upper priority bits
+#define CONFIG_SYSCALL_PRIO 	3 // SysCall prioity
+#define CONFIG_SCHED_PRIO 		3 // Scheduler priority
 
 #define PROC_STACK_SIZE 128
 
