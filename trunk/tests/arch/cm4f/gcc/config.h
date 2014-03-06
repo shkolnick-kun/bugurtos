@@ -72,7 +72,7 @@ typedef unsigned long ipc_data_t;
 #define RESCHED_ISR			PendSV_Handler
 #define SYSCALL_ISR			SVC_Handler
 
-#define CONFIG_FCPU_HZ 			( 32000000ul )
+#define CONFIG_FCPU_HZ 			( 168000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
 #define CONFIG_PRIO_BITS        4  // Used upper priority bits
