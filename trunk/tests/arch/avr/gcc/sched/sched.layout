@@ -4,7 +4,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="1">
 		<Cursor position="8343" topLine="131" />
 	</File>
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="1" top="0" tabpos="2">
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="2">
 		<Cursor position="7395" topLine="141" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
@@ -76,7 +76,7 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6216" topLine="70" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="2">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
@@ -106,11 +106,11 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="1">
+	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="2529" topLine="71" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="3">
-		<Cursor position="2500" topLine="109" />
+	<File name="../test_func.c" open="0" top="0" tabpos="3">
+		<Cursor position="2249" topLine="101" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="278" topLine="0" />
