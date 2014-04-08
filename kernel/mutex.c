@@ -109,11 +109,10 @@ bool_t _mutex_lock( mutex_t * mutex )
 
     _proc_stop_flags_set( proc, (flag_t)0 );
     PROC_LRES_INC( proc, GET_PRIO( mutex ) );
-    PROC_PRIO_CONTROL_STOPED( proc );
-
     if( ret )
     {
         mutex->free = (bool_t)0;
+        PROC_PRIO_CONTROL_STOPED( proc );
         _proc_run( proc );
     }
     else
@@ -196,6 +195,7 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK( proc );
     // Сначала надо вырезать
     pitem_cut( (pitem_t *)proc );
+    PROC_PRIO_CONTROL_STOPED( proc );
     proc->flags &= PROC_STATE_CLEAR_MASK;
     _proc_run( proc );
 

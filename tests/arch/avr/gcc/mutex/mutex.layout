@@ -20,7 +20,7 @@
 		<Cursor position="0" topLine="103" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="8664" topLine="162" />
+		<Cursor position="9205" topLine="98" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="13219" topLine="500" />
@@ -46,7 +46,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1690" topLine="72" />
 	</File>
-	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="3194" topLine="103" />
+	<File name="../../../../main/mutex/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="2418" topLine="64" />
 	</File>
 </CodeBlocks_layout_file>
