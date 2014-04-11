@@ -1,0 +1,331 @@
+# depslib dependency file v1.0
+1360767614 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel.c
+	"bugurt_kernel.h"
+
+1360767690 /home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel.h
+	"../../../include/bugurt.h"
+
+1364041662 /home/anonimous/Документы/bugurtos/include/bugurt.h
+	"index.h"
+	"item.h"
+	"xlist.h"
+	"pitem.h"
+	"pcounter.h"
+	"crit_sec.h"
+	"proc.h"
+	"sched.h"
+	"kernel.h"
+	"sig.h"
+	"sem.h"
+	"mutex.h"
+	"ipc.h"
+	"timer.h"
+	"syscall.h"
+
+1363617751 /home/anonimous/Документы/bugurtos/include/index.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/item.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/xlist.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/pitem.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/pcounter.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/crit_sec.h
+
+1363617895 /home/anonimous/Документы/bugurtos/include/proc.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/sched.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/kernel.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/sig.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/sem.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/mutex.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/ipc.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/timer.h
+
+1363617751 /home/anonimous/Документы/bugurtos/include/syscall.h
+
+1363617751 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+	<avr/io.h>
+
+1363617751 source:/home/anonimous/Документы/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
+	"../../../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/crit_sec.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/ipc.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/item.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/mutex.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/pcounter.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/pitem.c
+	"../include/bugurt.h"
+
+1372510053 source:/home/anonimous/Документы/bugurtos/kernel/proc.c
+	"../include/bugurt.h"
+
+1372510157 source:/home/anonimous/Документы/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/sem.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/Документы/bugurtos/kernel/sig.c
+	"../include/bugurt.h"
+
+1364116672 source:/home/anonimous/Документы/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
+1363617752 source:/home/anonimous/Документы/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
+1363617752 source:/home/anonimous/Документы/bugurtos/kernel/xlist.c
+	"../include/bugurt.h"
+
+1360767803 source:/home/anonimous/Документы/bugurtos/tests/arch/avr/gcc/test_func.c
+	<test_func.h>
+
+1350219346 source:/home/anonimous/Документы/bugurtos/tests/main/sched/main.c
+	<test_func.h>
+
+1360767614 source:/home/anonimous/bugurtos/arch/avr/gcc/bugurt_kernel.c
+	"bugurt_kernel.h"
+
+1360767690 /home/anonimous/bugurtos/arch/avr/gcc/bugurt_kernel.h
+	"../../../include/bugurt.h"
+
+1364041662 /home/anonimous/bugurtos/include/bugurt.h
+	"index.h"
+	"item.h"
+	"xlist.h"
+	"pitem.h"
+	"pcounter.h"
+	"crit_sec.h"
+	"proc.h"
+	"sched.h"
+	"kernel.h"
+	"sig.h"
+	"sem.h"
+	"mutex.h"
+	"ipc.h"
+	"timer.h"
+	"syscall.h"
+
+1363617751 /home/anonimous/bugurtos/include/index.h
+
+1363617751 /home/anonimous/bugurtos/include/item.h
+
+1363617751 /home/anonimous/bugurtos/include/xlist.h
+
+1363617751 /home/anonimous/bugurtos/include/pitem.h
+
+1363617751 /home/anonimous/bugurtos/include/pcounter.h
+
+1363617751 /home/anonimous/bugurtos/include/crit_sec.h
+
+1363617895 /home/anonimous/bugurtos/include/proc.h
+
+1363617751 /home/anonimous/bugurtos/include/sched.h
+
+1363617751 /home/anonimous/bugurtos/include/kernel.h
+
+1363617751 /home/anonimous/bugurtos/include/sig.h
+
+1363617751 /home/anonimous/bugurtos/include/sem.h
+
+1363617751 /home/anonimous/bugurtos/include/mutex.h
+
+1363617751 /home/anonimous/bugurtos/include/ipc.h
+
+1363617751 /home/anonimous/bugurtos/include/timer.h
+
+1363617751 /home/anonimous/bugurtos/include/syscall.h
+
+1363617751 source:/home/anonimous/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+	<avr/io.h>
+
+1363617751 source:/home/anonimous/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
+	"../../../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/crit_sec.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/ipc.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/item.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/mutex.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/pcounter.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/pitem.c
+	"../include/bugurt.h"
+
+1372510053 source:/home/anonimous/bugurtos/kernel/proc.c
+	"../include/bugurt.h"
+
+1372510157 source:/home/anonimous/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/sem.c
+	"../include/bugurt.h"
+
+1363617751 source:/home/anonimous/bugurtos/kernel/sig.c
+	"../include/bugurt.h"
+
+1364116672 source:/home/anonimous/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
+1363617752 source:/home/anonimous/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
+1363617752 source:/home/anonimous/bugurtos/kernel/xlist.c
+	"../include/bugurt.h"
+
+1360767803 source:/home/anonimous/bugurtos/tests/arch/avr/gcc/test_func.c
+	<test_func.h>
+
+1375032296 source:/home/anonimous/bugurtos/tests/main/sched/main.c
+	<test_func.h>
+
+1375557516 source:/home/anon/BuguRTOS/bugurtos/arch/avr/gcc/bugurt_kernel.c
+	"bugurt_kernel.h"
+
+1375557516 /home/anon/BuguRTOS/bugurtos/arch/avr/gcc/bugurt_kernel.h
+	"../../../include/bugurt.h"
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/bugurt.h
+	"index.h"
+	"item.h"
+	"xlist.h"
+	"pitem.h"
+	"pcounter.h"
+	"crit_sec.h"
+	"proc.h"
+	"sched.h"
+	"kernel.h"
+	"sig.h"
+	"sem.h"
+	"mutex.h"
+	"ipc.h"
+	"timer.h"
+	"syscall.h"
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/index.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/item.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/xlist.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/pitem.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/pcounter.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/crit_sec.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/proc.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/sched.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/kernel.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/sig.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/sem.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/mutex.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/ipc.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/timer.h
+
+1375557515 /home/anon/BuguRTOS/bugurtos/include/syscall.h
+
+1375557516 source:/home/anon/BuguRTOS/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+	<avr/io.h>
+
+1375557516 source:/home/anon/BuguRTOS/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
+	"../../../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/crit_sec.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/ipc.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/item.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/mutex.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/pcounter.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/pitem.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/proc.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/sem.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/sig.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
+1375557512 source:/home/anon/BuguRTOS/bugurtos/kernel/xlist.c
+	"../include/bugurt.h"
+
+1375557515 source:/home/anon/BuguRTOS/bugurtos/tests/arch/avr/gcc/test_func.c
+	<test_func.h>
+
+1375557513 source:/home/anon/BuguRTOS/bugurtos/tests/main/sched/main.c
+	<test_func.h>
+

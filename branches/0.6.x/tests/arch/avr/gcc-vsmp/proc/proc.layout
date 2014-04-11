@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../include/pitem.h" open="0" top="0" tabpos="0">
+		<Cursor position="9380" topLine="131" />
+	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="26997" topLine="475" />
+	</File>
+	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="6745" topLine="118" />
+	</File>
+	<File name="../../../../../include/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="12292" topLine="172" />
+	</File>
+	<File name="../../../../../include/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="11110" topLine="0" />
+	</File>
+	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
+		<Cursor position="6774" topLine="82" />
+	</File>
+	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="7584" topLine="129" />
+	</File>
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="9112" topLine="177" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="13432" topLine="353" />
+	</File>
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="22738" topLine="346" />
+	</File>
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="7969" topLine="148" />
+	</File>
+	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="11521" topLine="253" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="12407" topLine="251" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="3109" topLine="87" />
+	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="367" topLine="15" />
+	</File>
+	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="95" topLine="63" />
+	</File>
+</CodeBlocks_layout_file>
