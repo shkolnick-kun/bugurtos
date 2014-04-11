@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/cm3/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="1644" topLine="30" />
+	</File>
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="1">
+		<Cursor position="7747" topLine="122" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="2">
+		<Cursor position="2253" topLine="0" />
+	</File>
+	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="2852" topLine="89" />
+	</File>
+</CodeBlocks_layout_file>

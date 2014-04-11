@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="307" />
+	</File>
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
+		<Cursor position="11753" topLine="237" />
+	</File>
+	<File name="../../../../../include/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="111" />
+	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="18003" topLine="333" />
+	</File>
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="8618" topLine="169" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="460" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="514" />
+	</File>
+	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="2059" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
