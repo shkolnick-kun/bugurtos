@@ -760,7 +760,7 @@ void _proc_prio_control_stoped( proc_t * proc );
 Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be running when the routine is called.
 \param proc - A pointer to a process.
 */
-void _proc_prio_control_running( proc_t * proc );
+void _proc_prio_control_running( proc_t * proc ); /// !!! DEL
 #endif
 
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))

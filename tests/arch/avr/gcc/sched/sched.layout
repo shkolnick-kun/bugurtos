@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="1">
-		<Cursor position="8343" topLine="131" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
+		<Cursor position="8343" topLine="93" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="2">
 		<Cursor position="7395" topLine="141" />
@@ -14,7 +14,7 @@
 		<Cursor position="6350" topLine="75" />
 	</File>
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="16">
-		<Cursor position="76" topLine="18" />
+		<Cursor position="9485" topLine="187" />
 	</File>
 	<File name="../../../../../include/crit_sec.h" open="0" top="0" tabpos="15">
 		<Cursor position="163" topLine="0" />
@@ -40,8 +40,8 @@
 	<File name="../../../../../include/pitem.h" open="0" top="0" tabpos="8">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="3">
-		<Cursor position="163" topLine="0" />
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="1">
+		<Cursor position="41037" topLine="380" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="0" />
@@ -65,7 +65,7 @@
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
-		<Cursor position="163" topLine="0" />
+		<Cursor position="6150" topLine="91" />
 	</File>
 	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
@@ -85,17 +85,17 @@
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="1">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="4">
 		<Cursor position="9453" topLine="179" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="3">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="1">
 		<Cursor position="76" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="3">
-		<Cursor position="163" topLine="0" />
+	<File name="../../../../../kernel/sig.c" open="1" top="1" tabpos="4">
+		<Cursor position="8511" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="22431" topLine="270" />
