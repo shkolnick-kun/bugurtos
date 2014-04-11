@@ -13,6 +13,9 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="75" />
 	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="369" />
+	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="82" />
 	</File>
@@ -20,19 +23,19 @@
 		<Cursor position="0" topLine="103" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="9205" topLine="98" />
+		<Cursor position="9205" topLine="95" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="13219" topLine="500" />
+		<Cursor position="8240" topLine="121" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="9330" topLine="182" />
+		<Cursor position="22868" topLine="188" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="6626" topLine="148" />
+		<Cursor position="6626" topLine="143" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="12834" topLine="258" />
+		<Cursor position="12834" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="120" />
@@ -46,7 +49,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1690" topLine="72" />
 	</File>
-	<File name="../../../../main/mutex/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="2418" topLine="64" />
+	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="2418" topLine="70" />
 	</File>
 </CodeBlocks_layout_file>
