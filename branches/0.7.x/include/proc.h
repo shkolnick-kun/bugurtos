@@ -747,20 +747,6 @@ Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stoped before call
 \param proc - A pointer to a process.
 */
 void _proc_prio_control_stoped( proc_t * proc );
-/*!
-\~russian
-\brief Управление приоритетом процесса, для внутреннего использования.
-
-Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть запущен на момент вызова.
-\param proc - Указатель на процесс.
-
-\~english
-\brief A running process priority control routine.
-
-Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be running when the routine is called.
-\param proc - A pointer to a process.
-*/
-void _proc_prio_control_running( proc_t * proc ); /// !!! DEL
 #endif
 
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
