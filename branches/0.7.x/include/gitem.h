@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.7.x(Bugurt real time operating system)
-    Copyright (C) 2014  anonimous
+    BuguRTOS-0.4.x(Bugurt real time operating system)
+    Copyright (C) 2011  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,101 +76,99 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _XLIST_H_
-#define _XLIST_H_
+#ifndef _GITEM_H_
+#define _GITEM_H_
 /*!
 \file
-
-\~russian
-\brief
-Заголовок списков с приоритетами.
-
-\~english
-\brief
-A prioritized list header.
+\brief Заголовок элементов группированного списка.
 */
-typedef struct _xlist_t xlist_t;
-// свойства
+//Элемент группированного списка
+typedef struct _gitem_t gitem_t;
+//свойства
 /*!
-\~russian
 \brief
-Список с приоритетами.
+Элемент группированного списка.
 
-Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типа #pitem_t.
-
-\~english
-\brief
-A prioritized list.
-
-A container type, #xlist_t objects store lists of #item_t objects.
-In fact these containers store lists of #pitem_t or other compatible objects.
+Такой элемент постоянно состоит в одной из групп (смотри group_t). В каждом таком элементе gitem_t есть поле типа group_t, это группа, в которую изначально включен элемент.
 */
-struct _xlist_t
+struct _gitem_t
 {
-    item_t * item[BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
-    index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
+    item_t parent; /*!< Родитель - элемент 2-связного списка. */
+    group_t * group; /*!< Указатель на группу, в которую сейчас включен элемент. */
+    group_t grp; /*!< Выделение памяти под группу, в нее изначально будет включен элемент. */
 };
-// методы
+
+typedef struct _gxlist_t gxlist_t;
+struct _gxlist_t
+{
+    xlist_t parent;
+    pool_t pool;
+};
+
+void gxlist_init( gxlist_t * gxlist );
+
+
 /*!
-\~russian
-\brief
-Инициализация списка.
-
-\param xlist Указатель на список.
-
-\~english
-\brief
-An #xlist_t object initiation.
-
-\param xlist An #xlist_t pointer.
+   Статическая инициализация объекта типа gitem_t.
+   \param a - Имя переменной типа gitem_t.
+   \param p - Приоритет.
 */
-void xlist_init(
-    xlist_t * xlist
-);
-/*!
-\~russian
-\brief
-Поиск головы списка.
+#define INIT_G_ITEM_T(a,p) { INIT_ITEM_T(a), &a.grp, INIT_GROUP_T(p) }
 
-\param xlist Указатель на список.
-\return Указатель на голову - самый приоритетный элемент в массиве указателей.
-
-\~english
-\brief
-List head search.
-
-\param xlist An #xlist_t pointer.
-\return The head pointer, wich is the most prioritized pointer in the list head pointer array.
-*/
-item_t * xlist_head(xlist_t * xlist);
+//Методы
 /*!
 \brief
+Инициализация объекта типа gitem_t.
 
-\~russian
-Переключение списка.
-
-Изменяет указатель xlist->item[prio] на xlist->item[prio]->next.
-
-\param xlist Указатель на список.
-\param prio Приоритет переключаемой части списка.
-
-\~english
-Switch a head pointer.
-
-Does xlist->item[prio] = xlist->item[prio]->next.
-
-\param xlist An #xlist_t pointer.
-\param prio A priority to switch.
+\param gitem Указатель на объект gitem_t.
+\param prio Приоритет элемента.
 */
-void xlist_switch(xlist_t * xlist, prio_t prio);
+void gitem_init(gitem_t * gitem, prio_t prio);
+/*!
+\brief
+Вставка элемента типа gitem_t в список типа xlist_t без группировки.
 
-/*---------------------------------------------------
-Для типов элементов, ссылки на которые будут хранится в xlist_t
-должны быть определены методы
+\param gitem Указатель на объект gitem_t.
+\param xlist Указатель на список.
+*/
+void gitem_insert(gitem_t * gitem, xlist_t *xlist);
+/*!
+\brief
+Вставка элемента типа gitem_t в список типа gxlist_t с группировкой.
 
-"вырезать"
-"вставить"
-"переместить в другой список"
-----------------------------------------------------*/
+Вставляет в часть списка с приоритетом prio = gitem->group->prio, и переносит элемент в группу gxlist->parent.item[prio]->group, при этом gitem->group переходит в пул.
 
-#endif // _XLIST_H_
+\param gitem Указатель на объект gitem_t.
+\param gxlist Указатель на список.
+*/
+void gitem_insert_group(gitem_t * gitem, gxlist_t *gxlist);
+/*!
+\brief
+Быстро вырезать из списка.
+
+Вырезает объект типа gitem_t, из списка типа xlist_t, если объект был сгруппирован, то он вырезается из группы, и для него выделяется группа из Пула. При этом не обнуляется указатель gitem->group->link.
+
+\param gitem Указатель на объект gitem_t.
+*/
+void gitem_fast_cut(gitem_t * gitem);
+/*!
+\brief
+Вырезать из списка.
+
+Вызывает gitem_fast_cut, а потом таки обнуляет gitem->group->link
+
+\param gitem Указатель на объект gitem_t.
+*/
+void gitem_cut(gitem_t * gitem);
+/*!
+\brief
+Переносит все элементы из одного группированного списка в другой
+
+Перенести все элементы из группированного списка типа gxlist_t в другой список типа gxlist_t. Выполняется за O(1) шагов.
+
+\param source Указатель на список из которого переносим элементы.
+\param destignation Указатель на список в который преносим элементы.
+*/
+void gxlist_merge(gxlist_t * source, gxlist_t * destignation);
+
+#endif // _GITEM_H_

@@ -76,101 +76,55 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _XLIST_H_
-#define _XLIST_H_
-/*!
-\file
-
-\~russian
-\brief
-Заголовок списков с приоритетами.
-
-\~english
-\brief
-A prioritized list header.
-*/
-typedef struct _xlist_t xlist_t;
-// свойства
-/*!
-\~russian
-\brief
-Список с приоритетами.
-
-Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типа #pitem_t.
-
-\~english
-\brief
-A prioritized list.
-
-A container type, #xlist_t objects store lists of #item_t objects.
-In fact these containers store lists of #pitem_t or other compatible objects.
-*/
-struct _xlist_t
+#include "../include/bugurt.h"
+//pool_t methods
+void pool_init( pool_t * pool )
 {
-    item_t * item[BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
-    index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
-};
-// методы
-/*!
-\~russian
-\brief
-Инициализация списка.
+    pool->top = (group_t *)0;
+    pool->bot = (group_t *)0;
+}
 
-\param xlist Указатель на список.
-
-\~english
-\brief
-An #xlist_t object initiation.
-
-\param xlist An #xlist_t pointer.
-*/
-void xlist_init(
-    xlist_t * xlist
-);
-/*!
-\~russian
-\brief
-Поиск головы списка.
-
-\param xlist Указатель на список.
-\return Указатель на голову - самый приоритетный элемент в массиве указателей.
-
-\~english
-\brief
-List head search.
-
-\param xlist An #xlist_t pointer.
-\return The head pointer, wich is the most prioritized pointer in the list head pointer array.
-*/
-item_t * xlist_head(xlist_t * xlist);
-/*!
-\brief
-
-\~russian
-Переключение списка.
-
-Изменяет указатель xlist->item[prio] на xlist->item[prio]->next.
-
-\param xlist Указатель на список.
-\param prio Приоритет переключаемой части списка.
-
-\~english
-Switch a head pointer.
-
-Does xlist->item[prio] = xlist->item[prio]->next.
-
-\param xlist An #xlist_t pointer.
-\param prio A priority to switch.
-*/
-void xlist_switch(xlist_t * xlist, prio_t prio);
-
-/*---------------------------------------------------
-Для типов элементов, ссылки на которые будут хранится в xlist_t
-должны быть определены методы
-
-"вырезать"
-"вставить"
-"переместить в другой список"
-----------------------------------------------------*/
-
-#endif // _XLIST_H_
+void pool_merge( pool_t * src, pool_t * dst )
+{
+    if( src->bot == (group_t *)0 )
+    {
+        return; // src is empty, nothing to do
+    }
+    src->bot->link = (void *)dst->top;
+    dst->top = src->top;
+    if( dst->bot == (group_t *)0 )
+    {
+        dst->bot = src->bot; // dst was empty
+    }
+    src->top = (group_t *)0;
+    src->bot = (group_t *)0;
+}
+//group_t methods
+void group_init(group_t * group, prio_t prio)
+{
+    group->link = (void *)0;
+    group->prio = prio;
+    group->el_num = (count_t)1;
+}
+// Push a group to to a pool
+void group_push(group_t * group, pool_t * pool)
+{
+    if( pool->bot == (group_t *)0 )
+    {
+        pool->bot = group; // pool was empty, update pool->bot
+    }
+    group->link = pool->top;
+    pool->top = group;
+}
+// Pop a group from a pool, called only after group_push, so no need to check zero in pool->top
+group_t * group_pop(pool_t * pool)
+{
+    group_t * group;
+    group = pool->top;
+    pool->top = (group_t *)group->link;
+    if( pool->top == (group_t *)0 )
+    {
+        pool->bot = (group_t *)0; // pool is empty, update pool->bot
+    }
+    return group;
+}

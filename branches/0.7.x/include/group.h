@@ -76,101 +76,77 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _XLIST_H_
-#define _XLIST_H_
+#ifndef _GROUP_H_
+#define _GROUP_H_
 /*!
 \file
-
-\~russian
-\brief
-Заголовок списков с приоритетами.
-
-\~english
-\brief
-A prioritized list header.
+\brief Заголовок элементов групп.
 */
-typedef struct _xlist_t xlist_t;
-// свойства
+
+typedef struct _group_t group_t;
+//свойства
 /*!
-\~russian
 \brief
-Список с приоритетами.
+Группа элементов типа gitem_t.
 
-Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типа #pitem_t.
+Группа элементов типа gitem_t, хранит информацию о приоритете входящих в нее элементов, а так же указатель на список xlist_t, которому принадлежат эти элементы.
 
-\~english
-\brief
-A prioritized list.
-
-A container type, #xlist_t objects store lists of #item_t objects.
-In fact these containers store lists of #pitem_t or other compatible objects.
+Каждый элемент gitem_t имеет поле типа group_t, изначально  принадлежит этой самой группе, однако при включении элемента в группированный список, где уже есть элементы с таким же приоритетом, собственная группа будет передана в Пул, и элемент будет включен в группу, которая уже есть в списке.
 */
-struct _xlist_t
+struct _group_t
 {
-    item_t * item[BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
-    index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
+    void * link;   /*!< Поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в Пуле.*/
+    prio_t prio;    /*!< Приоритет группы.*/
+    count_t el_num; /*!< Количество элементов в группе, подсчет ссылок же! */
 };
+
+typedef struct _pool_t pool_t;
+/*!
+\brief
+Pool of groups;
+
+Pool is a stack container for gpoup_t objects.
+*/
+struct _pool_t
+{
+    group_t * top; /*!<  Top of pool */
+    group_t * bot; /*!<  Bottom of pool */
+};
+
+#define INIT_POOL_T() { (group_t *)0, (group_t *)0 }
+void pool_init( pool_t * pool );
+void pool_merge( pool_t * src, pool_t * dst );
+
+/*!
+   Статическая инициализация объекта типа group_t
+   \param p - Приоритет.
+*/
+#define INIT_GROUP_T(p) { (void *)0, (prio_t)p, (count_t)1 }
+
 // методы
 /*!
-\~russian
 \brief
-Инициализация списка.
+Инициализация группы.
 
-\param xlist Указатель на список.
-
-\~english
-\brief
-An #xlist_t object initiation.
-
-\param xlist An #xlist_t pointer.
+\param group Указатель на объект group_t.
+\param prio Приоритет элемента.
 */
-void xlist_init(
-    xlist_t * xlist
-);
-/*!
-\~russian
-\brief
-Поиск головы списка.
-
-\param xlist Указатель на список.
-\return Указатель на голову - самый приоритетный элемент в массиве указателей.
-
-\~english
-\brief
-List head search.
-
-\param xlist An #xlist_t pointer.
-\return The head pointer, wich is the most prioritized pointer in the list head pointer array.
-*/
-item_t * xlist_head(xlist_t * xlist);
+void group_init(group_t * group, prio_t prio);
 /*!
 \brief
+Положить группу в Пул.
 
-\~russian
-Переключение списка.
-
-Изменяет указатель xlist->item[prio] на xlist->item[prio]->next.
-
-\param xlist Указатель на список.
-\param prio Приоритет переключаемой части списка.
-
-\~english
-Switch a head pointer.
-
-Does xlist->item[prio] = xlist->item[prio]->next.
-
-\param xlist An #xlist_t pointer.
-\param prio A priority to switch.
+\param group Указатель на объект group_t.
 */
-void xlist_switch(xlist_t * xlist, prio_t prio);
+void group_push(group_t * group, pool_t * pool);
+/*!
+\brief
+Взять группу из Пула.
 
-/*---------------------------------------------------
-Для типов элементов, ссылки на которые будут хранится в xlist_t
-должны быть определены методы
+Если есть что брать, а есть всегда, избыточность же!
 
-"вырезать"
-"вставить"
-"переместить в другой список"
-----------------------------------------------------*/
+\return Указатель на объект group_t, который был взят из Пула.
+*/
+group_t * group_pop(pool_t * pool);
 
-#endif // _XLIST_H_
+#endif // _GROUP_H_
