@@ -118,7 +118,7 @@ bool_t _mutex_lock( mutex_t * mutex )
     else
     {
         proc->flags |= PROC_STATE_W_MUT;
-        pitem_insert( (pitem_t *)proc, (xlist_t *)mutex );
+        gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
     }
     SPIN_UNLOCK( proc );
 
@@ -194,7 +194,7 @@ void _mutex_unlock( mutex_t *  mutex )
 
     SPIN_LOCK( proc );
     // Сначала надо вырезать
-    pitem_cut( (pitem_t *)proc );
+    gitem_cut( (gitem_t *)proc );
     PROC_PRIO_CONTROL_STOPED( proc );
     proc->flags &= PROC_STATE_CLEAR_MASK;
     _proc_run( proc );

@@ -7,7 +7,7 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="3">
 		<Cursor position="9560" topLine="162" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
@@ -42,9 +42,6 @@
 	</File>
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
-	</File>
-	<File name="../../../../../include/pitem.h" open="0" top="0" tabpos="1">
-		<Cursor position="94" topLine="1" />
 	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="1">
 		<Cursor position="94" topLine="1" />
@@ -88,38 +85,35 @@
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="1">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="2">
-		<Cursor position="94" topLine="0" />
-	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="8">
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="2">
-		<Cursor position="94" topLine="1" />
+		<Cursor position="6774" topLine="366" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="5">
 		<Cursor position="94" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="7">
-		<Cursor position="94" topLine="1" />
+		<Cursor position="7473" topLine="115" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="6">
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="6">
 		<Cursor position="94" topLine="28" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="4">
-		<Cursor position="94" topLine="0" />
+		<Cursor position="7162" topLine="88" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="7">
-		<Cursor position="891" topLine="141" />
+		<Cursor position="3247" topLine="87" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="2">
 		<Cursor position="444" topLine="217" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
-		<Cursor position="1337" topLine="39" />
+		<Cursor position="1337" topLine="2" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
 		<Cursor position="557" topLine="7" />

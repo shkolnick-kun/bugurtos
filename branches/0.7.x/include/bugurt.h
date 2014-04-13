@@ -138,11 +138,7 @@ typedef void (* code_t)(void *);
 #include "xlist.h"
 #include "group.h"
 #include "gitem.h"
-
-#include "pitem.h"
-
 #include "pcounter.h"
-
 #include "crit_sec.h"
 #include "proc.h"
 #include "sched.h"

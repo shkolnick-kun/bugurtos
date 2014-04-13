@@ -207,7 +207,7 @@ You must access such static variables using process synchronization facilities.
 */
 struct _proc_t
 {
-    pitem_t parent;     /*!<\~russian Родитель - #pitem_t. \~english A parent is #pitem_t.*/
+    gitem_t parent;     /*!<\~russian Родитель - #gitem_t. \~english A parent is #gitem_t.*/
     flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
 #ifdef CONFIG_USE_HIGHEST_LOCKER
     prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
@@ -691,7 +691,7 @@ void __proc_run( proc_t * proc );
 /*!
 \brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
 */
-#define __proc_run(proc) pitem_insert( (pitem_t *)proc, kernel.sched.ready )
+#define __proc_run(proc) gitem_insert( (gitem_t *)proc, kernel.sched.ready )
 #endif
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.

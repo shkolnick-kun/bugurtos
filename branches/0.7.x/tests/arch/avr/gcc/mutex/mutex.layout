@@ -13,6 +13,9 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="75" />
 	</File>
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="7938" topLine="130" />
+	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="40406" topLine="729" />
 	</File>
@@ -50,6 +53,6 @@
 		<Cursor position="1690" topLine="72" />
 	</File>
 	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2418" topLine="70" />
+		<Cursor position="1225" topLine="39" />
 	</File>
 </CodeBlocks_layout_file>

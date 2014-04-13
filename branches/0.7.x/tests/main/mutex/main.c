@@ -16,7 +16,7 @@ void main_with_return( void * arg )
     //mutex_try_lock test 2
     test_output( (test_mutex.free == 0), 2 );
     //mutex_try_lock test 3
-    test_output( (proc[0].parent.prio == 1), 3 );
+    test_output( (proc[0].parent.group->prio == 1), 3 );
     //mutex_lock test 4
     proc_run( &proc[2] );
     wait_time( 2 );
@@ -28,7 +28,7 @@ void main_with_return( void * arg )
     //mutex_lock test 6
     test_output( !PROC_RUN_TEST( (&proc[2]) ), 6 );
     //mutex_lock test 7
-    test_output( (proc[2].parent.list == &test_mutex.mutex_list), 7 );
+    test_output( (proc[2].parent.group->link == &test_mutex.mutex_list), 7 );
     //mutex_try_lock test 8
     // must not lock
     test_output( !mutex_try_lock( &test_mutex ), 8 );
@@ -37,26 +37,26 @@ void main_with_return( void * arg )
     //mutex_unlock test 10
     // proc[2] must get mutex and self stop
     mutex_unlock( &test_mutex );
-    test_output( (proc[0].parent.prio == 1), 10 );
+    test_output( (proc[0].parent.group->prio == 1), 10 );
     //mutex_unlock test 11
     wait_time( 2 );
     test_output( (test_mutex.free == 0), 11 );
     //mutex_lock test 12
-    test_output( (proc[2].parent.prio == 1), 12 );
+    test_output( (proc[2].parent.group->prio == 1), 12 );
     //mutex_unlock test 13
     // proc[2] must unlock mutex and self stop
     proc_run( &proc[2] );
     wait_time( 2 );
     test_output( (test_mutex.free == 1), 13 );
     //mutex_lock test 14
-    test_output( (proc[2].parent.prio == 2), 14 );
+    test_output( (proc[2].parent.group->prio == 2), 14 );
     // mutex_lock test 15
     // proc[2] must lock a test_mutex and self ctop
     proc_run( &proc[2] );
     wait_time( 2 );
     test_output( (test_mutex.free == 0), 15 );
     // mutex_lock test 16
-    test_output( (proc[2].parent.prio == 1), 16 );
+    test_output( (proc[2].parent.group->prio == 1), 16 );
     //mutex_lock test 17
     test_output( (PROC_FLG_MUTEX == ( proc[2].flags & PROC_FLG_MUTEX ) ), 17 );
     //mutex_lock test 18

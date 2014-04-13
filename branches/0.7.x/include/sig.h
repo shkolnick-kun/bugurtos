@@ -83,7 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок сигналов. \~english A signal header.
 */
 //Сигнал
-#ifdef CONFIG_MP
+
 typedef struct _sig_t sig_t;
 // Свойства
 /*!
@@ -103,13 +103,12 @@ Other process or interrupt handler can fire a signal and launch one or all proce
 */
 struct _sig_t
 {
-    xlist_t sig_list[MAX_CORES]; /*!< \~russian Массив списков ожидания, по 1 на каждое процессорное ядро в системе. \~english An array of signal wait lists, one for each CPU core. */
-    stat_t sig_stat[MAX_CORES]; /*!< \~russian Массив статистических данных для предварительной балансировки нагрузки. \~english An array of statistic information. */
+    gxlist_t wait;
+    gxlist_t wakeup;
+#ifdef CONFIG_MP
     lock_t lock; /*!< \~russian На многопроцессорной системе сигнал защищен спин-блокитровкой. \~english A spin-lock. */
-};
-#else
-typedef xlist_t sig_t; /*!< \~russian На 1 процессорной системе сигнал - просто список ожидания. \~english On one core system a signal is just a wait list. */
 #endif
+};
 
 // Методы
 // Инициация

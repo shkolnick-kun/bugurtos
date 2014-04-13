@@ -99,7 +99,7 @@ void proc_init_isr(
     SPIN_INIT( proc );
     SPIN_LOCK( proc );
 
-    pitem_init( (pitem_t *)proc, prio );
+    gitem_init( (gitem_t *)proc, prio );
     proc->flags = ( is_rt )?PROC_FLG_RT:(flag_t)0;
 
     PROC_LRES_INIT( proc );
@@ -131,7 +131,7 @@ void __proc_run( proc_t * proc )
 
     SPIN_LOCK( proc_sched );
 
-    pitem_insert( (pitem_t *)proc, proc_sched->ready );
+    gitem_insert( (gitem_t *)proc, proc_sched->ready );
 
     SPIN_UNLOCK( proc_sched );
 }
@@ -211,14 +211,14 @@ static void __proc_stop(proc_t * proc)
 
         spin_lock( xlist_lock );
 
-        pitem_cut( (pitem_t *)proc );
+        gitem_cut( (gitem_t *)proc );
 
         spin_unlock( xlist_lock );
     }
 }
 #else // CONFIG_MP
 
-#define __proc_stop(proc) pitem_cut((pitem_t *)proc)
+#define __proc_stop(proc) gitem_cut((gitem_t *)proc)
 
 #endif // CONFIG_MP
 
@@ -332,12 +332,12 @@ index_t _proc_yeld( void )
 
         if( proc->flags & PROC_FLG_RT )
         {
-            xlist_switch( ((pitem_t *)proc)->list, ((pitem_t *)proc)->prio );
+            xlist_switch( (xlist_t *)((gitem_t *)proc)->group->link, ((gitem_t *)proc)->group->prio );
         }
         else
         {
-            pitem_cut( (pitem_t *)proc );
-            pitem_insert( (pitem_t *)proc, sched->expired );
+            gitem_cut( (gitem_t *)proc );
+            gitem_insert( (gitem_t *)proc, sched->expired );
         }
         SPIN_UNLOCK( sched );
     }
@@ -426,11 +426,11 @@ void _proc_prio_control_stoped( proc_t * proc )
 
         prio_t locker_prio;
         locker_prio = index_search( proc->lres.index );
-        ((pitem_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
+        ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
     }
     else
     {
-        ((pitem_t *)proc)->prio = proc->base_prio;
+        ((gitem_t *)proc)->group->prio = proc->base_prio;
     }
 }
 #endif
@@ -477,7 +477,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
         // Остановили выполнение процесса на старом процессоре
         SPIN_LOCK( sched );
 
-        pitem_fast_cut( (pitem_t *)proc );
+        gitem_fast_cut( (gitem_t *)proc );
 
         SPIN_UNLOCK( sched );
 
@@ -499,7 +499,7 @@ void _proc_lazy_load_balancer(core_id_t object_core)
 
         SPIN_LOCK( sched );
 
-        pitem_insert( (pitem_t *)proc, sched->expired );
+        gitem_insert( (gitem_t *)proc, sched->expired );
 
         SPIN_UNLOCK( sched );
     }

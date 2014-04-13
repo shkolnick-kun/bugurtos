@@ -113,7 +113,7 @@ bool_t _sem_lock( sem_t * sem )
     else
     {
         proc->flags |= PROC_STATE_W_SEM;
-        pitem_insert( (pitem_t *)proc, (xlist_t *)sem );
+        gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
     }
     SPIN_UNLOCK( proc );
     SPIN_UNLOCK( sem );
@@ -164,7 +164,7 @@ void sem_unlock_isr( sem_t * sem )
 
     SPIN_LOCK( proc );
 
-    pitem_cut( (pitem_t *)proc );
+    gitem_cut( (gitem_t *)proc );
     proc->flags &= PROC_STATE_CLEAR_MASK;
     _proc_run( proc );
 

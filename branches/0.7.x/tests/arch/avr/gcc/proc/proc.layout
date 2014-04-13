@@ -13,9 +13,6 @@
 	<File name="../../../../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="118" />
 	</File>
-	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="123" />
-	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="9092" topLine="165" />
 	</File>
@@ -29,7 +26,7 @@
 		<Cursor position="4164" topLine="125" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1690" topLine="70" />
+		<Cursor position="1690" topLine="66" />
 	</File>
 	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="95" topLine="7" />
