@@ -87,7 +87,7 @@ static void _sig_wakeup_list( sig_t * sig )
     SPIN_LOCK( proc );
 
     gitem_cut( (gitem_t *)proc );
-    _proc_run( proc, PROC_STATE_W_READY );
+    sched_proc_run( proc, PROC_STATE_W_READY );
 
     SPIN_UNLOCK( proc );
 }
@@ -209,7 +209,7 @@ void sig_signal_isr( sig_t * sig )
 
     gitem_cut( (gitem_t *)proc );
     proc->buf = (void *)0; // Will NOT continue wakeup.
-    _proc_run( proc, PROC_STATE_W_READY );
+    sched_proc_run( proc, PROC_STATE_W_READY );
 
     SPIN_UNLOCK( proc );
 end:

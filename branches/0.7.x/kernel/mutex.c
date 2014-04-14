@@ -162,7 +162,7 @@ bool_t _mutex_lock( mutex_t * mutex )
     {
         mutex->free = (bool_t)0;
         PROC_PRIO_CONTROL_STOPED( proc );
-        _proc_run( proc, PROC_STATE_READY );
+        sched_proc_run( proc, PROC_STATE_READY );
     }
     else
     {
@@ -210,7 +210,7 @@ bool_t _mutex_try_lock( mutex_t * mutex )
         _proc_stop_flags_set( proc, (flag_t)0 );
         PROC_LRES_INC( proc, GET_PRIO( mutex ) );
         PROC_PRIO_CONTROL_STOPED( proc );
-        _proc_run( proc, PROC_STATE_READY );
+        sched_proc_run( proc, PROC_STATE_READY );
 
         SPIN_UNLOCK( proc );
     }
@@ -241,7 +241,7 @@ void _mutex_unlock( mutex_t *  mutex )
 
     SPIN_LOCK(proc);
     // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
-    _proc_stop( proc );
+    sched_proc_stop( proc );
     PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
     PROC_PRIO_CONTROL_STOPED( proc );
     // Если проготовлен и готов к остановке - останавливаем
@@ -252,7 +252,7 @@ void _mutex_unlock( mutex_t *  mutex )
     else
     {
         // Не было запроса останова, или процесс еще не освободил ресурсы, запускаем обратно.
-        _proc_run( proc, PROC_STATE_READY );
+        sched_proc_run( proc, PROC_STATE_READY );
     }
     SPIN_UNLOCK( proc );
     SPIN_UNLOCK( mutex );
@@ -275,7 +275,7 @@ void _mutex_unlock( mutex_t *  mutex )
     gitem_cut( (gitem_t *)proc );
     PROC_PRIO_CONTROL_STOPED( proc );
     proc->flags &= PROC_STATE_CLEAR_MASK;
-    _proc_run( proc, PROC_STATE_READY );
+    sched_proc_run( proc, PROC_STATE_READY );
 
     SPIN_UNLOCK( proc );
 end:

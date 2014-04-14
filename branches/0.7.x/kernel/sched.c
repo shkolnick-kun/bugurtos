@@ -165,6 +165,52 @@ void sched_init(sched_t * sched, proc_t * idle)
 #endif // CONFIG_MP
 }
 //========================================================================================
+void sched_proc_run( proc_t * proc, flag_t state )
+{
+    sched_t * sched;
+    //Set new state
+    proc->flags &= PROC_STATE_CLEAR_MASK;
+    proc->flags |= state;
+#ifdef CONFIG_MP
+    spin_lock( &kernel.stat_lock );
+    proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
+    stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
+    spin_unlock( &kernel.stat_lock );
+
+    sched = (sched_t *)kernel.sched + proc->core_id;
+#else
+    sched = &kernel.sched;
+#endif
+
+    SPIN_LOCK( sched );
+    gitem_insert( (gitem_t *)proc, sched->ready );
+    SPIN_UNLOCK( sched );
+
+    RESCHED_PROC( proc );
+}
+//========================================================================================
+void sched_proc_stop(proc_t * proc)
+{
+#ifdef CONFIG_MP
+    lock_t * xlist_lock;
+    xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
+
+    spin_lock( &kernel.stat_lock );
+    stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
+    spin_unlock( &kernel.stat_lock );
+
+    spin_lock( xlist_lock );
+#endif // CONFIG_MP
+
+    proc->flags &= PROC_STATE_CLEAR_MASK;
+    gitem_cut( (gitem_t *)proc );
+
+#ifdef CONFIG_MP
+    spin_unlock( xlist_lock );
+#endif // CONFIG_MP
+    RESCHED_PROC( proc );
+}
+//========================================================================================
 static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
 {
     SPIN_LOCK( current_proc );

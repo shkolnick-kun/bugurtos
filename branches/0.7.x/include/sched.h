@@ -186,6 +186,16 @@ This function switches processes if needed.
 void sched_reschedule(void);
 
 /*!
+\brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
+*/
+void sched_proc_run( proc_t * proc, flag_t state );
+/*!
+\brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
+*/
+void sched_proc_stop(proc_t * proc);
+
+
+/*!
 \~russian
 \brief Передача управления следующему процессу (для внутреннего использования).
 
@@ -200,7 +210,6 @@ If there is another running process, this function passes control to it.
 
 \return Zero if there are no other running processes, none zero if there is at least one.
 */
-
 index_t _sched_yeld( void );
 /*!
 \~russian

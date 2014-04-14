@@ -631,14 +631,6 @@ If a real time process failes to reset its watchdog, then the scheduler stops su
 */
 void _proc_reset_watchdog(void);
 /*!
-\brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
-*/
-void _proc_run( proc_t * proc, flag_t state );
-/*!
-\brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
-*/
-void _proc_stop(proc_t * proc);
-/*!
 \brief \~russian "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования. \~english A low level process stop with flags set routine. For internal usage.
 */
 void _proc_stop_flags_set( proc_t * proc, flag_t mask );

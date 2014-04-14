@@ -156,7 +156,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data )
         }
         ret = (bool_t)1; // информация будет передана
         *(ipc_data_t *)proc->buf = ipc_data;
-        _proc_run( proc, PROC_STATE_READY );
+        sched_proc_run( proc, PROC_STATE_READY );
     }
 end:
     SPIN_UNLOCK( proc );
@@ -218,7 +218,7 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
         ret = (bool_t)1; // информация будет передана
         *(ipc_data_t *)proc->buf = send;
         _ipc_wait( receive ); // Готовимся к приему данных!
-        _proc_run( proc, PROC_STATE_READY );   // И только после этого запускаем процесс-адресат!
+        sched_proc_run( proc, PROC_STATE_READY );   // И только после этого запускаем процесс-адресат!
     }
 end:
     SPIN_UNLOCK( proc );
