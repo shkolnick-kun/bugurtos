@@ -78,13 +78,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "../include/bugurt.h"
 
-static void _sig_proc_run( proc_t * proc )
-{
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    proc->flags |= PROC_STATE_W_READY;
-    _proc_run( proc ); // Dirty hack, when flags are changed!!!
-}
-
 static void _sig_wakeup_list( sig_t * sig )
 {
     proc_t * proc;
@@ -94,7 +87,7 @@ static void _sig_wakeup_list( sig_t * sig )
     SPIN_LOCK( proc );
 
     gitem_cut( (gitem_t *)proc );
-    _sig_proc_run( proc );
+    _proc_run( proc, PROC_STATE_W_READY );
 
     SPIN_UNLOCK( proc );
 }
@@ -216,7 +209,7 @@ void sig_signal_isr( sig_t * sig )
 
     gitem_cut( (gitem_t *)proc );
     proc->buf = (void *)0; // Will NOT continue wakeup.
-    _sig_proc_run( proc );
+    _proc_run( proc, PROC_STATE_W_READY );
 
     SPIN_UNLOCK( proc );
 end:

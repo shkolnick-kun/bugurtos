@@ -108,65 +108,49 @@ void _proc_prio_control_stoped( proc_t * proc )
     }
 }
 //========================================================================================
-//  Функция для внутреннего использования - собственно запуск процесса
-#ifdef CONFIG_MP
-void __proc_run( proc_t * proc )
+void _proc_run( proc_t * proc, flag_t state )
 {
-    sched_t * proc_sched;
-    proc_sched = (sched_t *)kernel.sched + proc->core_id;
-
-    SPIN_LOCK( proc_sched );
-
-    gitem_insert( (gitem_t *)proc, proc_sched->ready );
-
-    SPIN_UNLOCK( proc_sched );
-}
-#endif // CONFIG_MP
-//========================================================================================
-void _proc_run( proc_t * proc )
-{
-    proc->flags |= PROC_STATE_READY;
+    sched_t * sched;
+    //Set new state
+    proc->flags &= PROC_STATE_CLEAR_MASK;
+    proc->flags |= state;
 #ifdef CONFIG_MP
     spin_lock( &kernel.stat_lock );
     proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
     stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
     spin_unlock( &kernel.stat_lock );
+
+    sched = (sched_t *)kernel.sched + proc->core_id;
+#else
+    sched = &kernel.sched;
 #endif
-    __proc_run( proc );
+
+    SPIN_LOCK( sched );
+    gitem_insert( (gitem_t *)proc, sched->ready );
+    SPIN_UNLOCK( sched );
 
     RESCHED_PROC( proc );
 }
 //========================================================================================
-// Функция для внутреннего использования, останов процесса
-#ifdef CONFIG_MP
-static void __proc_stop(proc_t * proc)
-{
-    spin_lock( &kernel.stat_lock );
-
-    stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
-
-    spin_unlock( &kernel.stat_lock );
-    {
-        lock_t * xlist_lock;
-        xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
-
-        spin_lock( xlist_lock );
-
-        gitem_cut( (gitem_t *)proc );
-
-        spin_unlock( xlist_lock );
-    }
-}
-#else // CONFIG_MP
-
-#define __proc_stop(proc) gitem_cut((gitem_t *)proc)
-
-#endif // CONFIG_MP
-//========================================================================================
 void _proc_stop(proc_t * proc)
 {
+#ifdef CONFIG_MP
+    lock_t * xlist_lock;
+    xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
+
+    spin_lock( &kernel.stat_lock );
+    stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
+    spin_unlock( &kernel.stat_lock );
+
+    spin_lock( xlist_lock );
+#endif // CONFIG_MP
+
     proc->flags &= PROC_STATE_CLEAR_MASK;
-    __proc_stop( proc );
+    gitem_cut( (gitem_t *)proc );
+
+#ifdef CONFIG_MP
+    spin_unlock( xlist_lock );
+#endif // CONFIG_MP
     RESCHED_PROC( proc );
 }
 //========================================================================================
@@ -360,7 +344,7 @@ bool_t proc_run_isr(proc_t * proc)
         ret = (bool_t)0;
         goto end;
     }
-    _proc_run( proc );
+    _proc_run( proc, PROC_STATE_READY );
 end:
 
     SPIN_UNLOCK( proc );
@@ -402,7 +386,7 @@ bool_t proc_restart_isr(proc_t * proc)
     proc->timer = proc->time_quant;
 
     if( proc->sstart )proc->spointer = proc_stack_init( proc->sstart, (code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
-    _proc_run( proc );
+    _proc_run( proc, PROC_STATE_READY );
 end:
 
     SPIN_UNLOCK( proc );

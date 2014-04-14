@@ -13,11 +13,20 @@
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="18003" topLine="333" />
 	</File>
+	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="11833" topLine="201" />
+	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="8618" topLine="169" />
+		<Cursor position="13093" topLine="258" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="460" />
+		<Cursor position="7162" topLine="83" />
+	</File>
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="11725" topLine="231" />
+	</File>
+	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="6116" topLine="217" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="514" />

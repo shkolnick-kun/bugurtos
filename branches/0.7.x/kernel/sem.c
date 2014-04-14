@@ -163,7 +163,7 @@ bool_t _sem_lock( sem_t * sem )
     {
         sem->counter--;
         ret = (bool_t)1;
-        _proc_run( proc );
+        _proc_run( proc, PROC_STATE_READY );
     }
     else
     {
@@ -208,7 +208,7 @@ bool_t _sem_try_lock( sem_t * sem )
         else
         {
             proc->flags |= (PROC_FLG_SEM|PROC_FLG_PRE_STOP);
-            _proc_run( proc );
+            _proc_run( proc, PROC_STATE_READY );
         }
 
         SPIN_UNLOCK( proc );
@@ -248,8 +248,7 @@ void sem_unlock_isr( sem_t * sem )
     SPIN_LOCK( proc );
 
     gitem_cut( (gitem_t *)proc );
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    _proc_run( proc );
+    _proc_run( proc, PROC_STATE_READY );
 
     SPIN_UNLOCK( proc );
 end:

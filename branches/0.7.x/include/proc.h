@@ -364,8 +364,8 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 
 #define PROC_STATE_DEAD             ((flag_t)0x4)   /*!< \~russian Завершен до освобождения общих ресурсов. \~english Abnormal termination, terminated with resources locked. */
 // run states
-#define PROC_STATE_READY            ((flag_t)0x5)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
-#define PROC_STATE_RESERVED_0x6     ((flag_t)0x6)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_RESERVED_0x5     ((flag_t)0x5)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_READY            ((flag_t)0x6)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
 #define PROC_STATE_RUNNING          ((flag_t)0x7)   /*!< \~russian Выполняется. \~english Is running. */
 
 // wait states
@@ -377,8 +377,8 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 //special states
 #define PROC_STATE_W_DEAD           ((flag_t)0xC)   /*!< \~russian Остановлен по вачдог в состоянии W_RUNNING до освобождения общих ресурсов. \~english Watchdog termination from W_RUNNING state with resources locked. */
 
-#define PROC_STATE_W_READY          ((flag_t)0xD)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
-#define PROC_STATE_RESERVED_0xE     ((flag_t)0xE)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_RESERVED_0xD     ((flag_t)0xD)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_W_READY          ((flag_t)0xE)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
 #define PROC_STATE_W_RUNNING        ((flag_t)0xF)   /*!< \~russian Выполняется (специальное). \~english Is running (special). */
 
 /*!
@@ -630,23 +630,10 @@ If a caller process is real time, then this function resets its timer.
 If a real time process failes to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
 void _proc_reset_watchdog(void);
-
-//  Функция для внутреннего использования - собственно запуск процесса
-#ifdef CONFIG_MP
-/*!
-\brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
-*/
-void __proc_run( proc_t * proc );
-#else
-/*!
-\brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
-*/
-#define __proc_run(proc) gitem_insert( (gitem_t *)proc, kernel.sched.ready )
-#endif
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
-void _proc_run( proc_t * proc );
+void _proc_run( proc_t * proc, flag_t state );
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
