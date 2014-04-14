@@ -77,8 +77,33 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-
+/**********************************************************************************************
+                                       SYSCALL_SEM_INIT
+**********************************************************************************************/
 // Инициализация
+
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_SEM_INIT.
+
+\~english
+\brief
+A #SYSCALL_SEM_INIT argument structure.
+*/
+typedef struct {
+    sem_t * sem;    /*!< \~russian указатель на семафор. \~english A pointer to a semaphore.*/
+    count_t count;  /*!< \~russian начальное значение счетчика семафора. \~english A semaphore counter initial value.*/
+}sem_init_arg_t;
+
+void sem_init( sem_t * sem, count_t count )
+{
+    volatile sem_init_arg_t scarg;
+    scarg.sem = sem;
+    scarg.count = count;
+    syscall_bugurt( SYSCALL_SEM_INIT, (void *)&scarg );
+}
+//========================================================================================
 void sem_init_isr( sem_t * sem, count_t count )
 {
     SPIN_INIT( sem );
@@ -88,7 +113,37 @@ void sem_init_isr( sem_t * sem, count_t count )
     sem->counter = count;
     SPIN_UNLOCK( sem );
 }
+//========================================================================================
+void scall_sem_init( void * arg )
+{
+    sem_init_isr( ((sem_init_arg_t *)arg)->sem, ((sem_init_arg_t *)arg)->count );
+}
+/**********************************************************************************************
+                                         SYSCALL_SEM_LOCK
+**********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системных вызовов #SYSCALL_SEM_LOCK и #SYSCALL_SEM_TRY_LOCK.
 
+\~english
+\brief
+An argument structure for #SYSCALL_SEM_LOCK and #SYSCALL_SEM_TRY_LOCK.
+*/
+typedef struct {
+    sem_t * sem;        /*!< \~russian  указатель на семафор. \~english A pointer to a semaphore.*/
+    bool_t ret;         /*!< \~russian  хранилище результата выполнения операции. \~english A storage for a result. */
+}sem_lock_arg_t;
+//========================================================================================
+bool_t sem_lock( sem_t * sem )
+{
+
+    volatile sem_lock_arg_t scarg;
+    scarg.sem = sem;
+    syscall_bugurt( SYSCALL_SEM_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 bool_t _sem_lock( sem_t * sem )
 {
     bool_t ret = (bool_t)0;
@@ -119,7 +174,19 @@ bool_t _sem_lock( sem_t * sem )
     SPIN_UNLOCK( sem );
     return ret;
 }
-
+//========================================================================================
+void scall_sem_lock( void * arg )
+{
+    ((sem_lock_arg_t *)arg)->ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
+}
+/**********************************************************************************************
+                                       SYSCALL_SEM_TRY_LOCK
+**********************************************************************************************/
+void scall_sem_try_lock( void * arg )
+{
+    ((sem_lock_arg_t *)arg)->ret = _sem_try_lock( ((sem_lock_arg_t *)arg)->sem );
+}
+//========================================================================================
 bool_t _sem_try_lock( sem_t * sem )
 {
     bool_t ret = (bool_t)0;
@@ -149,7 +216,23 @@ bool_t _sem_try_lock( sem_t * sem )
     SPIN_UNLOCK( sem );
     return ret;
 }
+//========================================================================================
+bool_t sem_try_lock( sem_t * sem )
+{
 
+    volatile sem_lock_arg_t scarg;
+    scarg.sem = sem;
+    syscall_bugurt( SYSCALL_SEM_TRY_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+/**********************************************************************************************
+                                       SYSCALL_SEM_UNLOCK
+**********************************************************************************************/
+void sem_unlock( sem_t * sem )
+{
+    syscall_bugurt( SYSCALL_SEM_UNLOCK, (void *)sem );
+}
+//========================================================================================
 void sem_unlock_isr( sem_t * sem )
 {
     proc_t * proc;
@@ -171,4 +254,9 @@ void sem_unlock_isr( sem_t * sem )
     SPIN_UNLOCK( proc );
 end:
     SPIN_UNLOCK( sem );
+}
+//========================================================================================
+void scall_sem_unlock( void * arg )
+{
+    sem_unlock_isr( (sem_t *)arg );
 }

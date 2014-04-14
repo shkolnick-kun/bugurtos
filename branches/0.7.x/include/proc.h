@@ -158,23 +158,12 @@ else this macro does nothing.
 \param a a pointer to a process.
 
 */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
 
 #define PROC_LRES_INIT(a) pcounter_init(&a->lres)
 #define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
 #define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
 
 #define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
-
-#else
-
-#define PROC_LRES_INIT(a) a->lres = (count_t)0
-#define PROC_LRES_INC(a,b) _proc_lres_inc(a)
-#define PROC_LRES_DEC(a,b) _proc_lres_dec(a)
-
-#define PROC_PRIO_CONTROL_STOPED(a)
-
-#endif
 
 //Процесс
 typedef struct _proc_t proc_t;
@@ -209,12 +198,8 @@ struct _proc_t
 {
     gitem_t parent;     /*!<\~russian Родитель - #gitem_t. \~english A parent is #gitem_t.*/
     flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
     pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
-#else
-    count_t lres;       /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
-#endif
     timer_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     timer_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     void * buf;         /*!<\~russian  Указатель на хранилище для передачи данных через IPC. \~english A pointer to process IPC data storage.*/
@@ -619,41 +604,6 @@ void _proc_self_stop(void);
 
 /*!
 \~russian
-\brief Передача управления следующему процессу (для внутреннего использования).
-
-Передает управление следующему процессу, если такой процесс есть.
-
-\return 0 если нет других выполняющихся процессов, не 0 - если есть.
-
-\~english
-\brief Pass control to next ready process (for internal usage only!).
-
-If there is another running process, this function passes control to it.
-
-\return Zero if there are no other running processes, none zero if there is at least one.
-*/
-
-index_t _proc_yeld( void );
-/*!
-\~russian
-\brief Передача управления следующему процессу.
-
-Передает управление следующему процессу, если такой процесс есть.
-
-\return 0 если нет других выполняющихся процессов, не 0 - если есть.
-
-\~english
-\brief Pass control to next ready process.
-
-If there is another running process, this function passes control to it.
-
-\return Zero if there are no other running processes, none zero if there is at least one.
-*/
-index_t proc_yeld( void );
-
-
-/*!
-\~russian
 \brief Сброс watchdog для процесса реального времени.
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
@@ -719,20 +669,15 @@ void proc_flag_stop( flag_t mask );
 */
 void _proc_lres_inc(
     proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
-#endif
 );
 /*!
 \brief \~russian Декремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter decrement routine. For internal usage.
 */
 void _proc_lres_dec(
     proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
-#endif
 );
-#ifdef CONFIG_USE_HIGHEST_LOCKER
 /*!
 \~russian
 \brief Управление приоритетом процесса, для внутреннего использования.
@@ -747,60 +692,5 @@ Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stoped before call
 \param proc - A pointer to a process.
 */
 void _proc_prio_control_stoped( proc_t * proc );
-#endif
-
-#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
-/************************************
-  "Ленивые" балансировщики нагрузки
-
-,предназначены для запуска из тел
-процессов, если не используется
-активная схема балансировки нагрузки.
-
-Можно использовать только один,
-или оба в различных комбинациях
-
-************************************/
-/*!
-\~russian
-\brief Ленивая балансировка нагрузки, для внутренненго использования.
-
-Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
-\param object_core - процессорное ядро, с которого будем снимать нагрузку.
-
-\~english
-\brief A lazy load balancer routine. For internal usage.
-
-This function transfers one process on the least loaded CPU core from the object core.
-\param object_core - A CPU core to decrease a load on.
-*/
-void _proc_lazy_load_balancer(core_id_t object_core);
-
-/*!
-\~russian
-\brief Ленивая балансировка нагрузки, локальный балансировщик.
-
-Переносит 1 процесс с ядра, на котором выполняется на самое не нагруженное процессорное ядро в системе.
-
-\~english
-\brief A lazy local load balancer routine.
-
-Transfers one process from a current CPU core to the least loaded CPU core on the system.
-*/
-void proc_lazy_local_load_balancer(void);
-/*!
-\~russian
-\brief Ленивая балансировка нагрузки, глобальный балансировщик.
-
-Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
-
-\~english
-\brief A lazy global load balancer routine.
-
-Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
-*/
-void proc_lazy_global_load_balancer(void);
-
-#endif // CONFIG_MP CONFIG_USE_ALB
 
 #endif // _PROC_H_

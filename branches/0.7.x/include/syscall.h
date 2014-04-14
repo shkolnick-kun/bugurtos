@@ -154,34 +154,7 @@ void do_syscall( void );
 //                                   Process control !
 
 
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_PROC_INIT.
 
-Содержит информацию о процессе, и его свойствах.
-
-\~english
-\brief
-An argument for #SYSCALL_PROC_INIT.
-
-A process initialization structure.
-Contents an information about a process.
-*/
-typedef struct {
-    proc_t * proc;      /*!< \~russian Указатель на инициируемый процесс. \~english A ponter to a initialized process.*/
-    code_t pmain;       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
-    code_t sv_hook;     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
-    code_t rs_hook;     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*//*!< Хук, исполняется планировщиком перед восстановлением контекста процесса. */
-    void * arg;         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
-    stack_t *sstart;    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
-    prio_t prio;        /*!< \~russian Приоритет. \~english A process priority.*/
-    timer_t time_quant; /*!< \~russian Квант времени. \~english A process time slice.*/
-    bool_t is_rt;       /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If frue, then a process is scheduled in a real time manner.*/
-#ifdef CONFIG_MP
-    affinity_t affinity;/*!< \~russian Афинность. \~english A process affinity.*/
-#endif // CONFIG_MP
-} proc_init_arg_t;
 
 /*!
 \~russian
@@ -202,19 +175,7 @@ This function initiates a proces by #proc_init_isr call.
 */
 void scall_proc_init( void * arg );
 /*****************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системных вызовов #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
 
-\~english
-\brief
-An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
-*/
-typedef struct{
-    proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
-    bool_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
-}proc_runtime_arg_t;
 
 /*!
 \~russian
@@ -307,7 +268,7 @@ Transfers control to another process.
 
 \param arg Not used.
 */
-void scall_proc_yeld( void * arg );
+void scall_sched_yeld( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -449,19 +410,7 @@ This function wakes up all waiting processes by #sig_broadcast_isr call.
 void scall_sig_broadcast( void * arg );
 /*****************************************************************************************/
 /*                                 Semaphore control !                                   */
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_SEM_INIT.
 
-\~english
-\brief
-A #SYSCALL_SEM_INIT argument structure.
-*/
-typedef struct {
-    sem_t * sem;    /*!< \~russian указатель на семафор. \~english A pointer to a semaphore.*/
-    count_t count;  /*!< \~russian начальное значение счетчика семафора. \~english A semaphore counter initial value.*/
-}sem_init_arg_t;
 /*!
 \~russian
 \brief
@@ -481,19 +430,7 @@ This function initiates semaphore by #sem_init_isr call.
 */
 void scall_sem_init( void * arg );
 /*****************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системных вызовов #SYSCALL_SEM_LOCK и #SYSCALL_SEM_TRY_LOCK.
 
-\~english
-\brief
-An argument structure for #SYSCALL_SEM_LOCK and #SYSCALL_SEM_TRY_LOCK.
-*/
-typedef struct {
-    sem_t * sem;        /*!< \~russian  указатель на семафор. \~english A pointer to a semaphore.*/
-    bool_t ret;         /*!< \~russian  хранилище результата выполнения операции. \~english A storage for a result. */
-}sem_lock_arg_t;
 /*!
 \~russian
 \brief
@@ -551,21 +488,7 @@ This function calls #sem_unlock_isr.
 void scall_sem_unlock( void * arg );
 /*****************************************************************************************/
 /*                                     Мьютексы                                          */
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_MUTEX_INIT.
 
-\~english
-\brief
-An argument structure for #SYSCALL_MUTEX_INIT.
-*/
-typedef struct {
-    mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    prio_t prio;        /*!< \~russian приоритет мьютекса \~english A mutex priority. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
-}mutex_init_arg_t;
 /*!
 \~russian
 \brief
@@ -585,19 +508,7 @@ This function initiater mutex by #mutex_init_isr call.
 */
 void scall_mutex_init(void * arg);
 /*****************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системных вызовов #SYSCALL_MUTEX_LOCK и #SYSCALL_MUTEX_TRY_LOCK.
 
-\~english
-\brief
-An argument structure for #SYSCALL_MUTEX_LOCK and #SYSCALL_MUTEX_TRY_LOCK.
-*/
-typedef struct {
-    mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
-    bool_t ret;         /*!< \~russian хранилище результата выполнения операции. \~english A storage for a result. */
-} mutex_lock_arg_t;
 /*!
 \~russian
 \brief
@@ -654,33 +565,7 @@ This function calls #_mutex_unlock.
 void scall_mutex_unlock(void * arg);
 /*****************************************************************************************/
 /*                                     IPC                                               */
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_IPC_SEND.
 
-\~english
-\brief
-An argument structure for #SYSCALL_IPC_SEND.
-*/
-typedef struct {
-    proc_t * proc;  /*!< \~russian указатель на процесс-адресат. \~english A pointer to a destignation process. */
-    bool_t ret;     /*!< \~russian хранилище результата выполнения операции. \~english A storage for a result. */
-    ipc_data_t ipc_data;/*!< \~russian данные для передачи. \~english A data to send. */
-} ipc_send_arg_t;
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_IPC_EXCHANGE.
-
-\~english
-\brief
-An argument structure for #SYSCALL_IPC_EXCHANGE.
-*/
-typedef struct {
-    ipc_send_arg_t send;  /*!< \~russian Родитель. \~english A parent. */
-    ipc_data_t * receive; /*!< \~russian Указатель на хранилище принимаемых данных. \~english Apointer to storage for data to receive. */
-} ipc_exchange_arg_t;
 /*!
 \~russian
 \brief

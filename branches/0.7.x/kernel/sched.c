@@ -116,7 +116,7 @@ WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
     }
     return ret;
 }
-//----------------------------------------------------------------------------------------
+//========================================================================================
 //Поиск самой нагруженной структуры stat_t в массиве
 WEAK core_id_t sched_highest_load_core( stat_t * stat )
 {
@@ -164,6 +164,7 @@ void sched_init(sched_t * sched, proc_t * idle)
     stat_inc( idle, (stat_t *)kernel.stat + idle->core_id );
 #endif // CONFIG_MP
 }
+//========================================================================================
 static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
 {
     SPIN_LOCK( current_proc );
@@ -374,7 +375,7 @@ void sched_schedule(void)
 
     _sched_switch_current( sched, current_proc );
 }
-//----------------------------------------------------------------------------------------
+//========================================================================================
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
 void sched_reschedule(void)
 {
@@ -395,3 +396,157 @@ void sched_reschedule(void)
     SPIN_UNLOCK( current_proc );
     _sched_switch_current( sched, current_proc );
 }
+/**********************************************************************************************
+                                      SYSCALL_PROC_YELD
+**********************************************************************************************/
+index_t sched_yeld(void)
+{
+    volatile index_t ret;
+    syscall_bugurt( SYSCALL_PROC_YELD, (void *)&ret );
+    return ret;
+}
+//========================================================================================
+index_t _sched_yeld( void )
+{
+    index_t ret;
+    sched_t * sched;
+    proc_t * proc;
+
+    sched = _SCHED_INIT();
+    proc = sched->current_proc;
+
+    SPIN_LOCK( sched );
+    ret = sched->expired->index;
+    SPIN_UNLOCK( sched );
+
+    KERNEL_PREEMPT();/// KERNEL_PREEMPT
+
+    SPIN_LOCK( proc );
+
+    if( PROC_RUN_TEST( proc ) )
+    {
+        SPIN_LOCK( sched );
+
+        if( proc->flags & PROC_FLG_RT )
+        {
+            xlist_switch( (xlist_t *)((gitem_t *)proc)->group->link, ((gitem_t *)proc)->group->prio );
+        }
+        else
+        {
+            gitem_cut( (gitem_t *)proc );
+            gitem_insert( (gitem_t *)proc, sched->expired );
+        }
+        SPIN_UNLOCK( sched );
+    }
+    proc->timer = proc->time_quant; // reset timer
+    RESCHED_PROC( proc );
+    SPIN_UNLOCK( proc );
+
+    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+
+    SPIN_LOCK( sched );
+    ret |= sched->ready->index;
+    SPIN_UNLOCK( sched );
+
+    return ret;
+}
+//========================================================================================
+void scall_sched_yeld( void * arg )
+{
+    *((index_t *)arg) = _sched_yeld();
+}
+
+#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
+/************************************
+  "Ленивые" балансировщики нагрузки
+
+,предназначены для запуска из тел
+процессов, если не используется
+активная схема балансировки нагрузки.
+
+Можно использовать только один,
+или оба в различных комбинациях
+
+************************************/
+void _sched_lazy_load_balancer(core_id_t object_core)
+{
+    sched_t * sched;
+    proc_t * proc;
+    sched = (sched_t *)kernel.sched + object_core;
+
+    //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
+    disable_interrupts();
+
+    SPIN_LOCK( sched );
+
+    if(sched->expired->index == (index_t)0)
+    {
+        SPIN_UNLOCK( sched );
+        enable_interrupts();
+        return;
+    }
+    proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
+
+    SPIN_UNLOCK( sched );
+    enable_interrupts();
+
+    disable_interrupts();
+    SPIN_LOCK( proc );
+    // Пока захватывалась блокировка процесса, его могли остановить, подстраховываемся.
+    if( PROC_RUN_TEST( proc ) )
+    {
+        // Остановили выполнение процесса на старом процессоре
+        SPIN_LOCK( sched );
+
+        gitem_fast_cut( (gitem_t *)proc );
+
+        SPIN_UNLOCK( sched );
+
+        resched(object_core); // Процесс мог быть поставлен на выполнение, пока мы захватывали его блокировку, перепланируем
+
+        // Проводим операции над статистикой
+        spin_lock( &kernel.stat_lock );
+
+        stat_dec( proc, (stat_t *)kernel.stat + object_core );
+
+        object_core = sched_load_balancer( proc, (stat_t *)kernel.stat );// Теперь, это тот процессор, на который будем переносить процесс
+        sched = (sched_t *)kernel.sched + object_core;//Теперь это планировщик, на который мы переносим процесс
+        stat_inc( proc, (stat_t *)kernel.stat + object_core );
+
+        spin_unlock( &kernel.stat_lock );
+
+        // Переносим процесс на новый процессор, продолжаем выполнение там. Перепланировку не делаем, проуесс не выполняет требования реального времени.
+        proc->core_id = object_core;
+
+        SPIN_LOCK( sched );
+
+        gitem_insert( (gitem_t *)proc, sched->expired );
+
+        SPIN_UNLOCK( sched );
+    }
+    SPIN_UNLOCK( proc );
+    enable_interrupts();
+}
+//========================================================================================
+// Глобальный
+void sched_lazy_global_load_balancer(void)
+{
+    core_id_t object_core;
+    // Поиск самого нагруженного процессора
+    disable_interrupts();
+    spin_lock( &kernel.stat_lock );
+
+    object_core = sched_highest_load_core( (stat_t *)kernel.stat );
+
+    spin_unlock( &kernel.stat_lock );
+    enable_interrupts();
+    // Перенос нагрузки на самый не нагруженный процессор
+    _sched_lazy_load_balancer( object_core );
+}
+//========================================================================================
+// Локальный
+void sched_lazy_local_load_balancer(void)
+{
+    _sched_lazy_load_balancer( current_core() );
+}
+#endif // CONFIG_MP CONFIG_USE_ALB

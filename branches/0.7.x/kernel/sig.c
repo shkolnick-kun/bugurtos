@@ -77,39 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-//========================================================================================
-// Инициация
-void sig_init_isr( sig_t * sig )
-{
-    SPIN_INIT( sig );
-    SPIN_LOCK( sig );
-    gxlist_init( &sig->wait );
-    gxlist_init( &sig->wakeup );
-    SPIN_UNLOCK( sig );
-}
-//========================================================================================
-// Это выполнится при постановке процесса в список ожидания сигнала
-void _sig_wait_prologue( sig_t * sig )
-{
-    proc_t * proc;
 
-    SPIN_LOCK( sig );
-
-    proc = current_proc();
-
-    SPIN_LOCK( proc );
-
-    // Останавливаем процесс
-    _proc_stop_flags_set( proc, PROC_STATE_W_SIG );
-    proc->buf = (void *)sig; //Initialize a pointer before use.
-    gitem_insert_group( (gitem_t *)proc, &sig->wait );// A process is inserted to a wait list
-
-    SPIN_UNLOCK( proc );
-
-    SPIN_UNLOCK( sig );
-}
-//========================================================================================
-//
 static void _sig_proc_run( proc_t * proc )
 {
     proc->flags &= PROC_STATE_CLEAR_MASK;
@@ -131,6 +99,66 @@ static void _sig_wakeup_list( sig_t * sig )
     SPIN_UNLOCK( proc );
 }
 
+/**********************************************************************************************
+                                            Сигналы
+***********************************************************************************************
+                                      SYSCALL_PROC_RESTART
+**********************************************************************************************/
+// Инициация
+void sig_init( sig_t * sig )
+{
+    syscall_bugurt( SYSCALL_SIG_INIT, (void *)sig );
+}
+//========================================================================================
+void sig_init_isr( sig_t * sig )
+{
+    SPIN_INIT( sig );
+    SPIN_LOCK( sig );
+    gxlist_init( &sig->wait );
+    gxlist_init( &sig->wakeup );
+    SPIN_UNLOCK( sig );
+}
+//========================================================================================
+void scall_sig_init( void * arg )
+{
+    sig_init_isr( (sig_t *)arg );
+}
+/**********************************************************************************************
+                                       SYSCALL_SIG_WAIT
+                                       SYSCALL_SIG_WAKEUP
+**********************************************************************************************/
+// Это выполнится при постановке процесса в список ожидания сигнала
+void sig_wait( sig_t * sig )
+{
+    syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
+    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );// Останов в случае необходимости
+}
+//========================================================================================
+void _sig_wait_prologue( sig_t * sig )
+{
+    proc_t * proc;
+
+    SPIN_LOCK( sig );
+
+    proc = current_proc();
+
+    SPIN_LOCK( proc );
+
+    // Останавливаем процесс
+    _proc_stop_flags_set( proc, PROC_STATE_W_SIG );
+    proc->buf = (void *)sig; //Initialize a pointer before use.
+    gitem_insert_group( (gitem_t *)proc, &sig->wait );// A process is inserted to a wait list
+
+    SPIN_UNLOCK( proc );
+
+    SPIN_UNLOCK( sig );
+}
+//========================================================================================
+void scall_sig_wait( void * arg )
+{
+    _sig_wait_prologue( (sig_t *)arg );
+}
+//========================================================================================
 void _sig_wait_epilogue( void )
 {
     sig_t * sig;
@@ -161,7 +189,20 @@ void _sig_wait_epilogue( void )
     SPIN_UNLOCK( sig );
 }
 //========================================================================================
+void scall_sig_wakeup( void *arg )
+{
+    _sig_wait_epilogue();
+    _proc_flag_stop( (flag_t)0 );
+}
+/**********************************************************************************************
+                                       SYSCALL_SIG_SIGNAL
+**********************************************************************************************/
 // Будит 1 процесс, для вызова из обработчиков прерываний
+void sig_signal( sig_t * sig )
+{
+    syscall_bugurt( SYSCALL_SIG_SIGNAL, (void *)sig );
+}
+//========================================================================================
 void sig_signal_isr( sig_t * sig )
 {
     proc_t * proc;
@@ -181,8 +222,20 @@ void sig_signal_isr( sig_t * sig )
 end:
     SPIN_UNLOCK( sig );
 }
-//----------------------------------------------------------------------------------------
+//========================================================================================
+void scall_sig_signal( void * arg )
+{
+    sig_signal_isr( (sig_t *)arg );
+}
+/**********************************************************************************************
+                                       SYSCALL_SIG_BROADCAST
+**********************************************************************************************/
 // Будит все ожидающие процессы
+void sig_broadcast( sig_t * sig )
+{
+    syscall_bugurt( SYSCALL_SIG_BROADCAST, (void *)sig );
+}
+//========================================================================================
 void sig_broadcast_isr( sig_t * sig )
 {
     SPIN_LOCK( sig );
@@ -194,4 +247,8 @@ void sig_broadcast_isr( sig_t * sig )
 end:
     SPIN_UNLOCK( sig );
 }
-
+//========================================================================================
+void scall_sig_broadcast( void * arg )
+{
+    sig_broadcast_isr( (sig_t *)arg );
+}

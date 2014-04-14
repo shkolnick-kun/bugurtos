@@ -13,16 +13,16 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 #endif
 //======================================================================
 #if (CONFIG_LB_SCHEME == 2)
-    #define SCHED_LOCAL_LOAD_BALANCER() proc_lazy_local_load_balancer()
+    #define SCHED_LOCAL_LOAD_BALANCER() sched_lazy_local_load_balancer()
 #else  //CONFIG_LB_SCHEME == 2
     #define SCHED_LOCAL_LOAD_BALANCER()
 #endif //CONFIG_LB_SCHEME == 2
 //======================================================================
 #if (CONFIG_LB_SCHEME == 2)
-    #define SCHED_IDLE_LOAD_BALANCER() proc_lazy_local_load_balancer()
+    #define SCHED_IDLE_LOAD_BALANCER() sched_lazy_local_load_balancer()
 #else  //CONFIG_LB_SCHEME == 2
 #if (CONFIG_LB_SCHEME == 3)
-    #define SCHED_IDLE_LOAD_BALANCER() proc_lazy_global_load_balancer()
+    #define SCHED_IDLE_LOAD_BALANCER() sched_lazy_global_load_balancer()
 #else  //CONFIG_LB_SCHEME == 3
     #define SCHED_IDLE_LOAD_BALANCER()
 #endif //CONFIG_LB_SCHEME == 3

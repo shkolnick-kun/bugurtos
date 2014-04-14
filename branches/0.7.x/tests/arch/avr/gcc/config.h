@@ -74,7 +74,7 @@ typedef unsigned short ipc_data_t;
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
 #define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
+//#define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
 #define CONFIG_PREEMPTIVE_KERNEL
 #define CONFIG_USER_IDLE

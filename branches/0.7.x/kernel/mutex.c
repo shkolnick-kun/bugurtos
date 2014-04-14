@@ -78,24 +78,73 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "../include/bugurt.h"
 
-void mutex_init_isr(
-    mutex_t * mutex
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio
-#endif // CONFIG_USE_HIGHEST_LOCKER
-)
+/**********************************************************************************************
+                                          Мьютексы
+***********************************************************************************************
+                                     SYSCALL_MUTEX_INIT
+**********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_MUTEX_INIT.
+
+\~english
+\brief
+An argument structure for #SYSCALL_MUTEX_INIT.
+*/
+typedef struct {
+    mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
+    prio_t prio;        /*!< \~russian приоритет мьютекса \~english A mutex priority. */
+}mutex_init_arg_t;
+//========================================================================================
+void mutex_init( mutex_t * mutex ,prio_t prio )
+{
+    mutex_init_arg_t scarg;
+    scarg.mutex = mutex;
+    scarg.prio = prio;
+    syscall_bugurt( SYSCALL_MUTEX_INIT, (void *)&scarg );
+}
+//========================================================================================
+void mutex_init_isr( mutex_t * mutex, prio_t prio )
 {
     SPIN_INIT( mutex );
     SPIN_LOCK( mutex );
     xlist_init( (xlist_t *)mutex );
     mutex->free = (bool_t)1;
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     mutex->prio = prio;
-#endif // CONFIG_USE_HIGHEST_LOCKER
     SPIN_UNLOCK( mutex );
 }
+//========================================================================================
+void scall_mutex_init(void * arg)
+{
+    mutex_init_isr( ((mutex_init_arg_t *)arg)->mutex ,((mutex_init_arg_t *)arg)->prio );
+}
+/**********************************************************************************************
+                                    SYSCALL_MUTEX_LOCK
+**********************************************************************************************/
+// Захват
+/*!
+\~russian
+\brief
+Параметр системных вызовов #SYSCALL_MUTEX_LOCK и #SYSCALL_MUTEX_TRY_LOCK.
 
-// К моменту вызова захвачена блокировка mutex-а, запрещены прерывания
+\~english
+\brief
+An argument structure for #SYSCALL_MUTEX_LOCK and #SYSCALL_MUTEX_TRY_LOCK.
+*/
+typedef struct {
+    mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
+    bool_t ret;         /*!< \~russian хранилище результата выполнения операции. \~english A storage for a result. */
+} mutex_lock_arg_t;
+//========================================================================================
+bool_t mutex_lock( mutex_t * mutex )
+{
+    volatile mutex_lock_arg_t scarg;
+    scarg.mutex = mutex;
+    syscall_bugurt( SYSCALL_MUTEX_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 bool_t _mutex_lock( mutex_t * mutex )
 {
     bool_t ret;
@@ -125,7 +174,23 @@ bool_t _mutex_lock( mutex_t * mutex )
     SPIN_UNLOCK( mutex );
     return ret;
 }
-
+//========================================================================================
+void scall_mutex_lock(void * arg)
+{
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
+}
+/**********************************************************************************************
+                                    SYSCALL_MUTEX_TRY_LOCK
+**********************************************************************************************/
+// Попытка захвата
+bool_t mutex_try_lock( mutex_t * mutex )
+{
+    volatile mutex_lock_arg_t scarg;
+    scarg.mutex = mutex;
+    syscall_bugurt( SYSCALL_MUTEX_TRY_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 bool_t _mutex_try_lock( mutex_t * mutex )
 {
     bool_t ret;
@@ -153,7 +218,20 @@ bool_t _mutex_try_lock( mutex_t * mutex )
     SPIN_UNLOCK( mutex );
     return ret;
 }
-
+//========================================================================================
+void scall_mutex_try_lock(void * arg)
+{
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
+}
+/**********************************************************************************************
+                                   SYSCALL_MUTEX_UNLOCK
+**********************************************************************************************/
+// Освобождение
+void mutex_unlock( mutex_t * mutex )
+{
+    syscall_bugurt( SYSCALL_MUTEX_UNLOCK, (void *)mutex );
+}
+//========================================================================================
 void _mutex_unlock( mutex_t *  mutex )
 {
     proc_t * proc;
@@ -202,4 +280,9 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_UNLOCK( proc );
 end:
     SPIN_UNLOCK( mutex );
+}
+//========================================================================================
+void scall_mutex_unlock(void * arg)
+{
+    _mutex_unlock( (mutex_t *)arg );
 }

@@ -78,9 +78,192 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "../include/bugurt.h"
 /*****************************************************************************************
-                               Internal usage functions !!!
+                              Internal Usage functions!!!
 *****************************************************************************************/
+void _proc_lres_inc( proc_t * proc, prio_t prio )
+{
+    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_MUTEX;
+    pcounter_inc( &proc->lres, prio );
+}
+//========================================================================================
+void _proc_lres_dec( proc_t * proc ,prio_t prio )
+{
+    pcounter_dec( &proc->lres, prio );
+    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
+}
+//========================================================================================
+// Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
+void _proc_prio_control_stoped( proc_t * proc )
+{
+    if(proc->lres.index != (index_t)0)
+    {
+
+        prio_t locker_prio;
+        locker_prio = index_search( proc->lres.index );
+        ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
+    }
+    else
+    {
+        ((gitem_t *)proc)->group->prio = proc->base_prio;
+    }
+}
+//========================================================================================
+//  Функция для внутреннего использования - собственно запуск процесса
+#ifdef CONFIG_MP
+void __proc_run( proc_t * proc )
+{
+    sched_t * proc_sched;
+    proc_sched = (sched_t *)kernel.sched + proc->core_id;
+
+    SPIN_LOCK( proc_sched );
+
+    gitem_insert( (gitem_t *)proc, proc_sched->ready );
+
+    SPIN_UNLOCK( proc_sched );
+}
+#endif // CONFIG_MP
+//========================================================================================
+void _proc_run( proc_t * proc )
+{
+    proc->flags |= PROC_STATE_READY;
+#ifdef CONFIG_MP
+    spin_lock( &kernel.stat_lock );
+    proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
+    stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
+    spin_unlock( &kernel.stat_lock );
+#endif
+    __proc_run( proc );
+
+    RESCHED_PROC( proc );
+}
+//========================================================================================
+// Функция для внутреннего использования, останов процесса
+#ifdef CONFIG_MP
+static void __proc_stop(proc_t * proc)
+{
+    spin_lock( &kernel.stat_lock );
+
+    stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
+
+    spin_unlock( &kernel.stat_lock );
+    {
+        lock_t * xlist_lock;
+        xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
+
+        spin_lock( xlist_lock );
+
+        gitem_cut( (gitem_t *)proc );
+
+        spin_unlock( xlist_lock );
+    }
+}
+#else // CONFIG_MP
+
+#define __proc_stop(proc) gitem_cut((gitem_t *)proc)
+
+#endif // CONFIG_MP
+//========================================================================================
+void _proc_stop(proc_t * proc)
+{
+    proc->flags &= PROC_STATE_CLEAR_MASK;
+    __proc_stop( proc );
+    RESCHED_PROC( proc );
+}
+//========================================================================================
+static void _proc_stop_ensure( proc_t * proc )
+{
+    if( PROC_RUN_TEST( proc ) )
+    {
+        _proc_stop( proc );
+    }
+}
+//========================================================================================
+void _proc_stop_flags_set( proc_t * proc, flag_t mask )
+{
+    // Проверяем, не был ли процесс остановлен где-нибудь еще.
+    if( PROC_RUN_TEST( proc ) )
+    {
+        // Не был, можно и нужно остановить.
+        _proc_stop( proc );
+        proc->flags |= mask;
+    }
+    else
+    {
+        // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
+        proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
+    }
+}
+/**********************************************************************************************
+                                    Process control !!!
+**********************************************************************************************/
 // Инициация, тут все понятно.
+/// SYSCALL_PROC_INIT
+
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_PROC_INIT.
+
+Содержит информацию о процессе, и его свойствах.
+
+\~english
+\brief
+An argument for #SYSCALL_PROC_INIT.
+
+A process initialization structure.
+Contents an information about a process.
+*/
+typedef struct {
+    proc_t * proc;      /*!< \~russian Указатель на инициируемый процесс. \~english A ponter to a initialized process.*/
+    code_t pmain;       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
+    code_t sv_hook;     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
+    code_t rs_hook;     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*//*!< Хук, исполняется планировщиком перед восстановлением контекста процесса. */
+    void * arg;         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
+    stack_t *sstart;    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
+    prio_t prio;        /*!< \~russian Приоритет. \~english A process priority.*/
+    timer_t time_quant; /*!< \~russian Квант времени. \~english A process time slice.*/
+    bool_t is_rt;       /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If frue, then a process is scheduled in a real time manner.*/
+#ifdef CONFIG_MP
+    affinity_t affinity;/*!< \~russian Афинность. \~english A process affinity.*/
+#endif // CONFIG_MP
+} proc_init_arg_t;
+
+void proc_init(
+                    proc_t * proc, //Указатель на инициируемый процесс
+                    code_t pmain,
+                    code_t sv_hook,
+                    code_t rs_hook,
+                    void * arg,
+                    stack_t *sstart,
+                    prio_t prio,
+                    timer_t time_quant,
+                    bool_t is_rt // если true, значит процесс будет иметть поведение RT
+#ifdef CONFIG_MP
+                    ,affinity_t affinity
+#endif // CONFIG_MP
+                  )
+{
+#ifdef CONFIG_MP
+    volatile proc_init_arg_t scarg;
+#else
+    static volatile  proc_init_arg_t scarg;
+    disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
+#endif
+    scarg.proc = proc;
+    scarg.pmain = pmain;
+    scarg.sv_hook = sv_hook;
+    scarg.rs_hook = rs_hook;
+    scarg.arg = arg;
+    scarg.sstart = sstart;
+    scarg.prio = prio;
+    scarg.time_quant = time_quant;
+    scarg.is_rt = is_rt;
+#ifdef CONFIG_MP
+    scarg.affinity = affinity;
+#endif
+    syscall_bugurt( SYSCALL_PROC_INIT, (void *)&scarg );
+}
+//========================================================================================
 void proc_init_isr(
     proc_t * proc, //Указатель на инициируемый процесс
     code_t pmain,
@@ -103,9 +286,8 @@ void proc_init_isr(
     proc->flags = ( is_rt )?PROC_FLG_RT:(flag_t)0;
 
     PROC_LRES_INIT( proc );
-#ifdef CONFIG_USE_HIGHEST_LOCKER
+
     proc->base_prio = prio;
-#endif
     proc->time_quant = time_quant;
     proc->timer = time_quant;
     proc->buf = (void *)0;
@@ -122,34 +304,50 @@ void proc_init_isr(
 
     SPIN_UNLOCK( proc );
 }
-//  Функция для внутреннего использования - собственно запуск процесса
-#ifdef CONFIG_MP
-void __proc_run( proc_t * proc )
+//========================================================================================
+void scall_proc_init( void * arg )
 {
-    sched_t * proc_sched;
-    proc_sched = (sched_t *)kernel.sched + proc->core_id;
-
-    SPIN_LOCK( proc_sched );
-
-    gitem_insert( (gitem_t *)proc, proc_sched->ready );
-
-    SPIN_UNLOCK( proc_sched );
-}
+    proc_init_isr(
+              ((proc_init_arg_t *)arg)->proc,
+              ((proc_init_arg_t *)arg)->pmain,
+              ((proc_init_arg_t *)arg)->sv_hook,
+              ((proc_init_arg_t *)arg)->rs_hook,
+              ((proc_init_arg_t *)arg)->arg,
+              ((proc_init_arg_t *)arg)->sstart,
+              ((proc_init_arg_t *)arg)->prio,
+              ((proc_init_arg_t *)arg)->time_quant,
+              ((proc_init_arg_t *)arg)->is_rt
+#ifdef CONFIG_MP
+              ,((proc_init_arg_t *)arg)-> affinity
 #endif // CONFIG_MP
-
-void _proc_run( proc_t * proc )
-{
-    proc->flags |= PROC_STATE_READY;
-#ifdef CONFIG_MP
-    spin_lock( &kernel.stat_lock );
-    proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
-    stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
-    spin_unlock( &kernel.stat_lock );
-#endif
-    __proc_run( proc );
-
-    RESCHED_PROC( proc );
+              );
 }
+/**********************************************************************************************
+                                       SYSCALL_PROC_RUN
+**********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системных вызовов #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+
+\~english
+\brief
+An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+*/
+typedef struct{
+    proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
+    bool_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+}proc_runtime_arg_t;
+
+
+bool_t proc_run( proc_t * proc )
+{
+    volatile proc_runtime_arg_t scarg;
+    scarg.proc = proc;
+    syscall_bugurt( SYSCALL_PROC_RUN, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 // Функция общего пользования - запуск процесса из обработчика прерывания, прерывания должны быть запрещены во время запуска
 bool_t proc_run_isr(proc_t * proc)
 {
@@ -169,6 +367,22 @@ end:
 
     return ret;
 }
+//========================================================================================
+void scall_proc_run( void * arg )
+{
+    ((proc_runtime_arg_t *)arg)->ret = proc_run_isr( ((proc_runtime_arg_t *)arg)->proc );
+}
+/**********************************************************************************************
+                                       SYSCALL_PROC_RESTART
+**********************************************************************************************/
+bool_t proc_restart( proc_t * proc )
+{
+    volatile proc_runtime_arg_t scarg;
+    scarg.proc = proc;
+    syscall_bugurt( SYSCALL_PROC_RESTART, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 // Перезепуск процесса из обработчика прерываний, прерывания должны быть запрещены
 bool_t proc_restart_isr(proc_t * proc)
 {
@@ -195,64 +409,22 @@ end:
 
     return ret;
 }
-// Функция для внутреннего использования, останов процесса
-
-#ifdef CONFIG_MP
-static void __proc_stop(proc_t * proc)
+//========================================================================================
+void scall_proc_restart( void * arg )
 {
-    spin_lock( &kernel.stat_lock );
-
-    stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
-
-    spin_unlock( &kernel.stat_lock );
-    {
-        lock_t * xlist_lock;
-        xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
-
-        spin_lock( xlist_lock );
-
-        gitem_cut( (gitem_t *)proc );
-
-        spin_unlock( xlist_lock );
-    }
+    ((proc_runtime_arg_t *)arg)->ret = proc_restart_isr( ((proc_runtime_arg_t *)arg)->proc );
 }
-#else // CONFIG_MP
-
-#define __proc_stop(proc) gitem_cut((gitem_t *)proc)
-
-#endif // CONFIG_MP
-
-void _proc_stop(proc_t * proc)
+/**********************************************************************************************
+                                        SYSCALL_PROC_STOP
+**********************************************************************************************/
+bool_t proc_stop( proc_t * proc )
 {
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    __proc_stop( proc );
-    RESCHED_PROC( proc );
+    volatile proc_runtime_arg_t scarg;
+    scarg.proc = proc;
+    syscall_bugurt( SYSCALL_PROC_STOP, (void *)&scarg);
+    return scarg.ret;
 }
-
-static void _proc_stop_ensure( proc_t * proc )
-{
-    if( PROC_RUN_TEST( proc ) )
-    {
-        _proc_stop( proc );
-    }
-}
-
-void _proc_stop_flags_set( proc_t * proc, flag_t mask )
-{
-    // Проверяем, не был ли процесс остановлен где-нибудь еще.
-    if( PROC_RUN_TEST( proc ) )
-    {
-        // Не был, можно и нужно остановить.
-        _proc_stop( proc );
-        proc->flags |= mask;
-    }
-    else
-    {
-        // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
-        proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
-    }
-}
-
+//========================================================================================
 // Останов процесса из обработчика прерываний, прерывания должны быть запрещены
 bool_t proc_stop_isr(proc_t * proc)
 {
@@ -272,8 +444,21 @@ bool_t proc_stop_isr(proc_t * proc)
 
     return ret;
 }
-
-
+//========================================================================================
+void scall_proc_stop( void * arg )
+{
+    ((proc_runtime_arg_t *)arg)->ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
+}
+/**********************************************************************************************
+                                       SYSCALL_PROC_FLAG_STOP
+**********************************************************************************************/
+void proc_flag_stop( flag_t mask )
+{
+    flag_t msk;
+    msk = mask;
+    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&msk );
+}
+//========================================================================================
 // Обработка флага останова процесса, для использования с семафорами, мьютексами и сигналами.
 void _proc_flag_stop( flag_t mask )
 {
@@ -296,7 +481,19 @@ void _proc_flag_stop( flag_t mask )
 
     SPIN_UNLOCK( proc );
 }
-
+//========================================================================================
+void scall_proc_flag_stop( void * arg )
+{
+    _proc_flag_stop( *((flag_t *)arg) );
+}
+/**********************************************************************************************
+                                    SYSCALL_PROC_SELF_STOP
+**********************************************************************************************/
+void proc_self_stop(void)
+{
+    syscall_bugurt( SYSCALL_PROC_SELF_STOP, (void *)1 );
+}
+//========================================================================================
 void _proc_self_stop(void)
 {
     proc_t * proc;
@@ -308,52 +505,20 @@ void _proc_self_stop(void)
 
     SPIN_UNLOCK( proc );
 }
-
-index_t _proc_yeld( void )
+//========================================================================================
+void scall_proc_self_stop( void * arg )
 {
-    index_t ret;
-    sched_t * sched;
-    proc_t * proc;
-
-    sched = _SCHED_INIT();
-    proc = sched->current_proc;
-
-    SPIN_LOCK( sched );
-    ret = sched->expired->index;
-    SPIN_UNLOCK( sched );
-
-    KERNEL_PREEMPT();/// KERNEL_PREEMPT
-
-    SPIN_LOCK( proc );
-
-    if( PROC_RUN_TEST( proc ) )
-    {
-        SPIN_LOCK( sched );
-
-        if( proc->flags & PROC_FLG_RT )
-        {
-            xlist_switch( (xlist_t *)((gitem_t *)proc)->group->link, ((gitem_t *)proc)->group->prio );
-        }
-        else
-        {
-            gitem_cut( (gitem_t *)proc );
-            gitem_insert( (gitem_t *)proc, sched->expired );
-        }
-        SPIN_UNLOCK( sched );
-    }
-    proc->timer = proc->time_quant; // reset timer
-    RESCHED_PROC( proc );
-    SPIN_UNLOCK( proc );
-
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
-
-    SPIN_LOCK( sched );
-    ret |= sched->ready->index;
-    SPIN_UNLOCK( sched );
-
-    return ret;
+    _proc_self_stop();
 }
-
+/**********************************************************************************************
+                                    SYSCALL_PROC_TERMINATE
+**********************************************************************************************/
+// Останов процесса после выхода из pmain, для обертки proc_run_wrapper
+void proc_terminate( void )
+{
+    syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)0 );
+}
+//========================================================================================
 void _proc_terminate( void )
 {
     proc_t * proc;
@@ -371,7 +536,19 @@ void _proc_terminate( void )
 
     SPIN_UNLOCK( proc );
 }
-
+//========================================================================================
+void scall_proc_terminate( void * arg )
+{
+    _proc_terminate();
+}
+/**********************************************************************************************
+                                       SYSCALL_PROC_RESET_WATCHDOG
+**********************************************************************************************/
+void proc_reset_watchdog(void)
+{
+    syscall_bugurt( SYSCALL_PROC_RESET_WATCHDOG, (void *)0 );
+}
+//========================================================================================
 void _proc_reset_watchdog( void )
 {
     proc_t * proc;
@@ -383,148 +560,9 @@ void _proc_reset_watchdog( void )
 
     SPIN_UNLOCK( proc );
 }
-
-void _proc_lres_inc(
-    proc_t * proc
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio
-#endif
-)
+//========================================================================================
+void scall_proc_reset_watchdog( void * arg )
 {
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_MUTEX;
-    pcounter_inc( &proc->lres, prio );
-#else
-    if( proc->lres == (count_t)0 )proc->flags |= PROC_FLG_MUTEX;
-    proc->lres++;
-#endif
+    _proc_reset_watchdog();
 }
-
-void _proc_lres_dec(
-    proc_t * proc
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio
-#endif
-)
-{
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    pcounter_dec( &proc->lres, prio );
-    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
-#else
-    if( proc->lres != (count_t)0 )proc->lres--;
-    if( proc->lres == (count_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
-#endif
-}
-
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-// Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
-
-void _proc_prio_control_stoped( proc_t * proc )
-{
-    if(proc->lres.index != (index_t)0)
-    {
-
-        prio_t locker_prio;
-        locker_prio = index_search( proc->lres.index );
-        ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
-    }
-    else
-    {
-        ((gitem_t *)proc)->group->prio = proc->base_prio;
-    }
-}
-#endif
-
-#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
-/************************************
-  "Ленивые" балансировщики нагрузки
-
-,предназначены для запуска из тел
-процессов, если не используется
-активная схема балансировки нагрузки.
-
-Можно использовать только один,
-или оба в различных комбинациях
-
-************************************/
-void _proc_lazy_load_balancer(core_id_t object_core)
-{
-    sched_t * sched;
-    proc_t * proc;
-    sched = (sched_t *)kernel.sched + object_core;
-
-    //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
-    disable_interrupts();
-
-    SPIN_LOCK( sched );
-
-    if(sched->expired->index == (index_t)0)
-    {
-        SPIN_UNLOCK( sched );
-        enable_interrupts();
-        return;
-    }
-    proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
-
-    SPIN_UNLOCK( sched );
-    enable_interrupts();
-
-    disable_interrupts();
-    SPIN_LOCK( proc );
-    // Пока захватывалась блокировка процесса, его могли остановить, подстраховываемся.
-    if( PROC_RUN_TEST( proc ) )
-    {
-        // Остановили выполнение процесса на старом процессоре
-        SPIN_LOCK( sched );
-
-        gitem_fast_cut( (gitem_t *)proc );
-
-        SPIN_UNLOCK( sched );
-
-        resched(object_core); // Процесс мог быть поставлен на выполнение, пока мы захватывали его блокировку, перепланируем
-
-        // Проводим операции над статистикой
-        spin_lock( &kernel.stat_lock );
-
-        stat_dec( proc, (stat_t *)kernel.stat + object_core );
-
-        object_core = sched_load_balancer( proc, (stat_t *)kernel.stat );// Теперь, это тот процессор, на который будем переносить процесс
-        sched = (sched_t *)kernel.sched + object_core;//Теперь это планировщик, на который мы переносим процесс
-        stat_inc( proc, (stat_t *)kernel.stat + object_core );
-
-        spin_unlock( &kernel.stat_lock );
-
-        // Переносим процесс на новый процессор, продолжаем выполнение там. Перепланировку не делаем, проуесс не выполняет требования реального времени.
-        proc->core_id = object_core;
-
-        SPIN_LOCK( sched );
-
-        gitem_insert( (gitem_t *)proc, sched->expired );
-
-        SPIN_UNLOCK( sched );
-    }
-    SPIN_UNLOCK( proc );
-    enable_interrupts();
-}
-// Глобальный
-void proc_lazy_global_load_balancer(void)
-{
-    core_id_t object_core;
-    // Поиск самого нагруженного процессора
-    disable_interrupts();
-    spin_lock( &kernel.stat_lock );
-
-    object_core = sched_highest_load_core( (stat_t *)kernel.stat );
-
-    spin_unlock( &kernel.stat_lock );
-    enable_interrupts();
-    // Перенос нагрузки на самый не нагруженный процессор
-    _proc_lazy_load_balancer( object_core );
-}
-
-// Локальный
-void proc_lazy_local_load_balancer(void)
-{
-    _proc_lazy_load_balancer( current_core() );
-}
-#endif // CONFIG_MP CONFIG_USE_ALB
+/**********************************************************************************************/

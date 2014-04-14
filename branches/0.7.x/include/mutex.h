@@ -79,15 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
 
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-
 #define GET_PRIO(mutex) mutex->prio
-
-#else
-
-#define GET_PRIO(mutex) ((prio_t)0)
-
-#endif
 
 
 /*!
@@ -122,9 +114,7 @@ Highest locker protocol is supported when CONFIG_USE_HIGHEST_LOCKER option is de
 struct _mutex_t
 {
     xlist_t mutex_list; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     prio_t prio;/*!< \~russian Приоритет. \~english A priority of a mutex. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
     bool_t free;/*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A mutex spin-lock. */
@@ -143,9 +133,7 @@ A mutex initiation for usage in ISRs or in critical sections.
 */
 void mutex_init_isr(
     mutex_t * mutex /*!< \~russian Указатель на мьютекс. \~english A mutex pointer. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     ,prio_t prio /*!< \~russian В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. \~english A mutex priority. Used with CONFIG_USE_HIGHEST_LOCKER option. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
 );
 /*!
 \~russian
@@ -158,9 +146,7 @@ A mutex initiation
 */
 void mutex_init(
     mutex_t * mutex /*!< \~russian Указатель на мьютекс. \~english A mutex pointer. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     ,prio_t prio /*!< \~russian В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. \~english A mutex priority. Used with CONFIG_USE_HIGHEST_LOCKER option. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
 );
 /*!
 \~russian

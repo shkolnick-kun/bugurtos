@@ -64,37 +64,43 @@
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/gitem.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../kernel/group.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../kernel/index.c" open="1" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="2">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/item.c" open="1" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="0">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="4">
 		<Cursor position="94" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="1">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="8">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="8">
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="2">
 		<Cursor position="6774" topLine="366" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="5">
+	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="5">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="7">
+	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="7">
 		<Cursor position="7473" topLine="115" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="6">
@@ -113,9 +119,9 @@
 		<Cursor position="444" topLine="217" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
-		<Cursor position="1337" topLine="2" />
+		<Cursor position="997" topLine="38" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="557" topLine="7" />
+		<Cursor position="1076" topLine="42" />
 	</File>
 </CodeBlocks_layout_file>
