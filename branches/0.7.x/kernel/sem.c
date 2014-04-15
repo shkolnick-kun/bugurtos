@@ -82,26 +82,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 **********************************************************************************************/
 // Инициализация
 
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_SEM_INIT.
-
-\~english
-\brief
-A #SYSCALL_SEM_INIT argument structure.
-*/
-typedef struct {
-    sem_t * sem;    /*!< \~russian указатель на семафор. \~english A pointer to a semaphore.*/
-    count_t count;  /*!< \~russian начальное значение счетчика семафора. \~english A semaphore counter initial value.*/
-}sem_init_arg_t;
-
 void sem_init( sem_t * sem, count_t count )
 {
-    volatile sem_init_arg_t scarg;
-    scarg.sem = sem;
-    scarg.count = count;
-    syscall_bugurt( SYSCALL_SEM_INIT, (void *)&scarg );
+    disable_interrupts();
+    sem_init_isr( sem, count );
+    enable_interrupts();
 }
 //========================================================================================
 void sem_init_isr( sem_t * sem, count_t count )
@@ -112,11 +97,6 @@ void sem_init_isr( sem_t * sem, count_t count )
     xlist_init( (xlist_t *)sem );
     sem->counter = count;
     SPIN_UNLOCK( sem );
-}
-//========================================================================================
-void scall_sem_init( void * arg )
-{
-    sem_init_isr( ((sem_init_arg_t *)arg)->sem, ((sem_init_arg_t *)arg)->count );
 }
 /**********************************************************************************************
                                          SYSCALL_SEM_LOCK

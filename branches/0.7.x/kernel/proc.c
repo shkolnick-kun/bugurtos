@@ -92,22 +92,6 @@ void _proc_lres_dec( proc_t * proc ,prio_t prio )
     if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
 }
 //========================================================================================
-// Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
-void _proc_prio_control_stoped( proc_t * proc )
-{
-    if(proc->lres.index != (index_t)0)
-    {
-
-        prio_t locker_prio;
-        locker_prio = index_search( proc->lres.index );
-        ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
-    }
-    else
-    {
-        ((gitem_t *)proc)->group->prio = proc->base_prio;
-    }
-}
-//========================================================================================
 static void _proc_stop_ensure( proc_t * proc )
 {
     if( PROC_RUN_TEST( proc ) )
@@ -131,6 +115,163 @@ void _proc_stop_flags_set( proc_t * proc, flag_t mask )
         proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
     }
 }
+//========================================================================================
+// Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
+void _proc_prio_control_stoped( proc_t * proc )
+{
+    if(proc->lres.index != (index_t)0)
+    {
+
+        prio_t locker_prio;
+        locker_prio = index_search( proc->lres.index );
+        ((gitem_t *)proc)->group->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
+    }
+    else
+    {
+        ((gitem_t *)proc)->group->prio = proc->base_prio;
+    }
+}
+//=======================================================================================
+#ifdef CONFIG_MP
+#define PROC_PRIO_PROP_HOOK() hook(hook_arg)
+void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg )
+#else
+#define PROC_PRIO_PROP_HOOK()
+void _proc_prio_propagate( proc_t * proc )
+#endif
+{
+    switch( PROC_GET_STATE( proc ) )
+    {
+        case PROC_STATE_READY:
+        case PROC_STATE_RUNNING:
+        case PROC_STATE_W_READY:
+        case PROC_STATE_W_RUNNING:
+        {
+            flag_t state;
+            state = PROC_GET_STATE( proc );
+            _proc_stop_ensure( proc );
+            _proc_prio_control_stoped( proc );
+            sched_proc_run( proc, state );
+            PROC_PRIO_PROP_HOOK();
+            break;
+        }
+        case PROC_STATE_W_MUT:
+        {
+            mutex_t * mutex;
+            PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE );  // Ensure that process will not run, and stay in a mutex wait list!
+
+            mutex = (mutex_t *)proc->buf;
+            while( mutex == (mutex_t *)0 ); /// kernel panic!!!
+
+            PROC_PRIO_PROP_HOOK();
+
+            KERNEL_PREEMPT();
+
+            SPIN_LOCK( mutex );
+            SPIN_LOCK( proc );
+
+            gitem_cut( (gitem_t *)proc );
+
+            _proc_prio_control_stoped( proc );
+            sched_proc_run( proc, PROC_STATE_W_READY );
+
+            SPIN_UNLOCK( proc );
+            SPIN_UNLOCK( mutex );
+
+            break;
+        }
+        case PROC_STATE_W_SEM:
+        {
+            sem_t * sem;
+            PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE ); // Ensure that process will not run, and stay in a sem wait list!
+
+            sem = (sem_t *)proc->buf;
+            while( sem == (sem_t *)0 ); /// kernel panic!!!
+
+            PROC_PRIO_PROP_HOOK();
+
+            KERNEL_PREEMPT();
+
+            SPIN_LOCK( sem );
+            SPIN_LOCK( proc );
+
+            gitem_cut( (gitem_t *)proc );
+            _proc_prio_control_stoped( proc );
+            sched_proc_run( proc, PROC_STATE_W_READY );
+
+            SPIN_UNLOCK( proc );
+            SPIN_UNLOCK( sem );
+
+            break;
+        }
+        case PROC_STATE_W_SIG:
+        {
+            sig_t * sig;
+            gxlist_t * list;
+
+            PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE ); // Ensure that process will not run, and stay in a sig wait or wakeup list!
+
+            sig = (sig_t *)proc->buf;
+            while( sig == (sig_t *)0 ); /// kernel panic!!!
+
+            PROC_PRIO_PROP_HOOK();
+
+            KERNEL_PREEMPT();
+
+            SPIN_LOCK( sig );
+            SPIN_LOCK( proc );
+
+            list = (gxlist_t *)((gitem_t *)proc)->group->link;
+            gitem_cut( (gitem_t *)proc );
+            _proc_prio_control_stoped( proc );
+
+            if( PROC_GET_STATE( proc ) == PROC_STATE_W_PCHANGE )
+            {
+                // The process was not touched!
+                PROC_SET_STATE( proc, PROC_STATE_W_SIG );
+                gitem_insert_group( (gitem_t *)proc, list );
+            }
+            else
+            {
+                //The process was touched!
+                sched_proc_run( proc, PROC_STATE_W_READY );
+            }
+            SPIN_LOCK( proc );
+            SPIN_LOCK( sig );
+            break;
+        }
+        case PROC_STATE_STOPED:
+        case PROC_STATE_END:
+        case PROC_STATE_W_WD_STOPED:
+        case PROC_STATE_WD_STOPED:
+        case PROC_STATE_DEAD:
+        case PROC_STATE_W_DEAD:
+        case PROC_STATE_W_IPC:
+        {
+            _proc_prio_control_stoped( proc );
+        }
+        case PROC_STATE_W_PCHANGE:
+        case PROC_STATE_PCHANGE:
+        default:
+        {
+            PROC_PRIO_PROP_HOOK();
+        }
+    }
+}
+//========================================================================================
+void _proc_cut_and_run( proc_t * proc, flag_t state )
+{
+    if( PROC_GET_STATE( proc ) == PROC_STATE_W_PCHANGE )
+    {
+        PROC_SET_STATE ( proc, PROC_STATE_PCHANGE );
+    }
+    else
+    {
+        gitem_cut( (gitem_t *)proc );
+        sched_proc_run( proc, state );
+    }
+}
+
 /**********************************************************************************************
                                     Process control !!!
 **********************************************************************************************/
@@ -181,25 +322,22 @@ void proc_init(
 #endif // CONFIG_MP
                   )
 {
+    disable_interrupts();
+    proc_init_isr(
+                    proc, //Указатель на инициируемый процесс
+                    pmain,
+                    sv_hook,
+                    rs_hook,
+                    arg,
+                    sstart,
+                    prio,
+                    time_quant,
+                    is_rt // если true, значит процесс будет иметть поведение RT
 #ifdef CONFIG_MP
-    volatile proc_init_arg_t scarg;
-#else
-    static volatile  proc_init_arg_t scarg;
-    disable_interrupts(); // прерывания будут разрешены на выходе из syscall_bugurt()
-#endif
-    scarg.proc = proc;
-    scarg.pmain = pmain;
-    scarg.sv_hook = sv_hook;
-    scarg.rs_hook = rs_hook;
-    scarg.arg = arg;
-    scarg.sstart = sstart;
-    scarg.prio = prio;
-    scarg.time_quant = time_quant;
-    scarg.is_rt = is_rt;
-#ifdef CONFIG_MP
-    scarg.affinity = affinity;
-#endif
-    syscall_bugurt( SYSCALL_PROC_INIT, (void *)&scarg );
+                    ,affinity
+#endif // CONFIG_MP
+                  );
+    enable_interrupts();
 }
 //========================================================================================
 void proc_init_isr(
@@ -241,24 +379,6 @@ void proc_init_isr(
     if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)pmain, (void *)arg, (void (*)(void))proc_terminate);
 
     SPIN_UNLOCK( proc );
-}
-//========================================================================================
-void scall_proc_init( void * arg )
-{
-    proc_init_isr(
-              ((proc_init_arg_t *)arg)->proc,
-              ((proc_init_arg_t *)arg)->pmain,
-              ((proc_init_arg_t *)arg)->sv_hook,
-              ((proc_init_arg_t *)arg)->rs_hook,
-              ((proc_init_arg_t *)arg)->arg,
-              ((proc_init_arg_t *)arg)->sstart,
-              ((proc_init_arg_t *)arg)->prio,
-              ((proc_init_arg_t *)arg)->time_quant,
-              ((proc_init_arg_t *)arg)->is_rt
-#ifdef CONFIG_MP
-              ,((proc_init_arg_t *)arg)-> affinity
-#endif // CONFIG_MP
-              );
 }
 /**********************************************************************************************
                                        SYSCALL_PROC_RUN
@@ -502,5 +622,39 @@ void _proc_reset_watchdog( void )
 void scall_proc_reset_watchdog( void * arg )
 {
     _proc_reset_watchdog();
+}
+/**********************************************************************************************
+                                       SYSCALL_PROC_SET_PRIO
+**********************************************************************************************/
+typedef struct
+{
+    proc_t * proc;
+    prio_t prio;
+}
+proc_set_prio_arg_t;
+
+void proc_set_prio( proc_t * proc, prio_t prio )
+{
+    volatile proc_set_prio_arg_t arg;
+    arg.proc = proc;
+    arg.prio = prio;
+    syscall_bugurt( SYSCALL_PROC_SET_PRIO, (void *)&arg );
+}
+//========================================================================================
+#ifdef CONFIG_MP
+#define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p, (code_t)spin_unlock, (void *)&p->lock )
+#else
+#define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p )
+#endif
+void _proc_set_prio( proc_t * proc, prio_t prio )
+{
+    SPIN_LOCK( proc );
+    proc->base_prio = prio;
+    PROC_PROC_PRIO_PROPAGATE( proc );
+}
+//========================================================================================
+void scall_proc_set_prio( void * arg )
+{
+    _proc_set_prio( ((proc_set_prio_arg_t *)arg)->proc, ((proc_set_prio_arg_t *)arg)->prio );
 }
 /**********************************************************************************************/

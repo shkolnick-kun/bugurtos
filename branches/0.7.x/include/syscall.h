@@ -85,8 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 
 // System call numbers!
-#define SYSCALL_PROC_INIT                       ((syscall_t)(1))                                /*!< \~russian Инициация процесса. \~english A process initialization. */
-#define SYSCALL_PROC_RUN                        (SYSCALL_PROC_INIT + (syscall_t)(1))            /*!< \~russian Запуск процесса. \~english A process launch. */
+#define SYSCALL_PROC_RUN                        ((syscall_t)(1))                                /*!< \~russian Запуск процесса. \~english A process launch. */
 #define SYSCALL_PROC_RESTART                    (SYSCALL_PROC_RUN + (syscall_t)(1))             /*!< \~russian Перезапуск процесса. \~english A Process restart. */
 #define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))         /*!< \~russian Останов процесса. \~english A process stop. */
 #define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))            /*!< \~russian Самоостанов процесса. \~english A process self stop. */
@@ -94,20 +93,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_YELD + (syscall_t)(1))            /*!< \~russian Завершение работы процесса. \~english A process termination. */
 #define SYSCALL_PROC_FLAG_STOP                  (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english #PROC_FLG_PRE_STOP flag processing. */
 #define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FLAG_STOP + (syscall_t)(1))       /*!< \~russian Сброс watchdog процесса реального времени. \~english A real time process watchdog reset. */
+#define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))       /*!< \~russian !!!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!! */
 
-#define SYSCALL_SIG_INIT                        (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian Инициация сигнала. \~english A signal initialization. */
-#define SYSCALL_SIG_WAIT                        (SYSCALL_SIG_INIT + (syscall_t)(1))             /*!< \~russian Ожидание сигнала. \~english Wait for signal. */
+#define SYSCALL_SIG_WAIT                        (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))             /*!< \~russian Ожидание сигнала. \~english Wait for signal. */
 #define SYSCALL_SIG_WAKEUP                      (SYSCALL_SIG_WAIT + (syscall_t)(1))             /*!< \~russian Обработка запуска по сигналу. \~english Signal wakeup processing. */
 #define SYSCALL_SIG_SIGNAL                      (SYSCALL_SIG_WAKEUP + (syscall_t)(1))           /*!< \~russian Подача сигнала одному процессу. \~english Signal to one waiting process. */
 #define SYSCALL_SIG_BROADCAST                   (SYSCALL_SIG_SIGNAL + (syscall_t)(1))           /*!< \~russian Подача сигнала всем ожидающим процессам. \~english Signal to all waiting processes. */
 
-#define SYSCALL_SEM_INIT                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))        /*!< \~russian Инициация семафора. \~english A semaphore initialization. */
-#define SYSCALL_SEM_LOCK                        (SYSCALL_SEM_INIT + (syscall_t)(1))             /*!< \~russian Захват семафора. \~english Lock a semaphore. */
+#define SYSCALL_SEM_LOCK                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))             /*!< \~russian Захват семафора. \~english Lock a semaphore. */
 #define SYSCALL_SEM_TRY_LOCK                    (SYSCALL_SEM_LOCK + (syscall_t)(1))             /*!< \~russian Попытка захвата семафора. \~english Try yo lock a semaphore. */
 #define SYSCALL_SEM_UNLOCK                      (SYSCALL_SEM_TRY_LOCK + (syscall_t)(1))         /*!< \~russian Освобождение семафора. \~english Unlock a semaphore. */
 
-#define SYSCALL_MUTEX_INIT                      (SYSCALL_SEM_UNLOCK + (syscall_t)(1))           /*!< \~russian Инициация мьютекса. \~english A mutex initialization. */
-#define SYSCALL_MUTEX_LOCK                      (SYSCALL_MUTEX_INIT + (syscall_t)(1))           /*!< \~russian Захват мьютекса. \~english Lock a mutex. */
+#define SYSCALL_MUTEX_LOCK                      (SYSCALL_SEM_UNLOCK + (syscall_t)(1))           /*!< \~russian Захват мьютекса. \~english Lock a mutex. */
 #define SYSCALL_MUTEX_TRY_LOCK                  (SYSCALL_MUTEX_LOCK + (syscall_t)(1))           /*!< \~russian Попытка захвата мьютекса. \~english Try to lock a mutex. */
 #define SYSCALL_MUTEX_UNLOCK                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))       /*!< \~russian Освобождение мьютекса. \~english Unlock a mutex. */
 
@@ -152,28 +149,6 @@ void do_syscall( void );
 /*                               System call handlers !!!                                */
 /*****************************************************************************************/
 //                                   Process control !
-
-
-
-
-/*!
-\~russian
-\brief
-Обработчик вызова #SYSCALL_PROC_INIT.
-
-Инициализирует процесс, вызывая #proc_init_isr.
-
-\param arg указатель на структуру #proc_init_arg_t.
-
-\~english
-\brief
-A #SYSCALL_PROC_INIT handler.
-
-This function initiates a proces by #proc_init_isr call.
-
-\param arg a #proc_init_arg_t pointer.
-*/
-void scall_proc_init( void * arg );
 /*****************************************************************************************/
 
 
@@ -328,6 +303,25 @@ This function calls #_proc_reset_watchdog.
 \param arg Not used.
 */
 void scall_proc_reset_watchdog( void * arg );
+
+/*!
+\~russian
+\brief
+!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!!!!!!
+
+\param arg !!!!!!!!!!!!!!!!!!!!!!!!!
+
+\~english
+\brief
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!!!!!!!!
+
+\param arg !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+*/
+void scall_proc_set_prio( void * arg );
 /*****************************************************************************************/
 //                                 Signal control!
 /*!

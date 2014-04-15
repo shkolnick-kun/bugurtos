@@ -79,10 +79,10 @@
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="4">
-		<Cursor position="16239" topLine="317" />
+	<File name="../../../../../kernel/proc.c" open="1" top="1" tabpos="0">
+		<Cursor position="8595" topLine="132" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="1" tabpos="0">
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="28519" topLine="522" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="1">

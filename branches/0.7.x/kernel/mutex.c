@@ -83,26 +83,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 ***********************************************************************************************
                                      SYSCALL_MUTEX_INIT
 **********************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_MUTEX_INIT.
-
-\~english
-\brief
-An argument structure for #SYSCALL_MUTEX_INIT.
-*/
-typedef struct {
-    mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
-    prio_t prio;        /*!< \~russian приоритет мьютекса \~english A mutex priority. */
-}mutex_init_arg_t;
-//========================================================================================
 void mutex_init( mutex_t * mutex ,prio_t prio )
 {
-    mutex_init_arg_t scarg;
-    scarg.mutex = mutex;
-    scarg.prio = prio;
-    syscall_bugurt( SYSCALL_MUTEX_INIT, (void *)&scarg );
+    disable_interrupts();
+    mutex_init_isr(mutex, prio);
+    enable_interrupts();
 }
 //========================================================================================
 void mutex_init_isr( mutex_t * mutex, prio_t prio )
@@ -113,11 +98,6 @@ void mutex_init_isr( mutex_t * mutex, prio_t prio )
     mutex->free = (bool_t)1;
     mutex->prio = prio;
     SPIN_UNLOCK( mutex );
-}
-//========================================================================================
-void scall_mutex_init(void * arg)
-{
-    mutex_init_isr( ((mutex_init_arg_t *)arg)->mutex ,((mutex_init_arg_t *)arg)->prio );
 }
 /**********************************************************************************************
                                     SYSCALL_MUTEX_LOCK
@@ -161,7 +141,7 @@ bool_t _mutex_lock( mutex_t * mutex )
     if( ret )
     {
         mutex->free = (bool_t)0;
-        PROC_PRIO_CONTROL_STOPED( proc );
+        _proc_prio_control_stoped( proc );
         sched_proc_run( proc, PROC_STATE_READY );
     }
     else
@@ -209,7 +189,7 @@ bool_t _mutex_try_lock( mutex_t * mutex )
 
         _proc_stop_flags_set( proc, (flag_t)0 );
         PROC_LRES_INC( proc, GET_PRIO( mutex ) );
-        PROC_PRIO_CONTROL_STOPED( proc );
+        _proc_prio_control_stoped( proc );
         sched_proc_run( proc, PROC_STATE_READY );
 
         SPIN_UNLOCK( proc );
@@ -243,7 +223,7 @@ void _mutex_unlock( mutex_t *  mutex )
     // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
     sched_proc_stop( proc );
     PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
-    PROC_PRIO_CONTROL_STOPED( proc );
+    _proc_prio_control_stoped( proc );
     // Если проготовлен и готов к остановке - останавливаем
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
@@ -273,7 +253,7 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK( proc );
     // Сначала надо вырезать
     gitem_cut( (gitem_t *)proc );
-    PROC_PRIO_CONTROL_STOPED( proc );
+    _proc_prio_control_stoped( proc );
     proc->flags &= PROC_STATE_CLEAR_MASK;
     sched_proc_run( proc, PROC_STATE_READY );
 

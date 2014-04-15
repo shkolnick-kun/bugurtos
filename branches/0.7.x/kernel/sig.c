@@ -85,10 +85,7 @@ static void _sig_wakeup_list( sig_t * sig )
     proc = (proc_t *)xlist_head( (xlist_t *)&sig->wakeup );
 
     SPIN_LOCK( proc );
-
-    gitem_cut( (gitem_t *)proc );
-    sched_proc_run( proc, PROC_STATE_W_READY );
-
+    _proc_cut_and_run( proc, PROC_STATE_W_READY );
     SPIN_UNLOCK( proc );
 }
 
@@ -100,7 +97,9 @@ static void _sig_wakeup_list( sig_t * sig )
 // Инициация
 void sig_init( sig_t * sig )
 {
-    syscall_bugurt( SYSCALL_SIG_INIT, (void *)sig );
+    disable_interrupts();
+    sig_init_isr( sig );
+    enable_interrupts();
 }
 //========================================================================================
 void sig_init_isr( sig_t * sig )
@@ -110,11 +109,6 @@ void sig_init_isr( sig_t * sig )
     gxlist_init( &sig->wait );
     gxlist_init( &sig->wakeup );
     SPIN_UNLOCK( sig );
-}
-//========================================================================================
-void scall_sig_init( void * arg )
-{
-    sig_init_isr( (sig_t *)arg );
 }
 /**********************************************************************************************
                                        SYSCALL_SIG_WAIT
@@ -207,9 +201,8 @@ void sig_signal_isr( sig_t * sig )
 
     SPIN_LOCK( proc );
 
-    gitem_cut( (gitem_t *)proc );
     proc->buf = (void *)0; // Will NOT continue wakeup.
-    sched_proc_run( proc, PROC_STATE_W_READY );
+    _proc_cut_and_run( proc, PROC_STATE_W_READY );
 
     SPIN_UNLOCK( proc );
 end:

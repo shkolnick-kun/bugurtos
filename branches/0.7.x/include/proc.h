@@ -163,7 +163,7 @@ else this macro does nothing.
 #define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
 #define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
 
-#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
+//#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 
 //Процесс
 typedef struct _proc_t proc_t;
@@ -363,8 +363,8 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 #define PROC_STATE_WD_STOPED        ((flag_t)0x3)   /*!< \~russian Остановлен по вачдог. \~english Watchdog termination. */
 
 #define PROC_STATE_DEAD             ((flag_t)0x4)   /*!< \~russian Завершен до освобождения общих ресурсов. \~english Abnormal termination, terminated with resources locked. */
+#define PROC_STATE_PCHANGE          ((flag_t)0x5)   /*!< \~russian !!!!!!!!! \~english !!!!!!!!! */
 // run states
-#define PROC_STATE_RESERVED_0x5     ((flag_t)0x5)   /*!< \~russian Зарезервировано. \~english Reserved. */
 #define PROC_STATE_READY            ((flag_t)0x6)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
 #define PROC_STATE_RUNNING          ((flag_t)0x7)   /*!< \~russian Выполняется. \~english Is running. */
 
@@ -376,8 +376,8 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 
 //special states
 #define PROC_STATE_W_DEAD           ((flag_t)0xC)   /*!< \~russian Остановлен по вачдог в состоянии W_RUNNING до освобождения общих ресурсов. \~english Watchdog termination from W_RUNNING state with resources locked. */
+#define PROC_STATE_W_PCHANGE        ((flag_t)0xD)   /*!< \~russian !!!!!!!!!!! \~english !!!!!!!!!!! */
 
-#define PROC_STATE_RESERVED_0xD     ((flag_t)0xD)   /*!< \~russian Зарезервировано. \~english Reserved. */
 #define PROC_STATE_W_READY          ((flag_t)0xE)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
 #define PROC_STATE_W_RUNNING        ((flag_t)0xF)   /*!< \~russian Выполняется (специальное). \~english Is running (special). */
 
@@ -403,6 +403,10 @@ A process should not have locked resources at a moment of a flag stop.
 \brief Check if process is ready or running
 */
 #define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
+
+#define PROC_GET_STATE(a) ( a->flags & PROC_STATE_MASK )
+#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, proc->flags |= b )
+
 /*!
 \~russian
 \brief Проверяет ждет ли процесс IPC
@@ -410,7 +414,7 @@ A process should not have locked resources at a moment of a flag stop.
 \~english
 \brief Checks if process is waiting for IPC.
 */
-#define PROC_IPC_TEST(a) ( ( a->flags & PROC_STATE_MASK ) == PROC_STATE_W_IPC )
+#define PROC_IPC_TEST(a) ( PROC_GET_STATE(a) == PROC_STATE_W_IPC )
 
 // Методы
 /*!
@@ -630,6 +634,25 @@ If a caller process is real time, then this function resets its timer.
 If a real time process failes to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
 void _proc_reset_watchdog(void);
+
+/*!
+\brief \~russian !!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!!
+*/
+void _proc_cut_and_run( proc_t * proc, flag_t state );
+
+#ifdef CONFIG_MP
+/*!
+\brief \~russian !!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!!
+*/
+void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg );
+#else
+/*!
+\brief \~russian !!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!!
+*/
+void _proc_prio_propagate( proc_t * proc );
+#endif
+
+
 /*!
 \brief \~russian "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования. \~english A low level process stop with flags set routine. For internal usage.
 */

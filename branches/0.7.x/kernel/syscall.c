@@ -80,7 +80,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 SYSCALL_TABLE( syscall_routine[] ) =
 {
     // Упавление процессами
-    scall_proc_init,
     scall_proc_run,
     scall_proc_restart,
     scall_proc_stop,
@@ -89,19 +88,17 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_proc_terminate,
     scall_proc_flag_stop,
     scall_proc_reset_watchdog,
+    scall_proc_set_prio, ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Сигналы
-    scall_sig_init,
     scall_sig_wait,
     scall_sig_wakeup,
     scall_sig_signal,
     scall_sig_broadcast,
     // Семафоры
-    scall_sem_init,
     scall_sem_lock,
     scall_sem_try_lock,
     scall_sem_unlock,
     // Мьютексы
-    scall_mutex_init,
     scall_mutex_lock,
     scall_mutex_try_lock,
     scall_mutex_unlock,
@@ -109,6 +106,7 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_ipc_wait,
     scall_ipc_send,
     scall_ipc_exchange,
+    // User syscall
     scall_user
 };
 
