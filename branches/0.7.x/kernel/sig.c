@@ -156,9 +156,7 @@ void _sig_wait_epilogue( void )
 
     sig = (sig_t *)proc->buf;
     proc->buf = (void *)0;
-
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    proc->flags |= PROC_STATE_RUNNING;
+    PROC_SET_STATE( proc, PROC_STATE_RUNNING );
 
     SPIN_UNLOCK( proc );
 

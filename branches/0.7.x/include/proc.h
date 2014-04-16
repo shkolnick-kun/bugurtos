@@ -416,6 +416,8 @@ A process should not have locked resources at a moment of a flag stop.
 */
 #define PROC_IPC_TEST(a) ( PROC_GET_STATE(a) == PROC_STATE_W_IPC )
 
+#define PROC_PRIO_LOWEST ((prio_t)BITS_IN_INDEX_T - (prio_t)1)
+
 // Методы
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
@@ -667,20 +669,6 @@ void _proc_flag_stop( flag_t mask );
 void proc_flag_stop( flag_t mask );
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
-\brief \~russian Инкремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter increment routine. For internal usage.
-*/
-void _proc_lres_inc(
-    proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
-    ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
-);
-/*!
-\brief \~russian Декремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter decrement routine. For internal usage.
-*/
-void _proc_lres_dec(
-    proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
-    ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
-);
-/*!
 \~russian
 \brief Управление приоритетом процесса, для внутреннего использования.
 
@@ -694,5 +682,22 @@ Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stoped before call
 \param proc - A pointer to a process.
 */
 void _proc_prio_control_stoped( proc_t * proc );
+
+/*!
+\~russian
+\brief !!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!
+
+\param proc - Указатель на процесс.
+
+\~english
+\brief !!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\param proc - A pointer to a process.
+*/
+
+void _proc_dont_stop( proc_t * proc, flag_t flags );
 
 #endif // _PROC_H_

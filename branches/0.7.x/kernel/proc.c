@@ -80,16 +80,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************
                               Internal Usage functions!!!
 *****************************************************************************************/
-void _proc_lres_inc( proc_t * proc, prio_t prio )
-{
-    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_MUTEX;
-    pcounter_inc( &proc->lres, prio );
-}
 //========================================================================================
-void _proc_lres_dec( proc_t * proc ,prio_t prio )
+void _proc_dont_stop( proc_t * proc, flag_t flags )
 {
-    pcounter_dec( &proc->lres, prio );
-    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_MUTEX;
+        if( PROC_RUN_TEST( proc ) )
+        {
+            proc->flags |= flags;
+        }
+        else
+        {
+            proc->flags |= (flags|PROC_FLG_PRE_STOP);
+            sched_proc_run( proc, PROC_STATE_READY );
+        }
 }
 //========================================================================================
 static void _proc_stop_ensure( proc_t * proc )
@@ -197,7 +199,18 @@ void _proc_prio_propagate( proc_t * proc )
 
             gitem_cut( (gitem_t *)proc );
             _proc_prio_control_stoped( proc );
-            sched_proc_run( proc, PROC_STATE_W_READY );
+
+            if( PROC_GET_STATE( proc ) == PROC_STATE_W_PCHANGE )
+            {
+                // The process was not touched!
+                PROC_SET_STATE( proc, PROC_STATE_W_SEM );
+                gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
+            }
+            else
+            {
+                //The process was touched!
+                sched_proc_run( proc, PROC_STATE_READY );
+            }
 
             SPIN_UNLOCK( proc );
             SPIN_UNLOCK( sem );
@@ -236,6 +249,7 @@ void _proc_prio_propagate( proc_t * proc )
                 //The process was touched!
                 sched_proc_run( proc, PROC_STATE_W_READY );
             }
+
             SPIN_LOCK( proc );
             SPIN_LOCK( sig );
             break;

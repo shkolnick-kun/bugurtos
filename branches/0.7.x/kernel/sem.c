@@ -147,7 +147,7 @@ bool_t _sem_lock( sem_t * sem )
     }
     else
     {
-        proc->flags |= PROC_STATE_W_SEM;
+        proc->buf = (void *)sem; // A process waits on sem now!
         gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
     }
     SPIN_UNLOCK( proc );
@@ -181,15 +181,7 @@ bool_t _sem_try_lock( sem_t * sem )
         // Выставляем флаг захватат семафора
         SPIN_LOCK( proc );
 
-        if( PROC_RUN_TEST( proc ) )
-        {
-            proc->flags |= PROC_FLG_SEM;
-        }
-        else
-        {
-            proc->flags |= (PROC_FLG_SEM|PROC_FLG_PRE_STOP);
-            sched_proc_run( proc, PROC_STATE_READY );
-        }
+        _proc_dont_stop( proc, PROC_FLG_SEM );
 
         SPIN_UNLOCK( proc );
     }
@@ -227,8 +219,8 @@ void sem_unlock_isr( sem_t * sem )
 
     SPIN_LOCK( proc );
 
-    gitem_cut( (gitem_t *)proc );
-    sched_proc_run( proc, PROC_STATE_READY );
+    proc->buf = (void *)0; // A process does NOT wait on sem now!
+    _proc_cut_and_run( proc, PROC_STATE_READY );
 
     SPIN_UNLOCK( proc );
 end:
