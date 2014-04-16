@@ -104,7 +104,7 @@ A counting semaphore can be locked by one process and unlocked by another.
 */
 struct _sem_t
 {
-    xlist_t parent; /*!< \~russian Потомок списка, да. \~english #xlist_t is parrent type. */
+    xlist_t wait; /*!< \~russian Потомок списка, да. \~english #xlist_t is parrent type. */
     count_t counter; /*!< \~russian Счетчик семафора. \~english A counter. */
 #ifdef CONFIG_MP
     lock_t lock; /*!< \~russian На многопроцессорной системе семафор защищен спин-блокировкой. \~english A spin-lock for multicore system */

@@ -147,6 +147,7 @@ bool_t _sem_lock( sem_t * sem )
     }
     else
     {
+        proc->flags |= PROC_STATE_W_SEM;
         proc->buf = (void *)sem; // A process waits on sem now!
         gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
     }

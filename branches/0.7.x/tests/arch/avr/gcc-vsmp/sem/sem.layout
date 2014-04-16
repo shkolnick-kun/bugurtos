@@ -4,10 +4,13 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="174" />
 	</File>
+	<File name="../../../../../include/sem.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="90" />
+	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="6740" topLine="105" />
+		<Cursor position="6637" topLine="81" />
 	</File>
 	<File name="../../../../main/sem/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1638" topLine="37" />
+		<Cursor position="574" topLine="19" />
 	</File>
 </CodeBlocks_layout_file>

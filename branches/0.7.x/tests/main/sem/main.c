@@ -27,7 +27,7 @@ void main_with_return( void * arg )
     //sem_lock test 5
     test_output( !PROC_RUN_TEST( (&proc[2]) ), 5 );
     //sem_lock test 6
-    test_output( (proc[2].parent.group->link == (void *)&test_sem.parent), 6 );
+    test_output( (proc[2].parent.group->link == (void *)&test_sem.wait), 6 );
     //sem_try_lock test 7
     // must not lock
     test_output( !sem_try_lock( &test_sem ), 7 );

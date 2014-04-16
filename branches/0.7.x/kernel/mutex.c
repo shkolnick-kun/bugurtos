@@ -149,12 +149,12 @@ bool_t mutex_lock( mutex_t * mutex )
 
 #ifdef CONFIG_MP
 
-static void mutex_prio_prop_hook( void * arg )
+static void mutex_prio_prop_hook( mutex_t * mutex )
 {
-    SPIN_UNLOCK( (((mutex_t *)arg)->owner) );
-    SPIN_UNLOCK( ((mutex_t *)arg) );
+    SPIN_UNLOCK( (mutex->owner) );
+    SPIN_UNLOCK( mutex );
 }
-#define MUTEX_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, mutex_prio_prop_hook, (void *)m )
+#define MUTEX_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, (code_t)mutex_prio_prop_hook, (void *)m )
 
 #else
 
@@ -182,7 +182,7 @@ bool_t _mutex_lock( mutex_t * mutex )
             SPIN_LOCK( proc );
 
             proc->buf = (void *)mutex;
-            _proc_stop_flags_set( proc, PROC_STATE_W_MUT );
+            _proc_stop_flags_set( proc, (PROC_FLG_MUTEX|PROC_STATE_W_MUT) );
             gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
 
             SPIN_UNLOCK( proc );
