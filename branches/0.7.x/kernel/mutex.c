@@ -173,7 +173,7 @@ bool_t _mutex_lock( mutex_t * mutex )
     if( mutex->free )_proc_mutex_lock( proc, mutex ); //A proc gets the mutex immediatly!
     else
     {
-        if( mutex->owner == proc )goto end; //Finaly a proc has got the mutex, no more iytterations!
+        if( mutex->owner == proc ) goto end; //Finaly a proc has got the mutex, no more itterations!
         else
         {
             prio_t old_prio;
