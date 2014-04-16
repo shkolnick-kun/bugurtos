@@ -262,6 +262,7 @@ void _mutex_unlock( mutex_t *  mutex )
     sched_proc_stop( proc );
     pcounter_dec( &proc->lres, prio );
     _proc_prio_control_stoped( proc );
+
     if( proc->lres.index == (index_t)0 ) proc->flags &= PROC_FLG_MUTEX;
     // Если проготовлен и готов к остановке - останавливаем
     if(  PROC_PRE_STOP_TEST(proc)  )
@@ -296,7 +297,6 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK( proc );
 
     proc->buf = (void *)0; //It doesn't wait on mutex any more.
-    proc->flags |= PROC_FLG_MUTEX;
     pcounter_inc( &proc->lres, prio );
     _proc_prio_control_stoped( proc );
     _proc_cut_and_run( proc, PROC_STATE_READY );
