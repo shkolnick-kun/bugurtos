@@ -160,8 +160,8 @@ else this macro does nothing.
 */
 
 #define PROC_LRES_INIT(a) pcounter_init(&a->lres)
-#define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
-#define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
+#define PROC_LRES_INC(a,b) pcounter_inc( &a->lres, b )
+#define PROC_LRES_DEC(a,b) pcounter_dec( &a->lres, b )
 
 //#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 

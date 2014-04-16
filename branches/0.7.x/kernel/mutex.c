@@ -88,7 +88,7 @@ static void _proc_mutex_lock(proc_t * proc, mutex_t * mutex )
 
         SPIN_LOCK( proc );
 
-        pcounter_inc( &proc->lres, PROC_PRIO_LOWEST );
+        PROC_LRES_INC( proc, PROC_PRIO_LOWEST );
         _proc_dont_stop( proc, PROC_FLG_MUTEX );
 
         SPIN_UNLOCK( proc );
@@ -190,8 +190,8 @@ bool_t _mutex_lock( mutex_t * mutex )
             proc = mutex->owner;
             SPIN_LOCK( proc );
 
-            pcounter_dec( &proc->lres, old_prio );
-            pcounter_inc( &proc->lres, MUTEX_PRIO( mutex ) );
+            PROC_LRES_DEC( proc, old_prio );
+            PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );
 
             MUTEX_PROC_PRIO_PROPAGATE( proc, mutex );
 
@@ -260,7 +260,7 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK(proc);
     // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
     sched_proc_stop( proc );
-    pcounter_dec( &proc->lres, prio );
+    PROC_LRES_DEC( proc, prio );
     _proc_prio_control_stoped( proc );
 
     if( proc->lres.index == (index_t)0 ) proc->flags &= PROC_FLG_MUTEX;
@@ -297,7 +297,7 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK( proc );
 
     proc->buf = (void *)0; //It doesn't wait on mutex any more.
-    pcounter_inc( &proc->lres, prio );
+    PROC_LRES_INC( proc, prio );
     _proc_prio_control_stoped( proc );
     _proc_cut_and_run( proc, PROC_STATE_READY );
 

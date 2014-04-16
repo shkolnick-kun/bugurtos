@@ -14,7 +14,7 @@
 		<Cursor position="6350" topLine="75" />
 	</File>
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="2">
-		<Cursor position="7933" topLine="135" />
+		<Cursor position="7917" topLine="129" />
 	</File>
 	<File name="../../../../../include/crit_sec.h" open="0" top="0" tabpos="15">
 		<Cursor position="163" topLine="18" />
@@ -37,8 +37,8 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="1">
-		<Cursor position="38007" topLine="672" />
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="3">
+		<Cursor position="8371" topLine="157" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="6">
 		<Cursor position="10538" topLine="237" />
@@ -73,19 +73,19 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6216" topLine="107" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="2">
 		<Cursor position="8616" topLine="235" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="1" tabpos="0">
-		<Cursor position="8595" topLine="132" />
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="1">
+		<Cursor position="8595" topLine="42" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="28519" topLine="522" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="1">
 		<Cursor position="8371" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="4">
