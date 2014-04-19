@@ -26,7 +26,7 @@ void main_1( void * arg )
     // 2hd set of tests: proc[1] is running
     mutex_lock( &mutex_1 );
 
-    wait_time( 20 ); // Adjuct wait time!!!
+    wait_time( 200 ); // Adjuct wait time!!!
 
     mutex_unlock( &mutex_1 );
     proc_self_stop();
@@ -235,22 +235,149 @@ void idle_main( void * arg )
     proc_run( &proc[1] );
     MUTEX_IDLE_DELAY();
 
-    test  = ( (proc[5].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
-    test |= ( (proc[4].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
-    test |= ( (proc[3].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
-    test |= ( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
-
+    test = ( (proc[5].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
     test_output( test, 31 );
+    test = ( (proc[4].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 32 );
+    test = ( (proc[3].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 33 );
+    test = ( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 34 );
+    MUTEX_IDLE_DELAY();
 
     //==================================================
     // 2hd set of tests: proc[1] is running
+    proc_run( &proc[1] );
+    MUTEX_IDLE_DELAY();
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 1 );
+
+    test = (0 != (proc[1].flags & PROC_FLG_MUTEX));
+    test_output( test, 2 );
+
+    proc_run( &proc[2] );
+    MUTEX_IDLE_DELAY();
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[2].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 3 );
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[2].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 4 );
+
+    test = ( proc[2].buf == (void *)&mutex_1 );
+    test_output( test, 5 );
+
+    test = ( proc[2].parent.group->link == (void *)&mutex_1.wait );
+    test_output( test, 6 );
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 7 );
+
+    test = ( proc[1].parent.group->prio == 6);
+    test_output( test, 8 );
+
+    proc_run( &proc[3] );
+    MUTEX_IDLE_DELAY();
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[3].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 9 );
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[3].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 10 );
+
+    test = ( proc[3].buf == (void *)&mutex_2 );
+    test_output( test, 11 );
+
+    test = ( proc[3].parent.group->link == (void *)&mutex_2.wait );
+    test_output( test, 12 );
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 13 );
+
+    test = ( proc[1].parent.group->prio == 5);
+    test_output( test, 14 );
+
+    proc_run( &proc[4] );
+    MUTEX_IDLE_DELAY();
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[4].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 15 );
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[4].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 16 );
+
+    test = ( proc[4].buf == (void *)&mutex_2 );
+    test_output( test, 17 );
+
+    test = ( proc[4].parent.group->link == (void *)&mutex_2.wait );
+    test_output( test, 18 );
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 19 );
+
+    test = ( proc[1].parent.group->prio == 4 );
+    test_output( test, 20 );
+
+    proc_run( &proc[5] );
+    MUTEX_IDLE_DELAY();
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[5].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 21 );
+
+    test = ( (PROC_FLG_MUTEX|PROC_STATE_W_MUT) == (proc[5].flags & (PROC_FLG_MUTEX|PROC_STATE_MASK)));
+    test_output( test, 22 );
+
+    test = ( proc[5].buf == (void *)&mutex_3 );
+    test_output( test, 23 );
+
+    test = ( proc[5].parent.group->link == (void *)&mutex_3.wait );
+    test_output( test, 24 );
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 25 );
+
+    test = ( proc[1].parent.group->prio == 3 );
+    test_output( test, 26 );
+
+    proc_set_prio( &proc[5], 2 );
+    MUTEX_IDLE_DELAY();
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 27 );
+
+    test = ( proc[1].parent.group->prio == 2 );
+    test_output( test, 28 );
+
+    proc_set_prio( &proc[5], 3 );
+    MUTEX_IDLE_DELAY();
+
+    test = (mutex_1.owner == &proc[1]);
+    test_output( test, 29 );
+
+    test = ( proc[1].parent.group->prio == 3 );
+    test_output( test, 30 );
+
+    proc_run( &proc[1] );
+    MUTEX_IDLE_DELAY();
+
+    test = ( (proc[5].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 31 );
+    test = ( (proc[4].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 32 );
+    test = ( (proc[3].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 33 );
+    test = ( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_STOPED );
+    test_output( test, 34 );
+    MUTEX_IDLE_DELAY();
+
     //==================================================
     // 3rd set of tests: proc[1] is waiting for sig_0
     //==================================================
     // 4th set of tests: proc[1] is waiting for sem_0
     //==================================================
     // 5th set of tests: proc[1] is waiting for mutex_0
-    MUTEX_IDLE_DELAY();
+
 
     tests_end();
 }

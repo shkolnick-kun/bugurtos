@@ -81,7 +81,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define MUTEX_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST)
 
-
 /*!
 \file
 \brief \~russian Заголовок мьютекса. \~english A mutex header.
