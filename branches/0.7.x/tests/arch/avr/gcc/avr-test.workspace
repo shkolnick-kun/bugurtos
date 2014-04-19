@@ -5,7 +5,7 @@
 		<Project filename="proc/proc.cbp" />
 		<Project filename="sig/sig.cbp" />
 		<Project filename="ipc/ipc.cbp" />
-		<Project filename="sem/sem.cbp" active="1" />
-		<Project filename="mutex/mutex.cbp" />
+		<Project filename="sem/sem.cbp" />
+		<Project filename="mutex/mutex.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

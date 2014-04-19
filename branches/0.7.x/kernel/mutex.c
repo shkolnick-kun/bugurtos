@@ -293,9 +293,19 @@ void _mutex_unlock( mutex_t *  mutex )
     SPIN_LOCK( proc );
 
     proc->buf = (void *)0; //It doesn't wait on mutex any more.
-    PROC_LRES_INC( proc, prio );
-    _proc_prio_control_stoped( proc );
-    _proc_cut_and_run( proc, PROC_STATE_READY );
+
+    if( PROC_GET_STATE( proc ) == PROC_STATE_W_PCHANGE )
+    {
+        PROC_SET_STATE ( proc, PROC_STATE_PCHANGE );
+        PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );  //mutex prio has changed
+    }
+    else
+    {
+        gitem_cut( (gitem_t *)proc );
+        PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );  //mutex prio has changed
+        _proc_prio_control_stoped( proc );
+        sched_proc_run( proc, PROC_STATE_READY );
+    }
 
     SPIN_UNLOCK( proc );
 end:
