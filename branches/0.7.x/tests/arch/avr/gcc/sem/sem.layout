@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
 		<Cursor position="9653" topLine="290" />
 	</File>
@@ -17,9 +17,9 @@
 		<Cursor position="4263" topLine="126" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1690" topLine="75" />
+		<Cursor position="1690" topLine="63" />
 	</File>
-	<File name="../../../../main/sem/main.c" open="1" top="1" tabpos="0">
+	<File name="../../../../main/sem/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="580" topLine="17" />
 	</File>
 </CodeBlocks_layout_file>

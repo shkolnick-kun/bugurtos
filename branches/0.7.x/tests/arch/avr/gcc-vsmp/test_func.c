@@ -196,6 +196,15 @@ static void blink_num( count_t num )
     blink_digit( num%10 ); //Least significant digit
 
 }
+
+void blink_test( count_t test )
+{
+    cli();
+    blink_num( test );
+    sei();
+}
+
+
 void test_output( bool_t test_result, count_t test_num )
 {
     // If test has failed, then where will be abnormal program termination!

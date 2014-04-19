@@ -37,11 +37,11 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="2">
 		<Cursor position="8371" topLine="157" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="6">
-		<Cursor position="10538" topLine="237" />
+		<Cursor position="6929" topLine="99" />
 	</File>
 	<File name="../../../../../include/sem.h" open="0" top="0" tabpos="5">
 		<Cursor position="163" topLine="249" />
@@ -73,8 +73,8 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6216" topLine="107" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="2">
-		<Cursor position="8616" topLine="235" />
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="2">
+		<Cursor position="8616" topLine="292" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
@@ -85,11 +85,11 @@
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="28519" topLine="522" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="1">
-		<Cursor position="8371" topLine="0" />
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="1">
+		<Cursor position="10675" topLine="205" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="4">
-		<Cursor position="11576" topLine="223" />
+		<Cursor position="10024" topLine="189" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="7517" topLine="113" />
@@ -100,14 +100,14 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="1">
+	<File name="../config.h" open="1" top="0" tabpos="1">
 		<Cursor position="2417" topLine="68" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
-		<Cursor position="1690" topLine="65" />
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
+		<Cursor position="1522" topLine="69" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
-		<Cursor position="278" topLine="0" />
+		<Cursor position="653" topLine="12" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="4">
 		<Cursor position="812" topLine="46" />

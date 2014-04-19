@@ -264,8 +264,8 @@ void _proc_prio_propagate( proc_t * proc )
                 sched_proc_run( proc, PROC_STATE_W_READY );
             }
 
-            SPIN_LOCK( proc );
-            SPIN_LOCK( sig );
+            SPIN_UNLOCK( proc );
+            SPIN_UNLOCK( sig );
             break;
         }
         case PROC_STATE_STOPED:

@@ -132,6 +132,12 @@ typedef unsigned short ipc_data_t;
 #define G3_on() (PORTD |= 0x40)
 #define G3_off() (PORTD &= ~0x40)
 
+#define CONFIG_SET_1
+#define CONFIG_SET_2
+#define CONFIG_SET_3
+#define CONFIG_SET_4
+#define CONFIG_SET_5
+
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================

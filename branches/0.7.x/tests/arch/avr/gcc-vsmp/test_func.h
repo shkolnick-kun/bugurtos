@@ -52,6 +52,7 @@ void blink_6(void);
 void load_bar_graph(void);
 
 // proc test functions
+void blink_test( count_t test );
 void test_output( bool_t test_result, count_t test_mun );
 void test_start(void);
 void tests_end(void);

@@ -105,10 +105,10 @@ typedef unsigned char load_t;
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define CONFIG_HARD_RT
 
-//#define CONFIG_LB_SCHEME 0 // No load balancing during runtime
+#define CONFIG_LB_SCHEME 0 // No load balancing during runtime
 //#define CONFIG_LB_SCHEME 1 // Active load balancing
 //#define CONFIG_LB_SCHEME 2 // Lazy local load balancing
-#define CONFIG_LB_SCHEME 3 // Lazy global load balancing
+//#define CONFIG_LB_SCHEME 3 // Lazy global load balancing
 
 #if (CONFIG_LB_SCHEME == 1)
 // Use "Active Load Balancing",
@@ -157,6 +157,13 @@ typedef unsigned char load_t;
 
 #define SVH5 (code_t)0
 #define RSH5 (code_t)0
+
+//#define CONFIG_SET_1
+//#define CONFIG_SET_2
+#define CONFIG_SET_3
+//#define CONFIG_SET_4
+//#define CONFIG_SET_5
+
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_
