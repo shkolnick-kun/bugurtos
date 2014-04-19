@@ -79,7 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
 
-#define GET_PRIO(mutex) mutex->prio
+#define MUTEX_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST)
 
 
 /*!

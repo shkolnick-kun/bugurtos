@@ -160,6 +160,7 @@ void _proc_prio_propagate( proc_t * proc )
         case PROC_STATE_W_MUT:
         {
             mutex_t * mutex;
+            prio_t old_prio;
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE );  // Ensure that process will not run, and stay in a mutex wait list!
 
             mutex = (mutex_t *)proc->buf;
@@ -170,14 +171,27 @@ void _proc_prio_propagate( proc_t * proc )
             KERNEL_PREEMPT();
 
             SPIN_LOCK( mutex );
+
+            old_prio = MUTEX_PRIO( mutex ); // Get mutex prio to keep mutex->owner priority data consistent
+
             SPIN_LOCK( proc );
 
             gitem_cut( (gitem_t *)proc );
-
             _proc_prio_control_stoped( proc );
             sched_proc_run( proc, PROC_STATE_W_READY );
 
             SPIN_UNLOCK( proc );
+
+            // Keep priority data consistent
+            proc = mutex->owner;
+            SPIN_LOCK( proc );
+
+            PROC_LRES_DEC( proc, old_prio );
+            PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );
+
+            SPIN_UNLOCK( proc );
+
+
             SPIN_UNLOCK( mutex );
 
             break;

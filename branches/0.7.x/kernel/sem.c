@@ -77,6 +77,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
+static void _proc_sem_lock( proc_t * proc, sem_t * sem )
+{
+    sem->counter--;
+
+    SPIN_LOCK( proc );
+    _proc_dont_stop( proc, PROC_FLG_SEM );
+    SPIN_UNLOCK( proc );
+}
 /**********************************************************************************************
                                        SYSCALL_SEM_INIT
 **********************************************************************************************/
@@ -126,32 +134,26 @@ bool_t sem_lock( sem_t * sem )
 //========================================================================================
 bool_t _sem_lock( sem_t * sem )
 {
-    bool_t ret = (bool_t)0;
+    bool_t ret = (bool_t)1;
     proc_t * proc;
     proc = current_proc();
-    // Выставляем флаг захватат семафора
-    SPIN_LOCK( proc );
-    _proc_stop_flags_set( proc, PROC_FLG_SEM );
-    SPIN_UNLOCK( proc );
-
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
-
     // Собственно захват семафора
     SPIN_LOCK( sem );
-    SPIN_LOCK( proc );
+
     if( sem->counter != 0 )
     {
-        sem->counter--;
-        ret = (bool_t)1;
-        sched_proc_run( proc, PROC_STATE_READY );
+        _proc_sem_lock( proc, sem );
     }
     else
     {
-        proc->flags |= PROC_STATE_W_SEM;
+        ret = (bool_t)0;
+
+        SPIN_LOCK( proc );
         proc->buf = (void *)sem; // A process waits on sem now!
+        _proc_stop_flags_set( proc, (PROC_FLG_SEM|PROC_STATE_W_SEM) );
         gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
+        SPIN_UNLOCK( proc );
     }
-    SPIN_UNLOCK( proc );
     SPIN_UNLOCK( sem );
     return ret;
 }
@@ -175,16 +177,11 @@ bool_t _sem_try_lock( sem_t * sem )
     if( sem->counter != 0 )
     {
         proc_t * proc;
+
         proc = current_proc();
-
-        sem->counter--;
         ret = (bool_t)1;
-        // Выставляем флаг захватат семафора
-        SPIN_LOCK( proc );
 
-        _proc_dont_stop( proc, PROC_FLG_SEM );
-
-        SPIN_UNLOCK( proc );
+        _proc_sem_lock( proc, sem );
     }
     SPIN_UNLOCK( sem );
     return ret;

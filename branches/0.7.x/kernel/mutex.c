@@ -77,10 +77,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-
-#define MUTEX_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST)
-
-
 static void _proc_mutex_lock(proc_t * proc, mutex_t * mutex )
 {
         mutex->free = (bool_t)0;

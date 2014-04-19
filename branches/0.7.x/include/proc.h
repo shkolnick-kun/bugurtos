@@ -700,4 +700,20 @@ void _proc_prio_control_stoped( proc_t * proc );
 
 void _proc_dont_stop( proc_t * proc, flag_t flags );
 
+/*!
+\~russian
+\brief !!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!
+
+\param proc - Указатель на процесс.
+
+\~english
+\brief !!!!!!!!!!!!!!!!!!!!!!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\param proc - A pointer to a process.
+*/
+void proc_set_prio( proc_t * proc, prio_t prio );
+
 #endif // _PROC_H_
