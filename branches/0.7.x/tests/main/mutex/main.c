@@ -1,5 +1,11 @@
 #include <test_func.h>
 
+#define CONFIG_SET_1
+#define CONFIG_SET_2
+#define CONFIG_SET_3
+#define CONFIG_SET_4
+#define CONFIG_SET_5
+
 proc_t proc[6];
 stack_t proc_stack[6][PROC_STACK_SIZE];
 

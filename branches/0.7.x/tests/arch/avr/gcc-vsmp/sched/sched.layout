@@ -7,7 +7,7 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="5">
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="4">
 		<Cursor position="10523" topLine="207" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
@@ -82,7 +82,7 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="40" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="6">
+	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="5">
 		<Cursor position="6475" topLine="154" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="1">
@@ -97,7 +97,7 @@
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="5">
 		<Cursor position="7887" topLine="141" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="2">
 		<Cursor position="7621" topLine="113" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
@@ -109,13 +109,13 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="4">
 		<Cursor position="7162" topLine="88" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="4">
-		<Cursor position="3126" topLine="139" />
+	<File name="../config.h" open="1" top="0" tabpos="3">
+		<Cursor position="4501" topLine="136" />
 	</File>
 	<File name="../test_func.c" open="1" top="0" tabpos="1">
-		<Cursor position="2943" topLine="201" />
+		<Cursor position="2943" topLine="186" />
 	</File>
-	<File name="../test_func.h" open="0" top="0" tabpos="1">
+	<File name="../test_func.h" open="1" top="0" tabpos="1">
 		<Cursor position="822" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">

@@ -2,10 +2,10 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="11065" topLine="195" />
+		<Cursor position="7032" topLine="107" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
-		<Cursor position="10523" topLine="242" />
+		<Cursor position="7442" topLine="116" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="7138" topLine="112" />
@@ -26,13 +26,13 @@
 		<Cursor position="8087" topLine="112" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="13182" topLine="255" />
+		<Cursor position="8830" topLine="89" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="6311" topLine="72" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="12156" topLine="243" />
+		<Cursor position="12179" topLine="257" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="189" />
@@ -49,13 +49,16 @@
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6661" topLine="86" />
 	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="3247" topLine="104" />
+	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="3190" topLine="201" />
+		<Cursor position="2942" topLine="187" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="0">
-		<Cursor position="346" topLine="0" />
+		<Cursor position="1741" topLine="3" />
 	</File>
 	<File name="../../../../main/mutex/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="7717" topLine="285" />
+		<Cursor position="128" topLine="114" />
 	</File>
 </CodeBlocks_layout_file>
