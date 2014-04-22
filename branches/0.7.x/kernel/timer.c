@@ -85,7 +85,7 @@ void _clear_timer(timer_t * t)
 
     *t = kernel.timer;
 
-    SPIN_UNLOCK_KERNEL_TIMER();
+    SPIN_FREE_KERNEL_TIMER();
     EXIT_CRIT_SEC();
 }
 //----------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ timer_t _timer(timer_t t)
 
     ret = (timer_t)kernel.timer - (timer_t)t;
 
-    SPIN_UNLOCK_KERNEL_TIMER();
+    SPIN_FREE_KERNEL_TIMER();
     EXIT_CRIT_SEC();
 
     return ret;

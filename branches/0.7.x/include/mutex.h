@@ -107,8 +107,8 @@ Mutexes are used to control an access to common data. If your code needs yo use 
 then you should use mutex instead of critical section. Mutex nesting is supported.
 Highest locker protocol is supported when CONFIG_USE_HIGHEST_LOCKER option is defined.
 
-\warning  Only a process can lock or unlock a mutex!
-\warning  Locked mutex can be unlocked only by a locker process!
+\warning  Only a process can lock or free a mutex!
+\warning  Locked mutex can be freeed only by a locker process!
 */
 struct _mutex_t
 {
@@ -159,7 +159,7 @@ void mutex_init(
 \brief
 Lock a mutex.
 
-If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets unlocked.
+If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
 
 \param mutex A mutex pointer.
 \return 1 if mutex was locked without wait, else 0.
@@ -198,13 +198,13 @@ bool_t mutex_try_lock( mutex_t * mutex );
 
 \~english
 \brief
-Mutex unlock.
+Mutex free.
 
-If a mutex wait list is empty, then caller process unlocks a mutex, else mutex wait lish head gets launched.
+If a mutex wait list is empty, then caller process frees a mutex, else mutex wait lish head gets launched.
 
 \param mutex Указатель на мьютекс.
 */
-void mutex_unlock( mutex_t * mutex );
+void mutex_free( mutex_t * mutex );
 
 //Функции для врутреннего использования
 /*!
@@ -221,7 +221,7 @@ void mutex_unlock( mutex_t * mutex );
 \brief
 Lock a mutex kernel part.
 
-If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets unlocked.
+If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
 
 \param mutex A mutex pointer.
 \return 1 if mutex was locked without wait, else 0.
@@ -259,12 +259,12 @@ bool_t _mutex_try_lock( mutex_t * mutex );
 
 \~english
 \brief
-Mutex unlock kernel part.
+Mutex free kernel part.
 
-If a mutex wait list is empty, then caller process unlocks a mutex, else mutex wait lish head gets launched.
+If a mutex wait list is empty, then caller process frees a mutex, else mutex wait lish head gets launched.
 
 \param mutex A mutex pointer.
 */
-void _mutex_unlock( mutex_t * mutex );
+void _mutex_free( mutex_t * mutex );
 
 #endif // _MUTEX_H_

@@ -86,7 +86,7 @@ static void _sig_wakeup_list( sig_t * sig )
 
     SPIN_LOCK( proc );
     _proc_cut_and_run( proc, PROC_STATE_W_READY );
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 
 /**********************************************************************************************
@@ -108,7 +108,7 @@ void sig_init_isr( sig_t * sig )
     SPIN_LOCK( sig );
     gxlist_init( &sig->wait );
     gxlist_init( &sig->wakeup );
-    SPIN_UNLOCK( sig );
+    SPIN_FREE( sig );
 }
 /**********************************************************************************************
                                        SYSCALL_SIG_WAIT
@@ -136,9 +136,9 @@ void _sig_wait_prologue( sig_t * sig )
     proc->buf = (void *)sig; //Initialize a pointer before use.
     gitem_insert_group( (gitem_t *)proc, &sig->wait );// A process is inserted to a wait list
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 
-    SPIN_UNLOCK( sig );
+    SPIN_FREE( sig );
 }
 //========================================================================================
 void scall_sig_wait( void * arg )
@@ -158,7 +158,7 @@ void _sig_wait_epilogue( void )
     proc->buf = (void *)0;
     PROC_SET_STATE( proc, PROC_STATE_RUNNING );
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 
     KERNEL_PREEMPT(); /// KERNEL_PREEMPT
 
@@ -171,7 +171,7 @@ void _sig_wait_epilogue( void )
         _sig_wakeup_list( sig );
     }
 
-    SPIN_UNLOCK( sig );
+    SPIN_FREE( sig );
 }
 //========================================================================================
 void scall_sig_wakeup( void *arg )
@@ -202,9 +202,9 @@ void sig_signal_isr( sig_t * sig )
     proc->buf = (void *)0; // Will NOT continue wakeup.
     _proc_cut_and_run( proc, PROC_STATE_W_READY );
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 end:
-    SPIN_UNLOCK( sig );
+    SPIN_FREE( sig );
 }
 //========================================================================================
 void scall_sig_signal( void * arg )
@@ -229,7 +229,7 @@ void sig_broadcast_isr( sig_t * sig )
     gxlist_merge( &sig->wait, &sig->wakeup );
     _sig_wakeup_list( sig );
 end:
-    SPIN_UNLOCK( sig );
+    SPIN_FREE( sig );
 }
 //========================================================================================
 void scall_sig_broadcast( void * arg )

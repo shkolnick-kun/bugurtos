@@ -33,13 +33,13 @@ void main_with_return( void * arg )
     test_output( !sem_try_lock( &test_sem ), 7 );
     //sem_try_lock test 8
     test_output( (test_sem.counter == 0), 8 );
-    //sem_unlock test 9
+    //sem_free test 9
     // proc[2] must get semaphore and self stop
-    sem_unlock( &test_sem );
+    sem_free( &test_sem );
     wait_time( 2 );
     test_output( (test_sem.counter == 0), 9 );
-    //sem_unlock test 10
-    // proc[2] must unlock semaphore and self stop
+    //sem_free test 10
+    // proc[2] must free semaphore and self stop
     proc_run( &proc[2] );
     wait_time( 2 );
     test_output( (test_sem.counter == 1), 10 );
@@ -72,7 +72,7 @@ void main_sem( void * arg )
     {
         sem_lock( &test_sem );
         proc_self_stop();
-        sem_unlock( &test_sem );
+        sem_free( &test_sem );
         proc_flag_stop( PROC_FLG_SEM );
         proc_self_stop();
     }

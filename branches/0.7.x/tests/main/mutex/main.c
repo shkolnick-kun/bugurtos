@@ -26,7 +26,7 @@ void main_1( void * arg )
 
     proc_self_stop();
 
-    mutex_unlock( &mutex_1 );
+    mutex_free( &mutex_1 );
     proc_self_stop();
 #endif
 #ifdef CONFIG_SET_2
@@ -36,7 +36,7 @@ void main_1( void * arg )
 
     wait_time( 200 ); // Adjuct wait time!!!
 
-    mutex_unlock( &mutex_1 );
+    mutex_free( &mutex_1 );
     proc_self_stop();
 #endif
 #ifdef CONFIG_SET_3
@@ -47,7 +47,7 @@ void main_1( void * arg )
     //proc_self_stop();
     sig_wait( &sig_0 );
 
-    mutex_unlock( &mutex_1 );
+    mutex_free( &mutex_1 );
     proc_self_stop();
 #endif
 #ifdef CONFIG_SET_4
@@ -56,10 +56,10 @@ void main_1( void * arg )
     mutex_lock( &mutex_1 );
 
     sem_lock( &sem_0 );
-    sem_unlock( &sem_0 );
+    sem_free( &sem_0 );
     proc_flag_stop( PROC_FLG_SEM );
 
-    mutex_unlock( &mutex_1 );
+    mutex_free( &mutex_1 );
     proc_self_stop();
 #endif
 #ifdef CONFIG_SET_5
@@ -68,9 +68,9 @@ void main_1( void * arg )
     mutex_lock( &mutex_1 );
 
     mutex_lock( &mutex_0 );
-    mutex_unlock( &mutex_0 );
+    mutex_free( &mutex_0 );
 
-    mutex_unlock( &mutex_1 );
+    mutex_free( &mutex_1 );
     proc_self_stop();
 #endif
     //==================================================
@@ -82,8 +82,8 @@ void main_2( void * arg )
     {
         mutex_lock( &mutex_2 );
         mutex_lock( &mutex_1 );
-        mutex_unlock( &mutex_1 );
-        mutex_unlock( &mutex_2 );
+        mutex_free( &mutex_1 );
+        mutex_free( &mutex_2 );
         proc_self_stop();
     }
 }
@@ -93,7 +93,7 @@ void main_3( void * arg )
     while(1)
     {
         mutex_lock( &mutex_2 );
-        mutex_unlock( &mutex_2 );
+        mutex_free( &mutex_2 );
         proc_self_stop();
     }
 }
@@ -104,8 +104,8 @@ void main_4( void * arg )
     {
         mutex_lock( &mutex_3 );
         mutex_lock( &mutex_2 );
-        mutex_unlock( &mutex_2 );
-        mutex_unlock( &mutex_3 );
+        mutex_free( &mutex_2 );
+        mutex_free( &mutex_3 );
         proc_self_stop();
     }
 }
@@ -115,7 +115,7 @@ void main_5( void * arg )
     while(1)
     {
         mutex_lock( &mutex_3 );
-        mutex_unlock( &mutex_3 );
+        mutex_free( &mutex_3 );
         proc_self_stop();
     }
 }
@@ -292,7 +292,7 @@ void idle_main( void * arg )
     test_num = 91;
     test_run_1();
 
-    sem_unlock( &sem_0 );
+    sem_free( &sem_0 );
     MUTEX_IDLE_DELAY();
 
     test_run_2();
@@ -307,7 +307,7 @@ void idle_main( void * arg )
 
     test_run_1();
 
-    mutex_unlock( &mutex_0 );
+    mutex_free( &mutex_0 );
     MUTEX_IDLE_DELAY();
 
     test_run_2();

@@ -112,7 +112,7 @@ Wrapper macro.
 
 A wrapper for kernel timer spin-lock, on single core system - empty macro.
 
-\def SPIN_UNLOCK_KERNEL_TIMER()
+\def SPIN_FREE_KERNEL_TIMER()
 
 \~russian
 \brief
@@ -124,17 +124,17 @@ A wrapper for kernel timer spin-lock, on single core system - empty macro.
 \brief
 Wrapper macro.
 
-A wrapper for kernel timer spin-unlock, on single core system - empty macro.
+A wrapper for kernel timer spin-free, on single core system - empty macro.
 */
 #ifdef CONFIG_MP
 
 #define SPIN_LOCK_KERNEL_TIMER() spin_lock( &kernel.timer_lock )
-#define SPIN_UNLOCK_KERNEL_TIMER() spin_unlock( &kernel.timer_lock )
+#define SPIN_FREE_KERNEL_TIMER() spin_free( &kernel.timer_lock )
 
 #else
 
 #define SPIN_LOCK_KERNEL_TIMER()
-#define SPIN_UNLOCK_KERNEL_TIMER()
+#define SPIN_FREE_KERNEL_TIMER()
 
 #endif
 

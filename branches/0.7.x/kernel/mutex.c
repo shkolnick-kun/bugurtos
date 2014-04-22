@@ -87,7 +87,7 @@ static void _proc_mutex_lock(proc_t * proc, mutex_t * mutex )
         PROC_LRES_INC( proc, PROC_PRIO_LOWEST );
         _proc_dont_stop( proc, PROC_FLG_MUTEX );
 
-        SPIN_UNLOCK( proc );
+        SPIN_FREE( proc );
 }
 /**********************************************************************************************
                                           Мьютексы
@@ -108,7 +108,7 @@ void mutex_init_isr( mutex_t * mutex )
     xlist_init( (xlist_t *)mutex );
     mutex->free = (bool_t)1;
     mutex->owner = (proc_t *)0;
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( mutex );
 }
 /**********************************************************************************************
                                     SYSCALL_MUTEX_LOCK
@@ -147,8 +147,8 @@ bool_t mutex_lock( mutex_t * mutex )
 
 static void mutex_prio_prop_hook( mutex_t * mutex )
 {
-    SPIN_UNLOCK( (mutex->owner) );
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( (mutex->owner) );
+    SPIN_FREE( mutex );
 }
 #define MUTEX_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, (code_t)mutex_prio_prop_hook, (void *)m )
 
@@ -181,7 +181,7 @@ bool_t _mutex_lock( mutex_t * mutex )
             _proc_stop_flags_set( proc, (PROC_FLG_MUTEX|PROC_STATE_W_MUT) );
             gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
 
-            SPIN_UNLOCK( proc );
+            SPIN_FREE( proc );
 
             proc = mutex->owner;
             SPIN_LOCK( proc );
@@ -195,7 +195,7 @@ bool_t _mutex_lock( mutex_t * mutex )
         }
     }
 end:
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( mutex );
     return 0;
 }
 //========================================================================================
@@ -227,7 +227,7 @@ bool_t _mutex_try_lock( mutex_t * mutex )
 
     if( ret )_proc_mutex_lock( proc, mutex );
 
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( mutex );
     return ret;
 }
 //========================================================================================
@@ -236,15 +236,15 @@ void scall_mutex_try_lock(void * arg)
     ((mutex_lock_arg_t *)arg)->ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
 }
 /**********************************************************************************************
-                                   SYSCALL_MUTEX_UNLOCK
+                                   SYSCALL_MUTEX_FREE
 **********************************************************************************************/
 // Освобождение
-void mutex_unlock( mutex_t * mutex )
+void mutex_free( mutex_t * mutex )
 {
-    syscall_bugurt( SYSCALL_MUTEX_UNLOCK, (void *)mutex );
+    syscall_bugurt( SYSCALL_MUTEX_FREE, (void *)mutex );
 }
 //========================================================================================
-void _mutex_unlock( mutex_t *  mutex )
+void _mutex_free( mutex_t *  mutex )
 {
     proc_t * proc;
     prio_t prio;
@@ -271,8 +271,8 @@ void _mutex_unlock( mutex_t *  mutex )
         sched_proc_run( proc, PROC_STATE_READY );
     }
 
-    SPIN_UNLOCK( proc );
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( proc );
+    SPIN_FREE( mutex );
 
     KERNEL_PREEMPT(); /// KERNEL_PREEMPT
 
@@ -307,12 +307,12 @@ void _mutex_unlock( mutex_t *  mutex )
         sched_proc_run( proc, PROC_STATE_READY );
     }
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 end:
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( mutex );
 }
 //========================================================================================
-void scall_mutex_unlock(void * arg)
+void scall_mutex_free(void * arg)
 {
-    _mutex_unlock( (mutex_t *)arg );
+    _mutex_free( (mutex_t *)arg );
 }

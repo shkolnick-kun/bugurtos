@@ -99,7 +99,7 @@ void _ipc_wait( void * ipc_pointer )
     _proc_stop_flags_set( proc, PROC_STATE_W_IPC );
     proc->buf = ipc_pointer;
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 //========================================================================================
 void scall_ipc_wait(void * arg)
@@ -159,7 +159,7 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data )
         sched_proc_run( proc, PROC_STATE_READY );
     }
 end:
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
     return ret;
 }
 //========================================================================================
@@ -221,7 +221,7 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
         sched_proc_run( proc, PROC_STATE_READY );   // И только после этого запускаем процесс-адресат!
     }
 end:
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
     return ret;
 }
 //========================================================================================

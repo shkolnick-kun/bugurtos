@@ -173,7 +173,7 @@ Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 Lock wrapper for arg->lock spinlock. Emty macro in single core system.
 */
 /*!
-\def SPIN_UNLOCK(arg)
+\def SPIN_FREE(arg)
 \~russian
 \brief Макрос-обертка.
 
@@ -199,14 +199,14 @@ A wrapper for #resched function.
 
 #define SPIN_INIT(arg) spin_init( &arg->lock )
 #define SPIN_LOCK(arg) spin_lock( &arg->lock )
-#define SPIN_UNLOCK(arg) spin_unlock( &arg->lock )
+#define SPIN_FREE(arg) spin_free( &arg->lock )
 #define RESCHED_PROC(proc) resched( proc->core_id )
 
 #else
 
 #define SPIN_INIT(arg)
 #define SPIN_LOCK(arg)
-#define SPIN_UNLOCK(arg)
+#define SPIN_FREE(arg)
 #define RESCHED_PROC(proc) resched()
 
 #endif
@@ -265,7 +265,7 @@ Unlock spin-lock on MP system.
 Unlock spin-lock on MP system.
 \param lock a pointer to a spin-lock
 */
-extern void spin_unlock(lock_t * lock);
+extern void spin_free(lock_t * lock);
 
 /*!
 \~russian

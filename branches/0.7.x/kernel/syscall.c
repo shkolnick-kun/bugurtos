@@ -97,11 +97,11 @@ SYSCALL_TABLE( syscall_routine[] ) =
     // Семафоры
     scall_sem_lock,
     scall_sem_try_lock,
-    scall_sem_unlock,
+    scall_sem_free,
     // Мьютексы
     scall_mutex_lock,
     scall_mutex_try_lock,
-    scall_mutex_unlock,
+    scall_mutex_free,
     // IPC
     scall_ipc_wait,
     scall_ipc_send,

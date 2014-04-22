@@ -102,13 +102,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define SYSCALL_SEM_LOCK                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))             /*!< \~russian Захват семафора. \~english Lock a semaphore. */
 #define SYSCALL_SEM_TRY_LOCK                    (SYSCALL_SEM_LOCK + (syscall_t)(1))             /*!< \~russian Попытка захвата семафора. \~english Try yo lock a semaphore. */
-#define SYSCALL_SEM_UNLOCK                      (SYSCALL_SEM_TRY_LOCK + (syscall_t)(1))         /*!< \~russian Освобождение семафора. \~english Unlock a semaphore. */
+#define SYSCALL_SEM_FREE                      (SYSCALL_SEM_TRY_LOCK + (syscall_t)(1))         /*!< \~russian Освобождение семафора. \~english Unlock a semaphore. */
 
-#define SYSCALL_MUTEX_LOCK                      (SYSCALL_SEM_UNLOCK + (syscall_t)(1))           /*!< \~russian Захват мьютекса. \~english Lock a mutex. */
+#define SYSCALL_MUTEX_LOCK                      (SYSCALL_SEM_FREE + (syscall_t)(1))           /*!< \~russian Захват мьютекса. \~english Lock a mutex. */
 #define SYSCALL_MUTEX_TRY_LOCK                  (SYSCALL_MUTEX_LOCK + (syscall_t)(1))           /*!< \~russian Попытка захвата мьютекса. \~english Try to lock a mutex. */
-#define SYSCALL_MUTEX_UNLOCK                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))       /*!< \~russian Освобождение мьютекса. \~english Unlock a mutex. */
+#define SYSCALL_MUTEX_FREE                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))       /*!< \~russian Освобождение мьютекса. \~english Unlock a mutex. */
 
-#define SYSCALL_IPC_WAIT                        (SYSCALL_MUTEX_UNLOCK + (syscall_t)(1))         /*!< \~russian Ожидание передачи данных. \~english Wait for data (IPC). */
+#define SYSCALL_IPC_WAIT                        (SYSCALL_MUTEX_FREE + (syscall_t)(1))         /*!< \~russian Ожидание передачи данных. \~english Wait for data (IPC). */
 #define SYSCALL_IPC_SEND                        (SYSCALL_IPC_WAIT + (syscall_t)(1))             /*!< \~russian Передача данных. \~english Send data via IPC. */
 #define SYSCALL_IPC_EXCHANGE                    (SYSCALL_IPC_SEND + (syscall_t)(1))             /*!< \~russian Обмен данными. \~english Exchange data via IPC. */
 
@@ -465,21 +465,21 @@ void scall_sem_try_lock( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SEM_UNLOCK.
+Обработчик вызова #SYSCALL_SEM_FREE.
 
-Вызывает #sem_unlock_isr.
+Вызывает #sem_free_isr.
 
 \param arg указатель на семафор.
 
 \~english
 \brief
-A #SYSCALL_SEM_UNLOCK handler.
+A #SYSCALL_SEM_FREE handler.
 
-This function calls #sem_unlock_isr.
+This function calls #sem_free_isr.
 
 \param arg A pointer to a semaphore.
 */
-void scall_sem_unlock( void * arg );
+void scall_sem_free( void * arg );
 /*****************************************************************************************/
 /*                                     Мьютексы                                          */
 
@@ -542,21 +542,21 @@ void scall_mutex_try_lock(void * arg);
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_MUTEX_UNLOCK.
+Обработчик вызова #SYSCALL_MUTEX_FREE.
 
-Вызывает #_mutex_unlock.
+Вызывает #_mutex_free.
 
 \param arg указатель на мьютекс.
 
 \~english
 \brief
-A #SYSCALL_MUTEX_UNLOCK handler.
+A #SYSCALL_MUTEX_FREE handler.
 
-This function calls #_mutex_unlock.
+This function calls #_mutex_free.
 
 \param arg A pointer to a mutex.
 */
-void scall_mutex_unlock(void * arg);
+void scall_mutex_free(void * arg);
 /*****************************************************************************************/
 /*                                     IPC                                               */
 

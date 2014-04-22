@@ -100,7 +100,7 @@ A counting semaphore.
 
 Counting semaphores are used for process synchronization.
 It is not recomended to use them in common data access control, because priority inversion is possible.
-A counting semaphore can be locked by one process and unlocked by another.
+A counting semaphore can be locked by one process and freeed by another.
 */
 struct _sem_t
 {
@@ -201,14 +201,14 @@ bool_t sem_try_lock( sem_t * sem );
 
 \~english
 \brief
-Semaphore unlock.
+Semaphore free.
 
 If semaphore wait lisk is empty, then counter will be encreased,
 else semaphore wait list head will be launched.
 
 \param sem A #sem_t pointer.
 */
-void sem_unlock( sem_t * sem );
+void sem_free( sem_t * sem );
 
 /*!
 \~russian
@@ -222,14 +222,14 @@ void sem_unlock( sem_t * sem );
 
 \~english
 \brief
-Semaphore unlock for ISR usage.
+Semaphore free for ISR usage.
 
 If semaphore wait lisk is empty, then counter will be encreased,
 else semaphore wait list head will be launched.
 
 \param sem A #sem_t pointer.
 */
-void sem_unlock_isr( sem_t * sem );
+void sem_free_isr( sem_t * sem );
 // То же, для внутреннего использования
 // Захват/освобождение
 /*!

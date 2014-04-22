@@ -122,7 +122,7 @@ end:
     sei();
     for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
 }
-void spin_unlock(lock_t * lock)
+void spin_free(lock_t * lock)
 {
     cli();
     *lock = (lock_t)0;
@@ -181,7 +181,7 @@ void _systimer_tick_isr(void)
     SPIN_LOCK_KERNEL_TIMER();
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
-    SPIN_UNLOCK_KERNEL_TIMER();
+    SPIN_FREE_KERNEL_TIMER();
 
     systimer_vectors_fire();
 }

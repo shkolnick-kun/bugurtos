@@ -112,13 +112,13 @@ void kernel_init(void)
         stat_init( (stat_t *)kernel.stat + i );
         sched_init( (sched_t *)kernel.sched + i, (proc_t *)kernel.idle + i );
     }
-    spin_unlock( &kernel.stat_lock );
+    spin_free( &kernel.stat_lock );
 
     spin_init(&kernel.timer_lock);
     spin_lock(&kernel.timer_lock);
     kernel.timer = (timer_t)0;
     kernel.timer_tick = (void(*)(void))0;
-    spin_unlock(&kernel.timer_lock);
+    spin_free(&kernel.timer_lock);
 #else
     proc_init_isr(
         &kernel.idle, //процесс kernel.idle

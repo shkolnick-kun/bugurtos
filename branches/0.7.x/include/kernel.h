@@ -160,7 +160,7 @@ void kernel_init(void);
 An IDLE process main function.
 
 You can use builtin function, or you can write your own.
-IDLE process can work with timers, fire signals and UNLOCK semaphores, SEND IPC data!
+IDLE process can work with timers, fire signals and FREE semaphores, SEND IPC data!
 
 \warning An idle_main sholud NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
 

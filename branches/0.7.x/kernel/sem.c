@@ -83,7 +83,7 @@ static void _proc_sem_lock( proc_t * proc, sem_t * sem )
 
     SPIN_LOCK( proc );
     _proc_dont_stop( proc, PROC_FLG_SEM );
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 /**********************************************************************************************
                                        SYSCALL_SEM_INIT
@@ -104,7 +104,7 @@ void sem_init_isr( sem_t * sem, count_t count )
 
     xlist_init( (xlist_t *)sem );
     sem->counter = count;
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
 }
 /**********************************************************************************************
                                          SYSCALL_SEM_LOCK
@@ -152,9 +152,9 @@ bool_t _sem_lock( sem_t * sem )
         proc->buf = (void *)sem; // A process waits on sem now!
         _proc_stop_flags_set( proc, (PROC_FLG_SEM|PROC_STATE_W_SEM) );
         gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
-        SPIN_UNLOCK( proc );
+        SPIN_FREE( proc );
     }
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
     return ret;
 }
 //========================================================================================
@@ -183,7 +183,7 @@ bool_t _sem_try_lock( sem_t * sem )
 
         _proc_sem_lock( proc, sem );
     }
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
     return ret;
 }
 //========================================================================================
@@ -196,14 +196,14 @@ bool_t sem_try_lock( sem_t * sem )
     return scarg.ret;
 }
 /**********************************************************************************************
-                                       SYSCALL_SEM_UNLOCK
+                                       SYSCALL_SEM_FREE
 **********************************************************************************************/
-void sem_unlock( sem_t * sem )
+void sem_free( sem_t * sem )
 {
-    syscall_bugurt( SYSCALL_SEM_UNLOCK, (void *)sem );
+    syscall_bugurt( SYSCALL_SEM_FREE, (void *)sem );
 }
 //========================================================================================
-void sem_unlock_isr( sem_t * sem )
+void sem_free_isr( sem_t * sem )
 {
     proc_t * proc;
     SPIN_LOCK( sem );
@@ -220,12 +220,12 @@ void sem_unlock_isr( sem_t * sem )
     proc->buf = (void *)0; // A process does NOT wait on sem now!
     _proc_cut_and_run( proc, PROC_STATE_READY );
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 end:
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
 }
 //========================================================================================
-void scall_sem_unlock( void * arg )
+void scall_sem_free( void * arg )
 {
-    sem_unlock_isr( (sem_t *)arg );
+    sem_free_isr( (sem_t *)arg );
 }

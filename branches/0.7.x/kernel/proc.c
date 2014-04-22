@@ -180,7 +180,7 @@ void _proc_prio_propagate( proc_t * proc )
             _proc_prio_control_stoped( proc );
             sched_proc_run( proc, PROC_STATE_W_READY );
 
-            SPIN_UNLOCK( proc );
+            SPIN_FREE( proc );
 
             // Keep priority data consistent
             proc = mutex->owner;
@@ -189,10 +189,10 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_LRES_DEC( proc, old_prio );
             PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );
 
-            SPIN_UNLOCK( proc );
+            SPIN_FREE( proc );
 
 
-            SPIN_UNLOCK( mutex );
+            SPIN_FREE( mutex );
 
             break;
         }
@@ -226,8 +226,8 @@ void _proc_prio_propagate( proc_t * proc )
                 sched_proc_run( proc, PROC_STATE_READY );
             }
 
-            SPIN_UNLOCK( proc );
-            SPIN_UNLOCK( sem );
+            SPIN_FREE( proc );
+            SPIN_FREE( sem );
 
             break;
         }
@@ -264,8 +264,8 @@ void _proc_prio_propagate( proc_t * proc )
                 sched_proc_run( proc, PROC_STATE_W_READY );
             }
 
-            SPIN_UNLOCK( proc );
-            SPIN_UNLOCK( sig );
+            SPIN_FREE( proc );
+            SPIN_FREE( sig );
             break;
         }
         case PROC_STATE_STOPED:
@@ -406,7 +406,7 @@ void proc_init_isr(
     proc->sstart = sstart;
     if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)pmain, (void *)arg, (void (*)(void))proc_terminate);
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 /**********************************************************************************************
                                        SYSCALL_PROC_RUN
@@ -449,7 +449,7 @@ bool_t proc_run_isr(proc_t * proc)
     sched_proc_run( proc, PROC_STATE_READY );
 end:
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 
     return ret;
 }
@@ -491,7 +491,7 @@ bool_t proc_restart_isr(proc_t * proc)
     sched_proc_run( proc, PROC_STATE_READY );
 end:
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 
     return ret;
 }
@@ -526,7 +526,7 @@ bool_t proc_stop_isr(proc_t * proc)
         ret = (bool_t)1;
     }
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 
     return ret;
 }
@@ -565,7 +565,7 @@ void _proc_flag_stop( flag_t mask )
     }
     proc->flags &= ~mask;
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 //========================================================================================
 void scall_proc_flag_stop( void * arg )
@@ -589,7 +589,7 @@ void _proc_self_stop(void)
 
     _proc_stop_ensure( proc );
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 //========================================================================================
 void scall_proc_self_stop( void * arg )
@@ -620,7 +620,7 @@ void _proc_terminate( void )
     else proc->flags |= PROC_STATE_END;
     proc->flags &= ~PROC_FLG_PRE_STOP;
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 //========================================================================================
 void scall_proc_terminate( void * arg )
@@ -644,7 +644,7 @@ void _proc_reset_watchdog( void )
 
     if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
 //========================================================================================
 void scall_proc_reset_watchdog( void * arg )
@@ -670,7 +670,7 @@ void proc_set_prio( proc_t * proc, prio_t prio )
 }
 //========================================================================================
 #ifdef CONFIG_MP
-#define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p, (code_t)spin_unlock, (void *)&p->lock )
+#define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p, (code_t)spin_free, (void *)&p->lock )
 #else
 #define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p )
 #endif
