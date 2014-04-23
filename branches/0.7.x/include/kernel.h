@@ -83,7 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок Ядра. \~english A kernel header.
 */
 //Ядро
-typedef struct _kernel_t kernel_t;
+typedef struct _kernel_t kernel_t; /*!< \~russian Смотри #_kernel_t; \~english See #_kernel_t; */
 /*!
 \~russian
 \brief

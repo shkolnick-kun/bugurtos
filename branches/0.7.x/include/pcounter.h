@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок счетчиков захваченных ресурсов. \~english A locked resource counter header.
 */
-typedef struct _pcounter_t pcounter_t;
+typedef struct _pcounter_t pcounter_t; /*!< \~russian Смотри #_pcounter_t; \~english See #_pcounter_t; */
 /*!
 \~russian
 \brief

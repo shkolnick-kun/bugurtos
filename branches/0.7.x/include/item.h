@@ -83,7 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок элементов 2-связного списка. \~english A list item header.
 */
 //Элеммент 2-связного списка;
-typedef struct _item_t item_t;
+typedef struct _item_t item_t; /*!< \~russian Смотри #_item_t; \~english See #_item_t; */
 //Свойства
 /*!
 \~russian

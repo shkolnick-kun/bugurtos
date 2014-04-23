@@ -274,7 +274,7 @@ void _mutex_free( mutex_t *  mutex )
     SPIN_FREE( proc );
     SPIN_FREE( mutex );
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     SPIN_LOCK( mutex );
     // Обрабока самого мьютекса

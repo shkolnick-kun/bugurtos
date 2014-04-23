@@ -417,7 +417,7 @@ void sched_schedule(void)
     //Текущий процесс более не нужен, освобождаем его блокировку
     SPIN_FREE( current_proc );
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     _sched_switch_current( sched, current_proc );
 }
@@ -465,7 +465,7 @@ index_t _sched_yeld( void )
     ret = sched->expired->index;
     SPIN_FREE( sched );
 
-    KERNEL_PREEMPT();/// KERNEL_PREEMPT
+    KERNEL_PREEMPT();// KERNEL_PREEMPT
 
     SPIN_LOCK( proc );
 
@@ -488,7 +488,7 @@ index_t _sched_yeld( void )
     RESCHED_PROC( proc );
     SPIN_FREE( proc );
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     SPIN_LOCK( sched );
     ret |= sched->ready->index;

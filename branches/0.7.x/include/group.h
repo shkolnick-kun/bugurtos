@@ -87,7 +87,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief A #group_t and #pool_t header.
 */
 
-typedef struct _group_t group_t;
+typedef struct _group_t group_t; /*!< \~russian Смотри #_group_t; \~english See #_group_t; */
 //свойства
 /*!
 \~russian
@@ -113,6 +113,7 @@ struct _group_t
     count_t el_num; /*!< \~russian Количество элементов в группе, подсчет ссылок же! \~english The number of #gitem_t objects in group, link counter.*/
 };
 
+typedef struct _pool_t pool_t; /*!< \~russian Смотри #_pool_t; \~english See #_pool_t; */
 /*!
 \~russian
 \brief
@@ -124,9 +125,8 @@ struct _group_t
 \brief
 Pool of groups;
 
-Pool is a stack container for #gpoup_t objects.
+Pool is a stack container for #group_t objects.
 */
-typedef struct _pool_t pool_t;
 struct _pool_t
 {
     group_t * top; /*!< \~russian Вершина пула. \~english Top of pool. */
@@ -212,6 +212,7 @@ Pushes a group to a pool.
 \param pool A #pool_t container pointer.
 */
 void group_push(group_t * group, pool_t * pool);
+
 /*!
 \~russian
 \brief
@@ -220,7 +221,7 @@ void group_push(group_t * group, pool_t * pool);
 \param pool Указатель на контейнер типа #pool_t.
 \return Указатель на объект #group_t, который был взят из пула.
 
-\~russian
+\~english
 \brief
 Pop a group from a pool.
 

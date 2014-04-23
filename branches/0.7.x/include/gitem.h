@@ -111,6 +111,16 @@ struct _gitem_t
 };
 
 typedef struct _gxlist_t gxlist_t; /*!< \~russian Группированный список с приоритетами (Расширение типа #xlixt_t) \~english A grouped xlist (#xlist_t extension).*/
+
+/*!<
+\~russian
+\brief
+Группированный список с приоритетами (Расширение типа #xlixt_t)
+
+\~english
+\brief
+A grouped xlist (#xlist_t extension).
+*/
 struct _gxlist_t
 {
     xlist_t parent;     /*!< \~russian Родительский тип - #xlist_t.             \~english Parent type is #xlist_t. */

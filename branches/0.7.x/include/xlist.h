@@ -89,7 +89,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 A prioritized list header.
 */
-typedef struct _xlist_t xlist_t;
+typedef struct _xlist_t xlist_t; /*!< \~russian Смотри #_xlist_t; \~english See #_xlist_t; */
 // свойства
 /*!
 \~russian

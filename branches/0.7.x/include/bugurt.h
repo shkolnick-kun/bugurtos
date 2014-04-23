@@ -460,6 +460,7 @@ extern proc_t * current_proc(void);
 \param sstart Дно стека.
 \param code Функция, которая будет вызвана после восстановления контекста.
 \param arg Аргумент вызываемой функции.
+\param return_address адрес возврата из pmain.
 \return Указатель на вершину подготовленного стека.
 \~english
 \brief
@@ -471,6 +472,7 @@ It treats a pocess stack in such a way that pmain(arg) is called when a process 
 \param sstart a process stack bottom.
 \param pmain a poiter to a function to call.
 \param arg an argument to a function to call.
+\param return_address an adress to return from pmain.
 \return a pointer to a prepared process stack top.
 */
 extern stack_t * proc_stack_init(stack_t * sstart, code_t pmain, void * arg, void (*return_address)(void));

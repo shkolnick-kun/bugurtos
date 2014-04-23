@@ -141,7 +141,19 @@ extern syscall_t syscall_num;
 \~russian Аргумент системного вызова. \~english System call argument.
 */
 extern void * syscall_arg;
+/*!
+\~russian
+\brief
+Обработка системного вызова.
 
+Зпускает обработчик системного вызова и передает ему аргумент.
+
+\~english
+\brief
+System call processing routine.
+
+This function calls system call handlers and passes arguments to them.
+*/
 void do_syscall( void );
 #endif
 
@@ -327,24 +339,6 @@ void scall_proc_set_prio( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SIG_INIT.
-
-Инициализирует сигнал, вызывает #sig_init_isr.
-
-\param arg указатель на сигнал.
-
-\~english
-\brief
-A #SYSCALL_SIG_INIT handler.
-
-Initiates a signal by #sig_init_isr call.
-
-\param arg A pointer to a signal.
-*/
-void scall_sig_init( void * arg );
-/*!
-\~russian
-\brief
 Обработчик вызова #SYSCALL_SIG_WAIT.
 
 Переводит вызваший процесс в состояние ожидания сигнала, вызывает #_sig_wait_prologue.
@@ -360,6 +354,23 @@ Transfers a caller process in to signal wait state by #_sig_wait_prologue call.
 \param arg A pointer to a signal.
 */
 void scall_sig_wait( void * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SIG_WAKEUP.
+
+Вызывает #_sig_wait_epilogue, обрабатывает флаг #PROC_FLG_PRE_STOP
+
+\param arg не используется.
+
+\~english
+\brief
+A #SYSCALL_SIG_WAKEUP hadnler.
+
+Calls #_sig_wait_epilogue, handles #PROC_FLG_PRE_STOP.
+
+\param arg не используется.
+*/
 void scall_sig_wakeup( void *arg );
 /*!
 \~russian
@@ -368,9 +379,6 @@ void scall_sig_wakeup( void *arg );
 
 "Будит" один из процессов, ожидающих сигнала, вызывает #sig_signal_isr.
 
-\warning На многопроцессорной не действует принцип FIFO при "пробуждении" процессов,
-вставленных в списки ожидания для разных процессоров!
-
 \param arg указатель на сигнал.
 
 \~english
@@ -378,8 +386,6 @@ void scall_sig_wakeup( void *arg );
 A #SYSCALL_SIG_SIGNAL handler.
 
 Wakes up one waiting process by #sig_signal_isr call.
-
-\warning On a multicore system processes aren't woken up in a FIFO manner!
 
 \param arg A pointer to a signal.
 */
@@ -404,25 +410,6 @@ This function wakes up all waiting processes by #sig_broadcast_isr call.
 void scall_sig_broadcast( void * arg );
 /*****************************************************************************************/
 /*                                 Semaphore control !                                   */
-
-/*!
-\~russian
-\brief
-Обработчик вызова #SYSCALL_SEM_INIT.
-
-Инициирует семафор, вызывает #sem_init_isr.
-
-\param arg указатель на аргумент типа #sem_init_arg_t.
-
-\~english
-\brief
-A #SYSCALL_SEM_INIT handler.
-
-This function initiates semaphore by #sem_init_isr call.
-
-\param arg A pointer to a #sem_init_arg_t structure.
-*/
-void scall_sem_init( void * arg );
 /*****************************************************************************************/
 
 /*!
@@ -482,25 +469,6 @@ This function calls #sem_free_isr.
 void scall_sem_free( void * arg );
 /*****************************************************************************************/
 /*                                     Мьютексы                                          */
-
-/*!
-\~russian
-\brief
-Обработчик вызова #SYSCALL_MUTEX_INIT.
-
-Инициирует мьютекс, вызывает #mutex_init_isr.
-
-\param arg указатель на аргумент типа #mutex_init_arg_t.
-
-\~english
-\brief
-A #SYSCALL_MUTEX_INIT handler.
-
-This function initiater mutex by #mutex_init_isr call.
-
-\param arg A poiner to an #mutex_init_arg_t object.
-*/
-void scall_mutex_init(void * arg);
 /*****************************************************************************************/
 
 /*!

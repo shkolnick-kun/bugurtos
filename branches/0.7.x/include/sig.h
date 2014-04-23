@@ -84,7 +84,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 //Сигнал
 
-typedef struct _sig_t sig_t;
+typedef struct _sig_t sig_t; /*!< \~russian Смотри #_sig_t; \~english See #_sig_t; */
 // Свойства
 /*!
 \~russian
@@ -103,8 +103,8 @@ Other process or interrupt handler can fire a signal and launch one or all proce
 */
 struct _sig_t
 {
-    gxlist_t wait;
-    gxlist_t wakeup;
+    gxlist_t wait;   /*!< \~russian Список ожидающих процессов. \~english A waiting process list. */
+    gxlist_t wakeup; /*!< \~russian Список "пробуждаемых" процессов. \~english A list of processes to wake up. */
 #ifdef CONFIG_MP
     lock_t lock; /*!< \~russian На многопроцессорной системе сигнал защищен спин-блокитровкой. \~english A spin-lock. */
 #endif
@@ -171,7 +171,7 @@ void sig_wait( sig_t * sig );
 \brief
 Встать в список ожидания сигнала, для внутреннего использования.
 
-Останавливает вызвавший процесс и ставит его в список ожидания. На многопроцессорной системе при этом происходит предварительная балансировка нагрузки.
+Останавливает вызвавший процесс и ставит его в список ожидания.
 
 \param sig Указатель на сигнал.
 
@@ -180,11 +180,23 @@ void sig_wait( sig_t * sig );
 A signal wait prologue kernel part.
 
 This function stops cureent running process and insert it to signal wait list.
-On multicore system it allso does load prebalancing.
 
 \param sig A #sig_t pointer.
 */
 void _sig_wait_prologue( sig_t * sig );
+/*!
+\~russian
+\brief
+Эпилог ожидания сигнала. Для внутреннего использования.
+
+При необходимости пробуждает следующий процесс в sig->wakeup;
+
+\~english
+\brief
+Sig wait epilogue. For intrnal usage.
+
+Wakes up next proces from sig->wakeup, if needed.
+*/
 void _sig_wait_epilogue( void );
 
 // Разбудить 1 процесс
@@ -277,7 +289,7 @@ void sig_signal_isr( sig_t * sig );
 Fire a signal from ISR, launch all waiting processes.
 
 This function launches all processes waiting for certain signal.
-This function is O(1), as #pitem_xlist_chain is used.
+This function is O(1), as #gxlist_merge is used.
 
 \param sig A #sig_t pointer.
 */

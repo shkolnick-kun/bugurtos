@@ -166,7 +166,7 @@ else this macro does nothing.
 //#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 
 //Процесс
-typedef struct _proc_t proc_t;
+typedef struct _proc_t proc_t; /*!< \~russian Смотри #_proc_t; \~english See #_proc_t; */
 // Свойства
 /*!
 \~russian
@@ -403,8 +403,21 @@ A process should not have locked resources at a moment of a flag stop.
 \brief Check if process is ready or running
 */
 #define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
+/*!
+\~russian
+\brief Читает состояние процесса.
 
+\~english
+\brief Reads a process state.
+*/
 #define PROC_GET_STATE(a) ( a->flags & PROC_STATE_MASK )
+/*!
+\~russian
+\brief Устанавливает состояние процесса.
+
+\~english
+\brief Sets process state.
+*/
 #define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, proc->flags |= b )
 
 /*!
@@ -416,6 +429,13 @@ A process should not have locked resources at a moment of a flag stop.
 */
 #define PROC_IPC_TEST(a) ( PROC_GET_STATE(a) == PROC_STATE_W_IPC )
 
+/*!
+\~russian
+\brief Низший приоритет.
+
+\~english
+\brief Lowest priority level.
+*/
 #define PROC_PRIO_LOWEST ((prio_t)BITS_IN_INDEX_T - (prio_t)1)
 
 // Методы
@@ -701,5 +721,24 @@ It sets a procees priority. A process current state doesn't matter.
 \param prio - New process priority value.
 */
 void proc_set_prio( proc_t * proc, prio_t prio );
+
+/*!
+\~russian
+\brief Управление приоритетом процесса. Для внктреннего использования.
+
+Устанавливает приоритет процесса, находящегося в любом состоянии.
+
+\param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
+
+\~english
+\brief Set a priotity of a process. For internel usage.
+
+It sets a procees priority. A process current state doesn't matter.
+
+\param proc - A pointer to a process.
+\param prio - New process priority value.
+*/
+void _proc_set_prio( proc_t * proc, prio_t prio );
 
 #endif // _PROC_H_

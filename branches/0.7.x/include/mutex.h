@@ -78,15 +78,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
-
-#define MUTEX_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST)
-
 /*!
 \file
 \brief \~russian Заголовок мьютекса. \~english A mutex header.
 */
+
+#define MUTEX_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST) /*!< \~russian Считает приоритет мьютекса. \~english Calculates a mutex priority */
+
+
 //          Мьютекс
-typedef struct _mutex_t mutex_t;
+typedef struct _mutex_t mutex_t; /*!< \~russian Смотри #_mutex_t; \~english See #_mutex_t; */
 // Свойства
 /*!
 \~russian
@@ -114,7 +115,7 @@ struct _mutex_t
 {
     xlist_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bool_t free;/*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
-    proc_t * owner;
+    proc_t * owner;/*!< \~russian Указатель на процесс, удерживающий мьютекс. \~english A pointer to a process, that holds a mutex. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A mutex spin-lock. */
 #endif // CONFIG_MP

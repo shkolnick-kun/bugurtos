@@ -160,7 +160,7 @@ void _sig_wait_epilogue( void )
 
     SPIN_FREE( proc );
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     if( sig == (sig_t *)0 ) return;
 

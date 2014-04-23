@@ -110,7 +110,7 @@ Initialization wrapper for sched variable in #sched_schedule and #sched_reschedu
 #endif // CONFIG_MP
 
 // Планировшик
-typedef struct _sched_t sched_t;
+typedef struct _sched_t sched_t; /*!< \~russian Смотри #_sched_t; \~english See #_sched_t; */
 // Свойства
 /*!
 \~russian

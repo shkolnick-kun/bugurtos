@@ -84,7 +84,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок счетных семафоров. \~english A counting semaphores header.
 */
-typedef struct _sem_t sem_t;
+typedef struct _sem_t sem_t; /*!< \~russian Смотри #_sem_t; \~english See #_sem_t; */
 // Свойства
 /*!
 \~russian

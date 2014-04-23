@@ -164,7 +164,7 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE );  // Ensure that process will not run, and stay in a mutex wait list!
 
             mutex = (mutex_t *)proc->buf;
-            while( mutex == (mutex_t *)0 ); /// kernel panic!!!
+            while( mutex == (mutex_t *)0 ); // kernel panic!!!
 
             PROC_PRIO_PROP_HOOK();
 
@@ -202,7 +202,7 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE ); // Ensure that process will not run, and stay in a sem wait list!
 
             sem = (sem_t *)proc->buf;
-            while( sem == (sem_t *)0 ); /// kernel panic!!!
+            while( sem == (sem_t *)0 ); // kernel panic!!!
 
             PROC_PRIO_PROP_HOOK();
 
@@ -239,7 +239,7 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE ); // Ensure that process will not run, and stay in a sig wait or wakeup list!
 
             sig = (sig_t *)proc->buf;
-            while( sig == (sig_t *)0 ); /// kernel panic!!!
+            while( sig == (sig_t *)0 ); // kernel panic!!!
 
             PROC_PRIO_PROP_HOOK();
 
@@ -304,37 +304,6 @@ void _proc_cut_and_run( proc_t * proc, flag_t state )
                                     Process control !!!
 **********************************************************************************************/
 // Инициация, тут все понятно.
-/// SYSCALL_PROC_INIT
-
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_PROC_INIT.
-
-Содержит информацию о процессе, и его свойствах.
-
-\~english
-\brief
-An argument for #SYSCALL_PROC_INIT.
-
-A process initialization structure.
-Contents an information about a process.
-*/
-typedef struct {
-    proc_t * proc;      /*!< \~russian Указатель на инициируемый процесс. \~english A ponter to a initialized process.*/
-    code_t pmain;       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
-    code_t sv_hook;     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
-    code_t rs_hook;     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*//*!< Хук, исполняется планировщиком перед восстановлением контекста процесса. */
-    void * arg;         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
-    stack_t *sstart;    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
-    prio_t prio;        /*!< \~russian Приоритет. \~english A process priority.*/
-    timer_t time_quant; /*!< \~russian Квант времени. \~english A process time slice.*/
-    bool_t is_rt;       /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If frue, then a process is scheduled in a real time manner.*/
-#ifdef CONFIG_MP
-    affinity_t affinity;/*!< \~russian Афинность. \~english A process affinity.*/
-#endif // CONFIG_MP
-} proc_init_arg_t;
-
 void proc_init(
                     proc_t * proc, //Указатель на инициируемый процесс
                     code_t pmain,
@@ -654,10 +623,19 @@ void scall_proc_reset_watchdog( void * arg )
 /**********************************************************************************************
                                        SYSCALL_PROC_SET_PRIO
 **********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_PROC_SET_PRIO.
+
+\~english
+\brief
+An argument for system call #SYSCALL_PROC_SET_PRIO.
+*/
 typedef struct
 {
-    proc_t * proc;
-    prio_t prio;
+    proc_t * proc; /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
+    prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
 }
 proc_set_prio_arg_t;
 

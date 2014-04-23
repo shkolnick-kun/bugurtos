@@ -91,7 +91,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \return Наивысший (с минимальным значением) приоритет в индексе.
 
 \brief
-\~russian An index search.
+\~english An index search.
 
 \param index An index.
 \return Highest priority of an index (with minimal value).
