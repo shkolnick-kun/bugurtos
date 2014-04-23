@@ -169,8 +169,13 @@ void pool_merge( pool_t * src, pool_t * dst );
 
 /*!
    \~russian
-   Статическая инициализация объекта типа group_t
-   \param p - Приоритет.
+   Статическая инициализация объекта типа #group_t
+   \param p Приоритет.
+
+   \~english
+   Static #group_t object initiation.
+   \param p Priority.
+
 */
 #define INIT_GROUP_T(p) { (void *)0, (prio_t)p, (count_t)1 }
 
@@ -180,16 +185,31 @@ void pool_merge( pool_t * src, pool_t * dst );
 \brief
 Инициализация группы.
 
-\param group Указатель на объект group_t.
-\param prio Приоритет элемента.
+\param group Указатель на объект #group_t.
+\param prio Приоритет.
+
+\~english
+\brief
+A #group_t object iniation.
+
+\param group A #group_t object pointer.
+\param prio Priority.
 */
 void group_init(group_t * group, prio_t prio);
 /*!
 \~russian
 \brief
-Положить группу в Пул.
+Положить группу в пул.
 
-\param group Указатель на объект group_t.
+\param group Указатель на объект #group_t.
+\param pool Указатель на контейнер типа #pool_t.
+
+\~english
+\brief
+Pushes a group to a pool.
+
+\param group A #group_t object pointer.
+\param pool A #pool_t container pointer.
 */
 void group_push(group_t * group, pool_t * pool);
 /*!
@@ -197,9 +217,15 @@ void group_push(group_t * group, pool_t * pool);
 \brief
 Взять группу из Пула.
 
-Если есть что брать, а есть всегда, избыточность же!
+\param pool Указатель на контейнер типа #pool_t.
+\return Указатель на объект #group_t, который был взят из пула.
 
-\return Указатель на объект group_t, который был взят из Пула.
+\~russian
+\brief
+Pop a group from a pool.
+
+\param pool A #pool_t container pointer.
+\return A #group_t object pointer.
 */
 group_t * group_pop(pool_t * pool);
 
