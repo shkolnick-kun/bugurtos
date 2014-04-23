@@ -37,7 +37,7 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="2">
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="2">
 		<Cursor position="8371" topLine="157" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="6">
@@ -103,7 +103,7 @@
 	<File name="../config.h" open="1" top="0" tabpos="1">
 		<Cursor position="2417" topLine="68" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="1">
+	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="1522" topLine="69" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">

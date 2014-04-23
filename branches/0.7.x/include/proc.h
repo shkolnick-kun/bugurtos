@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -363,7 +363,7 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 #define PROC_STATE_WD_STOPED        ((flag_t)0x3)   /*!< \~russian Остановлен по вачдог. \~english Watchdog termination. */
 
 #define PROC_STATE_DEAD             ((flag_t)0x4)   /*!< \~russian Завершен до освобождения общих ресурсов. \~english Abnormal termination, terminated with resources locked. */
-#define PROC_STATE_PCHANGE          ((flag_t)0x5)   /*!< \~russian !!!!!!!!! \~english !!!!!!!!! */
+#define PROC_STATE_PCHANGE          ((flag_t)0x5)   /*!< \~russian Запущен при смене приоритета \~english A process has been run during priority change */
 // run states
 #define PROC_STATE_READY            ((flag_t)0x6)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
 #define PROC_STATE_RUNNING          ((flag_t)0x7)   /*!< \~russian Выполняется. \~english Is running. */
@@ -376,7 +376,7 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 
 //special states
 #define PROC_STATE_W_DEAD           ((flag_t)0xC)   /*!< \~russian Остановлен по вачдог в состоянии W_RUNNING до освобождения общих ресурсов. \~english Watchdog termination from W_RUNNING state with resources locked. */
-#define PROC_STATE_W_PCHANGE        ((flag_t)0xD)   /*!< \~russian !!!!!!!!!!! \~english !!!!!!!!!!! */
+#define PROC_STATE_W_PCHANGE        ((flag_t)0xD)   /*!< \~russian Остановлен для смены приоритета. \~english A process is stoped for priority change. */
 
 #define PROC_STATE_W_READY          ((flag_t)0xE)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
 #define PROC_STATE_W_RUNNING        ((flag_t)0xF)   /*!< \~russian Выполняется (специальное). \~english Is running (special). */
@@ -638,23 +638,23 @@ If a real time process failes to reset its watchdog, then the scheduler stops su
 void _proc_reset_watchdog(void);
 
 /*!
-\brief \~russian !!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!!
+\brief \~russian Запуск остановленного процесса с флагом #PROC_FLG_PRE_STOP. Для внутреннего использования. \~english Run stoped process and set #PROC_FLG_PRE_STOP. For internal usage.
+*/
+void _proc_dont_stop( proc_t * proc, flag_t flags );
+/*!
+\brief \~russian Вырезать проесс из списка ожидающих и его запуск. Для внутреннего использования. \~english Cut the a process from wait list and run it. For internel usage.
 */
 void _proc_cut_and_run( proc_t * proc, flag_t state );
-
+//===========================================================
+/*!
+\brief \~russian Передача приоритетов по цепи заблокированных процессов. Для внутреннего использования. \~english Propagation of priority through a blovked process chain. For internal usage.
+*/
+void _proc_prio_propagate( proc_t * proc
 #ifdef CONFIG_MP
-/*!
-\brief \~russian !!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!!
-*/
-void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg );
-#else
-/*!
-\brief \~russian !!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!!
-*/
-void _proc_prio_propagate( proc_t * proc );
-#endif
-
-
+                          , code_t hook, void * hook_arg
+#endif //CONFIG_MP
+                         );
+//===========================================================
 /*!
 \brief \~russian "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования. \~english A low level process stop with flags set routine. For internal usage.
 */
@@ -685,34 +685,20 @@ void _proc_prio_control_stoped( proc_t * proc );
 
 /*!
 \~russian
-\brief !!!!!!!!!!!!!!!!!!!!
+\brief Управление приоритетом процесса.
 
-!!!!!!!!!!!!!!!
-
-\param proc - Указатель на процесс.
-
-\~english
-\brief !!!!!!!!!!!!!!!!!!!!!!
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-\param proc - A pointer to a process.
-*/
-
-void _proc_dont_stop( proc_t * proc, flag_t flags );
-
-/*!
-\~russian
-\brief !!!!!!!!!!!!!!!!!!!!
-
-!!!!!!!!!!!!!!!
+Устанавливает приоритет процесса, находящегося в любом состоянии.
 
 \param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
 
 \~english
-\brief !!!!!!!!!!!!!!!!!!!!!!
+\brief Set a priotity of a process.
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+It sets a procees priority. A process current state doesn't matter.
+
 \param proc - A pointer to a process.
+\param prio - New process priority value.
 */
 void proc_set_prio( proc_t * proc, prio_t prio );
 

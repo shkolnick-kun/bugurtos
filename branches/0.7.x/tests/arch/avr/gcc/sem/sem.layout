@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
 		<Cursor position="9653" topLine="290" />
 	</File>

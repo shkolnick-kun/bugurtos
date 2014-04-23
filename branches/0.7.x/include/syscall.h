@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_YELD + (syscall_t)(1))            /*!< \~russian Завершение работы процесса. \~english A process termination. */
 #define SYSCALL_PROC_FLAG_STOP                  (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english #PROC_FLG_PRE_STOP flag processing. */
 #define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FLAG_STOP + (syscall_t)(1))       /*!< \~russian Сброс watchdog процесса реального времени. \~english A real time process watchdog reset. */
-#define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))       /*!< \~russian !!!!!!!!!!!!!!! \~english !!!!!!!!!!!!!!!!!! */
+#define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian Установить приоритет процесса \~english Set a process priority. */
 
 #define SYSCALL_SIG_WAIT                        (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))             /*!< \~russian Ожидание сигнала. \~english Wait for signal. */
 #define SYSCALL_SIG_WAKEUP                      (SYSCALL_SIG_WAIT + (syscall_t)(1))             /*!< \~russian Обработка запуска по сигналу. \~english Signal wakeup processing. */
@@ -307,19 +307,19 @@ void scall_proc_reset_watchdog( void * arg );
 /*!
 \~russian
 \brief
-!!!!!!!!!!!!!!!!!!!!!
+Обработчик вызова #SYSCALL_PROC_SET_PRIO.
 
-!!!!!!!!!!!!!!!!!!!!
+Вызывает #_proc_set_prio.
 
-\param arg !!!!!!!!!!!!!!!!!!!!!!!!!
+\param arg Указатель на переменную типа #proc_set_prio_arg_t.
 
 \~english
 \brief
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+A #SYSCALL_PROC_SET_PRIO handler.
 
-!!!!!!!!!!!!!!!!!!!!!!
+This function calls #_proc_set_prio.
 
-\param arg !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+\param arg A pointer to #proc_set_prio_arg_t object.
 */
 void scall_proc_set_prio( void * arg );
 /*****************************************************************************************/
