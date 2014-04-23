@@ -80,44 +80,95 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _GROUP_H_
 /*!
 \file
+\~russian
 \brief Заголовок элементов групп.
+
+\~english
+\brief A #group_t and #pool_t header.
 */
 
 typedef struct _group_t group_t;
 //свойства
 /*!
+\~russian
 \brief
-Группа элементов типа gitem_t.
+Группа элементов типа #gitem_t.
 
-Группа элементов типа gitem_t, хранит информацию о приоритете входящих в нее элементов, а так же указатель на список xlist_t, которому принадлежат эти элементы.
+Группа элементов типа #gitem_t, хранит информацию о приоритете входящих в нее элементов, а так же указатель на список #xlist_t, которому принадлежат эти элементы.
 
-Каждый элемент gitem_t имеет поле типа group_t, изначально  принадлежит этой самой группе, однако при включении элемента в группированный список, где уже есть элементы с таким же приоритетом, собственная группа будет передана в Пул, и элемент будет включен в группу, которая уже есть в списке.
+Каждый элемент #gitem_t имеет поле типа #group_t, изначально  принадлежит этой самой группе, однако при включении элемента в группированный список, где уже есть элементы с таким же приоритетом, собственная группа будет передана в Пул, и элемент будет включен в группу, которая уже есть в списке.
+
+\~english
+\brief
+A group of #gitem_t objects.
+
+A #gitem_t object, stores priority information of grouped #gitem_t objects, and apointer to an #xlist_t container, which holds these #gitem_t objects.
+
+Every #gitem_t object has #group_t field, this field is initial group for this object. When #gitem_t object is transfered to #gxlist_t container gitem->group may be pushed to local pool of that container.
 */
 struct _group_t
 {
-    void * link;   /*!< Поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в Пуле.*/
-    prio_t prio;    /*!< Приоритет группы.*/
-    count_t el_num; /*!< Количество элементов в группе, подсчет ссылок же! */
+    void * link;    /*!< \~russian Поле используется для хранения указателя на список, либо для хранения указателя на следующую группу в gуле. \~english Stores an information about container, or about next group in a pool. */
+    prio_t prio;    /*!< \~russian Приоритет группы. \~english  A group priority.*/
+    count_t el_num; /*!< \~russian Количество элементов в группе, подсчет ссылок же! \~english The number of #gitem_t objects in group, link counter.*/
 };
 
-typedef struct _pool_t pool_t;
 /*!
+\~russian
+\brief
+Пул;
+
+Стек для хранения неиспользуемых групп.
+
+\~english
 \brief
 Pool of groups;
 
-Pool is a stack container for gpoup_t objects.
+Pool is a stack container for #gpoup_t objects.
 */
+typedef struct _pool_t pool_t;
 struct _pool_t
 {
-    group_t * top; /*!<  Top of pool */
-    group_t * bot; /*!<  Bottom of pool */
+    group_t * top; /*!< \~russian Вершина пула. \~english Top of pool. */
+    group_t * bot; /*!< \~russian Дно пула.  \~english Bottom of pool. */
 };
+/*!
+   \~russian
+   Статическая инициализация объекта типа #pool_t
 
+   \~english
+   Static #pool_t object initiation.
+*/
 #define INIT_POOL_T() { (group_t *)0, (group_t *)0 }
+/*!
+   \~russian
+   Инициализация объекта типа #pool_t
+
+   \param pool - указаткль на пул.
+
+   \~english
+   A #pool_t object initiation;
+
+   \param pool A #pool_t pointer.
+*/
 void pool_init( pool_t * pool );
+/*!
+   \~russian
+   Слияние двух пулов.
+
+   \param src Указатель на пул-источник.
+   \param dst Указатель на пул-приемник.
+
+   \~english
+   Merges two pools.
+
+   \param src Source #pool_t object pointer.
+   \param dst Destignation #pool_t object pointer.
+*/
 void pool_merge( pool_t * src, pool_t * dst );
 
 /*!
+   \~russian
    Статическая инициализация объекта типа group_t
    \param p - Приоритет.
 */
@@ -125,6 +176,7 @@ void pool_merge( pool_t * src, pool_t * dst );
 
 // методы
 /*!
+\~russian
 \brief
 Инициализация группы.
 
@@ -133,6 +185,7 @@ void pool_merge( pool_t * src, pool_t * dst );
 */
 void group_init(group_t * group, prio_t prio);
 /*!
+\~russian
 \brief
 Положить группу в Пул.
 
@@ -140,6 +193,7 @@ void group_init(group_t * group, prio_t prio);
 */
 void group_push(group_t * group, pool_t * pool);
 /*!
+\~russian
 \brief
 Взять группу из Пула.
 
