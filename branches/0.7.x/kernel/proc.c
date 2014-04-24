@@ -160,7 +160,7 @@ void _proc_prio_propagate( proc_t * proc )
         case PROC_STATE_W_MUT:
         {
             mutex_t * mutex;
-            prio_t old_prio;
+            prio_t old_prio, new_prio;
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE );  // Ensure that process will not run, and stay in a mutex wait list!
 
             mutex = (mutex_t *)proc->buf;
@@ -183,14 +183,18 @@ void _proc_prio_propagate( proc_t * proc )
             SPIN_FREE( proc );
 
             // Keep priority data consistent
-            proc = mutex->owner;
-            SPIN_LOCK( proc );
+            new_prio = MUTEX_PRIO( mutex );
+            if( new_prio != old_prio )
+            {
+                proc = mutex->owner;
 
-            PROC_LRES_DEC( proc, old_prio );
-            PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );
+                SPIN_LOCK( proc );
 
-            SPIN_FREE( proc );
+                PROC_LRES_DEC( proc, old_prio );
+                PROC_LRES_INC( proc, new_prio );
 
+                SPIN_FREE( proc );
+            }
 
             SPIN_FREE( mutex );
 

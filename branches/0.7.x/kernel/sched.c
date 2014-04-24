@@ -454,7 +454,7 @@ index_t sched_yeld(void)
 //========================================================================================
 index_t _sched_yeld( void )
 {
-    index_t ret;
+    index_t ret,mask;
     sched_t * sched;
     proc_t * proc;
 
@@ -494,7 +494,12 @@ index_t _sched_yeld( void )
     ret |= sched->ready->index;
     SPIN_FREE( sched );
 
-    return ret;
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
+
+    mask = ~(index_t)0;
+    mask <<= (((gitem_t *)proc)->group->prio + (prio_t)1);
+
+    return (ret & (~mask)); // Mask all lower prio processes
 }
 //========================================================================================
 void scall_sched_yeld( void * arg )

@@ -172,7 +172,7 @@ bool_t _mutex_lock( mutex_t * mutex )
         if( mutex->owner == proc ) goto end; //Finaly a proc has got the mutex, no more itterations!
         else
         {
-            prio_t old_prio;
+            prio_t old_prio, new_prio;
             old_prio = MUTEX_PRIO( mutex );
 
             SPIN_LOCK( proc );
@@ -183,14 +183,22 @@ bool_t _mutex_lock( mutex_t * mutex )
 
             SPIN_FREE( proc );
 
-            proc = mutex->owner;
-            SPIN_LOCK( proc );
+            new_prio = MUTEX_PRIO( mutex );
+            if( new_prio != old_prio )
+            {
+                proc = mutex->owner;
 
-            PROC_LRES_DEC( proc, old_prio );
-            PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );
+                SPIN_LOCK( proc );
 
-            MUTEX_PROC_PRIO_PROPAGATE( proc, mutex );
+                PROC_LRES_DEC( proc, old_prio );
+                PROC_LRES_INC( proc, new_prio );
 
+                MUTEX_PROC_PRIO_PROPAGATE( proc, mutex );
+            }
+            else
+            {
+                SPIN_FREE( mutex );
+            }
             return 1; // Next iteration...
         }
     }
