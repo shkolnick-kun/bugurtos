@@ -496,8 +496,8 @@ index_t _sched_yeld( void )
 
     KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
-    mask = ~(index_t)0;
-    mask <<= (((gitem_t *)proc)->group->prio + (prio_t)1);
+    mask = ~(index_t)1;
+    mask <<= ((gitem_t *)proc)->group->prio;
 
     return (ret & (~mask)); // Mask all lower prio processes
 }

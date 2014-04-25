@@ -100,8 +100,8 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="1">
-		<Cursor position="2417" topLine="68" />
+	<File name="../config.h" open="0" top="0" tabpos="1">
+		<Cursor position="2417" topLine="119" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="1522" topLine="69" />

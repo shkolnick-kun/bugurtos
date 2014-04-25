@@ -113,9 +113,10 @@ Highest locker protocol is supported when CONFIG_USE_HIGHEST_LOCKER option is de
 */
 struct _mutex_t
 {
-    xlist_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-    bool_t free;/*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
+    xlist_t wait;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
+    bool_t free;   /*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
     proc_t * owner;/*!< \~russian Указатель на процесс, удерживающий мьютекс. \~english A pointer to a process, that holds a mutex. */
+    count_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritanse transaction counter. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A mutex spin-lock. */
 #endif // CONFIG_MP
@@ -266,6 +267,6 @@ If a mutex wait list is empty, then caller process frees a mutex, else mutex wai
 
 \param mutex A mutex pointer.
 */
-void _mutex_free( mutex_t * mutex );
+bool_t _mutex_free( mutex_t * mutex );
 
 #endif // _MUTEX_H_

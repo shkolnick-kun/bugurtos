@@ -108,6 +108,7 @@ void mutex_init_isr( mutex_t * mutex )
     xlist_init( (xlist_t *)mutex );
     mutex->free = (bool_t)1;
     mutex->owner = (proc_t *)0;
+    mutex->dirty = (count_t)0;
     SPIN_FREE( mutex );
 }
 /**********************************************************************************************
@@ -176,6 +177,12 @@ bool_t _mutex_lock( mutex_t * mutex )
             old_prio = MUTEX_PRIO( mutex );
 
             SPIN_LOCK( proc );
+
+            if( PROC_GET_STATE(proc) == PROC_STATE_W_RUNNING )
+            {
+                //This is priority inheritanse transaction end
+                mutex->dirty--; //No zero check needed, as a process state is PROC_STATE_W_RUNNING.
+            }
 
             proc->buf = (void *)mutex;
             _proc_stop_flags_set( proc, (PROC_FLG_MUTEX|PROC_STATE_W_MUT) );
@@ -249,22 +256,44 @@ void scall_mutex_try_lock(void * arg)
 // Освобождение
 void mutex_free( mutex_t * mutex )
 {
-    syscall_bugurt( SYSCALL_MUTEX_FREE, (void *)mutex );
+    volatile mutex_lock_arg_t scarg;
+    scarg.mutex = mutex;
+
+    do
+    {
+        syscall_bugurt( SYSCALL_MUTEX_FREE, (void *)&scarg );
+    }
+    while( scarg.ret );
 }
 //========================================================================================
-void _mutex_free( mutex_t *  mutex )
+bool_t _mutex_free( mutex_t *  mutex )
 {
     proc_t * proc;
-    prio_t prio;
+    //prio_t prio;
+
+    proc = current_proc();
 
     SPIN_LOCK( mutex );
-    proc = current_proc();
-    prio = MUTEX_PRIO( mutex );
+    //prio = MUTEX_PRIO( mutex );
+
+    //Check for dirty priority inheritanse transactions
+    if( mutex->dirty )
+    {
+        SPIN_LOCK( proc );
+
+        proc->buf = (void *)0;
+        _proc_stop_flags_set( proc, PROC_STATE_W_MUT );
+
+        SPIN_FREE( proc );
+        SPIN_FREE( mutex );
+        return (bool_t)1;
+    }
 
     SPIN_LOCK(proc);
     // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
     sched_proc_stop( proc );
-    PROC_LRES_DEC( proc, prio );
+    //PROC_LRES_DEC( proc, prio );
+    PROC_LRES_DEC( proc, MUTEX_PRIO( mutex ) );
     _proc_prio_control_stoped( proc );
 
     if( proc->lres.index == (index_t)0 ) proc->flags &= PROC_FLG_MUTEX;
@@ -318,9 +347,10 @@ void _mutex_free( mutex_t *  mutex )
     SPIN_FREE( proc );
 end:
     SPIN_FREE( mutex );
+    return (bool_t)0;
 }
 //========================================================================================
 void scall_mutex_free(void * arg)
 {
-    _mutex_free( (mutex_t *)arg );
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_free( ((mutex_lock_arg_t *)arg)->mutex );
 }

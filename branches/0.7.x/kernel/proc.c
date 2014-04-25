@@ -164,13 +164,25 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE );  // Ensure that process will not run, and stay in a mutex wait list!
 
             mutex = (mutex_t *)proc->buf;
-            while( mutex == (mutex_t *)0 ); // kernel panic!!!
 
             PROC_PRIO_PROP_HOOK();
 
             KERNEL_PREEMPT();
 
+            if( mutex == (mutex_t *)0 )
+            {
+                // A process was trying to free a dirty mutex and blocked
+                SPIN_LOCK( proc );
+
+                sched_proc_run( proc, PROC_STATE_W_READY ); // A process must unlock the mutex.
+
+                SPIN_FREE( proc );
+                break; //Break the switch!
+            }
+
             SPIN_LOCK( mutex );
+
+            mutex->dirty++; // Start priority inheritanse transaction.
 
             old_prio = MUTEX_PRIO( mutex ); // Get mutex prio to keep mutex->owner priority data consistent
 
@@ -206,11 +218,12 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE ); // Ensure that process will not run, and stay in a sem wait list!
 
             sem = (sem_t *)proc->buf;
-            while( sem == (sem_t *)0 ); // kernel panic!!!
 
             PROC_PRIO_PROP_HOOK();
 
             KERNEL_PREEMPT();
+
+            while( sem == (sem_t *)0 ); // kernel panic!!!
 
             SPIN_LOCK( sem );
             SPIN_LOCK( proc );
@@ -243,11 +256,12 @@ void _proc_prio_propagate( proc_t * proc )
             PROC_SET_STATE( proc, PROC_STATE_W_PCHANGE ); // Ensure that process will not run, and stay in a sig wait or wakeup list!
 
             sig = (sig_t *)proc->buf;
-            while( sig == (sig_t *)0 ); // kernel panic!!!
 
             PROC_PRIO_PROP_HOOK();
 
             KERNEL_PREEMPT();
+
+            while( sig == (sig_t *)0 ); // kernel panic!!!
 
             SPIN_LOCK( sig );
             SPIN_LOCK( proc );

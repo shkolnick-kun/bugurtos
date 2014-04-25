@@ -4,7 +4,7 @@
 #define CONFIG_SET_2
 #define CONFIG_SET_3
 #define CONFIG_SET_4
-#define CONFIG_SET_5
+//#define CONFIG_SET_5
 
 proc_t proc[6];
 stack_t proc_stack[6][PROC_STACK_SIZE];
@@ -225,18 +225,42 @@ static void test_run_1(void)
 
     test = ( proc[1].parent.group->prio == 3 );
     test_output( test, test_num++ );//26
+
+    test = (mutex_0.dirty == 0);
+    test_output( test, test_num++ );//27
+
+    test = (mutex_1.dirty == 0);
+    test_output( test, test_num++ );//28
+
+    test = (mutex_2.dirty == 0);
+    test_output( test, test_num++ );//29
+
+    test = (mutex_3.dirty == 0);
+    test_output( test, test_num++ );//30
 }
 static void test_run_2(void)
 {
     int test;
     test = ( (proc[5].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[5].parent.group->prio == 3 );
-    test_output( test, test_num++ );//27
+    test_output( test, test_num++ );//31
     test = ( (proc[4].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[4].parent.group->prio == 4 );
-    test_output( test, test_num++ );//28
+    test_output( test, test_num++ );//32
     test = ( (proc[3].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[3].parent.group->prio == 5 );
-    test_output( test, test_num++ );//29
+    test_output( test, test_num++ );//33
     test = ( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[2].parent.group->prio == 6 );
-    test_output( test, test_num++ );//30
+    test_output( test, test_num++ );//34
+
+    test = (mutex_0.dirty == 0);
+    test_output( test, test_num++ );//35
+
+    test = (mutex_1.dirty == 0);
+    test_output( test, test_num++ );//36
+
+    test = (mutex_2.dirty == 0);
+    test_output( test, test_num++ );//37
+
+    test = (mutex_3.dirty == 0);
+    test_output( test, test_num++ );//38
 }
 void idle_main( void * arg )
 {
@@ -246,7 +270,7 @@ void idle_main( void * arg )
     test_num = 1;
     //==================================================
     // 1st set of tests: proc[1] is stoped.
-    // Tests 1...30
+    // Tests 1...38
     test_run_1();
 
     proc_run( &proc[1] );
@@ -258,7 +282,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_2
     //==================================================
     // 2hd set of tests: proc[1] is running
-    // Tests 31...60
+    // Tests 39...76
     test_num = 31;
     test_run_1();
 
@@ -274,7 +298,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_3
     //==================================================
     // 3rd set of tests: proc[1] is waiting for sig_0
-    // Tests 61...90
+    // Tests 77...114
     test_num = 61;
     test_run_1();
 
@@ -288,7 +312,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_4
     //==================================================
     // 4th set of tests: proc[1] is waiting for sem_0
-    // Tests 91...120
+    // Tests 115...152
     test_num = 91;
     test_run_1();
 
@@ -301,7 +325,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_5
     //==================================================
     // 5th set of tests: proc[1] is waiting for mutex_0
-    // Tests 121...150
+    // Tests 153...190
     test_num = 121;
     mutex_try_lock( &mutex_0 );
 
