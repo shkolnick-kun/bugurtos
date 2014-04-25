@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
-		<Cursor position="8343" topLine="93" />
+		<Cursor position="8053" topLine="122" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="2">
 		<Cursor position="7395" topLine="141" />
@@ -37,7 +37,7 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="2">
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="2">
 		<Cursor position="8371" topLine="157" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="6">
@@ -61,6 +61,9 @@
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/gitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="9519" topLine="141" />
+	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6150" topLine="91" />
 	</File>
@@ -79,11 +82,11 @@
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="1">
-		<Cursor position="8595" topLine="42" />
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="1">
+		<Cursor position="9529" topLine="72" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="28519" topLine="522" />
+		<Cursor position="9407" topLine="165" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="1">
 		<Cursor position="10675" topLine="205" />
@@ -92,7 +95,7 @@
 		<Cursor position="10024" topLine="189" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
-		<Cursor position="7517" topLine="113" />
+		<Cursor position="7406" topLine="112" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />

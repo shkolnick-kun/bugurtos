@@ -237,30 +237,57 @@ static void test_run_1(void)
 
     test = (mutex_3.dirty == 0);
     test_output( test, test_num++ );//30
+
+    mutex_1.dirty++;// start durty test;
 }
+
+static void custom_call(void)
+{
+    proc_t * run_proc = &proc[1];
+
+    SPIN_LOCK( run_proc );
+
+    sched_proc_run( run_proc, PROC_STATE_W_READY ); // A process must unlock the mutex.
+
+    SPIN_FREE( run_proc );
+}
+
 static void test_run_2(void)
 {
     int test;
-    test = ( (proc[5].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[5].parent.group->prio == 3 );
-    test_output( test, test_num++ );//31
-    test = ( (proc[4].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[4].parent.group->prio == 4 );
-    test_output( test, test_num++ );//32
-    test = ( (proc[3].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[3].parent.group->prio == 5 );
-    test_output( test, test_num++ );//33
-    test = ( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[2].parent.group->prio == 6 );
-    test_output( test, test_num++ );//34
 
-    test = (mutex_0.dirty == 0);
+    test = ( (proc[1].flags & PROC_STATE_MASK) == PROC_STATE_W_MUT )&&( proc[1].buf == 0 );
+    test_output( test, test_num++ );//31
+
+    mutex_1.dirty--;
+
+    syscall_bugurt( SYSCALL_USER, (void *)custom_call );
+
+    MUTEX_IDLE_DELAY();
+
+    test = ( (proc[5].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[5].parent.group->prio == 3 );
+    test_output( test, test_num++ );//32
+    test = ( (proc[4].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[4].parent.group->prio == 4 );
+    test_output( test, test_num++ );//33
+    test = ( (proc[3].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[3].parent.group->prio == 5 );
+    test_output( test, test_num++ );//34
+    test = ( (proc[2].flags & PROC_STATE_MASK) == PROC_STATE_STOPED )&&( proc[2].parent.group->prio == 6 );
     test_output( test, test_num++ );//35
 
-    test = (mutex_1.dirty == 0);
+    test =(( proc[1].flags & PROC_STATE_MASK) != PROC_STATE_W_MUT );
     test_output( test, test_num++ );//36
 
-    test = (mutex_2.dirty == 0);
+    test = (mutex_0.dirty == 0);
     test_output( test, test_num++ );//37
 
-    test = (mutex_3.dirty == 0);
+    test = (mutex_1.dirty == 0);
     test_output( test, test_num++ );//38
+
+    test = (mutex_2.dirty == 0);
+    test_output( test, test_num++ );//39
+
+    test = (mutex_3.dirty == 0);
+    test_output( test, test_num++ );//40
 }
 void idle_main( void * arg )
 {
@@ -270,7 +297,7 @@ void idle_main( void * arg )
     test_num = 1;
     //==================================================
     // 1st set of tests: proc[1] is stoped.
-    // Tests 1...38
+    // Tests 1...40
     test_run_1();
 
     proc_run( &proc[1] );
@@ -282,7 +309,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_2
     //==================================================
     // 2hd set of tests: proc[1] is running
-    // Tests 39...76
+    // Tests 41...80
     test_num = 31;
     test_run_1();
 
@@ -298,7 +325,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_3
     //==================================================
     // 3rd set of tests: proc[1] is waiting for sig_0
-    // Tests 77...114
+    // Tests 81...120
     test_num = 61;
     test_run_1();
 
@@ -312,7 +339,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_4
     //==================================================
     // 4th set of tests: proc[1] is waiting for sem_0
-    // Tests 115...152
+    // Tests 121...160
     test_num = 91;
     test_run_1();
 
@@ -325,7 +352,7 @@ void idle_main( void * arg )
 #ifdef CONFIG_SET_5
     //==================================================
     // 5th set of tests: proc[1] is waiting for mutex_0
-    // Tests 153...190
+    // Tests 161...200
     test_num = 121;
     mutex_try_lock( &mutex_0 );
 
