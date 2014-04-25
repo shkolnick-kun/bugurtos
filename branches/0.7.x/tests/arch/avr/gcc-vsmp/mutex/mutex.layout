@@ -74,7 +74,7 @@
 		<Cursor position="8087" topLine="112" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="9826" topLine="184" />
+		<Cursor position="9826" topLine="148" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="6311" topLine="72" />
@@ -106,7 +106,7 @@
 	<File name="../test_func.h" open="0" top="0" tabpos="0">
 		<Cursor position="1741" topLine="3" />
 	</File>
-	<File name="../../../../main/mutex/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="110" topLine="0" />
+	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="108" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
