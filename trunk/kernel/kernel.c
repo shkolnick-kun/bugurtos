@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -103,7 +103,7 @@ void kernel_init(void)
             (code_t)0, // нету
             (void *)0, // нуль
             0, // это не важно, при первой же смене контекста будет сохранен текущий указатель стека
-            ((prio_t)BITS_IN_INDEX_T - (prio_t)1),// низший приоритет
+            PROC_PRIO_LOWEST,// низший приоритет
             (timer_t)1,//минимальный квант времени
             (bool_t)0,// не RT
             ((affinity_t)1)<<i // привязка  строго к одному процессору, а то его как сбалансирует отсюда
@@ -112,13 +112,13 @@ void kernel_init(void)
         stat_init( (stat_t *)kernel.stat + i );
         sched_init( (sched_t *)kernel.sched + i, (proc_t *)kernel.idle + i );
     }
-    spin_unlock( &kernel.stat_lock );
+    spin_free( &kernel.stat_lock );
 
     spin_init(&kernel.timer_lock);
     spin_lock(&kernel.timer_lock);
     kernel.timer = (timer_t)0;
     kernel.timer_tick = (void(*)(void))0;
-    spin_unlock(&kernel.timer_lock);
+    spin_free(&kernel.timer_lock);
 #else
     proc_init_isr(
         &kernel.idle, //процесс kernel.idle
@@ -127,7 +127,7 @@ void kernel_init(void)
         (code_t)0, // нету
         (void *)0, // нуль
         0, // это не важно, при первой же смене контекста будет сохранен текущий указатель стека
-        ((prio_t)BITS_IN_INDEX_T - (prio_t)1),// низший приоритет
+        PROC_PRIO_LOWEST,// низший приоритет
         (timer_t)1,//минимальный квант времени
         (bool_t)0// не RT
     );

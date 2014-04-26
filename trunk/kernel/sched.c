@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
         prio_t proc_prio;
         load_t current_load, min_load;
 
-        proc_prio = ((pitem_t *)proc)->prio;
+        proc_prio = ((gitem_t *)proc)->group->prio;
         min_load = stat_calc_load( proc_prio, stat++ );
         // Проверка всего остального, тупой поиск минимума
         while( core < (core_id_t)MAX_CORES )
@@ -116,7 +116,7 @@ WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
     }
     return ret;
 }
-//----------------------------------------------------------------------------------------
+//========================================================================================
 //Поиск самой нагруженной структуры stat_t в массиве
 WEAK core_id_t sched_highest_load_core( stat_t * stat )
 {
@@ -155,21 +155,68 @@ void sched_init(sched_t * sched, proc_t * idle)
     xlist_init( sched->ready );
     sched->expired = (xlist_t *)sched->plst + 1;
     xlist_init( sched->expired );
-    pitem_insert( (pitem_t *)idle, sched->ready );
+    gitem_insert( (gitem_t *)idle, sched->ready );
     idle->flags = PROC_STATE_RUNNING;
     sched->current_proc = idle;
     sched->nested_crit_sec = (count_t)0;//вообще это выполняется при запрещенных прерываниях, но не известно, на этом ли процессоре
 #ifdef CONFIG_MP
-    spin_unlock( sched_lock );
+    spin_free( sched_lock );
     stat_inc( idle, (stat_t *)kernel.stat + idle->core_id );
 #endif // CONFIG_MP
 }
+//========================================================================================
+void sched_proc_run( proc_t * proc, flag_t state )
+{
+    sched_t * sched;
+    //Set new state
+    proc->flags &= PROC_STATE_CLEAR_MASK;
+    proc->flags |= state;
+#ifdef CONFIG_MP
+    spin_lock( &kernel.stat_lock );
+    proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
+    stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
+    spin_free( &kernel.stat_lock );
+
+    sched = (sched_t *)kernel.sched + proc->core_id;
+#else
+    sched = &kernel.sched;
+#endif
+
+    SPIN_LOCK( sched );
+    gitem_insert( (gitem_t *)proc, sched->ready );
+    SPIN_FREE( sched );
+
+    RESCHED_PROC( proc );
+}
+//========================================================================================
+void sched_proc_stop(proc_t * proc)
+{
+#ifdef CONFIG_MP
+    lock_t * xlist_lock;
+    xlist_lock = &((sched_t *)kernel.sched + proc->core_id)->lock;
+
+    spin_lock( &kernel.stat_lock );
+    stat_dec( proc, (stat_t *)kernel.stat + proc->core_id );
+    spin_free( &kernel.stat_lock );
+
+    spin_lock( xlist_lock );
+#endif // CONFIG_MP
+
+    proc->flags &= PROC_STATE_CLEAR_MASK;
+    gitem_cut( (gitem_t *)proc );
+
+#ifdef CONFIG_MP
+    spin_free( xlist_lock );
+#endif // CONFIG_MP
+    RESCHED_PROC( proc );
+}
+//========================================================================================
 static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
 {
     SPIN_LOCK( current_proc );
     // Хук "сохранение контекста"
     if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
-    SPIN_UNLOCK( current_proc );
+    SPIN_FREE( current_proc );
 
     SPIN_LOCK( sched );
     // Если список ready опустел, - переключаем списки
@@ -185,7 +232,7 @@ static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
     // чтобы процессы на других процессорах не прочитали неизвестно что.
     current_proc = (proc_t *)xlist_head( sched->ready ); // Вытесняющая многозадачность же!
     sched->current_proc = current_proc;
-    SPIN_UNLOCK( sched );
+    SPIN_FREE( sched );
 
     SPIN_LOCK( current_proc );
     /***************************************************************************
@@ -196,7 +243,7 @@ static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
     current_proc->flags |= PROC_STATE_RUNNING;
     //Хук "восстановление контекста"
     if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
-    SPIN_UNLOCK( current_proc );
+    SPIN_FREE( current_proc );
 }
 /******************************************************************************************
 Если у нас есть процессор и отвечающий за управление этим процессором объект типа sched_t,
@@ -222,7 +269,7 @@ void sched_schedule(void)
     // А вот эту блокировку обязательно надо захватить!
     SPIN_LOCK( current_proc );
     // Проверяем, что процесс находится в списке ready
-    if( (xlist_t *)((pitem_t *)current_proc)->list == sched->ready )
+    if( (xlist_t *)((gitem_t *)current_proc)->group->link == sched->ready )
     {
         /***************************************************************************
         Если процесс был в состоянии RUNNING, то он перейдет в состояние STOPED,
@@ -232,9 +279,9 @@ void sched_schedule(void)
         // Переключаем cписок на следующий за текущим процесс
         SPIN_LOCK( sched );
 
-        xlist_switch( sched->ready, ((pitem_t *)current_proc)->prio );
+        xlist_switch( sched->ready, ((gitem_t *)current_proc)->group->prio );
 
-        SPIN_UNLOCK( sched );
+        SPIN_FREE( sched );
         //Проверяем, не истек ли квант времени процесса
         if( current_proc->timer > (timer_t)1 )
         {
@@ -251,9 +298,9 @@ void sched_schedule(void)
             // Истек, вырезаем процесс из списка
             SPIN_LOCK( sched );
 
-            pitem_fast_cut( (pitem_t *)current_proc );
+            gitem_fast_cut( (gitem_t *)current_proc );
 
-            SPIN_UNLOCK( sched );
+            SPIN_FREE( sched );
 #if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
             /***********************************************************************
             Захватываем тут, если используется активная схема балансировки нагрузки.
@@ -287,19 +334,19 @@ void sched_schedule(void)
                 В этой ветви освобождение блокировки нужно только
                 при использовании активной схемы балансировки нагрузки.
                 ******************************************************/
-                spin_unlock( &kernel.stat_lock );
+                spin_free( &kernel.stat_lock );
 
                 // Вставляем процесс в список  expired
                 SPIN_LOCK( new_sched );
-                pitem_insert( (pitem_t *)current_proc, new_sched->expired );
-                SPIN_UNLOCK( new_sched );
+                gitem_insert( (gitem_t *)current_proc, new_sched->expired );
+                SPIN_FREE( new_sched );
 #else // CONFIG_MP CONFIG_USE_ALB
                 // Тупо переносим процесс в список expired
                 SPIN_LOCK( sched );
 
-                pitem_insert( (pitem_t *)current_proc, sched->expired );
+                gitem_insert( (gitem_t *)current_proc, sched->expired );
 
-                SPIN_UNLOCK( sched );
+                SPIN_FREE( sched );
 
 #endif // CONFIG_MP CONFIG_USE_ALB
                 current_proc->timer = current_proc->time_quant; // Сбросили таймер!
@@ -330,9 +377,9 @@ void sched_schedule(void)
                  - если не используется активная схема балансировки нагрузки,
                 то блокировка была захвачена в этой ветви if.
                 *********************************************************/
-                spin_unlock( &kernel.stat_lock );
+                spin_free( &kernel.stat_lock );
 #endif // CONFIG_MP
-                ((pitem_t *)current_proc)->list = (xlist_t *)0;// Просто вырезали из списка, как в pitem_cut
+                ((gitem_t *)current_proc)->group->link = (void *)0;// Просто вырезали из списка, как в gitem_cut
 #ifdef CONFIG_HARD_RT
                 /**********************************************************************
                 Если не удерживает общие ресурсы, то он перейдет в состояние W_WD_STOPED,
@@ -368,13 +415,13 @@ void sched_schedule(void)
         }
     }
     //Текущий процесс более не нужен, освобождаем его блокировку
-    SPIN_UNLOCK( current_proc );
+    SPIN_FREE( current_proc );
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     _sched_switch_current( sched, current_proc );
 }
-//----------------------------------------------------------------------------------------
+//========================================================================================
 // Функция перепланирования, переключает процессы в обработчике прерывания resched
 void sched_reschedule(void)
 {
@@ -392,6 +439,165 @@ void sched_reschedule(void)
         current_proc->flags |= PROC_STATE_READY;
     }
 
-    SPIN_UNLOCK( current_proc );
+    SPIN_FREE( current_proc );
     _sched_switch_current( sched, current_proc );
 }
+/**********************************************************************************************
+                                      SYSCALL_PROC_YELD
+**********************************************************************************************/
+index_t sched_yeld(void)
+{
+    volatile index_t ret;
+    syscall_bugurt( SYSCALL_PROC_YELD, (void *)&ret );
+    return ret;
+}
+//========================================================================================
+index_t _sched_yeld( void )
+{
+    index_t ret,mask;
+    sched_t * sched;
+    proc_t * proc;
+
+    sched = _SCHED_INIT();
+    proc = sched->current_proc;
+
+    SPIN_LOCK( sched );
+    ret = sched->expired->index;
+    SPIN_FREE( sched );
+
+    KERNEL_PREEMPT();// KERNEL_PREEMPT
+
+    SPIN_LOCK( proc );
+
+    if( PROC_RUN_TEST( proc ) )
+    {
+        SPIN_LOCK( sched );
+
+        if( proc->flags & PROC_FLG_RT )
+        {
+            xlist_switch( (xlist_t *)((gitem_t *)proc)->group->link, ((gitem_t *)proc)->group->prio );
+        }
+        else
+        {
+            gitem_cut( (gitem_t *)proc );
+            gitem_insert( (gitem_t *)proc, sched->expired );
+        }
+        SPIN_FREE( sched );
+    }
+    proc->timer = proc->time_quant; // reset timer
+    RESCHED_PROC( proc );
+    SPIN_FREE( proc );
+
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
+
+    SPIN_LOCK( sched );
+    ret |= sched->ready->index;
+    SPIN_FREE( sched );
+
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
+
+    mask = ~(index_t)1;
+    mask <<= ((gitem_t *)proc)->group->prio;
+
+    return (ret & (~mask)); // Mask all lower prio processes
+}
+//========================================================================================
+void scall_sched_yeld( void * arg )
+{
+    *((index_t *)arg) = _sched_yeld();
+}
+
+#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
+/************************************
+  "Ленивые" балансировщики нагрузки
+
+,предназначены для запуска из тел
+процессов, если не используется
+активная схема балансировки нагрузки.
+
+Можно использовать только один,
+или оба в различных комбинациях
+
+************************************/
+void _sched_lazy_load_balancer(core_id_t object_core)
+{
+    sched_t * sched;
+    proc_t * proc;
+    sched = (sched_t *)kernel.sched + object_core;
+
+    //Смотрим, есть чи что в списке expired, если есть, будем переносить нагрузку, если нет - выход
+    disable_interrupts();
+
+    SPIN_LOCK( sched );
+
+    if(sched->expired->index == (index_t)0)
+    {
+        SPIN_FREE( sched );
+        enable_interrupts();
+        return;
+    }
+    proc = (proc_t *)xlist_head( sched->expired );// Процесс, который будем переносить на другой процессор. Требования реального времени этот процесс не выполняет.
+
+    SPIN_FREE( sched );
+    enable_interrupts();
+
+    disable_interrupts();
+    SPIN_LOCK( proc );
+    // Пока захватывалась блокировка процесса, его могли остановить, подстраховываемся.
+    if( PROC_RUN_TEST( proc ) )
+    {
+        // Остановили выполнение процесса на старом процессоре
+        SPIN_LOCK( sched );
+
+        gitem_fast_cut( (gitem_t *)proc );
+
+        SPIN_FREE( sched );
+
+        resched(object_core); // Процесс мог быть поставлен на выполнение, пока мы захватывали его блокировку, перепланируем
+
+        // Проводим операции над статистикой
+        spin_lock( &kernel.stat_lock );
+
+        stat_dec( proc, (stat_t *)kernel.stat + object_core );
+
+        object_core = sched_load_balancer( proc, (stat_t *)kernel.stat );// Теперь, это тот процессор, на который будем переносить процесс
+        sched = (sched_t *)kernel.sched + object_core;//Теперь это планировщик, на который мы переносим процесс
+        stat_inc( proc, (stat_t *)kernel.stat + object_core );
+
+        spin_free( &kernel.stat_lock );
+
+        // Переносим процесс на новый процессор, продолжаем выполнение там. Перепланировку не делаем, проуесс не выполняет требования реального времени.
+        proc->core_id = object_core;
+
+        SPIN_LOCK( sched );
+
+        gitem_insert( (gitem_t *)proc, sched->expired );
+
+        SPIN_FREE( sched );
+    }
+    SPIN_FREE( proc );
+    enable_interrupts();
+}
+//========================================================================================
+// Глобальный
+void sched_lazy_global_load_balancer(void)
+{
+    core_id_t object_core;
+    // Поиск самого нагруженного процессора
+    disable_interrupts();
+    spin_lock( &kernel.stat_lock );
+
+    object_core = sched_highest_load_core( (stat_t *)kernel.stat );
+
+    spin_free( &kernel.stat_lock );
+    enable_interrupts();
+    // Перенос нагрузки на самый не нагруженный процессор
+    _sched_lazy_load_balancer( object_core );
+}
+//========================================================================================
+// Локальный
+void sched_lazy_local_load_balancer(void)
+{
+    _sched_lazy_load_balancer( current_core() );
+}
+#endif // CONFIG_MP CONFIG_USE_ALB

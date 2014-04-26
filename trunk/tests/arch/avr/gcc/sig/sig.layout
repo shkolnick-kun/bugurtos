@@ -31,11 +31,8 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="8972" topLine="167" />
 	</File>
-	<File name="../../../../../include/pitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="9456" topLine="37" />
-	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="6878" topLine="68" />
+		<Cursor position="6878" topLine="373" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="10824" topLine="205" />
@@ -62,9 +59,9 @@
 		<Cursor position="2751" topLine="78" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1690" topLine="117" />
+		<Cursor position="1690" topLine="59" />
 	</File>
-	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="123" topLine="8" />
+	<File name="../../../../main/sig/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="35" topLine="57" />
 	</File>
 </CodeBlocks_layout_file>

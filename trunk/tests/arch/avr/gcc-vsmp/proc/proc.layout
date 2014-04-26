@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../include/pitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="9380" topLine="131" />
-	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="26997" topLine="475" />
 	</File>
@@ -19,26 +16,41 @@
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="6774" topLine="82" />
 	</File>
+	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="91" />
+	</File>
+	<File name="../../../../../kernel/gitem.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="241" />
+	</File>
+	<File name="../../../../../kernel/group.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="113" />
+	</File>
+	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="105" />
+	</File>
 	<File name="../../../../../kernel/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="7584" topLine="129" />
+		<Cursor position="0" topLine="214" />
+	</File>
+	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="96" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="9112" topLine="177" />
+		<Cursor position="9112" topLine="271" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="13432" topLine="353" />
+		<Cursor position="13432" topLine="107" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="22738" topLine="346" />
+		<Cursor position="22738" topLine="463" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="7969" topLine="148" />
+		<Cursor position="7969" topLine="245" />
 	</File>
 	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="0">
-		<Cursor position="11521" topLine="253" />
+		<Cursor position="11521" topLine="237" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="12407" topLine="251" />
+		<Cursor position="7877" topLine="127" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="3109" topLine="87" />

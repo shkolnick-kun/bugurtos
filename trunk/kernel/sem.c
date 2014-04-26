@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -77,8 +77,26 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
+static void _proc_sem_lock( proc_t * proc, sem_t * sem )
+{
+    sem->counter--;
 
+    SPIN_LOCK( proc );
+    _proc_dont_stop( proc, PROC_FLG_SEM );
+    SPIN_FREE( proc );
+}
+/**********************************************************************************************
+                                       SYSCALL_SEM_INIT
+**********************************************************************************************/
 // Инициализация
+
+void sem_init( sem_t * sem, count_t count )
+{
+    disable_interrupts();
+    sem_init_isr( sem, count );
+    enable_interrupts();
+}
+//========================================================================================
 void sem_init_isr( sem_t * sem, count_t count )
 {
     SPIN_INIT( sem );
@@ -86,40 +104,72 @@ void sem_init_isr( sem_t * sem, count_t count )
 
     xlist_init( (xlist_t *)sem );
     sem->counter = count;
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
 }
+/**********************************************************************************************
+                                         SYSCALL_SEM_LOCK
+**********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системных вызовов #SYSCALL_SEM_LOCK и #SYSCALL_SEM_TRY_LOCK.
 
+\~english
+\brief
+An argument structure for #SYSCALL_SEM_LOCK and #SYSCALL_SEM_TRY_LOCK.
+*/
+typedef struct {
+    sem_t * sem;        /*!< \~russian  указатель на семафор. \~english A pointer to a semaphore.*/
+    bool_t ret;         /*!< \~russian  хранилище результата выполнения операции. \~english A storage for a result. */
+}sem_lock_arg_t;
+//========================================================================================
+bool_t sem_lock( sem_t * sem )
+{
+
+    volatile sem_lock_arg_t scarg;
+    scarg.sem = sem;
+    syscall_bugurt( SYSCALL_SEM_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 bool_t _sem_lock( sem_t * sem )
 {
-    bool_t ret = (bool_t)0;
+    bool_t ret = (bool_t)1;
     proc_t * proc;
     proc = current_proc();
-    // Выставляем флаг захватат семафора
-    SPIN_LOCK( proc );
-    _proc_stop_flags_set( proc, PROC_FLG_SEM );
-    SPIN_UNLOCK( proc );
-
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
-
     // Собственно захват семафора
     SPIN_LOCK( sem );
-    SPIN_LOCK( proc );
+
     if( sem->counter != 0 )
     {
-        sem->counter--;
-        ret = (bool_t)1;
-        _proc_run( proc );
+        _proc_sem_lock( proc, sem );
     }
     else
     {
-        proc->flags |= PROC_STATE_W_SEM;
-        pitem_insert( (pitem_t *)proc, (xlist_t *)sem );
+        ret = (bool_t)0;
+
+        SPIN_LOCK( proc );
+        proc->buf = (void *)sem; // A process waits on sem now!
+        _proc_stop_flags_set( proc, (PROC_FLG_SEM|PROC_STATE_W_SEM) );
+        gitem_insert( (gitem_t *)proc, (xlist_t *)sem );
+        SPIN_FREE( proc );
     }
-    SPIN_UNLOCK( proc );
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
     return ret;
 }
-
+//========================================================================================
+void scall_sem_lock( void * arg )
+{
+    ((sem_lock_arg_t *)arg)->ret = _sem_lock( ((sem_lock_arg_t *)arg)->sem );
+}
+/**********************************************************************************************
+                                       SYSCALL_SEM_TRY_LOCK
+**********************************************************************************************/
+void scall_sem_try_lock( void * arg )
+{
+    ((sem_lock_arg_t *)arg)->ret = _sem_try_lock( ((sem_lock_arg_t *)arg)->sem );
+}
+//========================================================================================
 bool_t _sem_try_lock( sem_t * sem )
 {
     bool_t ret = (bool_t)0;
@@ -127,30 +177,33 @@ bool_t _sem_try_lock( sem_t * sem )
     if( sem->counter != 0 )
     {
         proc_t * proc;
+
         proc = current_proc();
-
-        sem->counter--;
         ret = (bool_t)1;
-        // Выставляем флаг захватат семафора
-        SPIN_LOCK( proc );
 
-        if( PROC_RUN_TEST( proc ) )
-        {
-            proc->flags |= PROC_FLG_SEM;
-        }
-        else
-        {
-            proc->flags |= (PROC_FLG_SEM|PROC_FLG_PRE_STOP);
-            _proc_run( proc );
-        }
-
-        SPIN_UNLOCK( proc );
+        _proc_sem_lock( proc, sem );
     }
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
     return ret;
 }
+//========================================================================================
+bool_t sem_try_lock( sem_t * sem )
+{
 
-void sem_unlock_isr( sem_t * sem )
+    volatile sem_lock_arg_t scarg;
+    scarg.sem = sem;
+    syscall_bugurt( SYSCALL_SEM_TRY_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+/**********************************************************************************************
+                                       SYSCALL_SEM_FREE
+**********************************************************************************************/
+void sem_free( sem_t * sem )
+{
+    syscall_bugurt( SYSCALL_SEM_FREE, (void *)sem );
+}
+//========================================================================================
+void sem_free_isr( sem_t * sem )
 {
     proc_t * proc;
     SPIN_LOCK( sem );
@@ -164,11 +217,15 @@ void sem_unlock_isr( sem_t * sem )
 
     SPIN_LOCK( proc );
 
-    pitem_cut( (pitem_t *)proc );
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    _proc_run( proc );
+    proc->buf = (void *)0; // A process does NOT wait on sem now!
+    _proc_cut_and_run( proc, PROC_STATE_READY );
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 end:
-    SPIN_UNLOCK( sem );
+    SPIN_FREE( sem );
+}
+//========================================================================================
+void scall_sem_free( void * arg )
+{
+    sem_free_isr( (sem_t *)arg );
 }

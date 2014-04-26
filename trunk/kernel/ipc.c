@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -77,6 +77,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
+/**********************************************************************************************
+                                           IPC
+***********************************************************************************************
+                                       SYSCALL_IPC_WAIT
+**********************************************************************************************/
+ipc_data_t ipc_wait( void )
+{
+    volatile ipc_data_t ret = (ipc_data_t)0;
+    syscall_bugurt( SYSCALL_IPC_WAIT, (void *)&ret );
+    return ret;
+}
+//========================================================================================
 void _ipc_wait( void * ipc_pointer )
 {
     proc_t * proc;
@@ -87,9 +99,40 @@ void _ipc_wait( void * ipc_pointer )
     _proc_stop_flags_set( proc, PROC_STATE_W_IPC );
     proc->buf = ipc_pointer;
 
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
 }
+//========================================================================================
+void scall_ipc_wait(void * arg)
+{
+    _ipc_wait( arg );
+}
+/**********************************************************************************************
+                                       SYSCALL_IPC_SEND
+**********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_IPC_SEND.
 
+\~english
+\brief
+An argument structure for #SYSCALL_IPC_SEND.
+*/
+typedef struct {
+    proc_t * proc;  /*!< \~russian указатель на процесс-адресат. \~english A pointer to a destignation process. */
+    bool_t ret;     /*!< \~russian хранилище результата выполнения операции. \~english A storage for a result. */
+    ipc_data_t ipc_data;/*!< \~russian данные для передачи. \~english A data to send. */
+} ipc_send_arg_t;
+//========================================================================================
+bool_t ipc_send( proc_t * proc, ipc_data_t ipc_data )
+{
+    volatile ipc_send_arg_t arg;
+    arg.proc = proc;
+    arg.ipc_data = ipc_data;
+    syscall_bugurt( SYSCALL_IPC_SEND, (void *)&arg );
+    return arg.ret;
+}
+//========================================================================================
 bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data )
 {
     bool_t ret = (bool_t)0;
@@ -113,13 +156,44 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data )
         }
         ret = (bool_t)1; // информация будет передана
         *(ipc_data_t *)proc->buf = ipc_data;
-        _proc_run( proc );
+        sched_proc_run( proc, PROC_STATE_READY );
     }
 end:
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
     return ret;
 }
+//========================================================================================
+void scall_ipc_send(void * arg)
+{
+    ((ipc_send_arg_t *)arg)->ret = ipc_send_isr( ((ipc_send_arg_t *)arg)->proc, ((ipc_send_arg_t *)arg)->ipc_data );
+}
+/**********************************************************************************************
+                                    SYSCALL_IPC_EXCHANGE
+**********************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_IPC_EXCHANGE.
 
+\~english
+\brief
+An argument structure for #SYSCALL_IPC_EXCHANGE.
+*/
+typedef struct {
+    ipc_send_arg_t send;  /*!< \~russian Родитель. \~english A parent. */
+    ipc_data_t * receive; /*!< \~russian Указатель на хранилище принимаемых данных. \~english Apointer to storage for data to receive. */
+} ipc_exchange_arg_t;
+//========================================================================================
+bool_t ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
+{
+    volatile ipc_exchange_arg_t arg;
+    arg.send.proc = proc;
+    arg.send.ipc_data = send;
+    arg.receive = receive;
+    syscall_bugurt( SYSCALL_IPC_EXCHANGE, (void *)&arg );
+    return arg.send.ret;
+}
+//========================================================================================
 bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
 {
     bool_t ret = (bool_t)0;
@@ -144,9 +218,14 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
         ret = (bool_t)1; // информация будет передана
         *(ipc_data_t *)proc->buf = send;
         _ipc_wait( receive ); // Готовимся к приему данных!
-        _proc_run( proc );   // И только после этого запускаем процесс-адресат!
+        sched_proc_run( proc, PROC_STATE_READY );   // И только после этого запускаем процесс-адресат!
     }
 end:
-    SPIN_UNLOCK( proc );
+    SPIN_FREE( proc );
     return ret;
+}
+//========================================================================================
+void scall_ipc_exchange(void * arg)
+{
+    ((ipc_send_arg_t *)arg)->ret = _ipc_exchange( ((ipc_send_arg_t *)arg)->proc, ((ipc_send_arg_t *)arg)->ipc_data, ((ipc_exchange_arg_t *)arg)->receive );
 }

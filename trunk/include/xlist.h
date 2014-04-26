@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 A prioritized list header.
 */
-typedef struct _xlist_t xlist_t;
+typedef struct _xlist_t xlist_t; /*!< \~russian Смотри #_xlist_t; \~english See #_xlist_t; */
 // свойства
 /*!
 \~russian

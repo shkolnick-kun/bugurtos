@@ -189,7 +189,9 @@ static void blink_num( count_t num )
     PORTB &= ~0x20;
     PORTD &= ~0x40;
     PORTD |= 0x20;
-    blink_digit( (num/10)%10 ); // Most significant digit
+    blink_digit( (num/100)%10 ); // Most significant digit
+    _delay_ms(300);
+    blink_digit( (num/10)%10 );
     _delay_ms(300);
     blink_digit( num%10 ); //Least significant digit
 

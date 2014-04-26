@@ -13,8 +13,14 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="75" />
 	</File>
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="7938" topLine="130" />
+	</File>
+	<File name="../../../../../include/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="6225" topLine="69" />
+	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="369" />
+		<Cursor position="19922" topLine="358" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="82" />
@@ -23,10 +29,10 @@
 		<Cursor position="0" topLine="103" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="9205" topLine="95" />
+		<Cursor position="11760" topLine="251" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="8240" topLine="121" />
+		<Cursor position="11553" topLine="216" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="22868" topLine="188" />
@@ -38,18 +44,18 @@
 		<Cursor position="12834" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="120" />
+		<Cursor position="0" topLine="116" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="81" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="4126" topLine="121" />
+		<Cursor position="3999" topLine="120" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1690" topLine="72" />
+		<Cursor position="1743" topLine="57" />
 	</File>
 	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2418" topLine="70" />
+		<Cursor position="8784" topLine="341" />
 	</File>
 </CodeBlocks_layout_file>

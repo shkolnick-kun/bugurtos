@@ -106,9 +106,9 @@ typedef unsigned char load_t;
 #define CONFIG_HARD_RT
 
 //#define CONFIG_LB_SCHEME 0 // No load balancing during runtime
-//#define CONFIG_LB_SCHEME 1 // Active load balancing
+#define CONFIG_LB_SCHEME 1 // Active load balancing
 //#define CONFIG_LB_SCHEME 2 // Lazy local load balancing
-#define CONFIG_LB_SCHEME 3 // Lazy global load balancing
+//#define CONFIG_LB_SCHEME 3 // Lazy global load balancing
 
 #if (CONFIG_LB_SCHEME == 1)
 // Use "Active Load Balancing",
