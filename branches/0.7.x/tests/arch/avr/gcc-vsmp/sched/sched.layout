@@ -52,19 +52,19 @@
 	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="3">
 		<Cursor position="37858" topLine="675" />
 	</File>
-	<File name="../../../../../include/sched.h" open="1" top="1" tabpos="3">
+	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="3">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../include/sem.h" open="1" top="0" tabpos="0">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../include/sig.h" open="1" top="0" tabpos="0">
+	<File name="../../../../../include/sig.h" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../include/syscall.h" open="0" top="0" tabpos="1">
 		<Cursor position="16401" topLine="583" />
 	</File>
-	<File name="../../../../../include/timer.h" open="1" top="0" tabpos="1">
+	<File name="../../../../../include/timer.h" open="0" top="0" tabpos="1">
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
@@ -91,13 +91,13 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="2">
-		<Cursor position="9423" topLine="273" />
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="2">
+		<Cursor position="9423" topLine="168" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="1">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="2">
 		<Cursor position="13345" topLine="177" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="3">
