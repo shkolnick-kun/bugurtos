@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,24 +78,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
-
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-
-#define GET_PRIO(mutex) mutex->prio
-
-#else
-
-#define GET_PRIO(mutex) ((prio_t)0)
-
-#endif
-
-
 /*!
 \file
 \brief \~russian Заголовок мьютекса. \~english A mutex header.
 */
+
+#define MUTEX_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST) /*!< \~russian Считает приоритет мьютекса. \~english Calculates a mutex priority */
+
+
 //          Мьютекс
-typedef struct _mutex_t mutex_t;
+typedef struct _mutex_t mutex_t; /*!< \~russian Смотри #_mutex_t; \~english See #_mutex_t; */
 // Свойства
 /*!
 \~russian
@@ -116,16 +108,15 @@ Mutexes are used to control an access to common data. If your code needs yo use 
 then you should use mutex instead of critical section. Mutex nesting is supported.
 Highest locker protocol is supported when CONFIG_USE_HIGHEST_LOCKER option is defined.
 
-\warning  Only a process can lock or unlock a mutex!
-\warning  Locked mutex can be unlocked only by a locker process!
+\warning  Only a process can lock or free a mutex!
+\warning  Locked mutex can be freeed only by a locker process!
 */
 struct _mutex_t
 {
-    xlist_t mutex_list; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    prio_t prio;/*!< \~russian Приоритет. \~english A priority of a mutex. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
-    bool_t free;/*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
+    xlist_t wait;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
+    bool_t free;   /*!< \~russian Флаг "свободен", 1 - если мьютекс свободен, 0 - если занят. \~english This flag is 1 when mutex is free and 0 when mutex is locked. */
+    proc_t * owner;/*!< \~russian Указатель на процесс, удерживающий мьютекс. \~english A pointer to a process, that holds a mutex. */
+    count_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritanse transaction counter. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A mutex spin-lock. */
 #endif // CONFIG_MP
@@ -143,9 +134,6 @@ A mutex initiation for usage in ISRs or in critical sections.
 */
 void mutex_init_isr(
     mutex_t * mutex /*!< \~russian Указатель на мьютекс. \~english A mutex pointer. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< \~russian В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. \~english A mutex priority. Used with CONFIG_USE_HIGHEST_LOCKER option. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
 );
 /*!
 \~russian
@@ -158,9 +146,6 @@ A mutex initiation
 */
 void mutex_init(
     mutex_t * mutex /*!< \~russian Указатель на мьютекс. \~english A mutex pointer. */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< \~russian В случае использования CONFIG_USE_HIGHEST_LOCKER, - приоритет мьютекса. \~english A mutex priority. Used with CONFIG_USE_HIGHEST_LOCKER option. */
-#endif // CONFIG_USE_HIGHEST_LOCKER
 );
 /*!
 \~russian
@@ -176,7 +161,7 @@ void mutex_init(
 \brief
 Lock a mutex.
 
-If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets unlocked.
+If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
 
 \param mutex A mutex pointer.
 \return 1 if mutex was locked without wait, else 0.
@@ -215,13 +200,13 @@ bool_t mutex_try_lock( mutex_t * mutex );
 
 \~english
 \brief
-Mutex unlock.
+Mutex free.
 
-If a mutex wait list is empty, then caller process unlocks a mutex, else mutex wait lish head gets launched.
+If a mutex wait list is empty, then caller process frees a mutex, else mutex wait lish head gets launched.
 
 \param mutex Указатель на мьютекс.
 */
-void mutex_unlock( mutex_t * mutex );
+void mutex_free( mutex_t * mutex );
 
 //Функции для врутреннего использования
 /*!
@@ -238,7 +223,7 @@ void mutex_unlock( mutex_t * mutex );
 \brief
 Lock a mutex kernel part.
 
-If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets unlocked.
+If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
 
 \param mutex A mutex pointer.
 \return 1 if mutex was locked without wait, else 0.
@@ -276,12 +261,12 @@ bool_t _mutex_try_lock( mutex_t * mutex );
 
 \~english
 \brief
-Mutex unlock kernel part.
+Mutex free kernel part.
 
-If a mutex wait list is empty, then caller process unlocks a mutex, else mutex wait lish head gets launched.
+If a mutex wait list is empty, then caller process frees a mutex, else mutex wait lish head gets launched.
 
 \param mutex A mutex pointer.
 */
-void _mutex_unlock( mutex_t * mutex );
+bool_t _mutex_free( mutex_t * mutex );
 
 #endif // _MUTEX_H_

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ void _clear_timer(timer_t * t)
 
     *t = kernel.timer;
 
-    SPIN_UNLOCK_KERNEL_TIMER();
+    SPIN_FREE_KERNEL_TIMER();
     EXIT_CRIT_SEC();
 }
 //----------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ timer_t _timer(timer_t t)
 
     ret = (timer_t)kernel.timer - (timer_t)t;
 
-    SPIN_UNLOCK_KERNEL_TIMER();
+    SPIN_FREE_KERNEL_TIMER();
     EXIT_CRIT_SEC();
 
     return ret;

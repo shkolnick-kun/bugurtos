@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок счетчиков захваченных ресурсов. \~english A locked resource counter header.
 */
-typedef struct _pcounter_t pcounter_t;
+typedef struct _pcounter_t pcounter_t; /*!< \~russian Смотри #_pcounter_t; \~english See #_pcounter_t; */
 /*!
 \~russian
 \brief

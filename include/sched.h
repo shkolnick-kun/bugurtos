@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ Initialization wrapper for sched variable in #sched_schedule and #sched_reschedu
 #endif // CONFIG_MP
 
 // Планировшик
-typedef struct _sched_t sched_t;
+typedef struct _sched_t sched_t; /*!< \~russian Смотри #_sched_t; \~english See #_sched_t; */
 // Свойства
 /*!
 \~russian
@@ -184,6 +184,52 @@ Recheduler routine.
 This function switches processes if needed.
 */
 void sched_reschedule(void);
+
+/*!
+\brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
+*/
+void sched_proc_run( proc_t * proc, flag_t state );
+/*!
+\brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
+*/
+void sched_proc_stop(proc_t * proc);
+
+
+/*!
+\~russian
+\brief Передача управления следующему процессу (для внутреннего использования).
+
+Передает управление следующему процессу, если такой процесс есть.
+
+\return 0 если нет других выполняющихся процессов, не 0 - если есть.
+
+\~english
+\brief Pass control to next ready process (for internal usage only!).
+
+If there is another running process, this function passes control to it.
+
+\return Zero if there are no other running processes, none zero if there is at least one.
+*/
+index_t _sched_yeld( void );
+/*!
+\~russian
+\brief Передача управления следующему процессу.
+
+Передает управление следующему процессу, если такой процесс есть.
+
+\return 0 если нет других выполняющихся процессов, не 0 - если есть.
+
+\~english
+\brief Pass control to next ready process.
+
+If there is another running process, this function passes control to it.
+
+\return Zero if there are no other running processes, none zero if there is at least one.
+*/
+index_t sched_yeld( void );
+
+
+
 #ifdef CONFIG_MP
 // Балансировщик нагрузки
 /*!
@@ -225,4 +271,58 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 */
 core_id_t sched_highest_load_core( stat_t * stat );
 #endif // CONFIG_MP
+#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
+/************************************
+  "Ленивые" балансировщики нагрузки
+
+,предназначены для запуска из тел
+процессов, если не используется
+активная схема балансировки нагрузки.
+
+Можно использовать только один,
+или оба в различных комбинациях
+
+************************************/
+/*!
+\~russian
+\brief Ленивая балансировка нагрузки, для внутренненго использования.
+
+Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
+\param object_core - процессорное ядро, с которого будем снимать нагрузку.
+
+\~english
+\brief A lazy load balancer routine. For internal usage.
+
+This function transfers one process on the least loaded CPU core from the object core.
+\param object_core - A CPU core to decrease a load on.
+*/
+void _sched_lazy_load_balancer(core_id_t object_core);
+
+/*!
+\~russian
+\brief Ленивая балансировка нагрузки, локальный балансировщик.
+
+Переносит 1 процесс с ядра, на котором выполняется на самое не нагруженное процессорное ядро в системе.
+
+\~english
+\brief A lazy local load balancer routine.
+
+Transfers one process from a current CPU core to the least loaded CPU core on the system.
+*/
+void sched_lazy_local_load_balancer(void);
+/*!
+\~russian
+\brief Ленивая балансировка нагрузки, глобальный балансировщик.
+
+Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
+
+\~english
+\brief A lazy global load balancer routine.
+
+Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
+*/
+void sched_lazy_global_load_balancer(void);
+
+#endif // CONFIG_MP CONFIG_USE_ALB
+
 #endif // _SCHED_H_

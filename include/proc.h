@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -158,26 +158,15 @@ else this macro does nothing.
 \param a a pointer to a process.
 
 */
-#ifdef CONFIG_USE_HIGHEST_LOCKER
 
 #define PROC_LRES_INIT(a) pcounter_init(&a->lres)
-#define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
-#define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
+#define PROC_LRES_INC(a,b) pcounter_inc( &a->lres, b )
+#define PROC_LRES_DEC(a,b) pcounter_dec( &a->lres, b )
 
-#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
-
-#else
-
-#define PROC_LRES_INIT(a) a->lres = (count_t)0
-#define PROC_LRES_INC(a,b) _proc_lres_inc(a)
-#define PROC_LRES_DEC(a,b) _proc_lres_dec(a)
-
-#define PROC_PRIO_CONTROL_STOPED(a)
-
-#endif
+//#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 
 //Процесс
-typedef struct _proc_t proc_t;
+typedef struct _proc_t proc_t; /*!< \~russian Смотри #_proc_t; \~english See #_proc_t; */
 // Свойства
 /*!
 \~russian
@@ -207,14 +196,10 @@ You must access such static variables using process synchronization facilities.
 */
 struct _proc_t
 {
-    pitem_t parent;     /*!<\~russian Родитель - #pitem_t. \~english A parent is #pitem_t.*/
+    gitem_t parent;     /*!<\~russian Родитель - #gitem_t. \~english A parent is #gitem_t.*/
     flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
-#ifdef CONFIG_USE_HIGHEST_LOCKER
     prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
     pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
-#else
-    count_t lres;       /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
-#endif
     timer_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     timer_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     void * buf;         /*!<\~russian  Указатель на хранилище для передачи данных через IPC. \~english A pointer to process IPC data storage.*/
@@ -378,9 +363,9 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 #define PROC_STATE_WD_STOPED        ((flag_t)0x3)   /*!< \~russian Остановлен по вачдог. \~english Watchdog termination. */
 
 #define PROC_STATE_DEAD             ((flag_t)0x4)   /*!< \~russian Завершен до освобождения общих ресурсов. \~english Abnormal termination, terminated with resources locked. */
+#define PROC_STATE_PCHANGE          ((flag_t)0x5)   /*!< \~russian Запущен при смене приоритета \~english A process has been run during priority change */
 // run states
-#define PROC_STATE_READY            ((flag_t)0x5)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
-#define PROC_STATE_RESERVED_0x6     ((flag_t)0x6)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_READY            ((flag_t)0x6)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
 #define PROC_STATE_RUNNING          ((flag_t)0x7)   /*!< \~russian Выполняется. \~english Is running. */
 
 // wait states
@@ -391,9 +376,9 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 
 //special states
 #define PROC_STATE_W_DEAD           ((flag_t)0xC)   /*!< \~russian Остановлен по вачдог в состоянии W_RUNNING до освобождения общих ресурсов. \~english Watchdog termination from W_RUNNING state with resources locked. */
+#define PROC_STATE_W_PCHANGE        ((flag_t)0xD)   /*!< \~russian Остановлен для смены приоритета. \~english A process is stoped for priority change. */
 
-#define PROC_STATE_W_READY          ((flag_t)0xD)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
-#define PROC_STATE_RESERVED_0xE     ((flag_t)0xE)   /*!< \~russian Зарезервировано. \~english Reserved. */
+#define PROC_STATE_W_READY          ((flag_t)0xE)   /*!< \~russian Готов к выполнению (специальное). \~english Is ready to run (special). */
 #define PROC_STATE_W_RUNNING        ((flag_t)0xF)   /*!< \~russian Выполняется (специальное). \~english Is running (special). */
 
 /*!
@@ -420,12 +405,38 @@ A process should not have locked resources at a moment of a flag stop.
 #define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
 /*!
 \~russian
+\brief Читает состояние процесса.
+
+\~english
+\brief Reads a process state.
+*/
+#define PROC_GET_STATE(a) ( a->flags & PROC_STATE_MASK )
+/*!
+\~russian
+\brief Устанавливает состояние процесса.
+
+\~english
+\brief Sets process state.
+*/
+#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, proc->flags |= b )
+
+/*!
+\~russian
 \brief Проверяет ждет ли процесс IPC
 
 \~english
 \brief Checks if process is waiting for IPC.
 */
-#define PROC_IPC_TEST(a) ( ( a->flags & PROC_STATE_MASK ) == PROC_STATE_W_IPC )
+#define PROC_IPC_TEST(a) ( PROC_GET_STATE(a) == PROC_STATE_W_IPC )
+
+/*!
+\~russian
+\brief Низший приоритет.
+
+\~english
+\brief Lowest priority level.
+*/
+#define PROC_PRIO_LOWEST ((prio_t)BITS_IN_INDEX_T - (prio_t)1)
 
 // Методы
 /*!
@@ -619,41 +630,6 @@ void _proc_self_stop(void);
 
 /*!
 \~russian
-\brief Передача управления следующему процессу (для внутреннего использования).
-
-Передает управление следующему процессу, если такой процесс есть.
-
-\return 0 если нет других выполняющихся процессов, не 0 - если есть.
-
-\~english
-\brief Pass control to next ready process (for internal usage only!).
-
-If there is another running process, this function passes control to it.
-
-\return Zero if there are no other running processes, none zero if there is at least one.
-*/
-
-index_t _proc_yeld( void );
-/*!
-\~russian
-\brief Передача управления следующему процессу.
-
-Передает управление следующему процессу, если такой процесс есть.
-
-\return 0 если нет других выполняющихся процессов, не 0 - если есть.
-
-\~english
-\brief Pass control to next ready process.
-
-If there is another running process, this function passes control to it.
-
-\return Zero if there are no other running processes, none zero if there is at least one.
-*/
-index_t proc_yeld( void );
-
-
-/*!
-\~russian
 \brief Сброс watchdog для процесса реального времени.
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
@@ -681,26 +657,24 @@ If a real time process failes to reset its watchdog, then the scheduler stops su
 */
 void _proc_reset_watchdog(void);
 
-//  Функция для внутреннего использования - собственно запуск процесса
+/*!
+\brief \~russian Запуск остановленного процесса с флагом #PROC_FLG_PRE_STOP. Для внутреннего использования. \~english Run stoped process and set #PROC_FLG_PRE_STOP. For internal usage.
+*/
+void _proc_dont_stop( proc_t * proc, flag_t flags );
+/*!
+\brief \~russian Вырезать проесс из списка ожидающих и его запуск. Для внутреннего использования. \~english Cut the a process from wait list and run it. For internel usage.
+*/
+void _proc_cut_and_run( proc_t * proc, flag_t state );
+//===========================================================
+/*!
+\brief \~russian Передача приоритетов по цепи заблокированных процессов. Для внутреннего использования. \~english Propagation of priority through a blovked process chain. For internal usage.
+*/
+void _proc_prio_propagate( proc_t * proc
 #ifdef CONFIG_MP
-/*!
-\brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
-*/
-void __proc_run( proc_t * proc );
-#else
-/*!
-\brief \~russian Вставка процесса в список готовых к выполнению, для внутреннего использования. \~english A routine that inserts a process to ready process list. For internal usage.
-*/
-#define __proc_run(proc) pitem_insert( (pitem_t *)proc, kernel.sched.ready )
-#endif
-/*!
-\brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
-*/
-void _proc_run( proc_t * proc );
-/*!
-\brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
-*/
-void _proc_stop(proc_t * proc);
+                          , code_t hook, void * hook_arg
+#endif //CONFIG_MP
+                         );
+//===========================================================
 /*!
 \brief \~russian "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования. \~english A low level process stop with flags set routine. For internal usage.
 */
@@ -715,25 +689,6 @@ void _proc_flag_stop( flag_t mask );
 void proc_flag_stop( flag_t mask );
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
-\brief \~russian Инкремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter increment routine. For internal usage.
-*/
-void _proc_lres_inc(
-    proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
-#endif
-);
-/*!
-\brief \~russian Декремент счетчика захваченных ресурсов, для внутреннего использования. \~english A locked resource counter decrement routine. For internal usage.
-*/
-void _proc_lres_dec(
-    proc_t * proc /*!< \~russian Указатель на процесс, захвативший ресурс. \~english A pointer to a process.*/
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio /*!< \~russian Приоритет захваченного ресурса, используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. \~english A locked resource priority. Used with CONFIG_USE_HIGHEST_LOCKER option.*/
-#endif
-);
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-/*!
 \~russian
 \brief Управление приоритетом процесса, для внутреннего использования.
 
@@ -747,74 +702,43 @@ Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stoped before call
 \param proc - A pointer to a process.
 */
 void _proc_prio_control_stoped( proc_t * proc );
+
 /*!
 \~russian
-\brief Управление приоритетом процесса, для внутреннего использования.
+\brief Управление приоритетом процесса.
 
-Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть запущен на момент вызова.
+Устанавливает приоритет процесса, находящегося в любом состоянии.
+
 \param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
 
 \~english
-\brief A running process priority control routine.
+\brief Set a priotity of a process.
 
-Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be running when the routine is called.
+It sets a procees priority. A process current state doesn't matter.
+
 \param proc - A pointer to a process.
+\param prio - New process priority value.
 */
-void _proc_prio_control_running( proc_t * proc ); /// !!! DEL
-#endif
-
-#if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
-/************************************
-  "Ленивые" балансировщики нагрузки
-
-,предназначены для запуска из тел
-процессов, если не используется
-активная схема балансировки нагрузки.
-
-Можно использовать только один,
-или оба в различных комбинациях
-
-************************************/
-/*!
-\~russian
-\brief Ленивая балансировка нагрузки, для внутренненго использования.
-
-Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
-\param object_core - процессорное ядро, с которого будем снимать нагрузку.
-
-\~english
-\brief A lazy load balancer routine. For internal usage.
-
-This function transfers one process on the least loaded CPU core from the object core.
-\param object_core - A CPU core to decrease a load on.
-*/
-void _proc_lazy_load_balancer(core_id_t object_core);
+void proc_set_prio( proc_t * proc, prio_t prio );
 
 /*!
 \~russian
-\brief Ленивая балансировка нагрузки, локальный балансировщик.
+\brief Управление приоритетом процесса. Для внктреннего использования.
 
-Переносит 1 процесс с ядра, на котором выполняется на самое не нагруженное процессорное ядро в системе.
+Устанавливает приоритет процесса, находящегося в любом состоянии.
 
-\~english
-\brief A lazy local load balancer routine.
-
-Transfers one process from a current CPU core to the least loaded CPU core on the system.
-*/
-void proc_lazy_local_load_balancer(void);
-/*!
-\~russian
-\brief Ленивая балансировка нагрузки, глобальный балансировщик.
-
-Ищет самое нагруженное процессорное ядро в системе и переносит с него один процесс на самое ненагруженное ядро в системе.
+\param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
 
 \~english
-\brief A lazy global load balancer routine.
+\brief Set a priotity of a process. For internel usage.
 
-Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
+It sets a procees priority. A process current state doesn't matter.
+
+\param proc - A pointer to a process.
+\param prio - New process priority value.
 */
-void proc_lazy_global_load_balancer(void);
-
-#endif // CONFIG_MP CONFIG_USE_ALB
+void _proc_set_prio( proc_t * proc, prio_t prio );
 
 #endif // _PROC_H_

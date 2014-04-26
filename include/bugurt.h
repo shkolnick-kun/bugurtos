@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -136,9 +136,9 @@ typedef void (* code_t)(void *);
 #include "index.h"
 #include "item.h"
 #include "xlist.h"
-#include "pitem.h"
+#include "group.h"
+#include "gitem.h"
 #include "pcounter.h"
-
 #include "crit_sec.h"
 #include "proc.h"
 #include "sched.h"
@@ -173,7 +173,7 @@ Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 Lock wrapper for arg->lock spinlock. Emty macro in single core system.
 */
 /*!
-\def SPIN_UNLOCK(arg)
+\def SPIN_FREE(arg)
 \~russian
 \brief Макрос-обертка.
 
@@ -199,14 +199,14 @@ A wrapper for #resched function.
 
 #define SPIN_INIT(arg) spin_init( &arg->lock )
 #define SPIN_LOCK(arg) spin_lock( &arg->lock )
-#define SPIN_UNLOCK(arg) spin_unlock( &arg->lock )
+#define SPIN_FREE(arg) spin_free( &arg->lock )
 #define RESCHED_PROC(proc) resched( proc->core_id )
 
 #else
 
 #define SPIN_INIT(arg)
 #define SPIN_LOCK(arg)
-#define SPIN_UNLOCK(arg)
+#define SPIN_FREE(arg)
 #define RESCHED_PROC(proc) resched()
 
 #endif
@@ -265,7 +265,7 @@ Unlock spin-lock on MP system.
 Unlock spin-lock on MP system.
 \param lock a pointer to a spin-lock
 */
-extern void spin_unlock(lock_t * lock);
+extern void spin_free(lock_t * lock);
 
 /*!
 \~russian
@@ -460,6 +460,7 @@ extern proc_t * current_proc(void);
 \param sstart Дно стека.
 \param code Функция, которая будет вызвана после восстановления контекста.
 \param arg Аргумент вызываемой функции.
+\param return_address адрес возврата из pmain.
 \return Указатель на вершину подготовленного стека.
 \~english
 \brief
@@ -471,6 +472,7 @@ It treats a pocess stack in such a way that pmain(arg) is called when a process 
 \param sstart a process stack bottom.
 \param pmain a poiter to a function to call.
 \param arg an argument to a function to call.
+\param return_address an adress to return from pmain.
 \return a pointer to a prepared process stack top.
 */
 extern stack_t * proc_stack_init(stack_t * sstart, code_t pmain, void * arg, void (*return_address)(void));

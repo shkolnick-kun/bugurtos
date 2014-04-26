@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -77,95 +77,226 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
+static void _proc_mutex_lock(proc_t * proc, mutex_t * mutex )
+{
+        mutex->free = (bool_t)0;
+        mutex->owner = proc;
 
-void mutex_init_isr(
-    mutex_t * mutex
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    ,prio_t prio
-#endif // CONFIG_USE_HIGHEST_LOCKER
-)
+        SPIN_LOCK( proc );
+
+        PROC_LRES_INC( proc, PROC_PRIO_LOWEST );
+        _proc_dont_stop( proc, PROC_FLG_MUTEX );
+
+        SPIN_FREE( proc );
+}
+/**********************************************************************************************
+                                          Мьютексы
+***********************************************************************************************
+                                     SYSCALL_MUTEX_INIT
+**********************************************************************************************/
+void mutex_init( mutex_t * mutex )
+{
+    disable_interrupts();
+    mutex_init_isr( mutex );
+    enable_interrupts();
+}
+//========================================================================================
+void mutex_init_isr( mutex_t * mutex )
 {
     SPIN_INIT( mutex );
     SPIN_LOCK( mutex );
     xlist_init( (xlist_t *)mutex );
     mutex->free = (bool_t)1;
-#ifdef CONFIG_USE_HIGHEST_LOCKER
-    mutex->prio = prio;
-#endif // CONFIG_USE_HIGHEST_LOCKER
-    SPIN_UNLOCK( mutex );
+    mutex->owner = (proc_t *)0;
+    mutex->dirty = (count_t)0;
+    SPIN_FREE( mutex );
 }
+/**********************************************************************************************
+                                    SYSCALL_MUTEX_LOCK
+**********************************************************************************************/
+// Захват
+/*!
+\~russian
+\brief
+Параметр системных вызовов #SYSCALL_MUTEX_LOCK и #SYSCALL_MUTEX_TRY_LOCK.
 
-// К моменту вызова захвачена блокировка mutex-а, запрещены прерывания
+\~english
+\brief
+An argument structure for #SYSCALL_MUTEX_LOCK and #SYSCALL_MUTEX_TRY_LOCK.
+*/
+typedef struct {
+    mutex_t * mutex;    /*!< \~russian указатель на мьютекс. \~english A pointer to a mutex. */
+    bool_t ret;         /*!< \~russian хранилище результата выполнения операции. \~english A storage for a result. */
+} mutex_lock_arg_t;
+//========================================================================================
+bool_t mutex_lock( mutex_t * mutex )
+{
+    volatile mutex_lock_arg_t scarg;
+    scarg.mutex = mutex;
+
+    do
+    {
+        syscall_bugurt( SYSCALL_MUTEX_LOCK, (void *)&scarg );
+    }
+    while( scarg.ret );
+
+    return 1;
+}
+//========================================================================================
+
+#ifdef CONFIG_MP
+
+static void mutex_prio_prop_hook( mutex_t * mutex )
+{
+    SPIN_FREE( (mutex->owner) );
+    SPIN_FREE( mutex );
+}
+#define MUTEX_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, (code_t)mutex_prio_prop_hook, (void *)m )
+
+#else
+
+#define MUTEX_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p )
+
+#endif
+
+
 bool_t _mutex_lock( mutex_t * mutex )
 {
-    bool_t ret;
     proc_t * proc;
-    // Захват блокировки мьютекса
-    SPIN_LOCK( mutex );
-    ret = mutex->free;
     proc = current_proc();
-    // Захват блокировки процесса
-    SPIN_LOCK( proc );
 
-    _proc_stop_flags_set( proc, (flag_t)0 );
-    PROC_LRES_INC( proc, GET_PRIO( mutex ) );
-    if( ret )
-    {
-        mutex->free = (bool_t)0;
-        PROC_PRIO_CONTROL_STOPED( proc );
-        _proc_run( proc );
-    }
+    SPIN_LOCK( mutex );
+
+    if( mutex->free )_proc_mutex_lock( proc, mutex ); //A proc gets the mutex immediatly!
     else
     {
-        proc->flags |= PROC_STATE_W_MUT;
-        pitem_insert( (pitem_t *)proc, (xlist_t *)mutex );
+        if( mutex->owner == proc ) goto end; //Finaly a proc has got the mutex, no more itterations!
+        else
+        {
+            prio_t old_prio, new_prio;
+            old_prio = MUTEX_PRIO( mutex );
+
+            SPIN_LOCK( proc );
+
+            if( PROC_GET_STATE(proc) == PROC_STATE_W_RUNNING )
+            {
+                //This is priority inheritanse transaction end
+                mutex->dirty--; //No zero check needed, as a process state is PROC_STATE_W_RUNNING.
+            }
+
+            proc->buf = (void *)mutex;
+            _proc_stop_flags_set( proc, (PROC_FLG_MUTEX|PROC_STATE_W_MUT) );
+            gitem_insert( (gitem_t *)proc, (xlist_t *)mutex );
+
+            SPIN_FREE( proc );
+
+            new_prio = MUTEX_PRIO( mutex );
+            if( new_prio != old_prio )
+            {
+                proc = mutex->owner;
+
+                SPIN_LOCK( proc );
+
+                PROC_LRES_DEC( proc, old_prio );
+                PROC_LRES_INC( proc, new_prio );
+
+                MUTEX_PROC_PRIO_PROPAGATE( proc, mutex );
+            }
+            else
+            {
+                SPIN_FREE( mutex );
+            }
+            return 1; // Next iteration...
+        }
     }
-    SPIN_UNLOCK( proc );
-
-    SPIN_UNLOCK( mutex );
-    return ret;
+end:
+    SPIN_FREE( mutex );
+    return 0;
 }
-
+//========================================================================================
+void scall_mutex_lock(void * arg)
+{
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_lock( ((mutex_lock_arg_t *)arg)->mutex );
+}
+/**********************************************************************************************
+                                    SYSCALL_MUTEX_TRY_LOCK
+**********************************************************************************************/
+// Попытка захвата
+bool_t mutex_try_lock( mutex_t * mutex )
+{
+    volatile mutex_lock_arg_t scarg;
+    scarg.mutex = mutex;
+    syscall_bugurt( SYSCALL_MUTEX_TRY_LOCK, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
 bool_t _mutex_try_lock( mutex_t * mutex )
 {
     bool_t ret;
     proc_t * proc;
+    proc = current_proc();
 
     SPIN_LOCK( mutex );
 
     ret = mutex->free;
-    proc = current_proc();
 
-    if( ret )
-    {
-        mutex->free = (bool_t)0;
+    if( ret )_proc_mutex_lock( proc, mutex );
 
-        SPIN_LOCK( proc );
-
-        _proc_stop_flags_set( proc, (flag_t)0 );
-        PROC_LRES_INC( proc, GET_PRIO( mutex ) );
-        PROC_PRIO_CONTROL_STOPED( proc );
-        _proc_run( proc );
-
-        SPIN_UNLOCK( proc );
-    }
-
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( mutex );
     return ret;
 }
+//========================================================================================
+void scall_mutex_try_lock(void * arg)
+{
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_try_lock( ((mutex_lock_arg_t *)arg)->mutex );
+}
+/**********************************************************************************************
+                                   SYSCALL_MUTEX_FREE
+**********************************************************************************************/
+// Освобождение
+void mutex_free( mutex_t * mutex )
+{
+    volatile mutex_lock_arg_t scarg;
+    scarg.mutex = mutex;
 
-void _mutex_unlock( mutex_t *  mutex )
+    do
+    {
+        syscall_bugurt( SYSCALL_MUTEX_FREE, (void *)&scarg );
+    }
+    while( scarg.ret );
+}
+//========================================================================================
+bool_t _mutex_free( mutex_t *  mutex )
 {
     proc_t * proc;
+    //prio_t prio;
+
+    proc = current_proc();
 
     SPIN_LOCK( mutex );
-    proc = current_proc();
+    //prio = MUTEX_PRIO( mutex );
+
+    //Check for dirty priority inheritanse transactions
+    if( mutex->dirty )
+    {
+        SPIN_LOCK( proc );
+
+        proc->buf = (void *)0;
+        _proc_stop_flags_set( proc, PROC_STATE_W_MUT );
+
+        SPIN_FREE( proc );
+        SPIN_FREE( mutex );
+        return (bool_t)1;
+    }
 
     SPIN_LOCK(proc);
     // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
-    _proc_stop( proc );
-    PROC_LRES_DEC( proc, GET_PRIO( mutex ) );
-    PROC_PRIO_CONTROL_STOPED( proc );
+    sched_proc_stop( proc );
+    //PROC_LRES_DEC( proc, prio );
+    PROC_LRES_DEC( proc, MUTEX_PRIO( mutex ) );
+    _proc_prio_control_stoped( proc );
+
+    if( proc->lres.index == (index_t)0 ) proc->flags &= PROC_FLG_MUTEX;
     // Если проготовлен и готов к остановке - останавливаем
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
@@ -174,12 +305,13 @@ void _mutex_unlock( mutex_t *  mutex )
     else
     {
         // Не было запроса останова, или процесс еще не освободил ресурсы, запускаем обратно.
-        _proc_run( proc );
+        sched_proc_run( proc, PROC_STATE_READY );
     }
-    SPIN_UNLOCK( proc );
-    SPIN_UNLOCK( mutex );
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT
+    SPIN_FREE( proc );
+    SPIN_FREE( mutex );
+
+    KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     SPIN_LOCK( mutex );
     // Обрабока самого мьютекса
@@ -187,19 +319,38 @@ void _mutex_unlock( mutex_t *  mutex )
     {
         // Список ожидающих пуст, выходим
         mutex->free = (bool_t)1;
+        mutex->owner = (proc_t *)0;
         goto end;
     }
     // Список ожидающих не пуст, запускаем голову
     proc = (proc_t *)xlist_head( (xlist_t *)mutex );
 
-    SPIN_LOCK( proc );
-    // Сначала надо вырезать
-    pitem_cut( (pitem_t *)proc );
-    PROC_PRIO_CONTROL_STOPED( proc );
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    _proc_run( proc );
+    mutex->owner = proc;
 
-    SPIN_UNLOCK( proc );
+    SPIN_LOCK( proc );
+
+    proc->buf = (void *)0; //It doesn't wait on mutex any more.
+
+    if( PROC_GET_STATE( proc ) == PROC_STATE_W_PCHANGE )
+    {
+        PROC_SET_STATE ( proc, PROC_STATE_PCHANGE );
+        PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );  //mutex prio has changed
+    }
+    else
+    {
+        gitem_cut( (gitem_t *)proc );
+        PROC_LRES_INC( proc, MUTEX_PRIO( mutex ) );  //mutex prio has changed
+        _proc_prio_control_stoped( proc );
+        sched_proc_run( proc, PROC_STATE_READY );
+    }
+
+    SPIN_FREE( proc );
 end:
-    SPIN_UNLOCK( mutex );
+    SPIN_FREE( mutex );
+    return (bool_t)0;
+}
+//========================================================================================
+void scall_mutex_free(void * arg)
+{
+    ((mutex_lock_arg_t *)arg)->ret = _mutex_free( ((mutex_lock_arg_t *)arg)->mutex );
 }

@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="9653" topLine="290" />
+	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="8932" topLine="171" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="21477" topLine="327" />
 	</File>
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="8530" topLine="113" />
+	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="4263" topLine="126" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1690" topLine="75" />
+		<Cursor position="1690" topLine="63" />
 	</File>
 	<File name="../../../../main/sem/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1727" topLine="4" />
+		<Cursor position="580" topLine="17" />
 	</File>
 </CodeBlocks_layout_file>

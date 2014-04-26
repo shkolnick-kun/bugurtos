@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.6.x(Bugurt real time operating system)
-    Copyright (C) 2013  anonimous
+    BuguRTOS-0.7.x(Bugurt real time operating system)
+    Copyright (C) 2014  anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок счетных семафоров. \~english A counting semaphores header.
 */
-typedef struct _sem_t sem_t;
+typedef struct _sem_t sem_t; /*!< \~russian Смотри #_sem_t; \~english See #_sem_t; */
 // Свойства
 /*!
 \~russian
@@ -100,11 +100,11 @@ A counting semaphore.
 
 Counting semaphores are used for process synchronization.
 It is not recomended to use them in common data access control, because priority inversion is possible.
-A counting semaphore can be locked by one process and unlocked by another.
+A counting semaphore can be locked by one process and freeed by another.
 */
 struct _sem_t
 {
-    xlist_t parent; /*!< \~russian Потомок списка, да. \~english #xlist_t is parrent type. */
+    xlist_t wait; /*!< \~russian Потомок списка, да. \~english #xlist_t is parrent type. */
     count_t counter; /*!< \~russian Счетчик семафора. \~english A counter. */
 #ifdef CONFIG_MP
     lock_t lock; /*!< \~russian На многопроцессорной системе семафор защищен спин-блокировкой. \~english A spin-lock for multicore system */
@@ -201,14 +201,14 @@ bool_t sem_try_lock( sem_t * sem );
 
 \~english
 \brief
-Semaphore unlock.
+Semaphore free.
 
 If semaphore wait lisk is empty, then counter will be encreased,
 else semaphore wait list head will be launched.
 
 \param sem A #sem_t pointer.
 */
-void sem_unlock( sem_t * sem );
+void sem_free( sem_t * sem );
 
 /*!
 \~russian
@@ -222,14 +222,14 @@ void sem_unlock( sem_t * sem );
 
 \~english
 \brief
-Semaphore unlock for ISR usage.
+Semaphore free for ISR usage.
 
 If semaphore wait lisk is empty, then counter will be encreased,
 else semaphore wait list head will be launched.
 
 \param sem A #sem_t pointer.
 */
-void sem_unlock_isr( sem_t * sem );
+void sem_free_isr( sem_t * sem );
 // То же, для внутреннего использования
 // Захват/освобождение
 /*!
