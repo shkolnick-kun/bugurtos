@@ -7,9 +7,6 @@
 	<File name="../../../kernel/gitem.c" open="0" top="0" tabpos="2">
 		<Cursor position="8708" topLine="123" />
 	</File>
-	<File name="../../../kernel/group.c" open="0" top="0" tabpos="0">
-		<Cursor position="6244" topLine="63" />
-	</File>
 	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6876" topLine="89" />
 	</File>

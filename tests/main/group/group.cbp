@@ -33,8 +33,20 @@
 			<Add option='-I &quot;${PROJECT_DIR}/../../../include&quot;' />
 			<Add option='-include &quot;${PROJECT_DIR}/../noarch_config.h&quot;' />
 		</Compiler>
-		<Unit filename="../../../include/group.h" />
-		<Unit filename="../../../kernel/group.c">
+		<Unit filename="../../../include/gitem.h" />
+		<Unit filename="../../../include/index.h" />
+		<Unit filename="../../../include/item.h" />
+		<Unit filename="../../../include/xlist.h" />
+		<Unit filename="../../../kernel/gitem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../kernel/index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../kernel/item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.c">

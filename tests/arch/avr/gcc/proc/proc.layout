@@ -4,6 +4,9 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="7819" topLine="135" />
 	</File>
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="7878" topLine="123" />
+	</File>
 	<File name="../../../../../include/ipc.h" open="0" top="0" tabpos="0">
 		<Cursor position="7840" topLine="212" />
 	</File>

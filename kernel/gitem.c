@@ -77,65 +77,60 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-
-void gxlist_init( gxlist_t * gxlist )
+//============================================================================
+//pool_t methods
+void pool_init( pool_t * pool )
 {
-    xlist_init( (xlist_t *)gxlist );
-    pool_init( &gxlist->pool );
+    pool->top = (group_t *)0;
+    pool->bot = (group_t *)0;
 }
-// Переносит все елементы из одного группированного списка в другой
-/*
- Ограничения на объекты:
- 1) Оба списка содержат только объекты типа gitem_t
- 2) В списке source на каждом уровне приоритета все объекты типа gitem_t приенадлежат к одной группе.
- 3) Элементы списка source, находящиеся на разных уровнях приоритета, пренадлежат разным группам.
-*/
-void gxlist_merge(gxlist_t * source, gxlist_t * destignation)
+
+void pool_merge( pool_t * src, pool_t * dst )
 {
-    index_t mask = (index_t)1;
-    prio_t current_prio = (prio_t)0;
-    while( mask )
+    if( src->bot == (group_t *)0 )
     {
-        // Есть че перенести?
-        if( mask & ((xlist_t *)source)->index )
-        {
-            // Есть!
-            // Есть куда переносить?
-            if( mask & ((xlist_t *)destignation)->index )
-            {
-                //Есть!
-                // Сшиваем 2 2-связных списка!!!
-                item_t * src;
-                item_t * dst;
-                item_t * buf;
-
-                src = ((xlist_t *)source)->item[current_prio];
-                dst = ((xlist_t *)destignation)->item[current_prio];
-                src->prev->next = dst;
-                dst->prev->next = src;
-                buf = dst->prev;
-                dst->prev = src->prev;
-                src->prev = buf;
-            }
-            else
-            {
-                //Нет, тупо переносим всю группу.
-                ((xlist_t *)destignation)->item[current_prio] = ((xlist_t *)source)->item[current_prio];
-                ((xlist_t *)destignation)->index |= mask;
-            }
-            // Вот почему эта функция отнесена к методам gitem_t
-            ((gitem_t *)((xlist_t *)source)->item[current_prio])->group->link = (void *)destignation;
-            // Перенос закончен, обнуляем указатель
-            ((xlist_t *)source)->item[(prio_t)current_prio] = (item_t *)0;
-        }
-        mask<<=1;
-        current_prio++;
+        return; // src is empty, nothing to do
     }
-    pool_merge( &source->pool, &destignation->pool );
-    // Список полностью перенесен, обнуляем индекс
-    ((xlist_t *)source)->index = (index_t)0;
+    src->bot->link = (void *)dst->top;
+    dst->top = src->top;
+    if( dst->bot == (group_t *)0 )
+    {
+        dst->bot = src->bot; // dst was empty
+    }
+    src->top = (group_t *)0;
+    src->bot = (group_t *)0;
 }
-
+//============================================================================
+//group_t methods
+void group_init(group_t * group, prio_t prio)
+{
+    group->link = (void *)0;
+    group->prio = prio;
+    group->el_num = (count_t)1;
+}
+// Push a group to to a pool
+void group_push(group_t * group, pool_t * pool)
+{
+    if( pool->bot == (group_t *)0 )
+    {
+        pool->bot = group; // pool was empty, update pool->bot
+    }
+    group->link = pool->top;
+    pool->top = group;
+}
+// Pop a group from a pool, called only after group_push, so no need to check zero in pool->top
+group_t * group_pop(pool_t * pool)
+{
+    group_t * group;
+    group = pool->top;
+    pool->top = (group_t *)group->link;
+    if( pool->top == (group_t *)0 )
+    {
+        pool->bot = (group_t *)0; // pool is empty, update pool->bot
+    }
+    return group;
+}
+//============================================================================
 // Инициация
 void gitem_init(gitem_t * gitem, prio_t prio)
 {
@@ -255,4 +250,61 @@ void gitem_cut(gitem_t * gitem)
     gitem_fast_cut( gitem );
     gitem->group->link = (void *)0;
 }
+//============================================================================
+void gxlist_init( gxlist_t * gxlist )
+{
+    xlist_init( (xlist_t *)gxlist );
+    pool_init( &gxlist->pool );
+}
+// Переносит все елементы из одного группированного списка в другой
+/*
+ Ограничения на объекты:
+ 1) Оба списка содержат только объекты типа gitem_t
+ 2) В списке source на каждом уровне приоритета все объекты типа gitem_t приенадлежат к одной группе.
+ 3) Элементы списка source, находящиеся на разных уровнях приоритета, пренадлежат разным группам.
+*/
+void gxlist_merge(gxlist_t * source, gxlist_t * destignation)
+{
+    index_t mask = (index_t)1;
+    prio_t current_prio = (prio_t)0;
+    while( mask )
+    {
+        // Есть че перенести?
+        if( mask & ((xlist_t *)source)->index )
+        {
+            // Есть!
+            // Есть куда переносить?
+            if( mask & ((xlist_t *)destignation)->index )
+            {
+                //Есть!
+                // Сшиваем 2 2-связных списка!!!
+                item_t * src;
+                item_t * dst;
+                item_t * buf;
 
+                src = ((xlist_t *)source)->item[current_prio];
+                dst = ((xlist_t *)destignation)->item[current_prio];
+                src->prev->next = dst;
+                dst->prev->next = src;
+                buf = dst->prev;
+                dst->prev = src->prev;
+                src->prev = buf;
+            }
+            else
+            {
+                //Нет, тупо переносим всю группу.
+                ((xlist_t *)destignation)->item[current_prio] = ((xlist_t *)source)->item[current_prio];
+                ((xlist_t *)destignation)->index |= mask;
+            }
+            // Вот почему эта функция отнесена к методам gitem_t
+            ((gitem_t *)((xlist_t *)source)->item[current_prio])->group->link = (void *)destignation;
+            // Перенос закончен, обнуляем указатель
+            ((xlist_t *)source)->item[(prio_t)current_prio] = (item_t *)0;
+        }
+        mask<<=1;
+        current_prio++;
+    }
+    pool_merge( &source->pool, &destignation->pool );
+    // Список полностью перенесен, обнуляем индекс
+    ((xlist_t *)source)->index = (index_t)0;
+}

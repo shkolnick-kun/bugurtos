@@ -51,7 +51,6 @@
 		<Unit filename="../../../../../include/bugurt.h" />
 		<Unit filename="../../../../../include/crit_sec.h" />
 		<Unit filename="../../../../../include/gitem.h" />
-		<Unit filename="../../../../../include/group.h" />
 		<Unit filename="../../../../../include/index.h" />
 		<Unit filename="../../../../../include/ipc.h" />
 		<Unit filename="../../../../../include/item.h" />
@@ -69,9 +68,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/gitem.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../kernel/group.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/index.c">
