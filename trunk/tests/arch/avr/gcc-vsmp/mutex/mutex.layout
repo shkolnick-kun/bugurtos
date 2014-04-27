@@ -17,10 +17,7 @@
 		<Cursor position="8404" topLine="0" />
 	</File>
 	<File name="../../../../../include/gitem.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="111" />
-	</File>
-	<File name="../../../../../include/group.h" open="0" top="0" tabpos="0">
-		<Cursor position="8555" topLine="114" />
+		<Cursor position="17165" topLine="365" />
 	</File>
 	<File name="../../../../../include/index.h" open="0" top="0" tabpos="0">
 		<Cursor position="6509" topLine="75" />
@@ -62,7 +59,7 @@
 		<Cursor position="6619" topLine="74" />
 	</File>
 	<File name="../../../../../kernel/gitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="163" topLine="0" />
+		<Cursor position="6666" topLine="88" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6134" topLine="72" />

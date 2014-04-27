@@ -13,7 +13,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="1">
 		<Cursor position="6350" topLine="75" />
 	</File>
-	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="2">
+	<File name="../../../../../include/bugurt.h" open="1" top="0" tabpos="2">
 		<Cursor position="7917" topLine="129" />
 	</File>
 	<File name="../../../../../include/crit_sec.h" open="0" top="0" tabpos="15">
@@ -37,8 +37,8 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="2">
-		<Cursor position="8371" topLine="157" />
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="8371" topLine="0" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="6">
 		<Cursor position="6929" topLine="99" />
