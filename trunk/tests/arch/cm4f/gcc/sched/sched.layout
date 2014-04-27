@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/cm4f/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="1267" topLine="18" />
 	</File>
@@ -31,14 +31,14 @@
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="2176" topLine="60" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="0">
-		<Cursor position="110" topLine="21" />
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1049" topLine="36" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="550" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="5">
-		<Cursor position="1445" topLine="30" />
+		<Cursor position="607" topLine="16" />
 	</File>
 	<File name="../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="1">
 		<Cursor position="5028" topLine="158" />

@@ -31,14 +31,14 @@
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="2176" topLine="60" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
 		<Cursor position="110" topLine="0" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="550" topLine="0" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="5">
-		<Cursor position="812" topLine="4" />
+	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="812" topLine="16" />
 	</File>
 	<File name="../../../../../../thirdparty/stm32l152/stm32l152rb.S" open="0" top="0" tabpos="2">
 		<Cursor position="3986" topLine="133" />

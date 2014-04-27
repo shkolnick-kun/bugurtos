@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/cm0/gcc/bugurt_kernel.c" open="0" top="0" tabpos="3">
-		<Cursor position="12239" topLine="228" />
+		<Cursor position="5296" topLine="125" />
 	</File>
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="1">
 		<Cursor position="334" topLine="0" />
@@ -11,7 +11,7 @@
 		<Cursor position="0" topLine="366" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="6">
-		<Cursor position="6701" topLine="80" />
+		<Cursor position="6850" topLine="78" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6911" topLine="68" />
@@ -26,7 +26,7 @@
 		<Cursor position="7134" topLine="112" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="4">
-		<Cursor position="6560" topLine="83" />
+		<Cursor position="6673" topLine="83" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6424" topLine="63" />
@@ -34,14 +34,14 @@
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="2248" topLine="0" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
 		<Cursor position="709" topLine="76" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="21" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="835" topLine="28" />
+		<Cursor position="812" topLine="15" />
 	</File>
 	<File name="../../../../../../thirdparty/startup-cm.c" open="0" top="0" tabpos="0">
 		<Cursor position="2070" topLine="43" />

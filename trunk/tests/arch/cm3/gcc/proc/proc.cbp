@@ -60,13 +60,13 @@
 		</Unit>
 		<Unit filename="../../../../../include/bugurt.h" />
 		<Unit filename="../../../../../include/crit_sec.h" />
+		<Unit filename="../../../../../include/gitem.h" />
 		<Unit filename="../../../../../include/index.h" />
 		<Unit filename="../../../../../include/ipc.h" />
 		<Unit filename="../../../../../include/item.h" />
 		<Unit filename="../../../../../include/kernel.h" />
 		<Unit filename="../../../../../include/mutex.h" />
 		<Unit filename="../../../../../include/pcounter.h" />
-		<Unit filename="../../../../../include/pitem.h" />
 		<Unit filename="../../../../../include/proc.h" />
 		<Unit filename="../../../../../include/sched.h" />
 		<Unit filename="../../../../../include/sem.h" />
@@ -75,6 +75,9 @@
 		<Unit filename="../../../../../include/timer.h" />
 		<Unit filename="../../../../../include/xlist.h" />
 		<Unit filename="../../../../../kernel/crit_sec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/gitem.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/index.c">
@@ -93,9 +96,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/pcounter.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../kernel/pitem.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/proc.c">
