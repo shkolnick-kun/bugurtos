@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "../include/bugurt.h"
 #ifdef CONFIG_MP
-// блокировку захватывать не надо - все изменения происходят локально!
+// No need to spinlock sched as all changes are local!
 core_id_t _enter_crit_sec(void)
 {
     core_id_t ret;

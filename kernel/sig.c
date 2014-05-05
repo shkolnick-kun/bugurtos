@@ -94,7 +94,7 @@ static void _sig_wakeup_list( sig_t * sig )
 ***********************************************************************************************
                                       SYSCALL_PROC_RESTART
 **********************************************************************************************/
-// Инициация
+// Initiation
 void sig_init( sig_t * sig )
 {
     disable_interrupts();
@@ -114,11 +114,11 @@ void sig_init_isr( sig_t * sig )
                                        SYSCALL_SIG_WAIT
                                        SYSCALL_SIG_WAKEUP
 **********************************************************************************************/
-// Это выполнится при постановке процесса в список ожидания сигнала
+// Wait for signal
 void sig_wait( sig_t * sig )
 {
     syscall_bugurt( SYSCALL_SIG_WAIT, (void *)sig );
-    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );// Останов в случае необходимости
+    syscall_bugurt( SYSCALL_SIG_WAKEUP, (void *)0 );// Stop calling process if needed!
 }
 //========================================================================================
 void _sig_wait_prologue( sig_t * sig )
@@ -131,7 +131,7 @@ void _sig_wait_prologue( sig_t * sig )
 
     SPIN_LOCK( proc );
 
-    // Останавливаем процесс
+    // Stop current crocess
     _proc_stop_flags_set( proc, PROC_STATE_W_SIG );
     proc->buf = (void *)sig; //Initialize a pointer before use.
     gitem_insert_group( (gitem_t *)proc, &sig->wait );// A process is inserted to a wait list
@@ -182,7 +182,7 @@ void scall_sig_wakeup( void *arg )
 /**********************************************************************************************
                                        SYSCALL_SIG_SIGNAL
 **********************************************************************************************/
-// Будит 1 процесс, для вызова из обработчиков прерываний
+// Wakeup single waiting process.
 void sig_signal( sig_t * sig )
 {
     syscall_bugurt( SYSCALL_SIG_SIGNAL, (void *)sig );
@@ -214,7 +214,7 @@ void scall_sig_signal( void * arg )
 /**********************************************************************************************
                                        SYSCALL_SIG_BROADCAST
 **********************************************************************************************/
-// Будит все ожидающие процессы
+// Wakeup all waiting processes.
 void sig_broadcast( sig_t * sig )
 {
     syscall_bugurt( SYSCALL_SIG_BROADCAST, (void *)sig );

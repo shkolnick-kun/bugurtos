@@ -137,7 +137,7 @@ bool_t _sem_lock( sem_t * sem )
     bool_t ret = (bool_t)1;
     proc_t * proc;
     proc = current_proc();
-    // Собственно захват семафора
+
     SPIN_LOCK( sem );
 
     if( sem->counter != 0 )

@@ -131,7 +131,8 @@ group_t * group_pop(pool_t * pool)
     return group;
 }
 //============================================================================
-// Инициация
+//gitem_t methods
+// Initiation
 void gitem_init(gitem_t * gitem, prio_t prio)
 {
     group_t * group;
@@ -141,7 +142,7 @@ void gitem_init(gitem_t * gitem, prio_t prio)
     group_init( group, prio );
     gitem->group = group;
 }
-// Вставить в список
+// Insert to gitem_t object to xlist_t container
 void gitem_insert(gitem_t * gitem, xlist_t *xlist)
 {
     prio_t prio;
@@ -151,27 +152,27 @@ void gitem_insert(gitem_t * gitem, xlist_t *xlist)
     prio = gitem->group->prio;
     mask = ((index_t)1)<<prio;
     head = (item_t **)xlist + prio;
-    // Пуста ли часть списка с таким приоритетом
+    // Is container sublist empty?
     if( ( xlist->index )& mask)
     {
-        //Не пуста вставляем туда gitem
+        //Not empty
         item_insert( (item_t *)gitem, *head );
     }
     else
     {
-        // Пуста, gitem будет головой
+        // Empty, gitem will be the head
         *head = (item_t *)gitem;
         xlist->index |= mask;
     }
     gitem->group->link = (void *)xlist;
 }
-// Вставить в список с добавлением в группу
+// Insert gitem_t object to gxlist_t container
 /*
- Вставляет в часть списка с проиритетом prio = gitem->group->prio,
- и переносит элемент в группу xlist->item[prio]->group,
- при этом gitem->group переходит в Пул
+  A gitem is inserted to container list with prio = gitem->group->prio,
+  and grouped to xlist->item[prio]->group,
+  gitem->group is pushed to a gxlist->pool
 
- Ограничения на gitem - он не должен быть сгруппирован в момент встаки в группу.
+  A limitation for gitem: It must not be grouped before insert.
 */
 void gitem_insert_group(gitem_t * gitem, gxlist_t *gxlist)
 {
@@ -184,28 +185,28 @@ void gitem_insert_group(gitem_t * gitem, gxlist_t *gxlist)
     mask = ((index_t)1)<<prio;
     head = (item_t **)gxlist + prio;
     group = gitem->group;
-    // Пуста ли часть списка с таким приоритетом
+    // Is container sublist empty?
     if( ( ((xlist_t *)gxlist)->index )& mask)
     {
-        //Не пуста вставляем туда gitem
+        //Not empty
         item_insert((item_t *)gitem, *head );
-        //Передаем старую группу в пул
+        //Push gitem->group to a pool
         group_push(group, &gxlist->pool);
-        //назначаем новую группу - ту, в которой голова
+        //Assign new group
         group = ((gitem_t *)*head)->group;
         gitem->group = group;
-        //количество элементов в группе увеличилось на 1
+        //Increment group element number
         group->el_num++;
     }
     else
     {
-        // Пуста, gitem будет головой
+        // Empty! gitem will be the head.
         *head = (item_t *)gitem;
         ((xlist_t *)gxlist)->index |= mask;
         group->link = (void *)gxlist;
     }
 }
-// Быстро вырезать из списка (не обнуляется указатель gitem->group->link)
+// Cut gitem_t ibject from its container (gitem->group->link is not touched)
 void gitem_fast_cut(gitem_t * gitem)
 {
     prio_t prio;
@@ -213,55 +214,57 @@ void gitem_fast_cut(gitem_t * gitem)
 
     prio = gitem->group->prio;
     xlist = (xlist_t *)gitem->group->link;
-    // Является ли эта часть списка группированной?
+    // Is container list grouped?
     if( gitem->group->el_num > (count_t)1 )
     {
-        //Группированная часть списка, будем вырезать из группы с выделением новой группы из Пула
-        // В текущей группе стало на 1 элемент меньше
+        // A container list is grouped, cut gitem from a container and pop some group for it.
+        // Decrement element number
         gitem->group->el_num--;
-        //выделяем новую группу
+        // Pop a new group
         gitem->group = group_pop(&((gxlist_t *)xlist)->pool);
-        // Правильный приоритет, количество элементов в группе, выделенной из пула должно быть равно 1
+        // Assign a priority to a group
         gitem->group->prio = (prio_t)prio;
     }
-    //Является ли элемент единственным в своей части списка?
+    //Is gitem the only element in its sublist?
     if( ((item_t *)gitem)->next == (item_t *)gitem )
     {
-        // Да, является!
+        // Yes, it is!
         xlist->item[prio] = (item_t *)0;
         xlist->index &= ~(((index_t)1)<<prio);
     }
     else
     {
-        // Нет, не является!
-        // Является ли элемент головой своей части списка?
+        // No its, not!
+        // Is gitem the head of its sublist?
         if( xlist->item[(prio_t)prio] == (item_t *)gitem )
         {
-            // Является, список надо переключить
+            // It is. Switch the head.
             xlist_switch( xlist, prio );
         }
-        // Собственно - вырезаем элемент
+        // Cut from sublist.
         item_cut( (item_t *)gitem );
     }
 }
-// Вырезать из списка
+// Cut gitem from its container
 void gitem_cut(gitem_t * gitem)
 {
     gitem_fast_cut( gitem );
     gitem->group->link = (void *)0;
 }
 //============================================================================
+// gxlist_t methods
+// Initiation
 void gxlist_init( gxlist_t * gxlist )
 {
     xlist_init( (xlist_t *)gxlist );
     pool_init( &gxlist->pool );
 }
-// Переносит все елементы из одного группированного списка в другой
+// Transfer all gitem_t objects from #source container to #destignation container
 /*
- Ограничения на объекты:
- 1) Оба списка содержат только объекты типа gitem_t
- 2) В списке source на каждом уровне приоритета все объекты типа gitem_t приенадлежат к одной группе.
- 3) Элементы списка source, находящиеся на разных уровнях приоритета, пренадлежат разным группам.
+ Limitations:
+ 1) Both #source and #destignation contain only gitem_t objects.
+ 2) In #source container all sublists a grouped and each sublist contain only one group of gitem_t objects.
+ 3) In #source container all sublists have different groups (one group - one sublist).
 */
 void gxlist_merge(gxlist_t * source, gxlist_t * destignation)
 {
@@ -269,15 +272,15 @@ void gxlist_merge(gxlist_t * source, gxlist_t * destignation)
     prio_t current_prio = (prio_t)0;
     while( mask )
     {
-        // Есть че перенести?
+        // Is there anything to move?
         if( mask & ((xlist_t *)source)->index )
         {
-            // Есть!
-            // Есть куда переносить?
+            // Yes!
+            // Is #destignation sublist not empty?
             if( mask & ((xlist_t *)destignation)->index )
             {
-                //Есть!
-                // Сшиваем 2 2-связных списка!!!
+                // Yes!
+                // Form one double-linked list from two!!!
                 item_t * src;
                 item_t * dst;
                 item_t * buf;
@@ -292,19 +295,19 @@ void gxlist_merge(gxlist_t * source, gxlist_t * destignation)
             }
             else
             {
-                //Нет, тупо переносим всю группу.
+                //No! Then just move sublist from #source to #destignation!
                 ((xlist_t *)destignation)->item[current_prio] = ((xlist_t *)source)->item[current_prio];
                 ((xlist_t *)destignation)->index |= mask;
             }
-            // Вот почему эта функция отнесена к методам gitem_t
+            // Link resulting sublist with #destignation!
             ((gitem_t *)((xlist_t *)source)->item[current_prio])->group->link = (void *)destignation;
-            // Перенос закончен, обнуляем указатель
+            // Emty #source sublist.
             ((xlist_t *)source)->item[(prio_t)current_prio] = (item_t *)0;
         }
         mask<<=1;
         current_prio++;
     }
     pool_merge( &source->pool, &destignation->pool );
-    // Список полностью перенесен, обнуляем индекс
+    // Empty #source index bitmap.
     ((xlist_t *)source)->index = (index_t)0;
 }

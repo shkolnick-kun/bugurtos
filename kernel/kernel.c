@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-kernel_t kernel;// Ядро, оно одно на всю систему!!!
+kernel_t kernel;// The kernel, it is the one!
 
 #ifndef CONFIG_USER_IDLE
 WEAK void idle_main(void * arg)
@@ -93,20 +93,20 @@ void kernel_init(void)
 
     spin_init( &kernel.stat_lock );
     spin_lock( &kernel.stat_lock );
-    //Инициация собственно ядра
+    //The Kernel initiation!
     for( i = (core_id_t)0; i<(core_id_t)MAX_CORES; i++ )
     {
         proc_init_isr(
-            kernel.idle + i, //процесс kernel.idle[i]
-            idle_main, // тут все понятно
-            (code_t)0, // нету
-            (code_t)0, // нету
-            (void *)0, // нуль
-            0, // это не важно, при первой же смене контекста будет сохранен текущий указатель стека
-            PROC_PRIO_LOWEST,// низший приоритет
-            (timer_t)1,//минимальный квант времени
-            (bool_t)0,// не RT
-            ((affinity_t)1)<<i // привязка  строго к одному процессору, а то его как сбалансирует отсюда
+            kernel.idle + i, //A kernel.idle[i] process
+            idle_main, // main
+            (code_t)0, // none
+            (code_t)0, // none
+            (void *)0, // null
+            0,         // null, will be replaced with kernel stack pointer.
+            PROC_PRIO_LOWEST,// idle has lowest priority
+            (timer_t)1,// Smallest time slice
+            (bool_t)0,// idle is not RT
+            ((affinity_t)1)<<i // Disable to other cores!
         );
         kernel.idle[i].core_id = i;
         stat_init( (stat_t *)kernel.stat + i );
@@ -121,15 +121,15 @@ void kernel_init(void)
     spin_free(&kernel.timer_lock);
 #else
     proc_init_isr(
-        &kernel.idle, //процесс kernel.idle
-        idle_main, // тут все понятно
-        (code_t)0, // нету
-        (code_t)0, // нету
-        (void *)0, // нуль
-        0, // это не важно, при первой же смене контекста будет сохранен текущий указатель стека
-        PROC_PRIO_LOWEST,// низший приоритет
-        (timer_t)1,//минимальный квант времени
-        (bool_t)0// не RT
+        &kernel.idle, //The kernel.idle process.
+        idle_main, // pmain
+        (code_t)0, // none
+        (code_t)0, // none
+        (void *)0, // null
+        0,         // null, will be replaced with kernel stack pointer.
+        PROC_PRIO_LOWEST, // idle has lowest priority
+        (timer_t)1,//Smallest time slice
+        (bool_t)0// Idle is not RT
     );
     sched_init( (sched_t *)&kernel.sched, (proc_t *)&kernel.idle );
     kernel.timer = (timer_t)0;

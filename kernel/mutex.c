@@ -290,21 +290,22 @@ bool_t _mutex_free( mutex_t *  mutex )
     }
 
     SPIN_LOCK(proc);
-    // т.к. установлен флаг PROC_FLG_MUTEX, процесс можно безопасно остановить.
+    // As PROC_FLG_MUTEX is set, a process can be stoped safely.
     sched_proc_stop( proc );
-    //PROC_LRES_DEC( proc, prio );
+
     PROC_LRES_DEC( proc, MUTEX_PRIO( mutex ) );
     _proc_prio_control_stoped( proc );
 
     if( proc->lres.index == (index_t)0 ) proc->flags &= PROC_FLG_MUTEX;
-    // Если проготовлен и готов к остановке - останавливаем
+    // Is PROC_FLG_PRE_STOP processing needed, can process be stoped if "Yes"?
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
+        // Yes, Yes. Will not run actualy.
         proc->flags &= ~PROC_FLG_PRE_STOP;
     }
     else
     {
-        // Не было запроса останова, или процесс еще не освободил ресурсы, запускаем обратно.
+        // Run in other cases!
         sched_proc_run( proc, PROC_STATE_READY );
     }
 
@@ -314,15 +315,15 @@ bool_t _mutex_free( mutex_t *  mutex )
     KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
     SPIN_LOCK( mutex );
-    // Обрабока самого мьютекса
+    // Mutex processing
     if( ((xlist_t *)mutex)->index == (index_t)0  )
     {
-        // Список ожидающих пуст, выходим
+        // A mutex wait list is empty, nothing to do.
         mutex->free = (bool_t)1;
         mutex->owner = (proc_t *)0;
         goto end;
     }
-    // Список ожидающих не пуст, запускаем голову
+    // A mutex wait list is not empty, run its head.
     proc = (proc_t *)xlist_head( (xlist_t *)mutex );
 
     mutex->owner = proc;

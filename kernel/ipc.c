@@ -95,7 +95,7 @@ void _ipc_wait( void * ipc_pointer )
     proc = current_proc();
 
     SPIN_LOCK( proc );
-    // Останавливаем процесс
+    // Stop calling process.
     _proc_stop_flags_set( proc, PROC_STATE_W_IPC );
     proc->buf = ipc_pointer;
 
@@ -142,19 +142,17 @@ bool_t ipc_send_isr( proc_t * proc, ipc_data_t ipc_data )
     if( PROC_IPC_TEST( proc ) )
     {
         proc->flags &= PROC_STATE_CLEAR_MASK;
-        ///Обработка флага останова целевого процесса
-        if(  PROC_PRE_STOP_TEST(proc)  )
+        // Is PROC_FLG_PRE_STOP processing needed?
+        if( PROC_PRE_STOP_TEST(proc) )
         {
             /*
-            Если был запрошен останов целевого процесса,
-            и целевой процесс не удерживает общие ресурсы,
-            то мы не будем возобновлять его работу
-            и передавать ему информацию.
+            Yes, there was proc_stop call, and proc can be stoped.
+            Actualy we won't run it in that case.
             */
             proc->flags &= ~PROC_FLG_PRE_STOP;
             goto end;
         }
-        ret = (bool_t)1; // информация будет передана
+        ret = (bool_t)1; // Data transfered!
         *(ipc_data_t *)proc->buf = ipc_data;
         sched_proc_run( proc, PROC_STATE_READY );
     }
@@ -203,22 +201,20 @@ bool_t _ipc_exchange( proc_t * proc, ipc_data_t send, ipc_data_t * receive )
     if( PROC_IPC_TEST( proc ) )
     {
         proc->flags &= PROC_STATE_CLEAR_MASK;
-        ///Обработка флага останова целевого процесса
-        if(  PROC_PRE_STOP_TEST(proc)  )
+        // Is PROC_FLG_PRE_STOP processing needed?
+        if( PROC_PRE_STOP_TEST(proc) )
         {
             /*
-            Если был запрошен останов целевого процесса,
-            и целевой процесс не удерживает общие ресурсы,
-            то мы не будем возобновлять его работу
-            и передавать ему информацию.
+            Yes, there was proc_stop call, and proc can be stoped.
+            Actualy we won't run it in that case.
             */
             proc->flags &= ~PROC_FLG_PRE_STOP;
             goto end;
         }
-        ret = (bool_t)1; // информация будет передана
+        ret = (bool_t)1; // Data is transfered!
         *(ipc_data_t *)proc->buf = send;
-        _ipc_wait( receive ); // Готовимся к приему данных!
-        sched_proc_run( proc, PROC_STATE_READY );   // И только после этого запускаем процесс-адресат!
+        _ipc_wait( receive ); // Wait for reply!
+        sched_proc_run( proc, PROC_STATE_READY );   //Run an addressed proc!
     }
 end:
     SPIN_FREE( proc );

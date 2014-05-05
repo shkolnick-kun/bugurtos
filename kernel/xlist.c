@@ -88,13 +88,13 @@ void xlist_init(
 )
 {
     count_t i;
-    //список пуст
+    //xlist is empty
     xlist->index = (index_t)0;
-    //обнуляем указатели
+    //all sublists are empty
     for( i = 0; i < BITS_IN_INDEX_T; i++ )xlist->item[i] = (item_t *)0;
 }
 //===========================================================================
-//Поиск головы списка
+//Find the head.
 item_t * xlist_head(xlist_t * xlist)
 {
     item_t * ret_val = (item_t *)0;
@@ -109,7 +109,7 @@ item_t * xlist_head(xlist_t * xlist)
 }
 
 //===========================================================================
-// переключение указателя в массиве на следующий элемент, пригодится в планировщике
+// Switch sublist head
 void xlist_switch(xlist_t * xlist, prio_t prio)
 {
     item_t ** current;
