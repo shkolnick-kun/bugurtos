@@ -77,33 +77,33 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "../include/bugurt.h"
-//Методы элемента 2-связного списка
-//инициация элемента
+// item_t methods.
+// Initiation
 void item_init(item_t *item)
 {
     item->prev = item;
     item->next = item;
 }
-//Вставить элемент
+// Insert an item to a list
 void item_insert(item_t *item, item_t *head)
 {
-    // "хвост" списка
+    // A tail of a list
     item_t * tail;
     tail = head->prev;
-    // Вставляем элемент между "головой" и "хвостом"
+    // Insert an item between a head and a tail
     item->prev = tail;
     item->next = head;
 
     head->prev = item;
     tail->next = item;
 }
-//Вырезать элемент
+//Cut an item
 void item_cut( item_t *item )
 {
     item_t * prev;
     item_t * next;
-    prev = item->prev; //Предыдущий элемент
-    next = item->next; //Следующий элемент
+    prev = item->prev; //Prevoious item
+    next = item->next; //Next item
 
     next->prev = prev;
     prev->next = next;

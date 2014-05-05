@@ -79,26 +79,26 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "../include/bugurt.h"
 SYSCALL_TABLE( syscall_routine[] ) =
 {
-    // Упавление процессами
+    // Process control
     scall_proc_run,
     scall_proc_restart,
     scall_proc_stop,
     scall_proc_self_stop,
-    scall_sched_yeld, ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    scall_sched_yeld, // Actualy it is a scheduler method!
     scall_proc_terminate,
     scall_proc_flag_stop,
     scall_proc_reset_watchdog,
-    scall_proc_set_prio, ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Сигналы
+    scall_proc_set_prio,
+    // Signals
     scall_sig_wait,
     scall_sig_wakeup,
     scall_sig_signal,
     scall_sig_broadcast,
-    // Семафоры
+    // Semaphores
     scall_sem_lock,
     scall_sem_try_lock,
     scall_sem_free,
-    // Мьютексы
+    // Mutex
     scall_mutex_lock,
     scall_mutex_try_lock,
     scall_mutex_free,

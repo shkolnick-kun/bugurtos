@@ -34,7 +34,7 @@
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="2248" topLine="0" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="1">
+	<File name="../test_func.c" open="1" top="1" tabpos="0">
 		<Cursor position="709" topLine="76" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">

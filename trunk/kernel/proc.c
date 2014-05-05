@@ -104,21 +104,21 @@ static void _proc_stop_ensure( proc_t * proc )
 //========================================================================================
 void _proc_stop_flags_set( proc_t * proc, flag_t mask )
 {
-    // Проверяем, не был ли процесс остановлен где-нибудь еще.
+    // Was a process stoped some where else?
     if( PROC_RUN_TEST( proc ) )
     {
-        // Не был, можно и нужно остановить.
+        // No, stop it now.
         sched_proc_stop( proc );
         proc->flags |= mask;
     }
     else
     {
-        // Был, останавливать не нужно, надо выставить флаг PROC_FLG_PRE_STOP
+        // Yes, no need for actual stop, set PROC_FLG_PRE_STOP flag.
         proc->flags |= (flag_t)(mask|PROC_FLG_PRE_STOP);
     }
 }
 //========================================================================================
-// Будет использоваться в mutex-ах и т.п., процесс должен сам вызывать эту функцию, при этом он должен быть вырезан из списка выполняющихся.
+// Change a process priority according to its #lres data field.
 void _proc_prio_control_stoped( proc_t * proc )
 {
     if(proc->lres.index != (index_t)0)
@@ -305,6 +305,7 @@ void _proc_prio_propagate( proc_t * proc )
     }
 }
 //========================================================================================
+// Cut a process from its wait list and run it, if needed.
 void _proc_cut_and_run( proc_t * proc, flag_t state )
 {
     if( PROC_GET_STATE( proc ) == PROC_STATE_W_PCHANGE )
@@ -321,9 +322,9 @@ void _proc_cut_and_run( proc_t * proc, flag_t state )
 /**********************************************************************************************
                                     Process control !!!
 **********************************************************************************************/
-// Инициация, тут все понятно.
+// Initiation.
 void proc_init(
-                    proc_t * proc, //Указатель на инициируемый процесс
+                    proc_t * proc, //A process pointer
                     code_t pmain,
                     code_t sv_hook,
                     code_t rs_hook,
@@ -331,7 +332,7 @@ void proc_init(
                     stack_t *sstart,
                     prio_t prio,
                     timer_t time_quant,
-                    bool_t is_rt // если true, значит процесс будет иметть поведение RT
+                    bool_t is_rt // Is it RT process
 #ifdef CONFIG_MP
                     ,affinity_t affinity
 #endif // CONFIG_MP
@@ -339,7 +340,7 @@ void proc_init(
 {
     disable_interrupts();
     proc_init_isr(
-                    proc, //Указатель на инициируемый процесс
+                    proc, //A process pointer
                     pmain,
                     sv_hook,
                     rs_hook,
@@ -347,7 +348,7 @@ void proc_init(
                     sstart,
                     prio,
                     time_quant,
-                    is_rt // если true, значит процесс будет иметть поведение RT
+                    is_rt // Is it RT process?
 #ifdef CONFIG_MP
                     ,affinity
 #endif // CONFIG_MP
@@ -356,7 +357,7 @@ void proc_init(
 }
 //========================================================================================
 void proc_init_isr(
-    proc_t * proc, //Указатель на инициируемый процесс
+    proc_t * proc, //A process pointer!
     code_t pmain,
     code_t sv_hook,
     code_t rs_hook,
@@ -364,7 +365,7 @@ void proc_init_isr(
     stack_t *sstart,
     prio_t prio,
     timer_t time_quant,
-    bool_t is_rt // если true, значит процесс будет иметть поведение RT
+    bool_t is_rt // Is it RT process?
 #ifdef CONFIG_MP
     ,affinity_t affinity
 #endif // CONFIG_MP
@@ -421,7 +422,7 @@ bool_t proc_run( proc_t * proc )
     return scarg.ret;
 }
 //========================================================================================
-// Функция общего пользования - запуск процесса из обработчика прерывания, прерывания должны быть запрещены во время запуска
+// Run a process? used in ISRs and in #SYSCALL_PROC_RUN
 bool_t proc_run_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)1;
@@ -456,7 +457,7 @@ bool_t proc_restart( proc_t * proc )
     return scarg.ret;
 }
 //========================================================================================
-// Перезепуск процесса из обработчика прерываний, прерывания должны быть запрещены
+// Restart a process from some ISR.
 bool_t proc_restart_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)1;
@@ -498,14 +499,14 @@ bool_t proc_stop( proc_t * proc )
     return scarg.ret;
 }
 //========================================================================================
-// Останов процесса из обработчика прерываний, прерывания должны быть запрещены
+// Stop a process from ISR
 bool_t proc_stop_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)0;
 
     SPIN_LOCK( proc );
-    //Проверка флагов
-    //В случае PROC_FLG_MUTEX или PROC_FLG_SEM будем обрабатывать PROC_FLG_PRE_STOP при освобождении общего ресурса.
+    //Check flags
+    //When PROC_FLG_MUTEX or PROC_FLG_SEM or both are set we must process PROC_FLG_PRE_STOP on common resource release.
     if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_PRE_STOP|PROC_STATE_WAIT_MASK) )proc->flags |= PROC_FLG_PRE_STOP;
     else
     {
@@ -532,7 +533,7 @@ void proc_flag_stop( flag_t mask )
     syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&msk );
 }
 //========================================================================================
-// Обработка флага останова процесса, для использования с семафорами, мьютексами и сигналами.
+// #PROC_FLG_PRE_STOP processing with mask clearing.
 void _proc_flag_stop( flag_t mask )
 {
     proc_t * proc;
@@ -543,9 +544,9 @@ void _proc_flag_stop( flag_t mask )
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
         /*
-        Если был запрошен останов целевого процесса,
-        и целевой процесс не удерживает общие ресурсы,
-        то мы остановим процесс
+        If a process stop was called
+        and a process does not have locked resources,
+        then stop a process.
         */
         _proc_stop_ensure( proc );
         proc->flags &= ~PROC_FLG_PRE_STOP;
@@ -586,7 +587,7 @@ void scall_proc_self_stop( void * arg )
 /**********************************************************************************************
                                     SYSCALL_PROC_TERMINATE
 **********************************************************************************************/
-// Останов процесса после выхода из pmain, для обертки proc_run_wrapper
+// Terminate a process after pmain return.
 void proc_terminate( void )
 {
     syscall_bugurt( SYSCALL_PROC_TERMINATE, (void *)0 );
@@ -600,10 +601,10 @@ void _proc_terminate( void )
     SPIN_LOCK( proc );
 
     _proc_stop_ensure( proc );
-    // Обрабатываем флаги
-    // Нельзя выходить из pmain не освободив все захваченные ресурсы, за это процесс будет "убит"!
+    // Flags processing!
+    // A prcess is not alowed to return from pmain не wuth resources locked!
     if( proc->flags & PROC_FLG_LOCK_MASK ) proc->flags |= PROC_STATE_DEAD;
-    // В противном случае - просто завершаем процесс
+    // A normal process termination.
     else proc->flags |= PROC_STATE_END;
     proc->flags &= ~PROC_FLG_PRE_STOP;
 

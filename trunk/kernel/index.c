@@ -82,18 +82,14 @@ prio_t index_search(index_t index)
     prio_t prio = (prio_t)0;
 #ifdef CONFIG_USE_O1_SEARCH
     /*
-        Бинарный поиск, он же метод половинного деления.
-        Строго говоря, выполняется за O(LOG2(BITS_IN_INDEX_T)) шагов,
-        но, т.к. BITS_IN_INDEX_T фиксировано для данной конфигурации,
-        то получается время выполнения - O(1), ВСЕГДА.
-
-        И да, предсказуемость + переносимость > быстродействие.
+        Binary search.
+        Takes O(LOG2(BITS_IN_INDEX_T)) time allways, as BITS_IN_INDEX_T is fixed, then it's O(1).
         */
     index_t upper = ~(index_t)0, lower = ~(index_t)0, middle;
     prio_t step = (prio_t)BITS_IN_INDEX_T;
     while( step )
     {
-        step>>=1; // делим шаг пополам
+        step>>=1; // Bisection
         middle = lower>>step;
         if( index & upper & middle )
         {
@@ -107,8 +103,8 @@ prio_t index_search(index_t index)
     }
 #else
     /*
-    Линейный поиск, может быть быстрее, чем бинарный,
-    но время выполнения скачет (с предсказуемостью хуже), максимальное - O(BITS_IN_INDEX_T).
+    Linear search.
+    Time limitation is O(BITS_IN_INDEX_T), which is also O(1).
     */
     index_t mask = (index_t)1;
     while( mask )
