@@ -95,7 +95,7 @@ typedef struct _mutex_t mutex_t; /*!< \~russian Смотри #_mutex_t; \~englis
 Мьютекс.
 
 Используется для управления доступом к общим ресурсам, в тех случаях, когда общий ресурс нужен в течение долгого времени.
-Поддерживается произвольная вложенность мьютексов. При использовании опции CONFIG_USE_HIGHEST_LOCKER, работа с мьютексами производится по протоколу highest locker, более подробно написано в Википедии.
+Поддерживается произвольная вложенность мьютексов.
 
 \warning  Мьютексы захватываются и освобожаются только процессами. Нельзя делать это из обработчиков прерываний.
 \warning  Мьютекс должен освободить ИМЕННО ТОТ процесс, который его захватил.
@@ -106,7 +106,6 @@ A mutex.
 
 Mutexes are used to control an access to common data. If your code needs yo use some common data for a long time,
 then you should use mutex instead of critical section. Mutex nesting is supported.
-Highest locker protocol is supported when CONFIG_USE_HIGHEST_LOCKER option is defined.
 
 \warning  Only a process can lock or free a mutex!
 \warning  Locked mutex can be freeed only by a locker process!
