@@ -435,12 +435,12 @@ void sched_reschedule(void)
 **********************************************************************************************/
 index_t sched_yeld(void)
 {
-    volatile index_t ret;
-    syscall_bugurt( SYSCALL_PROC_YELD, (void *)&ret );
+    volatile bool_t ret;
+    syscall_bugurt( SYSCALL_SCHED_YELD, (void *)&ret );
     return ret;
 }
 //========================================================================================
-index_t _sched_yeld( void )
+bool_t _sched_yeld( void )
 {
     index_t ret,mask;
     sched_t * sched;
@@ -489,12 +489,12 @@ index_t _sched_yeld( void )
 
     KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
-    return (ret & (~mask));
+    return (bool_t)!(ret & (~mask));
 }
 //========================================================================================
 void scall_sched_yeld( void * arg )
 {
-    *((index_t *)arg) = _sched_yeld();
+    *((bool_t *)arg) = _sched_yeld();
 }
 
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))

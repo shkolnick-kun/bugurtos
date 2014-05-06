@@ -107,6 +107,7 @@ void test_inc(void)
     test_var_sig++;
     sei();
 }
+
 void show_nested_int(void)
 {
 #ifdef CONFIG_PREEMPTIVE_KERNEL

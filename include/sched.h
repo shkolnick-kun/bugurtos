@@ -208,9 +208,9 @@ void sched_proc_stop(proc_t * proc);
 
 If there is another running process, this function passes control to it.
 
-\return Zero if there are no other running processes, none zero if there is at least one.
+\return One if power saving mode can be used, zero in other cases.
 */
-index_t _sched_yeld( void );
+bool_t _sched_yeld( void );
 /*!
 \~russian
 \brief Передача управления следующему процессу.
@@ -224,9 +224,9 @@ index_t _sched_yeld( void );
 
 If there is another running process, this function passes control to it.
 
-\return Zero if there are no other running processes, none zero if there is at least one.
+\return One if power saving mode can be used, zero in other cases.
 */
-index_t sched_yeld( void );
+bool_t sched_yeld( void );
 
 
 
