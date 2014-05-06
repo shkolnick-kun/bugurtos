@@ -1,5 +1,5 @@
 [Application]
-ApplicationPath=C:\bugurtos\tests\arch\stm8\raisonance\ipc\bin\test.aof
+ApplicationPath=C:\Temp\BuguRTOS-0.7.x\bugurtos\tests\arch\stm8\raisonance\ipc\bin\test.aof
 Format=AOF
 CodeOffset=0x0
 LoaderTool=ST7

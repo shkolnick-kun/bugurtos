@@ -40,7 +40,7 @@
 	<File name="../../../../../include/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../include/mutex.h" open="1" top="0" tabpos="1">
+	<File name="../../../../../include/mutex.h" open="0" top="0" tabpos="1">
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="0">
@@ -67,19 +67,19 @@
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="4">
+	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="4">
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/gitem.c" open="0" top="0" tabpos="6">
 		<Cursor position="13002" topLine="38" />
 	</File>
-	<File name="../../../../../kernel/index.c" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/index.c" open="1" top="0" tabpos="1">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="5">
-		<Cursor position="163" topLine="1" />
+	<File name="../../../../../kernel/ipc.c" open="1" top="0" tabpos="4">
+		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/item.c" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
@@ -94,13 +94,13 @@
 	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="2">
 		<Cursor position="13345" topLine="177" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="3">
-		<Cursor position="24213" topLine="477" />
+	<File name="../../../../../kernel/sched.c" open="1" top="1" tabpos="3">
+		<Cursor position="20994" topLine="444" />
 	</File>
-	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="5">
+	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="5">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/sig.c" open="0" top="0" tabpos="2">
 		<Cursor position="7897" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
