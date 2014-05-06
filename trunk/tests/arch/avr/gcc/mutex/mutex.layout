@@ -50,10 +50,13 @@
 		<Cursor position="0" topLine="81" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="3999" topLine="120" />
+		<Cursor position="2928" topLine="77" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1743" topLine="57" />
+		<Cursor position="2050" topLine="90" />
+	</File>
+	<File name="../test_func.h" open="0" top="0" tabpos="0">
+		<Cursor position="486" topLine="3" />
 	</File>
 	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="8784" topLine="341" />

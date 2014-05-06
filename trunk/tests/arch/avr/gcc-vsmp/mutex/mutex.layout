@@ -35,10 +35,10 @@
 		<Cursor position="6390" topLine="65" />
 	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="21069" topLine="360" />
+		<Cursor position="21069" topLine="454" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="6962" topLine="302" />
+		<Cursor position="11240" topLine="206" />
 	</File>
 	<File name="../../../../../include/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="6287" topLine="81" />
@@ -47,7 +47,7 @@
 		<Cursor position="7324" topLine="93" />
 	</File>
 	<File name="../../../../../include/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="16480" topLine="312" />
+		<Cursor position="7896" topLine="83" />
 	</File>
 	<File name="../../../../../include/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="193" />
@@ -80,7 +80,7 @@
 		<Cursor position="6932" topLine="59" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="15543" topLine="563" />
+		<Cursor position="15543" topLine="562" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="8192" topLine="205" />
@@ -89,10 +89,10 @@
 		<Cursor position="10915" topLine="212" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="7788" topLine="116" />
+		<Cursor position="6414" topLine="71" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="6661" topLine="90" />
+		<Cursor position="6992" topLine="90" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="7192" topLine="93" />

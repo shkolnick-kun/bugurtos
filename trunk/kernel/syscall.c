@@ -84,11 +84,12 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_proc_restart,
     scall_proc_stop,
     scall_proc_self_stop,
-    scall_sched_yeld, // Actualy it is a scheduler method!
     scall_proc_terminate,
     scall_proc_flag_stop,
     scall_proc_reset_watchdog,
     scall_proc_set_prio,
+    // Scheduler
+    scall_sched_yeld,
     // Signals
     scall_sig_wait,
     scall_sig_wakeup,
