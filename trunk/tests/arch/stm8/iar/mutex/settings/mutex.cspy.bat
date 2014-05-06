@@ -10,6 +10,6 @@
 @REM 
 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 6.0\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\bin\stm8proc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\bin\stm8stlink.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\bin\stm8bat.dll" --backend -B "-p" "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\config\ddf\iostm8s208mb.ddf" "-d" "stlink" "--mcuname" "STM8S208MB" 
+"C:\Program Files\IAR Systems\Embedded Workbench 6.0\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\bin\stm8proc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\bin\stm8sim.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\bin\stm8bat.dll" --backend -B "-p" "C:\Program Files\IAR Systems\Embedded Workbench 6.0\stm8\config\ddf\iostm8s208mb.ddf" "-d" "sim" 
 
 

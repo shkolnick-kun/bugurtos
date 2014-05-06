@@ -1,6 +1,35 @@
 
 <Debug>
-	<test/>
+	<test>
+		<CodeView TopRow="40766" Focus="4294967295" >
+			<CodeReport>
+				<0>146</0>
+				<1>161</1>
+				<2>88</2>
+				<3>485</3>
+														
+			</CodeReport>
+										
+		</CodeView>
+		<SpyWatch>
+			<Report>
+				<Def Header="InspectReport" NbCol="6" >
+					<Col Type="PT_STRING" Header="Name" sizeCache="DDDDDDDDDDDD" AutoSize="1" Edit="1" Sortable="1" />
+					<Col Type="PT_STRING" Header="Value" sizeCache="DDDDDDDDDDDDDDDDDDDDDDD" AutoSize="1" Edit="1" Sortable="0" />
+					<Col Type="PT_STRING" Header="Format" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
+					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
+					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
+					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
+																		
+				</Def>
+				<Rows/>
+														
+			</Report>
+										
+		</SpyWatch>
+		<MemoryView Focus="24576" TopRow="0" NbPerLine="8" />
+						
+	</test>
 	<Flags>
 		<Report>
 			<Def Header="FlagReport" NbCol="9" >
@@ -18,10 +47,8 @@
 							
 			</Def>
 			<Rows>
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:33" File="test_func.C" Path="C:\Projects\SOFT\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:45" File="test_func.C" Path="C:\Projects\SOFT\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:36" File="test_func.C" Path="C:\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:47" File="test_func.C" Path="C:\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:47" File="test_func.C" Path="C:\Temp\BuguRTOS-0.7.x\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:36" File="test_func.C" Path="C:\Temp\BuguRTOS-0.7.x\bugurtos\tests\arch\stm8\raisonance\test_func.C" />
 							
 			</Rows>
 					
@@ -29,8 +56,8 @@
 			
 	</Flags>
 	<Views>
-		<View File="..\test_func.C" Line="24" Index="0" />
-		<View File="..\..\..\..\main\ipc\main.c" Line="69" Index="1" focus="1" />
+		<View File="..\test_func.C" Line="46" Index="0" focus="1" />
+		<View File="..\..\..\..\main\ipc\main.c" Line="115" Index="1" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />

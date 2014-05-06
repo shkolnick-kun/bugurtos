@@ -464,11 +464,16 @@ index_t _sched_yeld( void )
         if( proc->flags & PROC_FLG_RT )
         {
             xlist_switch( (xlist_t *)((gitem_t *)proc)->group->link, ((gitem_t *)proc)->group->prio );
+            // Mask all lower prio processes
+            mask = ~(index_t)1;
+            mask <<= ((gitem_t *)proc)->group->prio;
         }
         else
         {
             gitem_cut( (gitem_t *)proc );
             gitem_insert( (gitem_t *)proc, sched->expired );
+            // No mask
+            mask = (index_t)0;
         }
         SPIN_FREE( sched );
     }
@@ -484,10 +489,7 @@ index_t _sched_yeld( void )
 
     KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
-    mask = ~(index_t)1;
-    mask <<= ((gitem_t *)proc)->group->prio;
-
-    return (ret & (~mask)); // Mask all lower prio processes
+    return (ret & (~mask));
 }
 //========================================================================================
 void scall_sched_yeld( void * arg )

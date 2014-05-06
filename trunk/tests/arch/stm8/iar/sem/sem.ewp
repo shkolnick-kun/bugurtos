@@ -1538,6 +1538,9 @@
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\crit_sec.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\gitem.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\index.c</name>
     </file>
     <file>
@@ -1554,9 +1557,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\pcounter.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\kernel\pitem.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\proc.c</name>
