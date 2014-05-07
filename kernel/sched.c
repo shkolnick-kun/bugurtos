@@ -503,9 +503,9 @@ bool_t _sched_proc_yeld( void )
             SPIN_LOCK( proc );
 
             PROC_SET_STATE( proc, PROC_STATE_READY );
-#if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
+#ifdef CONFIG_MP
             sched = sched_stat_update_run( proc );
-#endif // CONFIG_MP CONFIG_USE_ALB
+#endif // CONFIG_MP
             SPIN_LOCK( sched );
             gitem_insert( (gitem_t *)proc, sched->expired );
             SPIN_FREE( sched );
