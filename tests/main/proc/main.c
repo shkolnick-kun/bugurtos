@@ -135,13 +135,13 @@ void main_wd_ss( void * arg )
     proc_self_stop();
 
     wait_time(1);
-    sched_yeld();
+    sched_proc_yeld();
     wait_time(1);
-    sched_yeld();
+    sched_proc_yeld();
     wait_time(1);
-    sched_yeld();
+    sched_proc_yeld();
     wait_time(1);
-    sched_yeld();
+    sched_proc_yeld();
     test = 1; // If wathdog has been reset then test must pass.
     proc_self_stop();
 
@@ -152,7 +152,7 @@ void main_wd_ss( void * arg )
     proc_self_stop();
 
     wait_time(1);
-    sched_yeld();
+    sched_proc_yeld();
     test = (proc[5].timer == proc[5].time_quant);
 }
 
@@ -172,7 +172,7 @@ void main_lb( void * arg )
     {
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
-        sched_yeld();
+        sched_proc_yeld();
     }
 }
 
@@ -182,7 +182,7 @@ void idle_main( void * arg )
     {
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
-        sched_yeld();
+        sched_proc_yeld();
     }
 }
 

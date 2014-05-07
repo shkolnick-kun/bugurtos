@@ -25,6 +25,8 @@ void blink_4(void);
 void blink_5(void);
 void blink_6(void);
 
+void test_do_nothing(void);
+
 // proc test functions
 void test_output( bool_t test_result, count_t test_mun );
 void test_start(void);

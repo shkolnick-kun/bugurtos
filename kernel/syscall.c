@@ -89,7 +89,7 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_proc_reset_watchdog,
     scall_proc_set_prio,
     // Scheduler
-    scall_sched_yeld,
+    scall_sched_proc_yeld,
     // Signals
     scall_sig_wait,
     scall_sig_wakeup,

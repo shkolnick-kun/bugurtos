@@ -390,7 +390,7 @@ Launces a reschedule sequence on one of the processor cores of the system.
 \param core_id a processor core id.
 */
 extern void resched(core_id_t core_id);
-#else
+#else //#ifdef CONFIG_SAVE_POWER
 
 /*!
 \~russian

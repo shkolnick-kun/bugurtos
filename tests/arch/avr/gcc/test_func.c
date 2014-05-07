@@ -139,3 +139,8 @@ BUGURT_INTERRUPT( INT0_vect )
 {
     show_nested_int();
 }
+
+void test_do_nothing(void)
+{
+    NOP();
+}
