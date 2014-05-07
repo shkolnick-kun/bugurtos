@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="7026" topLine="102" />
+	</File>
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="26997" topLine="475" />
 	</File>
@@ -50,12 +53,12 @@
 		<Cursor position="7877" topLine="127" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="3109" topLine="87" />
+		<Cursor position="3245" topLine="108" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="367" topLine="48" />
+		<Cursor position="367" topLine="212" />
 	</File>
-	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2352" topLine="54" />
+	<File name="../../../../main/proc/main.c" open="1" top="1" tabpos="1">
+		<Cursor position="4373" topLine="177" />
 	</File>
 </CodeBlocks_layout_file>

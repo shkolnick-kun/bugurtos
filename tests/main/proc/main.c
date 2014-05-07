@@ -166,13 +166,23 @@ void main_fs( void * arg )
     }
 }
 
+#ifdef CONFIG_SAVE_POWER
+
+#define IDLE_YELD() if( sched_proc_yeld() )CONFIG_SAVE_POWER()
+
+#else //CONFIG_SAVE_POWER
+
+#define IDLE_YELD() sched_proc_yeld()
+
+#endif//CONFIG_SAVE_POWER
+
 void main_lb( void * arg )
 {
     while(1)
     {
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
-        sched_proc_yeld();
+        IDLE_YELD();
     }
 }
 
@@ -182,7 +192,7 @@ void idle_main( void * arg )
     {
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
-        sched_proc_yeld();
+        IDLE_YELD();
     }
 }
 

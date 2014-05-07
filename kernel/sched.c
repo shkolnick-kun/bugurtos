@@ -282,9 +282,7 @@ void sched_schedule(void)
         current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
         // Switch ready sublist to a next process.
         SPIN_LOCK( sched );
-
         xlist_switch( sched->ready, ((gitem_t *)current_proc)->group->prio );
-
         SPIN_FREE( sched );
         //Is a process time slice over?
         if( current_proc->timer > (timer_t)1 )
@@ -300,9 +298,7 @@ void sched_schedule(void)
             flag_t flags;
             // A process time slice os over!!! A process must be transfered to an expired list!
             SPIN_LOCK( sched );
-
             gitem_fast_cut( (gitem_t *)current_proc );
-
             SPIN_FREE( sched );
 #if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
             /***********************************************************************
@@ -345,9 +341,7 @@ void sched_schedule(void)
 #else // CONFIG_MP CONFIG_USE_ALB
                 // Just insert a process to expired list.
                 SPIN_LOCK( sched );
-
                 gitem_insert( (gitem_t *)current_proc, sched->expired );
-
                 SPIN_FREE( sched );
 
 #endif // CONFIG_MP CONFIG_USE_ALB
