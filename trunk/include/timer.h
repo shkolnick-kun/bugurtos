@@ -185,7 +185,26 @@ Caller process spins in a loop for a time.
 \param time Wait time.
 */
 void wait_time( timer_t time );
+#ifdef CONFIG_SAVE_POWER
+/*!
+\~russian
+\brief
+Подождать заданный интервал времени.
 
+Просто ждет в цикле пока пройдет время time.
+
+\param time Время ожидания.
+
+\~english
+\brief
+Wait for certain time.
+
+Caller process spins in a loop for a time.
+
+\param time Wait time.
+*/
+void wait_time_save_power(timer_t time);
+#endif //CONFIG_SAVE_POWER
 // Для внутреннего пользования
 /*!
 \~russian
