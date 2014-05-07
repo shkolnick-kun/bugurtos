@@ -488,6 +488,7 @@ bool_t _sched_proc_yeld( void )
         }
         else
         {
+#if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
             SPIN_LOCK( sched );
             proc_map = sched->expired->index;
             SPIN_FREE( sched );
@@ -503,13 +504,22 @@ bool_t _sched_proc_yeld( void )
             SPIN_LOCK( proc );
 
             PROC_SET_STATE( proc, PROC_STATE_READY );
-#ifdef CONFIG_MP
+
             sched = sched_stat_update_run( proc );
-#endif // CONFIG_MP
+
             SPIN_LOCK( sched );
             gitem_insert( (gitem_t *)proc, sched->expired );
             SPIN_FREE( sched );
+#else // CONFIG_MP CONFIG_USE_ALB
+            SPIN_LOCK( sched );
 
+            proc_map = sched->expired->index;
+            gitem_cut( (gitem_t *)proc );
+            gitem_insert( (gitem_t *)proc, sched->expired );
+            proc_map |= sched->ready->index;
+
+            SPIN_FREE( sched );
+#endif // CONFIG_MP CONFIG_USE_ALB
             save_power = (bool_t)!proc_map;
 
         }
