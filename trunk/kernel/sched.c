@@ -499,10 +499,6 @@ bool_t _sched_proc_yeld( void )
             proc_map |= sched->ready->index;
             SPIN_FREE( sched );
 
-            SPIN_FREE( proc );
-            KERNEL_PREEMPT(); // KERNEL_PREEMPT
-            SPIN_LOCK( proc );
-
             PROC_SET_STATE( proc, PROC_STATE_READY );
 
             sched = sched_stat_update_run( proc );
@@ -513,8 +509,13 @@ bool_t _sched_proc_yeld( void )
 #else // CONFIG_MP CONFIG_USE_ALB
             SPIN_LOCK( sched );
 
-            proc_map = sched->expired->index;
             gitem_cut( (gitem_t *)proc );
+            proc_map = sched->expired->index;
+
+            SPIN_FREE( sched );
+
+            SPIN_LOCK( sched );
+
             gitem_insert( (gitem_t *)proc, sched->expired );
             proc_map |= sched->ready->index;
 
@@ -578,9 +579,7 @@ void _sched_lazy_load_balancer(core_id_t object_core)
     {
         // Stop it;
         SPIN_LOCK( sched );
-
         gitem_fast_cut( (gitem_t *)proc );
-
         SPIN_FREE( sched );
 
         resched(object_core); // Resched object core...
@@ -600,9 +599,7 @@ void _sched_lazy_load_balancer(core_id_t object_core)
         proc->core_id = object_core;
 
         SPIN_LOCK( sched );
-
         gitem_insert( (gitem_t *)proc, sched->expired );
-
         SPIN_FREE( sched );
     }
     SPIN_FREE( proc );

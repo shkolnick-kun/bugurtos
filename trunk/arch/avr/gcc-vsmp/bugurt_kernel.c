@@ -108,18 +108,17 @@ void spin_init( lock_t * lock )
 void spin_lock( lock_t * lock )
 {
     unsigned short i;
-    while(1)
+    i = 1;
+    do
     {
         cli();
         if(!*lock)
         {
             *lock = (lock_t)1;
-            goto end;
+            i = 0;
         }
         sei();
-    }
-end:
-    sei();
+    }while(i);
     for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
 }
 void spin_free(lock_t * lock)
