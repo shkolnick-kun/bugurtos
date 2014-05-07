@@ -43,6 +43,8 @@ void sched_systick_hook_add(void);
 
 void main_lb( void * arg );
 
+void test_do_nothing(void);
+
 void blink_1(void);
 void blink_2(void);
 void blink_3(void);

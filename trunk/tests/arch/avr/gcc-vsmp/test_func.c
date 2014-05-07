@@ -225,6 +225,11 @@ void tests_end(void)
     }
 }
 
+void test_do_nothing(void)
+{
+    NOP();
+}
+
 unsigned char test_var_sig;
 void test_clear(void)
 {

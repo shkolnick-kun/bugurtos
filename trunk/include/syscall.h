@@ -94,22 +94,22 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FLAG_STOP + (syscall_t)(1))       /*!< \~russian Сброс watchdog процесса реального времени. \~english A real time process watchdog reset. */
 #define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian Установить приоритет процесса \~english Set a process priority. */
 
-#define SYSCALL_SCHED_YELD                      (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))       /*!< \~russian Передача управления другому процессу. \~english Transfer control to another process. */
+#define SYSCALL_SCHED_PROC_YELD                 (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))        /*!< \~russian Передача управления другому процессу. \~english Transfer control to another process. */
 
-#define SYSCALL_SIG_WAIT                        (SYSCALL_SCHED_YELD + (syscall_t)(1))             /*!< \~russian Ожидание сигнала. \~english Wait for signal. */
+#define SYSCALL_SIG_WAIT                        (SYSCALL_SCHED_PROC_YELD + (syscall_t)(1))      /*!< \~russian Ожидание сигнала. \~english Wait for signal. */
 #define SYSCALL_SIG_WAKEUP                      (SYSCALL_SIG_WAIT + (syscall_t)(1))             /*!< \~russian Обработка запуска по сигналу. \~english Signal wakeup processing. */
 #define SYSCALL_SIG_SIGNAL                      (SYSCALL_SIG_WAKEUP + (syscall_t)(1))           /*!< \~russian Подача сигнала одному процессу. \~english Signal to one waiting process. */
 #define SYSCALL_SIG_BROADCAST                   (SYSCALL_SIG_SIGNAL + (syscall_t)(1))           /*!< \~russian Подача сигнала всем ожидающим процессам. \~english Signal to all waiting processes. */
 
-#define SYSCALL_SEM_LOCK                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))             /*!< \~russian Захват семафора. \~english Lock a semaphore. */
+#define SYSCALL_SEM_LOCK                        (SYSCALL_SIG_BROADCAST + (syscall_t)(1))        /*!< \~russian Захват семафора. \~english Lock a semaphore. */
 #define SYSCALL_SEM_TRY_LOCK                    (SYSCALL_SEM_LOCK + (syscall_t)(1))             /*!< \~russian Попытка захвата семафора. \~english Try yo lock a semaphore. */
-#define SYSCALL_SEM_FREE                      (SYSCALL_SEM_TRY_LOCK + (syscall_t)(1))         /*!< \~russian Освобождение семафора. \~english Unlock a semaphore. */
+#define SYSCALL_SEM_FREE                        (SYSCALL_SEM_TRY_LOCK + (syscall_t)(1))         /*!< \~russian Освобождение семафора. \~english Unlock a semaphore. */
 
-#define SYSCALL_MUTEX_LOCK                      (SYSCALL_SEM_FREE + (syscall_t)(1))           /*!< \~russian Захват мьютекса. \~english Lock a mutex. */
+#define SYSCALL_MUTEX_LOCK                      (SYSCALL_SEM_FREE + (syscall_t)(1))             /*!< \~russian Захват мьютекса. \~english Lock a mutex. */
 #define SYSCALL_MUTEX_TRY_LOCK                  (SYSCALL_MUTEX_LOCK + (syscall_t)(1))           /*!< \~russian Попытка захвата мьютекса. \~english Try to lock a mutex. */
-#define SYSCALL_MUTEX_FREE                    (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))       /*!< \~russian Освобождение мьютекса. \~english Unlock a mutex. */
+#define SYSCALL_MUTEX_FREE                      (SYSCALL_MUTEX_TRY_LOCK + (syscall_t)(1))       /*!< \~russian Освобождение мьютекса. \~english Unlock a mutex. */
 
-#define SYSCALL_IPC_WAIT                        (SYSCALL_MUTEX_FREE + (syscall_t)(1))         /*!< \~russian Ожидание передачи данных. \~english Wait for data (IPC). */
+#define SYSCALL_IPC_WAIT                        (SYSCALL_MUTEX_FREE + (syscall_t)(1))           /*!< \~russian Ожидание передачи данных. \~english Wait for data (IPC). */
 #define SYSCALL_IPC_SEND                        (SYSCALL_IPC_WAIT + (syscall_t)(1))             /*!< \~russian Передача данных. \~english Send data via IPC. */
 #define SYSCALL_IPC_EXCHANGE                    (SYSCALL_IPC_SEND + (syscall_t)(1))             /*!< \~russian Обмен данными. \~english Exchange data via IPC. */
 
@@ -256,7 +256,7 @@ Transfers control to another process.
 
 \param arg Not used.
 */
-void scall_sched_yeld( void * arg );
+void scall_sched_proc_yeld( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian

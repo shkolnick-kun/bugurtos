@@ -140,6 +140,9 @@ typedef unsigned char load_t;
 
 #define LOWEST (BITS_IN_INDEX_T - 1)
 
+#define CONFIG_SAVE_POWER test_do_nothing
+extern void test_do_nothing(void);
+
 #define SVH0 (code_t)0
 #define RSH0 (code_t)0
 

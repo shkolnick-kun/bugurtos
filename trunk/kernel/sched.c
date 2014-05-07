@@ -165,22 +165,31 @@ void sched_init(sched_t * sched, proc_t * idle)
 }
 //========================================================================================
 // Insert a process to ready list and update load information.
-void sched_proc_run( proc_t * proc, flag_t state )
-{
-    sched_t * sched;
-    //Set new state
-    proc->flags &= PROC_STATE_CLEAR_MASK;
-    proc->flags |= state;
 #ifdef CONFIG_MP
+
+static sched_t * sched_stat_update_run( proc_t * proc )
+{
     spin_lock( &kernel.stat_lock );
     proc->core_id = sched_load_balancer( proc, (stat_t *)kernel.stat );
     stat_inc( proc, (stat_t *)kernel.stat+proc->core_id );
     spin_free( &kernel.stat_lock );
 
-    sched = (sched_t *)kernel.sched + proc->core_id;
-#else
-    sched = &kernel.sched;
-#endif
+    return ((sched_t *)kernel.sched + proc->core_id);
+}
+
+#define SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
+
+#else  //CONFIG_MP
+
+#define SCHED_STAT_UPDATE_RUN(a) (&kernel.sched)
+
+#endif //CONFIG_MP
+void sched_proc_run( proc_t * proc, flag_t state )
+{
+    sched_t * sched;
+    //Set new state
+    PROC_SET_STATE( proc, state );
+    sched = SCHED_STAT_UPDATE_RUN( proc );
 
     SPIN_LOCK( sched );
     gitem_insert( (gitem_t *)proc, sched->ready );
@@ -433,49 +442,78 @@ void sched_reschedule(void)
 /**********************************************************************************************
                                       SYSCALL_PROC_YELD
 **********************************************************************************************/
-index_t sched_yeld(void)
+index_t sched_proc_yeld(void)
 {
     volatile bool_t ret;
-    syscall_bugurt( SYSCALL_SCHED_YELD, (void *)&ret );
+    syscall_bugurt( SYSCALL_SCHED_PROC_YELD, (void *)&ret );
     return ret;
 }
 //========================================================================================
-bool_t _sched_yeld( void )
+bool_t _sched_proc_yeld( void )
 {
-    index_t ret,mask;
+    bool_t save_power = (bool_t)0;
+    index_t proc_map;
     sched_t * sched;
     proc_t * proc;
 
     sched = _SCHED_INIT();
     proc = sched->current_proc;
 
-    SPIN_LOCK( sched );
-    ret = sched->expired->index;
-    SPIN_FREE( sched );
-
-    KERNEL_PREEMPT();// KERNEL_PREEMPT
-
     SPIN_LOCK( proc );
 
     if( PROC_RUN_TEST( proc ) )
     {
-        SPIN_LOCK( sched );
-
         if( proc->flags & PROC_FLG_RT )
         {
-            xlist_switch( (xlist_t *)((gitem_t *)proc)->group->link, ((gitem_t *)proc)->group->prio );
-            // Mask all lower prio processes
-            mask = ~(index_t)1;
+            prio_t prio;
+
+            index_t mask = ~(index_t)0;
             mask <<= ((gitem_t *)proc)->group->prio;
+            mask = ~mask; // Mask all lower prio processes
+
+            prio = ((gitem_t *)proc)->group->prio;
+
+            SPIN_LOCK( sched );
+
+            xlist_switch( sched->ready, prio );
+
+            save_power = (bool_t)(sched->ready->item[prio] == (item_t *)proc);// Is there any other process in proc sublist? If none, then we probably can save poswer...
+
+            proc_map = sched->ready->index;
+
+            SPIN_FREE( sched );
+
+            proc_map &= mask; //Are there higher prio processes in sched->ready?
+            save_power = save_power || ((bool_t)!proc_map); // If there are some processes with proc->parent->group->prio >= prio, then we can't save power.
         }
         else
         {
-            gitem_cut( (gitem_t *)proc );
+            SPIN_LOCK( sched );
+            proc_map = sched->expired->index;
+            SPIN_FREE( sched );
+
+            sched_proc_stop(proc);
+
+            SPIN_LOCK( sched );
+            proc_map |= sched->ready->index;
+            SPIN_FREE( sched );
+
+            SPIN_FREE( proc );
+            KERNEL_PREEMPT(); // KERNEL_PREEMPT
+            SPIN_LOCK( proc );
+
+            PROC_SET_STATE( proc, PROC_STATE_READY );
+#ifdef CONFIG_MP
+            sched = sched_stat_update_run( proc );
+#endif
+            SPIN_LOCK( sched );
             gitem_insert( (gitem_t *)proc, sched->expired );
-            // No mask
-            mask = (index_t)0;
+            SPIN_FREE( sched );
+
+            save_power = (bool_t)!proc_map;
+
         }
-        SPIN_FREE( sched );
+
     }
     proc->timer = proc->time_quant; // reset timer
     RESCHED_PROC( proc );
@@ -483,18 +521,12 @@ bool_t _sched_yeld( void )
 
     KERNEL_PREEMPT(); // KERNEL_PREEMPT
 
-    SPIN_LOCK( sched );
-    ret |= sched->ready->index;
-    SPIN_FREE( sched );
-
-    KERNEL_PREEMPT(); // KERNEL_PREEMPT
-
-    return (bool_t)!(ret & (~mask));
+    return save_power;
 }
 //========================================================================================
-void scall_sched_yeld( void * arg )
+void scall_sched_proc_yeld( void * arg )
 {
-    *((bool_t *)arg) = _sched_yeld();
+    *((bool_t *)arg) = _sched_proc_yeld();
 }
 
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))

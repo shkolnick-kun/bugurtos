@@ -86,6 +86,9 @@ typedef unsigned short ipc_data_t;
 #define START_SCHEDULER() (TIMSK2 |= 0x02)
 #define STOP_SCHEDULER() (TIMSK2 &= ~0x02)
 
+extern void test_do_nothing(void);
+#define CONFIG_SAVE_POWER test_do_nothing
+
 #define PROC_STACK_SIZE 128
 
 #define LOWEST (BITS_IN_INDEX_T - 1)

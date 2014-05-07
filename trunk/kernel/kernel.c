@@ -82,7 +82,12 @@ kernel_t kernel;// The kernel, it is the one!
 #ifndef CONFIG_USER_IDLE
 WEAK void idle_main(void * arg)
 {
-    while(1);
+    while(1)
+    {
+#ifdef CONFIG_SAVE_POWER
+        if( sched_proc_yeld() )CONFIG_SAVE_POWER();
+#endif
+    }
 }
 #endif
 

@@ -210,7 +210,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bool_t _sched_yeld( void );
+bool_t _sched_proc_yeld( void );
 /*!
 \~russian
 \brief Передача управления следующему процессу.
@@ -226,7 +226,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bool_t sched_yeld( void );
+bool_t sched_proc_yeld( void );
 
 
 
