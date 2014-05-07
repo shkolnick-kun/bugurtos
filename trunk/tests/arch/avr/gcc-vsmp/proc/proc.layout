@@ -41,7 +41,7 @@
 		<Cursor position="13432" topLine="107" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="22738" topLine="490" />
+		<Cursor position="22937" topLine="507" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="7969" topLine="245" />
@@ -58,7 +58,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="367" topLine="212" />
 	</File>
-	<File name="../../../../main/proc/main.c" open="1" top="1" tabpos="1">
-		<Cursor position="4373" topLine="177" />
+	<File name="../../../../main/proc/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="3689" topLine="119" />
 	</File>
 </CodeBlocks_layout_file>

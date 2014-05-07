@@ -112,6 +112,6 @@
 1399437337 source:/home/anon/BuguRTOS-0.7.x/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
 	<test_func.h>
 
-1399459444 source:/home/anon/BuguRTOS-0.7.x/bugurtos/tests/main/proc/main.c
+1399459980 source:/home/anon/BuguRTOS-0.7.x/bugurtos/tests/main/proc/main.c
 	<test_func.h>
 

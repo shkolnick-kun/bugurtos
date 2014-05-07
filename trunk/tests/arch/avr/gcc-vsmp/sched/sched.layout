@@ -106,7 +106,7 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="5">
+	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="3">
 		<Cursor position="163" topLine="87" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="4">
@@ -116,7 +116,7 @@
 		<Cursor position="4221" topLine="131" />
 	</File>
 	<File name="../test_func.c" open="1" top="0" tabpos="2">
-		<Cursor position="3327" topLine="211" />
+		<Cursor position="3327" topLine="195" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="346" topLine="0" />
