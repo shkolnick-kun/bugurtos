@@ -85,8 +85,8 @@
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="1">
 		<Cursor position="9529" topLine="72" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="6">
-		<Cursor position="20552" topLine="570" />
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="6">
+		<Cursor position="21037" topLine="518" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="1">
 		<Cursor position="10675" topLine="205" />
