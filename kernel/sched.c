@@ -436,7 +436,7 @@ void sched_reschedule(void)
 /**********************************************************************************************
                                       SYSCALL_PROC_YELD
 **********************************************************************************************/
-index_t sched_proc_yeld(void)
+bool_t sched_proc_yeld(void)
 {
     volatile bool_t ret;
     syscall_bugurt( SYSCALL_SCHED_PROC_YELD, (void *)&ret );
