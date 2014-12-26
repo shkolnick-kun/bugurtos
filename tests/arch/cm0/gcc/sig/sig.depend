@@ -390,3 +390,15 @@
 1393752699 source:/home/anon/BuguRTOS-0.7.x/thirdparty/stm32f051/system_stm32f0xx.c
 	"stm32f0xx.h"
 
+1399441554 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1399720712 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1399436901 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
+1399459192 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
