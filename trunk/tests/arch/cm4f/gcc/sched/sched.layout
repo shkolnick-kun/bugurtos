@@ -7,6 +7,9 @@
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="3">
 		<Cursor position="7541" topLine="107" />
 	</File>
+	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="../../../../../include/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="144" />
 	</File>
@@ -31,16 +34,16 @@
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="2176" topLine="60" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="0">
-		<Cursor position="1049" topLine="36" />
+	<File name="../test_func.c" open="0" top="0" tabpos="1">
+		<Cursor position="1484" topLine="60" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="550" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="5">
-		<Cursor position="607" topLine="23" />
+		<Cursor position="607" topLine="20" />
 	</File>
-	<File name="../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="1">
+	<File name="../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="2">
 		<Cursor position="5028" topLine="158" />
 	</File>
 </CodeBlocks_layout_file>

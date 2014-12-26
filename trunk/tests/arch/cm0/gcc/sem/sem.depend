@@ -73,3 +73,48 @@
 1393752699 source:/home/anon/BuguRTOS-0.7.x/thirdparty/stm32f051/system_stm32f0xx.c
 	"stm32f0xx.h"
 
+1399141912 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/crit_sec.c
+	"../include/bugurt.h"
+
+1399141819 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/gitem.c
+	"../include/bugurt.h"
+
+1399142183 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/index.c
+	"../include/bugurt.h"
+
+1399142628 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/ipc.c
+	"../include/bugurt.h"
+
+1399142802 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/item.c
+	"../include/bugurt.h"
+
+1399441554 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/kernel.c
+	"../include/bugurt.h"
+
+1399143490 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/mutex.c
+	"../include/bugurt.h"
+
+1399143600 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/pcounter.c
+	"../include/bugurt.h"
+
+1399144601 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/proc.c
+	"../include/bugurt.h"
+
+1399720712 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/sched.c
+	"../include/bugurt.h"
+
+1399148415 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/sem.c
+	"../include/bugurt.h"
+
+1399148544 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/sig.c
+	"../include/bugurt.h"
+
+1399436901 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/syscall.c
+	"../include/bugurt.h"
+
+1399459192 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/timer.c
+	"../include/bugurt.h"
+
+1399148730 source:/home/anon/BuguRTOS-0.7.x/bugurtos/kernel/xlist.c
+	"../include/bugurt.h"
+

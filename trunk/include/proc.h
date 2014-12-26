@@ -475,19 +475,6 @@ void proc_init(
 );
 /*!
 \~russian
-\brief Обертка для запуска процессов.
-
-Эта функция  вызывает proc->pmain(proc->arg), и если происходит возврат из pmain, то #proc_run_wrapper корректно завершает процесс.
-\param proc - Указатель на запускаемый процесс.
-\~english
-\brief A wrapper for process "main" routines.
-
-This function calls proc->pmain(proc->arg), and if pmain returns, then #proc_run_wrapper terminates process correctly.
-\param proc - A pointer to a process to launch.
-*/
-void proc_run_wrapper(proc_t * proc);
-/*!
-\~russian
 \brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
 
 \~english

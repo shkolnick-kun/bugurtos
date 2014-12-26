@@ -82,7 +82,7 @@
 	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="2">
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/mutex.c" open="0" top="0" tabpos="3">
@@ -95,7 +95,7 @@
 		<Cursor position="9835" topLine="132" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="1">
-		<Cursor position="22497" topLine="492" />
+		<Cursor position="22497" topLine="504" />
 	</File>
 	<File name="../../../../../kernel/sem.c" open="0" top="0" tabpos="5">
 		<Cursor position="163" topLine="1" />
@@ -112,10 +112,10 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="4">
 		<Cursor position="7162" topLine="88" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="1">
+	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="4221" topLine="131" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="2">
+	<File name="../test_func.c" open="0" top="0" tabpos="2">
 		<Cursor position="3327" topLine="195" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">

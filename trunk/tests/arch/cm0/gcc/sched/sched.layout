@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/cm0/gcc/bugurt_kernel.c" open="0" top="0" tabpos="3">
+	<File name="../../../../../arch/cm0/gcc/bugurt_kernel.c" open="1" top="0" tabpos="2">
 		<Cursor position="5341" topLine="125" />
 	</File>
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="1">
@@ -10,8 +10,8 @@
 	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="366" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="6">
-		<Cursor position="6693" topLine="78" />
+	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="3">
+		<Cursor position="6850" topLine="78" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6911" topLine="68" />
@@ -29,22 +29,22 @@
 		<Cursor position="7128" topLine="112" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="4">
-		<Cursor position="6864" topLine="88" />
+		<Cursor position="6635" topLine="88" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
-		<Cursor position="6424" topLine="63" />
+		<Cursor position="6417" topLine="68" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="2248" topLine="0" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="0">
-		<Cursor position="2027" topLine="70" />
+	<File name="../test_func.c" open="1" top="1" tabpos="1">
+		<Cursor position="2027" topLine="56" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="21" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="835" topLine="15" />
+		<Cursor position="607" topLine="21" />
 	</File>
 	<File name="../../../../../../thirdparty/startup-cm.c" open="0" top="0" tabpos="0">
 		<Cursor position="2070" topLine="43" />

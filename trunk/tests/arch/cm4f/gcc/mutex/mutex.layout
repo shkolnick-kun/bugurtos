@@ -4,13 +4,16 @@
 	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="1">
 		<Cursor position="7747" topLine="122" />
 	</File>
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="26106" topLine="465" />
+	</File>
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="365" topLine="3" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1049" topLine="42" />
 	</File>
-	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="2">
+	<File name="../../../../main/mutex/main.c" open="0" top="0" tabpos="1">
 		<Cursor position="9538" topLine="359" />
 	</File>
 </CodeBlocks_layout_file>

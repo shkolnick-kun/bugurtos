@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
-		<Cursor position="6094" topLine="66" />
+	<ActiveTarget name="Release" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="2">
+		<Cursor position="7786" topLine="120" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="6">
 		<Cursor position="7395" topLine="72" />
@@ -112,7 +112,7 @@
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="615" topLine="11" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="557" topLine="9" />
+	<File name="../../../../main/sched/main.c" open="1" top="1" tabpos="1">
+		<Cursor position="835" topLine="47" />
 	</File>
 </CodeBlocks_layout_file>
