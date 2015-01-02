@@ -418,7 +418,7 @@ A process should not have locked resources at a moment of a flag stop.
 \~english
 \brief Sets process state.
 */
-#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, proc->flags |= b )
+#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, a->flags |= b )
 
 /*!
 \~russian
@@ -473,6 +473,19 @@ void proc_init(
     ,affinity_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
 #endif // CONFIG_MP
 );
+/*!
+\~russian
+\brief Обертка для запуска процессов.
+
+Эта функция  вызывает proc->pmain(proc->arg), и если происходит возврат из pmain, то #proc_run_wrapper корректно завершает процесс.
+\param proc - Указатель на запускаемый процесс.
+\~english
+\brief A wrapper for process "main" routines.
+
+This function calls proc->pmain(proc->arg), and if pmain returns, then #proc_run_wrapper terminates process correctly.
+\param proc - A pointer to a process to launch.
+*/
+void proc_run_wrapper(proc_t * proc);
 /*!
 \~russian
 \brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
