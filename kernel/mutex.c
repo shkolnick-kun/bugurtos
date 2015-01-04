@@ -296,7 +296,7 @@ bool_t _mutex_free( mutex_t *  mutex )
     PROC_LRES_DEC( proc, MUTEX_PRIO( mutex ) );
     _proc_prio_control_stoped( proc );
 
-    if( proc->lres.index == (index_t)0 ) proc->flags &= PROC_FLG_MUTEX;
+    if( proc->lres.index == (index_t)0 ) proc->flags &= ~PROC_FLG_MUTEX;
     // Is PROC_FLG_PRE_STOP processing needed, can process be stoped if "Yes"?
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
