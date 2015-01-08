@@ -174,6 +174,7 @@ void _proc_prio_propagate( proc_t * proc )
                 // A process was trying to free a dirty mutex and blocked
                 SPIN_LOCK( proc );
 
+                _proc_prio_control_stoped( proc );
                 sched_proc_run( proc, PROC_STATE_W_READY ); // A process must unlock the mutex.
 
                 SPIN_FREE( proc );
