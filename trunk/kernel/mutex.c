@@ -174,6 +174,7 @@ bool_t _mutex_lock( mutex_t * mutex )
         else
         {
             prio_t old_prio, new_prio;
+            count_t dirty;
             old_prio = MUTEX_PRIO( mutex );
 
             SPIN_LOCK( proc );
@@ -181,7 +182,7 @@ bool_t _mutex_lock( mutex_t * mutex )
             if( PROC_GET_STATE(proc) == PROC_STATE_W_RUNNING )
             {
                 //This is priority inheritanse transaction end
-                mutex->dirty--; //No zero check needed, as a process state is PROC_STATE_W_RUNNING.
+                dirty = mutex->dirty--; //No zero check needed, as a process state is PROC_STATE_W_RUNNING.
             }
 
             proc->buf = (void *)mutex;
@@ -191,7 +192,7 @@ bool_t _mutex_lock( mutex_t * mutex )
             SPIN_FREE( proc );
 
             new_prio = MUTEX_PRIO( mutex );
-            if( new_prio != old_prio )
+            if( (new_prio != old_prio) || dirty )
             {
                 proc = mutex->owner;
 
@@ -310,11 +311,6 @@ bool_t _mutex_free( mutex_t *  mutex )
     }
 
     SPIN_FREE( proc );
-    SPIN_FREE( mutex );
-
-    KERNEL_PREEMPT(); // KERNEL_PREEMPT
-
-    SPIN_LOCK( mutex );
     // Mutex processing
     if( ((xlist_t *)mutex)->index == (index_t)0  )
     {

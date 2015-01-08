@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="sched/sched.cbp" active="1" />
+		<Project filename="sched/sched.cbp" />
 		<Project filename="proc/proc.cbp" />
 		<Project filename="sig/sig.cbp" />
 		<Project filename="ipc/ipc.cbp" />
 		<Project filename="sem/sem.cbp" />
-		<Project filename="mutex/mutex.cbp" />
+		<Project filename="mutex/mutex.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
