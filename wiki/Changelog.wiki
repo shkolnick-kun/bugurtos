@@ -1,0 +1,43 @@
+#Changelog.
+
+=Changelog=
+ * 0.7.0
+  * Priority inheritance protocol implemented, no more ICPP in 0.7.x branch.
+  * Mutex test updated.
+ * 0.6.4
+  * Cortex^TM^-M4F support added.
+  * Tests moved from lpc1xxx to stm32xxxx.
+ * 0.6.3
+  * Cortex^TM^-M0 support added.
+ * 0.6.2
+  * Cortex^TM^-M3 support added.
+ * 0.6.1
+  * Fixed proc_restart/proc_restart_isr bug, no more restart with locked mutexes or semaphores
+  * Added scheduler dead spinlock if process lists are empty.
+ * 0.6.0
+  * pmain return sequence has been revised:
+   * no more proc_wrapper function,
+   * proc_terminate funcion has been added,
+   * proc terminate system call has been changed,
+   * proc_stack_init function has been changed in order to add return adress (a pointer to proc_terminate function actualy) to initial process context.
+ * 0.5.2
+  * Low level race condition fixed.
+  * Stm8/raisonance tests improved (all paths a relative now).
+  * Interrupt driven syscalls on AVR have been removed.
+ * 0.5.1
+  * Serious signal wait prologue bug fixed!
+  * Stm8/raisonance port added.
+ * 0.5.0
+  * Kernel is now preemptive!
+  * Kernel API is frozen.
+  * Cross-platform test suite has been added.
+  * Some bugs fixed.
+  * Documentation has been updated.
+ * 0.4.0
+  * Simple IPC added.
+  * Spinlock wrapper macros added to simplify the source code.
+  * Some bugs fixed.
+  * Code::Blocks BuguRTOS wizard for AVR updated.
+ * 0.3.7
+  * sem_try_lock added.
+  * More code cleanup is done.
