@@ -1,4 +1,6 @@
 #include <bugurt_kernel.h>
+
+extern void(*test_kernel_preempt)(void);
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
@@ -15,6 +17,10 @@ extern unsigned char test_is_running;
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 
 #define SCHED_SYSTICK_HOOK_ADD() (kernel.timer_tick = systick_hook)
+
+void kernel_preemt_hook_add( void(*arg)(void) );
+void kernel_preemt_hook(void);
+void test_do_nothing(void);
 
 void init_hardware(void);
 void sched_fix_proc_2(void);

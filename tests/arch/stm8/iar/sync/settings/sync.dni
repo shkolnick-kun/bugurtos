@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=569492911
+Checksum=-677058460
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -7,6 +7,13 @@ State 1=_ 1
 Enabled=_ 0
 [CodeCoverage]
 Enabled=_ 0
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [StackPlugin]
 Enabled=1
 OverflowWarningsEnabled=1
@@ -17,13 +24,6 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
 [CallStackLog]
 Enabled=0
 [DriverProfiling]
