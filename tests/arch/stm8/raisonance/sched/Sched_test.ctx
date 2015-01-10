@@ -2,7 +2,7 @@
 <Debug>
 	<RFlasher7>
 		<CodeView Focus="0" TopRow="0" NbPerLine="8" />
-																																																																																																																																																									
+																																																																																																																																																																					
 	</RFlasher7>
 	<Sched_test>
 		<SpyWatch>
@@ -14,7 +14,7 @@
 					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
-																																				
+																																																																								
 				</Def>
 				<Rows>
 					<Row Name="proc[0].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[0].flags" />
@@ -25,11 +25,11 @@
 					<Row Name="proc[5].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[5].flags" />
 					<Row Name="nested_interrupts" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="nested_interrupts" />
 					<Row Name="kernel.timer" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="kernel.timer" />
-																																				
+																																																																								
 				</Rows>
-																												
+																																																								
 			</Report>
-																				
+																																								
 		</SpyWatch>
 		<CodeView TopRow="40260" Focus="4294967295" >
 			<CodeReport>
@@ -37,12 +37,12 @@
 				<1>160</1>
 				<2>87</2>
 				<3>488</3>
-																												
+																																																								
 			</CodeReport>
-																				
+																																								
 		</CodeView>
 		<MemoryView Focus="24576" TopRow="0" NbPerLine="8" />
-												
+																								
 	</Sched_test>
 	<Flags>
 		<Report>
@@ -74,11 +74,11 @@
 			
 	</Flags>
 	<Views>
-		<View File="..\..\..\..\main\sched\main.c" Line="36" Index="0" />
-		<View File="..\config.h" Line="36" Index="1" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.h" Line="81" Index="2" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="79" Index="3" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.c" Line="0" Index="4" focus="1" />
+		<View File="..\..\..\..\main\sched\main.c" Line="34" Index="0" />
+		<View File="..\config.h" Line="102" Index="1" focus="1" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.h" Line="79" Index="2" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="77" Index="3" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.c" Line="0" Index="4" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
