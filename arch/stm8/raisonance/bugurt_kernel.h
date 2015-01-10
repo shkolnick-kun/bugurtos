@@ -79,7 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BUGURT_KERNEL_H_
 #define _BUGURT_KERNEL_H_
 
-#include"../../../include/bugurt.h"
+#include"../../../kernel/bugurt.h"
 
 // Подстановка_строки
 #define BUGURT_ARG_TO_STR(a) #a
