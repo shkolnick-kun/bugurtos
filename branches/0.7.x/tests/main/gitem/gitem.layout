@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../include/gitem.h" open="0" top="0" tabpos="3">
+		<Cursor position="7145" topLine="94" />
+	</File>
+	<File name="../../../kernel/gitem.c" open="0" top="0" tabpos="2">
+		<Cursor position="8708" topLine="123" />
+	</File>
+	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="6876" topLine="89" />
+	</File>
+	<File name="main.c" open="0" top="0" tabpos="1">
+		<Cursor position="6983" topLine="187" />
+	</File>
+</CodeBlocks_layout_file>

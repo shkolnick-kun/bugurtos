@@ -1,0 +1,108 @@
+
+<ApplicationBuild Header="Sched_test" Extern=".\Sched_test.rapp" Path=".\Sched_test.rapp" OutputFile=".\bin\Sched_test.aof" sate="96" >
+	<Group Header="include" Marker="-1" OutputFile="" sate="0" >
+		<NodeH Path="..\..\..\..\..\include\bugurt.h" Header="bugurt.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\crit_sec.h" Header="crit_sec.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\index.h" Header="index.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\ipc.h" Header="ipc.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\item.h" Header="item.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\kernel.h" Header="kernel.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\mutex.h" Header="mutex.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\pcounter.h" Header="pcounter.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\proc.h" Header="proc.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\sched.h" Header="sched.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\sem.h" Header="sem.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\sig.h" Header="sig.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\syscall.h" Header="syscall.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\timer.h" Header="timer.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\xlist.h" Header="xlist.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeH Path="..\..\..\..\..\include\gitem.h" Header="gitem.h" Marker="-1" OutputFile="" sate="0" />
+																																	
+	</Group>
+	<Group Header="kernel" Marker="-1" OutputFile="" sate="2" >
+		<NodeC Path="..\..\..\..\..\kernel\crit_sec.c" Header="crit_sec.c" Marker="-1" OutputFile=".\bin\crit_sec.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\index.c" Header="index.c" Marker="-1" OutputFile=".\bin\index.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\ipc.c" Header="ipc.c" Marker="-1" OutputFile=".\bin\ipc.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\item.c" Header="item.c" Marker="-1" OutputFile=".\bin\item.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\kernel.c" Header="kernel.c" Marker="-1" OutputFile=".\bin\kernel.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\mutex.c" Header="mutex.c" Marker="-1" OutputFile=".\bin\mutex.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\pcounter.c" Header="pcounter.c" Marker="-1" OutputFile=".\bin\pcounter.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\proc.c" Header="proc.c" Marker="-1" OutputFile=".\bin\proc.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\sched.c" Header="sched.c" Marker="-1" OutputFile=".\bin\sched.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\sem.c" Header="sem.c" Marker="-1" OutputFile=".\bin\sem.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\sig.c" Header="sig.c" Marker="-1" OutputFile=".\bin\sig.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\syscall.c" Header="syscall.c" Marker="-1" OutputFile=".\bin\syscall.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\timer.c" Header="timer.c" Marker="-1" OutputFile=".\bin\timer.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\xlist.c" Header="xlist.c" Marker="-1" OutputFile=".\bin\xlist.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\kernel\gitem.c" Header="gitem.c" Marker="-1" OutputFile=".\bin\gitem.obj" sate="0" />
+																																	
+	</Group>
+	<Group Header="arch" Marker="-1" OutputFile="" sate="0" >
+		<NodeH Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.h" Header="bugurt_kernel.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeC Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Header="bugurt_proc_stack_init.c" Marker="-1" OutputFile=".\bin\bugurt_proc_stack_init.obj" sate="0" />
+		<NodeC Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.c" Header="bugurt_kernel.c" Marker="-1" OutputFile=".\bin\bugurt_kernel.obj" sate="0" />
+																																	
+	</Group>
+	<Group Header="source" Marker="-1" OutputFile="" sate="0" >
+		<NodeC Path="..\..\..\..\main\sched\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
+		<NodeH Path="..\config.h" Header="config.h" Marker="-1" OutputFile="" sate="0" />
+		<NodeC Path="..\test_func.c" Header="test_func.c" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" />
+		<NodeH Path="..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
+																																	
+	</Group>
+	<Options>
+		<Config Header="Standard" >
+			<Set Header="ApplicationBuild" >
+				<Section Header="General" >
+					<Property Header="TargetFamily" Value="ST7" />
+																																																																																																																			
+				</Section>
+				<Section Header="Directories" >
+					<Property Header="OutDir" Value="$(ApplicationDir)\bin" Removable="1" />
+					<Property Header="ListDir" Value="$(ApplicationDir)\bin" Removable="1" />
+																																											
+				</Section>
+																																	
+			</Set>
+			<Set Header="Target" >
+				<Section Header="ProcessorST7" >
+					<Property Header="Processor" Value="STM8S208MB" Removable="1" />
+																																																																																																																			
+				</Section>
+				<Section Header="ToolSetST7" >
+					<Property Header="BuildToolSetST7" Value="ST7\RaisonanceTools.config" Removable="1" />
+					<Property Header="ArelocInfo" Value="" Removable="1" />
+							
+				</Section>
+					
+			</Set>
+			<Set Header="RCST7" >
+				<Section Header="Defines" >
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\include&quot;) PIN(&quot;$(ApplicationDir)\..\&quot;) I($(ApplicationDir)\..\config.h)" Removable="1" />
+																																											
+				</Section>
+				<Section Header="Model" >
+					<Property Header="GlobalMemory" Value="DGC(DATA)" Removable="1" />
+																																																																																																	
+				</Section>
+				<Section Header="OPTIM" >
+					<Property Header="SPEEDSIZE" Value="SIZE" Removable="1" />
+					<Property Header="OTLEVEL" Value="0" Removable="1" />
+																																																													
+				</Section>
+				<Section Header="CodeGen" >
+					<Property Header="SMALLOBJECT" Value="" Removable="1" />
+																																																																																								
+				</Section>
+																																	
+			</Set>
+			<Set Header="RLST7" >
+				<Section Header="Output" >
+					<Property Header="ExtendedBin" Value="" Removable="1" />
+							
+				</Section>
+					
+			</Set>
+		</Config>
+	</Options>
+</ApplicationBuild>
