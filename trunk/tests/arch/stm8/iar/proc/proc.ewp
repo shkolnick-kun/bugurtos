@@ -1535,51 +1535,84 @@
   <group>
     <name>kernel</name>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\bugurt.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\crit_sec.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\kernel\gitem.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\crit_sec.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\index.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\kernel\ipc.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\index.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\item.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\item.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\kernel.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\kernel\mutex.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\kernel.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\pcounter.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\pcounter.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\pitem.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\pitem.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\proc.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\proc.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\sched.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\kernel\sem.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\sched.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\kernel\sig.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\sync.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\sync.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\syscall.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\syscall.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\timer.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\timer.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.h</name>
+    </file>
   </group>
+  <file>
+    <name>$PROJ_DIR$\..\config.h</name>
+  </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\..\main\proc\main.c</name>
   </file>

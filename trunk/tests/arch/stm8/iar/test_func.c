@@ -1,4 +1,24 @@
 #include <test_func.h>
+
+void(*test_kernel_preempt)(void) = test_do_nothing;
+
+void kernel_preemt_hook(void)
+{
+    test_kernel_preempt();
+}
+
+void kernel_preemt_hook_add( void(*arg)(void) )
+{
+    disable_interrupts();
+    test_kernel_preempt = arg;
+    enable_interrupts();
+}
+
+void test_do_nothing(void)
+{
+    NOP();
+}
+
 void init_hardware(void)
 {
     disable_interrupts();

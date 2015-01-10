@@ -1614,7 +1614,7 @@
     <name>$PROJ_DIR$\..\config.h</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\..\..\..\main\sched\main.c</name>
+    <name>$PROJ_DIR$\..\..\..\..\main\bsync\main.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\test_func.c</name>

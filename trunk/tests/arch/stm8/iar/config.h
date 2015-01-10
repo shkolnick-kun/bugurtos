@@ -103,10 +103,11 @@ typedef unsigned long ipc_data_t;
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
+extern void kernel_preemt_hook(void);
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts(); kernel_preemt_hook()
 #else // CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT()
+#define KERNEL_PREEMPT() kernel_preemt_hook()
 #endif // CONFIG_PREEMPTIVE_KERNEL
 
 #endif //_CONFIG_H_

@@ -1,91 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="3">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="1" top="0" tabpos="4">
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="4">
 		<Cursor position="94" topLine="1" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="5">
 		<Cursor position="164" topLine="1" />
 	</File>
-	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="1" top="0" tabpos="6">
+	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="7">
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="7">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="8">
+	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.h" open="1" top="0" tabpos="9">
+	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/index.c" open="1" top="0" tabpos="10">
+	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="10">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/index.h" open="1" top="0" tabpos="11">
+	<File name="../../../../../kernel/index.h" open="0" top="0" tabpos="11">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/item.c" open="1" top="0" tabpos="12">
+	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="12">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/item.h" open="1" top="0" tabpos="13">
+	<File name="../../../../../kernel/item.h" open="0" top="0" tabpos="13">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="14">
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="14">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/kernel.h" open="1" top="0" tabpos="15">
+	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="15">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/pcounter.c" open="1" top="0" tabpos="16">
+	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="16">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/pcounter.h" open="1" top="0" tabpos="17">
+	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="17">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/pitem.c" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/pitem.h" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="18">
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="18">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="19">
+	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="19">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="20">
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="20">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/sched.h" open="1" top="0" tabpos="21">
+	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="22">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="22">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="23">
+	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="23">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="24">
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="24">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="25">
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="25">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="26">
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="26">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/timer.h" open="1" top="0" tabpos="27">
+	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="27">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/xlist.c" open="1" top="0" tabpos="28">
+	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="28">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/xlist.h" open="1" top="0" tabpos="29">
+	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="29">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../config.h" open="1" top="0" tabpos="2">
@@ -94,7 +91,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="2584" topLine="8" />
 	</File>
-	<File name="../test_func.h" open="1" top="0" tabpos="2">
+	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="615" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
