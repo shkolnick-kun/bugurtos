@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#include"../../../include/bugurt.h"
+#include"../../../kernel/bugurt.h"
 
 #if (__ROM_MODEL__ > 0)
 #define BGRT_INT_PTR unsigned long
