@@ -19,7 +19,7 @@
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="14588" topLine="312" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="5">
@@ -34,7 +34,7 @@
 	<File name="../config.h" open="0" top="0" tabpos="4">
 		<Cursor position="3208" topLine="91" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="3">
+	<File name="../test_func.c" open="0" top="0" tabpos="3">
 		<Cursor position="2320" topLine="79" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
@@ -44,7 +44,7 @@
 		<Cursor position="1445" topLine="51" />
 	</File>
 	<File name="../../../../../../thirdparty/startup-cm.c" open="0" top="0" tabpos="3">
-		<Cursor position="2224" topLine="58" />
+		<Cursor position="151" topLine="0" />
 	</File>
 	<File name="../../../../../../thirdparty/stm32f051/stm32f051r8.S" open="0" top="0" tabpos="4">
 		<Cursor position="2167" topLine="57" />
