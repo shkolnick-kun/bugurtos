@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/cm4f/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="1267" topLine="18" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="2">
+		<Cursor position="3382" topLine="90" />
+	</File>
+	<File name="../test_func.c" open="1" top="0" tabpos="0">
+		<Cursor position="340" topLine="1" />
+	</File>
+	<File name="../test_func.h" open="0" top="0" tabpos="3">
+		<Cursor position="679" topLine="6" />
+	</File>
+	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
+		<Cursor position="893" topLine="24" />
+	</File>
+	<File name="../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="1" top="0" tabpos="2">
+		<Cursor position="5028" topLine="160" />
+	</File>
+</CodeBlocks_layout_file>

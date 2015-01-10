@@ -1,0 +1,4 @@
+
+<Project Header="Project 'Sched_test'" Path=".\Sched_test.rprj" Project="Yes" OutputFile="" sate="96" ActiveApp="Sched_test" >
+	<ApplicationBuild Header="Sched_test" Extern=".\Sched_test.rapp" Path=".\Sched_test.rapp" OutputFile=".\bin\Sched_test.aof" sate="96" />
+</Project>
