@@ -1,6 +1,6 @@
-#Changelog.
-
 =Changelog=
+ * 0.7.1
+  * Several priority inheritance protocol bugs fixed.
  * 0.7.0
   * Priority inheritance protocol implemented, no more ICPP in 0.7.x branch.
   * Mutex test updated.
