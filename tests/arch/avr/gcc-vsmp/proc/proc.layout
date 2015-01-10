@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="7026" topLine="102" />
+	</File>
+	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="91" />
+	</File>
+	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="105" />
+	</File>
+	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="96" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="13432" topLine="107" />
+	</File>
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="22937" topLine="507" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="7393" topLine="77" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="3245" topLine="108" />
+	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="3297" topLine="201" />
+	</File>
+	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="5241" topLine="193" />
+	</File>
+</CodeBlocks_layout_file>

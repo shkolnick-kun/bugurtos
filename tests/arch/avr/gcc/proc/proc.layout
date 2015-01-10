@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="7819" topLine="135" />
+	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="9092" topLine="165" />
+	</File>
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="21090" topLine="583" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="7561" topLine="109" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="4164" topLine="125" />
+	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1796" topLine="70" />
+	</File>
+	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1354" topLine="3" />
+	</File>
+</CodeBlocks_layout_file>
