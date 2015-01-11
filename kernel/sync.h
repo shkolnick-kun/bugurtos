@@ -147,7 +147,7 @@ flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
-flag_t sync_wake_and_wait( sync_t * sync, proc_t * proc, flag_t block );
+flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
 
 flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 flag_t _sync_sleep( sync_t * sync );

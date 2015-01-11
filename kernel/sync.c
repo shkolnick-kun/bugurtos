@@ -823,22 +823,28 @@ void scall_sync_wake_and_sleep( void * arg )
 **********************************************************************************************/
 typedef struct
 {
-    sync_t * sync;
-    proc_t * proc;
+    sync_t * wake;
+    sync_t * wait;
+    proc_t * proc_wake;
+    proc_t ** proc_wait;
+    flag_t chown;
     flag_t block;
     flag_t stage;
     flag_t status;
 }
 sync_wake_and_wait_t;
 //========================================================================================
-flag_t sync_wake_and_wait( sync_t * sync, proc_t * proc, flag_t block )
+flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block )
 {
     volatile sync_wake_and_wait_t scarg;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.wake = wake;
+    scarg.proc_wake = proc_wake;
+    scarg.wait = wait;
+    scarg.proc_wait = proc_wait;
+    scarg.chown = chown;
     scarg.block = block;
-    scarg.sync = sync;
-    scarg.proc = proc;
     scarg.stage = (flag_t)0;
+    scarg.status = SYNC_ST_ROLL;
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg );
@@ -855,7 +861,7 @@ void scall_sync_wake_and_wait( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->sync , ((sync_wake_and_wait_t*)arg)->proc, (flag_t)0 );
+        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc_wake, ((sync_wake_and_wait_t*)arg)->chown );
         if( SYNC_ST_OK == status )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;
@@ -869,8 +875,7 @@ void scall_sync_wake_and_wait( void * arg )
     }
     case 1:
     {
-        proc_t * zero = (proc_t *)0;
-        ((sync_wake_and_sleep_t *)arg)->status = _sync_wait( ((sync_wake_and_wait_t *)arg)->sync , &zero, ((sync_wake_and_wait_t *)arg)->block );
+        ((sync_wake_and_sleep_t *)arg)->status = _sync_wait( ((sync_wake_and_wait_t *)arg)->wait , ((sync_wake_and_wait_t *)arg)->proc_wait, ((sync_wake_and_wait_t *)arg)->block );
     }
     }
 }
