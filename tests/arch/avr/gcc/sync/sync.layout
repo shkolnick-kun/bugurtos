@@ -7,4 +7,10 @@
 	<File name="../../../../../kernel/pitem.h" open="0" top="0" tabpos="0">
 		<Cursor position="152" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="15341" topLine="205" />
+	</File>
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="13772" topLine="374" />
+	</File>
 </CodeBlocks_layout_file>
