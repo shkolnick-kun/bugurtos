@@ -146,11 +146,7 @@ void main_0( void * arg )
     test_num++;
     /// sync_clear_owner covered!!!
     //31 (watch prio_propagate_hook_0 ) _proc_prio_propagate _sync_wake
-
     kernel_preemt_hook_add( prio_propagate_hook_0 );
-//    disable_interrupts();
-//    test_kernel_preempt = prio_propagate_hook_0;
-//    enable_interrupts();
     proc_set_prio( &proc[3], LOWEST );
     wait_time(5);
     //32 _proc_prio_propagate _sync_wake

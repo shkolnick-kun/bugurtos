@@ -399,8 +399,8 @@ void scall_sync_clear_owner( void * arg )
 //========================================================================================
 typedef struct
 {
-    flag_t status;
     sync_t * sync;
+    flag_t status;
 }
 sync_sleep_t;
 //========================================================================================
@@ -503,10 +503,10 @@ void scall_sync_sleep( void * arg )
 **********************************************************************************************/
 typedef struct
 {
-    flag_t status;
     sync_t * sync;
     proc_t * proc;
     flag_t chown;
+    flag_t status;
 }
 sync_wake_t;
 //========================================================================================
@@ -674,10 +674,10 @@ void scall_sync_wake( void * arg )
 **********************************************************************************************/
 typedef struct
 {
-    flag_t status;
-    flag_t block;
     sync_t * sync;
     proc_t ** proc;
+    flag_t block;
+    flag_t status;
 }
 sync_wait_t;
 //========================================================================================
@@ -766,12 +766,12 @@ void scall_sync_wait( void * arg )
 **********************************************************************************************/
 typedef struct
 {
-    flag_t status;
-    flag_t chown;
     sync_t * wake;
     sync_t * sleep;
     proc_t * proc;
+    flag_t chown;
     flag_t stage;
+    flag_t status;
 }
 sync_wake_and_sleep_t;
 //========================================================================================
@@ -823,11 +823,11 @@ void scall_sync_wake_and_sleep( void * arg )
 **********************************************************************************************/
 typedef struct
 {
-    flag_t status;
-    flag_t block;
     sync_t * sync;
     proc_t * proc;
+    flag_t block;
     flag_t stage;
+    flag_t status;
 }
 sync_wake_and_wait_t;
 //========================================================================================
