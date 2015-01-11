@@ -8,7 +8,10 @@
 		<Cursor position="152" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="15341" topLine="205" />
+		<Cursor position="26990" topLine="828" />
+	</File>
+	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="8535" topLine="133" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="13772" topLine="374" />
