@@ -152,6 +152,7 @@ Reset software timer.
 \param t A timer variable name.
 */
 #define CLEAR_TIMER(t) _clear_timer( (timer_t *)&t)
+
 /*!
 
 \~russian
@@ -167,6 +168,7 @@ Get software timer value.
 \param t Software timer value.
 */
 #define TIMER(t) (timer_t)_timer( (timer_t)t )
+
 /*!
 \~russian
 \brief
@@ -185,6 +187,7 @@ Caller process spins in a loop for a time.
 \param time Wait time.
 */
 void wait_time( timer_t time );
+
 #ifdef CONFIG_SAVE_POWER
 /*!
 \~russian
@@ -206,6 +209,7 @@ Caller process spins in a loop for a time.
 void wait_time_save_power(timer_t time);
 #endif //CONFIG_SAVE_POWER
 // Для внутреннего пользования
+
 /*!
 \~russian
 \brief
@@ -220,6 +224,7 @@ Clear software timer. For unternal usage.
 \param t A pointer to a timer.
 */
 void _clear_timer(timer_t * t);
+
 /*!
 \~russian
 \brief
