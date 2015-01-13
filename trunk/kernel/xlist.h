@@ -127,6 +127,7 @@ An #xlist_t object initiation.
 void xlist_init(
     xlist_t * xlist
 );
+
 /*!
 \~russian
 \brief
@@ -143,6 +144,7 @@ List head search.
 \return The head pointer, wich is the most prioritized pointer in the list head pointer array.
 */
 item_t * xlist_head(xlist_t * xlist);
+
 /*!
 \brief
 

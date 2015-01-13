@@ -107,7 +107,6 @@ item_t * xlist_head(xlist_t * xlist)
     }
     return ret_val;
 }
-
 //===========================================================================
 // Switch sublist head
 void xlist_switch(xlist_t * xlist, prio_t prio)
