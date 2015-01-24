@@ -67,8 +67,8 @@
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="1" tabpos="0">
-		<Cursor position="94" topLine="0" />
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="1">
+		<Cursor position="94" topLine="24" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
 		<Cursor position="94" topLine="1" />
@@ -76,17 +76,17 @@
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
-		<Cursor position="94" topLine="1" />
+	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="2">
+		<Cursor position="6997" topLine="107" />
 	</File>
-	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
-		<Cursor position="94" topLine="0" />
+	<File name="../../../../../kernel/timer.h" open="1" top="0" tabpos="4">
+		<Cursor position="7966" topLine="131" />
 	</File>
-	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="4">
-		<Cursor position="94" topLine="1" />
+	<File name="../../../../../kernel/xlist.c" open="1" top="0" tabpos="3">
+		<Cursor position="6875" topLine="62" />
 	</File>
-	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="0">
-		<Cursor position="94" topLine="0" />
+	<File name="../../../../../kernel/xlist.h" open="1" top="1" tabpos="5">
+		<Cursor position="7895" topLine="155" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="3165" topLine="97" />

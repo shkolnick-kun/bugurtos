@@ -96,13 +96,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define SYSCALL_SCHED_PROC_YELD                 (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))        /*!< \~russian Передача управления другому процессу. \~english Transfer control to another process. */
 
-#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_PROC_YELD + (syscall_t)(1))
-#define SYSCALL_SYNC_CLEAR_OWNER               (SYSCALL_SYNC_SET_OWNER + (syscall_t)(1))
-#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_CLEAR_OWNER + (syscall_t)(1))
-#define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (syscall_t)(1))
-#define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (syscall_t)(1))
-#define SYSCALL_SYNC_WAKE_AND_SLEEP            (SYSCALL_SYNC_WAIT + (syscall_t)(1))
-#define SYSCALL_SYNC_WAKE_AND_WAIT             (SYSCALL_SYNC_WAKE_AND_SLEEP + (syscall_t)(1))
+#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_PROC_YELD + (syscall_t)(1))       /*!< \~russian Установить нового хозяина объекта типа #sync_t. \~english Set new #sync_t object owner. */
+#define SYSCALL_SYNC_CLEAR_OWNER               (SYSCALL_SYNC_SET_OWNER + (syscall_t)(1))        /*!< \~russian Сбросить хозяина объекта типа #sync_t. \~english Clear #sync_t object owner. */
+#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_CLEAR_OWNER + (syscall_t)(1))      /*!< \~russian Заблокировать процесс в ожидании синхронизации. \~english Block process for synchronization. */
+#define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (syscall_t)(1))            /*!< \~russian Запустить процесс, ожидающий синхронизации. \~english Run a process waiting for synchronization. */
+
+#define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (syscall_t)(1))             /*!< \~russian Подождать блокировки процесса на объекте типа #sync_t. \~english Wait for process to block on #sync_t object*/
+#define SYSCALL_SYNC_WAKE_AND_SLEEP            (SYSCALL_SYNC_WAIT + (syscall_t)(1))             /*!< \~russian Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_SLEEP. \~english Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_SLEEP. */
+#define SYSCALL_SYNC_WAKE_AND_WAIT             (SYSCALL_SYNC_WAKE_AND_SLEEP + (syscall_t)(1))   /*!< \~russian Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_WAIT. \~english Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_WAIT. */
+#define SYSCALL_USER                           (SYSCALL_SYNC_WAKE_AND_WAIT + (syscall_t)(1))    /*!< \~russian Пользовательский системный вызов. \~english User system call. */
 /*!
 \~russian
 \brief
@@ -324,16 +326,99 @@ This function calls #_proc_set_prio.
 */
 void scall_proc_set_prio( void * arg );
 /*****************************************************************************************/
-//                                 Basic syncronization
+//                            Basic syncronization primitive
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_SET_OWNER.
+
+Вызывает #_sync_set_owner.
+\~english
+\brief
+A #SYSCALL_SYNC_SET_OWNER handler.
+
+This function calls #_sync_set_owner.
+*/
 void scall_sync_set_owner( void * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_CLEAR_OWNER.
+
+Вызывает #_sync_clear_owner.
+\~english
+\brief
+A #SYSCALL_SYNC_CLEAR_OWNER handler.
+
+This function calls #_sync_clear_owner.
+*/
 void scall_sync_clear_owner( void * arg );
 
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_SLEEP.
+
+Вызывает #_sync_sleep.
+\~english
+\brief
+A #SYSCALL_SYNC_SLEEP handler.
+
+This function calls #_sync_sleep.
+*/
 void scall_sync_sleep( void * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_WAKE.
+
+Вызывает #_sync_wake.
+\~english
+\brief
+A #SYSCALL_WAKE handler.
+
+This function calls #_sync_wake.
+*/
 void scall_sync_wake( void * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_WAIT.
 
+Вызывает #_sync_wait.
+\~english
+\brief
+A #SYSCALL_SYNC_WAIT handler.
+
+This function calls #_sync_wait.
+*/
 void scall_sync_wait( void * arg );
-
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_WAIT_AND_SLEEP.
+\~english
+\brief
+A #SYSCALL_SYNC_WAIT_AND_SLEEP handler.
+*/
 void scall_sync_wake_and_sleep( void * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_WAIT_AND_WAKE.
+\~english
+\brief
+A #SYSCALL_WAIT_AND_WAKE handler.
+*/
 void scall_sync_wake_and_wait( void * arg );
 
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_USER.
+\~english
+\brief
+A #SYSCALL_USER handler.
+*/
+void scall_user(void * arg);
 #endif // _SYSCALL_H_

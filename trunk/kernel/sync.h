@@ -86,9 +86,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYNC_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST) /*!< \~russian Считает приоритет мьютекса. \~english Calculates a sync priority */
 
 
-#define SYNC_ST_OK   0
-#define SYNC_ST_FAIL 1
-#define SYNC_ST_ROLL 2
+#define SYNC_ST_OK   0 /*!< \~russian Удачное завершение. \~english Success. */
+#define SYNC_ST_FAIL 1 /*!< \~russian Завершение с ошибкой. \~english Fail. */
+#define SYNC_ST_ROLL 2 /*!< \~russian Нужна следующая иттерация. \~english Next itteration needed. */
 
 //          Мьютекс
 typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
@@ -98,9 +98,22 @@ typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english S
 \brief
 Базовый примитив синхронизации.
 
+Базовый тип, отвечающий за влокирующую синхронизацию процессов.
+Путем "обертывания" данного типа можно получить привычные примитивы синхронизации
+(мьютексы, семафоры, условные переменные, FIFO-буферы, блокироующий IPC, и т.д.).
+
+Поддерживает протокол наследования приоритетов (Basic Priority Inheritance).
+
 \~english
 \brief
-Basic sync primitive
+Basic synchronization primitive
+
+A basic type that handles blocking process synchronization.
+By wrapping this type one can get traditional synchronization primitives
+(mutexes, semaphores, conditional variables, message-FIFOs, IPC-ednpoints, etc.).
+
+Basic priority inheritanse protocol is supported.
+
 */
 struct _sync_t
 {
@@ -128,29 +141,232 @@ void sync_init(
 /*!
 \~russian
 \brief
-Инициализация мьютекса.
+Инициализация базового примитива синхронизации.
 
 \~english
 \brief
-A sync initiation
+A basic synchronization promitive initiation.
 */
 void sync_init_isr(
-    sync_t * sync /*!< \~russian Указатель на мьютекс. \~english A sync pointer. */
+    sync_t * sync /*!< \~russian Указатель на базвоый примитив синхронизации. \~english A sync pointer. */
 );
+
+/*!
+\~russian
+\brief
+Получить хозяина примитива.
+
+\param sync Указатель на интересующий объект типа #sync_t.
+\return Указатель на процесс-хозяин объекта типа #sync_t.
+
+\~english
+\brief
+Get current #sync_t object owner.
+
+\param sync A pointer to the object of interest.
+\return A pointer to #sync_t opbject owner.
+*/
 proc_t * sync_get_owner( sync_t * sync );
+/*!
+\~russian
+\brief
+Назначить хозяина объекта типа #sync_t.
+
+\param sync Указатель на объект типа #sync_t.
+\param proc Указатель на новый процесс-хозяин объекта типа #sync_t.
+
+\~english
+\brief
+Set #sync_t object owner.
+
+\param sync A pointer to the object of interest.
+\param proc A pointer to new #sync_t opbject owner.
+*/
 void sync_set_owner( sync_t * sync, proc_t * proc );
+/*!
+\~russian
+\brief
+Сбросить хозяина объекта типа #sync_t.
+
+\param sync Указатель на объект типа #sync_t.
+
+\~english
+\brief
+Clear #sync_t object owner.
+
+\param sync A pointer to the object of interest.
+*/
 void sync_clear_owner( sync_t * sync );
 
+/*!
+\~russian
+\brief
+"Уснуть" в ожидании синхронизации #sync_t.
+
+Блокирует вызывающий процесс.
+
+\param sync Указатель на объект типа #sync_t.
+\return #SYNC_ST_OK в случае успеха, иначе - #SYNC_ST_FAIL.
+
+\~english
+\brief
+Sleep to wait for synchronization.
+
+Blocks caller process.
+
+\param sync A pointer to the object of interest.
+\return #SYNC_ST_OK on success, or #SYNC_ST_FAIL.
+*/
 flag_t sync_sleep( sync_t * sync );
+
+/*!
+\~russian
+\brief
+"Разбудить" ожидающий процесс.
+
+Запускает ожидающий процесс. Может запустить "голову" списка ожидоающих процессов,
+или какой-то конкретный прооцесс, в случае, если он заблокирован на целевом примитиве синхронизации.
+
+\param sync Указатель на объект типа #sync_t.
+\param proc Указатель на процес, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
+\param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
+\return #SYNC_ST_OK в случае если удалось запустить процесс, иначе - #SYNC_ST_FAIL.
+
+\~english
+\brief
+Sleep to wait for synchronization.
+
+Unblock some waiting process. A process should be blocked on target #sync_t object.
+
+\param sync A #sync_t object pointer.
+\param proc A pointer to a process, that is supposed to wake up. If 0, then try to wake up wait list head.
+\param chown A change owner flag. If non 0, then ownership is given to wake up process.
+\return #SYNC_ST_OK on process wakeup, or #SYNC_ST_FAIL.
+*/
 flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 
+/*!
+\~russian
+\brief
+"Ожидать", блокировки процесса.
+
+Подождать того момента, как целевой процесс будет заблокирован на целевом примимтиве синхронизации.
+
+\param sync Указатель на объект типа #sync_t.
+\param proc Двойной указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
+\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - #SYNC_ST_FAIL.
+
+\~english
+\brief
+Sleep to wait for synchronization.
+
+Wait until target process is blocked on target #sync_t object.
+
+\param sync A #sync_t object pointer.
+\param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
+\param block Block flag. If non 0 and caller process must wait, then caller is blocked until terget process is blocked on #sync_t object.
+\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target procerr to block, or #SYNC_ST_FAIL.
+*/
 flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 
+/*!
+\~russian
+\brief
+Смотри #sync_wake и #sync_sleep.
+
+Смотри #sync_wake и #sync_sleep.
+
+\~english
+\brief
+Watch #sync_wake and #sync_sleep.
+
+Watch #sync_wake and #sync_sleep.
+*/
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
+/*!
+\~russian
+\brief
+Смотри #sync_wake и #sync_wait.
+
+Смотри #sync_wake и #sync_wait.
+
+\~english
+\brief
+Watch #sync_wake and #sync_wait.
+
+Watch #sync_wake and #sync_wait.
+*/
 flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
 
-flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
-flag_t _sync_sleep( sync_t * sync );
-flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
+/*!
+\~russian
+\brief
+Для внутреннего использования. Смотри #sync_set_owner.
 
+Для внутреннего использования. Смотри #sync_set_owner.
+
+\~english
+\brief
+For internal usage. Watch #sync_set_owner.
+
+For internal usage. Watch #sync_set_owner.
+*/
+void _sync_set_owner( sync_t * sync, proc_t * proc );
+/*!
+\~russian
+\brief
+Для внутреннего использования. Смотри #sync_clear_owner.
+
+Для внутреннего использования. Смотри #sync_clear_owner.
+
+\~english
+\brief
+For internal usage. Watch #sync_clear_owner.
+
+For internal usage. Watch #sync_clear_owner.
+*/
+void _sync_clear_owner( sync_t * sync );
+/*!
+\~russian
+\brief
+Для внутреннего использования. Смотри #sync_wake.
+
+Для внутреннего использования. Смотри #sync_wake.
+
+\~english
+\brief
+For internal usage. Watch #sync_wake.
+
+For internal usage. Watch #sync_wake.
+*/
+flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
+/*!
+\~russian
+\brief
+Для внутреннего использования. Смотри #sync_sleep.
+
+Для внутреннего использования. Смотри #sync_sleep.
+
+\~english
+\brief
+For internal usage. Watch #sync_sleep.
+
+For internal usage. Watch #sync_sleep.
+*/
+flag_t _sync_sleep( sync_t * sync );
+/*!
+\~russian
+\brief
+Для внутреннего использования. Смотри #sync_wait.
+
+Для внутреннего использования. Смотри #sync_wait.
+
+\~english
+\brief
+For internal usage. Watch #sync_wait.
+
+For internal usage. Watch #sync_wait.
+*/
+flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 #endif // _SYNC_H_
