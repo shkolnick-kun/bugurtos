@@ -112,16 +112,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \param a указатель на процесс.
 \param b приоритет захваченного мьютекса, если используется протокол highest locker.
 
-\def PROC_PRIO_CONTROL_STOPED(a)
-\brief Макрос-обертка.
-
-Управление приоритетом остановленного процесса.
-В случае использования протокола highest locker приводит
-поле proc->group->prio в соответствие с полем proc->lres,
-иначе - пустой макрос.
-
-\param a указатель на процесс.
-
 \~english
 
 \def PROC_LRES_INIT(a)
@@ -146,16 +136,6 @@ A decrement of locked mutex counter field of a process.
 
 \param a a pointer to a process.
 \param b a priority of a locked mutex for highest locker protocol.
-
-\def PROC_PRIO_CONTROL_STOPED(a)
-\brief Wrapper macro.
-
-Stoped process priority control.
-If highest locker protocol is used,
-then this macro computes a proc->group->prio using proc->lres field,
-else this macro does nothing.
-
-\param a a pointer to a process.
 
 */
 
@@ -201,7 +181,7 @@ You must access such static variables using process synchronization facilities.
 */
 struct _proc_t
 {
-    pitem_t parent;     /*!<\~russian Родитель - #gitem_t. \~english A parent is #gitem_t.*/
+    pitem_t parent;     /*!<\~russian Родитель - #pitem_t. \~english A parent is #pitem_t.*/
     flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
     prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
     pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
@@ -267,11 +247,11 @@ A process must be stoped, but it can't be stoped now. It'll be stoped when possi
 
 /*!
 \~russian
-\brief Маска #PROC_FLG_MUTEX или #PROC_FLG_SEM.
+\brief Маска #PROC_FLG_BLOCK или #PROC_FLG_WAKEUP.
 
 Нужна, чтобы определить, удерживает ли процесс общие ресурсы.
 \~english
-\brief A #PROC_FLG_MUTEX or #PROC_FLG_SEM mask.
+\brief A #PROC_FLG_BLOCK or #PROC_FLG_WAKEUP mask.
 
 Used to test if a process has locked some resources.
 */

@@ -83,7 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок мьютекса. \~english A sync header.
 */
 
-#define SYNC_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST) /*!< \~russian Считает приоритет мьютекса. \~english Calculates a sync priority */
+#define SYNC_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_r object priority */
 
 
 #define SYNC_ST_OK   0 /*!< \~russian Удачное завершение. \~english Success. */
@@ -224,7 +224,7 @@ flag_t sync_sleep( sync_t * sync );
 \brief
 "Разбудить" ожидающий процесс.
 
-Запускает ожидающий процесс. Может запустить "голову" списка ожидоающих процессов,
+Запускает ожидающий процесс. Может запустить "голову" списка ожидающих процессов,
 или какой-то конкретный прооцесс, в случае, если он заблокирован на целевом примитиве синхронизации.
 
 \param sync Указатель на объект типа #sync_t.
