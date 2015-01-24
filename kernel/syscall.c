@@ -97,7 +97,8 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_sync_wake,
     scall_sync_wait,
     scall_sync_wake_and_sleep,
-    scall_sync_wake_and_wait
+    scall_sync_wake_and_wait,
+    scall_user
 };
 
 #ifdef CONFIG_MP

@@ -4,6 +4,27 @@
 	<File name="../../../../../arch/cm4f/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="152" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="15899" topLine="393" />
+	</File>
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="24777" topLine="861" />
+	</File>
+	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="15028" topLine="238" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="7529" topLine="113" />
+	</File>
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="17814" topLine="404" />
+	</File>
+	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="84" />
+	</File>
+	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="126" />
+	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1342" topLine="63" />
 	</File>
