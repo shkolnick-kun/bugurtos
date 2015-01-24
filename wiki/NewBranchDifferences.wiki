@@ -1,4 +1,4 @@
-=First release=
+=Branch 0.8.x first release=
 Differences with 0.6.x and 0.7.x branches are:
  * Deleted
    * Mutexes,
