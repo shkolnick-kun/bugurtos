@@ -232,7 +232,7 @@ void scall_proc_self_stop( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_YELD.
+Обработчик вызова #SYSCALL_SCHED_PROC_YELD.
 
 Передает управление следующему процессу.
 
@@ -240,7 +240,7 @@ void scall_proc_self_stop( void * arg );
 
 \~english
 \brief
-A #SYSCALL_PROC_YELD handler.
+A #SYSCALL_SCHED_PROC_YELD handler.
 
 Transfers control to another process.
 
@@ -370,12 +370,12 @@ void scall_sync_sleep( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_WAKE.
+Обработчик вызова #SYSCALL_SYNC_WAKE.
 
 Вызывает #_sync_wake.
 \~english
 \brief
-A #SYSCALL_WAKE handler.
+A #SYSCALL_SYNC_WAKE handler.
 
 This function calls #_sync_wake.
 */
@@ -383,7 +383,7 @@ void scall_sync_wake( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_WAIT.
+Обработчик вызова #SYSCALL_SYNC_WAIT.
 
 Вызывает #_sync_wait.
 \~english
@@ -396,19 +396,19 @@ void scall_sync_wait( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_WAIT_AND_SLEEP.
+Обработчик вызова #SYSCALL_SYNC_WAKE_AND_SLEEP.
 \~english
 \brief
-A #SYSCALL_SYNC_WAIT_AND_SLEEP handler.
+A #SYSCALL_SYNC_WAKE_AND_SLEEP handler.
 */
 void scall_sync_wake_and_sleep( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_WAIT_AND_WAKE.
+Обработчик вызова #SYSCALL_SYNC_WAKE_AND_WAIT.
 \~english
 \brief
-A #SYSCALL_WAIT_AND_WAKE handler.
+A #SYSCALL_SYNC_WAKE_AND_WAIT handler.
 */
 void scall_sync_wake_and_wait( void * arg );
 
