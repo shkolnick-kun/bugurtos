@@ -382,8 +382,8 @@ void sched_schedule(void)
                 }
                 else
                 {
-                    // Go to DEAD/W_DEAD state.
-                    current_proc->flags |= PROC_STATE_DEAD;
+                    // Go to DEAD state.
+                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_DEAD);
                 }
 #else // CONFIG_HARD_RT
                 /**********************************************************************
@@ -393,14 +393,7 @@ void sched_schedule(void)
                 If a process was in W_MUT state, then it goes to W_WD_STOPED,
                 in other cases it goes to WD_STOPED state.
                 **********************************************************************/
-                if( flags & PROC_STATE_WAIT_MASK )
-                {
-                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_W_WD_STOPED);
-                }
-                else
-                {
-                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
-                }
+                current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
 #endif // CONFIG_HARD_RT
             }
         }

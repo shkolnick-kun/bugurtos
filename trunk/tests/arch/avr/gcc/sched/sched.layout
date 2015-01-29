@@ -52,25 +52,25 @@
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="18">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="19">
-		<Cursor position="163" topLine="1" />
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="6">
+		<Cursor position="18242" topLine="326" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="20">
-		<Cursor position="163" topLine="1" />
+	<File name="../../../../../kernel/sched.c" open="1" top="1" tabpos="5">
+		<Cursor position="18343" topLine="374" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="22">
-		<Cursor position="163" topLine="0" />
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
+		<Cursor position="163" topLine="282" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="23">
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="24">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="25">
+	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="3">
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="26">
@@ -85,8 +85,8 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="29">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="2">
-		<Cursor position="2463" topLine="75" />
+	<File name="../config.h" open="1" top="0" tabpos="4">
+		<Cursor position="2417" topLine="72" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="2584" topLine="8" />

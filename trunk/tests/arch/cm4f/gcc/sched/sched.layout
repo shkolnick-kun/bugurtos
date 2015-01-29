@@ -7,6 +7,9 @@
 	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
@@ -22,7 +25,7 @@
 	<File name="../../../../../kernel/xlist.c" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/xlist.h" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/xlist.h" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="2">
