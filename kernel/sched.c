@@ -289,7 +289,7 @@ void sched_schedule(void)
         {
             current_proc->timer--;// No! Decrement a process timer!
             /**********************************************************************
-            Switch a process state to READY/W_READY from STOPED/W_MUT!
+            Switch a process state to READY/PI_READY/SYNC_READY.
             **********************************************************************/
             current_proc->flags |= PROC_STATE_READY;
         }
@@ -347,7 +347,7 @@ void sched_schedule(void)
 #endif // CONFIG_MP CONFIG_USE_ALB
                 current_proc->timer = current_proc->time_quant; // Сбросили таймер!
                 /**********************************************************************
-                Switch a process state to READY/W_READY from STOPED/W_MUT!
+                Switch a process state to READY/PI_READY/SYNC_READY.
                 **********************************************************************/
                 current_proc->flags |= PROC_STATE_READY;
             }
@@ -373,8 +373,8 @@ void sched_schedule(void)
                 ((pitem_t *)current_proc)->list = (void *)0;// Просто вырезали из списка, как в pitem_cut
 #ifdef CONFIG_HARD_RT
                 /**********************************************************************
-                If process have some locked resources, then it goes to DEAD/W_DEAD state,
-                or it goes to WD_STOPED/W_WD_STOPED state.
+                If process have some locked resources, then it goes to DEAD state,
+                or it goes to WD_STOPED state.
                 **********************************************************************/
                 if( (flags & PROC_FLG_LOCK_MASK) == (flag_t)0 )
                 {
