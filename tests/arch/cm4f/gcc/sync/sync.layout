@@ -5,19 +5,22 @@
 		<Cursor position="152" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="15899" topLine="393" />
+		<Cursor position="17712" topLine="453" />
+	</File>
+	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="7064" topLine="106" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="24777" topLine="861" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="15028" topLine="238" />
+		<Cursor position="11241" topLine="219" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="7529" topLine="113" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="17814" topLine="404" />
+		<Cursor position="14190" topLine="244" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="84" />
