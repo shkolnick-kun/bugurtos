@@ -389,9 +389,6 @@ void sched_schedule(void)
                 /**********************************************************************
                 In that branch of #ifdef CONFIG_HARD_RT, we have a RT process, which
                 does not have locked resources.
-
-                If a process was in W_MUT state, then it goes to W_WD_STOPED,
-                in other cases it goes to WD_STOPED state.
                 **********************************************************************/
                 current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
 #endif // CONFIG_HARD_RT
