@@ -78,6 +78,24 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+prio_t _sync_prio( sync_t * sync )
+{
+    prio_t sprio; //sync prio
+
+    sprio = sync->prio;
+    if( (((xlist_t *)sync)->index) )
+    {
+        prio_t wprio; //wait list prio
+
+        wprio = index_search(((xlist_t *)sync)->index);
+        return (wprio < sprio)?wprio:sprio;
+    }
+    else
+    {
+        return sprio;
+    }
+}
+
 #ifdef CONFIG_MP
 #define PROC_PRIO_PROP_HOOK() hook(hook_arg)
 void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg )
@@ -262,20 +280,21 @@ static void sync_prio_prop_hook( sync_t * sync )
 #define SYNC_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p )
 #endif
 //========================================================================================
-void sync_init( sync_t * sync )
+void sync_init( sync_t * sync, prio_t prio )
 {
     disable_interrupts();
-    sync_init_isr( sync );
+    sync_init_isr( sync, prio );
     enable_interrupts();
 }
 //========================================================================================
-void sync_init_isr( sync_t * sync )
+void sync_init_isr( sync_t * sync, prio_t prio )
 {
     SPIN_INIT( sync );
     SPIN_LOCK( sync );
     xlist_init( (xlist_t *)sync );
     sync->owner = (proc_t *)0;
     sync->dirty = (count_t)0;
+    sync->prio = prio;
     SPIN_FREE( sync );
 }
 //**********************************************************************************************
