@@ -3,7 +3,7 @@
 proc_t proc[6];
 stack_t proc_stack[6][PROC_STACK_SIZE];
 
-sync_t sync_1, sync_2, sync_3;
+sync_t sync_1, sync_2, sync_3, sync_4;
 bool_t test;
 flag_t status;
 proc_t * proc_buff = (proc_t *)0;
@@ -383,6 +383,17 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     ///sync_wait covered!!!
     //89
+    sync_set_owner(&sync_3, (proc_t *)0);
+    wait_time(5);
+    sync_set_owner(&sync_4, &proc[4]);
+    wait_time(5);
+    test = ( proc[0].parent.prio == 0);
+    test_output( test, test_num++ );
+    //90
+    test = ( proc[4].parent.prio == 0);
+    test_output( test, test_num++ );
+    ///Priority ceiling protocol covered.
+    //91
     tests_end();
 }
 
@@ -495,9 +506,10 @@ int main(void)
     proc_init_isr( &proc[4], main_4, SVH4, RSH4, 0, &proc_stack[4][PROC_STACK_SIZE-1], 2,      1, 0 ARG_END );
     proc_init_isr( &proc[5], main_5, SVH5, RSH5, 0, &proc_stack[5][PROC_STACK_SIZE-1], 1,      1, 0 ARG_END );
 
-    sync_init_isr( &sync_1 );
-    sync_init_isr( &sync_2 );
-    sync_init_isr( &sync_3 );
+    sync_init_isr( &sync_1, LOWEST );
+    sync_init_isr( &sync_2, LOWEST );
+    sync_init_isr( &sync_3, LOWEST );
+    sync_init_isr( &sync_4, 0 );
 
     proc_run_isr( &proc[0] );
 

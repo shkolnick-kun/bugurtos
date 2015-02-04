@@ -83,9 +83,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок мьютекса. \~english A sync header.
 */
 
-#define SYNC_PRIO(m) ((((xlist_t *)m)->index) ? index_search(((xlist_t *)m)->index) : PROC_PRIO_LOWEST) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_r object priority */
-
-
 #define SYNC_ST_OK   0 /*!< \~russian Удачное завершение. \~english Success. */
 #define SYNC_ST_FAIL 1 /*!< \~russian Завершение с ошибкой. \~english Fail. */
 #define SYNC_ST_ROLL 2 /*!< \~russian Нужна следующая иттерация. \~english Next itteration needed. */
@@ -120,11 +117,15 @@ struct _sync_t
     xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     proc_t * owner;/*!< \~russian Указатель на процесс, удерживающий мьютекс. \~english A pointer to a process, that holds a sync. */
     count_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritanse transaction counter. */
+    prio_t prio; /*!< \~russian Приоритет. \~english Priority. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
 #endif // CONFIG_MP
 };
 // Методы
+prio_t _sync_prio( sync_t * sync );
+#define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_r object priority */
+
 /*!
 \~russian
 \brief
@@ -136,7 +137,8 @@ struct _sync_t
 A sync initiation for usage in ISRs or in critical sections.
 */
 void sync_init(
-    sync_t * sync /*!< \~russian Указатель на мьютекс. \~english A sync pointer. */
+    sync_t * sync, /*!< \~russian Указатель на объект типа #sync_t. \~english A sync pointer. */
+    prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 /*!
 \~russian
@@ -148,7 +150,8 @@ void sync_init(
 A basic synchronization promitive initiation.
 */
 void sync_init_isr(
-    sync_t * sync /*!< \~russian Указатель на базвоый примитив синхронизации. \~english A sync pointer. */
+    sync_t * sync, /*!< \~russian Указатель на базвоый примитив синхронизации. \~english A sync pointer. */
+    prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 
 /*!
