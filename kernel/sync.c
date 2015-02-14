@@ -415,14 +415,6 @@ void scall_sync_clear_owner( void * arg )
 /**********************************************************************************************
                                        SYSCALL_SYNC_SLEEP
 **********************************************************************************************/
-//========================================================================================
-typedef struct
-{
-    sync_t * sync;
-    flag_t status;
-}
-sync_sleep_t;
-//========================================================================================
 flag_t sync_sleep( sync_t * sync )
 {
     volatile sync_sleep_t scarg;
@@ -520,15 +512,6 @@ void scall_sync_sleep( void * arg )
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAKE
 **********************************************************************************************/
-typedef struct
-{
-    sync_t * sync;
-    proc_t * proc;
-    flag_t chown;
-    flag_t status;
-}
-sync_wake_t;
-//========================================================================================
 flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 {
     volatile sync_wake_t scarg;
@@ -691,15 +674,6 @@ void scall_sync_wake( void * arg )
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAIT
 **********************************************************************************************/
-typedef struct
-{
-    sync_t * sync;
-    proc_t ** proc;
-    flag_t block;
-    flag_t status;
-}
-sync_wait_t;
-//========================================================================================
 flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 {
     volatile sync_wait_t scarg;
@@ -783,17 +757,6 @@ void scall_sync_wait( void * arg )
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_SLEEP
 **********************************************************************************************/
-typedef struct
-{
-    sync_t * wake;
-    sync_t * sleep;
-    proc_t * proc;
-    flag_t chown;
-    flag_t stage;
-    flag_t status;
-}
-sync_wake_and_sleep_t;
-//========================================================================================
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep )
 {
     volatile sync_wake_and_sleep_t scarg;
@@ -840,19 +803,6 @@ void scall_sync_wake_and_sleep( void * arg )
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_WAIT
 **********************************************************************************************/
-typedef struct
-{
-    sync_t * wake;
-    sync_t * wait;
-    proc_t * proc_wake;
-    proc_t ** proc_wait;
-    flag_t chown;
-    flag_t block;
-    flag_t stage;
-    flag_t status;
-}
-sync_wake_and_wait_t;
-//========================================================================================
 flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block )
 {
     volatile sync_wake_and_wait_t scarg;

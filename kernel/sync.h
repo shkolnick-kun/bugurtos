@@ -125,7 +125,6 @@ struct _sync_t
 // Методы
 prio_t _sync_prio( sync_t * sync );
 #define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_r object priority */
-
 /*!
 \~russian
 \brief
@@ -140,6 +139,9 @@ void sync_init(
     sync_t * sync, /*!< \~russian Указатель на объект типа #sync_t. \~english A sync pointer. */
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
+
+#define SYNC_INIT(s,p) sync_init((sync_t *)s, (prio_t)p) /*!< \~russian Смотри #sync_init. \~english Watch #sync_init. */
+
 /*!
 \~russian
 \brief
@@ -153,6 +155,8 @@ void sync_init_isr(
     sync_t * sync, /*!< \~russian Указатель на базвоый примитив синхронизации. \~english A sync pointer. */
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
+
+#define SYNC_INIT_ISR(s,p) sync_init_isr((sync_t *)s, (prio_t)p) /*!< \~russian Смотри #sync_init_isr. \~english Watch #sync_init_isr. */
 
 /*!
 \~russian
@@ -170,6 +174,9 @@ Get current #sync_t object owner.
 \return A pointer to #sync_t opbject owner.
 */
 proc_t * sync_get_owner( sync_t * sync );
+
+#define SYNC_GET_OWNER(s) sync_get_owner((sync_t *)s) /*!< \~russian Смотри #sync_get_owner. \~english Watch #sync_get_owner. */
+
 /*!
 \~russian
 \brief
@@ -186,6 +193,9 @@ Set #sync_t object owner.
 \param proc A pointer to new #sync_t opbject owner.
 */
 void sync_set_owner( sync_t * sync, proc_t * proc );
+
+#define SYNC_SET_OWNER(s,p) sync_set_owner((sync_t *)s, (proc_t *)p) /*!< \~russian Смотри #sync_set_owner. \~english Watch #sync_set_owner. */
+
 /*!
 \~russian
 \brief
@@ -200,6 +210,8 @@ Clear #sync_t object owner.
 \param sync A pointer to the object of interest.
 */
 void sync_clear_owner( sync_t * sync );
+
+#define SYNC_CLEAR_OWNER(s) sync_clear_owner((sync_t *)s) /*!< \~russian Смотри #sync_clear_owner. \~english Watch #sync_clear_owner. */
 
 /*!
 \~russian
@@ -221,6 +233,15 @@ Blocks caller process.
 \return #SYNC_ST_OK on success, or #SYNC_ST_FAIL.
 */
 flag_t sync_sleep( sync_t * sync );
+
+typedef struct
+{
+    sync_t * sync;
+    flag_t status;
+}
+sync_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+
+#define SYNC_SLEEP(s) sync_sleep((sync_t *)s) /*!< \~russian Смотри #sync_sleep. \~english Watch #sync_sleep. */
 
 /*!
 \~russian
@@ -248,6 +269,32 @@ Unblock some waiting process. A process should be blocked on target #sync_t obje
 */
 flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 
+typedef struct
+{
+    sync_t * sync;
+    proc_t * proc;
+    flag_t chown;
+    flag_t status;
+}
+sync_wake_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+
+#define SYNC_WAKE(s,p,c,st) \
+do                                                              \
+{                                                               \
+    volatile sync_wake_t scarg;                                 \
+    scarg.status = SYNC_ST_ROLL;                                \
+    scarg.sync = (sync_t *)(s);                                 \
+    scarg.proc = (proc_t *)(p);                                 \
+    scarg.chown = (flag_t)(c);                                  \
+    do                                                          \
+    {                                                           \
+        syscall_bugurt( SYSCALL_SYNC_WAKE, (void *)&scarg );    \
+    }                                                           \
+    while( scarg.status >= SYNC_ST_ROLL );                      \
+    (st) = scarg.status;                                        \
+}                                                               \
+while(0) /*!< \~russian Смотри #sync_wake. \~english Watch #sync_wake. */
+
 /*!
 \~russian
 \brief
@@ -273,6 +320,32 @@ Wait until target process is blocked on target #sync_t object.
 */
 flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 
+typedef struct
+{
+    sync_t * sync;
+    proc_t ** proc;
+    flag_t block;
+    flag_t status;
+}
+sync_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+
+#define SYNC_WAIT(s,p,b,st)                                     \
+do                                                              \
+{                                                               \
+    volatile sync_wait_t scarg;                                 \
+    scarg.status = SYNC_ST_ROLL;                                \
+    scarg.sync = (sync_t *)(s);                                 \
+    scarg.proc = (proc_t **)(p);                                \
+    scarg.block = (flag_t)(b);                                  \
+    do                                                          \
+    {                                                           \
+        syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );    \
+    }                                                           \
+    while( scarg.status >= SYNC_ST_ROLL );                      \
+    (st) = scarg.status;                                        \
+}                                                               \
+while(0) /*!< \~russian Смотри #sync_wait. \~english Watch #sync_wait. */
+
 /*!
 \~russian
 \brief
@@ -287,6 +360,38 @@ Watch #sync_wake and #sync_sleep.
 Watch #sync_wake and #sync_sleep.
 */
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
+
+typedef struct
+{
+    sync_t * wake;
+    sync_t * sleep;
+    proc_t * proc;
+    flag_t chown;
+    flag_t stage;
+    flag_t status;
+}
+sync_wake_and_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+
+#define SYNC_WAKE_AND_SLEEP(w,p,c,s,st)                                 \
+do                                                                      \
+{                                                                       \
+    volatile sync_wake_and_sleep_t scarg;                               \
+    scarg.status = SYNC_ST_ROLL;                                        \
+    scarg.chown = (flag_t)(c);                                          \
+    scarg.wake = (sync_t *)(w);                                         \
+    scarg.sleep = (sync_t *)(s);                                        \
+    scarg.proc = (proc_t *)(p);                                         \
+    scarg.stage = (flag_t)0;                                            \
+    do                                                                  \
+    {                                                                   \
+        syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );  \
+    }                                                                   \
+    while( scarg.status >= SYNC_ST_ROLL );                              \
+    (st) = scarg.status;                                                \
+}                                                                       \
+while(0) /*!< \~russian Смотри #sync_wake_and_sleep. \~english Watch #sync_wake_and_sleep. */
+
+
 /*!
 \~russian
 \brief
@@ -301,6 +406,40 @@ Watch #sync_wake and #sync_wait.
 Watch #sync_wake and #sync_wait.
 */
 flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
+
+typedef struct
+{
+    sync_t * wake;
+    sync_t * wait;
+    proc_t * proc_wake;
+    proc_t ** proc_wait;
+    flag_t chown;
+    flag_t block;
+    flag_t stage;
+    flag_t status;
+}
+sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+
+#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st) \
+do \
+{ \
+    volatile sync_wake_and_wait_t scarg; \
+    scarg.wake      = (sync_t *)(wk); \
+    scarg.proc_wake = (proc_t *)(pwk); \
+    scarg.wait      = (sync_t *)(wt); \
+    scarg.proc_wait = (proc_t **)(pwt); \
+    scarg.chown     = (flag_t)(c); \
+    scarg.block     = (flag_t)(b); \
+    scarg.stage     = (flag_t)0; \
+    scarg.status    = SYNC_ST_ROLL; \
+    do \
+    { \
+        syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg ); \
+    } \
+    while( scarg.status >= SYSCALL_SYNC_WAKE_AND_WAIT ); \
+    (st) = scarg.status; \
+} \
+while(0) /*!< \~russian Смотри #sync_wake_and_wait. \~english Watch #sync_wake_and_wait. */
 
 /*!
 \~russian
