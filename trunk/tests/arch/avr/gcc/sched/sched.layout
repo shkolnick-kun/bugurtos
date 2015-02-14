@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="3">
 		<Cursor position="94" topLine="0" />
 	</File>
@@ -61,8 +61,8 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
-		<Cursor position="13620" topLine="336" />
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
+		<Cursor position="13620" topLine="717" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
 		<Cursor position="9532" topLine="134" />
