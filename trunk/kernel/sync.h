@@ -416,25 +416,25 @@ typedef struct
 }
 sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st) \
-do \
-{ \
-    volatile sync_wake_and_wait_t scarg; \
-    scarg.wait.sync   = (sync_t *)(wt); \
-    scarg.wait.proc   = (proc_t **)(pwt); \
-    scarg.wait.block  = (flag_t)(b); \
-    scarg.wait.status = SYNC_ST_ROLL; \
-    scarg.wake      = (sync_t *)(wk); \
-    scarg.proc      = (proc_t *)(pwk); \
-    scarg.chown     = (flag_t)(c); \
-    scarg.stage     = (flag_t)0; \
-    do \
-    { \
-        syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg ); \
-    } \
-    while( scarg.wait.status >= SYSCALL_SYNC_WAKE_AND_WAIT ); \
-    (st) = scarg.wait.status; \
-} \
+#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st)                        \
+do                                                                      \
+{                                                                       \
+    volatile sync_wake_and_wait_t scarg;                                \
+    scarg.wait.sync   = (sync_t *)(wt);                                 \
+    scarg.wait.proc   = (proc_t **)(pwt);                               \
+    scarg.wait.block  = (flag_t)(b);                                    \
+    scarg.wait.status = SYNC_ST_ROLL;                                   \
+    scarg.wake      = (sync_t *)(wk);                                   \
+    scarg.proc      = (proc_t *)(pwk);                                  \
+    scarg.chown     = (flag_t)(c);                                      \
+    scarg.stage     = (flag_t)0;                                        \
+    do                                                                  \
+    {                                                                   \
+        syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg );   \
+    }                                                                   \
+    while( scarg.wait.status >= SYSCALL_SYNC_WAKE_AND_WAIT );           \
+    (st) = scarg.wait.status;                                           \
+}                                                                       \
 while(0) /*!< \~russian Смотри #sync_wake_and_wait. \~english Watch #sync_wake_and_wait. */
 
 /*!
