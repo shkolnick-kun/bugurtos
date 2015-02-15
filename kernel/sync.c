@@ -537,7 +537,7 @@ static void _sync_owner_block( proc_t * owner )
     SPIN_FREE( owner );
 }
 //========================================================================================
-flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
+flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown, code_t hook, void * arg )
 {
     proc_t * owner;
     flag_t status;
@@ -663,13 +663,17 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
         }
         SPIN_FREE( owner );
     }
+    if( (status == SYNC_ST_OK) && hook )
+    {
+        hook( arg );
+    }
     SPIN_FREE( sync );
     return status;
 }
 //========================================================================================
 void scall_sync_wake( void * arg )
 {
-    ((sync_wake_t *)arg)->status = _sync_wake( ((sync_wake_t *)arg)->sync , ((sync_wake_t *)arg)->proc, ((sync_wake_t *)arg)->chown );
+    ((sync_wake_t *)arg)->status = _sync_wake( ((sync_wake_t *)arg)->sync , ((sync_wake_t *)arg)->proc, ((sync_wake_t *)arg)->chown, (code_t)0, (void *)0);
 }
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAIT
@@ -782,7 +786,7 @@ void scall_sync_wake_and_sleep( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_sleep_t *)arg)->wake , ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown );
+        status = _sync_wake( ((sync_wake_and_sleep_t *)arg)->wake , ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown, (code_t)0, (void *)0 );
         if( SYNC_ST_OK == status )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;
@@ -830,7 +834,7 @@ void scall_sync_wake_and_wait( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc_wake, ((sync_wake_and_wait_t*)arg)->chown );
+        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc_wake, ((sync_wake_and_wait_t*)arg)->chown, (code_t)0, (void *)0 );
         if( SYNC_ST_OK == status )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;

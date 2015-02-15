@@ -14,7 +14,7 @@ void prio_propagate_hook_0(void)
     if( PROC_GET_STATE( (&proc[3]) ) == PROC_STATE_PI_PEND )
     {
         test_kernel_preempt = test_do_nothing;
-        status = _sync_wake(&sync_2, &proc[3], 0 );
+        status = _sync_wake(&sync_2, &proc[3], 0, (code_t)0, (void *)0 );
         test = (status == SYNC_ST_OK);
         test_output( test, test_num++ );
     }
@@ -25,7 +25,7 @@ void prio_propagate_hook_2(void)
     if( PROC_GET_STATE( (&proc[3]) ) == PROC_STATE_PI_PEND )
     {
         test_kernel_preempt = test_do_nothing;
-        status = _sync_wake(&sync_2, &proc[3], 1 ); //chown
+        status = _sync_wake(&sync_2, &proc[3], 1, (code_t)0, (void *)0 ); //chown
         test = (status == SYNC_ST_OK);
         test_output( test, test_num++ );
     }
