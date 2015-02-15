@@ -482,7 +482,7 @@ For internal usage. Watch #sync_wake.
 
 For internal usage. Watch #sync_wake.
 */
-flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
+flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown, code_t hook, void * arg );
 /*!
 \~russian
 \brief
