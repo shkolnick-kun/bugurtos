@@ -270,6 +270,23 @@ void scall_proc_set_prio( void * arg )
                                        Bsync methods
 **********************************************************************************************/
 #ifdef CONFIG_MP
+
+void _sync_spin_lock( lock_t * lock )
+{
+    if( lock )
+    {
+        spin_lock(lock);
+    }
+}
+
+void _sync_spin_free( lock_t * lock )
+{
+    if( lock )
+    {
+        spin_free(lock);
+    }
+}
+
 static void sync_prio_prop_hook( sync_t * sync )
 {
     SPIN_FREE( (sync->owner) );
@@ -519,7 +536,7 @@ flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.chown = chown;
-    SYNC_WAKE_SPIN_INIT(0);
+    SYNC_SPIN_INIT(0);
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE, (void *)&scarg );
@@ -671,9 +688,9 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 //========================================================================================
 void scall_sync_wake( void * arg )
 {
-    SYNC_WAKE_SPIN_LOCK(sync_wake_t);
+    SYNC_SPIN_LOCK(sync_wake_t);
     ((sync_wake_t *)arg)->status = _sync_wake( ((sync_wake_t *)arg)->sync , ((sync_wake_t *)arg)->proc, ((sync_wake_t *)arg)->chown );
-    SYNC_WAKE_SPIN_FREE(sync_wake_t);
+    SYNC_SPIN_FREE(sync_wake_t);
 }
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAIT
@@ -685,6 +702,7 @@ flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.block = block;
+    SYNC_SPIN_INIT(0);
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );
@@ -756,7 +774,9 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 //========================================================================================
 void scall_sync_wait( void * arg )
 {
+    SYNC_SPIN_LOCK(sync_wait_t);
     ((sync_wait_t *)arg)->status = _sync_wait( ((sync_wait_t *)arg)->sync, ((sync_wait_t *)arg)->proc, ((sync_wait_t *)arg)->block );
+    SYNC_SPIN_FREE(sync_wait_t);
 }
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_SLEEP
@@ -770,7 +790,7 @@ flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t *
     scarg.wake = wake;
     scarg.proc = proc;
     scarg.stage = (flag_t)0;
-    SYNC_WAKE_SPIN_INIT(0);
+    SYNC_SPIN_INIT(0);
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );
@@ -781,7 +801,7 @@ flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t *
 //========================================================================================
 void scall_sync_wake_and_sleep( void * arg )
 {
-    SYNC_WAKE_SPIN_LOCK(sync_wake_and_sleep_t);
+    SYNC_SPIN_LOCK(sync_wake_and_sleep_t);
     switch( ((sync_wake_and_sleep_t *)arg)->stage )
     {
     case 0:
@@ -805,7 +825,7 @@ void scall_sync_wake_and_sleep( void * arg )
         break;
     }
     }
-    SYNC_WAKE_SPIN_FREE(sync_wake_and_sleep_t);
+    SYNC_SPIN_FREE(sync_wake_and_sleep_t);
 }
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_WAIT
@@ -821,7 +841,7 @@ flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync
     scarg.proc = proc_wake;
     scarg.chown = chown;
     scarg.stage = (flag_t)0;
-    SYNC_WAKE_SPIN_INIT(0);
+    SYNC_SPIN_INIT(0);
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg );
@@ -832,7 +852,7 @@ flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync
 //========================================================================================
 void scall_sync_wake_and_wait( void * arg )
 {
-    SYNC_WAKE_SPIN_LOCK(sync_wake_and_sleep_t);
+    SYNC_SPIN_LOCK(sync_wake_and_sleep_t);
     switch( ((sync_wake_and_wait_t *)arg)->stage )
     {
     case 0:
@@ -856,5 +876,5 @@ void scall_sync_wake_and_wait( void * arg )
         break;
     }
     }
-    SYNC_WAKE_SPIN_FREE(sync_wake_and_sleep_t);
+    SYNC_SPIN_FREE(sync_wake_and_sleep_t);
 }

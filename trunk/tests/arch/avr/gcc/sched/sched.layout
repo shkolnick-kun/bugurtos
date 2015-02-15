@@ -64,8 +64,8 @@
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
 		<Cursor position="27068" topLine="776" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
-		<Cursor position="20223" topLine="315" />
+	<File name="../../../../../kernel/sync.h" open="1" top="1" tabpos="2">
+		<Cursor position="20223" topLine="330" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="24">
 		<Cursor position="163" topLine="1" />
