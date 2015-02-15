@@ -61,10 +61,10 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
 		<Cursor position="13620" topLine="717" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
 		<Cursor position="9532" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="24">
