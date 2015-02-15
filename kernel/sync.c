@@ -764,18 +764,18 @@ void scall_sync_wait( void * arg )
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep )
 {
     volatile sync_wake_and_sleep_t scarg;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.sleep.sync = sleep;
+    scarg.sleep.status = SYNC_ST_ROLL;
     scarg.chown = chown;
     scarg.wake = wake;
-    scarg.sleep = sleep;
     scarg.proc = proc;
     scarg.stage = (flag_t)0;
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );
     }
-    while( scarg.status >= SYNC_ST_ROLL );
-    return scarg.status;
+    while( scarg.sleep.status >= SYNC_ST_ROLL );
+    return scarg.sleep.status;
 }
 //========================================================================================
 void scall_sync_wake_and_sleep( void * arg )
@@ -786,22 +786,22 @@ void scall_sync_wake_and_sleep( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_sleep_t *)arg)->wake , ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown, (code_t)0, (void *)0 );
+        status = _sync_wake( ((sync_wake_and_sleep_t *)arg)->wake , ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown, scall_sync_sleep , arg );
         if( SYNC_ST_OK == status )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;
         }
         else
         {
-            ((sync_wake_and_sleep_t *)arg)->status = status;
-            break;
+            ((sync_sleep_t *)arg)->status = status;
         }
+        break;
     }
     case 1:
     {
-        ((sync_wake_and_sleep_t *)arg)->status = _sync_sleep( ((sync_wake_and_sleep_t *)arg)->sleep );
+        scall_sync_sleep(arg);
+        break;
     }
-
     }
 }
 /**********************************************************************************************
@@ -810,20 +810,20 @@ void scall_sync_wake_and_sleep( void * arg )
 flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block )
 {
     volatile sync_wake_and_wait_t scarg;
+    scarg.wait.sync = wait;
+    scarg.wait.proc = proc_wait;
+    scarg.wait.block = block;
+    scarg.wait.status = SYNC_ST_ROLL;
     scarg.wake = wake;
-    scarg.proc_wake = proc_wake;
-    scarg.wait = wait;
-    scarg.proc_wait = proc_wait;
+    scarg.proc = proc_wake;
     scarg.chown = chown;
-    scarg.block = block;
     scarg.stage = (flag_t)0;
-    scarg.status = SYNC_ST_ROLL;
     do
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg );
     }
-    while( scarg.status >= SYSCALL_SYNC_WAKE_AND_WAIT );
-    return scarg.status;
+    while( scarg.wait.status >= SYSCALL_SYNC_WAKE_AND_WAIT );
+    return scarg.wait.status;
 }
 //========================================================================================
 void scall_sync_wake_and_wait( void * arg )
@@ -834,21 +834,21 @@ void scall_sync_wake_and_wait( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc_wake, ((sync_wake_and_wait_t*)arg)->chown, (code_t)0, (void *)0 );
+        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc, ((sync_wake_and_wait_t*)arg)->chown, scall_sync_wait, arg );
         if( SYNC_ST_OK == status )
         {
-            ((sync_wake_and_sleep_t *)arg)->stage++;
+            ((sync_wake_and_wait_t *)arg)->stage++;
         }
         else
         {
-            ((sync_wake_and_sleep_t *)arg)->status = status;
-            break;
+            ((sync_wake_t *)arg)->status = status;
         }
-
+        break;
     }
     case 1:
     {
-        ((sync_wake_and_sleep_t *)arg)->status = _sync_wait( ((sync_wake_and_wait_t *)arg)->wait , ((sync_wake_and_wait_t *)arg)->proc_wait, ((sync_wake_and_wait_t *)arg)->block );
+        scall_sync_wait(arg);
+        break;
     }
     }
 }

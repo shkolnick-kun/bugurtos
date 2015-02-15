@@ -363,12 +363,11 @@ flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t *
 
 typedef struct
 {
+    sync_sleep_t sleep;
     sync_t * wake;
-    sync_t * sleep;
     proc_t * proc;
     flag_t chown;
     flag_t stage;
-    flag_t status;
 }
 sync_wake_and_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
@@ -376,18 +375,18 @@ sync_wake_and_sleep_t; /*!< \~russian Для внутреннего пользо
 do                                                                      \
 {                                                                       \
     volatile sync_wake_and_sleep_t scarg;                               \
-    scarg.status = SYNC_ST_ROLL;                                        \
+    scarg.sleep.sync = (sync_t *)(s);                                   \
+    scarg.sleep.status = SYNC_ST_ROLL;                                  \
     scarg.chown = (flag_t)(c);                                          \
     scarg.wake = (sync_t *)(w);                                         \
-    scarg.sleep = (sync_t *)(s);                                        \
     scarg.proc = (proc_t *)(p);                                         \
     scarg.stage = (flag_t)0;                                            \
     do                                                                  \
     {                                                                   \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );  \
     }                                                                   \
-    while( scarg.status >= SYNC_ST_ROLL );                              \
-    (st) = scarg.status;                                                \
+    while( scarg.sleep.status >= SYNC_ST_ROLL );                        \
+    (st) = scarg.sleep.status;                                          \
 }                                                                       \
 while(0) /*!< \~russian Смотри #sync_wake_and_sleep. \~english Watch #sync_wake_and_sleep. */
 
@@ -409,14 +408,11 @@ flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync
 
 typedef struct
 {
+    sync_wait_t wait;
     sync_t * wake;
-    sync_t * wait;
-    proc_t * proc_wake;
-    proc_t ** proc_wait;
+    proc_t * proc;
     flag_t chown;
-    flag_t block;
     flag_t stage;
-    flag_t status;
 }
 sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
@@ -424,20 +420,20 @@ sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользо�
 do \
 { \
     volatile sync_wake_and_wait_t scarg; \
+    scarg.wait.sync   = (sync_t *)(wt); \
+    scarg.wait.proc   = (proc_t **)(pwt); \
+    scarg.wait.block  = (flag_t)(b); \
+    scarg.wait.status = SYNC_ST_ROLL; \
     scarg.wake      = (sync_t *)(wk); \
-    scarg.proc_wake = (proc_t *)(pwk); \
-    scarg.wait      = (sync_t *)(wt); \
-    scarg.proc_wait = (proc_t **)(pwt); \
+    scarg.proc      = (proc_t *)(pwk); \
     scarg.chown     = (flag_t)(c); \
-    scarg.block     = (flag_t)(b); \
     scarg.stage     = (flag_t)0; \
-    scarg.status    = SYNC_ST_ROLL; \
     do \
     { \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg ); \
     } \
-    while( scarg.status >= SYSCALL_SYNC_WAKE_AND_WAIT ); \
-    (st) = scarg.status; \
+    while( scarg.wait.status >= SYSCALL_SYNC_WAKE_AND_WAIT ); \
+    (st) = scarg.wait.status; \
 } \
 while(0) /*!< \~russian Смотри #sync_wake_and_wait. \~english Watch #sync_wake_and_wait. */
 
