@@ -663,10 +663,12 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown, code_t hook, void
         }
         SPIN_FREE( owner );
     }
+
     if( (status == SYNC_ST_OK) && hook )
     {
         hook( arg );
     }
+
     SPIN_FREE( sync );
     return status;
 }
@@ -841,7 +843,7 @@ void scall_sync_wake_and_wait( void * arg )
         }
         else
         {
-            ((sync_wake_t *)arg)->status = status;
+            ((sync_wait_t *)arg)->status = status;
         }
         break;
     }
