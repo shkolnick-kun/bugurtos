@@ -273,12 +273,50 @@ typedef struct
 {
     sync_t * sync;
     proc_t * proc;
+#ifdef CONFIG_MP
+    lock_t * lock;
+#endif // CONFIG_MP
     flag_t chown;
     flag_t status;
 }
 sync_wake_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE(s,p,c,st) \
+#ifdef CONFIG_MP
+#define SYNC_WAKE_SPIN_INIT(l) scarg.lock = (lock_t *)l
+
+#define SYNC_WAKE_SPIN_LOCK(type)   \
+do                                  \
+{                                   \
+    lock_t * lock;                  \
+    lock = ((type *)arg)->lock;     \
+    if(lock)                        \
+    {                               \
+        spin_lock(lock);            \
+    }                               \
+}                                   \
+while(0)
+
+#define SYNC_WAKE_SPIN_FREE(type)   \
+do                                  \
+{                                   \
+    lock_t * lock;                  \
+    lock = ((type *)arg)->lock;     \
+    if(lock)                        \
+    {                               \
+        spin_free(lock);            \
+    }                               \
+}                                   \
+while(0)
+
+#else
+
+#define SYNC_WAKE_SPIN_INIT(l)
+#define SYNC_WAKE_SPIN_LOCK(type)
+#define SYNC_WAKE_SPIN_FREE(type)
+
+#endif // CONFIG_MP
+
+#define SYNC_WAKE(s,p,c,st,l)                                   \
 do                                                              \
 {                                                               \
     volatile sync_wake_t scarg;                                 \
@@ -286,6 +324,7 @@ do                                                              \
     scarg.sync = (sync_t *)(s);                                 \
     scarg.proc = (proc_t *)(p);                                 \
     scarg.chown = (flag_t)(c);                                  \
+    SYNC_WAKE_SPIN_INIT(l);                                     \
     do                                                          \
     {                                                           \
         syscall_bugurt( SYSCALL_SYNC_WAKE, (void *)&scarg );    \
@@ -366,12 +405,15 @@ typedef struct
     sync_sleep_t sleep;
     sync_t * wake;
     proc_t * proc;
+#ifdef CONFIG_MP
+    lock_t * lock;
+#endif // CONFIG_MP
     flag_t chown;
     flag_t stage;
 }
 sync_wake_and_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE_AND_SLEEP(w,p,c,s,st)                                 \
+#define SYNC_WAKE_AND_SLEEP(w,p,c,s,st,l)                               \
 do                                                                      \
 {                                                                       \
     volatile sync_wake_and_sleep_t scarg;                               \
@@ -381,6 +423,7 @@ do                                                                      \
     scarg.wake = (sync_t *)(w);                                         \
     scarg.proc = (proc_t *)(p);                                         \
     scarg.stage = (flag_t)0;                                            \
+    SYNC_WAKE_SPIN_INIT(l);                                             \
     do                                                                  \
     {                                                                   \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );  \
@@ -411,12 +454,15 @@ typedef struct
     sync_wait_t wait;
     sync_t * wake;
     proc_t * proc;
+#ifdef CONFIG_MP
+    lock_t * lock;
+#endif // CONFIG_MP
     flag_t chown;
     flag_t stage;
 }
 sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st)                        \
+#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st,l)                      \
 do                                                                      \
 {                                                                       \
     volatile sync_wake_and_wait_t scarg;                                \
@@ -428,6 +474,7 @@ do                                                                      \
     scarg.proc      = (proc_t *)(pwk);                                  \
     scarg.chown     = (flag_t)(c);                                      \
     scarg.stage     = (flag_t)0;                                        \
+    SYNC_WAKE_SPIN_INIT(l);                                             \
     do                                                                  \
     {                                                                   \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg );   \
@@ -478,7 +525,7 @@ For internal usage. Watch #sync_wake.
 
 For internal usage. Watch #sync_wake.
 */
-flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown, code_t hook, void * arg );
+flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 /*!
 \~russian
 \brief
