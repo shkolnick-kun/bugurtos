@@ -788,10 +788,25 @@ void scall_sync_wake_and_sleep( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_sleep_t *)arg)->wake , ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown, scall_sync_sleep , arg );
+        code_t hook;
+        sync_t * wake;
+        wake = ((sync_wake_and_sleep_t *)arg)->wake;
+        if( wake == (((sync_sleep_t *)arg)->sync ) )
+        {
+            hook = (code_t)0;
+        }
+        else
+        {
+            hook = scall_sync_sleep;
+        }
+        status = _sync_wake(  wake, ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown, hook, arg );
         if( SYNC_ST_OK == status )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;
+            if( hook == (code_t)0 )
+            {
+                scall_sync_sleep(arg);
+            }
         }
         else
         {
@@ -836,10 +851,28 @@ void scall_sync_wake_and_wait( void * arg )
     default:
     {
         flag_t status;
-        status = _sync_wake( ((sync_wake_and_wait_t *)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc, ((sync_wake_and_wait_t*)arg)->chown, scall_sync_wait, arg );
+        code_t hook;
+        sync_t * wake;
+
+        wake = ((sync_wake_and_wait_t *)arg)->wake;
+        if( wake == (((sync_wait_t *)arg)->sync ) )
+        {
+            hook = (code_t)0;
+        }
+        else
+        {
+            hook = scall_sync_wait;
+        }
+
+        status = _sync_wake( wake , ((sync_wake_and_wait_t*)arg)->proc, ((sync_wake_and_wait_t*)arg)->chown, hook, arg );
         if( SYNC_ST_OK == status )
         {
             ((sync_wake_and_wait_t *)arg)->stage++;
+
+            if( hook == (code_t)0 )
+            {
+                scall_sync_wait(arg);
+            }
         }
         else
         {
