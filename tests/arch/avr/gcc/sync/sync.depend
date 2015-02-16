@@ -37,7 +37,7 @@
 
 1420878058 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
 
-1423027818 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+1424092729 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
 
 1421139303 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
 
@@ -73,7 +73,7 @@
 1422550206 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1423027890 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1424092737 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
 1422079353 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
@@ -88,6 +88,6 @@
 1420865891 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc/test_func.c
 	<test_func.h>
 
-1423029004 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
+1424093878 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 
