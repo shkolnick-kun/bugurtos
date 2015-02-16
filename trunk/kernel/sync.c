@@ -457,7 +457,7 @@ flag_t _sync_sleep( sync_t * sync )
 
     if( !sync )
     {
-        return  SYNC_ST_FAIL;
+        return  SYNC_ST_ENULL;
     }
 
     proc = current_proc();
@@ -480,7 +480,7 @@ flag_t _sync_sleep( sync_t * sync )
     {
         SPIN_FREE( sync );
 
-        return SYNC_ST_FAIL;
+        return SYNC_ST_EOWN;
     }
     SPIN_FREE( sync );
 
@@ -563,15 +563,15 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 
     if( !sync )
     {
-        return SYNC_ST_FAIL;
+        return SYNC_ST_ENULL;
     }
 
     if( !proc )
     {
-        return SYNC_ST_FAIL;
+        return SYNC_ST_ENULL;
     }
 
-    status = (block)?SYNC_ST_ROLL:SYNC_ST_FAIL;
+    status = (block)?SYNC_ST_ROLL:SYNC_ST_EEMPTY;
 
     SPIN_LOCK( sync );
     owner = sync->owner;
@@ -579,7 +579,7 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
     if( owner != current_proc() )
     {
         SPIN_FREE( sync );
-        return SYNC_ST_FAIL;
+        return SYNC_ST_EOWN;
     }
 
     if( sync->dirty )
@@ -600,9 +600,13 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         if( (*proc)->sync == sync )
         {
             status = SYNC_ST_OK;
-        }//else ROLL/FAIL
+        }
+        else
+        {
+            status = SYNC_ST_ESYNC;
+        }
         SPIN_FREE( (*proc) );
-    }//else ROLL/FAIL
+    }//else ROLL/SYNC_ST_EEMPTY
 
     if( status == SYNC_ST_ROLL )
     {
@@ -645,12 +649,11 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 
     _proc_reset_watchdog();
 
-    status = SYNC_ST_FAIL;
+    status = SYNC_ST_EEMPTY;
 
     if( !sync )
     {
-        //*status = SYNC_ST_FAIL;
-        return SYNC_ST_FAIL;
+        return SYNC_ST_ENULL;
     }
 
     SPIN_LOCK( sync );
@@ -662,8 +665,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
         {
             SPIN_FREE( sync );
 
-            //*status = SYNC_ST_FAIL;
-            return SYNC_ST_FAIL;
+            return SYNC_ST_EOWN;
         }
         //Check for dirty priority inheritanse transactions
         if( sync->dirty )
@@ -671,7 +673,6 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             _sync_owner_block( owner );
             SPIN_FREE( sync );
 
-            //*status = SYNC_ST_ROLL;
             return SYNC_ST_ROLL;
         }
     }
@@ -686,8 +687,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             SPIN_FREE( proc );
             SPIN_FREE( sync );
 
-            //*status = SYNC_ST_FAIL;
-            return SYNC_ST_FAIL;
+            return SYNC_ST_ESYNC;
         }
         SPIN_FREE( proc );
     }

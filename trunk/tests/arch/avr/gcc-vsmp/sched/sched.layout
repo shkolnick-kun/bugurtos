@@ -65,10 +65,10 @@
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
-		<Cursor position="24625" topLine="813" />
+		<Cursor position="24625" topLine="630" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="1" top="1" tabpos="2">
-		<Cursor position="6815" topLine="433" />
+		<Cursor position="7015" topLine="76" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
 		<Cursor position="94" topLine="1" />

@@ -8,12 +8,12 @@
 		<Cursor position="152" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="27599" topLine="797" />
+		<Cursor position="21254" topLine="681" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="22271" topLine="470" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="742" topLine="43" />
+		<Cursor position="14118" topLine="376" />
 	</File>
 </CodeBlocks_layout_file>

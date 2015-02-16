@@ -83,9 +83,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок мьютекса. \~english A sync header.
 */
 
-#define SYNC_ST_OK   0 /*!< \~russian Удачное завершение. \~english Success. */
-#define SYNC_ST_FAIL 1 /*!< \~russian Завершение с ошибкой. \~english Fail. */
-#define SYNC_ST_ROLL 2 /*!< \~russian Нужна следующая иттерация. \~english Next itteration needed. */
+#define SYNC_ST_OK     0 /*!< \~russian Удачное завершение. \~english Success. */
+#define SYNC_ST_ENULL  1 /*!< \~russian Передан нулевой указатель. \~english Null pointer argument. */
+#define SYNC_ST_EOWN   2 /*!< \~russian Ошибка владения. \~english Ownership error. */
+#define SYNC_ST_EEMPTY 3 /*!< \~russian Список спящих процессов пуст. \~english Wait process list is empty. */
+#define SYNC_ST_ESYNC  4 /*!< \~russian Не тот объект типа #sync_t. \~english Wrong #sync_t object. */
+#define SYNC_ST_ROLL   5 /*!< \~russian Нужна следующая иттерация. \~english Next itteration needed. */
 
 #ifdef CONFIG_MP
 
