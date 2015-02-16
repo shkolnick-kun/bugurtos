@@ -262,6 +262,57 @@ sync_sleep_t; /*!< \~russian Для внутреннего пользовани�
 /*!
 \~russian
 \brief
+"Ожидать", блокировки процесса.
+
+Подождать того момента, как целевой процесс будет заблокирован на целевом примимтиве синхронизации.
+
+\param sync Указатель на объект типа #sync_t.
+\param proc Двойной указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
+\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - #SYNC_ST_FAIL.
+
+\~english
+\brief
+Sleep to wait for synchronization.
+
+Wait until target process is blocked on target #sync_t object.
+
+\param sync A #sync_t object pointer.
+\param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
+\param block Block flag. If non 0 and caller process must wait, then caller is blocked until terget process is blocked on #sync_t object.
+\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target procerr to block, or #SYNC_ST_FAIL.
+*/
+flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
+
+typedef struct
+{
+    sync_t * sync;
+    proc_t ** proc;
+    flag_t block;
+    flag_t status;
+}
+sync_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+
+#define SYNC_WAIT(s,p,b,st)                                     \
+do                                                              \
+{                                                               \
+    volatile sync_wait_t scarg;                                 \
+    scarg.status = SYNC_ST_ROLL;                                \
+    scarg.sync = (sync_t *)(s);                                 \
+    scarg.proc = (proc_t **)(p);                                \
+    scarg.block = (flag_t)(b);                                  \
+    do                                                          \
+    {                                                           \
+        syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );    \
+    }                                                           \
+    while( scarg.status >= SYNC_ST_ROLL );                      \
+    (st) = scarg.status;                                        \
+}                                                               \
+while(0) /*!< \~russian Смотри #sync_wait. \~english Watch #sync_wait. */
+
+/*!
+\~russian
+\brief
 "Разбудить" ожидающий процесс.
 
 Запускает ожидающий процесс. Может запустить "голову" списка ожидающих процессов,
@@ -314,61 +365,6 @@ do                                                              \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian Смотри #sync_wake. \~english Watch #sync_wake. */
-
-/*!
-\~russian
-\brief
-"Ожидать", блокировки процесса.
-
-Подождать того момента, как целевой процесс будет заблокирован на целевом примимтиве синхронизации.
-
-\param sync Указатель на объект типа #sync_t.
-\param proc Двойной указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
-\param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - #SYNC_ST_FAIL.
-
-\~english
-\brief
-Sleep to wait for synchronization.
-
-Wait until target process is blocked on target #sync_t object.
-
-\param sync A #sync_t object pointer.
-\param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
-\param block Block flag. If non 0 and caller process must wait, then caller is blocked until terget process is blocked on #sync_t object.
-\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target procerr to block, or #SYNC_ST_FAIL.
-*/
-flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
-
-typedef struct
-{
-    sync_t * sync;
-    proc_t ** proc;
-#ifdef CONFIG_MP
-    lock_t * lock;
-#endif // CONFIG_MP
-    flag_t block;
-    flag_t status;
-}
-sync_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
-
-#define SYNC_WAIT(s,p,b,st,l)                                   \
-do                                                              \
-{                                                               \
-    volatile sync_wait_t scarg;                                 \
-    scarg.status = SYNC_ST_ROLL;                                \
-    scarg.sync = (sync_t *)(s);                                 \
-    scarg.proc = (proc_t **)(p);                                \
-    scarg.block = (flag_t)(b);                                  \
-    SYNC_SPIN_INIT(l);                                          \
-    do                                                          \
-    {                                                           \
-        syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );    \
-    }                                                           \
-    while( scarg.status >= SYNC_ST_ROLL );                      \
-    (st) = scarg.status;                                        \
-}                                                               \
-while(0) /*!< \~russian Смотри #sync_wait. \~english Watch #sync_wait. */
 
 /*!
 \~russian
