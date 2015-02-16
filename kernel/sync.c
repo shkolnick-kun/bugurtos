@@ -527,6 +527,99 @@ void scall_sync_sleep( void * arg )
     ((sync_sleep_t *)arg)->status = _sync_sleep( ((sync_sleep_t *)arg)->sync );
 }
 /**********************************************************************************************
+                                    SYSCALL_SYNC_WAIT
+**********************************************************************************************/
+static void _sync_owner_block( proc_t * owner )
+{
+    SPIN_LOCK( owner );
+
+    owner->sync = (sync_t *)0;
+    _proc_stop_flags_set( owner, PROC_STATE_SYNC_SLEEP );
+
+    SPIN_FREE( owner );
+}
+//========================================================================================
+flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
+{
+    volatile sync_wait_t scarg;
+    scarg.status = SYNC_ST_ROLL;
+    scarg.sync = sync;
+    scarg.proc = proc;
+    scarg.block = block;
+    do
+    {
+        syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );
+    }
+    while( scarg.status >= SYNC_ST_ROLL );
+    return scarg.status;
+}
+//========================================================================================
+flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
+{
+    proc_t * owner;
+    flag_t status;
+
+    _proc_reset_watchdog();
+
+    if( !sync )
+    {
+        return SYNC_ST_FAIL;
+    }
+
+    if( !proc )
+    {
+        return SYNC_ST_FAIL;
+    }
+
+    status = (block)?SYNC_ST_ROLL:SYNC_ST_FAIL;
+
+    SPIN_LOCK( sync );
+    owner = sync->owner;
+
+    if( owner != current_proc() )
+    {
+        SPIN_FREE( sync );
+        return SYNC_ST_FAIL;
+    }
+
+    if( sync->dirty )
+    {
+        _sync_owner_block( owner );
+        SPIN_FREE( sync );
+        return SYNC_ST_ROLL;
+    }
+
+    if( !*proc )
+    {
+        *proc = (proc_t *)xlist_head( ((xlist_t *)sync) );
+    }
+
+    if( *proc )
+    {
+        SPIN_LOCK( (*proc) );
+        if( (*proc)->sync == sync )
+        {
+            status = SYNC_ST_OK;
+        }//else ROLL/FAIL
+        SPIN_FREE( (*proc) );
+    }//else ROLL/FAIL
+
+    if( status == SYNC_ST_ROLL )
+    {
+        SPIN_LOCK( owner );
+        _proc_stop_flags_set( owner, PROC_STATE_SYNC_WAIT );
+        SPIN_FREE( owner );
+    }
+
+    SPIN_FREE( sync );
+    return status;
+}
+//========================================================================================
+void scall_sync_wait( void * arg )
+{
+    ((sync_wait_t *)arg)->status = _sync_wait( ((sync_wait_t *)arg)->sync, ((sync_wait_t *)arg)->proc, ((sync_wait_t *)arg)->block );
+}
+/**********************************************************************************************
                                     SYSCALL_SYNC_WAKE
 **********************************************************************************************/
 flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
@@ -543,16 +636,6 @@ flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     }
     while( scarg.status >= SYNC_ST_ROLL );
     return scarg.status;
-}
-//========================================================================================
-static void _sync_owner_block( proc_t * owner )
-{
-    SPIN_LOCK( owner );
-
-    owner->sync = (sync_t *)0;
-    _proc_stop_flags_set( owner, PROC_STATE_SYNC_SLEEP );
-
-    SPIN_FREE( owner );
 }
 //========================================================================================
 flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
@@ -691,92 +774,6 @@ void scall_sync_wake( void * arg )
     SYNC_SPIN_LOCK(sync_wake_t);
     ((sync_wake_t *)arg)->status = _sync_wake( ((sync_wake_t *)arg)->sync , ((sync_wake_t *)arg)->proc, ((sync_wake_t *)arg)->chown );
     SYNC_SPIN_FREE(sync_wake_t);
-}
-/**********************************************************************************************
-                                    SYSCALL_SYNC_WAIT
-**********************************************************************************************/
-flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
-{
-    volatile sync_wait_t scarg;
-    scarg.status = SYNC_ST_ROLL;
-    scarg.sync = sync;
-    scarg.proc = proc;
-    scarg.block = block;
-    SYNC_SPIN_INIT(0);
-    do
-    {
-        syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );
-    }
-    while( scarg.status >= SYNC_ST_ROLL );
-    return scarg.status;
-}
-//========================================================================================
-flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
-{
-    proc_t * owner;
-    flag_t status;
-
-    _proc_reset_watchdog();
-
-    if( !sync )
-    {
-        return SYNC_ST_FAIL;
-    }
-
-    if( !proc )
-    {
-        return SYNC_ST_FAIL;
-    }
-
-    status = (block)?SYNC_ST_ROLL:SYNC_ST_FAIL;
-
-    SPIN_LOCK( sync );
-    owner = sync->owner;
-
-    if( owner != current_proc() )
-    {
-        SPIN_FREE( sync );
-        return SYNC_ST_FAIL;
-    }
-
-    if( sync->dirty )
-    {
-        _sync_owner_block( owner );
-        SPIN_FREE( sync );
-        return SYNC_ST_ROLL;
-    }
-
-    if( !*proc )
-    {
-        *proc = (proc_t *)xlist_head( ((xlist_t *)sync) );
-    }
-
-    if( *proc )
-    {
-        SPIN_LOCK( (*proc) );
-        if( (*proc)->sync == sync )
-        {
-            status = SYNC_ST_OK;
-        }//else ROLL/FAIL
-        SPIN_FREE( (*proc) );
-    }//else ROLL/FAIL
-
-    if( status == SYNC_ST_ROLL )
-    {
-        SPIN_LOCK( owner );
-        _proc_stop_flags_set( owner, PROC_STATE_SYNC_WAIT );
-        SPIN_FREE( owner );
-    }
-
-    SPIN_FREE( sync );
-    return status;
-}
-//========================================================================================
-void scall_sync_wait( void * arg )
-{
-    SYNC_SPIN_LOCK(sync_wait_t);
-    ((sync_wait_t *)arg)->status = _sync_wait( ((sync_wait_t *)arg)->sync, ((sync_wait_t *)arg)->proc, ((sync_wait_t *)arg)->block );
-    SYNC_SPIN_FREE(sync_wait_t);
 }
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_SLEEP
