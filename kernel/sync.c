@@ -601,12 +601,8 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         {
             status = SYNC_ST_OK;
         }
-        else
-        {
-            status = SYNC_ST_ESYNC;
-        }
         SPIN_FREE( (*proc) );
-    }//else ROLL/SYNC_ST_EEMPTY
+    }//else SYNC_ST_ROLL/SYNC_ST_EEMPTY
 
     if( status == SYNC_ST_ROLL )
     {
