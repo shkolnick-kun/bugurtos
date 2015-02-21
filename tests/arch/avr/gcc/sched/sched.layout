@@ -52,7 +52,7 @@
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="18">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="6">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="3">
 		<Cursor position="18242" topLine="326" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="5">
@@ -61,11 +61,11 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
-		<Cursor position="18264" topLine="781" />
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
+		<Cursor position="15016" topLine="385" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
-		<Cursor position="6331" topLine="134" />
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
+		<Cursor position="6331" topLine="209" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="24">
 		<Cursor position="163" topLine="1" />
