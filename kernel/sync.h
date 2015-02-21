@@ -332,7 +332,7 @@ typedef struct
 }
 sync_wake_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE(s,p,c,st,l)                                   \
+#define SYNC_WAKE(s,p,c,st)                                     \
 do                                                              \
 {                                                               \
     volatile sync_wake_t scarg;                                 \
@@ -374,7 +374,7 @@ typedef struct
 }
 sync_wake_and_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE_AND_SLEEP(w,p,c,s,st,l)                               \
+#define SYNC_WAKE_AND_SLEEP(w,p,c,s,st)                                 \
 do                                                                      \
 {                                                                       \
     volatile sync_wake_and_sleep_t scarg;                               \
@@ -419,7 +419,7 @@ typedef struct
 }
 sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
 
-#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st,l)                      \
+#define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st)                        \
 do                                                                      \
 {                                                                       \
     volatile sync_wake_and_wait_t scarg;                                \
