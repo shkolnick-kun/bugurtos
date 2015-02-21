@@ -232,7 +232,7 @@ A process has locked some mutex controled resources.
 */
 #define PROC_FLG_BLOCK       ((flag_t)0x40)
 
-#define PROC_FLG_WAKEUP      ((flag_t)0x20)
+#define PROC_FLG_RESERVED      ((flag_t)0x20)
 /*!
 \~russian
 \brief Флаг запроса останова.
@@ -255,7 +255,7 @@ A process must be stoped, but it can't be stoped now. It'll be stoped when possi
 
 Used to test if a process has locked some resources.
 */
-#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_BLOCK|PROC_FLG_WAKEUP))
+#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_BLOCK))
 
 /*!
 \~russian
