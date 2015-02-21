@@ -332,24 +332,28 @@ typedef struct
 {
     sync_t * sync;
     proc_t * proc;
+    flag_t status;
 }
 sync_set_owner_t;
 //========================================================================================
-void sync_set_owner( sync_t * sync, proc_t * proc )
+flag_t sync_set_owner( sync_t * sync, proc_t * proc )
 {
     volatile sync_set_owner_t scarg;
     scarg.sync = sync;
     scarg.proc = proc;
+    scarg.status = SYNC_ST_ROLL;
     syscall_bugurt( SYSCALL_SYNC_SET_OWNER, (void *)&scarg );
+    return scarg.status;
 }
 //========================================================================================
-void _sync_set_owner( sync_t * sync, proc_t * proc )
+flag_t _sync_set_owner( sync_t * sync, proc_t * proc )
 {
     proc_t * owner;
+    flag_t status = SYNC_ST_ROLL;
 
     if(!sync)
     {
-        return;
+        return SYNC_ST_ENULL;
     }
 
     if(!proc)
@@ -360,34 +364,29 @@ void _sync_set_owner( sync_t * sync, proc_t * proc )
     SPIN_LOCK( sync );
 
     owner = sync->owner;
-    if( proc!= owner )
+    if( !owner )
     {
-        prio_t sync_prio = SYNC_PRIO( sync );
+        prio_t sync_prio;
 
+        sync_prio = SYNC_PRIO( sync );
         sync->owner = proc;
         SPIN_LOCK(proc);
         PROC_LRES_INC( proc, sync_prio );
         SYNC_PROC_PRIO_PROPAGATE( proc, sync );
 
-        KERNEL_PREEMPT();
-
-        if( !owner )
-        {
-            return;
-        }
-        SPIN_LOCK(owner);
-        PROC_LRES_DEC( owner, sync_prio );
-        PROC_PROC_PRIO_PROPAGATE( owner );
+        status = SYNC_ST_OK;
     }
     else
     {
         SPIN_FREE( sync );
     }
+
+    return status;
 }
 //========================================================================================
 void scall_sync_set_owner( void * arg )
 {
-    _sync_set_owner( ((sync_set_owner_t *)arg)->sync, ((sync_set_owner_t *)arg)->proc );
+    ((sync_set_owner_t *)arg)->status = _sync_set_owner( ((sync_set_owner_t *)arg)->sync, ((sync_set_owner_t *)arg)->proc );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_CLEAR_OWNER
@@ -802,7 +801,7 @@ void scall_sync_wake_and_sleep( void * arg )
     {
         flag_t status;
         status = _sync_wake(  ((sync_wake_and_sleep_t *)arg)->wake, ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown );
-        if( SYNC_ST_OK == status )
+        if( (SYNC_ST_OK == status) || (SYNC_ST_EEMPTY == status) )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;
         }
@@ -853,7 +852,7 @@ void scall_sync_wake_and_wait( void * arg )
     {
         flag_t status;
         status = _sync_wake( ((sync_wake_and_wait_t*)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc, ((sync_wake_and_wait_t*)arg)->chown );
-        if( SYNC_ST_OK == status )
+        if( (SYNC_ST_OK == status) || (SYNC_ST_EEMPTY == status) )
         {
             ((sync_wake_and_wait_t *)arg)->stage++;
         }

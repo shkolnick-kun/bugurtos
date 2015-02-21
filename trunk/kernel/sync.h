@@ -210,8 +210,9 @@ Set #sync_t object owner.
 
 \param sync A pointer to the object of interest.
 \param proc A pointer to new #sync_t opbject owner.
+\return #SYNC_ST_OK if owner was set, #SYNC_ST_ROLL if #sync_t object already had an owner.
 */
-void sync_set_owner( sync_t * sync, proc_t * proc );
+flag_t sync_set_owner( sync_t * sync, proc_t * proc );
 
 #define SYNC_SET_OWNER(s,p) sync_set_owner((sync_t *)s, (proc_t *)p) /*!< \~russian Смотри #sync_set_owner. \~english Watch #sync_set_owner. */
 
@@ -481,7 +482,7 @@ For internal usage. Watch #sync_set_owner.
 
 For internal usage. Watch #sync_set_owner.
 */
-void _sync_set_owner( sync_t * sync, proc_t * proc );
+flag_t _sync_set_owner( sync_t * sync, proc_t * proc );
 /*!
 \~russian
 \brief

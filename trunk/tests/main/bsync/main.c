@@ -125,6 +125,7 @@ void main_0( void * arg )
     test = ( proc[3].parent.list == &sync_2.sleep);
     test_output( test, test_num++ );
     //25 sync_sleep proc_set_prio _proc_prio_propagate
+
     sync_clear_owner( &sync_2 );
     test = (sync_2.owner == (proc_t *)0 );
     test_output( test, test_num++ );
@@ -187,10 +188,10 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     /// proc_set_prio_covered!!!
     //40
-    sync_set_owner( (sync_t *)0, (proc_t *)0 ); //Must not set
-    test_num++;
+    sync_clear_owner( &sync_2 );
+    test_output( SYNC_ST_ENULL == sync_set_owner( (sync_t *)0, (proc_t *)0 ), test_num++); //Must not set
     //41
-    sync_set_owner( &sync_2, (proc_t *)0 );//Must set
+    sync_set_owner( &sync_2, (proc_t *)0 );//Must set!
     test = (sync_2.owner == &proc[0]);
     test_output( test, test_num++ );
     //42
@@ -200,7 +201,7 @@ void main_0( void * arg )
     test = ((proc[2].flags & PROC_FLG_BLOCK) != PROC_FLG_BLOCK );
     test_output( test, test_num++ );
     //44
-    sync_set_owner( &sync_2, (proc_t *)0 );//Must set
+    sync_set_owner( &sync_2, &proc[2] );//Must NOT set!
     test = (sync_2.owner == &proc[0]);
     test_output( test, test_num++ );
     //45
@@ -210,6 +211,7 @@ void main_0( void * arg )
     test = ((proc[2].flags & PROC_FLG_BLOCK) != PROC_FLG_BLOCK );
     test_output( test, test_num++ );
     //47
+    sync_clear_owner( &sync_2 );
     sync_set_owner( &sync_2, &proc[2] );//Cleanup
     test = (sync_get_owner( &sync_2 ) == &proc[2]);
     test_output( test, test_num++ );
