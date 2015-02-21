@@ -10,6 +10,9 @@
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="21090" topLine="583" />
 	</File>
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="26289" topLine="824" />
+	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="7561" topLine="109" />
 	</File>
