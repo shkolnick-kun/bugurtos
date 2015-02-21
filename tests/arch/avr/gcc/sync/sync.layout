@@ -10,11 +10,11 @@
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="209" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
 		<Cursor position="13128" topLine="343" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="23533" topLine="470" />
+		<Cursor position="6917" topLine="84" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
 		<Cursor position="1437" topLine="46" />

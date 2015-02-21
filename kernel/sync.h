@@ -90,23 +90,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYNC_ST_ESYNC  4 /*!< \~russian Не тот объект типа #sync_t. \~english Wrong #sync_t object. */
 #define SYNC_ST_ROLL   5 /*!< \~russian Нужна следующая иттерация. \~english Next itteration needed. */
 
-#ifdef CONFIG_MP
-
-void _sync_spin_lock( lock_t * lock );
-void _sync_spin_free( lock_t * lock );
-
-#define SYNC_SPIN_INIT(l) scarg.lock = (lock_t *)l
-#define SYNC_SPIN_LOCK(type) _sync_spin_lock( ((type *)arg)->lock )
-#define SYNC_SPIN_FREE(type) _sync_spin_free( ((type *)arg)->lock )
-
-#else  // CONFIG_MP
-
-#define SYNC_SPIN_INIT(l)
-#define SYNC_SPIN_LOCK(type)
-#define SYNC_SPIN_FREE(type)
-
-#endif // CONFIG_MP
-
 typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
 // Свойства
 /*!
@@ -344,9 +327,6 @@ typedef struct
 {
     sync_t * sync;
     proc_t * proc;
-#ifdef CONFIG_MP
-    lock_t * lock;
-#endif // CONFIG_MP
     flag_t chown;
     flag_t status;
 }
@@ -360,7 +340,6 @@ do                                                              \
     scarg.sync = (sync_t *)(s);                                 \
     scarg.proc = (proc_t *)(p);                                 \
     scarg.chown = (flag_t)(c);                                  \
-    SYNC_SPIN_INIT(l);                                          \
     do                                                          \
     {                                                           \
         syscall_bugurt( SYSCALL_SYNC_WAKE, (void *)&scarg );    \
@@ -390,9 +369,6 @@ typedef struct
     sync_sleep_t sleep;
     sync_t * wake;
     proc_t * proc;
-#ifdef CONFIG_MP
-    lock_t * lock;
-#endif // CONFIG_MP
     flag_t chown;
     flag_t stage;
 }
@@ -408,7 +384,6 @@ do                                                                      \
     scarg.wake = (sync_t *)(w);                                         \
     scarg.proc = (proc_t *)(p);                                         \
     scarg.stage = (flag_t)0;                                            \
-    SYNC_SPIN_INIT(l);                                                  \
     do                                                                  \
     {                                                                   \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );  \
@@ -439,9 +414,6 @@ typedef struct
     sync_wait_t wait;
     sync_t * wake;
     proc_t * proc;
-#ifdef CONFIG_MP
-    lock_t * lock;
-#endif // CONFIG_MP
     flag_t chown;
     flag_t stage;
 }
@@ -459,7 +431,6 @@ do                                                                      \
     scarg.proc      = (proc_t *)(pwk);                                  \
     scarg.chown     = (flag_t)(c);                                      \
     scarg.stage     = (flag_t)0;                                        \
-    SYNC_SPIN_INIT(l);                                                  \
     do                                                                  \
     {                                                                   \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_WAIT, (void *)&scarg );   \
