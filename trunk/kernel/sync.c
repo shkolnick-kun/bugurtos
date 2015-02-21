@@ -270,23 +270,6 @@ void scall_proc_set_prio( void * arg )
                                        Bsync methods
 **********************************************************************************************/
 #ifdef CONFIG_MP
-
-void _sync_spin_lock( lock_t * lock )
-{
-    if( lock )
-    {
-        spin_lock(lock);
-    }
-}
-
-void _sync_spin_free( lock_t * lock )
-{
-    if( lock )
-    {
-        spin_free(lock);
-    }
-}
-
 static void sync_prio_prop_hook( sync_t * sync )
 {
     SPIN_FREE( (sync->owner) );
