@@ -7,11 +7,14 @@
 	<File name="../../../../../kernel/pitem.h" open="0" top="0" tabpos="0">
 		<Cursor position="152" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="13312" topLine="294" />
+	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="209" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
-		<Cursor position="13128" topLine="343" />
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="11475" topLine="458" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="6917" topLine="84" />

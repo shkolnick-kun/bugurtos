@@ -332,7 +332,6 @@ flag_t sync_set_owner( sync_t * sync, proc_t * proc )
 flag_t _sync_set_owner( sync_t * sync, proc_t * proc )
 {
     proc_t * owner;
-    flag_t status = SYNC_ST_ROLL;
 
     if(!sync)
     {
@@ -357,14 +356,13 @@ flag_t _sync_set_owner( sync_t * sync, proc_t * proc )
         PROC_LRES_INC( proc, sync_prio );
         SYNC_PROC_PRIO_PROPAGATE( proc, sync );
 
-        status = SYNC_ST_OK;
+        return SYNC_ST_OK;
     }
     else
     {
         SPIN_FREE( sync );
+        return SYNC_ST_ROLL;
     }
-
-    return status;
 }
 //========================================================================================
 void scall_sync_set_owner( void * arg )
