@@ -155,7 +155,7 @@ void _proc_prio_propagate( proc_t * proc )
 
         pitem_cut( (pitem_t *)proc );
         _proc_prio_control_stoped( proc );
-        if( PROC_GET_STATE(proc) == PROC_STATE_PI_PEND )
+        if( PROC_STATE_PI_PEND == PROC_GET_STATE(proc) )
         {
             if( sync->owner )
             {
@@ -441,7 +441,7 @@ flag_t _sync_sleep( sync_t * sync )
     proc = current_proc();
 
     SPIN_LOCK( proc );
-    if( PROC_GET_STATE( proc ) == PROC_STATE_SYNC_RUNNING )
+    if( PROC_STATE_SYNC_RUNNING == PROC_GET_STATE( proc ) )
     {
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
@@ -470,7 +470,7 @@ flag_t _sync_sleep( sync_t * sync )
 
     SPIN_LOCK( proc );
 
-    if( PROC_GET_STATE(proc) == PROC_STATE_PI_RUNNING )
+    if( PROC_STATE_PI_RUNNING == PROC_GET_STATE(proc) )
     {
         //This is priority inheritanse transaction end
         dirty = sync->dirty--; //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
@@ -710,7 +710,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 
         proc->sync = (void *)0; //It doesn't wait on sync any more.
 
-        if( PROC_GET_STATE( proc ) == PROC_STATE_PI_PEND )
+        if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
         {
             PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
             if( chown )
