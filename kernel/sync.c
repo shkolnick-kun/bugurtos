@@ -429,9 +429,6 @@ flag_t _sync_sleep( sync_t * sync )
 {
     proc_t * proc;
     prio_t old_prio, new_prio;
-    count_t dirty;
-
-    dirty = 0;
 
     _proc_reset_watchdog();
 
@@ -475,7 +472,7 @@ flag_t _sync_sleep( sync_t * sync )
     if( PROC_GET_STATE(proc) == PROC_STATE_PI_RUNNING )
     {
         //This is priority inheritanse transaction end
-        dirty = sync->dirty--; //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
+        sync->dirty--; //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
     }
 
     proc->sync = sync;
@@ -488,15 +485,15 @@ flag_t _sync_sleep( sync_t * sync )
     if( proc )
     {
         new_prio = SYNC_PRIO( sync );
-        if( (old_prio != new_prio) || dirty )
+        SPIN_LOCK( proc );
+        if( old_prio != new_prio )
         {
             // When owner in PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called sync_wait.
-            SPIN_LOCK( proc );
             PROC_LRES_DEC( proc, old_prio );
             PROC_LRES_INC( proc, new_prio );
-            SYNC_PROC_PRIO_PROPAGATE( proc, sync );
-            return SYNC_ST_ROLL;
         }
+        SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+        return SYNC_ST_ROLL;
     }
     SPIN_FREE(sync);
     return SYNC_ST_ROLL;
