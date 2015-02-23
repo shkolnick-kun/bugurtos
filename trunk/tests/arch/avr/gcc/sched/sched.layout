@@ -14,7 +14,7 @@
 		<Cursor position="163" topLine="1" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="7">
-		<Cursor position="163" topLine="1" />
+		<Cursor position="9426" topLine="183" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
 		<Cursor position="163" topLine="1" />
@@ -49,14 +49,14 @@
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="18">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="4">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="1" top="1" tabpos="3">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="3">
 		<Cursor position="14568" topLine="209" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="5">
-		<Cursor position="14255" topLine="372" />
+		<Cursor position="9581" topLine="172" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="163" topLine="0" />
