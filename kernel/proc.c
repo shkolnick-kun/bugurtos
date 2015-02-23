@@ -150,7 +150,7 @@ void _proc_prio_control_stoped( proc_t * proc )
 // Cut a process from its wait list and run it, if needed.
 void _proc_cut_and_run( proc_t * proc, flag_t state )
 {
-    if( PROC_GET_STATE( proc ) == PROC_STATE_PI_PEND )
+    if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
     {
         PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
     }
