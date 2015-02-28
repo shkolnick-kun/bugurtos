@@ -78,19 +78,131 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef _MUTEX_H_
 #define _MUTEX_H_
-
+/*!
+\file
+\brief \~russian Заголовок мьютексов. \~english A mutex header.
+*/
 #include <bugurt.h>
+//Мьютекс
+typedef struct _mutex_t mutex_t; /*!< \~russian Смотри #_mutex_t; \~english See #_mutex_t; */
+/*!
+\~russian
+\brief
+Мьютекс.
 
-typedef struct _mutex_t mutex_t;
+Используется для управления доступом к общим ресурсам, в тех случаях, когда общий ресурс нужен в течение долгого времени.
+Поддерживается произвольная вложенность мьютексов.
+
+\warning  Мьютексы захватываются и освобожаются только процессами. Нельзя делать это из обработчиков прерываний.
+\warning  Мьютекс должен освободить ИМЕННО ТОТ процесс, который его захватил.
+
+\~english
+\brief
+A mutex.
+
+Mutexes are used to control an access to common data. If your code needs yo use some common data for a long time,
+then you should use mutex instead of critical section. Mutex nesting is supported.
+
+\warning  Only a process can lock or free a mutex!
+\warning  Locked mutex can be freeed only by a locker process!
+*/
 struct _mutex_t
 {
     sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 };
+// Методы
+/*!
+\~russian
+\brief
+Инициализация мьютекса из критической секции, или обработчика прерываний.
 
-void mutex_init( mutex_t * mutex, prio_t prio );
+Да, инициировать из обработчика прерывания можно!
+\param mutex Указатель на мьютекс.
+\param prio Приоритет мьютекса.
+\~english
+\brief
+A mutex initiation for usage in ISRs or in critical sections.
+
+\param mutex A mutex pointer.
+\param prio A mutex priority.
+*/
 void mutex_init_isr( mutex_t * mutex, prio_t prio );
+/*!
+\~russian
+\brief
+Инициализация мьютекса.
+
+\param mutex Указатель на мьютекс.
+\param prio Приоритет мьютекса.
+\~english
+\brief
+A mutex initiation
+
+\param mutex A mutex pointer.
+\param prio A mutex priority.
+*/
+void mutex_init( mutex_t * mutex, prio_t prio );
+
+/*!
+\~russian
+\brief
+Попытка захвата мьютекса.
+
+Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс продолжает выполнение.
+
+\param mutex Указатель на мьютекс.
+\return #SYNC_ST_OK - если уддалось захватить, #SYNC_ST_ROLL - если не удалось.
+
+\~english
+\brief
+Try to lock a mutex.
+
+If mutex is free then caller process locks it and continues, if not caller process continues without wait.
+
+\param mutex A mutex pointer.
+\return #SYNC_ST_OK - if mutex was succefully locked else - #SYNC_ST_ROLL.
+*/
 flag_t mutex_try_lock( mutex_t * mutex );
+/*!
+\~russian
+\brief
+Захват мьютекса.
+
+Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс останавливается и записывается в список ожидающих.
+
+\param mutex Указатель на мьютекс.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Lock a mutex.
+
+If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
+
+\param mutex A mutex pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
 flag_t mutex_lock( mutex_t * mutex );
+/*!
+\~russian
+\brief
+Освобождение мьютекса.
+
+Если список ожидающих процессов пуст - вызывающий процесс освобождает мьютекс, если список не пуст - ставит на выполнение голову списка.
+Также происходит обработка флагов, при необходимости вызывающий процесс останавливается.
+
+\param mutex Указатель на мьютекс.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Mutex free.
+
+If a mutex wait list is empty, then caller process frees a mutex, else mutex wait lish head gets launched.
+
+\param mutex A mutex pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
 flag_t mutex_free( mutex_t * mutex );
 
 #endif // _MUTEX_H_
