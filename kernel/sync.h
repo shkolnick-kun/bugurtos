@@ -80,9 +80,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _SYNC_H_
 /*!
 \file
-\brief \~russian Заголовок мьютекса. \~english A sync header.
+\brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
 */
-
 #define SYNC_ST_OK     0 /*!< \~russian Удачное завершение. \~english Success. */
 #define SYNC_ST_ENULL  1 /*!< \~russian Передан нулевой указатель. \~english Null pointer argument. */
 #define SYNC_ST_EOWN   2 /*!< \~russian Ошибка владения. \~english Ownership error. */
