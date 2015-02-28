@@ -78,21 +78,135 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef _SIG_H_
 #define _SIG_H_
-
+/*!
+\file
+\brief \~russian Заголовок сигналов. \~english A signal header.
+*/
 #include <bugurt.h>
-#include <cond.h>
+#include "cond.h"
+//Сигнал
+typedef struct _sig_t sig_t; /*!< \~russian Смотри #_sig_t; \~english See #_sig_t; */
+// Свойства
+/*!
+\~russian
+\brief
+Сигнал.
 
-typedef struct _sig_t sig_t;
+Сигналы используются для синхронизации процессов по событиям. Процесс может встать в список ожидания сигнала.
+Другой процесс, или обработчик прерывания может подать сигнал и возобновить выполнение 1 или всех процессов, ожидающих этот сигнал.
+
+\~english
+\brief
+A signal.
+
+Signals are used for process-event synchronization. A process can wait for a signal.
+Other process or interrupt handler can fire a signal and launch one or all processes waiting for that signal.
+*/
 struct _sig_t
 {
     cond_t wakeup; /*!< \~russian Список процессов для пробуждения. \~english Wakeup process list. */
     mutex_t wait;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 };
+/*!
+\~russian
+\brief
 
-void sig_init( sig_t * sig );
+Инициализация сигнала из обработчика прерывания или критической секции.
+
+\param sig Указатель на сигнал.
+
+\~english
+\brief
+A signal initiation from ISR or critical section.
+
+\param sig A #sig_t pointer.
+*/
 void sig_init_isr( sig_t * sig );
+/*!
+\~russian
+\brief
+Инициализация сигнала.
+
+\param sig Указатель на сигнал.
+
+\~english
+\brief
+Signal initiation.
+
+\param sig A #sig_t pointer.
+*/
+void sig_init( sig_t * sig );
+/*!
+
+\~russian
+\brief
+Встать в список ожидания сигнала.
+
+Останавливает вызвавший процесс и ставит его в список ожидания. На многопроцессорной системе при этом происходит предварительная балансировка нагрузки.
+После возобновления работы процесса делается попытка остановить его по флагу #PROC_FLG_PRE_STOP.
+
+\param sig Указатель на сигнал.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Wait for a singnal.
+
+This function stops caller process and inserts it to signal wait list.
+On multicore system signal has one wait list per CPU core, so load prebalancing is done.
+After firing a signal process will be lounched #PROC_FLG_PRE_STOP processing will be done.
+
+\param sig A #sig_t pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
 flag_t sig_wait( sig_t * sig );
+/*!
+\~russian
+\brief
+Возобновить работу 1 процесса ожидающего сигнал.
+
+На мнгогопроцессорной системе:
+Ищет в массиве статистики сигнала самое "нагруженное" ядро.
+Далее возобновляет работу головы списка ожидающих сигнал для этого ядра, при этом происходит балансировка нагрузци - запускаемый процесс будет выполняться на самом ненагруженном процессорном ядре из возможных.
+
+На 1 процессорной системе: просто возобновляет работу голоы списка ожидающих.
+
+\param sig Указатель на сигнал.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Fire a signal, launch one waiting process.
+
+On multicore system:
+This functin finds most loaded signal wait list (using signal statistic array) and launches its head on the least loaded CPU core.
+On one coresystem:
+This function launches signal wait list head.
+
+\param sig A #sig_t pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
+
 flag_t sig_signal( sig_t * sig );
+/*!
+\~russian
+\brief
+Возобновить работу всех ожидающих процессов.
+
+Возобновляет работу всех ожидающих процессов.
+
+\param sig Указатель на сигнал.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Fire a signal, launch all waiting processes.
+
+This function launches all processes waiting for certain signal.
+
+\param sig A #sig_t pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
 count_t sig_broadcast( sig_t * sig );
 
 #endif // _SIG_H_

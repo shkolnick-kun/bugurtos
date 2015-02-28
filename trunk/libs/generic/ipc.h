@@ -78,21 +78,130 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef _IPC_H_
 #define _IPC_H_
-
+/*!
+\file
+\brief \~russian Заголовок IPC. \~english An IPC header.
+*/
 #include <bugurt.h>
 
-typedef struct _ipc_t ipc_t;
+typedef struct _ipc_t ipc_t;/*!< \~russian Смотри #_ipc_t; \~english See #_ipc_t; */
+// Свойства
+/*!
+\~russian
+\brief
+Конечная точка IPC.
+
+Используется для реализации блокирующего синхронного или асинхронного протокола IPC.
+
+\~english
+\brief
+An IPC endpoint.
+
+Used for blocking synchronous or asynchronous IPC protocol implementation.
+*/
 struct _ipc_t
 {
     sync_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes.  */
     void * msg;  /*!< \~russian Указатель на буфер с сообщением. \~english A message buffer pointer. */
 };
+// Методы
+// Инициализация
+/*!
+\~russian
+\brief
+Инициализация конечной точки IPC из критической секции или обработчика прерывания.
 
+\param endpoint Указатель на конечную точку.
+\~english
+\brief
+IPC endpoint initiation from ISR or critical section.
+
+\param endpoint A pointer to the endpoint.
+*/
 void ipc_init_isr( ipc_t * endpoint );
-void ipc_init( ipc_t * endpoint );
+/*!
+\~russian
+\brief
+Инициализация конечной точки IPC.
 
+\param endpoint Указатель на конечную точку.
+\~english
+\brief
+IPC endpoint initiation.
+
+\param endpoint A pointer to the endpoint.
+*/
+void ipc_init( ipc_t * endpoint );
+/*!
+\~russian
+\brief
+Посылка данных процессу через IPC.
+
+Пересылает указатель на буфер с сообщением через IPC, отправители блокируются и ждут своей очереди,
+получатель наследует приоритеты отправителей.
+
+\param out Указатель на конечную точку IPC.
+\param msg Указатель на буфер с сообщением.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+IPC data transmition.
+
+This function transfers a pinter to the message buffer throuth IPC.
+Senders are blocked on IPC endpoint and wait for their turn,
+receiver inherits senders priorities.
+
+\param out An IPC endpoint pointer.
+\param msg A message buffer pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
 flag_t ipc_send( ipc_t * out, void * msg );
+/*!
+\~russian
+\brief
+Переход процесса к ожиданию получения данных через IPC.
+
+Для для указания отправителя или получения указателя на отправитель используется буфер,
+адрес котороко передается вторым аргументом.
+
+\param in Указатель на конечную точку IPC.
+\param proc Двойной указатель на процесс, от которого ожидается сообщение (если *proc == 0, то принимаются сообщения от любых процессов).
+\param block Флаг блокировки вызывающего процесса, если не 0, то вызывающий процесс блокируется до готовности сообщения.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Wait for IPC.
+
+A buffer must be used to set or get sender process.
+A buffer pointer must be passed as a second parameter.
+
+\param in An IPC endpoint pointer.
+\param proc A double pointer to the process which is supposed to send a message (if *proc == 0 then every message is received).
+\param block A caller block flag. If non zero, then caller is blocked untill message is sent.
+\return #SYNC_ST_OK on success, or error number.
+*/
 flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block );
+
+/*!
+\~russian
+\brief
+Разблокировать процесс, от которого получено сообщение.
+
+
+\param in Указатель на конечную точку IPC.
+\param proc Указатель на процесс-отправитель.
+\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Unblock a sender process, which message has been received.
+
+\param in An IPC endpoint pointer.
+\param proc A sender process pointer.
+\return #SYNC_ST_OK on success, or error number.
+*/
 flag_t ipc_reply( ipc_t * in, proc_t * proc);
 
 #endif // _IPC_H_
