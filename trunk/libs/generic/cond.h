@@ -145,7 +145,7 @@ void cond_init( cond_t * cond );
 
 Останавливает вызвавший процесс и ставит его в список ожидания.
 
-\param cond Указатель на сигнал.
+\param cond Указатель на условную переменную.
 \param mutex Указатель на мьютекс, защищающий условную переменную.
 \return #SYNC_ST_OK в случае успеха, или номер ошибки.
 
@@ -179,7 +179,7 @@ Launch one waiting process.
 Launches the head of waiting process list.
 \warning Caller must lock mutex first!
 
-\param cond A #sig_t pointer.
+\param cond A #cond_t pointer.
 \return #SYNC_ST_OK on success, or error number.
 */
 flag_t cond_signal( cond_t * cond );
