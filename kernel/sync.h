@@ -126,7 +126,7 @@ struct _sync_t
 };
 // Методы
 prio_t _sync_prio( sync_t * sync );
-#define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_r object priority */
+#define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_t object priority */
 /*!
 \~russian
 \brief
@@ -224,7 +224,7 @@ void sync_clear_owner( sync_t * sync );
 Блокирует вызывающий процесс.
 
 \param sync Указатель на объект типа #sync_t.
-\return #SYNC_ST_OK в случае успеха, иначе - #SYNC_ST_FAIL.
+\return #SYNC_ST_OK в случае успеха, иначе - код ошибки.
 
 \~english
 \brief
@@ -233,16 +233,25 @@ Sleep to wait for synchronization.
 Blocks caller process.
 
 \param sync A pointer to the object of interest.
-\return #SYNC_ST_OK on success, or #SYNC_ST_FAIL.
+\return #SYNC_ST_OK on success, or error number.
 */
 flag_t sync_sleep( sync_t * sync );
 
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
 typedef struct
 {
-    sync_t * sync;
-    flag_t status;
+    sync_t * sync; /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
+    flag_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
-sync_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+sync_sleep_t;
 
 #define SYNC_SLEEP(s) sync_sleep((sync_t *)s) /*!< \~russian Смотри #sync_sleep. \~english Watch #sync_sleep. */
 
@@ -256,7 +265,7 @@ sync_sleep_t; /*!< \~russian Для внутреннего пользовани�
 \param sync Указатель на объект типа #sync_t.
 \param proc Двойной указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - #SYNC_ST_FAIL.
+\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - код ошибки.
 
 \~english
 \brief
@@ -267,18 +276,27 @@ Wait until target process is blocked on target #sync_t object.
 \param sync A #sync_t object pointer.
 \param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
 \param block Block flag. If non 0 and caller process must wait, then caller is blocked until terget process is blocked on #sync_t object.
-\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target procerr to block, or #SYNC_ST_FAIL.
+\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target procerr to block, or error code.
 */
 flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
 typedef struct
 {
-    sync_t * sync;
-    proc_t ** proc;
-    flag_t block;
-    flag_t status;
+    sync_t * sync;  /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
+    proc_t ** proc; /*!< \~russian Указатель на буфер процесса. \~english A process buffer pointer. */
+    flag_t block;   /*!< \~russian Флаг блокирования. \~english A block flag. */
+    flag_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
-sync_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+sync_wait_t;
 
 #define SYNC_WAIT(s,p,b,st)                                     \
 do                                                              \
@@ -308,7 +326,7 @@ while(0) /*!< \~russian Смотри #sync_wait. \~english Watch #sync_wait. */
 \param sync Указатель на объект типа #sync_t.
 \param proc Указатель на процес, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
 \param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
-\return #SYNC_ST_OK в случае если удалось запустить процесс, иначе - #SYNC_ST_FAIL.
+\return #SYNC_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
 
 \~english
 \brief
@@ -319,18 +337,27 @@ Unblock some waiting process. A process should be blocked on target #sync_t obje
 \param sync A #sync_t object pointer.
 \param proc A pointer to a process, that is supposed to wake up. If 0, then try to wake up wait list head.
 \param chown A change owner flag. If non 0, then ownership is given to wake up process.
-\return #SYNC_ST_OK on process wakeup, or #SYNC_ST_FAIL.
+\return #SYNC_ST_OK on process wakeup, or error code.
 */
 flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
 typedef struct
 {
-    sync_t * sync;
-    proc_t * proc;
-    flag_t chown;
-    flag_t status;
+    sync_t * sync; /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
+    proc_t * proc; /*!< \~russian Указатель на процесс. \~english A process pointer. */
+    flag_t chown;  /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
+    flag_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
-sync_wake_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+sync_wake_t;
 
 #define SYNC_WAKE(s,p,c,st)                                     \
 do                                                              \
@@ -364,15 +391,24 @@ Watch #sync_wake and #sync_sleep.
 */
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
 
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
 typedef struct
 {
-    sync_sleep_t sleep;
-    sync_t * wake;
-    proc_t * proc;
-    flag_t chown;
-    flag_t stage;
+    sync_sleep_t sleep; /*!< \~russian Аргументы для второй части вызова. \~english Parameters for 2nd stage of the call. */
+    sync_t * wake;      /*!< \~russian Указатель на объект типа #sync_t для 1й части вызова. \~english A #sync_t object pointer for 1st stage of the call. */
+    proc_t * proc;      /*!< \~russian Указатель на процесс для 1й части вызова. \~english A process pointer for 1st stage of the call. */
+    flag_t chown;       /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
+    flag_t stage;       /*!< \~russian Номер части вызова. \~english A stage number. */
 }
-sync_wake_and_sleep_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+sync_wake_and_sleep_t;
 
 #define SYNC_WAKE_AND_SLEEP(w,p,c,s,st)                                 \
 do                                                                      \
@@ -409,15 +445,24 @@ Watch #sync_wake and #sync_wait.
 */
 flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
 
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
 typedef struct
 {
-    sync_wait_t wait;
-    sync_t * wake;
-    proc_t * proc;
-    flag_t chown;
-    flag_t stage;
+    sync_wait_t wait; /*!< \~russian Аргументы для первой части вызова. \~english Parameters for first stage of the call. */
+    sync_t * wake;    /*!< \~russian Указатель на объект типа #sync_t для 1й части вызова. \~english A #sync_t object pointer for 1st stage of the call. */
+    proc_t * proc;    /*!< \~russian Указатель на процесс для 1й части вызова. \~english A process pointer for 1st stage of the call. */
+    flag_t chown;     /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
+    flag_t stage;     /*!< \~russian Номер части вызова. \~english A stage number. */
 }
-sync_wake_and_wait_t; /*!< \~russian Для внутреннего пользования. \~english For internal usage. */
+sync_wake_and_wait_t;
 
 #define SYNC_WAKE_AND_WAIT(wk,pwk,c,wt,pwt,b,st)                        \
 do                                                                      \

@@ -247,11 +247,11 @@ A process must be stoped, but it can't be stoped now. It'll be stoped when possi
 
 /*!
 \~russian
-\brief Маска #PROC_FLG_BLOCK или #PROC_FLG_WAKEUP.
+\brief Маска #PROC_FLG_BLOCK.
 
 Нужна, чтобы определить, удерживает ли процесс общие ресурсы.
 \~english
-\brief A #PROC_FLG_BLOCK or #PROC_FLG_WAKEUP mask.
+\brief A #PROC_FLG_BLOCK mask.
 
 Used to test if a process has locked some resources.
 */
