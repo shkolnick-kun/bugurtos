@@ -142,8 +142,7 @@ void sig_init( sig_t * sig );
 \brief
 Встать в список ожидания сигнала.
 
-Останавливает вызвавший процесс и ставит его в список ожидания. На многопроцессорной системе при этом происходит предварительная балансировка нагрузки.
-После возобновления работы процесса делается попытка остановить его по флагу #PROC_FLG_PRE_STOP.
+Останавливает вызвавший процесс и ставит его в список ожидания.
 
 \param sig Указатель на сигнал.
 \return #SYNC_ST_OK в случае успеха, или номер ошибки.
@@ -153,8 +152,6 @@ void sig_init( sig_t * sig );
 Wait for a singnal.
 
 This function stops caller process and inserts it to signal wait list.
-On multicore system signal has one wait list per CPU core, so load prebalancing is done.
-After firing a signal process will be lounched #PROC_FLG_PRE_STOP processing will be done.
 
 \param sig A #sig_t pointer.
 \return #SYNC_ST_OK on success, or error number.
@@ -166,10 +163,6 @@ flag_t sig_wait( sig_t * sig );
 Возобновить работу 1 процесса ожидающего сигнал.
 
 На мнгогопроцессорной системе:
-Ищет в массиве статистики сигнала самое "нагруженное" ядро.
-Далее возобновляет работу головы списка ожидающих сигнал для этого ядра, при этом происходит балансировка нагрузци - запускаемый процесс будет выполняться на самом ненагруженном процессорном ядре из возможных.
-
-На 1 процессорной системе: просто возобновляет работу голоы списка ожидающих.
 
 \param sig Указатель на сигнал.
 \return #SYNC_ST_OK в случае успеха, или номер ошибки.
@@ -177,11 +170,6 @@ flag_t sig_wait( sig_t * sig );
 \~english
 \brief
 Fire a signal, launch one waiting process.
-
-On multicore system:
-This functin finds most loaded signal wait list (using signal statistic array) and launches its head on the least loaded CPU core.
-On one coresystem:
-This function launches signal wait list head.
 
 \param sig A #sig_t pointer.
 \return #SYNC_ST_OK on success, or error number.
