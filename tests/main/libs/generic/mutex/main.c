@@ -71,7 +71,6 @@ void main_mutex( void * arg )
         mutex_lock( &test_mutex );
         proc_self_stop();
         mutex_free( &test_mutex );
-        proc_flag_stop( 0 );
         proc_self_stop();
     }
 }

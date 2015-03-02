@@ -95,6 +95,8 @@ flag_t ipc_send( ipc_t * out, void * msg )
 {
     flag_t ret;
 
+    proc_flag_set();
+
     ret = SYNC_SLEEP( out );
 
     if( SYNC_ST_OK != ret )
@@ -102,7 +104,7 @@ flag_t ipc_send( ipc_t * out, void * msg )
         return ret;
     }
 
-    proc_flag_stop( (flag_t)0 );
+    proc_flag_stop();
 
     out->msg = msg;
 

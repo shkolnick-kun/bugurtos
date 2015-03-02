@@ -90,7 +90,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))         /*!< \~russian Останов процесса. \~english A process stop. */
 #define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))            /*!< \~russian Самоостанов процесса. \~english A process self stop. */
 #define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))       /*!< \~russian Завершение работы процесса. \~english A process termination. */
-#define SYSCALL_PROC_FLAG_SET                   (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian Установить флаг #PROC_FLG_NONSTOP для вызывающего процесса. \~english #PROC_FLG_NONSTOP for caller process. */
+#define SYSCALL_PROC_FLAG_SET                   (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian Установить флаг #PROC_FLG_BLOCK для вызывающего процесса. \~english #PROC_FLG_BLOCK for caller process. */
 #define SYSCALL_PROC_FLAG_STOP                  (SYSCALL_PROC_FLAG_SET + (syscall_t)(1))        /*!< \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english #PROC_FLG_PRE_STOP flag processing. */
 #define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FLAG_STOP + (syscall_t)(1))       /*!< \~russian Сброс watchdog процесса реального времени. \~english A real time process watchdog reset. */
 #define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian Установить приоритет процесса \~english Set a process priority. */
@@ -273,13 +273,13 @@ void scall_proc_terminate( void * arg );
 \brief
 Обработчик вызова #SYSCALL_PROC_FLAG_SET.
 
-Устанавливает флаг #PROC_FLG_NONSTOP для вызывающего процесса.
+Устанавливает флаг #PROC_FLG_BLOCK для вызывающего процесса, увеличивает счетчик proc->lres.
 
 \~english
 \brief
 A #SYSCALL_PROC_FLAG_SET handler.
 
-Sets #PROC_FLG_NONSTOP for caller process.
+Sets #PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
 */
 void scall_proc_flag_set( void * arg );
 /*****************************************************************************************/
@@ -288,7 +288,7 @@ void scall_proc_flag_set( void * arg );
 \brief
 Обработчик вызова #SYSCALL_PROC_FLAG_STOP.
 
-Пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP, обнуляет флаги, заданные маской.
+Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #PROC_FLG_BLOCK, пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP.
 Вызывает #_proc_flag_stop.
 
 \param arg указатель на маску обнуления флагов процесса.
@@ -297,7 +297,7 @@ void scall_proc_flag_set( void * arg );
 \brief
 A #SYSCALL_PROC_FLAG_STOP handler.
 
-This function process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
+This function decreases proc->lres counter, clears #PROC_FLG_BLOCK if needed and, process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
 It calls #_proc_flag_stop.
 
 \param arg A poointer to a flag mask.

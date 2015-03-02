@@ -72,7 +72,7 @@ void main_sem( void * arg )
         sem_lock( &test_sem );
         proc_self_stop();
         sem_free( &test_sem );
-        proc_flag_stop( PROC_FLG_NONSTOP );
+        proc_flag_stop();
         proc_self_stop();
     }
 }
