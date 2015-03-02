@@ -118,11 +118,6 @@ flag_t sem_try_lock( sem_t * sem )
     SPIN_FREE( sem );
     enable_interrupts();
 
-    if( ret == SYNC_ST_OK )
-    {
-
-    }
-
     return ret;
 }
 
@@ -170,6 +165,8 @@ flag_t sem_free( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
+    proc_flag_set();
+
     disable_interrupts();
     SPIN_LOCK( sem );
 
@@ -193,6 +190,8 @@ flag_t sem_free( sem_t * sem )
         SYNC_WAIT( sem, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
         SYNC_WAKE( sem,  0, 0, ret );// Now we can wake some process.
     }
+
+    proc_flag_stop();
 
     return ret;
 }

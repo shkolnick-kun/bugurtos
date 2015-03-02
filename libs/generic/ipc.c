@@ -101,14 +101,14 @@ flag_t ipc_send( ipc_t * out, void * msg )
 
     if( SYNC_ST_OK != ret )
     {
+        proc_flag_stop();
         return ret;
     }
 
-    proc_flag_stop();
-
     out->msg = msg;
-
     ret = SYNC_SLEEP( out );
+
+    proc_flag_stop();
     return ret;
 }
 
@@ -131,6 +131,7 @@ flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
     }
 
     SYNC_WAIT(in, proc, 1, ret );
+
     return ret;
 }
 
