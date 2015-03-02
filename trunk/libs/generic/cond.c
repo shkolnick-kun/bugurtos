@@ -99,9 +99,9 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
         return SYNC_ST_ENULL;
     }
 
-    cond->blocked++; //Guarded by mutex
-
     proc_flag_set(); //Don't stop caller untill wakeup!
+
+    cond->blocked++; //Guarded by mutex
 
     ret = mutex_free( mutex );
 
