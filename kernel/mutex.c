@@ -174,7 +174,7 @@ bool_t _mutex_lock( mutex_t * mutex )
         else
         {
             prio_t old_prio, new_prio;
-            count_t dirty;
+            count_t dirty = (count_t)0;
             old_prio = MUTEX_PRIO( mutex );
 
             SPIN_LOCK( proc );
