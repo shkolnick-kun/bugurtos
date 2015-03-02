@@ -94,7 +94,7 @@
 	<File name="../../../../../kernel/sem.c" open="1" top="0" tabpos="1">
 		<Cursor position="76" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sig.c" open="1" top="1" tabpos="4">
+	<File name="../../../../../kernel/sig.c" open="1" top="0" tabpos="4">
 		<Cursor position="8511" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">

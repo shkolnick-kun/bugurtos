@@ -21,7 +21,7 @@ void main_proc_test( void * arg )
 
     // proc_run test 2
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
-    proc[2].flags |= PROC_FLG_MUTEX;
+    proc[2].flags |= PROC_FLG_SEM;
     // Must run the process
     test = proc_run( &proc[2] );
     test_output( test , 2 );
@@ -50,7 +50,7 @@ void main_proc_test( void * arg )
 
     // proc_stop test 7
     // Must return 1, process is not running now!
-    proc[2].flags &= ~PROC_FLG_MUTEX;
+    proc[2].flags &= ~PROC_FLG_SEM;
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
     test = proc_stop( &proc[2] );
     test_output( test , 7 );
@@ -158,13 +158,25 @@ void main_wd_ss( void * arg )
 
 void main_fs( void * arg )
 {
+    // For proc_flag_stop tests 8 and 11
+    proc_flag_stop( PROC_FLG_SEM );
+    wait_time(10);
+    proc_flag_stop( PROC_FLG_SEM );
     while(1)
     {
-        // For proc_flag_stop tests 8 and 11
-        proc_flag_stop( PROC_FLG_SEM );
-        wait_time(10);
+        //Panic !!1
     }
 }
+
+#ifdef CONFIG_SAVE_POWER
+
+#define IDLE_YELD() if( proc_yeld() )CONFIG_SAVE_POWER()
+
+#else //CONFIG_SAVE_POWER
+
+#define IDLE_YELD() proc_yeld()
+
+#endif//CONFIG_SAVE_POWER
 
 void main_lb( void * arg )
 {
@@ -172,7 +184,7 @@ void main_lb( void * arg )
     {
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
-        proc_yeld();
+        IDLE_YELD();
     }
 }
 
@@ -182,7 +194,7 @@ void idle_main( void * arg )
     {
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
-        proc_yeld();
+        IDLE_YELD();
     }
 }
 
