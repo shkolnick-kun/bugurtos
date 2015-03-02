@@ -55,9 +55,7 @@ void main_proc_test( void * arg )
     // ipc_send  ipc_reply test 11
     in->reply = 11;
     test_output( SYNC_ST_OK == ipc_reply( &test_ep, wait_for ), 12 );
-
     wait_time(20);
-
 
     tests_end();
 }

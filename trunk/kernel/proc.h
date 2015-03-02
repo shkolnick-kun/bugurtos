@@ -230,9 +230,9 @@ This flag enables real time process scheduling policy.
 
 A process has locked some mutex controled resources.
 */
-#define PROC_FLG_BLOCK       ((flag_t)0x40)
+#define PROC_FLG_BLOCK      ((flag_t)0x40)
 
-#define PROC_FLG_RESERVED      ((flag_t)0x20)
+#define PROC_FLG_NONSTOP    ((flag_t)0x20)
 /*!
 \~russian
 \brief Флаг запроса останова.
@@ -247,15 +247,15 @@ A process must be stoped, but it can't be stoped now. It'll be stoped when possi
 
 /*!
 \~russian
-\brief Маска #PROC_FLG_BLOCK.
+\brief Маска #PROC_FLG_BLOCK или PROC_FLG_NONSTOP.
 
 Нужна, чтобы определить, удерживает ли процесс общие ресурсы.
 \~english
-\brief A #PROC_FLG_BLOCK mask.
+\brief A #PROC_FLG_BLOCK or #PROC_FLG_NONSTOP mask.
 
 Used to test if a process has locked some resources.
 */
-#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_BLOCK))
+#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_BLOCK | PROC_FLG_NONSTOP))
 
 /*!
 \~russian
@@ -646,6 +646,14 @@ void _proc_flag_stop( flag_t mask );
 \brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english A #PROC_FLG_PRE_STOP flag processing routine.
 */
 void proc_flag_stop( flag_t mask );
+/*!
+\brief \~russian Установка флага #PROC_FLG_NONSTOP для вызывающего процесса. \~english Set #PROC_FLG_NONSTOP for caller process.
+*/
+void _proc_flag_set(void);
+/*!
+\brief \~russian Установка флага #PROC_FLG_NONSTOP для вызывающего процесса. \~english Set #PROC_FLG_NONSTOP for caller process.
+*/
+void proc_flag_set(void);
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
 \~russian

@@ -102,6 +102,8 @@ flag_t ipc_send( ipc_t * out, void * msg )
         return ret;
     }
 
+    proc_flag_stop( (flag_t)0 );
+
     out->msg = msg;
 
     ret = SYNC_SLEEP( out );

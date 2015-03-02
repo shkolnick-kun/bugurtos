@@ -366,6 +366,30 @@ void scall_proc_stop( void * arg )
     ((proc_runtime_arg_t *)arg)->ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
 }
 /**********************************************************************************************
+                                       SYSCALL_PROC_FLAG_SET
+**********************************************************************************************/
+void proc_flag_set( void )
+{
+    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)0 );
+}
+//========================================================================================
+void _proc_flag_set( void )
+{
+    proc_t * proc;
+    proc = current_proc();
+
+    SPIN_LOCK( proc );
+
+    proc-> flags |= PROC_FLG_NONSTOP;
+
+    SPIN_FREE( proc );
+}
+//========================================================================================
+void scall_proc_flag_set( void * arg )
+{
+    _proc_flag_set();
+}
+/**********************************************************************************************
                                        SYSCALL_PROC_FLAG_STOP
 **********************************************************************************************/
 void proc_flag_stop( flag_t mask )
@@ -383,6 +407,8 @@ void _proc_flag_stop( flag_t mask )
 
     SPIN_LOCK( proc );
 
+    proc->flags &= ~mask;
+
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
         /*
@@ -393,7 +419,6 @@ void _proc_flag_stop( flag_t mask )
         _proc_stop_ensure( proc );
         proc->flags &= ~PROC_FLG_PRE_STOP;
     }
-    proc->flags &= ~mask;
 
     SPIN_FREE( proc );
 }
