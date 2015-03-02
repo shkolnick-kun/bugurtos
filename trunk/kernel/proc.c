@@ -380,7 +380,7 @@ void _proc_flag_set( void )
 
     SPIN_LOCK( proc );
 
-    proc-> flags |= PROC_FLG_NONSTOP;
+    PROC_LRES_INC( proc, PROC_PRIO_LOWEST );
 
     SPIN_FREE( proc );
 }
@@ -392,22 +392,20 @@ void scall_proc_flag_set( void * arg )
 /**********************************************************************************************
                                        SYSCALL_PROC_FLAG_STOP
 **********************************************************************************************/
-void proc_flag_stop( flag_t mask )
+void proc_flag_stop( void )
 {
-    flag_t msk;
-    msk = mask;
-    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)&msk );
+    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)0 );
 }
 //========================================================================================
 // #PROC_FLG_PRE_STOP processing with mask clearing.
-void _proc_flag_stop( flag_t mask )
+void _proc_flag_stop( void )
 {
     proc_t * proc;
     proc = current_proc();
 
     SPIN_LOCK( proc );
 
-    proc->flags &= ~mask;
+    PROC_LRES_DEC( proc, PROC_PRIO_LOWEST );
 
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
@@ -425,7 +423,7 @@ void _proc_flag_stop( flag_t mask )
 //========================================================================================
 void scall_proc_flag_stop( void * arg )
 {
-    _proc_flag_stop( *((flag_t *)arg) );
+    _proc_flag_stop();
 }
 /**********************************************************************************************
                                     SYSCALL_PROC_SELF_STOP

@@ -71,7 +71,8 @@ void main_proc_test( void * arg )
 
     // proc_stop test 10
     // Must NOT stop the process!
-    proc[4].flags |= PROC_FLG_BLOCK; // proc[4] is stoped, we can work with it,s properties!
+    //proc[4].flags |= PROC_FLG_BLOCK;
+    PROC_LRES_INC( (&proc[4]), LOWEST ); // proc[4] is stoped, we can work with it,s properties!
     proc_run( &proc[4] );
     test = !proc_stop( &proc[4] );
     test = test && !!( proc[4].flags & PROC_FLG_PRE_STOP );
@@ -159,9 +160,9 @@ void main_wd_ss( void * arg )
 void main_fs( void * arg )
 {
     // For proc_flag_stop tests 8 and 11
-    proc_flag_stop( PROC_FLG_BLOCK );
+    proc_flag_stop();
     wait_time(10);
-    proc_flag_stop( PROC_FLG_BLOCK );
+    proc_flag_stop();
     while(1)
     {
         //Panic !!1

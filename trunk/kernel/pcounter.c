@@ -95,9 +95,19 @@ void pcounter_inc(pcounter_t * pcounter, prio_t prio)
 index_t pcounter_dec(pcounter_t * pcounter, prio_t prio)
 {
     index_t mask;
+
     mask = ((index_t)1)<<prio;
-    pcounter->counter[prio]--;
-    if(pcounter->counter[prio] == (count_t)0)pcounter->index &= ~mask;
+
+    if(pcounter->counter[prio])
+    {
+        pcounter->counter[prio]--;
+    }
+
+    if(pcounter->counter[prio] == (count_t)0)
+    {
+        pcounter->index &= ~mask;
+    }
+
     return pcounter->index & mask;
 }
 // Multiple increment

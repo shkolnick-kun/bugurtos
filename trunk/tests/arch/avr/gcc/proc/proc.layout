@@ -5,7 +5,7 @@
 		<Cursor position="7819" topLine="135" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="16691" topLine="394" />
+		<Cursor position="17098" topLine="421" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="20202" topLine="348" />
@@ -14,7 +14,7 @@
 		<Cursor position="21090" topLine="583" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="8062" topLine="729" />
+		<Cursor position="164" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="6307" topLine="75" />
@@ -28,7 +28,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1796" topLine="70" />
 	</File>
-	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="3543" topLine="92" />
+	<File name="../../../../main/proc/main.c" open="1" top="1" tabpos="1">
+		<Cursor position="3180" topLine="98" />
 	</File>
 </CodeBlocks_layout_file>

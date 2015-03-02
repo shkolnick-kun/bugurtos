@@ -112,7 +112,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
 
     ret = SYNC_SLEEP( cond );
 
-    proc_flag_stop( PROC_FLG_NONSTOP ); //Now may stop!
+    proc_flag_stop(); //Now may stop!
 
     mutex_lock( mutex );
 
