@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="1">
 		<Cursor position="7786" topLine="120" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="6">
@@ -13,7 +13,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="1">
 		<Cursor position="6350" topLine="75" />
 	</File>
-	<File name="../../../../../include/bugurt.h" open="1" top="0" tabpos="2">
+	<File name="../../../../../include/bugurt.h" open="0" top="0" tabpos="2">
 		<Cursor position="7942" topLine="265" />
 	</File>
 	<File name="../../../../../include/crit_sec.h" open="0" top="0" tabpos="15">
@@ -37,7 +37,7 @@
 	<File name="../../../../../include/pcounter.h" open="0" top="0" tabpos="9">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../include/proc.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../include/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="22488" topLine="15" />
 	</File>
 	<File name="../../../../../include/sched.h" open="0" top="0" tabpos="3">
@@ -76,13 +76,13 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6216" topLine="107" />
 	</File>
-	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="4">
+	<File name="../../../../../kernel/mutex.c" open="1" top="0" tabpos="0">
 		<Cursor position="12839" topLine="292" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="1">
 		<Cursor position="9529" topLine="72" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="6">
@@ -106,13 +106,13 @@
 	<File name="../config.h" open="0" top="0" tabpos="4">
 		<Cursor position="2898" topLine="71" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="4">
+	<File name="../test_func.c" open="0" top="0" tabpos="4">
 		<Cursor position="2584" topLine="116" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="615" topLine="11" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="835" topLine="54" />
+		<Cursor position="62" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

@@ -542,6 +542,8 @@ void _proc_flag_stop( flag_t mask )
 
     SPIN_LOCK( proc );
 
+    proc->flags &= ~mask;
+
     if(  PROC_PRE_STOP_TEST(proc)  )
     {
         /*
@@ -552,7 +554,6 @@ void _proc_flag_stop( flag_t mask )
         _proc_stop_ensure( proc );
         proc->flags &= ~PROC_FLG_PRE_STOP;
     }
-    proc->flags &= ~mask;
 
     SPIN_FREE( proc );
 }
