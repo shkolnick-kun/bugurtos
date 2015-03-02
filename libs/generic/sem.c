@@ -104,6 +104,8 @@ flag_t sem_try_lock( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
+    proc_flag_set();
+
     disable_interrupts();
     SPIN_LOCK( sem );
 
@@ -127,6 +129,8 @@ flag_t sem_lock( sem_t * sem )
     {
         return SYNC_ST_ENULL;
     }
+
+    proc_flag_set();
 
     disable_interrupts();
     SPIN_LOCK( sem );

@@ -158,11 +158,13 @@ void main_wd_ss( void * arg )
 
 void main_fs( void * arg )
 {
+    // For proc_flag_stop tests 8 and 1
+    proc_flag_stop( PROC_FLG_BLOCK );
+    wait_time(10);
+    proc_flag_stop( PROC_FLG_BLOCK );
     while(1)
     {
-        // For proc_flag_stop tests 8 and 11
-        proc_flag_stop( PROC_FLG_BLOCK );
-        wait_time(10);
+        //Panic !!1
     }
 }
 
