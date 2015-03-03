@@ -641,19 +641,19 @@ void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 /*!
 \brief \~russian Установка флага #PROC_FLG_BLOCK для вызывающего процесса. \~english Set #PROC_FLG_BLOCK for caller process.
 */
-void _proc_flag_set(void);
+void _proc_lock(void);
 /*!
 \brief \~russian Установка флага #PROC_FLG_BLOCK для вызывающего процесса. \~english Set #PROC_FLG_BLOCK for caller process.
 */
-void proc_flag_set(void);
+void proc_lock(void);
 /*!
 \brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования. \~english A #PROC_FLG_PRE_STOP flag processing routine. For internal usage.
 */
-void _proc_flag_stop(void);
+void _proc_free(void);
 /*!
 \brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english A #PROC_FLG_PRE_STOP flag processing routine.
 */
-void proc_flag_stop(void);
+void proc_free(void);
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
 \~russian

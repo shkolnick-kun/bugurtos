@@ -366,14 +366,14 @@ void scall_proc_stop( void * arg )
     ((proc_runtime_arg_t *)arg)->ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_FLAG_SET
+                                       SYSCALL_PROC_LOCK
 **********************************************************************************************/
-void proc_flag_set( void )
+void proc_lock( void )
 {
-    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)0 );
+    syscall_bugurt( SYSCALL_PROC_LOCK, (void *)0 );
 }
 //========================================================================================
-void _proc_flag_set( void )
+void _proc_lock( void )
 {
     proc_t * proc;
     proc = current_proc();
@@ -385,20 +385,20 @@ void _proc_flag_set( void )
     SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_flag_set( void * arg )
+void scall_proc_lock( void * arg )
 {
-    _proc_flag_set();
+    _proc_lock();
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_FLAG_STOP
+                                       SYSCALL_PROC_FREE
 **********************************************************************************************/
-void proc_flag_stop( void )
+void proc_free( void )
 {
-    syscall_bugurt( SYSCALL_PROC_FLAG_STOP, (void *)0 );
+    syscall_bugurt( SYSCALL_PROC_FREE, (void *)0 );
 }
 //========================================================================================
 // #PROC_FLG_PRE_STOP processing with mask clearing.
-void _proc_flag_stop( void )
+void _proc_free( void )
 {
     proc_t * proc;
     proc = current_proc();
@@ -421,9 +421,9 @@ void _proc_flag_stop( void )
     SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_flag_stop( void * arg )
+void scall_proc_free( void * arg )
 {
-    _proc_flag_stop();
+    _proc_free();
 }
 /**********************************************************************************************
                                     SYSCALL_PROC_SELF_STOP

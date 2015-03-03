@@ -85,8 +85,8 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_proc_stop,
     scall_proc_self_stop,
     scall_proc_terminate,
-    scall_proc_flag_set,
-    scall_proc_flag_stop,
+    scall_proc_lock,
+    scall_proc_free,
     scall_proc_reset_watchdog,
     scall_proc_set_prio,
     // Scheduler
