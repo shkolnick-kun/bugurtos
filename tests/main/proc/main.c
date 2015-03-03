@@ -58,9 +58,9 @@ void main_proc_test( void * arg )
 
     proc_run( &proc[4] );
 
-    // proc_flag_stop test 8
+    // proc_free test 8
     // Must NOT stop the process!
-    wait_time(2); // let proc[4] to call proc_flag_stop!
+    wait_time(2); // let proc[4] to call proc_free!
     test = (bool_t)PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 8 );
 
@@ -78,9 +78,9 @@ void main_proc_test( void * arg )
     test = test && !!( proc[4].flags & PROC_FLG_PRE_STOP );
     test_output( test , 10 );
 
-    // proc_flag_stop test 11
+    // proc_free test 11
     // Must stop the process!
-    wait_time(20); // let proc[4] to call proc_flag_stop!
+    wait_time(20); // let proc[4] to call proc_free!
     test = !PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 11 );
 
@@ -159,10 +159,10 @@ void main_wd_ss( void * arg )
 
 void main_fs( void * arg )
 {
-    // For proc_flag_stop tests 8 and 11
-    proc_flag_stop();
+    // For proc_free tests 8 and 11
+    proc_free();
     wait_time(10);
-    proc_flag_stop();
+    proc_free();
     while(1)
     {
         //Panic !!1

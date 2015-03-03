@@ -104,7 +104,7 @@ flag_t sem_try_lock( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
-    proc_flag_set(); //WARNING!!! Allways call proc_flag_stop after sem_try_lock!!!
+    proc_lock(); //WARNING!!! Allways call proc_free after sem_try_lock!!!
 
     disable_interrupts();
     SPIN_LOCK( sem );
@@ -130,7 +130,7 @@ flag_t sem_lock( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
-    proc_flag_set();//WARNING!!! Allways call proc_flag_stop after sem_lock!!!
+    proc_lock();//WARNING!!! Allways call proc_free after sem_lock!!!
 
     disable_interrupts();
     SPIN_LOCK( sem );
@@ -165,7 +165,7 @@ flag_t sem_free( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
-    proc_flag_set();
+    proc_lock();
 
     disable_interrupts();
     SPIN_LOCK( sem );
@@ -191,7 +191,7 @@ flag_t sem_free( sem_t * sem )
         SYNC_WAKE( sem,  0, 0, ret );// Now we can wake some process.
     }
 
-    proc_flag_stop();
+    proc_free();
 
     return ret;
 }

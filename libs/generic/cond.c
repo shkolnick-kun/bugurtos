@@ -99,7 +99,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
         return SYNC_ST_ENULL;
     }
 
-    proc_flag_set(); //Don't stop caller untill wakeup!
+    proc_lock(); //Don't stop caller untill wakeup!
 
     cond->blocked++; //Guarded by mutex
 
@@ -112,7 +112,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
 
     ret = SYNC_SLEEP( cond );
 
-    proc_flag_stop(); //Now may stop!
+    proc_free(); //Now may stop!
 
     mutex_lock( mutex );
 

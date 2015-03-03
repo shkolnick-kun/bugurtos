@@ -95,20 +95,20 @@ flag_t ipc_send( ipc_t * out, void * msg )
 {
     flag_t ret;
 
-    proc_flag_set();
+    proc_lock();
 
     ret = SYNC_SLEEP( out );
 
     if( SYNC_ST_OK != ret )
     {
-        proc_flag_stop();
+        proc_free();
         return ret;
     }
 
     out->msg = msg;
     ret = SYNC_SLEEP( out );
 
-    proc_flag_stop();
+    proc_free();
     return ret;
 }
 
