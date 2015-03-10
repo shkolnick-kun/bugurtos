@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../arch/cm0/gcc/bugurt_kernel.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="6766" topLine="77" />
+	</File>
+	<File name="../../../../../../main/libs/generic/ipc/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1642" topLine="50" />
+	</File>
+</CodeBlocks_layout_file>

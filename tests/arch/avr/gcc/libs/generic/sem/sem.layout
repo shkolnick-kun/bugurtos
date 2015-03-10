@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="18534" topLine="330" />
+	</File>
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="19859" topLine="593" />
+	</File>
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="18049" topLine="340" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="7559" topLine="102" />
+	</File>
+	<File name="../../../../../../../libs/generic/sem.c" open="0" top="0" tabpos="1">
+		<Cursor position="6980" topLine="94" />
+	</File>
+	<File name="../../../../../../../libs/generic/sem.h" open="0" top="0" tabpos="1">
+		<Cursor position="10954" topLine="157" />
+	</File>
+	<File name="../../../../../../main/libs/generic/sem/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1660" topLine="43" />
+	</File>
+</CodeBlocks_layout_file>

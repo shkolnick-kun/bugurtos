@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1232" topLine="41" />
+	</File>
+	<File name="../../../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="0">
+		<Cursor position="5028" topLine="152" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/sched.c" open="0" top="0" tabpos="3">
+		<Cursor position="22694" topLine="509" />
+	</File>
+	<File name="../../../../../../../libs/generic/sem.h" open="0" top="0" tabpos="1">
+		<Cursor position="6242" topLine="156" />
+	</File>
+	<File name="../../../../../../main/libs/generic/sem/main.c" open="0" top="0" tabpos="2">
+		<Cursor position="1001" topLine="33" />
+	</File>
+</CodeBlocks_layout_file>
