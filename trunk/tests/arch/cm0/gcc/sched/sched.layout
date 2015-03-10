@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/cm0/gcc/bugurt_kernel.c" open="1" top="1" tabpos="0">
+	<File name="../../../../../arch/cm0/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="7435" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
@@ -11,7 +11,7 @@
 		<Cursor position="6680" topLine="85" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
-		<Cursor position="6911" topLine="68" />
+		<Cursor position="6635" topLine="71" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="24" topLine="0" />
@@ -23,7 +23,7 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="5">
-		<Cursor position="7128" topLine="112" />
+		<Cursor position="7101" topLine="106" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="4">
 		<Cursor position="6883" topLine="93" />
@@ -41,7 +41,7 @@
 		<Cursor position="580" topLine="18" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="1445" topLine="51" />
+		<Cursor position="607" topLine="16" />
 	</File>
 	<File name="../../../../../../thirdparty/startup-cm.c" open="0" top="0" tabpos="3">
 		<Cursor position="151" topLine="0" />

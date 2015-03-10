@@ -22,10 +22,7 @@
 	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/xlist.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="../../../../../kernel/xlist.h" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="2">
@@ -38,7 +35,7 @@
 		<Cursor position="679" topLine="6" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="893" topLine="24" />
+		<Cursor position="812" topLine="18" />
 	</File>
 	<File name="../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="2">
 		<Cursor position="5028" topLine="160" />
