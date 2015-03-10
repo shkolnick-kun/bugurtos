@@ -46,44 +46,52 @@ volatile stack_t bugurt_idle_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //====================================================================================
 #define BUGURT_SCHED_ENTER() \
 	__asm__ __volatile__ ( 							 \
-				"MRS r0, psp					\n\t"\
-				"SUB r0, r0, #36                \n\t"\
-				"MSR psp, r0					\n\t"\
-				"STMIA r0!, {r4-r7}			    \n\t"\
-				"MOV r3, r8						\n\t"\
-				"MOV r4, r9						\n\t"\
-				"MOV r5, r10				    \n\t"\
-				"MOV r6, r11					\n\t"\
-				"MOV r7, lr	  				    \n\t"\
-				"STMIA r0!, {r3-r7}			    \n\t"\
+				"mrs r0, psp					\n\t"\
+				"sub r0, r0, #36                \n\t"\
+				"msr psp, r0					\n\t"\
+				"stmia r0!, {r4-r7}			    \n\t"\
+				"mov r3, r8						\n\t"\
+				"mov r4, r9						\n\t"\
+				"mov r5, r10				    \n\t"\
+				"mov r6, r11					\n\t"\
+				"mov r7, lr	  				    \n\t"\
+				"stmia r0!, {r3-r7}			    \n\t"\
+				"dsb			                \n\t"\
 				::: )
 //====================================================================================
 #define BUGURT_SCHED_EXIT() \
 	__asm__ __volatile__ (						 	 \
-				"MRS r1, psp					\n\t"\
-				"MOV r0, r1                     \n\t"\
-				"ADD r0, r0, #16                \n\t"\
-				"LDMIA r0!, {r3-r7}  			\n\t"\
-				"MOV r8,  r3				    \n\t"\
-				"MOV r9,  r4				    \n\t"\
-				"MOV r10, r5				    \n\t"\
-				"MOV r11, r6					\n\t"\
-				"MOV lr,  r7	  				\n\t"\
-				"LDMIA r1!, {r4-r7}  			\n\t"\
-				"MSR psp, r0					\n\t"\
+				"mrs r1, psp					\n\t"\
+				"mov r0, r1                     \n\t"\
+				"add r0, r0, #16                \n\t"\
+				"ldmia r0!, {r3-r7}  			\n\t"\
+				"mov r8,  r3				    \n\t"\
+				"mov r9,  r4				    \n\t"\
+				"mov r10, r5				    \n\t"\
+				"mov r11, r6					\n\t"\
+				"mov lr,  r7	  				\n\t"\
+				"ldmia r1!, {r4-r7}  			\n\t"\
+				"msr psp, r0					\n\t"\
+				"dsb			                \n\t"\
+				"isb			                \n\t"\
 				"bx lr							\n\t"\
 				::: )
 //====================================================================================
 static stack_t * bugurt_read_psp(void)
 {
     stack_t * ret=0;
-    __asm__ __volatile__ ("MRS %0, psp\n\t" : "=r" (ret) );
+    __asm__ __volatile__ ( "mrs %0, psp\n\t" : "=r" (ret) );
     return(ret);
 }
 //====================================================================================
 static void bugurt_write_psp( volatile stack_t * ptr )
 {
-    __asm__ __volatile__ ("MSR psp, %0\n\t" : : "r" (ptr) );
+    __asm__ __volatile__ (
+                          "msr psp, %0\n\t"
+                          "dsb \n\t"
+                          "isb \n\t"
+                          : : "r" (ptr)
+                          );
 }
 //====================================================================================
 stack_t * proc_stack_init( stack_t * sstart, code_t pmain, void * arg, void(*return_address)(void)  )
@@ -119,12 +127,19 @@ void resched(void)
 //====================================================================================
 void disable_interrupts(void)
 {
-    __asm__ __volatile__ ("cpsid i \n\t");
+    __asm__ __volatile__ (
+                          "dsb \n\t"
+                          "cpsid i \n\t"
+                          );
 }
 //====================================================================================
 void enable_interrupts(void)
 {
-    __asm__ __volatile__ ("cpsie i \n\t");
+    __asm__ __volatile__ (
+                          "dsb \n\t"
+                          "cpsie i \n\t"
+                          "isb \n\t"
+                          );
 }
 //====================================================================================
 proc_t * current_proc(void)
@@ -134,7 +149,10 @@ proc_t * current_proc(void)
 //====================================================================================
 void init_bugurt(void)
 {
-    __asm__ __volatile__ ("cpsid i \n\t");
+    __asm__ __volatile__ (
+                          "dsb \n\t"
+                          "cpsid i \n\t"
+                          );
     kernel_init();
     kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
     // Устанавливаем начальное значение PSP, для процесса idle;
@@ -146,7 +164,11 @@ void init_bugurt(void)
 void start_bugurt(void)
 {
     kernel.sched.nested_crit_sec = (count_t)0;
-    __asm__ __volatile__ ("cpsie i \n\t");
+    __asm__ __volatile__ (
+                          "dsb \n\t"
+                          "cpsie i \n\t"
+                          "isb \n\t"
+                          );
     idle_main((void *)0);
 }
 //====================================================================================

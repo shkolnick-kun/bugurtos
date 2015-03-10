@@ -104,8 +104,6 @@ flag_t sem_try_lock( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
-    proc_lock(); //WARNING!!! Allways call proc_free after sem_try_lock!!!
-
     disable_interrupts();
     SPIN_LOCK( sem );
 
@@ -130,7 +128,7 @@ flag_t sem_lock( sem_t * sem )
         return SYNC_ST_ENULL;
     }
 
-    proc_lock();//WARNING!!! Allways call proc_free after sem_lock!!!
+    proc_lock();
 
     disable_interrupts();
     SPIN_LOCK( sem );
@@ -153,6 +151,9 @@ flag_t sem_lock( sem_t * sem )
     {
         ret = SYNC_SLEEP( sem );
     }
+
+    proc_free();
+
     return ret;
 }
 
