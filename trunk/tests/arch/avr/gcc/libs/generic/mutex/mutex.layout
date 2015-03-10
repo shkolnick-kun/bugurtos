@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="17810" topLine="346" />
+	</File>
+	<File name="../../../../../../../libs/generic/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="4025" topLine="88" />
+	</File>
+	<File name="../../../../../../../libs/generic/mutex.h" open="0" top="0" tabpos="1">
+		<Cursor position="6083" topLine="61" />
+	</File>
+	<File name="../../../../../../main/libs/generic/mutex/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="1793" topLine="48" />
+	</File>
+</CodeBlocks_layout_file>

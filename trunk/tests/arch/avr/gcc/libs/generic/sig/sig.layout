@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="9285" topLine="181" />
+	</File>
+	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="6682" topLine="77" />
+	</File>
+	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="16317" topLine="392" />
+	</File>
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
+		<Cursor position="35471" topLine="636" />
+	</File>
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="3">
+		<Cursor position="17658" topLine="489" />
+	</File>
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
+		<Cursor position="6226" topLine="389" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="1">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.h" open="1" top="1" tabpos="6">
+		<Cursor position="7755" topLine="82" />
+	</File>
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="6857" topLine="93" />
+	</File>
+	<File name="../../../../../../../libs/generic/cond.c" open="1" top="0" tabpos="1">
+		<Cursor position="6696" topLine="118" />
+	</File>
+	<File name="../../../../../../../libs/generic/cond.h" open="0" top="0" tabpos="1">
+		<Cursor position="9642" topLine="134" />
+	</File>
+	<File name="../../../../../../../libs/generic/mutex.c" open="1" top="0" tabpos="2">
+		<Cursor position="426" topLine="73" />
+	</File>
+	<File name="../../../../../../../libs/generic/mutex.h" open="0" top="0" tabpos="4">
+		<Cursor position="10713" topLine="57" />
+	</File>
+	<File name="../../../../../../../libs/generic/sig.c" open="1" top="0" tabpos="3">
+		<Cursor position="6083" topLine="113" />
+	</File>
+	<File name="../../../../../../../libs/generic/sig.h" open="0" top="0" tabpos="2">
+		<Cursor position="8842" topLine="89" />
+	</File>
+	<File name="../../../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="1931" topLine="52" />
+	</File>
+	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="2">
+		<Cursor position="1232" topLine="39" />
+	</File>
+</CodeBlocks_layout_file>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="generic/sig/sig.cbp" />
+		<Project filename="generic/ipc/ipc.cbp" />
+		<Project filename="generic/mutex/mutex.cbp" />
+		<Project filename="generic/sem/sem.cbp" active="1" />
+	</Workspace>
+</CodeBlocks_workspace_file>
