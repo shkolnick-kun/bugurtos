@@ -74,29 +74,36 @@ volatile stack_t bugurt_idle_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //====================================================================================
 #define BUGURT_SCHED_ENTER() \
 	__asm__ __volatile__ ( 							 \
-				"MRS r0, psp					\n\t"\
-				"STMDB r0!, {r4-r11,lr}			\n\t"\
-				"MSR psp, r0					\n\t"\
+				"mrs r0, psp					\n\t"\
+				"stmdb r0!, {r4-r11,lr}			\n\t"\
+				"msr psp, r0					\n\t"\
+				"dsb        					\n\t"\
 				::: )
 //====================================================================================
 #define BUGURT_SCHED_EXIT() \
 	__asm__ __volatile__ (						 	 \
-				"MRS r0, psp					\n\t"\
-				"LDMFD r0!, {r4-r11,lr}			\n\t"\
-				"MSR psp, r0					\n\t"\
+				"mrs r0, psp					\n\t"\
+				"ldmia r0!, {r4-r11,lr}			\n\t"\
+				"msr psp, r0					\n\t"\
+				"dsb        					\n\t"\
+				"isb        					\n\t"\
 				"bx lr							\n\t"\
 				::: )
 //====================================================================================
 static stack_t * bugurt_read_psp(void)
 {
     stack_t * ret=0;
-    __asm__ __volatile__ ("MRS %0, psp\n\t" : "=r" (ret) );
+    __asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret) );
     return(ret);
 }
 //====================================================================================
 static void bugurt_write_psp( volatile stack_t * ptr )
 {
-    __asm__ __volatile__ ("MSR psp, %0\n\t" : : "r" (ptr) );
+    __asm__ __volatile__ (
+                          "msr psp, %0\n\t"
+                          "dsb \n\t"
+                          "isb \n\t"
+                          : : "r" (ptr) );
 }
 //====================================================================================
 stack_t * proc_stack_init( stack_t * sstart, code_t pmain, void * arg, void(*return_address)(void)  )
@@ -131,8 +138,10 @@ void resched(void)
 void disable_interrupts(void)
 {
     __asm__ __volatile__ (
-                          "MOV r0, %0      \n\t"
-                          "MSR basepri, r0 \n\t"
+                          "mov r0, %0      \n\t"
+                          "msr basepri, r0 \n\t"
+                          "dsb             \n\t"
+                          "isb             \n\t"
                           :
                           : "i" ( CONFIG_CRITSEC_PRIO << ( 8 - CONFIG_PRIO_BITS ) )
                           : "r0"
@@ -142,8 +151,10 @@ void disable_interrupts(void)
 void enable_interrupts(void)
 {
     __asm__ __volatile__ (
-                          "MOV r0, #0      \n\t"
-                          "MSR basepri, r0  \n\t"
+                          "mov r0, #0      \n\t"
+                          "msr basepri, r0  \n\t"
+                          "dsb             \n\t"
+                          "isb             \n\t"
                           :
                           :
                           : "r0"
@@ -157,7 +168,10 @@ proc_t * current_proc(void)
 //====================================================================================
 void init_bugurt(void)
 {
-    __asm__ __volatile__ ("cpsid i \n\t");
+    __asm__ __volatile__ (
+                          "dsb     \n\t"
+                          "cpsid i \n\t"
+                          );
     kernel_init();
     kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
     // Устанавливаем начальное значение PSP, для процесса idle;
@@ -175,7 +189,11 @@ void init_bugurt(void)
 void start_bugurt(void)
 {
     kernel.sched.nested_crit_sec = (count_t)0;
-    __asm__ __volatile__ ("cpsie i \n\t");
+    __asm__ __volatile__ (
+                          "dsb     \n\t"
+                          "cpsie i \n\t"
+                          "isb     \n\t"
+                          );
     idle_main((void *)0);
 }
 //====================================================================================
@@ -184,7 +202,10 @@ void syscall_bugurt( syscall_t num, void * arg )
     disable_interrupts();
     syscall_num = num;
     syscall_arg = arg;
-    __asm__ __volatile__ ("svc 0 \n\t");
+    __asm__ __volatile__ (
+                          "dsb   \n\t"
+                          "svc 0 \n\t"
+                          );
     enable_interrupts();
 }
 //====================================================================================
