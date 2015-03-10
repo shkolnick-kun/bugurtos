@@ -78,6 +78,7 @@ volatile stack_t bugurt_idle_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 				"stmdb r0!, {r4-r11,lr}			\n\t"\
 				"msr psp, r0					\n\t"\
 				"dsb        					\n\t"\
+				"isb        					\n\t"\
 				::: )
 //====================================================================================
 #define BUGURT_SCHED_EXIT() \
