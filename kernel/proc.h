@@ -329,25 +329,25 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 #define PROC_STATE_WAIT_MASK ((flag_t)0x8)
 
 //process states
-#define PROC_STATE_STOPED           ((flag_t)0x0)   /*!< \~russian Начальное состояние, остановлен. \~english Initial state, stoped. */
-#define PROC_STATE_END              ((flag_t)0x1)   /*!< \~russian Завершен. \~english Normal process termination. */
-#define PROC_STATE_READY            ((flag_t)0x2)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
-#define PROC_STATE_RUNNING          ((flag_t)0x3)   /*!< \~russian Выполняется. \~english Is running. */
+#define PROC_STATE_STOPED           ((flag_t)0x0)   /*!< \~russian \brief Начальное состояние, остановлен. \~english \brief Initial state, stoped. */
+#define PROC_STATE_END              ((flag_t)0x1)   /*!< \~russian \brief Завершен. \~english \brief Normal process termination. */
+#define PROC_STATE_READY            ((flag_t)0x2)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_RUNNING          ((flag_t)0x3)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_WD_STOPED        ((flag_t)0x4)   /*!< \~russian Остановлен по вачдог. \~english Watchdog termination. */
-#define PROC_STATE_DEAD             ((flag_t)0x5)   /*!< \~russian Завершен до завершения ipc-транзакций. \~english Abnormal termination, terminated with waiting ipc transactions. */
-#define PROC_STATE_WD_READY         ((flag_t)0x6)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
-#define PROC_STATE_WD_RUNNING       ((flag_t)0x7)   /*!< \~russian Выполняется. \~english Is running. */
+#define PROC_STATE_WD_STOPED        ((flag_t)0x4)   /*!< \~russian \brief Остановлен по вачдог. \~english \brief Watchdog termination. */
+#define PROC_STATE_DEAD             ((flag_t)0x5)   /*!< \~russian \brief Завершен до завершения ipc-транзакций. \~english \brief Abnormal termination, terminated with waiting ipc transactions. */
+#define PROC_STATE_WD_READY         ((flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_WD_RUNNING       ((flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_SYNC_WAIT        ((flag_t)0x8)   /*!< \~russian Ожидает приема спящих процессов. \~english Is waiting for sleaping processes.*/
-#define PROC_STATE_SYNC_SLEEP       ((flag_t)0x9)   /*!< \~russian Ожидает пробуждения. \~english Is waiting for wakeup. */
-#define PROC_STATE_SYNC_READY       ((flag_t)0xA)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
-#define PROC_STATE_SYNC_RUNNING     ((flag_t)0xB)   /*!< \~russian Выполняется. \~english Is running. */
+#define PROC_STATE_SYNC_WAIT        ((flag_t)0x8)   /*!< \~russian \brief Ожидает приема спящих процессов. \~english \brief Is waiting for sleaping processes.*/
+#define PROC_STATE_SYNC_SLEEP       ((flag_t)0x9)   /*!< \~russian \brief Ожидает пробуждения. \~english \brief Is waiting for wakeup. */
+#define PROC_STATE_SYNC_READY       ((flag_t)0xA)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_SYNC_RUNNING     ((flag_t)0xB)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_PI_PEND          ((flag_t)0xC)   /*!< \~russian Ожидает смены приоритета \~english A process is waiting for priority change */
-#define PROC_STATE_PI_DONE          ((flag_t)0xD)   /*!< \~russian Запущен при смене приоритета \~english A process has been run during priority change */
-#define PROC_STATE_PI_READY         ((flag_t)0xE)   /*!< \~russian Готов к выполнению. \~english Is ready to run. */
-#define PROC_STATE_PI_RUNNING       ((flag_t)0xF)   /*!< \~russian Выполняется. \~english Is running. */
+#define PROC_STATE_PI_PEND          ((flag_t)0xC)   /*!< \~russian \brief Ожидает смены приоритета \~english \brief A process is waiting for priority change */
+#define PROC_STATE_PI_DONE          ((flag_t)0xD)   /*!< \~russian \brief Запущен при смене приоритета \~english \brief A process has been run during priority change */
+#define PROC_STATE_PI_READY         ((flag_t)0xE)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_PI_RUNNING       ((flag_t)0xF)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
 /*!
 \~russian
@@ -617,16 +617,28 @@ If a real time process failes to reset its watchdog, then the scheduler stops su
 void _proc_reset_watchdog(void);
 
 /*!
-\brief \~russian Запуск остановленного процесса с флагом #PROC_FLG_PRE_STOP. Для внутреннего использования. \~english Run stoped process and set #PROC_FLG_PRE_STOP. For internal usage.
+\~russian
+\brief Запуск остановленного процесса с флагом #PROC_FLG_PRE_STOP. Для внутреннего использования.
+
+\~english
+\brief Run stoped process and set #PROC_FLG_PRE_STOP. For internal usage.
 */
 void _proc_dont_stop( proc_t * proc, flag_t flags );
 /*!
-\brief \~russian Вырезать проесс из списка ожидающих и его запуск. Для внутреннего использования. \~english Cut the a process from wait list and run it. For internel usage.
+\~russian
+\brief Вырезать проесс из списка ожидающих и его запуск. Для внутреннего использования.
+
+\~english
+\brief Cut the a process from wait list and run it. For internel usage.
 */
 void _proc_cut_and_run( proc_t * proc, flag_t state );
 //===========================================================
 /*!
-\brief \~russian Передача приоритетов по цепи заблокированных процессов. Для внутреннего использования. \~english Propagation of priority through a blovked process chain. For internal usage.
+\~russian
+\brief Передача приоритетов по цепи заблокированных процессов. Для внутреннего использования.
+
+\~english
+\brief Propagation of priority through a blovked process chain. For internal usage.
 */
 void _proc_prio_propagate( proc_t * proc
 #ifdef CONFIG_MP
@@ -635,23 +647,43 @@ void _proc_prio_propagate( proc_t * proc
                          );
 //===========================================================
 /*!
-\brief \~russian "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования. \~english A low level process stop with flags set routine. For internal usage.
+\~russian
+\brief "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования.
+
+\~english
+\brief A low level process stop with flags set routine. For internal usage.
 */
 void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 /*!
-\brief \~russian Установка флага #PROC_FLG_BLOCK для вызывающего процесса. \~english Set #PROC_FLG_BLOCK for caller process.
+\~russian
+\brief Установка флага #PROC_FLG_BLOCK для вызывающего процесса.
+
+\~english
+\brief Set #PROC_FLG_BLOCK for caller process.
 */
 void _proc_lock(void);
 /*!
-\brief \~russian Установка флага #PROC_FLG_BLOCK для вызывающего процесса. \~english Set #PROC_FLG_BLOCK for caller process.
+\~russian
+\brief Установка флага #PROC_FLG_BLOCK для вызывающего процесса.
+
+\~english
+\brief Set #PROC_FLG_BLOCK for caller process.
 */
 void proc_lock(void);
 /*!
-\brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования. \~english A #PROC_FLG_PRE_STOP flag processing routine. For internal usage.
+\~russian
+\brief Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования.
+
+\~english
+\brief A #PROC_FLG_PRE_STOP flag processing routine. For internal usage.
 */
 void _proc_free(void);
 /*!
-\brief \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english A #PROC_FLG_PRE_STOP flag processing routine.
+\~russian
+\brief Останов процесса по флагу #PROC_FLG_PRE_STOP.
+
+\~english
+\brief A #PROC_FLG_PRE_STOP flag processing routine.
 */
 void proc_free(void);
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
@@ -708,9 +740,57 @@ It sets a procees priority. A process current state doesn't matter.
 */
 void _proc_set_prio( proc_t * proc, prio_t prio );
 
-void _proc_lres_inc( proc_t * proc ,prio_t prio );
-void _proc_lres_dec( proc_t * proc ,prio_t prio );
+/*!
+\~russian
+\brief Управление приоритетом процесса. Для внктреннего использования.
 
+Инкрементирует счетчик proc->lres, устанавливает флаг #PROC_FLG_BLOCK.
+
+\param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
+
+\~english
+\brief Process priority control. For internel usage.
+
+Increments proc->lres counter, sets #PROC_FLG_BLOCK flag.
+
+\param proc - A pointer to a process.
+\param prio - New process priority value.
+*/
+void _proc_lres_inc( proc_t * proc ,prio_t prio );
+/*!
+\~russian
+\brief Управление приоритетом процесса. Для внктреннего использования.
+
+Декрементирует счетчик proc->lres, сбрасывает флаг #PROC_FLG_BLOCK при необходимости.
+
+\param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
+
+\~english
+\brief Process priority control. For internel usage.
+
+Decrements proc->lres counter, clears #PROC_FLG_BLOCK flag if needed.
+
+\param proc - A pointer to a process.
+\param prio - New process priority value.
+*/
+void _proc_lres_dec( proc_t * proc ,prio_t prio );
+/*!
+\~russian
+\brief Останов процесса. Для внктреннего использования.
+
+Гарантированно останавливает процесс.
+
+\param proc - Указатель на процесс.
+
+\~english
+\brief Stops a process. For internel usage.
+
+Stops aprocess for sure.
+
+\param proc - A pointer to a process.
+*/
 void _proc_stop_ensure( proc_t * proc );
 
 #endif // _PROC_H_

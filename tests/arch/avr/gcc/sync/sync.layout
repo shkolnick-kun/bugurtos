@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="66" />
+	</File>
+	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="9017" topLine="143" />
+	</File>
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="0">
 		<Cursor position="152" topLine="0" />
 	</File>
@@ -11,13 +17,28 @@
 		<Cursor position="13312" topLine="294" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="209" />
+		<Cursor position="19635" topLine="426" />
+	</File>
+	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="300" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="11475" topLine="458" />
+		<Cursor position="11475" topLine="125" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="6917" topLine="84" />
+		<Cursor position="20030" topLine="373" />
+	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="7575" topLine="106" />
+	</File>
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="11443" topLine="108" />
+	</File>
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="102" />
+	</File>
+	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
+		<Cursor position="7061" topLine="180" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="14234" topLine="391" />

@@ -85,27 +85,27 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 
 // System call numbers!
-#define SYSCALL_PROC_RUN                        ((syscall_t)(1))                                /*!< \~russian Запуск процесса. \~english A process launch. */
-#define SYSCALL_PROC_RESTART                    (SYSCALL_PROC_RUN + (syscall_t)(1))             /*!< \~russian Перезапуск процесса. \~english A Process restart. */
-#define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))         /*!< \~russian Останов процесса. \~english A process stop. */
-#define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))            /*!< \~russian Самоостанов процесса. \~english A process self stop. */
-#define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))       /*!< \~russian Завершение работы процесса. \~english A process termination. */
-#define SYSCALL_PROC_LOCK                       (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian Установить флаг #PROC_FLG_BLOCK для вызывающего процесса. \~english #PROC_FLG_BLOCK for caller process. */
-#define SYSCALL_PROC_FREE                       (SYSCALL_PROC_LOCK + (syscall_t)(1))            /*!< \~russian Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english #PROC_FLG_PRE_STOP flag processing. */
-#define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FREE + (syscall_t)(1))            /*!< \~russian Сброс watchdog процесса реального времени. \~english A real time process watchdog reset. */
-#define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian Установить приоритет процесса \~english Set a process priority. */
+#define SYSCALL_PROC_RUN                        ((syscall_t)(1))                                /*!< \~russian \brief Запуск процесса. \~english \brief A process launch. */
+#define SYSCALL_PROC_RESTART                    (SYSCALL_PROC_RUN + (syscall_t)(1))             /*!< \~russian \brief Перезапуск процесса. \~english \brief A Process restart. */
+#define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))         /*!< \~russian \brief Останов процесса. \~english \brief A process stop. */
+#define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))            /*!< \~russian \brief Самоостанов процесса. \~english \brief A process self stop. */
+#define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))       /*!< \~russian \brief Завершение работы процесса. \~english \brief A process termination. */
+#define SYSCALL_PROC_LOCK                       (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian \brief Установить флаг #PROC_FLG_BLOCK для вызывающего процесса. \~english \brief #PROC_FLG_BLOCK for caller process. */
+#define SYSCALL_PROC_FREE                       (SYSCALL_PROC_LOCK + (syscall_t)(1))            /*!< \~russian \brief Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english \brief #PROC_FLG_PRE_STOP flag processing. */
+#define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FREE + (syscall_t)(1))            /*!< \~russian \brief Сброс watchdog процесса реального времени. \~english \brief A real time process watchdog reset. */
+#define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian \brief Установить приоритет процесса \~english \brief Set a process priority. */
 
-#define SYSCALL_SCHED_PROC_YELD                 (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))        /*!< \~russian Передача управления другому процессу. \~english Transfer control to another process. */
+#define SYSCALL_SCHED_PROC_YELD                 (SYSCALL_PROC_SET_PRIO + (syscall_t)(1))        /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
 
-#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_PROC_YELD + (syscall_t)(1))       /*!< \~russian Установить нового хозяина объекта типа #sync_t. \~english Set new #sync_t object owner. */
-#define SYSCALL_SYNC_CLEAR_OWNER               (SYSCALL_SYNC_SET_OWNER + (syscall_t)(1))        /*!< \~russian Сбросить хозяина объекта типа #sync_t. \~english Clear #sync_t object owner. */
-#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_CLEAR_OWNER + (syscall_t)(1))      /*!< \~russian Заблокировать процесс в ожидании синхронизации. \~english Block process for synchronization. */
-#define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (syscall_t)(1))            /*!< \~russian Запустить процесс, ожидающий синхронизации. \~english Run a process waiting for synchronization. */
+#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_PROC_YELD + (syscall_t)(1))       /*!< \~russian \brief Установить нового хозяина объекта типа #sync_t. \~english \brief Set new #sync_t object owner. */
+#define SYSCALL_SYNC_CLEAR_OWNER               (SYSCALL_SYNC_SET_OWNER + (syscall_t)(1))        /*!< \~russian \brief Сбросить хозяина объекта типа #sync_t. \~english \brief Clear #sync_t object owner. */
+#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_CLEAR_OWNER + (syscall_t)(1))      /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
+#define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (syscall_t)(1))            /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
 
-#define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (syscall_t)(1))             /*!< \~russian Подождать блокировки процесса на объекте типа #sync_t. \~english Wait for process to block on #sync_t object*/
-#define SYSCALL_SYNC_WAKE_AND_SLEEP            (SYSCALL_SYNC_WAIT + (syscall_t)(1))             /*!< \~russian Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_SLEEP. \~english Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_SLEEP. */
-#define SYSCALL_SYNC_WAKE_AND_WAIT             (SYSCALL_SYNC_WAKE_AND_SLEEP + (syscall_t)(1))   /*!< \~russian Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_WAIT. \~english Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_WAIT. */
-#define SYSCALL_USER                           (SYSCALL_SYNC_WAKE_AND_WAIT + (syscall_t)(1))    /*!< \~russian Пользовательский системный вызов. \~english User system call. */
+#define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (syscall_t)(1))             /*!< \~russian \brief Подождать блокировки процесса на объекте типа #sync_t. \~english \brief Wait for process to block on #sync_t object*/
+#define SYSCALL_SYNC_WAKE_AND_SLEEP            (SYSCALL_SYNC_WAIT + (syscall_t)(1))             /*!< \~russian \brief Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_SLEEP. \~english \brief Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_SLEEP. */
+#define SYSCALL_SYNC_WAKE_AND_WAIT             (SYSCALL_SYNC_WAKE_AND_SLEEP + (syscall_t)(1))   /*!< \~russian \brief Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_WAIT. \~english \brief Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_WAIT. */
+#define SYSCALL_USER                           (SYSCALL_SYNC_WAKE_AND_WAIT + (syscall_t)(1))    /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 /*!
 \~russian
 \brief
@@ -119,34 +119,17 @@ System call processing routine.
 
 This function calls system call handlers and passes arguments to them.
 */
+
 #ifdef CONFIG_MP
 void do_syscall(
-                syscall_t syscall_num,  /*!< \~russian Номер системного вызова. \~english System call number.*/
-                void * syscall_arg      /*!< \~russian Aргумент системного вызова. \~english System call argument.*/
+                syscall_t syscall_num,  /*!< \~russian \brief Номер системного вызова. \~english \brief System call number.*/
+                void * syscall_arg      /*!< \~russian \brief Aргумент системного вызова. \~english \brief System call argument.*/
                 );
 #else
-/*!
-\~russian Номер системного вызова. \~english System call number.
-*/
-extern syscall_t syscall_num;
-/*!
-\~russian Аргумент системного вызова. \~english System call argument.
-*/
-extern void * syscall_arg;
-/*!
-\~russian
-\brief
-Обработка системного вызова.
-
-Зпускает обработчик системного вызова и передает ему аргумент.
-
-\~english
-\brief
-System call processing routine.
-
-This function calls system call handlers and passes arguments to them.
-*/
 void do_syscall( void );
+
+extern syscall_t syscall_num; /*!< \~russian \brief Номер системного вызова. \~english \brief System call number.*/
+extern void * syscall_arg; /*!< \~russian \brief Аргумент системного вызова. \~english \brief System call argument.*/
 #endif
 
 /*****************************************************************************************/

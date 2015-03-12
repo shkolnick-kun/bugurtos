@@ -82,12 +82,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
 */
-#define SYNC_ST_OK     0 /*!< \~russian Удачное завершение. \~english Success. */
-#define SYNC_ST_ENULL  1 /*!< \~russian Передан нулевой указатель. \~english Null pointer argument. */
-#define SYNC_ST_EOWN   2 /*!< \~russian Ошибка владения. \~english Ownership error. */
-#define SYNC_ST_EEMPTY 3 /*!< \~russian Список спящих процессов пуст. \~english Wait process list is empty. */
-#define SYNC_ST_ESYNC  4 /*!< \~russian Не тот объект типа #sync_t. \~english Wrong #sync_t object. */
-#define SYNC_ST_ROLL   5 /*!< \~russian Нужна следующая иттерация. \~english Next itteration needed. */
+#define SYNC_ST_OK     0 /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
+#define SYNC_ST_ENULL  1 /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
+#define SYNC_ST_EOWN   2 /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
+#define SYNC_ST_EEMPTY 3 /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
+#define SYNC_ST_ESYNC  4 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
+#define SYNC_ST_ROLL   5 /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
 typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
 // Свойства
@@ -124,12 +124,21 @@ struct _sync_t
 #endif // CONFIG_MP
 };
 // Методы
-prio_t _sync_prio( sync_t * sync );
-#define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian Считает приоритет щбъекта типа #sync_t. \~english Calculates a #sync_t object priority */
 /*!
 \~russian
 \brief
-Инициализация мьютекса из критической секции, или обработчика прерываний.
+Возвращает текущий приоритет объекта типа #sync_t. Для внктренннего использования.
+
+\~english
+\brief
+Returns current #sync_t object priority. For internal usage.
+*/
+prio_t _sync_prio( sync_t * sync );
+#define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian \brief Считает приоритет щбъекта типа #sync_t. \~english \brief Calculates a #sync_t object priority */
+/*!
+\~russian
+\brief
+Инициализация из критической секции, или обработчика прерываний.
 
 Да, инициировать из обработчика прерывания можно!
 \~english
@@ -141,7 +150,7 @@ void sync_init(
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 
-#define SYNC_INIT(s,p) sync_init((sync_t *)s, (prio_t)p) /*!< \~russian Смотри #sync_init. \~english Watch #sync_init. */
+#define SYNC_INIT(s,p) sync_init((sync_t *)s, (prio_t)p) /*!< \~russian \brief Смотри #sync_init. \~english \brief Watch #sync_init. */
 
 /*!
 \~russian
@@ -157,7 +166,7 @@ void sync_init_isr(
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 
-#define SYNC_INIT_ISR(s,p) sync_init_isr((sync_t *)s, (prio_t)p) /*!< \~russian Смотри #sync_init_isr. \~english Watch #sync_init_isr. */
+#define SYNC_INIT_ISR(s,p) sync_init_isr((sync_t *)s, (prio_t)p) /*!< \~russian \brief Смотри #sync_init_isr. \~english \brief Watch #sync_init_isr. */
 
 /*!
 \~russian
@@ -176,7 +185,7 @@ Get current #sync_t object owner.
 */
 proc_t * sync_get_owner( sync_t * sync );
 
-#define SYNC_GET_OWNER(s) sync_get_owner((sync_t *)s) /*!< \~russian Смотри #sync_get_owner. \~english Watch #sync_get_owner. */
+#define SYNC_GET_OWNER(s) sync_get_owner((sync_t *)s) /*!< \~russian \brief Смотри #sync_get_owner. \~english \brief Watch #sync_get_owner. */
 
 /*!
 \~russian
@@ -196,7 +205,7 @@ Set #sync_t object owner.
 */
 flag_t sync_set_owner( sync_t * sync, proc_t * proc );
 
-#define SYNC_SET_OWNER(s,p) sync_set_owner((sync_t *)s, (proc_t *)p) /*!< \~russian Смотри #sync_set_owner. \~english Watch #sync_set_owner. */
+#define SYNC_SET_OWNER(s,p) sync_set_owner((sync_t *)s, (proc_t *)p) /*!< \~russian \brief Смотри #sync_set_owner. \~english \brief Watch #sync_set_owner. */
 
 /*!
 \~russian
@@ -213,7 +222,7 @@ Clear #sync_t object owner.
 */
 void sync_clear_owner( sync_t * sync );
 
-#define SYNC_CLEAR_OWNER(s) sync_clear_owner((sync_t *)s) /*!< \~russian Смотри #sync_clear_owner. \~english Watch #sync_clear_owner. */
+#define SYNC_CLEAR_OWNER(s) sync_clear_owner((sync_t *)s) /*!< \~russian \brief Смотри #sync_clear_owner. \~english \brief Watch #sync_clear_owner. */
 
 /*!
 \~russian
@@ -252,7 +261,7 @@ typedef struct
 }
 sync_sleep_t;
 
-#define SYNC_SLEEP(s) sync_sleep((sync_t *)s) /*!< \~russian Смотри #sync_sleep. \~english Watch #sync_sleep. */
+#define SYNC_SLEEP(s) sync_sleep((sync_t *)s) /*!< \~russian \brief Смотри #sync_sleep. \~english \brief Watch #sync_sleep. */
 
 /*!
 \~russian
@@ -312,7 +321,7 @@ do                                                              \
     while( scarg.status >= SYNC_ST_ROLL );                      \
     (st) = scarg.status;                                        \
 }                                                               \
-while(0) /*!< \~russian Смотри #sync_wait. \~english Watch #sync_wait. */
+while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #sync_wait. */
 
 /*!
 \~russian
@@ -373,19 +382,15 @@ do                                                              \
     while( scarg.status >= SYNC_ST_ROLL );                      \
     (st) = scarg.status;                                        \
 }                                                               \
-while(0) /*!< \~russian Смотри #sync_wake. \~english Watch #sync_wake. */
+while(0) /*!< \~russian \brief Смотри #sync_wake. \~english \brief Watch #sync_wake. */
 
 /*!
 \~russian
 \brief
 Смотри #sync_wake и #sync_sleep.
 
-Смотри #sync_wake и #sync_sleep.
-
 \~english
 \brief
-Watch #sync_wake and #sync_sleep.
-
 Watch #sync_wake and #sync_sleep.
 */
 flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
@@ -426,7 +431,7 @@ do                                                                      \
     while( scarg.sleep.status >= SYNC_ST_ROLL );                        \
     (st) = scarg.sleep.status;                                          \
 }                                                                       \
-while(0) /*!< \~russian Смотри #sync_wake_and_sleep. \~english Watch #sync_wake_and_sleep. */
+while(0) /*!< \~russian \brief Смотри #sync_wake_and_sleep. \~english \brief Watch #sync_wake_and_sleep. */
 
 
 /*!
@@ -434,13 +439,10 @@ while(0) /*!< \~russian Смотри #sync_wake_and_sleep. \~english Watch #sync
 \brief
 Смотри #sync_wake и #sync_wait.
 
-Смотри #sync_wake и #sync_wait.
-
 \~english
 \brief
 Watch #sync_wake and #sync_wait.
 
-Watch #sync_wake and #sync_wait.
 */
 flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
 
@@ -482,19 +484,14 @@ do                                                                      \
     while( scarg.wait.status >= SYSCALL_SYNC_WAKE_AND_WAIT );           \
     (st) = scarg.wait.status;                                           \
 }                                                                       \
-while(0) /*!< \~russian Смотри #sync_wake_and_wait. \~english Watch #sync_wake_and_wait. */
+while(0) /*!< \~russian \brief Смотри #sync_wake_and_wait. \~english \brief Watch #sync_wake_and_wait. */
 
 /*!
 \~russian
 \brief
 Для внутреннего использования. Смотри #sync_set_owner.
-
-Для внутреннего использования. Смотри #sync_set_owner.
-
 \~english
 \brief
-For internal usage. Watch #sync_set_owner.
-
 For internal usage. Watch #sync_set_owner.
 */
 flag_t _sync_set_owner( sync_t * sync, proc_t * proc );
@@ -503,12 +500,8 @@ flag_t _sync_set_owner( sync_t * sync, proc_t * proc );
 \brief
 Для внутреннего использования. Смотри #sync_clear_owner.
 
-Для внутреннего использования. Смотри #sync_clear_owner.
-
 \~english
 \brief
-For internal usage. Watch #sync_clear_owner.
-
 For internal usage. Watch #sync_clear_owner.
 */
 void _sync_clear_owner( sync_t * sync );
@@ -517,12 +510,8 @@ void _sync_clear_owner( sync_t * sync );
 \brief
 Для внутреннего использования. Смотри #sync_wake.
 
-Для внутреннего использования. Смотри #sync_wake.
-
 \~english
 \brief
-For internal usage. Watch #sync_wake.
-
 For internal usage. Watch #sync_wake.
 */
 flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
@@ -531,12 +520,8 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 \brief
 Для внутреннего использования. Смотри #sync_sleep.
 
-Для внутреннего использования. Смотри #sync_sleep.
-
 \~english
 \brief
-For internal usage. Watch #sync_sleep.
-
 For internal usage. Watch #sync_sleep.
 */
 flag_t _sync_sleep( sync_t * sync );
@@ -545,12 +530,8 @@ flag_t _sync_sleep( sync_t * sync );
 \brief
 Для внутреннего использования. Смотри #sync_wait.
 
-Для внутреннего использования. Смотри #sync_wait.
-
 \~english
 \brief
-For internal usage. Watch #sync_wait.
-
 For internal usage. Watch #sync_wait.
 */
 flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
