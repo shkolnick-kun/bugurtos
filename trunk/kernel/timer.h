@@ -111,7 +111,8 @@ Software timers used for time-process synchronization.
 Wrapper macro.
 
 A wrapper for kernel timer spin-lock, on single core system - empty macro.
-
+*/
+/*!
 \def SPIN_FREE_KERNEL_TIMER()
 
 \~russian
