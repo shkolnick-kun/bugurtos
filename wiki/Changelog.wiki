@@ -1,4 +1,21 @@
 =Changelog=
+ * 0.8.1
+  * Fixed [https://code.google.com/p/bugurtos/issues/detail?id=1&can=1 old scheduler code].
+  * Fixed [https://code.google.com/p/bugurtos/issues/detail?id=2&can=1 missed wakeup] in sync_wait call.
+  * Deleted proc_flag_stop system call.
+  * Added proc_lock and proc_free system calls.
+  * Changed sync_set_owner system call behavior. Now sync_clear_owner call needed to change owner.
+  * Added support of Immediate Ceiling Priority Protocol, now priority control protocol combines both [http://en.wikipedia.org/wiki/Priority_ceiling_protocol ICPP] and [http://en.wikipedia.org/wiki/Priority_inheritance BPI].
+  * Added generic lib, which supports some traditional sync primitives:
+   * mutex;
+   * conditional variable;
+   * signal (like in 0.6.x and 0.7.x branches);
+   * counting semaphore (compatibility with 0.6.x and 0.7.x branches is broken);
+   * microkernel style IPC (compatibility with 0.6.x and 0.7.x branches is broken).
+ * 0.7.2
+  * Fixed wrong [https://code.google.com/p/bugurtos/issues/detail?id=3&can=1 proc_flag_stop] behavior.
+ * 0.6.5
+  * Fixed wrong [https://code.google.com/p/bugurtos/issues/detail?id=3&can=1 proc_flag_stop] behavior.
  * 0.8.0
   * New branch added, see [https://code.google.com/p/bugurtos/wiki/NewBranchDifferences differences] with 0.6.x and 0.7.x branches.
  * 0.7.1
