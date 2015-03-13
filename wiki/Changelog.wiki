@@ -2,7 +2,7 @@
  * 0.8.1
   * Fixed [https://code.google.com/p/bugurtos/issues/detail?id=1&can=1 old scheduler code].
   * Fixed [https://code.google.com/p/bugurtos/issues/detail?id=2&can=1 missed wakeup] in sync_wait call.
-  * Added memory barriers in Cortex-M ports.
+  * Added memory barriers in Cortex^TM^-M ports.
   * Deleted proc_flag_stop system call.
   * Added proc_lock and proc_free system calls.
   * Changed sync_set_owner system call behavior. Now sync_clear_owner call needed to change owner.
