@@ -11,8 +11,8 @@
    * mutex;
    * conditional variable;
    * signal (like in 0.6.x and 0.7.x branches);
-   * counting semaphore (compatibility with 0.6.x and 0.7.x branches is broken);
-   * microkernel style IPC (compatibility with 0.6.x and 0.7.x branches is broken).
+   * counting semaphore;
+   * microkernel style IPC.
  * 0.7.2
   * Fixed wrong [https://code.google.com/p/bugurtos/issues/detail?id=3&can=1 proc_flag_stop] behavior.
  * 0.6.5
