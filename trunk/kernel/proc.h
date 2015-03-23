@@ -231,9 +231,9 @@ This flag enables real time process scheduling policy.
 
 A process has locked some mutex controled resources.
 */
-#define PROC_FLG_LOCK      ((flag_t)0x40)
+#define PROC_FLG_LOCK      ((flag_t)0x20)
 
-#define PROC_FLG_RESERVED   ((flag_t)0x20)
+#define PROC_FLG_RESERVED   ((flag_t)0x40)
 /*!
 \~russian
 \brief Флаг запроса останова.
