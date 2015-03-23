@@ -233,7 +233,7 @@ void proc_init_isr(
     SPIN_LOCK( proc );
 
     pitem_init( (pitem_t *)proc, prio );
-    proc->flags = ( is_rt )?PROC_FLG_RT:(flag_t)0;
+    proc->flags = ( is_rt )?(PROC_FLG_RT|PROC_FLG_RR):(PROC_FLG_RR); // Default behavior is round robin sheduling
 
     PROC_LRES_INIT( proc );
 
