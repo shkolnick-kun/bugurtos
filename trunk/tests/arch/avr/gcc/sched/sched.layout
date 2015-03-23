@@ -34,10 +34,10 @@
 	<File name="../../../../../kernel/item.h" open="0" top="0" tabpos="13">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="14">
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="14">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/kernel.h" open="1" top="0" tabpos="15">
+	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="15">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="4">
@@ -49,7 +49,7 @@
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="2">
 		<Cursor position="11786" topLine="241" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="6">
@@ -58,11 +58,11 @@
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="5">
 		<Cursor position="9581" topLine="172" />
 	</File>
-	<File name="../../../../../kernel/sched.h" open="1" top="0" tabpos="21">
-		<Cursor position="163" topLine="0" />
+	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
+		<Cursor position="6929" topLine="300" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
-		<Cursor position="8135" topLine="142" />
+		<Cursor position="8043" topLine="142" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
 		<Cursor position="17437" topLine="107" />
@@ -70,13 +70,13 @@
 	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
 		<Cursor position="6308" topLine="76" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="5">
-		<Cursor position="7177" topLine="80" />
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="5">
+		<Cursor position="15769" topLine="254" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="26">
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="26">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/timer.h" open="1" top="0" tabpos="27">
+	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="27">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="28">
@@ -88,7 +88,7 @@
 	<File name="../config.h" open="0" top="0" tabpos="4">
 		<Cursor position="2302" topLine="48" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
 		<Cursor position="2584" topLine="8" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">

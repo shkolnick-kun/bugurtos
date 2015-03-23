@@ -92,14 +92,29 @@ void mutex_init( mutex_t * mutex, prio_t prio )
 
 flag_t mutex_try_lock( mutex_t * mutex )
 {
-    return SYNC_SET_OWNER( mutex, 0 );
+    flag_t ret;
+
+    proc_lock();
+
+    ret = SYNC_SET_OWNER( mutex, 0 );
+
+    if( ret == SYNC_ST_OK )
+    {
+        proc_lock(); //Now process must not stop!
+    }
+
+    proc_free();
+
+    return ret;
 }
 
 flag_t mutex_lock( mutex_t * mutex )
 {
     flag_t ret;
 
-    ret = mutex_try_lock( mutex );
+    proc_lock(); //Now process must not stop!
+
+    ret = SYNC_SET_OWNER( mutex, 0 ); //Try to lock mutex
 
     if( ret == SYNC_ST_ROLL )
     {
@@ -114,6 +129,7 @@ flag_t mutex_free( mutex_t * mutex )
     flag_t ret = SYNC_ST_ROLL;
 
     SYNC_WAKE( mutex,  0, 1, ret );    // Now we can wake some process.
+    proc_free();                       // May stop caller process.
 
     return ret;
 }

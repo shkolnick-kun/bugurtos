@@ -50,7 +50,8 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     // 5 _proc_prio_propagate sync_set_owner
     sync_set_owner( &sync_1, &proc[1] );//proc[1] must be an owner of sync_1
-    test = ((proc[1].flags & PROC_FLG_BLOCK) == PROC_FLG_BLOCK );
+    test = ( & proc[1] == sync_1.owner );
+    //test = ((proc[1].flags & PROC_FLG_LOCK) == PROC_FLG_LOCK );
     test_output( test, test_num++ );
     // 6 _proc_prio_propagate sync_set_owner
     test = (sync_1.owner == &proc[1] );
@@ -98,7 +99,8 @@ void main_0( void * arg )
     //17 sync_sleep proc_set_prio _proc_prio_propagate
     sync_set_owner( &sync_2, &proc[2] );
     wait_time(5);
-    test = ((proc[2].flags & PROC_FLG_BLOCK) == PROC_FLG_BLOCK );
+    //test = ((proc[2].flags & PROC_FLG_LOCK) == PROC_FLG_LOCK );
+    test = ( &proc[2] == sync_2.owner );
     test_output( test, test_num++ );
     //18 sync_sleep proc_set_prio _proc_prio_propagate
     test = ( proc[2].lres.index == (1<<LOWEST));
@@ -130,7 +132,8 @@ void main_0( void * arg )
     test = (sync_2.owner == (proc_t *)0 );
     test_output( test, test_num++ );
     //26 sync_sleep proc_set_prio _proc_prio_propagate
-    test = ((proc[2].flags & PROC_FLG_BLOCK) != PROC_FLG_BLOCK );
+    //test = ((proc[2].flags & PROC_FLG_LOCK) != PROC_FLG_LOCK );
+
     test_output( test, test_num++ );
     //27 sync_sleep proc_set_prio _proc_prio_propagate
     test = ( proc[2].lres.index == 0);
@@ -195,20 +198,20 @@ void main_0( void * arg )
     test = (sync_2.owner == &proc[0]);
     test_output( test, test_num++ );
     //42
-    test = ((proc[0].flags & PROC_FLG_BLOCK) == PROC_FLG_BLOCK );
+    //test = ((proc[0].flags & PROC_FLG_LOCK) == PROC_FLG_LOCK );
     test_output( test, test_num++ );
     //43
-    test = ((proc[2].flags & PROC_FLG_BLOCK) != PROC_FLG_BLOCK );
+    //test = ((proc[2].flags & PROC_FLG_LOCK) != PROC_FLG_LOCK );
     test_output( test, test_num++ );
     //44
     sync_set_owner( &sync_2, &proc[2] );//Must NOT set!
     test = (sync_2.owner == &proc[0]);
     test_output( test, test_num++ );
     //45
-    test = ((proc[0].flags & PROC_FLG_BLOCK) == PROC_FLG_BLOCK );
+    //test = ((proc[0].flags & PROC_FLG_LOCK) == PROC_FLG_LOCK );
     test_output( test, test_num++ );
     //46
-    test = ((proc[2].flags & PROC_FLG_BLOCK) != PROC_FLG_BLOCK );
+    //test = ((proc[2].flags & PROC_FLG_LOCK) != PROC_FLG_LOCK );
     test_output( test, test_num++ );
     //47
     sync_clear_owner( &sync_2 );
@@ -216,10 +219,10 @@ void main_0( void * arg )
     test = (sync_get_owner( &sync_2 ) == &proc[2]);
     test_output( test, test_num++ );
     //48
-    test = ((proc[2].flags & PROC_FLG_BLOCK) == PROC_FLG_BLOCK );
+    //test = ((proc[2].flags & PROC_FLG_LOCK) == PROC_FLG_LOCK );
     test_output( test, test_num++ );
     //49
-    test = ((proc[0].flags & PROC_FLG_BLOCK) != PROC_FLG_BLOCK );
+    //test = ((proc[0].flags & PROC_FLG_LOCK) != PROC_FLG_LOCK );
     test_output( test, test_num++ );
     /// sync_set_owner + sync_get_owner covered!!!
     //50 sync_sleep sync_wake

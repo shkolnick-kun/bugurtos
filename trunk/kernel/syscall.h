@@ -90,7 +90,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (syscall_t)(1))         /*!< \~russian \brief Останов процесса. \~english \brief A process stop. */
 #define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (syscall_t)(1))            /*!< \~russian \brief Самоостанов процесса. \~english \brief A process self stop. */
 #define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (syscall_t)(1))       /*!< \~russian \brief Завершение работы процесса. \~english \brief A process termination. */
-#define SYSCALL_PROC_LOCK                       (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian \brief Установить флаг #PROC_FLG_BLOCK для вызывающего процесса. \~english \brief #PROC_FLG_BLOCK for caller process. */
+#define SYSCALL_PROC_LOCK                       (SYSCALL_PROC_TERMINATE + (syscall_t)(1))       /*!< \~russian \brief Установить флаг #PROC_FLG_LOCK для вызывающего процесса. \~english \brief #PROC_FLG_LOCK for caller process. */
 #define SYSCALL_PROC_FREE                       (SYSCALL_PROC_LOCK + (syscall_t)(1))            /*!< \~russian \brief Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english \brief #PROC_FLG_PRE_STOP flag processing. */
 #define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FREE + (syscall_t)(1))            /*!< \~russian \brief Сброс watchdog процесса реального времени. \~english \brief A real time process watchdog reset. */
 #define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (syscall_t)(1))  /*!< \~russian \brief Установить приоритет процесса \~english \brief Set a process priority. */
@@ -256,7 +256,7 @@ void scall_proc_terminate( void * arg );
 \brief
 Обработчик вызова #SYSCALL_PROC_LOCK.
 
-Устанавливает флаг #PROC_FLG_BLOCK для вызывающего процесса, увеличивает счетчик proc->lres.
+Устанавливает флаг #PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
 
 \~english
 \brief
@@ -271,7 +271,7 @@ void scall_proc_lock( void * arg );
 \brief
 Обработчик вызова #SYSCALL_PROC_FREE.
 
-Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #PROC_FLG_BLOCK, пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP.
+Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP.
 Вызывает #_proc_free.
 
 \param arg указатель на маску обнуления флагов процесса.
@@ -280,7 +280,7 @@ void scall_proc_lock( void * arg );
 \brief
 A #SYSCALL_PROC_FREE handler.
 
-This function decreases proc->lres counter, clears #PROC_FLG_BLOCK if needed and, process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
+This function decreases proc->lres counter, clears #PROC_FLG_LOCK if needed and, process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
 It calls #_proc_free.
 
 \param arg A poointer to a flag mask.

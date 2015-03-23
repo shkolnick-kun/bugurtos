@@ -116,10 +116,13 @@ flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
 {
     flag_t ret;
 
+    proc_lock();
+
     SYNC_WAIT(in, proc, block, ret );
 
     if( SYNC_ST_OK != ret )
     {
+        proc_free();
         return ret;
     }
 
@@ -127,10 +130,13 @@ flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
 
     if( SYNC_ST_OK != ret )
     {
+        proc_free();
         return ret;
     }
 
     SYNC_WAIT(in, proc, 1, ret );
+
+    proc_free();
 
     return ret;
 }
@@ -139,7 +145,11 @@ flag_t ipc_reply( ipc_t * in, proc_t * proc)
 {
     flag_t ret;
 
+    proc_lock();
+
     SYNC_WAKE(in, proc, 0, ret );
+
+    proc_free();
 
     return ret;
 }

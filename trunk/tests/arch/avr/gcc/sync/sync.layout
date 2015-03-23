@@ -14,22 +14,22 @@
 		<Cursor position="152" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="13312" topLine="294" />
+		<Cursor position="17102" topLine="412" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="19635" topLine="426" />
+		<Cursor position="7874" topLine="123" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="300" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="11475" topLine="125" />
+		<Cursor position="23672" topLine="730" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="20030" topLine="373" />
+		<Cursor position="19972" topLine="361" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="7575" topLine="106" />
+		<Cursor position="7575" topLine="111" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="11443" topLine="108" />
@@ -40,7 +40,10 @@
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="7061" topLine="180" />
 	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1902" topLine="75" />
+	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="14234" topLine="391" />
+		<Cursor position="827" topLine="35" />
 	</File>
 </CodeBlocks_layout_file>

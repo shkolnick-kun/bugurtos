@@ -80,17 +80,19 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************
                               Internal Usage functions!!!
 *****************************************************************************************/
+/*
 void _proc_lres_inc( proc_t * proc ,prio_t prio )
 {
-    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_BLOCK;
+    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_LOCK;
     pcounter_inc( &proc->lres, prio );
 }
 
 void _proc_lres_dec( proc_t * proc ,prio_t prio )
 {
     pcounter_dec( &proc->lres, prio );
-    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_BLOCK;
+    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_LOCK;
 }
+//*/
 //========================================================================================
 void _proc_dont_stop( proc_t * proc, flag_t flags )
 {
@@ -103,6 +105,20 @@ void _proc_dont_stop( proc_t * proc, flag_t flags )
             proc->flags |= (flags|PROC_FLG_PRE_STOP);
             sched_proc_run( proc, PROC_STATE_READY );
         }
+}
+//========================================================================================
+void _proc_check_pre_stop( proc_t * proc )
+{
+    if(  PROC_PRE_STOP_TEST(proc)  )
+    {
+        /*
+        If a process stop was called
+        and a process does not have locked resources,
+        then stop a process.
+        */
+        _proc_stop_ensure( proc );
+        proc->flags &= ~PROC_FLG_PRE_STOP;
+    }
 }
 //========================================================================================
 void _proc_stop_ensure( proc_t * proc )
@@ -225,6 +241,7 @@ void proc_init_isr(
     proc->time_quant = time_quant;
     proc->timer = time_quant;
     proc->sync = (sync_t *)0;
+    proc->cnt_lock = (count_t)0;
 #ifdef CONFIG_MP
     proc->core_id = (core_id_t)0;
     proc->affinity = affinity;
@@ -380,7 +397,8 @@ void _proc_lock( void )
 
     SPIN_LOCK( proc );
 
-    PROC_LRES_INC( proc, PROC_PRIO_LOWEST );
+    proc->flags |= PROC_FLG_LOCK;
+    proc->cnt_lock++;
 
     SPIN_FREE( proc );
 }
@@ -405,18 +423,14 @@ void _proc_free( void )
 
     SPIN_LOCK( proc );
 
-    PROC_LRES_DEC( proc, PROC_PRIO_LOWEST );
+    if( proc->cnt_lock )proc->cnt_lock--;
 
-    if(  PROC_PRE_STOP_TEST(proc)  )
+    if( ((count_t)0) == proc->cnt_lock )
     {
-        /*
-        If a process stop was called
-        and a process does not have locked resources,
-        then stop a process.
-        */
-        _proc_stop_ensure( proc );
-        proc->flags &= ~PROC_FLG_PRE_STOP;
+        proc->flags &= ~PROC_FLG_LOCK;
     }
+
+    _proc_check_pre_stop( proc );
 
     SPIN_FREE( proc );
 }

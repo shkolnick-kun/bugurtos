@@ -21,7 +21,7 @@ void main_proc_test( void * arg )
 
     // proc_run test 2
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
-    proc[2].flags |= PROC_FLG_BLOCK;
+    proc[2].flags |= PROC_FLG_LOCK;
     // Must run the process
     test = proc_run( &proc[2] );
     test_output( test , 2 );
@@ -50,7 +50,7 @@ void main_proc_test( void * arg )
 
     // proc_stop test 7
     // Must return 1, process is not running now!
-    proc[2].flags &= ~PROC_FLG_BLOCK;
+    proc[2].flags &= ~PROC_FLG_LOCK;
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
     test = proc_stop( &proc[2] );
     test_output( test , 7 );
@@ -71,8 +71,10 @@ void main_proc_test( void * arg )
 
     // proc_stop test 10
     // Must NOT stop the process!
-    //proc[4].flags |= PROC_FLG_BLOCK;
-    PROC_LRES_INC( (&proc[4]), LOWEST ); // proc[4] is stoped, we can work with it,s properties!
+    // proc[4] is stoped, we can work with it,s properties!
+    proc[4].flags |= PROC_FLG_LOCK;
+    proc[4].cnt_lock = (count_t)1;
+
     proc_run( &proc[4] );
     test = !proc_stop( &proc[4] );
     test = test && !!( proc[4].flags & PROC_FLG_PRE_STOP );
