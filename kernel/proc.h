@@ -140,13 +140,13 @@ A decrement of locked mutex counter field of a process.
 */
 
 #define PROC_LRES_INIT(a) pcounter_init(&a->lres)
-#define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
-#define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
+//#define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
+//#define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
 
-/*
+
 #define PROC_LRES_INC(a,b) pcounter_inc( &a->lres, b )
 #define PROC_LRES_DEC(a,b) pcounter_dec( &a->lres, b )
-*/
+
 
 //#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 
@@ -188,6 +188,7 @@ struct _proc_t
     timer_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     timer_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     struct _sync_t * sync;
+    count_t cnt_lock;    /*!<\~russian  Счетчик уровней вложенности #proc_lock. \~english A counter of #proc_lock nesting.*/
 #ifdef CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
     core_id_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
@@ -230,7 +231,7 @@ This flag enables real time process scheduling policy.
 
 A process has locked some mutex controled resources.
 */
-#define PROC_FLG_BLOCK      ((flag_t)0x40)
+#define PROC_FLG_LOCK      ((flag_t)0x40)
 
 #define PROC_FLG_RESERVED   ((flag_t)0x20)
 /*!
@@ -247,15 +248,15 @@ A process must be stoped, but it can't be stoped now. It'll be stoped when possi
 
 /*!
 \~russian
-\brief Маска #PROC_FLG_BLOCK.
+\brief Маска #PROC_FLG_LOCK.
 
 Нужна, чтобы определить, удерживает ли процесс общие ресурсы.
 \~english
-\brief A #PROC_FLG_BLOCK.
+\brief A #PROC_FLG_LOCK.
 
 Used to test if a process has locked some resources.
 */
-#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_BLOCK))
+#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_LOCK))
 
 /*!
 \~russian
@@ -656,18 +657,18 @@ void _proc_prio_propagate( proc_t * proc
 void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 /*!
 \~russian
-\brief Установка флага #PROC_FLG_BLOCK для вызывающего процесса.
+\brief Установка флага #PROC_FLG_LOCK для вызывающего процесса.
 
 \~english
-\brief Set #PROC_FLG_BLOCK for caller process.
+\brief Set #PROC_FLG_LOCK for caller process.
 */
 void _proc_lock(void);
 /*!
 \~russian
-\brief Установка флага #PROC_FLG_BLOCK для вызывающего процесса.
+\brief Установка флага #PROC_FLG_LOCK для вызывающего процесса.
 
 \~english
-\brief Set #PROC_FLG_BLOCK for caller process.
+\brief Set #PROC_FLG_LOCK for caller process.
 */
 void proc_lock(void);
 /*!
@@ -744,7 +745,7 @@ void _proc_set_prio( proc_t * proc, prio_t prio );
 \~russian
 \brief Управление приоритетом процесса. Для внктреннего использования.
 
-Инкрементирует счетчик proc->lres, устанавливает флаг #PROC_FLG_BLOCK.
+Инкрементирует счетчик proc->lres, устанавливает флаг #PROC_FLG_LOCK.
 
 \param proc - Указатель на процесс.
 \param prio - Новое значение приоритета.
@@ -752,7 +753,7 @@ void _proc_set_prio( proc_t * proc, prio_t prio );
 \~english
 \brief Process priority control. For internel usage.
 
-Increments proc->lres counter, sets #PROC_FLG_BLOCK flag.
+Increments proc->lres counter, sets #PROC_FLG_LOCK flag.
 
 \param proc - A pointer to a process.
 \param prio - New process priority value.
@@ -762,7 +763,7 @@ void _proc_lres_inc( proc_t * proc ,prio_t prio );
 \~russian
 \brief Управление приоритетом процесса. Для внктреннего использования.
 
-Декрементирует счетчик proc->lres, сбрасывает флаг #PROC_FLG_BLOCK при необходимости.
+Декрементирует счетчик proc->lres, сбрасывает флаг #PROC_FLG_LOCK при необходимости.
 
 \param proc - Указатель на процесс.
 \param prio - Новое значение приоритета.
@@ -770,7 +771,7 @@ void _proc_lres_inc( proc_t * proc ,prio_t prio );
 \~english
 \brief Process priority control. For internel usage.
 
-Decrements proc->lres counter, clears #PROC_FLG_BLOCK flag if needed.
+Decrements proc->lres counter, clears #PROC_FLG_LOCK flag if needed.
 
 \param proc - A pointer to a process.
 \param prio - New process priority value.
@@ -792,5 +793,18 @@ Stops aprocess for sure.
 \param proc - A pointer to a process.
 */
 void _proc_stop_ensure( proc_t * proc );
+
+/*!
+\~russian
+\brief Останов процесса по флагу #PROC_FLG_PRE_STOP. Для внктреннего использования.
+
+\param proc - Указатель на процесс.
+
+\~english
+\brief Stops a process on #PROC_FLG_PRE_STOP flag. For internel usage.
+
+\param proc - A pointer to a process.
+*/
+void _proc_check_pre_stop( proc_t * proc );
 
 #endif // _PROC_H_

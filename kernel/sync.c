@@ -440,20 +440,7 @@ flag_t _sync_sleep( sync_t * sync )
 
     proc = current_proc();
 
-    SPIN_LOCK( proc );
-    if( PROC_STATE_SYNC_RUNNING == PROC_GET_STATE( proc ) )
-    {
-        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
-        SPIN_FREE( proc );
-
-        return SYNC_ST_OK;
-    }
-    SPIN_FREE( proc );
-
-    KERNEL_PREEMPT();
-
     SPIN_LOCK( sync );
-
     if( sync->owner == proc )
     {
         SPIN_FREE( sync );
@@ -461,6 +448,21 @@ flag_t _sync_sleep( sync_t * sync )
         return SYNC_ST_EOWN;
     }
     SPIN_FREE( sync );
+
+    KERNEL_PREEMPT();
+
+    SPIN_LOCK( proc );
+    if( PROC_STATE_SYNC_RUNNING == PROC_GET_STATE( proc ) )
+    {
+        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
+
+        _proc_check_pre_stop( proc );
+
+        SPIN_FREE( proc );
+
+        return SYNC_ST_OK;
+    }
+    SPIN_FREE( proc );
 
     KERNEL_PREEMPT();
 
@@ -593,6 +595,8 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         SPIN_LOCK( (*proc) );
         if( (*proc)->sync == sync )
         {
+            _proc_check_pre_stop( *proc );
+
             status = SYNC_ST_OK;
         }
         SPIN_FREE( (*proc) );
