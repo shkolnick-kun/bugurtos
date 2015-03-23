@@ -221,6 +221,8 @@ struct _proc_t
 This flag enables real time process scheduling policy.
 */
 #define PROC_FLG_RT         ((flag_t)0x80)
+
+#define PROC_FLG_RR   ((flag_t)0x40)
 /*!
 \~russian
 \brief Флаг захвата мьютексов.
@@ -232,8 +234,6 @@ This flag enables real time process scheduling policy.
 A process has locked some mutex controled resources.
 */
 #define PROC_FLG_LOCK      ((flag_t)0x20)
-
-#define PROC_FLG_RESERVED   ((flag_t)0x40)
 /*!
 \~russian
 \brief Флаг запроса останова.

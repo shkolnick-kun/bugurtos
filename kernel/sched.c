@@ -155,7 +155,7 @@ void sched_init(sched_t * sched, proc_t * idle)
     sched->expired = (xlist_t *)sched->plst + 1;
     xlist_init( sched->expired );
     pitem_insert( (pitem_t *)idle, sched->ready );
-    idle->flags = PROC_STATE_RUNNING;
+    idle->flags |= PROC_STATE_RUNNING;
     sched->current_proc = idle;
     sched->nested_crit_sec = (count_t)0;
 #ifdef CONFIG_MP
@@ -280,10 +280,14 @@ void sched_schedule(void)
         Switch a process state from RUNNING/W_RUNNING to STOPED/W_MUT!
         ***************************************************************************/
         current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
-        // Switch ready sublist to a next process.
-        SPIN_LOCK( sched );
-        xlist_switch( sched->ready, ((pitem_t *)current_proc)->prio );
-        SPIN_FREE( sched );
+
+        if( current_proc->flags & PROC_FLG_RR )
+        {
+            // Switch ready sublist to a next process.
+            SPIN_LOCK( sched );
+            xlist_switch( sched->ready, ((pitem_t *)current_proc)->prio );
+            SPIN_FREE( sched );
+        }
         //Is a process time slice over?
         if( current_proc->timer > (timer_t)1 )
         {

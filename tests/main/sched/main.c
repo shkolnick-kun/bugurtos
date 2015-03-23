@@ -70,6 +70,8 @@ int main(void)
     proc_init_isr( &proc[4], main_no_return,     SVH4, RSH4, 0, &proc_stack[4][PROC_STACK_SIZE-1], 3,      4, 0 SCHED_ARG_END );
     proc_init_isr( &proc[5], main_no_return,     SVH5, RSH5, 0, &proc_stack[5][PROC_STACK_SIZE-1], 3,      5, 0 SCHED_ARG_END );
 
+    proc[5].flags &= ~PROC_FLG_RR;
+
     proc_run_isr( &proc[0] );
 
     start_bugurt();
