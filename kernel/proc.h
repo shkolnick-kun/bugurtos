@@ -616,23 +616,6 @@ If a caller process is real time, then this function resets its timer.
 If a real time process failes to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
 void _proc_reset_watchdog(void);
-
-/*!
-\~russian
-\brief Запуск остановленного процесса с флагом #PROC_FLG_PRE_STOP. Для внутреннего использования.
-
-\~english
-\brief Run stoped process and set #PROC_FLG_PRE_STOP. For internal usage.
-*/
-void _proc_dont_stop( proc_t * proc, flag_t flags );
-/*!
-\~russian
-\brief Вырезать проесс из списка ожидающих и его запуск. Для внутреннего использования.
-
-\~english
-\brief Cut the a process from wait list and run it. For internel usage.
-*/
-void _proc_cut_and_run( proc_t * proc, flag_t state );
 //===========================================================
 /*!
 \~russian

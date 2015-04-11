@@ -80,31 +80,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************
                               Internal Usage functions!!!
 *****************************************************************************************/
-/*
-void _proc_lres_inc( proc_t * proc ,prio_t prio )
+void _proc_stop_ensure( proc_t * proc )
 {
-    if( proc->lres.index == (index_t)0 )proc->flags |= PROC_FLG_LOCK;
-    pcounter_inc( &proc->lres, prio );
-}
-
-void _proc_lres_dec( proc_t * proc ,prio_t prio )
-{
-    pcounter_dec( &proc->lres, prio );
-    if( proc->lres.index == (index_t)0 )proc->flags &= ~PROC_FLG_LOCK;
-}
-//*/
-//========================================================================================
-void _proc_dont_stop( proc_t * proc, flag_t flags )
-{
-        if( PROC_RUN_TEST( proc ) )
-        {
-            proc->flags |= flags;
-        }
-        else
-        {
-            proc->flags |= (flags|PROC_FLG_PRE_STOP);
-            sched_proc_run( proc, PROC_STATE_READY );
-        }
+    if( PROC_RUN_TEST( proc ) )
+    {
+        sched_proc_stop( proc );
+    }
 }
 //========================================================================================
 void _proc_check_pre_stop( proc_t * proc )
@@ -118,14 +99,6 @@ void _proc_check_pre_stop( proc_t * proc )
         */
         _proc_stop_ensure( proc );
         proc->flags &= ~PROC_FLG_PRE_STOP;
-    }
-}
-//========================================================================================
-void _proc_stop_ensure( proc_t * proc )
-{
-    if( PROC_RUN_TEST( proc ) )
-    {
-        sched_proc_stop( proc );
     }
 }
 //========================================================================================
@@ -160,23 +133,6 @@ void _proc_prio_control_stoped( proc_t * proc )
         ((pitem_t *)proc)->prio = proc->base_prio;
     }
 }
-//=======================================================================================
-
-//========================================================================================
-// Cut a process from its wait list and run it, if needed.
-void _proc_cut_and_run( proc_t * proc, flag_t state )
-{
-    if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
-    {
-        PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
-    }
-    else
-    {
-        pitem_cut( (pitem_t *)proc );
-        sched_proc_run( proc, state );
-    }
-}
-
 /**********************************************************************************************
                                     Process control !!!
 **********************************************************************************************/
