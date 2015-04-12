@@ -777,17 +777,4 @@ Stops aprocess for sure.
 */
 void _proc_stop_ensure( proc_t * proc );
 
-/*!
-\~russian
-\brief Останов процесса по флагу #PROC_FLG_PRE_STOP. Для внктреннего использования.
-
-\param proc - Указатель на процесс.
-
-\~english
-\brief Stops a process on #PROC_FLG_PRE_STOP flag. For internel usage.
-
-\param proc - A pointer to a process.
-*/
-void _proc_check_pre_stop( proc_t * proc );
-
 #endif // _PROC_H_
