@@ -122,7 +122,7 @@ flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
 
     if( SYNC_ST_OK != ret )
     {
-        goto end:
+        goto end;
     }
 
     SYNC_WAKE(in, *proc, 0, ret );
