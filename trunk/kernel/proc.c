@@ -88,20 +88,6 @@ void _proc_stop_ensure( proc_t * proc )
     }
 }
 //========================================================================================
-void _proc_check_pre_stop( proc_t * proc )
-{
-    if(  PROC_PRE_STOP_TEST(proc)  )
-    {
-        /*
-        If a process stop was called
-        and a process does not have locked resources,
-        then stop a process.
-        */
-        _proc_stop_ensure( proc );
-        proc->flags &= ~PROC_FLG_PRE_STOP;
-    }
-}
-//========================================================================================
 void _proc_stop_flags_set( proc_t * proc, flag_t mask )
 {
     // Was a process stoped some where else?
@@ -290,7 +276,10 @@ bool_t proc_restart_isr(proc_t * proc)
 
     proc->timer = proc->time_quant;
 
-    if( proc->sstart )proc->spointer = proc_stack_init( proc->sstart, (code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
+    if( proc->sstart )
+    {
+        proc->spointer = proc_stack_init( proc->sstart, (code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
+    }
     sched_proc_run( proc, PROC_STATE_READY );
 end:
 
@@ -322,7 +311,10 @@ bool_t proc_stop_isr(proc_t * proc)
     SPIN_LOCK( proc );
     //Check flags
     //When PROC_FLG_MUTEX or PROC_FLG_SEM or both are set we must process PROC_FLG_PRE_STOP on common resource release.
-    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_PRE_STOP|PROC_STATE_WAIT_MASK) )proc->flags |= PROC_FLG_PRE_STOP;
+    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_PRE_STOP|PROC_STATE_WAIT_MASK) )
+    {
+        proc->flags |= PROC_FLG_PRE_STOP;
+    }
     else
     {
         _proc_stop_ensure( proc );
@@ -379,14 +371,25 @@ void _proc_free( void )
 
     SPIN_LOCK( proc );
 
-    if( proc->cnt_lock )proc->cnt_lock--;
+    if( proc->cnt_lock )
+    {
+        proc->cnt_lock--;
+    }
 
     if( ((count_t)0) == proc->cnt_lock )
     {
         proc->flags &= ~PROC_FLG_LOCK;
     }
-
-    _proc_check_pre_stop( proc );
+    /*
+    If a process stop was called
+    and a process does not have locked resources,
+    then stop a process.
+    */
+    if(  PROC_PRE_STOP_TEST(proc)  )
+    {
+        _proc_stop_ensure( proc );
+        proc->flags &= ~PROC_FLG_PRE_STOP;
+    }
 
     SPIN_FREE( proc );
 }
@@ -438,9 +441,15 @@ void _proc_terminate( void )
     _proc_stop_ensure( proc );
     // Flags processing!
     // A prcess is not alowed to return from pmain не wuth resources locked!
-    if( proc->flags & PROC_FLG_LOCK_MASK ) proc->flags |= PROC_STATE_DEAD;
-    // A normal process termination.
-    else proc->flags |= PROC_STATE_END;
+    if( proc->flags & PROC_FLG_LOCK_MASK )
+    {
+        proc->flags |= PROC_STATE_DEAD;
+    }
+    else
+    {
+        // A normal process termination.
+        proc->flags |= PROC_STATE_END;
+    }
     proc->flags &= ~PROC_FLG_PRE_STOP;
 
     SPIN_FREE( proc );
@@ -465,7 +474,10 @@ void _proc_reset_watchdog( void )
 
     SPIN_LOCK( proc );
 
-    if( proc->flags & PROC_FLG_RT )proc->timer = proc->time_quant;
+    if( proc->flags & PROC_FLG_RT )
+    {
+        proc->timer = proc->time_quant;
+    }
 
     SPIN_FREE( proc );
 }

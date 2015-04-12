@@ -325,10 +325,11 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     ///Priority inheritance protocol covered!!!
     //72
-    proc[2].flags |= PROC_FLG_PRE_STOP;//Must self stop on _sync_wake call from KERNEL_PREEMPT in _proc_prio_propagate in _proc_set_prio
+    //proc[2].flags |= PROC_FLG_PRE_STOP;
     proc_run( &proc[2] );
     wait_time(5);
     //73
+    //Must self stop after proc_set_prio call
     test = ( PROC_GET_STATE( (&proc[2]) ) == PROC_STATE_STOPED );
     test_output( test, test_num++ );
     //74
@@ -439,10 +440,8 @@ void main_2( void * arg )
 
     //This will wakeup proc[3];
     kernel_preemt_hook_add( prio_propagate_hook_2 );
-//    disable_interrupts();
-//    test_kernel_preempt = prio_propagate_hook_2;
-//    enable_interrupts();
     proc_set_prio( &proc[3], LOWEST );
+    proc_self_stop();
 
     proc_buff  = (proc_t *)0;
     status = sync_wait( &sync_2, &proc_buff, 1 );

@@ -455,9 +455,6 @@ flag_t _sync_sleep( sync_t * sync )
     if( PROC_STATE_SYNC_RUNNING == PROC_GET_STATE( proc ) )
     {
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
-
-        _proc_check_pre_stop( proc );
-
         SPIN_FREE( proc );
 
         return SYNC_ST_OK;
@@ -595,8 +592,6 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         SPIN_LOCK( (*proc) );
         if( (*proc)->sync == sync )
         {
-            _proc_check_pre_stop( *proc );
-
             status = SYNC_ST_OK;
         }
         SPIN_FREE( (*proc) );
@@ -744,17 +739,8 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             PROC_LRES_INC( owner, SYNC_PRIO( sync ) );
         }
         _proc_prio_control_stoped( owner );
-        // Is PROC_FLG_PRE_STOP processing needed, can process be stoped if "Yes"?
-        if(  PROC_PRE_STOP_TEST( owner )  )
-        {
-            // Yes, Yes. Will not run actualy.
-            owner->flags &= ~PROC_FLG_PRE_STOP;
-        }
-        else
-        {
-            // Run in other cases!
-            sched_proc_run( owner, PROC_STATE_READY );
-        }
+        sched_proc_run( owner, PROC_STATE_READY );
+
         SPIN_FREE( owner );
     }
 
