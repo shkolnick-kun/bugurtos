@@ -153,7 +153,6 @@ flag_t sem_lock( sem_t * sem )
     }
 
     proc_free();
-
     return ret;
 }
 
@@ -193,6 +192,5 @@ flag_t sem_free( sem_t * sem )
     }
 
     proc_free();
-
     return ret;
 }
