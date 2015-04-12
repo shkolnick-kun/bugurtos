@@ -131,12 +131,12 @@ flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
     if( SYNC_ST_OK != ret )
     {
         proc_free();
-        return ret;
     }
-
-    SYNC_WAIT(in, proc, 1, ret );
-
-    proc_free();
+    else
+    {
+        SYNC_WAIT(in, proc, 1, ret );
+        proc_free();
+    }
 
     return ret;
 }
