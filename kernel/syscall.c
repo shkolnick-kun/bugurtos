@@ -128,7 +128,15 @@ void do_syscall( void )
 ***********************************************************************************************
                                        SYSCALL_USER
 **********************************************************************************************/
+typedef struct
+{
+    code_t func;
+    void * arg;
+}scall_user_t;
+
 void scall_user(void * arg)
 {
-    ((void (*)(void *))arg)(arg);
+    scall_user_t user;
+    user.arg = arg;
+    user.func(arg);
 }
