@@ -108,15 +108,14 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
     if( SYNC_ST_EOWN == ret )
     {
         proc_free(); //May stop as error occured!
-        return SYNC_ST_EOWN;
     }
     else
     {
         ret = SYNC_SLEEP( cond );
         proc_free(); //Now may stop!
-    }
 
-    mutex_lock( mutex );
+        mutex_lock( mutex );
+    }
 
     return ret;
 }
