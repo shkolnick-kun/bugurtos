@@ -87,7 +87,10 @@ WEAK core_id_t sched_load_balancer(proc_t * proc, stat_t * stat)
     affinity_t mask = (affinity_t)1;
     while( core < (core_id_t)MAX_CORES )
     {
-        if( proc->affinity & mask )break;
+        if( proc->affinity & mask )
+        {
+            break;
+        }
         mask<<=1;
         core++;
     }
@@ -225,7 +228,10 @@ static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
 {
     SPIN_LOCK( current_proc );
     // Context save hook
-    if( current_proc->sv_hook )current_proc->sv_hook( current_proc->arg );
+    if( current_proc->sv_hook )
+    {
+        current_proc->sv_hook( current_proc->arg );
+    }
     SPIN_FREE( current_proc );
 
     SPIN_LOCK( sched );
@@ -251,7 +257,10 @@ static void _sched_switch_current( sched_t * sched, proc_t * current_proc )
     current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
     current_proc->flags |= PROC_STATE_RUNNING;
     //Context restore hook
-    if( current_proc->rs_hook )current_proc->rs_hook( current_proc->arg );
+    if( current_proc->rs_hook )
+    {
+        current_proc->rs_hook( current_proc->arg );
+    }
     SPIN_FREE( current_proc );
 }
 /******************************************************************************************

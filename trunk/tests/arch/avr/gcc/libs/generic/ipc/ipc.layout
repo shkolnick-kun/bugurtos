@@ -10,8 +10,8 @@
 	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="7584" topLine="103" />
 	</File>
-	<File name="../../../../../../../libs/generic/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="7164" topLine="127" />
+	<File name="../../../../../../../libs/generic/ipc.c" open="1" top="1" tabpos="0">
+		<Cursor position="6816" topLine="29" />
 	</File>
 	<File name="../../../../../../../libs/generic/ipc.h" open="0" top="0" tabpos="0">
 		<Cursor position="10086" topLine="141" />

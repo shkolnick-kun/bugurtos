@@ -13,8 +13,8 @@
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
 		<Cursor position="35471" topLine="636" />
 	</File>
-	<File name="../../../../../../../kernel/sync.c" open="1" top="0" tabpos="3">
-		<Cursor position="17658" topLine="489" />
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="3">
+		<Cursor position="17723" topLine="480" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
 		<Cursor position="6226" topLine="389" />
@@ -28,29 +28,26 @@
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6857" topLine="93" />
 	</File>
-	<File name="../../../../../../../libs/generic/cond.c" open="1" top="1" tabpos="2">
-		<Cursor position="6786" topLine="97" />
+	<File name="../../../../../../../libs/generic/cond.c" open="1" top="0" tabpos="4">
+		<Cursor position="6767" topLine="122" />
 	</File>
 	<File name="../../../../../../../libs/generic/cond.h" open="0" top="0" tabpos="1">
 		<Cursor position="9642" topLine="134" />
 	</File>
-	<File name="../../../../../../../libs/generic/mutex.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../../../libs/generic/mutex.c" open="1" top="0" tabpos="2">
 		<Cursor position="426" topLine="73" />
 	</File>
 	<File name="../../../../../../../libs/generic/mutex.h" open="0" top="0" tabpos="4">
 		<Cursor position="10713" topLine="57" />
 	</File>
-	<File name="../../../../../../../libs/generic/sig.c" open="0" top="0" tabpos="3">
-		<Cursor position="6083" topLine="113" />
+	<File name="../../../../../../../libs/generic/sig.c" open="1" top="0" tabpos="5">
+		<Cursor position="6083" topLine="116" />
 	</File>
 	<File name="../../../../../../../libs/generic/sig.h" open="0" top="0" tabpos="2">
 		<Cursor position="8842" topLine="89" />
 	</File>
 	<File name="../../../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="1931" topLine="52" />
-	</File>
-	<File name="../../../test_func.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1232" topLine="39" />

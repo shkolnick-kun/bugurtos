@@ -90,8 +90,14 @@ core_id_t _enter_crit_sec(void)
 
 void _exit_crit_sec(core_id_t core)
 {
-    if( kernel.sched[core].nested_crit_sec != (count_t)0 )kernel.sched[core].nested_crit_sec--;
-    if( kernel.sched[core].nested_crit_sec == (count_t)0 )enable_interrupts();
+    if( kernel.sched[core].nested_crit_sec != (count_t)0 )
+    {
+        kernel.sched[core].nested_crit_sec--;
+    }
+    if( kernel.sched[core].nested_crit_sec == (count_t)0 )
+    {
+        enable_interrupts();
+    }
 }
 
 #else
@@ -102,7 +108,13 @@ void enter_crit_sec(void)
 }
 void exit_crit_sec(void)
 {
-    if( kernel.sched.nested_crit_sec != (count_t)0 )kernel.sched.nested_crit_sec--;
-    if( kernel.sched.nested_crit_sec == (count_t)0 )enable_interrupts();
+    if( kernel.sched.nested_crit_sec != (count_t)0 )
+    {
+        kernel.sched.nested_crit_sec--;
+    }
+    if( kernel.sched.nested_crit_sec == (count_t)0 )
+    {
+        enable_interrupts();
+    }
 }
 #endif
