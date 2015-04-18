@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="7985" topLine="150" />
+	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="705" />
 	</File>
@@ -11,9 +14,9 @@
 		<Cursor position="19301" topLine="528" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="3467" topLine="216" />
+		<Cursor position="3486" topLine="210" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="14215" topLine="332" />
+	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="15386" topLine="416" />
 	</File>
 </CodeBlocks_layout_file>

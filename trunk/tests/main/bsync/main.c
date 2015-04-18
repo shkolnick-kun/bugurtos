@@ -400,6 +400,41 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     ///Priority ceiling protocol covered.
     //91
+    test = (SYNC_ST_OK == sync_proc_timeout( &proc[1] ));
+    test_output( test, test_num++ );
+    //92
+    sync_1.dirty = 0;
+    proc_set_prio( &proc[1], proc[1].base_prio );
+    wait_time(5);
+    test = (SYNC_ST_ESYNC == sync_proc_timeout( &proc[1] ));
+    test_output( test, test_num++ );
+    //93
+    proc_run( &proc[1] );
+    wait_time(5);
+    test = (SYNC_ST_OK == sync_proc_timeout( &proc[1] ));
+    test_output( test, test_num++ );
+    //94
+    wait_time(5);
+    test = (SYNC_ST_ETIMEOUT == status);
+    test_output( test, test_num++ );
+    //95
+    PROC_SET_STATE( (&proc[4]), PROC_STATE_PI_PEND );
+    test = (SYNC_ST_ROLL == sync_proc_timeout( &proc[4] ));
+    test_output( test, test_num++ );
+    //96
+    PROC_SET_STATE( (&proc[4]), PROC_STATE_STOPED );
+    test = (SYNC_ST_OK == sync_proc_timeout( &proc[4] ));
+    test_output( test, test_num++ );
+    //97
+    PROC_SET_STATE( (&proc[4]), PROC_STATE_SYNC_SLEEP );
+    test = (SYNC_ST_OK == sync_proc_timeout( &proc[4] ));
+    test_output( test, test_num++ );
+    //98
+    wait_time(5);
+    test = (SYNC_ST_ETIMEOUT == status);
+    test_output( test, test_num++ );
+    //99
+    /// sync_proc_timeout covered
     tests_end();
 }
 
@@ -412,6 +447,9 @@ void main_1( void * arg )
     proc_self_stop();
 
     status = sync_wait( &sync_1, &proc_buff, 0 );
+    proc_self_stop();
+
+    status = sync_wait( &sync_1, &proc_buff, 1 );
     proc_self_stop();
 }
 
@@ -465,7 +503,7 @@ void main_3( void * arg )
 
 void main_4( void * arg )
 {
-    sync_sleep( &sync_3 );
+    status = sync_sleep( &sync_3 );
     proc_self_stop();
 }
 

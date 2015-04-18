@@ -13,7 +13,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="7">
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="7">
 		<Cursor position="15899" topLine="390" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
@@ -52,25 +52,25 @@
 	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="2">
 		<Cursor position="6344" topLine="68" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="4">
-		<Cursor position="38882" topLine="692" />
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="3">
+		<Cursor position="20918" topLine="360" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="1">
-		<Cursor position="22941" topLine="529" />
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
+		<Cursor position="9627" topLine="193" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="6929" topLine="300" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
-		<Cursor position="16501" topLine="403" />
+		<Cursor position="28564" topLine="901" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
-		<Cursor position="17437" topLine="107" />
+		<Cursor position="6955" topLine="77" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
 		<Cursor position="6308" topLine="76" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="5">
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="5">
 		<Cursor position="15769" topLine="254" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="26">
@@ -88,8 +88,8 @@
 	<File name="../config.h" open="0" top="0" tabpos="4">
 		<Cursor position="2302" topLine="48" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
-		<Cursor position="2584" topLine="8" />
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
+		<Cursor position="373" topLine="23" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="615" topLine="0" />
