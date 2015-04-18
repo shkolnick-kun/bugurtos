@@ -87,7 +87,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYNC_ST_EOWN        2 /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
 #define SYNC_ST_EEMPTY      3 /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
 #define SYNC_ST_ESYNC       4 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
-#define SYNC_ST_ETIMEOUT    5 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
+#define SYNC_ST_ETIMEOUT    5 /*!< \~russian \brief ИСтек таймаут #sync_t. \~english \brief Timeout expired. */
 #define SYNC_ST_ROLL        6 /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
 typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
