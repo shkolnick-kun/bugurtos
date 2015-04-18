@@ -380,7 +380,7 @@ A process should not have locked resources at a moment of a flag stop.
 \~english
 \brief Sets process state.
 */
-#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, proc->flags |= b )
+#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, a->flags |= b )
 
 /*!
 \~russian

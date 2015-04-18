@@ -885,7 +885,6 @@ sync_proc_timeout_t;
 //========================================================================================
 flag_t sync_proc_timeout( proc_t * proc )
 {
-    ///Warning!!! Not tested!
     volatile sync_proc_timeout_t scarg;
     scarg.proc = proc;
     scarg.status = SYNC_ST_ROLL;
@@ -895,13 +894,11 @@ flag_t sync_proc_timeout( proc_t * proc )
 //========================================================================================
 void scall_sync_proc_timeout( void * arg )
 {
-    ///Warning!!! Not tested!
     ((sync_proc_timeout_t *)arg)->status = _sync_proc_timeout( ((sync_proc_timeout_t *)arg)->proc );
 }
 //========================================================================================
 flag_t _sync_proc_timeout( proc_t * proc )
 {
-    ///Warning!!! Not tested!
     flag_t status;
     sync_t * sync;
 

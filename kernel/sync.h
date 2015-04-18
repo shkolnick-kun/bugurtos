@@ -502,7 +502,7 @@ Wake a process on timeout.
 \param proc A pointer to a process, that is supposed to wake up.
 \return #SYNC_ST_OK if target process has been woken up, #SYNC_ST_ROLL if caller must do next itteration, or error code.
 */
-flag_t sync_proc_timeout( proc_t * proc ); ///Warning!!! Not tested!
+flag_t sync_proc_timeout( proc_t * proc );
 
 /*!
 \~russian
@@ -562,5 +562,5 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 \brief
 For internal usage. Watch #sync_proc_timeout.
 */
-flag_t _sync_proc_timeout( proc_t * proc ); ///Warning!!! Not tested!
+flag_t _sync_proc_timeout( proc_t * proc );
 #endif // _SYNC_H_
