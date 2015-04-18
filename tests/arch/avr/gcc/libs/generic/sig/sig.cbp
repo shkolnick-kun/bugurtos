@@ -22,6 +22,7 @@
 				<Option compiler="avrgcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-g" />
 				</Compiler>
 			</Target>
 		</Build>

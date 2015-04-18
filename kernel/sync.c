@@ -440,17 +440,6 @@ flag_t _sync_sleep( sync_t * sync )
 
     proc = current_proc();
 
-    SPIN_LOCK( sync );
-    if( sync->owner == proc )
-    {
-        SPIN_FREE( sync );
-
-        return SYNC_ST_EOWN;
-    }
-    SPIN_FREE( sync );
-
-    KERNEL_PREEMPT();
-
     SPIN_LOCK( proc );
     switch( PROC_GET_STATE( proc ) )
     {
@@ -491,6 +480,14 @@ flag_t _sync_sleep( sync_t * sync )
     else
     {
         dirty = (count_t)0;
+    }
+    // Must be handled aftre proc state
+    if( sync->owner == proc )
+    {
+        SPIN_FREE( proc );
+        SPIN_FREE( sync );
+
+        return SYNC_ST_EOWN;
     }
 
     proc->sync = sync;

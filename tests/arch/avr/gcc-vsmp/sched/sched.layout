@@ -67,10 +67,10 @@
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
 		<Cursor position="28434" topLine="889" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="4">
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="3">
 		<Cursor position="27427" topLine="538" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="1" tabpos="5">
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="4">
 		<Cursor position="6645" topLine="87" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="3">
