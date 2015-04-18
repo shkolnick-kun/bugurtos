@@ -140,15 +140,8 @@ A decrement of locked mutex counter field of a process.
 */
 
 #define PROC_LRES_INIT(a) pcounter_init(&a->lres)
-//#define PROC_LRES_INC(a,b) _proc_lres_inc(a,b)
-//#define PROC_LRES_DEC(a,b) _proc_lres_dec(a,b)
-
-
 #define PROC_LRES_INC(a,b) pcounter_inc( &a->lres, b )
 #define PROC_LRES_DEC(a,b) pcounter_dec( &a->lres, b )
-
-
-//#define PROC_PRIO_CONTROL_STOPED(a) _proc_prio_control_stoped(a)
 
 //Процесс
 typedef struct _proc_t proc_t; /*!< \~russian Смотри #_proc_t; \~english See #_proc_t; */
@@ -337,8 +330,8 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 
 #define PROC_STATE_WD_STOPED        ((flag_t)0x4)   /*!< \~russian \brief Остановлен по вачдог. \~english \brief Watchdog termination. */
 #define PROC_STATE_DEAD             ((flag_t)0x5)   /*!< \~russian \brief Завершен до завершения ipc-транзакций. \~english \brief Abnormal termination, terminated with waiting ipc transactions. */
-#define PROC_STATE_WD_READY         ((flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_WD_RUNNING       ((flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define PROC_STATE_TO_READY         ((flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_TO_RUNNING       ((flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
 #define PROC_STATE_SYNC_WAIT        ((flag_t)0x8)   /*!< \~russian \brief Ожидает приема спящих процессов. \~english \brief Is waiting for sleaping processes.*/
 #define PROC_STATE_SYNC_SLEEP       ((flag_t)0x9)   /*!< \~russian \brief Ожидает пробуждения. \~english \brief Is waiting for wakeup. */

@@ -108,8 +108,8 @@ void _proc_prio_propagate( proc_t * proc )
     {
     case PROC_STATE_READY:
     case PROC_STATE_RUNNING:
-    case PROC_STATE_WD_READY:
-    case PROC_STATE_WD_RUNNING:
+    case PROC_STATE_TO_READY:
+    case PROC_STATE_TO_RUNNING:
     case PROC_STATE_SYNC_READY:
     case PROC_STATE_SYNC_RUNNING:
     case PROC_STATE_PI_READY:
@@ -452,12 +452,26 @@ flag_t _sync_sleep( sync_t * sync )
     KERNEL_PREEMPT();
 
     SPIN_LOCK( proc );
-    if( PROC_STATE_SYNC_RUNNING == PROC_GET_STATE( proc ) )
+    switch( PROC_GET_STATE( proc ) )
+    {
+    case PROC_STATE_SYNC_RUNNING:
     {
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
 
         return SYNC_ST_OK;
+    }
+    case PROC_STATE_TO_RUNNING:
+    {
+        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
+        SPIN_FREE( proc );
+
+        return SYNC_ST_ETIMEOUT;
+    }
+    default:
+    {
+        break;
+    }
     }
     SPIN_FREE( proc );
 
@@ -549,6 +563,7 @@ flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 //========================================================================================
 flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 {
+    proc_t * current;
     proc_t * owner;
     flag_t status;
 
@@ -564,12 +579,23 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         return SYNC_ST_ENULL;
     }
 
+    current = current_proc();
+
+    SPIN_LOCK( current );
+    status = PROC_GET_STATE( current );
+    SPIN_FREE( current );
+
+    if( status == PROC_STATE_TO_RUNNING )
+    {
+        return SYNC_ST_ETIMEOUT;
+    }
+
     status = (block)?SYNC_ST_ROLL:SYNC_ST_EEMPTY;
 
     SPIN_LOCK( sync );
     owner = sync->owner;
 
-    if( owner != current_proc() )
+    if( owner != current )
     {
         SPIN_FREE( sync );
         return SYNC_ST_EOWN;
@@ -845,4 +871,153 @@ void scall_sync_wake_and_wait( void * arg )
         break;
     }
     }
+}
+
+/**********************************************************************************************
+                                SYSCALL_SYNC_PROC_TIMEOUT
+**********************************************************************************************/
+typedef struct
+{
+    proc_t * proc;
+    flag_t status;
+}
+sync_proc_timeout_t;
+//========================================================================================
+flag_t sync_proc_timeout( proc_t * proc )
+{
+    ///Warning!!! Not tested!
+    volatile sync_proc_timeout_t scarg;
+    scarg.proc = proc;
+    scarg.status = SYNC_ST_ROLL;
+    syscall_bugurt( SYSCALL_SYNC_PROC_TIMEOUT, (void *)&scarg );
+    return scarg.status;
+}
+//========================================================================================
+void scall_sync_proc_timeout( void * arg )
+{
+    ///Warning!!! Not tested!
+    ((sync_proc_timeout_t *)arg)->status = _sync_proc_timeout( ((sync_proc_timeout_t *)arg)->proc );
+}
+//========================================================================================
+flag_t _sync_proc_timeout( proc_t * proc )
+{
+    ///Warning!!! Not tested!
+    flag_t status;
+    sync_t * sync;
+
+    _proc_reset_watchdog();
+
+    status = SYNC_ST_OK;
+
+    if( !proc )
+    {
+        return SYNC_ST_ENULL;
+    }
+
+    SPIN_LOCK( proc );
+    sync = proc->sync;
+    SPIN_FREE( proc );
+
+    if( (sync_t *)0 == sync )
+    {
+        KERNEL_PREEMPT();
+
+        SPIN_LOCK( proc );
+
+        switch( PROC_GET_STATE( proc ) )
+        {
+        case PROC_STATE_SYNC_WAIT:
+        {
+            //Is waiting on empty sync, wake up
+            status = SYNC_ST_OK;
+            sched_proc_run( proc, PROC_STATE_TO_READY );
+        }
+        break;
+
+        case PROC_STATE_SYNC_SLEEP:
+        {
+            //Blocked on dirty sync, will wakeup soon
+            status = SYNC_ST_OK;
+        }
+        break;
+
+        default:
+        {
+            //Something went wrong...
+            status = SYNC_ST_ESYNC;
+        }
+        break;
+        }
+
+        SPIN_FREE( proc );
+        return status;
+    }
+
+    KERNEL_PREEMPT();
+
+    SPIN_LOCK( sync );
+    SPIN_LOCK( proc );
+
+    if( proc->sync != sync )
+    {
+        SPIN_FREE( proc );
+        SPIN_FREE( sync );
+
+        return SYNC_ST_ESYNC;
+    }
+
+    switch( PROC_GET_STATE( proc ) )
+    {
+    case PROC_STATE_SYNC_SLEEP:
+    {
+        //Undo sync_sleep
+        prio_t old_prio;
+
+        old_prio = SYNC_PRIO( sync );
+
+        pitem_cut( (pitem_t *)proc );
+
+        sched_proc_run( proc, PROC_STATE_TO_READY );
+        SPIN_FREE(proc);
+
+        proc = sync->owner;
+        if( proc )
+        {
+            prio_t new_prio;
+
+            new_prio = SYNC_PRIO( sync );
+            if( new_prio != old_prio )
+            {
+                SPIN_LOCK( proc );
+                PROC_LRES_DEC( proc, old_prio );
+                PROC_LRES_INC( proc, new_prio );
+                SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+            }
+            else
+            {
+                SPIN_FREE( sync );
+            }
+        }
+
+        return SYNC_ST_OK;
+    }
+
+    case PROC_STATE_PI_PEND:
+    case PROC_STATE_PI_READY:
+    case PROC_STATE_PI_RUNNING:
+    {
+        SPIN_FREE( proc );
+        SPIN_FREE( sync );
+
+        return SYNC_ST_ROLL;
+    }
+    default:
+    {
+        SPIN_FREE( proc );
+        SPIN_FREE( sync );
+
+        return SYNC_ST_OK;
+    }
+    }
+
 }

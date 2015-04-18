@@ -99,6 +99,7 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_sync_wait,
     scall_sync_wake_and_sleep,
     scall_sync_wake_and_wait,
+    scall_sync_proc_timeout, ///Warning!!! Not tested!
     scall_user
 };
 
