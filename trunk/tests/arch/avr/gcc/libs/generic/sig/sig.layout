@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="6">
+		<Cursor position="8389" topLine="147" />
+	</File>
+	<File name="../../../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="8331" topLine="101" />
+	</File>
 	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="9285" topLine="181" />
 	</File>
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6682" topLine="77" />
 	</File>
-	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="16317" topLine="392" />
+	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="7">
+		<Cursor position="10741" topLine="222" />
 	</File>
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
 		<Cursor position="35471" topLine="636" />
 	</File>
-	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="3">
-		<Cursor position="17723" topLine="480" />
+	<File name="../../../../../../../kernel/sync.c" open="1" top="1" tabpos="2">
+		<Cursor position="17062" topLine="432" />
 	</File>
-	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
-		<Cursor position="6226" topLine="389" />
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="9">
+		<Cursor position="6655" topLine="78" />
 	</File>
 	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="7607" topLine="116" />
 	</File>
 	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="6">
 		<Cursor position="7755" topLine="82" />
@@ -28,28 +34,34 @@
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6857" topLine="93" />
 	</File>
-	<File name="../../../../../../../libs/generic/cond.c" open="1" top="0" tabpos="4">
-		<Cursor position="6767" topLine="122" />
+	<File name="../../../../../../../libs/generic/cond.c" open="0" top="0" tabpos="8">
+		<Cursor position="7248" topLine="119" />
 	</File>
 	<File name="../../../../../../../libs/generic/cond.h" open="0" top="0" tabpos="1">
-		<Cursor position="9642" topLine="134" />
+		<Cursor position="7345" topLine="97" />
 	</File>
-	<File name="../../../../../../../libs/generic/mutex.c" open="1" top="0" tabpos="2">
-		<Cursor position="426" topLine="73" />
+	<File name="../../../../../../../libs/generic/mutex.c" open="0" top="0" tabpos="10">
+		<Cursor position="6920" topLine="108" />
 	</File>
 	<File name="../../../../../../../libs/generic/mutex.h" open="0" top="0" tabpos="4">
-		<Cursor position="10713" topLine="57" />
+		<Cursor position="10713" topLine="96" />
 	</File>
-	<File name="../../../../../../../libs/generic/sig.c" open="1" top="0" tabpos="5">
-		<Cursor position="6083" topLine="116" />
+	<File name="../../../../../../../libs/generic/sig.c" open="0" top="0" tabpos="5">
+		<Cursor position="7162" topLine="117" />
 	</File>
 	<File name="../../../../../../../libs/generic/sig.h" open="0" top="0" tabpos="2">
-		<Cursor position="8842" topLine="89" />
+		<Cursor position="9495" topLine="173" />
 	</File>
 	<File name="../../../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="1931" topLine="52" />
+		<Cursor position="2463" topLine="70" />
 	</File>
-	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1232" topLine="39" />
+	<File name="../../../test_func.c" open="0" top="0" tabpos="2">
+		<Cursor position="2661" topLine="103" />
+	</File>
+	<File name="../../../test_func.h" open="0" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../../main/libs/generic/sig/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="1481" topLine="51" />
 	</File>
 </CodeBlocks_layout_file>

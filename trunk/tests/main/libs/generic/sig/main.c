@@ -13,6 +13,8 @@ void test_running(void)
     test_inc();
 }
 
+flag_t status;
+
 void main_proc_test( void * arg )
 {
     proc_run( &proc[1] );
@@ -52,9 +54,11 @@ void main_proc_test( void * arg )
     // sig_broadcast test 7
     test_var_sig = 0;
     test_hook = test_inc;
-    sig_broadcast( &test_sig );
+    status = sig_broadcast( &test_sig );
+    test_output( SYNC_ST_EEMPTY == status, 7);
+
     wait_time( 20 );
-    test_output( (test_var_sig == 4), 7 );
+    test_output( (test_var_sig == 4), 8 );
 
     tests_end();
 }
@@ -63,7 +67,9 @@ void main_sig( void * arg )
 {
     while(1)
     {
-        sig_wait( &test_sig );
+        flag_t status;
+        status = sig_wait( &test_sig );
+        test_output( SYNC_ST_OK == status, 9 );
         test_hook();
         wait_time(1);
     }

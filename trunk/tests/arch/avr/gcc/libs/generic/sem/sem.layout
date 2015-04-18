@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="18534" topLine="330" />
 	</File>
@@ -13,7 +13,7 @@
 	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="7559" topLine="102" />
 	</File>
-	<File name="../../../../../../../libs/generic/sem.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../../../libs/generic/sem.c" open="0" top="0" tabpos="1">
 		<Cursor position="7257" topLine="168" />
 	</File>
 	<File name="../../../../../../../libs/generic/sem.h" open="0" top="0" tabpos="1">
