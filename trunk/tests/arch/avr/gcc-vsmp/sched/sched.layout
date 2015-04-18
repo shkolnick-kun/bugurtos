@@ -64,7 +64,7 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
 		<Cursor position="21175" topLine="762" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">

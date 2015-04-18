@@ -82,12 +82,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
 */
-#define SYNC_ST_OK     0 /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
-#define SYNC_ST_ENULL  1 /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
-#define SYNC_ST_EOWN   2 /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
-#define SYNC_ST_EEMPTY 3 /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
-#define SYNC_ST_ESYNC  4 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
-#define SYNC_ST_ROLL   5 /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+#define SYNC_ST_OK          0 /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
+#define SYNC_ST_ENULL       1 /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
+#define SYNC_ST_EOWN        2 /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
+#define SYNC_ST_EEMPTY      3 /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
+#define SYNC_ST_ESYNC       4 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
+#define SYNC_ST_ETIMEOUT    5 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
+#define SYNC_ST_ROLL        6 /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
 typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
 // Свойства
@@ -489,6 +490,23 @@ while(0) /*!< \~russian \brief Смотри #sync_wake_and_wait. \~english \brie
 /*!
 \~russian
 \brief
+"Разбудить", процесс по таймауту.
+
+\param proc Указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\return #SYNC_ST_OK в случае, если дождался разбудил целевой процесс, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - код ошибки.
+
+\~english
+\brief
+Wake a process on timeout.
+
+\param proc A pointer to a process, that is supposed to wake up.
+\return #SYNC_ST_OK if target process has been woken up, #SYNC_ST_ROLL if caller must do next itteration, or error code.
+*/
+flag_t sync_proc_timeout( proc_t * proc ); ///Warning!!! Not tested!
+
+/*!
+\~russian
+\brief
 Для внутреннего использования. Смотри #sync_set_owner.
 \~english
 \brief
@@ -535,4 +553,14 @@ flag_t _sync_sleep( sync_t * sync );
 For internal usage. Watch #sync_wait.
 */
 flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
+/*!
+\~russian
+\brief
+Для внутреннего использования. Смотри #sync_proc_timeout.
+
+\~english
+\brief
+For internal usage. Watch #sync_proc_timeout.
+*/
+flag_t _sync_proc_timeout( proc_t * proc ); ///Warning!!! Not tested!
 #endif // _SYNC_H_
