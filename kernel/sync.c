@@ -687,7 +687,6 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             return SYNC_ST_ROLL;
         }
     }
-
     // Nonzero proc argument???
     if( proc )
     {
@@ -716,16 +715,14 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 
         SPIN_FREE( owner );
     }
-
+    //Ownership has been changed.
     if( chown )
     {
-        //Ownership has been changed.
         sync->owner = proc;
     }
-
+    // We can wake some proc.
     if( proc )
     {
-        // We can wake some proc.
         status = SYNC_ST_OK;
 
         SPIN_LOCK( proc );

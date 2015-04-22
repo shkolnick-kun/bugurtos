@@ -137,7 +137,7 @@ typedef struct
 
 void scall_user(void * arg)
 {
-    scall_user_t user;
+    scall_user_t user = {.func = 0};
     user.arg = arg;
     user.func(arg);
 }

@@ -384,6 +384,7 @@ void sched_schedule(void)
                 spin_free( &kernel.stat_lock );
 #endif // CONFIG_MP
                 ((pitem_t *)current_proc)->list = (void *)0;// Просто вырезали из списка, как в pitem_cut
+                flags &= PROC_STATE_CLEAR_MASK;
 #ifdef CONFIG_HARD_RT
                 /**********************************************************************
                 If process have some locked resources, then it goes to DEAD state,
@@ -391,20 +392,21 @@ void sched_schedule(void)
                 **********************************************************************/
                 if( (flags & PROC_FLG_LOCK_MASK) == (flag_t)0 )
                 {
-                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
+                    flags |= PROC_STATE_WD_STOPED;
                 }
                 else
                 {
                     // Go to DEAD state.
-                    current_proc->flags = (PROC_FLG_RT|PROC_STATE_DEAD);
+                    flags |= PROC_STATE_DEAD;
                 }
 #else // CONFIG_HARD_RT
                 /**********************************************************************
                 In that branch of #ifdef CONFIG_HARD_RT, we have a RT process, which
                 does not have locked resources.
                 **********************************************************************/
-                current_proc->flags = (PROC_FLG_RT|PROC_STATE_WD_STOPED);
+                flags |= PROC_STATE_WD_STOPED;
 #endif // CONFIG_HARD_RT
+                current_proc->flags = flags;
             }
         }
     }

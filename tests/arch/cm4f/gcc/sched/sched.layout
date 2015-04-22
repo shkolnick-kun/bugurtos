@@ -7,6 +7,9 @@
 	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="6659" topLine="78" />
+	</File>
 	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
@@ -17,9 +20,6 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="1">
@@ -35,7 +35,7 @@
 		<Cursor position="679" topLine="6" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="812" topLine="18" />
+		<Cursor position="835" topLine="22" />
 	</File>
 	<File name="../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="2">
 		<Cursor position="5028" topLine="160" />
