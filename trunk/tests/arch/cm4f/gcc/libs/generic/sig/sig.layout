@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/proc.h" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1232" topLine="41" />
+		<Cursor position="1305" topLine="58" />
 	</File>
 	<File name="../../../../../../../../thirdparty/stm32f407/stm32f407vg.S" open="0" top="0" tabpos="0">
-		<Cursor position="5028" topLine="152" />
+		<Cursor position="5028" topLine="153" />
 	</File>
 </CodeBlocks_layout_file>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="9692" topLine="189" />
+	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6922" topLine="87" />
 	</File>
@@ -62,6 +65,6 @@
 		<Cursor position="1782" topLine="75" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="15365" topLine="437" />
+		<Cursor position="15609" topLine="491" />
 	</File>
 </CodeBlocks_layout_file>

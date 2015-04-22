@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../../../kernel/timer.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="1">
 		<Cursor position="6534" topLine="81" />
 	</File>
 	<File name="../../../../../../main/libs/generic/mutex/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1793" topLine="45" />
+		<Cursor position="1810" topLine="47" />
 	</File>
 </CodeBlocks_layout_file>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="5">
 		<Cursor position="7830" topLine="126" />
 	</File>
@@ -46,7 +46,7 @@
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="17">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/pitem.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
@@ -55,20 +55,20 @@
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="15595" topLine="268" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
 		<Cursor position="9670" topLine="193" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="6929" topLine="300" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
 		<Cursor position="28564" topLine="901" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
 		<Cursor position="6826" topLine="182" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
-		<Cursor position="6308" topLine="76" />
+		<Cursor position="7689" topLine="115" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="5">
 		<Cursor position="15769" topLine="254" />
@@ -95,6 +95,6 @@
 		<Cursor position="615" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="1942" topLine="51" />
+		<Cursor position="537" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
