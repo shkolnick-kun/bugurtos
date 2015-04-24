@@ -19,14 +19,16 @@ proprietary software development.
 [Download from Gdrive!](https://drive.google.com/folderview?id=0B32mjehjqcIOYlFtNnRSc0JxdGc&usp=sharing)
 
 # Current status #
-> Branches supported:
+* Branches supported:
     * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
     * 0.7.x ([Priority Inheritance Protocol](http://en.wikipedia.org/wiki/Priority_inheritance) used) high level features and API are frozen;
     * 0.8.x (combines both protocols) is under active developement.
+
   * Current versions are
     * 0.6.5;
     * 0.7.2;
     * 0.8.1.
+ 
   * Platforms supported:
     * AVR (GNU-toolchain).
     * STM8:
@@ -35,6 +37,7 @@ proprietary software development.
     * Cortex<sup>TM</sup>-M4 (GNU-toolchain)
     * Cortex<sup>TM</sup>-M3 (GNU-toolchain)
     * Cortex<sup>TM</sup>-M0 (GNU-toolchain)
+
 # Todo #
   * ~~Update documentation.~~
   * Port BuguRTOS project wizard for Code::Blocks IDE to 0.8.x branch.
