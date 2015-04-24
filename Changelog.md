@@ -1,7 +1,7 @@
 # Changelog #
   * 0.8.1
-    * Fixed [old scheduler code](https://code.google.com/p/bugurtos/issues/detail?id=1&can=1).
-    * Fixed [missed wakeup](https://code.google.com/p/bugurtos/issues/detail?id=2&can=1) in sync\_wait call.
+    * Fixed [old scheduler code](https://github.com/shkolnick-kun/bugurtos/issues/1).
+    * Fixed [missed wakeup](https://github.com/shkolnick-kun/bugurtos/issues/2) in sync\_wait call.
     * Added memory barriers in Cortex<sup>TM</sup>-M ports.
     * Deleted proc\_flag\_stop system call.
     * Added proc\_lock and proc\_free system calls.
@@ -14,11 +14,11 @@
       * counting semaphore;
       * microkernel style IPC.
   * 0.7.2
-    * Fixed wrong [proc\_flag\_stop](https://code.google.com/p/bugurtos/issues/detail?id=3&can=1) behavior.
+    * Fixed wrong [proc\_flag\_stop](https://github.com/shkolnick-kun/bugurtos/issues/3) behavior.
   * 0.6.5
-    * Fixed wrong [proc\_flag\_stop](https://code.google.com/p/bugurtos/issues/detail?id=3&can=1) behavior.
+    * Fixed wrong [proc\_flag\_stop](https://github.com/shkolnick-kun/bugurtos/issues/3) behavior.
   * 0.8.0
-    * New branch added, see [differences](https://code.google.com/p/bugurtos/wiki/NewBranchDifferences) with 0.6.x and 0.7.x branches.
+    * New branch added, see [differences](https://github.com/shkolnick-kun/bugurtos/blob/wiki/NewBranchDifferences.md) with 0.6.x and 0.7.x branches.
   * 0.7.1
     * Several priority inheritance protocol bugs fixed.
   * 0.7.0
