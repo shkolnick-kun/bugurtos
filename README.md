@@ -27,7 +27,7 @@ proprietary software development.
 * Current versions are
   * 0.6.5;
   * 0.7.2;
-  * 0.8.1.
+  * 0.8.2.
  
  * Platforms supported:
   * AVR (GNU-toolchain).
