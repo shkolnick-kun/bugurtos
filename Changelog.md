@@ -5,10 +5,10 @@
     * Removed unused funtiocns.
     * Removed PROC_PRE_STOP flag processing in sync.c.
     * Added timeout support to kernel.
-    * Fixed PROC_SET_STATE macro.
+    * Fixed [PROC_SET_STATE](https://github.com/shkolnick-kun/bugurtos/issues/5) macro.
     * Fixed [wrong sync owner handling order](https://github.com/shkolnick-kun/bugurtos/issues/4).
     * Added -Os flag to CM0, CM3, CM4F, AVR test projects.
-    * Fixed obsolete shceduler code.
+    * Fixed [obsolete shceduler code](https://github.com/shkolnick-kun/bugurtos/issues/6).
   * 0.8.1
     * Fixed [old scheduler code](https://github.com/shkolnick-kun/bugurtos/issues/1).
     * Fixed [missed wakeup](https://github.com/shkolnick-kun/bugurtos/issues/2) in sync\_wait call.
