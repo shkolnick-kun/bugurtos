@@ -41,7 +41,7 @@ proprietary software development.
 # Todo #
 * Update documentation.
 * Rewrite virtual SMP to enable -Os flag in avr/gcc-vsmp arch.
-* Move Cortex<sup>TM</sup>-Mx ports to [libopencm3](https://github.com/libopencm3/libopencm3).
+* Move Cortex<sup>TM</sup>-Mx tests to [libopencm3](https://github.com/libopencm3/libopencm3).
 * Port BuguRTOS project wizard for Code::Blocks IDE to 0.8.x branch.
 * Write libs for 0.8.x branch.
 * Write more ports.
