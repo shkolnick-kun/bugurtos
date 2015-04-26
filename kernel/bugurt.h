@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -88,8 +88,8 @@ BuguRTOS - ядро операционной системы реального �
 \warning Распространяется под измененной лицензией GPLv3, смотрите exception.txt.
 
 \~english
-The BuguRTOS is a RTOS kernel. It is written by anonimous JUST FOR FUN.
-\warning BuguRTOS license is modifyed GPLv3, look at exception.txt for more info.
+The BuguRTOS is a RTOS kernel. It is written by anonymous JUST FOR FUN.
+\warning BuguRTOS license is modified GPLv3, look at exception.txt for more info.
 
 */
 
@@ -166,7 +166,7 @@ Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 \~english
 \brief Wrapper macro.
 
-Lock wrapper for arg->lock spinlock. Emty macro in single core system.
+Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 */
 /*!
 \def SPIN_FREE(arg)
@@ -177,7 +177,7 @@ Lock wrapper for arg->lock spinlock. Emty macro in single core system.
 \~english
 \brief Wrapper macro.
 
-Lock wrapper for arg->lock spinlock. Emty macro in single core system.
+Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 */
 /*!
 \def RESCHED_PROC(arg)
@@ -291,16 +291,16 @@ extern core_id_t current_core(void);
 \brief
 Statistic initialization.
 
-Initiates a stat_t structure, in whitch processor core load information is stored.
+Initiates a stat_t structure, in which processor core load information is stored.
 \param stat a pointer to a stat_t structure.
 */
 extern void stat_init(stat_t * stat);
 /*!
 \~russian
 \brief
-Обновление статистики при запуске процесса/ всатвки процесса в очередь сигнала.
+Обновление статистики при запуске процесса/ вставки процесса в очередь сигнала.
 
-Обновление статистики при запуске процесса/ всатвки процесса в очередь сигнала.
+Обновление статистики при запуске процесса/ вставки процесса в очередь сигнала.
 
 \param proc Указатель на процесс.
 \param stat Указатель на структуру статистики.
@@ -382,7 +382,7 @@ extern load_t stat_calc_load(prio_t prio, stat_t * stat);
 \brief
 Rescheduling.
 
-Launces a reschedule sequence on one of the processor cores of the system.
+Launches a reschedule sequence on one of the processor cores of the system.
 
 \param core_id a processor core id.
 */
@@ -399,7 +399,7 @@ extern void resched(core_id_t core_id);
 \brief
 Rescheduling.
 
-Launces a reschedule sequence.
+Launches a reschedule sequence.
 */
 extern void resched(void);
 #endif // CONFIG_MP
@@ -437,7 +437,7 @@ extern void enable_interrupts(void);
 Текущий процесс.
 
 Текущий процесс.
-\return Указатель на текущий процесс, исполняемый на локальном процессре.
+\return Указатель на текущий процесс, исполняемый на локальном процессоре.
 \~english
 \brief
 Current process.
@@ -463,12 +463,12 @@ extern proc_t * current_proc(void);
 A process stack initialization.
 
 This function prepares a process stack for running a process.
-It treats a pocess stack in such a way that pmain(arg) is called when a process context is restored from a process stack.
+It treats a process stack in such a way that pmain(arg) is called when a process context is restored from a process stack.
 
 \param sstart a process stack bottom.
-\param pmain a poiter to a function to call.
+\param pmain a pointer to a function to call.
 \param arg an argument to a function to call.
-\param return_address an adress to return from pmain.
+\param return_address an address to return from pmain.
 \return a pointer to a prepared process stack top.
 */
 extern stack_t * proc_stack_init(stack_t * sstart, code_t pmain, void * arg, void (*return_address)(void));
@@ -490,7 +490,7 @@ extern void init_bugurt(void);
 \brief
 Запуск Ядра.
 
-Запуск Ядра. После вызова этой функции можно ничего не писать - всеравно исполняться не будет.
+Запуск Ядра. После вызова этой функции можно ничего не писать - все равно исполняться не будет.
 \~english
 \brief
 The OS start.
@@ -505,9 +505,9 @@ extern void start_bugurt(void);
 
 Код Ядра всегда выполняется в контексте Ядра. Это нужно для экономии памяти в стеках процессов.
 Соответственно, если мы хотим выполнить какие либо операции над процессами, мьютексами, семафорами, сигналами,
-то нам нужно "попросить" Ядро стелать эту работу.
+то нам нужно "попросить" Ядро сделать эту работу.
 
-Именно для этого существует функция syscall_bugurt, которая передает управление Ядру для выполнения треуемой работы.
+Именно для этого существует функция syscall_bugurt, которая передает управление Ядру для выполнения требуемой работы.
 
 \param num номер системного вызова (что именно надо выполнить).
 \param arg аргумент системного вызова (над чем это надо выполнить).
@@ -516,7 +516,7 @@ extern void start_bugurt(void);
 A system call.
 
 This function switches a processor core from a process context to the kernel context.
-The kernel code is allways run in the kernel context. This is done to save memory in process stacks.
+The kernel code is always run in the kernel context. This is done to save memory in process stacks.
 A system calls are done on every operations with processes, mutexes, semaphores and signals.
 The Kernel does all of this job.
 

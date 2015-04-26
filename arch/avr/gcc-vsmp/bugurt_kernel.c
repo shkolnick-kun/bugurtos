@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -127,7 +127,7 @@ void spin_free(lock_t * lock)
     *lock = (lock_t)0;
     sei();
 }
-// stat_t is simply prcess counter here!
+// stat_t is simply process counter here!
 void stat_init( stat_t * stat )
 {
     *stat = 0; // no lad on a system
@@ -209,7 +209,7 @@ void systimer_vectors_init(void)
     vsmp_vinterrupt_init( &systimer_tick_vector, systimer_tick_isr ); // Zero core is "mater", it handles kernel.timer
     for(i = 0; i < MAX_CORES; i++)
     {
-        vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors + i, systimer_sched_isr ); // Other cores are slaves they just shedule.
+        vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors + i, systimer_sched_isr ); // Other cores are slaves they just schedule.
     }
 }
 
@@ -286,7 +286,7 @@ void syscall_bugurt( unsigned char num, void * arg )
     vector = (item_t *)( &syscall_vectors[core] );
 
     cli();
-    vm_state[current_vm].int_enabled = (bool_t)1; // Virtual interrupts MUST be eanabled !!!
+    vm_state[current_vm].int_enabled = (bool_t)1; // Virtual interrupts MUST be enabled !!!
     // System call is not an ordinary interrupt!!!
     // It MUST be serviced FIRST!!!
     if( vm_state[current_vm].int_fifo )

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -146,9 +146,9 @@ void ipc_init( ipc_t * endpoint );
 
 \~english
 \brief
-IPC data transmition.
+IPC data transmission.
 
-This function transfers a pinter to the message buffer throuth IPC.
+This function transfers a pinter to the message buffer through IPC.
 Senders are blocked on IPC endpoint and wait for their turn,
 receiver inherits senders priorities.
 
@@ -163,7 +163,7 @@ flag_t ipc_send( ipc_t * out, void * msg );
 Переход процесса к ожиданию получения данных через IPC.
 
 Для для указания отправителя или получения указателя на отправитель используется буфер,
-адрес котороко передается вторым аргументом.
+адрес которого передается вторым аргументом.
 
 \param in Указатель на конечную точку IPC.
 \param proc Двойной указатель на процесс, от которого ожидается сообщение (если *proc == 0, то принимаются сообщения от любых процессов).
@@ -179,7 +179,7 @@ A buffer pointer must be passed as a second parameter.
 
 \param in An IPC endpoint pointer.
 \param proc A double pointer to the process which is supposed to send a message (if *proc == 0 then every message is received).
-\param block A caller block flag. If non zero, then caller is blocked untill message is sent.
+\param block A caller block flag. If non zero, then caller is blocked until message is sent.
 \return #SYNC_ST_OK on success, or error number.
 */
 flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block );

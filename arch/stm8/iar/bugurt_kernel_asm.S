@@ -1,6 +1,6 @@
 ;/**************************************************************************
-;    BuguRTOS-0.8.x(Bugurt real time operating system).
-;    Copyright (C) 2015  anonimous
+;    BuguRTOS-0.8.x (Bugurt real time operating system).
+;    Copyright (C) 2015 anonimous
 ;
 ;    This program is free software: you can redistribute it and/or modify
 ;    it under the terms of the GNU General Public License as published by
@@ -136,7 +136,7 @@ bugurt_restore_context:
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
     pop A
 #endif
-;stack pointer value is allways 16bit, and not dependent on __DATA_MODEL__
+;stack pointer value is always 16bit, and not dependent on __DATA_MODEL__
     ldw SP,X     ; SP = X
 ?pop_context:    ; restore vregs
     pop ?b12

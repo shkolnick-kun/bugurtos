@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ void xlist_init(
 List head search.
 
 \param xlist An #xlist_t pointer.
-\return The head pointer, wich is the most prioritized pointer in the list head pointer array.
+\return The head pointer, which is the most prioritized pointer in the list head pointer array.
 */
 item_t * xlist_head(xlist_t * xlist);
 

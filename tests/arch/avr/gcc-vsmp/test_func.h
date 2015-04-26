@@ -3,7 +3,7 @@
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];
 //======================================================================
-// Generick proc_init argument terminator.
+// Generic proc_init argument terminator.
 #define ARG_END ,(affinity_t)0x3
 // Scheduler test proc_init argument terminator
 #if (CONFIG_LB_SCHEME != 0)

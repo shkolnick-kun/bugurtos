@@ -41,7 +41,7 @@ typedef unsigned char index_t;
 
 // Even if index_t is unsigned long long,
 // there will be only 64 priority levels available,
-// so unsigned char is allways enough.
+// so unsigned char is always enough.
 typedef unsigned char prio_t;
 
 // unsigned char is enough.
@@ -99,7 +99,7 @@ typedef unsigned char load_t;
 // Use "Highest locker" protocol for mutex handling.
 #define CONFIG_USE_HIGHEST_LOCKER
 
-// Use "Hard real time" scheduling. RT processes a stoped
+// Use "Hard real time" scheduling. RT processes a stopped
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define CONFIG_HARD_RT
 
@@ -115,7 +115,7 @@ typedef unsigned char load_t;
 #endif
 
 ///=================================================================
-///     Project stecific stuff, you are welcome to edit it!!!
+///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
 
 #define CONFIG_USER_IDLE

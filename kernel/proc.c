@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ void _proc_stop_ensure( proc_t * proc )
 //========================================================================================
 void _proc_stop_flags_set( proc_t * proc, flag_t mask )
 {
-    // Was a process stoped some where else?
+    // Was a process stopped some where else?
     if( PROC_RUN_TEST( proc ) )
     {
         // No, stop it now.
@@ -175,7 +175,7 @@ void proc_init_isr(
     SPIN_LOCK( proc );
 
     pitem_init( (pitem_t *)proc, prio );
-    proc->flags = ( is_rt )?(PROC_FLG_RT|PROC_FLG_RR):(PROC_FLG_RR); // Default behavior is round robin sheduling
+    proc->flags = ( is_rt )?(PROC_FLG_RT|PROC_FLG_RR):(PROC_FLG_RR); // Default behavior is round robin scheduling
 
     PROC_LRES_INIT( proc );
 
@@ -440,7 +440,7 @@ void _proc_terminate( void )
 
     _proc_stop_ensure( proc );
     // Flags processing!
-    // A prcess is not alowed to return from pmain не wuth resources locked!
+    // A process is not allowed to return from pmain не wuth resources locked!
     if( proc->flags & PROC_FLG_LOCK_MASK )
     {
         proc->flags |= PROC_STATE_DEAD;

@@ -33,7 +33,7 @@ typedef unsigned long index_t;
 
 // Even if index_t is unsigned long long,
 // there will be only 64 priority levels available,
-// so unsigned char is allways enough.
+// so unsigned char is always enough.
 typedef unsigned char prio_t;
 
 // unsigned char is enough.
@@ -65,7 +65,7 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
-///     Project stecific stuff, you are welcome to edit it!!!
+///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
 // These macros needed to interface cstartup code.
 #define SYSTEM_TIMER_ISR 	SysTick_Handler
@@ -76,7 +76,7 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
 #define CONFIG_PRIO_BITS        4  // Used upper priority bits
-#define CONFIG_SYSCALL_PRIO 	16 // SysCall prioity
+#define CONFIG_SYSCALL_PRIO 	16 // SysCall priority
 #define CONFIG_CRITSEC_PRIO 	17 // Critical section priority
 #define CONFIG_SCHED_PRIO 		17 // Scheduler priority
 

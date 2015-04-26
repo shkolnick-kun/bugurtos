@@ -29,7 +29,7 @@ void main_proc_test( void * arg )
     test_output( (test_var_sig == 1), 1 );
 
     // sig_broadcast test 2
-    // No prcess must start
+    // No process must start
     sig_broadcast( &test_sig );
     test_output( test_var_sig, 2 );
 
@@ -39,7 +39,7 @@ void main_proc_test( void * arg )
     proc_run( &proc[5] );
 
     wait_time( 20 );
-    // All proceeses of interest are waiting for signal now!
+    // All processes of interest are waiting for signal now!
     // sig_signal test 6
     test_var_sig = 0;
     test_hook = test_running;
@@ -97,11 +97,11 @@ void idle_main( void * arg )
 
 int main(void)
 {
-    /**************************************************
-    *          For test purposes only!!!              *
-    *  It is strongly recomended to initiate hardware *
-    *         AFTER init_bugurt() call!!!             *
-    **************************************************/
+    /***************************************************
+    *          For test purposes only!!!               *
+    *  It is strongly recommended to initiate hardware *
+    *         AFTER init_bugurt() call!!!              *
+    ***************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.

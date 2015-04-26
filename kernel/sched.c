@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -316,7 +316,7 @@ void sched_schedule(void)
 #if defined(CONFIG_MP) && defined(CONFIG_USE_ALB)
             /***********************************************************************
             The kernel.stat_lock is locked here if CONFIG_USE_ALB config option defined.
-            We must free kernel.stat_lock in both "if" ctatement branches!!!
+            We must free kernel.stat_lock in both "if" statement branches!!!
             ***********************************************************************/
             spin_lock( &kernel.stat_lock );
             // Update load stats after a process was cut!
@@ -418,7 +418,7 @@ void sched_schedule(void)
     _sched_switch_current( sched, current_proc );
 }
 //========================================================================================
-// Reched function, called from resched ISR.
+// Resched function, called from resched ISR.
 void sched_reschedule(void)
 {
     proc_t * current_proc;
@@ -476,7 +476,7 @@ bool_t _sched_proc_yeld( void )
 
             xlist_switch( sched->ready, prio );
 
-            save_power = (bool_t)(sched->ready->item[prio] == (item_t *)proc);// Is there any other process in proc sublist? If none, then we probably can save poswer...
+            save_power = (bool_t)(sched->ready->item[prio] == (item_t *)proc);// Is there any other process in proc sublist? If none, then we probably can save power...
 
             proc_map = sched->ready->index;
 
@@ -609,7 +609,7 @@ void _sched_lazy_load_balancer(core_id_t object_core)
 void sched_lazy_global_load_balancer(void)
 {
     core_id_t object_core;
-    // Find highest losd core
+    // Find highest load core
     disable_interrupts();
     spin_lock( &kernel.stat_lock );
 
