@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ void sig_init( sig_t * sig );
 
 \~english
 \brief
-Wait for a singnal.
+Wait for a signal.
 
 This function stops caller process and inserts it to signal wait list.
 
@@ -162,7 +162,7 @@ flag_t sig_wait( sig_t * sig );
 \brief
 Возобновить работу 1 процесса ожидающего сигнал.
 
-На мнгогопроцессорной системе:
+На многопроцессорной системе:
 
 \param sig Указатель на сигнал.
 \return #SYNC_ST_OK в случае успеха, или номер ошибки.

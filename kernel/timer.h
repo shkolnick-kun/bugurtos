@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -220,7 +220,7 @@ void wait_time_save_power(timer_t time);
 
 \~english
 \brief
-Clear software timer. For unternal usage.
+Clear software timer. For internal usage.
 
 \param t A pointer to a timer.
 */

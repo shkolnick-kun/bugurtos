@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -194,7 +194,7 @@ chained_vinterrupt_return: \
 static void _vinterrupt_wrapper(void)
 {
     void (*isr)(void);
-    vm_state[current_vm].int_enabled = (bool_t)0; // Virtual interrupt nesting is not alowed by default.
+    vm_state[current_vm].int_enabled = (bool_t)0; // Virtual interrupt nesting is not allowed by default.
     isr = (void (*)(void))vm_buf;
     // After vm-buf read we can reenable real interrupts!
     sei();
@@ -207,10 +207,10 @@ __attribute__ (( naked )) void vinterrupt_wrapper(void)
     cli();
     // Virtual interrupts are enabled after interrupt processing.
     vm_state[current_vm].int_enabled = (bool_t)1;
-    // Tail recursion, will return to it self entry point untill all virtual interrupts are processed, lol!
+    // Tail recursion, will return to it self entry point until all virtual interrupts are processed, lol!
     _vsmp_interrupt_epilogue();
 }
-// System timer interrupt, round robbin scheduler.
+// System timer interrupt, round robin scheduler.
 __attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
 void SYSTEM_TIMER_ISR(void)
 {

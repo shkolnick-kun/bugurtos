@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ prio_t index_search(index_t index)
 #ifdef CONFIG_USE_O1_SEARCH
     /*
         Binary search.
-        Takes O(LOG2(BITS_IN_INDEX_T)) time allways, as BITS_IN_INDEX_T is fixed, then it's O(1).
+        Takes O(LOG2(BITS_IN_INDEX_T)) time always, as BITS_IN_INDEX_T is fixed, then it's O(1).
         */
     index_t upper = ~(index_t)0, lower = ~(index_t)0, middle;
     prio_t step = (prio_t)BITS_IN_INDEX_T;

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -103,11 +103,11 @@ struct _kernel_t
 #ifdef CONFIG_MP
     sched_t sched[MAX_CORES];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
     proc_t idle[MAX_CORES];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
-    stat_t stat[MAX_CORES];     /*!< \~russian Статистика для балансировки нагузки, на Hotplug работать не собираемся, все будет статично. \~english A stsatistic for load balansing, CPU hotplug is not supported. */
+    stat_t stat[MAX_CORES];     /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
     lock_t stat_lock; /*!< \~russian Спин-блокировка статистики. \~english A statistic spin-lock. */
     lock_t timer_lock; /*!< \~russian Спин-блокировка таймера. \~english A system timer spin-lock. */
 #else
-    sched_t sched; /*!< \~russian Планировшик. \~english The scheduler. */
+    sched_t sched; /*!< \~russian Планировщик. \~english The scheduler. */
     proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
 #endif // CONFIG_MP
     timer_t timer; /*!< \~russian Системный таймер. \~english The system timer. */
@@ -159,10 +159,10 @@ void kernel_init(void);
 \brief
 An IDLE process main function.
 
-You can use builtin function, or you can write your own.
+You can use built-in function, or you can write your own.
 IDLE process can work with timers, fire signals and FREE semaphores, SEND IPC data!
 
-\warning An idle_main sholud NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
+\warning An idle_main should NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
 
 \param arg An argument pointer.
 */

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок элементов 2-связного списка. \~english A list item header.
 */
-//Элеммент 2-связного списка;
+//Элемент 2-связного списка;
 typedef struct _item_t item_t; /*!< \~russian Смотри #_item_t; \~english See #_item_t; */
 //Свойства
 /*!
@@ -141,7 +141,7 @@ void item_init(item_t *item);
 Insert an item to a list.
 
 \param item \~english A pointer to an item.
-\param head \~english A pointer to a destignation list head.
+\param head \~english A pointer to a destination list head.
 */
 void item_insert(item_t *item, item_t *head);
 /*!

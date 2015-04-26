@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -97,9 +97,9 @@ typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english S
 \brief
 Базовый примитив синхронизации.
 
-Базовый тип, отвечающий за влокирующую синхронизацию процессов.
+Базовый тип, отвечающий за блокирующую синхронизацию процессов.
 Путем "обертывания" данного типа можно получить привычные примитивы синхронизации
-(мьютексы, семафоры, условные переменные, FIFO-буферы, блокироующий IPC, и т.д.).
+(мьютексы, семафоры, условные переменные, FIFO-буферы, блокирующий IPC, и т.д.).
 
 Поддерживает протокол наследования приоритетов (Basic Priority Inheritance).
 
@@ -109,16 +109,16 @@ Basic synchronization primitive
 
 A basic type that handles blocking process synchronization.
 By wrapping this type one can get traditional synchronization primitives
-(mutexes, semaphores, conditional variables, message-FIFOs, IPC-ednpoints, etc.).
+(mutexes, semaphores, conditional variables, message-FIFOs, IPC-endpoints, etc.).
 
-Basic priority inheritanse protocol is supported.
+Basic priority inheritance protocol is supported.
 
 */
 struct _sync_t
 {
     xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     proc_t * owner;/*!< \~russian Указатель на процесс, удерживающий мьютекс. \~english A pointer to a process, that holds a sync. */
-    count_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritanse transaction counter. */
+    count_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritance transaction counter. */
     prio_t prio; /*!< \~russian Приоритет. \~english Priority. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
@@ -128,7 +128,7 @@ struct _sync_t
 /*!
 \~russian
 \brief
-Возвращает текущий приоритет объекта типа #sync_t. Для внктренннего использования.
+Возвращает текущий приоритет объекта типа #sync_t. Для внутреннего использования.
 
 \~english
 \brief
@@ -160,10 +160,10 @@ void sync_init(
 
 \~english
 \brief
-A basic synchronization promitive initiation.
+A basic synchronization primitive initiation.
 */
 void sync_init_isr(
-    sync_t * sync, /*!< \~russian Указатель на базвоый примитив синхронизации. \~english A sync pointer. */
+    sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 
@@ -182,7 +182,7 @@ void sync_init_isr(
 Get current #sync_t object owner.
 
 \param sync A pointer to the object of interest.
-\return A pointer to #sync_t opbject owner.
+\return A pointer to #sync_t object owner.
 */
 proc_t * sync_get_owner( sync_t * sync );
 
@@ -201,7 +201,7 @@ proc_t * sync_get_owner( sync_t * sync );
 Set #sync_t object owner.
 
 \param sync A pointer to the object of interest.
-\param proc A pointer to new #sync_t opbject owner.
+\param proc A pointer to new #sync_t object owner.
 \return #SYNC_ST_OK if owner was set, #SYNC_ST_ROLL if #sync_t object already had an owner.
 */
 flag_t sync_set_owner( sync_t * sync, proc_t * proc );
@@ -269,12 +269,12 @@ sync_sleep_t;
 \brief
 "Ожидать", блокировки процесса.
 
-Подождать того момента, как целевой процесс будет заблокирован на целевом примимтиве синхронизации.
+Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
 
 \param sync Указатель на объект типа #sync_t.
-\param proc Двойной указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\param proc Двойной указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - код ошибки.
+\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
 \~english
 \brief
@@ -284,8 +284,8 @@ Wait until target process is blocked on target #sync_t object.
 
 \param sync A #sync_t object pointer.
 \param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
-\param block Block flag. If non 0 and caller process must wait, then caller is blocked until terget process is blocked on #sync_t object.
-\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target procerr to block, or error code.
+\param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #sync_t object.
+\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target process to block, or error code.
 */
 flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 
@@ -330,10 +330,10 @@ while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #
 "Разбудить" ожидающий процесс.
 
 Запускает ожидающий процесс. Может запустить "голову" списка ожидающих процессов,
-или какой-то конкретный прооцесс, в случае, если он заблокирован на целевом примитиве синхронизации.
+или какой-то конкретный процесс, в случае, если он заблокирован на целевом примитиве синхронизации.
 
 \param sync Указатель на объект типа #sync_t.
-\param proc Указатель на процес, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
+\param proc Указатель на процесс, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
 \param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
 \return #SYNC_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
 
@@ -492,15 +492,15 @@ while(0) /*!< \~russian \brief Смотри #sync_wake_and_wait. \~english \brie
 \brief
 "Разбудить", процесс по таймауту.
 
-\param proc Указатель на процес, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
-\return #SYNC_ST_OK в случае, если дождался разбудил целевой процесс, #SYNC_ST_ROLL, если нужна следующая иттерация, иначе - код ошибки.
+\param proc Указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\return #SYNC_ST_OK в случае, если дождался разбудил целевой процесс, #SYNC_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
 \~english
 \brief
 Wake a process on timeout.
 
 \param proc A pointer to a process, that is supposed to wake up.
-\return #SYNC_ST_OK if target process has been woken up, #SYNC_ST_ROLL if caller must do next itteration, or error code.
+\return #SYNC_ST_OK if target process has been woken up, #SYNC_ST_ROLL if caller must do next iteration, or error code.
 */
 flag_t sync_proc_timeout( proc_t * proc );
 

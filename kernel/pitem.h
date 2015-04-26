@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -81,7 +81,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /*!
 \file
-\brief \~russian Заголовок элементов списка с приоритетами. \~english A prioritixed lis item header.
+\brief \~russian Заголовок элементов списка с приоритетами. \~english A prioritized list item header.
 */
 //Элемент списка с приоритетами
 
@@ -98,9 +98,9 @@ A prioritized list item.
 */
 struct _pitem_t
 {
-    item_t parent; /*!< \~russian Родитель - #item_t. \~english A perrent - #item_t. */
-    xlist_t * list; /*!< \~russian Указательна спиок в который будем вставлять. \~english A pointer to an #xlist_t object.*/
-    prio_t prio; /*!< \~russian Приоритет. \~english A rpiority. */
+    item_t parent; /*!< \~russian Родитель - #item_t. \~english A parent - #item_t. */
+    xlist_t * list; /*!< \~russian Указатель на спиок в который будем вставлять. \~english A pointer to an #xlist_t object.*/
+    prio_t prio; /*!< \~russian Приоритет. \~english A priority. */
 };
 
 /*!
@@ -114,7 +114,7 @@ struct _pitem_t
    A static #pitem_t object initiation.
 
    \param a A variable name.
-   \param p A rpiority.
+   \param p A priority.
 */
 #define INIT_P_ITEM_T(a,p) { INIT_ITEM_T(a), (xlist_t *)0, (prio_t)p }
 
@@ -148,7 +148,7 @@ void pitem_init( pitem_t * pitem, prio_t prio );
 Insert #pitem_t object to #xlist_t container.
 
 \param pitem A #pitem_t pointer.
-\param xlist A pointer to destignation list.
+\param xlist A pointer to destination list.
 */
 void pitem_insert( pitem_t * pitem, xlist_t * xlist );
 /*!
@@ -156,7 +156,7 @@ void pitem_insert( pitem_t * pitem, xlist_t * xlist );
 \brief
 Быстро вырезать из списка.
 
-Вырезает объект типа #pitem_t, из спика типа #xlist_t, не обнуляет указатель pitem->list.
+Вырезает объект типа #pitem_t, из списка типа #xlist_t, не обнуляет указатель pitem->list.
 
 \param pitem Указатель на объект #pitem_t.
 
@@ -196,7 +196,7 @@ void pitem_cut( pitem_t * pitem );
 Вырезать из списка типа xlist_t все элементы типа #pitem_t и сделать из них простой 2-связный список.
 
 \param src Указатель на объект #xlist_t.
-\return Указаьель на голову 2-связного списка.
+\return Указатель на голову 2-связного списка.
 
 \~english
 \brief

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 Заголовок критических секций.
 
-Критическая секция - область кода, в которой запрещены все прерывания. Критические секции используются, когда надо использовать общий ресурс в течение короткого ввремени.
+Критическая секция - область кода, в которой запрещены все прерывания. Критические секции используются, когда надо использовать общий ресурс в течение короткого времени.
 
 Критические секции могут быть вложенные, в этом случае прерывания разрешаются,
 когда произошел выход из всех критических секций.
@@ -109,7 +109,7 @@ Critical sections may be nested, in this case interrupts get enabled on exit fro
 \warning Все локальные переменные должны быть объявлены до #ENTER_CRIT_SEC
 
 \~english
-\brief A wraper macro.
+\brief A wrapper macro.
 
 A critical section start.
 \warning Must be used on a start of a code block!
@@ -123,7 +123,7 @@ A critical section start.
 \warning Использовать в конце блока!
 
 \~english
-\brief A wraper macro.
+\brief A wrapper macro.
 
 A critical section end.
 \warning Must be used at the end of a code block.
@@ -152,7 +152,7 @@ core_id_t _enter_crit_sec(void);
 \~russian
 \brief Выход из критической секции на многопроцессорной системе
 
-\param core ID процессороного ядра, на котором выполняется.
+\param core ID процессорного ядра, на котором выполняется.
 
 \warning Передача ID процессорного ядра, отличного от того, где запускается функция приведет к непредсказуемым последствиям.
 \~english

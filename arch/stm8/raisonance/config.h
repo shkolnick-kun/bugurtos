@@ -29,7 +29,7 @@ typedef unsigned char index_t;
 
 // Even if index_t is unsigned long long,
 // there will be only 64 priority levels available,
-// so unsigned char is allways enough.
+// so unsigned char is always enough.
 typedef unsigned char prio_t;
 
 // Unsigned char is enough.
@@ -66,10 +66,10 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_PREEMPTIVE_KERNEL
 #define CONFIG_USER_IDLE
 //=================================================================
-//     Project stecific stuff, you are welcome to edit it!!!
+//     Project specific stuff, you are welcome to edit it!!!
 //=================================================================
 #include <STM8\STM8S208RB.h>//STM8 include!!!!
-// porject specific define of system timer ISR
+// project specific define of system timer ISR
 #define SPI_TXE_vector 10
 #define SYSTEM_TIMER_VECTOR 23
 #define SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
