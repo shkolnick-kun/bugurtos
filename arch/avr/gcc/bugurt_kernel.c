@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include"bugurt_kernel.h"
 
-// Платформеннозависимый код
+// Платформозависимый код
 // Просто функции, специфичные для AVR
 
 void disable_interrupts(void)
@@ -98,7 +98,7 @@ proc_t * current_proc(void)
 /******************************************************************************************************/
 // Код ядра
 
-// Состояние ядра, выполняем перепланиировку
+// Состояние ядра, выполняем перепланировку
 unsigned char kernel_state = KRN_FLG_RESCHED;
 //Временное хранилище для указателей стеков процессов.
 stack_t * saved_sp;
@@ -112,7 +112,7 @@ void resched( void )
     kernel_state |= KRN_FLG_RESCHED;
 }
 /*
-  Перепланировка при необхродимости,
+  Перепланировка при необходимости,
 в случае использования системных вызовов
 на основе программного прерывания -
 - проверка на гонки с прерыванием системного вызова.

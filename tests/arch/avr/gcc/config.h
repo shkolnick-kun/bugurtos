@@ -42,7 +42,7 @@ typedef unsigned char index_t;
 
 // Even if index_t is unsigned long long,
 // there will be only 64 priority levels available,
-// so unsigned char is allways enough.
+// so unsigned char is always enough.
 typedef unsigned char prio_t;
 
 // unsigned char is enough.
@@ -78,7 +78,7 @@ typedef unsigned short ipc_data_t;
 #define CONFIG_USER_IDLE
 #define CONFIG_PREEMPTIVE_KERNEL
 ///=================================================================
-///     Project stecific stuff, you are welcome to edit it!!!
+///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define START_SCHEDULER() (TIMSK2 |= 0x02)

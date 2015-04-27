@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 Обработка системного вызова.
 
-Зпускает обработчик системного вызова и передает ему аргумент.
+Запускает обработчик системного вызова и передает ему аргумент.
 
 \~english
 \brief
@@ -238,7 +238,7 @@ void scall_sched_proc_yeld( void * arg );
 \brief
 Обработчик вызова #SYSCALL_PROC_TERMINATE.
 
-Завершает выполенение процесса после выхода из pmain. Вызывает #_proc_terminate.
+Завершает выполнение процесса после выхода из pmain. Вызывает #_proc_terminate.
 
 \param arg указатель на процесс.
 
@@ -284,7 +284,7 @@ A #SYSCALL_PROC_FREE handler.
 This function decreases proc->lres counter, clears #PROC_FLG_LOCK if needed and, process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
 It calls #_proc_free.
 
-\param arg A poointer to a flag mask.
+\param arg A pointer to a flag mask.
 */
 void scall_proc_free( void * arg );
 /*****************************************************************************************/
@@ -326,7 +326,7 @@ This function calls #_proc_set_prio.
 */
 void scall_proc_set_prio( void * arg );
 /*****************************************************************************************/
-//                            Basic syncronization primitive
+//                            Basic synchronization primitive
 /*!
 \~russian
 \brief

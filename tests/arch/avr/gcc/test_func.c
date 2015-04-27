@@ -15,7 +15,7 @@ void init_hardware(void)
     TCCR2B = 0x05;// prescaler=128
     OCR2A  = 124;
     OCR2B  = 0x00;
-    TIMSK2 = 0x00; // shceduler not started
+    TIMSK2 = 0x00; // scheduler not started
     TIFR2  = 0x00;
 
     EICRA = 0x0A; //falling edge

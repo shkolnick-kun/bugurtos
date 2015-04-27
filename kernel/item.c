@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ void item_cut( item_t *item )
 {
     item_t * prev;
     item_t * next;
-    prev = item->prev; //Prevoious item
+    prev = item->prev; //Previous item
     next = item->next; //Next item
 
     next->prev = prev;

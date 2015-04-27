@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -90,7 +90,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 A scheduler header.
 
-\warning All functions in this file are internel usage functins!!!
+\warning All functions in this file are internal usage functions!!!
 */
 /*!
 \def _SCHED_INIT()
@@ -109,7 +109,7 @@ Initialization wrapper for sched variable in #sched_schedule and #sched_reschedu
 #define _SCHED_INIT() ((sched_t *)&kernel.sched)
 #endif // CONFIG_MP
 
-// Планировшик
+// Планировщик
 typedef struct _sched_t sched_t; /*!< \~russian Смотри #_sched_t; \~english See #_sched_t; */
 // Свойства
 /*!
@@ -123,17 +123,17 @@ typedef struct _sched_t sched_t; /*!< \~russian Смотри #_sched_t; \~englis
 \brief
 A scheduler.
 
-A scheduler oject contains an information about processes, running on some CPU core.
+A scheduler object contains an information about processes, running on some CPU core.
 */
 struct _sched_t
 {
     proc_t * current_proc;      /*!< \~russian Текущий процесс. \~english A currently running process. */
     xlist_t * ready;            /*!< \~russian Указатель на список готовых к выполнению процессов. \~english A pointer to a ready process list. */
     xlist_t * expired;          /*!< \~russian Указатель на список процессов, исчерпавших свой квант времени. \~english A pointer to an expired process list. */
-    xlist_t plst[2];            /*!< \~russian Сами списки процесов. \~english A storage for a ready and for an expired process lists. */
+    xlist_t plst[2];            /*!< \~russian Сами списки процессов. \~english A storage for a ready and for an expired process lists. */
     count_t nested_crit_sec;    /*!< \~russian Счетчик вложенности критических секций. \~english A critical section nesting count. */
 #ifdef CONFIG_MP
-    lock_t lock;                /*!< \~russian Спин-блокировка планировщика. \~english A schrduler spin-lock. */
+    lock_t lock;                /*!< \~russian Спин-блокировка планировщика. \~english A scheduler spin-lock. */
 #endif // CONFIG_MP
 };
 // Методы
@@ -151,7 +151,7 @@ struct _sched_t
 \brief A scheduler initiation routine.
 
 This function prepares a scheduler object for work.
-\param sched - A sceduler pointer.
+\param sched - A scheduler pointer.
 \param idle - An IDLE process pointer.
 */
 void sched_init(sched_t * sched, proc_t * idle);
@@ -179,7 +179,7 @@ void sched_schedule(void);
 
 \~english
 \brief
-Recheduler routine.
+Rescheduler routine.
 
 This function switches processes if needed.
 */
@@ -240,14 +240,14 @@ bool_t sched_proc_yeld( void );
 
 \param proc Указатель на процесс, который надо перенести на новое процессорное ядро.
 \param stat Указатель на массив статистики Ядра, либо сигнала.
-\return ID процессороного ядра с наименьшей нагрузкой.
+\return ID процессорного ядра с наименьшей нагрузкой.
 
 \~english
 \brief A load balancer routine.
 
 This function is used for load balancing of the kernel and of signals.
 
-\param proc A pointer to a process that we want to plase on a process list.
+\param proc A pointer to a process that we want to place on a process list.
 \param stat A pointer to a stat_t array, that controls corespondent process list.
 \return An ID of the least loaded process list.
 */
@@ -259,7 +259,7 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 Используется в глобальном ленивом балансировщике нагрузки и функции #sig_signal.
 
 \param stat Указатель на массив статистики Ядра, либо сигнала.
-\return ID процессороного ядра с наибольшей нагрузкой.
+\return ID процессорного ядра с наибольшей нагрузкой.
 
 \~english
 \brief Find most loaded core.
@@ -285,7 +285,7 @@ core_id_t sched_highest_load_core( stat_t * stat );
 ************************************/
 /*!
 \~russian
-\brief Ленивая балансировка нагрузки, для внутренненго использования.
+\brief Ленивая балансировка нагрузки, для внутреннего использования.
 
 Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
 \param object_core - процессорное ядро, с которого будем снимать нагрузку.
