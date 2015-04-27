@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ typedef struct _pcounter_t pcounter_t; /*!< \~russian Смотри #_pcounter_t;
 \brief
 A locked resource counter.
 
-#pcounter_t objects are used to count mutex controled resources locked by processes when CONFIG_USE_HIGHEST_LOCKER is defined.
+#pcounter_t objects are used to count mutex controlled resources locked by processes when CONFIG_USE_HIGHEST_LOCKER is defined.
 */
 struct _pcounter_t
 {

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
         return SYNC_ST_ENULL;
     }
 
-    proc_lock(); //Don't stop caller untill wakeup!
+    proc_lock(); //Don't stop caller until wakeup!
 
     cond->blocked++; //Guarded by mutex
 
@@ -107,7 +107,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
 
     if( SYNC_ST_EOWN == ret )
     {
-        proc_free(); //May stop as error occured!
+        proc_free(); //May stop as error occurred!
     }
     else
     {

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ typedef struct _mutex_t mutex_t; /*!< \~russian Смотри #_mutex_t; \~englis
 Используется для управления доступом к общим ресурсам, в тех случаях, когда общий ресурс нужен в течение долгого времени.
 Поддерживается произвольная вложенность мьютексов.
 
-\warning  Мьютексы захватываются и освобожаются только процессами. Нельзя делать это из обработчиков прерываний.
+\warning  Мьютексы захватываются и освобождаются только процессами. Нельзя делать это из обработчиков прерываний.
 \warning  Мьютекс должен освободить ИМЕННО ТОТ процесс, который его захватил.
 
 \~english
@@ -104,7 +104,7 @@ Mutexes are used to control an access to common data. If your code needs yo use 
 then you should use mutex instead of critical section. Mutex nesting is supported.
 
 \warning  Only a process can lock or free a mutex!
-\warning  Locked mutex can be freeed only by a locker process!
+\warning  Locked mutex can be freed only by a locker process!
 */
 struct _mutex_t
 {
@@ -151,7 +151,7 @@ void mutex_init( mutex_t * mutex, prio_t prio );
 Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс продолжает выполнение.
 
 \param mutex Указатель на мьютекс.
-\return #SYNC_ST_OK - если уддалось захватить, #SYNC_ST_ROLL - если не удалось.
+\return #SYNC_ST_OK - если удалось захватить, #SYNC_ST_ROLL - если не удалось.
 
 \~english
 \brief
@@ -160,7 +160,7 @@ Try to lock a mutex.
 If mutex is free then caller process locks it and continues, if not caller process continues without wait.
 
 \param mutex A mutex pointer.
-\return #SYNC_ST_OK - if mutex was succefully locked else - #SYNC_ST_ROLL.
+\return #SYNC_ST_OK - if mutex was successfully locked else - #SYNC_ST_ROLL.
 */
 flag_t mutex_try_lock( mutex_t * mutex );
 /*!
@@ -198,7 +198,7 @@ flag_t mutex_lock( mutex_t * mutex );
 \brief
 Mutex free.
 
-If a mutex wait list is empty, then caller process frees a mutex, else mutex wait lish head gets launched.
+If a mutex wait list is empty, then caller process frees a mutex, else mutex wait list head gets launched.
 
 \param mutex A mutex pointer.
 \return #SYNC_ST_OK on success, or error number.

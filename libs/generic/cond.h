@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _COND_H_
 /*!
 \file
-\brief \~russian Заговок условных переменных. \~english A conditional variable header.
+\brief \~russian Заголовок условных переменных. \~english A conditional variable header.
 */
 #include <bugurt.h>
 #include "mutex.h"
@@ -92,7 +92,7 @@ typedef struct _cond_t cond_t; /*!< \~russian Смотри #_cond_t; \~english S
 \brief
 Условная переменная.
 
-Условные переменные используются в сочитании с мьютексами для синхронизации процессов по событиям. Процесс может заблокировать себя на условной переменной.
+Условные переменные используются в сочетании с мьютексами для синхронизации процессов по событиям. Процесс может заблокировать себя на условной переменной.
 Другой процесс может возобновить выполнение 1 или всех процессов, заблокированных на условной переменной.
 
 \~english

@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -159,7 +159,7 @@ void _proc_prio_propagate( proc_t * proc )
         {
             if( sync->owner )
             {
-                // Start priority inheritanse transaction.
+                // Start priority inheritance transaction.
                 sync->dirty++;
                 sched_proc_run( proc, PROC_STATE_PI_READY );
             }
@@ -474,14 +474,14 @@ flag_t _sync_sleep( sync_t * sync )
 
     if( PROC_STATE_PI_RUNNING == PROC_GET_STATE( proc ) )
     {
-        //This is priority inheritanse transaction end
+        //This is priority inheritance transaction end
         dirty = sync->dirty--; //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
     }
     else
     {
         dirty = (count_t)0;
     }
-    // Must be handled aftre proc state
+    // Must be handled after proc state
     if( sync->owner == proc )
     {
         SPIN_FREE( proc );
@@ -678,7 +678,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 
             return SYNC_ST_EOWN;
         }
-        //Check for dirty priority inheritanse transactions
+        //Check for dirty priority inheritance transactions
         if( sync->dirty )
         {
             _sync_owner_block( owner );
@@ -709,7 +709,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     if( owner )
     {
         SPIN_LOCK( owner );
-        // As PROC_FLG_sync is set, a process can be stoped safely.
+        // As PROC_FLG_sync is set, a process can be stopped safely.
         sched_proc_stop( owner );
         PROC_LRES_DEC( owner, SYNC_PRIO( sync ) );// No prio control now!
 

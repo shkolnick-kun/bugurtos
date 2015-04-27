@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include"bugurt_kernel.h"
 
-// Платформеннозависимый код
+// Платформозависимый код
 // Просто функции, специфичные для AVR
 proc_t * current_proc(void)
 {
@@ -88,7 +88,7 @@ proc_t * current_proc(void)
 /******************************************************************************************************/
 // Код ядра
 
-// Состояние ядра, выполняем перепланиировку
+// Состояние ядра, выполняем перепланировку
 unsigned char kernel_state = KRN_FLG_RESCHED;
 stack_t * saved_sp;
 #ifdef CONFIG_PREEMPTIVE_KERNEL
@@ -100,7 +100,7 @@ void resched( void )
     kernel_state |= KRN_FLG_RESCHED;
 }
 /*
-  Перепланировка при необхродимости.
+  Перепланировка при необходимости.
 */
 void bugurt_check_resched( void )
 {
@@ -119,7 +119,7 @@ __interrupt void system_timer_isr(void)
     BUGURT_ISR_START();
 
     SYSTEM_TIMER_INTERRUPT_CLEAR();
-    KERNEL_PREEMPT(); /// Now interrupt flag is clear, we can alow kernel preemption.
+    KERNEL_PREEMPT(); /// Now interrupt flag is clear, we can allow kernel preemption.
 
     kernel.timer++;
     if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
@@ -132,7 +132,7 @@ __interrupt void system_timer_isr(void)
     BUGURT_ISR_EXIT();
 #endif
 }
-#pragma vector = 1 // trap insrtuction vector!
+#pragma vector = 1 // trap instruction vector!
 __interrupt  void system_call_handler(void)
 {
     BUGURT_ISR_START();

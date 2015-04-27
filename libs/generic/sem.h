@@ -1,6 +1,6 @@
 /**************************************************************************
-    BuguRTOS-0.8.x(Bugurt real time operating system)
-    Copyright (C) 2015  anonimous
+    BuguRTOS-0.8.x (Bugurt real time operating system)
+    Copyright (C) 2015 anonimous
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -99,13 +99,13 @@ typedef struct _sem_t sem_t;/*!< \~russian Смотри #_sem_t; \~english See #
 A counting semaphore.
 
 Counting semaphores are used for process synchronization.
-It is not recomended to use them in common data access control, because priority inversion is possible.
-A counting semaphore can be locked by one process and freeed by another.
+It is not recommended to use them in common data access control, because priority inversion is possible.
+A counting semaphore can be locked by one process and freed by another.
 */
 struct _sem_t
 {
     sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-    count_t counter;/*!< \~russian Счетчик реусрсов. \~english A resource counter. */
+    count_t counter;/*!< \~russian Счетчик ресурсов. \~english A resource counter. */
     count_t blocked;/*!< \~russian Счетчик блокированных процессов. \~english A blocked process counter. */
 #ifdef CONFIG_MP
     lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
@@ -204,7 +204,7 @@ flag_t sem_try_lock( sem_t * sem );
 \brief
 Semaphore free.
 
-If semaphore wait lisk is empty, then counter will be encreased,
+If semaphore wait list is empty, then counter will be increased,
 else semaphore wait list head will be launched.
 
 \param sem A #sem_t pointer.

@@ -7,7 +7,7 @@
 #define BUGURT_SYS_SHPR3 	*(( volatile unsigned long *) 0xE000ED20 )
 
 #define BUGURT_SYST_RVR_VALUE ( ( CONFIG_FCPU_HZ / CONFIG_FSYSTICK_HZ ) - 1ul )
-#define BUGURT_SYST_CSR_VALUE ( 0x00000007 ) //Enable clock, interrrupt, timer.
+#define BUGURT_SYST_CSR_VALUE ( 0x00000007 ) //Enable clock, interrupt, timer.
 
 #ifndef CONFIG_FCPU_HZ
 #error "You must define CONFIG_FCPU_HZ macro!!!"
