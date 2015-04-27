@@ -30,13 +30,13 @@ proprietary software development.
   * 0.8.2.
  
 * Platforms supported:
-  * AVR (GNU-toolchain).
+  * AVR (GNU-toolchain);
   * STM8:
-    * IAR;
-    * Raisonance.
-  * Cortex<sup>TM</sup>-M4 (GNU-toolchain)
-  * Cortex<sup>TM</sup>-M3 (GNU-toolchain)
-  * Cortex<sup>TM</sup>-M0 (GNU-toolchain)
+    * IAR,
+    * Raisonance;
+  * Cortex<sup>TM</sup>-M4 (GNU-toolchain);
+  * Cortex<sup>TM</sup>-M3 (GNU-toolchain);
+  * Cortex<sup>TM</sup>-M0 (GNU-toolchain).
 
 # Todo #
 * Update documentation.
