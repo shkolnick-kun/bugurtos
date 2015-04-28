@@ -123,7 +123,7 @@ void _proc_prio_control_stoped( proc_t * proc )
                                     Process control !!!
 **********************************************************************************************/
 // Initiation.
-void proc_init(
+status_t proc_init(
                     proc_t * proc, //A process pointer
                     code_t pmain,
                     code_t sv_hook,
@@ -138,8 +138,9 @@ void proc_init(
 #endif // CONFIG_MP
                   )
 {
+    status_t ret;
     disable_interrupts();
-    proc_init_isr(
+    ret = proc_init_isr(
                     proc, //A process pointer
                     pmain,
                     sv_hook,
@@ -154,9 +155,10 @@ void proc_init(
 #endif // CONFIG_MP
                   );
     enable_interrupts();
+    return ret;
 }
 //========================================================================================
-void proc_init_isr(
+status_t proc_init_isr(
     proc_t * proc, //A process pointer!
     code_t pmain,
     code_t sv_hook,
@@ -173,7 +175,7 @@ void proc_init_isr(
 {
     if( !proc )
     {
-        return;
+        return BGRT_ST_ENULL;
     }
 
     SPIN_INIT( proc );
@@ -201,6 +203,8 @@ void proc_init_isr(
     if( sstart )proc->spointer = proc_stack_init(sstart, (code_t)pmain, (void *)arg, (void (*)(void))proc_terminate);
 
     SPIN_FREE( proc );
+
+    return BGRT_ST_OK;
 }
 /**********************************************************************************************
                                        SYSCALL_PROC_RUN
@@ -216,11 +220,11 @@ An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_
 */
 typedef struct{
     proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
-    bool_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+    status_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
 }proc_runtime_arg_t;
 
 
-bool_t proc_run( proc_t * proc )
+status_t proc_run( proc_t * proc )
 {
     volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
@@ -229,20 +233,20 @@ bool_t proc_run( proc_t * proc )
 }
 //========================================================================================
 // Run a process? used in ISRs and in #SYSCALL_PROC_RUN
-bool_t proc_run_isr(proc_t * proc)
+status_t proc_run_isr(proc_t * proc)
 {
-    bool_t ret = (bool_t)1;
+    status_t ret = BGRT_ST_OK;
 
     if( !proc )
     {
-        return (bool_t)0;
+        return BGRT_ST_ENULL;
     }
 
     SPIN_LOCK( proc );
 
     if( (proc->flags & PROC_STATE_MASK) != PROC_STATE_STOPED )
     {
-        ret = (bool_t)0;
+        ret = BGRT_ST_ROLL;
         goto end;
     }
     sched_proc_run( proc, PROC_STATE_READY );
@@ -258,7 +262,7 @@ void scall_proc_run( void * arg )
 /**********************************************************************************************
                                        SYSCALL_PROC_RESTART
 **********************************************************************************************/
-bool_t proc_restart( proc_t * proc )
+status_t proc_restart( proc_t * proc )
 {
     volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
@@ -267,20 +271,20 @@ bool_t proc_restart( proc_t * proc )
 }
 //========================================================================================
 // Restart a process from some ISR.
-bool_t proc_restart_isr(proc_t * proc)
+status_t proc_restart_isr(proc_t * proc)
 {
-    bool_t ret = (bool_t)1;
+    status_t ret = BGRT_ST_OK;
 
     if( !proc )
     {
-        return (bool_t)0;
+        return BGRT_ST_ENULL;
     }
 
     SPIN_LOCK( proc );
 
     if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_STATE_RESTART_MASK) )
     {
-        ret = (bool_t)0;
+        ret = BGRT_ST_ESTAT;
         goto end;
     }
     proc->flags = ( proc->flags & PROC_FLG_RT )?PROC_FLG_RT:(flag_t)0;
@@ -306,7 +310,7 @@ void scall_proc_restart( void * arg )
 /**********************************************************************************************
                                         SYSCALL_PROC_STOP
 **********************************************************************************************/
-bool_t proc_stop( proc_t * proc )
+status_t proc_stop( proc_t * proc )
 {
     volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
@@ -315,9 +319,9 @@ bool_t proc_stop( proc_t * proc )
 }
 //========================================================================================
 // Stop a process from ISR
-bool_t proc_stop_isr(proc_t * proc)
+status_t proc_stop_isr(proc_t * proc)
 {
-    bool_t ret = (bool_t)0;
+    status_t ret = BGRT_ST_ROLL;
 
     if( !proc )
     {
@@ -334,7 +338,7 @@ bool_t proc_stop_isr(proc_t * proc)
     else
     {
         _proc_stop_ensure( proc );
-        ret = (bool_t)1;
+        ret = BGRT_ST_OK;;
     }
 
     SPIN_FREE( proc );

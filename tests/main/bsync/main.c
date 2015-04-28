@@ -15,7 +15,7 @@ void prio_propagate_hook_0(void)
     {
         test_kernel_preempt = test_do_nothing;
         status = _sync_wake(&sync_2, &proc[3], 0 );
-        test = (status == SYNC_ST_OK);
+        test = (status == BGRT_ST_OK);
         test_output( test, test_num++ );
     }
 }
@@ -26,7 +26,7 @@ void prio_propagate_hook_2(void)
     {
         test_kernel_preempt = test_do_nothing;
         status = _sync_wake(&sync_2, &proc[3], 1 ); //chown
-        test = (status == SYNC_ST_OK);
+        test = (status == BGRT_ST_OK);
         test_output( test, test_num++ );
     }
 }
@@ -72,7 +72,7 @@ void main_0( void * arg )
     test = (proc[1].parent.prio == 5);
     test_output( test, test_num++ );
     // 10 sync_wake
-    test = ( SYNC_ST_EOWN == sync_wake( &sync_1, (proc_t *)0, 0 ) ); // Must fail on ownership!
+    test = ( BGRT_ST_EOWN == sync_wake( &sync_1, (proc_t *)0, 0 ) ); // Must fail on ownership!
     test_output( test, test_num++ );
     // 11 sync_sleep proc_set_prio _proc_prio_propagate
     proc_run( &proc[3] );
@@ -157,10 +157,10 @@ void main_0( void * arg )
     test = (PROC_GET_STATE((&proc[3]))== PROC_STATE_STOPED);
     test_output( test, test_num++ );
     //33 _sync_wait _proc_prio_propagate
-    status = SYNC_ST_OK;
+    status = BGRT_ST_OK;
     proc_run( &proc[2] ); //Must fail on ownership;
     wait_time(5);
-    test = (status == SYNC_ST_EOWN);
+    test = (status == BGRT_ST_EOWN);
     test_output( test, test_num++ );
     //34 _sync_wait _proc_prio_propagate
     sync_set_owner( &sync_2, &proc[2] );
@@ -192,7 +192,7 @@ void main_0( void * arg )
     /// proc_set_prio_covered!!!
     //40
     sync_clear_owner( &sync_2 );
-    test_output( SYNC_ST_ENULL == sync_set_owner( (sync_t *)0, (proc_t *)0 ), test_num++); //Must not set
+    test_output( BGRT_ST_ENULL == sync_set_owner( (sync_t *)0, (proc_t *)0 ), test_num++); //Must not set
     //41
     sync_set_owner( &sync_2, (proc_t *)0 );//Must set!
     test = (sync_2.owner == &proc[0]);
@@ -228,17 +228,17 @@ void main_0( void * arg )
     //50 sync_sleep sync_wake
     proc_run( &proc[2] );
     wait_time(5);
-    test = (status == SYNC_ST_EOWN);
+    test = (status == BGRT_ST_EOWN);
     test_output( test, test_num++ );
     //51 sync_sleep sync_wake
     proc_run( &proc[2] );
     wait_time(5);
-    test = (status == SYNC_ST_ENULL);
+    test = (status == BGRT_ST_ENULL);
     test_output( test, test_num++ );
     //52 sync_sleep sync_wake
     proc_run( &proc[2] ); //Must wake proc[3];
     wait_time(5);
-    test = (status == SYNC_ST_OK);
+    test = (status == BGRT_ST_OK);
     test_output( test, test_num++ );
     //53 sync_sleep sync_wake
     test = (PROC_GET_STATE( (&proc[3]) ) == PROC_STATE_STOPED );
@@ -259,12 +259,12 @@ void main_0( void * arg )
     /// sync_sleep covered!!!
     //57 sync_wake
     status = sync_wake( (sync_t *)0, (proc_t *)0, 0 ); // Must fail on zero pointer
-    test = (status == SYNC_ST_ENULL);
+    test = (status == BGRT_ST_ENULL);
     test_output( test, test_num++ );
     //58 sync_wake
     proc_run( &proc[2] ); //proc[2] must fail, calling sync_wake
     wait_time(5);
-    test = (status == SYNC_ST_ESYNC);
+    test = (status == BGRT_ST_ESYNC);
     test_output( test, test_num++ );
     //59 Priority inheritance protocol!!!
     proc_run( &proc[2] );
@@ -347,7 +347,7 @@ void main_0( void * arg )
     //78
     proc_run( &proc[3] );//Must chown sync_2 to proc[5];
     wait_time(5);
-    test = ( status == SYNC_ST_OK );
+    test = ( status == BGRT_ST_OK );
     test_output( test, test_num++ );
     //79
     test = ( PROC_GET_STATE( (&proc[3]) ) == PROC_STATE_STOPED );
@@ -367,7 +367,7 @@ void main_0( void * arg )
     //84
     proc_run( &proc[5] );
     wait_time(5);
-    test = ( status == SYNC_ST_EEMPTY ); // No process to wake.
+    test = ( status == BGRT_ST_EEMPTY ); // No process to wake.
     test_output( test, test_num++ );
     //85
     test = (sync_2.owner == (proc_t *)0);
@@ -375,11 +375,11 @@ void main_0( void * arg )
     /// sync_wake covered!!!
     //86
     status = sync_wait( (sync_t *)0, (proc_t **)0, 0 ); //Must fail.
-    test = ( status == SYNC_ST_ENULL );
+    test = ( status == BGRT_ST_ENULL );
     test_output( test, test_num++ );
     //87
     status = sync_wait( (sync_t *)0, &proc_buff, 0 ); //Must fail.
-    test = ( status == SYNC_ST_ENULL );
+    test = ( status == BGRT_ST_ENULL );
     test_output( test, test_num++ );
     //88
     sync_1.dirty = 1;
@@ -400,38 +400,38 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     ///Priority ceiling protocol covered.
     //91
-    test = (SYNC_ST_OK == sync_proc_timeout( &proc[1] ));
+    test = (BGRT_ST_OK == sync_proc_timeout( &proc[1] ));
     test_output( test, test_num++ );
     //92
     sync_1.dirty = 0;
     proc_set_prio( &proc[1], proc[1].base_prio );
     wait_time(5);
-    test = (SYNC_ST_ESYNC == sync_proc_timeout( &proc[1] ));
+    test = (BGRT_ST_ESYNC == sync_proc_timeout( &proc[1] ));
     test_output( test, test_num++ );
     //93
     proc_run( &proc[1] );
     wait_time(5);
-    test = (SYNC_ST_OK == sync_proc_timeout( &proc[1] ));
+    test = (BGRT_ST_OK == sync_proc_timeout( &proc[1] ));
     test_output( test, test_num++ );
     //94
     wait_time(5);
-    test = (SYNC_ST_ETIMEOUT == status);
+    test = (BGRT_ST_ETIMEOUT == status);
     test_output( test, test_num++ );
     //95
     PROC_SET_STATE( (&proc[4]), PROC_STATE_PI_PEND );
-    test = (SYNC_ST_ROLL == sync_proc_timeout( &proc[4] ));
+    test = (BGRT_ST_ROLL == sync_proc_timeout( &proc[4] ));
     test_output( test, test_num++ );
     //96
     PROC_SET_STATE( (&proc[4]), PROC_STATE_STOPED );
-    test = (SYNC_ST_OK == sync_proc_timeout( &proc[4] ));
+    test = (BGRT_ST_OK == sync_proc_timeout( &proc[4] ));
     test_output( test, test_num++ );
     //97
     PROC_SET_STATE( (&proc[4]), PROC_STATE_SYNC_SLEEP );
-    test = (SYNC_ST_OK == sync_proc_timeout( &proc[4] ));
+    test = (BGRT_ST_OK == sync_proc_timeout( &proc[4] ));
     test_output( test, test_num++ );
     //98
     wait_time(5);
-    test = (SYNC_ST_ETIMEOUT == status);
+    test = (BGRT_ST_ETIMEOUT == status);
     test_output( test, test_num++ );
     //99
     /// sync_proc_timeout covered

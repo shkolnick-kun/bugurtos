@@ -146,6 +146,15 @@ typedef void (* code_t)(void *);
 #include "timer.h"
 #include "syscall.h"
 
+#define BGRT_ST_OK          ((status_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
+#define BGRT_ST_ENULL       ((status_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
+#define BGRT_ST_EOWN        ((status_t)2) /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
+#define BGRT_ST_EEMPTY      ((status_t)3) /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
+#define BGRT_ST_ESYNC       ((status_t)4) /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
+#define BGRT_ST_ETIMEOUT    ((status_t)5) /*!< \~russian \brief Иcтек таймаут #sync_t. \~english \brief Timeout expired. */
+#define BGRT_ST_ESTAT       ((status_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
+#define BGRT_ST_ROLL        ((status_t)7) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+
 /*!
 \def SPIN_INIT(arg)
 \~russian

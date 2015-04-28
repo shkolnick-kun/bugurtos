@@ -395,7 +395,7 @@ A process should not have locked resources at a moment of a flag stop.
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
-void proc_init_isr(
+status_t proc_init_isr(
     proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A pointer to a initialized process.*/
     code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
     code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
@@ -412,7 +412,7 @@ void proc_init_isr(
 /*!
 \brief \~russian Инициализация процесса. \~english A process initialization.
 */
-void proc_init(
+status_t proc_init(
     proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A pointer to a initialized process.*/
     code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
     code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
@@ -426,19 +426,6 @@ void proc_init(
     ,affinity_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
 #endif // CONFIG_MP
 );
-/*!
-\~russian
-\brief Обертка для запуска процессов.
-
-Эта функция  вызывает proc->pmain(proc->arg), и если происходит возврат из pmain, то #proc_run_wrapper корректно завершает процесс.
-\param proc - Указатель на запускаемый процесс.
-\~english
-\brief A wrapper for process "main" routines.
-
-This function calls proc->pmain(proc->arg), and if pmain returns, then #proc_run_wrapper terminates process correctly.
-\param proc - A pointer to a process to launch.
-*/
-void proc_run_wrapper(proc_t * proc);
 /*!
 \~russian
 \brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
@@ -461,7 +448,7 @@ void _proc_terminate( void );
 
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
-\return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process launch routine.
@@ -469,16 +456,16 @@ void _proc_terminate( void );
 This function schedules a process if possible.
 
 \param proc - A pointer to a process to launch.
-\return 1 - if a process has been scheduled, 0 in other cases.
+\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bool_t proc_run(proc_t * proc);
+status_t proc_run(proc_t * proc);
 /*!
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
 
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
-\return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process launch routine for usage in interrupt service routines and critical sections.
@@ -486,9 +473,9 @@ bool_t proc_run(proc_t * proc);
 This function schedules a process if possible.
 
 \param proc - A pointer to a process to launch.
-\return 1 - if a process has been scheduled, 0 in other cases.
+\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bool_t proc_run_isr(proc_t * proc);
+status_t proc_run_isr(proc_t * proc);
 
 /*!
 \~russian
@@ -496,7 +483,7 @@ bool_t proc_run_isr(proc_t * proc);
 
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
-\return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process restart routine.
@@ -504,16 +491,16 @@ bool_t proc_run_isr(proc_t * proc);
 This function reinitializes a process and schedules it if possible.
 
 \param proc - A pointer to a process to launch.
-\return 1 - if a process has been scheduled, 0 in other cases.
+\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bool_t proc_restart(proc_t * proc);
+status_t proc_restart(proc_t * proc);
 /*!
 \~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
 
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #proc_init, и ставит процесс в список готовых к выполнению, производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
-\return 1 - если процесс был вставлен в список готовых к выполнению, 0 во всех остальных случаях.
+\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process restart routine for usage in interrupt service routines and critical sections.
@@ -521,41 +508,41 @@ bool_t proc_restart(proc_t * proc);
 This function reinitializes a process and schedules it if possible.
 
 \param proc - A pointer to a process to launch.
-\return 1 - if a process has been scheduled, 0 in other cases.
+\return BGRT_ST_OK - if a process has been scheduled, erroro code in other cases.
 */
-bool_t proc_restart_isr(proc_t * proc);
+status_t proc_restart_isr(proc_t * proc);
 /*!
 \~russian
 \brief Останов процесса.
 
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
 \param proc - Указатель на останавливаемый процесс.
-\return 1 - если процесс был вырезан из списка готовых к выполнению, 0 во всех остальных случаях.
+\return BGRT_ST_OK - если процесс был вырезан из списка готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process stop routine.
 
 This function stops a process if possible.
 \param proc - A pointer to a process to stop.
-\return 1 - if a process has been stopped, 0 in other cases.
+\return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-bool_t proc_stop(proc_t * proc);
+status_t proc_stop(proc_t * proc);
 /*!
 \~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
 
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
 \param proc - Указатель на останавливаемый процесс.
-\return 1 - если процесс был вырезан из списка готовых к выполнению, 0 во всех остальных случаях.
+\return BGRT_ST_OK - если процесс был вырезан из списка готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process stop routine for usage in interrupts service routines and critical sections.
 
 This function stops a process if possible.
 \param proc - A pointer to a process to stop.
-\return 1 - if a process has been stopped, 0 in other cases.
+\return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-bool_t proc_stop_isr(proc_t * proc);
+status_t proc_stop_isr(proc_t * proc);
 /*!
 \~russian
 \brief Самоостанов процесса.

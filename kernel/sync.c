@@ -315,27 +315,27 @@ typedef struct
 {
     sync_t * sync;
     proc_t * proc;
-    flag_t status;
+    status_t status;
 }
 sync_set_owner_t;
 //========================================================================================
-flag_t sync_set_owner( sync_t * sync, proc_t * proc )
+status_t sync_set_owner( sync_t * sync, proc_t * proc )
 {
     volatile sync_set_owner_t scarg;
     scarg.sync = sync;
     scarg.proc = proc;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.status = BGRT_ST_ROLL;
     syscall_bugurt( SYSCALL_SYNC_SET_OWNER, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-flag_t _sync_set_owner( sync_t * sync, proc_t * proc )
+status_t _sync_set_owner( sync_t * sync, proc_t * proc )
 {
     proc_t * owner;
 
     if(!sync)
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     if(!proc)
@@ -356,12 +356,12 @@ flag_t _sync_set_owner( sync_t * sync, proc_t * proc )
         PROC_LRES_INC( proc, sync_prio );
         SYNC_PROC_PRIO_PROPAGATE( proc, sync );
 
-        return SYNC_ST_OK;
+        return BGRT_ST_OK;
     }
     else
     {
         SPIN_FREE( sync );
-        return SYNC_ST_ROLL;
+        return BGRT_ST_ROLL;
     }
 }
 //========================================================================================
@@ -412,20 +412,20 @@ void scall_sync_clear_owner( void * arg )
 /**********************************************************************************************
                                        SYSCALL_SYNC_SLEEP
 **********************************************************************************************/
-flag_t sync_sleep( sync_t * sync )
+status_t sync_sleep( sync_t * sync )
 {
     volatile sync_sleep_t scarg;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     do
     {
         syscall_bugurt( SYSCALL_SYNC_SLEEP, (void *)&scarg );
     }
-    while( scarg.status >= SYNC_ST_ROLL );
+    while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
 }
 //========================================================================================
-flag_t _sync_sleep( sync_t * sync )
+status_t _sync_sleep( sync_t * sync )
 {
     proc_t * proc;
     prio_t old_prio, new_prio;
@@ -435,7 +435,7 @@ flag_t _sync_sleep( sync_t * sync )
 
     if( !sync )
     {
-        return  SYNC_ST_ENULL;
+        return  BGRT_ST_ENULL;
     }
 
     proc = current_proc();
@@ -448,14 +448,14 @@ flag_t _sync_sleep( sync_t * sync )
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
 
-        return SYNC_ST_OK;
+        return BGRT_ST_OK;
     }
     case PROC_STATE_TO_RUNNING:
     {
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
 
-        return SYNC_ST_ETIMEOUT;
+        return BGRT_ST_ETIMEOUT;
     }
     default:
     {
@@ -487,7 +487,7 @@ flag_t _sync_sleep( sync_t * sync )
         SPIN_FREE( proc );
         SPIN_FREE( sync );
 
-        return SYNC_ST_EOWN;
+        return BGRT_ST_EOWN;
     }
 
     proc->sync = sync;
@@ -523,7 +523,7 @@ flag_t _sync_sleep( sync_t * sync )
     {
         SPIN_FREE(sync);
     }
-    return SYNC_ST_ROLL;
+    return BGRT_ST_ROLL;
 }
 //========================================================================================
 void scall_sync_sleep( void * arg )
@@ -543,10 +543,10 @@ static void _sync_owner_block( proc_t * owner )
     SPIN_FREE( owner );
 }
 //========================================================================================
-flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
+status_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 {
     volatile sync_wait_t scarg;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.block = block;
@@ -554,26 +554,26 @@ flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
     {
         syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );
     }
-    while( scarg.status >= SYNC_ST_ROLL );
+    while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
 }
 //========================================================================================
-flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
+status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 {
     proc_t * current;
     proc_t * owner;
-    flag_t status;
+    status_t status;
 
     _proc_reset_watchdog();
 
     if( !sync )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     if( !proc )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     current = current_proc();
@@ -584,10 +584,10 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
 
     if( status == PROC_STATE_TO_RUNNING )
     {
-        return SYNC_ST_ETIMEOUT;
+        return BGRT_ST_ETIMEOUT;
     }
 
-    status = (block)?SYNC_ST_ROLL:SYNC_ST_EEMPTY;
+    status = (block)?BGRT_ST_ROLL:BGRT_ST_EEMPTY;
 
     SPIN_LOCK( sync );
     owner = sync->owner;
@@ -595,14 +595,14 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
     if( owner != current )
     {
         SPIN_FREE( sync );
-        return SYNC_ST_EOWN;
+        return BGRT_ST_EOWN;
     }
 
     if( sync->dirty )
     {
         _sync_owner_block( owner );
         SPIN_FREE( sync );
-        return SYNC_ST_ROLL;
+        return BGRT_ST_ROLL;
     }
 
     if( !*proc )
@@ -615,12 +615,12 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         SPIN_LOCK( (*proc) );
         if( (*proc)->sync == sync )
         {
-            status = SYNC_ST_OK;
+            status = BGRT_ST_OK;
         }
         SPIN_FREE( (*proc) );
-    }//else SYNC_ST_ROLL/SYNC_ST_EEMPTY
+    }//else BGRT_ST_ROLL/BGRT_ST_EEMPTY
 
-    if( status == SYNC_ST_ROLL )
+    if( status == BGRT_ST_ROLL )
     {
         SPIN_LOCK( owner );
         _proc_stop_flags_set( owner, PROC_STATE_SYNC_WAIT );
@@ -638,10 +638,10 @@ void scall_sync_wait( void * arg )
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAKE
 **********************************************************************************************/
-flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
+status_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 {
     volatile sync_wake_t scarg;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.chown = chown;
@@ -649,22 +649,22 @@ flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE, (void *)&scarg );
     }
-    while( scarg.status >= SYNC_ST_ROLL );
+    while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
 }
 //========================================================================================
-flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
+status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 {
     proc_t * owner;
-    flag_t status;
+    status_t status;
 
     _proc_reset_watchdog();
 
-    status = SYNC_ST_EEMPTY;
+    status = BGRT_ST_EEMPTY;
 
     if( !sync )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     SPIN_LOCK( sync );
@@ -676,7 +676,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
         {
             SPIN_FREE( sync );
 
-            return SYNC_ST_EOWN;
+            return BGRT_ST_EOWN;
         }
         //Check for dirty priority inheritance transactions
         if( sync->dirty )
@@ -684,7 +684,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             _sync_owner_block( owner );
             SPIN_FREE( sync );
 
-            return SYNC_ST_ROLL;
+            return BGRT_ST_ROLL;
         }
     }
     // Nonzero proc argument???
@@ -697,7 +697,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             SPIN_FREE( proc );
             SPIN_FREE( sync );
 
-            return SYNC_ST_ESYNC;
+            return BGRT_ST_ESYNC;
         }
         SPIN_FREE( proc );
     }
@@ -723,7 +723,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     // We can wake some proc.
     if( proc )
     {
-        status = SYNC_ST_OK;
+        status = BGRT_ST_OK;
 
         SPIN_LOCK( proc );
 
@@ -775,11 +775,11 @@ void scall_sync_wake( void * arg )
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_SLEEP
 **********************************************************************************************/
-flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep )
+status_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep )
 {
     volatile sync_wake_and_sleep_t scarg;
     scarg.sleep.sync = sleep;
-    scarg.sleep.status = SYNC_ST_ROLL;
+    scarg.sleep.status = BGRT_ST_ROLL;
     scarg.chown = chown;
     scarg.wake = wake;
     scarg.proc = proc;
@@ -788,7 +788,7 @@ flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t *
     {
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );
     }
-    while( scarg.sleep.status >= SYNC_ST_ROLL );
+    while( scarg.sleep.status >= BGRT_ST_ROLL );
     return scarg.sleep.status;
 }
 //========================================================================================
@@ -799,9 +799,9 @@ void scall_sync_wake_and_sleep( void * arg )
     case 0:
     default:
     {
-        flag_t status;
+        status_t status;
         status = _sync_wake(  ((sync_wake_and_sleep_t *)arg)->wake, ((sync_wake_and_sleep_t *)arg)->proc, ((sync_wake_and_sleep_t *)arg)->chown );
-        if( (SYNC_ST_OK == status) || (SYNC_ST_EEMPTY == status) )
+        if( (BGRT_ST_OK == status) || (BGRT_ST_EEMPTY == status) )
         {
             ((sync_wake_and_sleep_t *)arg)->stage++;
         }
@@ -821,13 +821,13 @@ void scall_sync_wake_and_sleep( void * arg )
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_WAIT
 **********************************************************************************************/
-flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block )
+status_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block )
 {
     volatile sync_wake_and_wait_t scarg;
     scarg.wait.sync = wait;
     scarg.wait.proc = proc_wait;
     scarg.wait.block = block;
-    scarg.wait.status = SYNC_ST_ROLL;
+    scarg.wait.status = BGRT_ST_ROLL;
     scarg.wake = wake;
     scarg.proc = proc_wake;
     scarg.chown = chown;
@@ -847,9 +847,9 @@ void scall_sync_wake_and_wait( void * arg )
     case 0:
     default:
     {
-        flag_t status;
+        status_t status;
         status = _sync_wake( ((sync_wake_and_wait_t*)arg)->wake , ((sync_wake_and_wait_t*)arg)->proc, ((sync_wake_and_wait_t*)arg)->chown );
-        if( (SYNC_ST_OK == status) || (SYNC_ST_EEMPTY == status) )
+        if( (BGRT_ST_OK == status) || (BGRT_ST_EEMPTY == status) )
         {
             ((sync_wake_and_wait_t *)arg)->stage++;
         }
@@ -873,15 +873,15 @@ void scall_sync_wake_and_wait( void * arg )
 typedef struct
 {
     proc_t * proc;
-    flag_t status;
+    status_t status;
 }
 sync_proc_timeout_t;
 //========================================================================================
-flag_t sync_proc_timeout( proc_t * proc )
+status_t sync_proc_timeout( proc_t * proc )
 {
     volatile sync_proc_timeout_t scarg;
     scarg.proc = proc;
-    scarg.status = SYNC_ST_ROLL;
+    scarg.status = BGRT_ST_ROLL;
     syscall_bugurt( SYSCALL_SYNC_PROC_TIMEOUT, (void *)&scarg );
     return scarg.status;
 }
@@ -891,18 +891,18 @@ void scall_sync_proc_timeout( void * arg )
     ((sync_proc_timeout_t *)arg)->status = _sync_proc_timeout( ((sync_proc_timeout_t *)arg)->proc );
 }
 //========================================================================================
-flag_t _sync_proc_timeout( proc_t * proc )
+status_t _sync_proc_timeout( proc_t * proc )
 {
-    flag_t status;
+    status_t status;
     sync_t * sync;
 
     _proc_reset_watchdog();
 
-    status = SYNC_ST_OK;
+    status = BGRT_ST_OK;
 
     if( !proc )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     SPIN_LOCK( proc );
@@ -920,7 +920,7 @@ flag_t _sync_proc_timeout( proc_t * proc )
         case PROC_STATE_SYNC_WAIT:
         {
             //Is waiting on empty sync, wake up
-            status = SYNC_ST_OK;
+            status = BGRT_ST_OK;
             sched_proc_run( proc, PROC_STATE_TO_READY );
         }
         break;
@@ -928,14 +928,14 @@ flag_t _sync_proc_timeout( proc_t * proc )
         case PROC_STATE_SYNC_SLEEP:
         {
             //Blocked on dirty sync, will wakeup soon
-            status = SYNC_ST_OK;
+            status = BGRT_ST_OK;
         }
         break;
 
         default:
         {
             //Something went wrong...
-            status = SYNC_ST_ESYNC;
+            status = BGRT_ST_ESYNC;
         }
         break;
         }
@@ -954,7 +954,7 @@ flag_t _sync_proc_timeout( proc_t * proc )
         SPIN_FREE( proc );
         SPIN_FREE( sync );
 
-        return SYNC_ST_ESYNC;
+        return BGRT_ST_ESYNC;
     }
 
     switch( PROC_GET_STATE( proc ) )
@@ -990,7 +990,7 @@ flag_t _sync_proc_timeout( proc_t * proc )
             }
         }
 
-        return SYNC_ST_OK;
+        return BGRT_ST_OK;
     }
 
     case PROC_STATE_PI_PEND:
@@ -1000,14 +1000,14 @@ flag_t _sync_proc_timeout( proc_t * proc )
         SPIN_FREE( proc );
         SPIN_FREE( sync );
 
-        return SYNC_ST_ROLL;
+        return BGRT_ST_ROLL;
     }
     default:
     {
         SPIN_FREE( proc );
         SPIN_FREE( sync );
 
-        return SYNC_ST_OK;
+        return BGRT_ST_OK;
     }
     }
 

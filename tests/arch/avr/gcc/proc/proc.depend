@@ -1,1 +1,93 @@
 # depslib dependency file v1.0
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel.c
+	"bugurt_kernel.h"
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel.h
+	"../../../kernel/bugurt.h"
+
+1430201713 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+	"index.h"
+	"item.h"
+	"xlist.h"
+	"pitem.h"
+	"pcounter.h"
+	"crit_sec.h"
+	"proc.h"
+	"sched.h"
+	"kernel.h"
+	"sync.h"
+	"timer.h"
+	"syscall.h"
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
+
+1430201172 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
+
+1430199790 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
+
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+	<avr/io.h>
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
+	"../../../kernel/bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
+	"bugurt.h"
+
+1430201713 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
+	"bugurt.h"
+
+1430199985 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
+	"bugurt.h"
+
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc/test_func.c
+	<test_func.h>
+
+1430201713 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/proc/main.c
+	<test_func.h>
+

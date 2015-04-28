@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="avrgcc" />
 				<Compiler>
+					<Add option="-Os" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -22,6 +23,7 @@
 				<Option compiler="avrgcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-g" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -116,6 +118,9 @@
 			<envvars />
 			<code_completion />
 			<debugger>
+				<remote_debugging>
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
+				</remote_debugging>
 				<remote_debugging target="Debug">
 					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
 				</remote_debugging>

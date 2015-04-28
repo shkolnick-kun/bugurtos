@@ -16,14 +16,14 @@ void main_proc_test( void * arg )
     // proc_run test 1
     proc[2].flags |= PROC_STATE_DEAD;
     // Must NOT run the process.
-    test = !proc_run( &proc[2] );
+    test = (BGRT_ST_ROLL == proc_run( &proc[2] ));
     test_output( test , 1 );
 
     // proc_run test 2
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
     proc[2].flags |= PROC_FLG_LOCK;
     // Must run the process
-    test = proc_run( &proc[2] );
+    test = (BGRT_ST_OK == proc_run( &proc[2] ));
     test_output( test , 2 );
 
     // proc_terminate test 3
@@ -40,19 +40,19 @@ void main_proc_test( void * arg )
 
     // proc_restart test 5
     // Must NOT restart!
-    test = !proc_restart( &proc[2] );
+    test = (BGRT_ST_ESTAT == proc_restart( &proc[2] ));
     test_output( test , 5 );
 
     // proc_restart test 6
     // Must restart!
-    test = proc_restart( &proc[3] );
+    test = (BGRT_ST_OK == proc_restart( &proc[3] ));
     test_output( test , 6 );
 
     // proc_stop test 7
     // Must return 1, process is not running now!
     proc[2].flags &= ~PROC_FLG_LOCK;
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
-    test = proc_stop( &proc[2] );
+    test = (BGRT_ST_OK == proc_stop( &proc[2] ));
     test_output( test , 7 );
 
 
@@ -66,7 +66,7 @@ void main_proc_test( void * arg )
 
     // proc_stop test 9
     // Must stop the process!
-    test = proc_stop( &proc[4] );
+    test = (BGRT_ST_OK == proc_stop( &proc[4] ));
     test_output( test , 9 );
 
     // proc_stop test 10
@@ -76,7 +76,7 @@ void main_proc_test( void * arg )
     proc[4].cnt_lock = (count_t)1;
 
     proc_run( &proc[4] );
-    test = !proc_stop( &proc[4] );
+    test = (BGRT_ST_ROLL == proc_stop( &proc[4] ));
     test = test && !!( proc[4].flags & PROC_FLG_PRE_STOP );
     test_output( test , 10 );
 
