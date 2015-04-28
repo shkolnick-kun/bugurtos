@@ -78,17 +78,24 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "ipc.h"
 
-void ipc_init_isr( ipc_t * endpoint )
+status_t ipc_init_isr( ipc_t * endpoint )
 {
+    if(!endpoint)
+    {
+        return BGRT_ST_ENULL;
+    }
     SYNC_INIT_ISR( endpoint, PROC_PRIO_LOWEST );
     endpoint->msg = (void *)0;
+    return BGRT_ST_OK;
 }
 
-void ipc_init( ipc_t * endpoint )
+status_t ipc_init( ipc_t * endpoint )
 {
+    status_t ret;
     disable_interrupts();
-    ipc_init_isr( endpoint );
+    ret = ipc_init_isr( endpoint );
     enable_interrupts();
+    return ret;
 }
 
 status_t ipc_send( ipc_t * out, void * msg )

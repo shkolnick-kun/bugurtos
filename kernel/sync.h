@@ -139,7 +139,7 @@ prio_t _sync_prio( sync_t * sync );
 \brief
 A sync initiation for usage in ISRs or in critical sections.
 */
-void sync_init(
+status_t sync_init(
     sync_t * sync, /*!< \~russian Указатель на объект типа #sync_t. \~english A sync pointer. */
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
@@ -155,7 +155,7 @@ void sync_init(
 \brief
 A basic synchronization primitive initiation.
 */
-void sync_init_isr(
+status_t sync_init_isr(
     sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
     prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );

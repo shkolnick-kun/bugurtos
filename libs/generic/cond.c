@@ -78,16 +78,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "cond.h"
 
-void cond_init_isr( cond_t * cond )
+status_t cond_init_isr( cond_t * cond )
 {
-    SYNC_INIT_ISR( cond, PROC_PRIO_LOWEST );
+    return SYNC_INIT_ISR( cond, PROC_PRIO_LOWEST );
 }
 
-void cond_init( cond_t * cond )
+status_t cond_init( cond_t * cond )
 {
+    status_t ret;
     disable_interrupts();
-    cond_init_isr( cond );
+    ret = cond_init_isr( cond );
     enable_interrupts();
+    return ret;
 }
 
 status_t cond_wait(  cond_t * cond, mutex_t * mutex )

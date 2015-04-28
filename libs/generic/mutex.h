@@ -126,7 +126,7 @@ A mutex initiation for usage in ISRs or in critical sections.
 \param mutex A mutex pointer.
 \param prio A mutex priority.
 */
-void mutex_init_isr( mutex_t * mutex, prio_t prio );
+status_t mutex_init_isr( mutex_t * mutex, prio_t prio );
 /*!
 \~russian
 \brief
@@ -141,7 +141,7 @@ A mutex initiation
 \param mutex A mutex pointer.
 \param prio A mutex priority.
 */
-void mutex_init( mutex_t * mutex, prio_t prio );
+status_t mutex_init( mutex_t * mutex, prio_t prio );
 
 /*!
 \~russian

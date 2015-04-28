@@ -78,16 +78,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "mutex.h"
 
-void mutex_init_isr( mutex_t * mutex, prio_t prio )
+status_t mutex_init_isr( mutex_t * mutex, prio_t prio )
 {
-    SYNC_INIT_ISR( mutex, prio );
+    return SYNC_INIT_ISR( mutex, prio );
 }
 
-void mutex_init( mutex_t * mutex, prio_t prio )
+status_t mutex_init( mutex_t * mutex, prio_t prio )
 {
+    status_t ret;
     disable_interrupts();
-    mutex_init_isr( mutex, prio );
+    ret = mutex_init_isr( mutex, prio );
     enable_interrupts();
+    return ret;
 }
 
 status_t mutex_try_lock( mutex_t * mutex )

@@ -280,15 +280,22 @@ static void sync_prio_prop_hook( sync_t * sync )
 #define SYNC_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p )
 #endif
 //========================================================================================
-void sync_init( sync_t * sync, prio_t prio )
+status_t sync_init( sync_t * sync, prio_t prio )
 {
+    status_t ret;
     disable_interrupts();
-    sync_init_isr( sync, prio );
+    ret = sync_init_isr( sync, prio );
     enable_interrupts();
+    return ret;
 }
 //========================================================================================
-void sync_init_isr( sync_t * sync, prio_t prio )
+status_t sync_init_isr( sync_t * sync, prio_t prio )
 {
+    if( !sync )
+    {
+        return BGRT_ST_ENULL;
+    }
+
     SPIN_INIT( sync );
     SPIN_LOCK( sync );
     xlist_init( (xlist_t *)sync );
@@ -296,6 +303,7 @@ void sync_init_isr( sync_t * sync, prio_t prio )
     sync->dirty = (count_t)0;
     sync->prio = prio;
     SPIN_FREE( sync );
+    return BGRT_ST_OK;
 }
 //**********************************************************************************************
 proc_t * sync_get_owner( sync_t * sync )

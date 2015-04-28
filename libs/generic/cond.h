@@ -121,7 +121,7 @@ A conditional variable initiation from ISR or critical section.
 
 \param cond A #cond_t pointer.
 */
-void cond_init_isr( cond_t * cond );
+status_t cond_init_isr( cond_t * cond );
 /*!
 \~russian
 \brief
@@ -136,7 +136,7 @@ A conditional variable initiation.
 
 \param cond A #cond_t pointer.
 */
-void cond_init( cond_t * cond );
+status_t cond_init( cond_t * cond );
 /*!
 
 \~russian

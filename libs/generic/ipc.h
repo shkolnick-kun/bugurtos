@@ -118,7 +118,7 @@ IPC endpoint initiation from ISR or critical section.
 
 \param endpoint A pointer to the endpoint.
 */
-void ipc_init_isr( ipc_t * endpoint );
+status_t ipc_init_isr( ipc_t * endpoint );
 /*!
 \~russian
 \brief
@@ -131,7 +131,7 @@ IPC endpoint initiation.
 
 \param endpoint A pointer to the endpoint.
 */
-void ipc_init( ipc_t * endpoint );
+status_t ipc_init( ipc_t * endpoint );
 /*!
 \~russian
 \brief
