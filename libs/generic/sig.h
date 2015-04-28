@@ -145,7 +145,7 @@ void sig_init( sig_t * sig );
 Останавливает вызвавший процесс и ставит его в список ожидания.
 
 \param sig Указатель на сигнал.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -154,9 +154,9 @@ Wait for a signal.
 This function stops caller process and inserts it to signal wait list.
 
 \param sig A #sig_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t sig_wait( sig_t * sig );
+status_t sig_wait( sig_t * sig );
 /*!
 \~russian
 \brief
@@ -165,17 +165,17 @@ flag_t sig_wait( sig_t * sig );
 На многопроцессорной системе:
 
 \param sig Указатель на сигнал.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
 Fire a signal, launch one waiting process.
 
 \param sig A #sig_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
 
-flag_t sig_signal( sig_t * sig );
+status_t sig_signal( sig_t * sig );
 /*!
 \~russian
 \brief
@@ -184,7 +184,7 @@ flag_t sig_signal( sig_t * sig );
 Возобновляет работу всех ожидающих процессов.
 
 \param sig Указатель на сигнал.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -193,8 +193,8 @@ Fire a signal, launch all waiting processes.
 This function launches all processes waiting for certain signal.
 
 \param sig A #sig_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-count_t sig_broadcast( sig_t * sig );
+status_t sig_broadcast( sig_t * sig );
 
 #endif // _SIG_H_

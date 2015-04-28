@@ -38,6 +38,8 @@ typedef unsigned char prio_t;
 
 // unsigned char is enough.
 typedef unsigned char flag_t;
+// unsigned char is enough.
+typedef unsigned char status_t;
 
 typedef unsigned long count_t;
 
@@ -50,12 +52,6 @@ typedef unsigned char bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef unsigned char syscall_t;
-
-// Unsigned short is enough
-// to handle data and pointers.
-// There is no reason to make it bigger
-// or smaller.
-typedef unsigned long ipc_data_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
@@ -106,10 +102,11 @@ typedef unsigned long ipc_data_t;
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
+extern void kernel_preemt_hook(void);
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts(); kernel_preemt_hook()
 #else // CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT()
+#define KERNEL_PREEMPT() kernel_preemt_hook()
 #endif // CONFIG_PREEMPTIVE_KERNEL
 
 #endif //__ASSEMBLER__

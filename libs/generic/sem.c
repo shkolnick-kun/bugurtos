@@ -95,13 +95,13 @@ void sem_init( sem_t * sem, count_t count )
     enable_interrupts();
 }
 
-flag_t sem_try_lock( sem_t * sem )
+status_t sem_try_lock( sem_t * sem )
 {
-    flag_t ret = SYNC_ST_ROLL;
+    status_t ret = BGRT_ST_ROLL;
 
     if( !sem )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     disable_interrupts();
@@ -110,7 +110,7 @@ flag_t sem_try_lock( sem_t * sem )
     if( sem->counter )
     {
         sem->counter--;
-        ret = SYNC_ST_OK;
+        ret = BGRT_ST_OK;
     }
 
     SPIN_FREE( sem );
@@ -119,13 +119,13 @@ flag_t sem_try_lock( sem_t * sem )
     return ret;
 }
 
-flag_t sem_lock( sem_t * sem )
+status_t sem_lock( sem_t * sem )
 {
-    flag_t ret;
+    status_t ret;
 
     if( !sem )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     proc_lock();
@@ -136,18 +136,18 @@ flag_t sem_lock( sem_t * sem )
     if( sem->counter )
     {
         sem->counter--;
-        ret = SYNC_ST_OK;
+        ret = BGRT_ST_OK;
     }
     else
     {
         sem->blocked++;
-        ret = SYNC_ST_ROLL;
+        ret = BGRT_ST_ROLL;
     }
 
     SPIN_FREE( sem );
     enable_interrupts();
 
-    if( ret == SYNC_ST_ROLL )
+    if( ret == BGRT_ST_ROLL )
     {
         ret = SYNC_SLEEP( sem );
     }
@@ -156,13 +156,13 @@ flag_t sem_lock( sem_t * sem )
     return ret;
 }
 
-flag_t sem_free( sem_t * sem )
+status_t sem_free( sem_t * sem )
 {
-    flag_t ret;
+    status_t ret;
 
     if( !sem )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     proc_lock();
@@ -173,18 +173,18 @@ flag_t sem_free( sem_t * sem )
     if( sem->blocked )
     {
         sem->blocked--;
-        ret = SYNC_ST_ROLL;
+        ret = BGRT_ST_ROLL;
     }
     else
     {
         sem->counter++;
-        ret = SYNC_ST_OK;
+        ret = BGRT_ST_OK;
     }
 
     SPIN_FREE( sem );
     enable_interrupts();
 
-    if( ret == SYNC_ST_ROLL )
+    if( ret == BGRT_ST_ROLL )
     {
         proc_t * dummy = (proc_t *)0;
         SYNC_WAIT( sem, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.

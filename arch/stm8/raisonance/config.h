@@ -34,7 +34,8 @@ typedef unsigned char prio_t;
 
 // Unsigned char is enough.
 typedef unsigned char flag_t;
-
+// unsigned char is enough.
+typedef unsigned char status_t;
 // For STM8 only 64Kib of stack space
 // may be available, so count_t can be
 // unsigned char or unsigned short.
@@ -51,17 +52,10 @@ typedef unsigned char bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef unsigned char syscall_t;
-
-// Unsigned long is enough
-// to handle data and pointers.
-// There is no reason to make it bigger
-// or smaller.
-typedef unsigned long ipc_data_t;
 //=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 //=================================================================
-#define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
+//#define CONFIG_USE_O1_SEARCH
 #define CONFIG_HARD_RT
 #define CONFIG_PREEMPTIVE_KERNEL
 #define CONFIG_USER_IDLE
@@ -102,10 +96,11 @@ typedef unsigned long ipc_data_t;
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
+extern void kernel_preemt_hook(void);
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts(); kernel_preemt_hook()
 #else // CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT()
+#define KERNEL_PREEMPT() kernel_preemt_hook()
 #endif // CONFIG_PREEMPTIVE_KERNEL
 
 #endif //_CONFIG_H_

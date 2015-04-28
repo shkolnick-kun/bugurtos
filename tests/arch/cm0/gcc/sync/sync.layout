@@ -4,6 +4,12 @@
 	<File name="../../../../../arch/cm0/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="152" topLine="0" />
 	</File>
+	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="21394" topLine="384" />
+	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="1137" topLine="27" />
+	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="15421" topLine="428" />
 	</File>

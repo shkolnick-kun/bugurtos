@@ -147,7 +147,7 @@ void cond_init( cond_t * cond );
 
 \param cond Указатель на условную переменную.
 \param mutex Указатель на мьютекс, защищающий условную переменную.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -157,9 +157,9 @@ This function stops caller process and inserts it to conditional variable wait l
 
 \param cond A #cond_t pointer.
 \param mutex A pointer to a mutex which protects a conditional variable.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t cond_wait(  cond_t * cond, mutex_t * mutex );
+status_t cond_wait(  cond_t * cond, mutex_t * mutex );
 /*!
 \~russian
 \brief
@@ -170,7 +170,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex );
 \warning Вызывать только при захваченном мьютексе!
 
 \param cond Указатель на условную переменную.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -180,9 +180,9 @@ Launches the head of waiting process list.
 \warning Caller must lock mutex first!
 
 \param cond A #cond_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t cond_signal( cond_t * cond );
+status_t cond_signal( cond_t * cond );
 /*!
 \~russian
 \brief
@@ -193,7 +193,7 @@ flag_t cond_signal( cond_t * cond );
 \warning Вызывать только при захваченном мьютексе!
 
 \param cond Указатель на условную переменную.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -203,8 +203,8 @@ Launches all processes from waiting process list.
 \warning Caller must lock mutex first!
 
 \param cond A #cond_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t cond_broadcast( cond_t * cond );
+status_t cond_broadcast( cond_t * cond );
 
 #endif // _COND_H_

@@ -47,6 +47,9 @@ typedef unsigned char prio_t;
 // unsigned char is enough.
 typedef unsigned char flag_t;
 
+// unsigned char is enough.
+typedef unsigned char status_t;
+
 // For AVR only 64Kib of RAM
 // may be available, so count_t can be
 // unsigned char or unsigned short.
@@ -63,12 +66,6 @@ typedef unsigned char bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef unsigned char syscall_t;
-
-// Unsigned short is enough
-// to handle data and pointers.
-// There is no reason to make it bigger
-// or smaller.
-typedef unsigned short ipc_data_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
@@ -90,7 +87,7 @@ typedef unsigned char stat_t;
 typedef unsigned char load_t;
 
 ///=================================================================
-//     BuguRTOS behavior compilation flags, edit carefully!!!
+///     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
 
 // Use constant time index search.
@@ -103,13 +100,25 @@ typedef unsigned char load_t;
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define CONFIG_HARD_RT
 
+//#define CONFIG_LB_SCHEME 0 // No load balancing during runtime
+#define CONFIG_LB_SCHEME 1 // Active load balancing
+//#define CONFIG_LB_SCHEME 2 // Lazy local load balancing
+//#define CONFIG_LB_SCHEME 3 // Lazy global load balancing
+
+#if (CONFIG_LB_SCHEME == 1)
 // Use "Active Load Balancing",
 // sched_schedule() function is responsible for load balancing.
 #define CONFIG_USE_ALB
+#endif
 
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
+
+#define CONFIG_USER_IDLE
+
+extern void(*test_kernel_preempt)(void);
+#define KERNEL_PREEMPT() test_kernel_preempt()
 
 //Atmega328p CAN NOT afford more!
 #define MAX_CORES (2)
@@ -125,7 +134,32 @@ typedef unsigned char load_t;
 #define VM_STACK_SIZE (128)
 
 //Virtual machine interrupt stack size.
-#define VM_INT_STACK_SIZE (128)
+#define VM_INT_STACK_SIZE (160)
+
+#define PROC_STACK_SIZE 128
+
+#define LOWEST (BITS_IN_INDEX_T - 1)
+
+#define CONFIG_SAVE_POWER test_do_nothing
+extern void test_do_nothing(void);
+
+#define SVH0 (code_t)0
+#define RSH0 (code_t)0
+
+#define SVH1 (code_t)0
+#define RSH1 (code_t)0
+
+#define SVH2 (code_t)0
+#define RSH2 (code_t)0
+
+#define SVH3 (code_t)0
+#define RSH3 (code_t)0
+
+#define SVH4 (code_t)0
+#define RSH4 (code_t)0
+
+#define SVH5 (code_t)0
+#define RSH5 (code_t)0
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_

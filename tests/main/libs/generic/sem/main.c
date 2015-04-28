@@ -14,7 +14,7 @@ void main_with_return( void * arg )
 
     //sem_try_lock test 1
     //test_output( (test_var_sig == 1), 1 );
-    test_output( (SYNC_ST_OK == sem_try_lock( &test_sem )), 1 );
+    test_output( (BGRT_ST_OK == sem_try_lock( &test_sem )), 1 );
     //sem_try_lock test 2
     test_output( (test_sem.counter == 0), 2 );
     //sem_lock test 3
@@ -31,7 +31,7 @@ void main_with_return( void * arg )
     test_output( (proc[2].parent.list == (void *)&test_sem.wait), 6 );
     //sem_try_lock test 7
     // must not lock
-    test_output( (SYNC_ST_ROLL == sem_try_lock( &test_sem )), 7 );
+    test_output( (BGRT_ST_ROLL == sem_try_lock( &test_sem )), 7 );
     //sem_try_lock test 8
     test_output( (test_sem.counter == 0), 8 );
     //sem_free test 9
