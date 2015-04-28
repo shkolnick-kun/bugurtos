@@ -92,15 +92,15 @@ void sig_init_isr( sig_t * sig )
     mutex_init_isr( &sig->wait, PROC_PRIO_LOWEST );
 }
 
-flag_t sig_wait( sig_t * sig )
+status_t sig_wait( sig_t * sig )
 {
-    flag_t ret;
+    status_t ret;
     if( !sig )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
     ret = mutex_lock( &sig->wait );
-    if( SYNC_ST_OK != ret )
+    if( BGRT_ST_OK != ret )
     {
         return ret;
     }
@@ -109,15 +109,15 @@ flag_t sig_wait( sig_t * sig )
     return ret;
 }
 
-flag_t sig_signal( sig_t * sig )
+status_t sig_signal( sig_t * sig )
 {
-    flag_t ret;
+    status_t ret;
     if( !sig )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
     ret = mutex_lock( &sig->wait );
-    if( SYNC_ST_OK != ret )
+    if( BGRT_ST_OK != ret )
     {
         return ret;
     }
@@ -126,15 +126,15 @@ flag_t sig_signal( sig_t * sig )
     return ret;
 }
 
-count_t sig_broadcast( sig_t * sig )
+status_t sig_broadcast( sig_t * sig )
 {
-    flag_t ret;
+    status_t ret;
     if( !sig )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
     ret = mutex_lock( &sig->wait );
-    if( SYNC_ST_OK != ret )
+    if( BGRT_ST_OK != ret )
     {
         return ret;
     }

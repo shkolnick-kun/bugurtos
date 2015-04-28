@@ -28,6 +28,9 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="126" />
 	</File>
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="1471" topLine="33" />
+	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1342" topLine="63" />
 	</File>

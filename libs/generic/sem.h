@@ -154,7 +154,7 @@ void sem_init( sem_t * sem, count_t count );
 Если значение счетчика семафора равно 0, процесс останавливается и встает в список ожидающих освобождения семафора.
 
 \param sem Указатель на семафор.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -164,9 +164,9 @@ If semaphore counter greater than zero, then it will be decreased and caller pro
 else  caller process will stop and wait until semaphore get free.
 
 \param sem A #sem_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t sem_lock( sem_t * sem );
+status_t sem_lock( sem_t * sem );
 /*!
 \~russian
 \brief
@@ -176,7 +176,7 @@ flag_t sem_lock( sem_t * sem );
 Если значение счетчика семафора равно 0, процесс просто продолжает выполняться.
 
 \param sem Указатель на семафор.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -186,9 +186,9 @@ If semaphore counter greater than zero, then it will be decreased and caller pro
 else caller process will just continue.
 
 \param sem A #sem_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t sem_try_lock( sem_t * sem );
+status_t sem_try_lock( sem_t * sem );
 /*!
 \~russian
 \brief
@@ -198,7 +198,7 @@ flag_t sem_try_lock( sem_t * sem );
 Если не пуст - возобновляем работу головы списка.
 
 \param sem Указатель на семафор.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -208,8 +208,8 @@ If semaphore wait list is empty, then counter will be increased,
 else semaphore wait list head will be launched.
 
 \param sem A #sem_t pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t sem_free( sem_t * sem );
+status_t sem_free( sem_t * sem );
 
 #endif // _SEM_H_

@@ -91,15 +91,15 @@ void ipc_init( ipc_t * endpoint )
     enable_interrupts();
 }
 
-flag_t ipc_send( ipc_t * out, void * msg )
+status_t ipc_send( ipc_t * out, void * msg )
 {
-    flag_t ret;
+    status_t ret;
 
     proc_lock();
 
     ret = SYNC_SLEEP( out );
 
-    if( SYNC_ST_OK != ret )
+    if( BGRT_ST_OK != ret )
     {
         proc_free();
         return ret;
@@ -112,22 +112,22 @@ flag_t ipc_send( ipc_t * out, void * msg )
     return ret;
 }
 
-flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
+status_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
 {
-    flag_t ret;
+    status_t ret;
 
     proc_lock();
 
     SYNC_WAIT(in, proc, block, ret );
 
-    if( SYNC_ST_OK != ret )
+    if( BGRT_ST_OK != ret )
     {
         goto end;
     }
 
     SYNC_WAKE(in, *proc, 0, ret );
 
-    if( SYNC_ST_OK == ret )
+    if( BGRT_ST_OK == ret )
     {
         SYNC_WAIT(in, proc, 1, ret );
     }
@@ -136,9 +136,9 @@ end:
     return ret;
 }
 
-flag_t ipc_reply( ipc_t * in, proc_t * proc)
+status_t ipc_reply( ipc_t * in, proc_t * proc)
 {
-    flag_t ret;
+    status_t ret;
 
     proc_lock();
 

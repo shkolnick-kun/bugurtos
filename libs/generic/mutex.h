@@ -151,7 +151,7 @@ void mutex_init( mutex_t * mutex, prio_t prio );
 Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс продолжает выполнение.
 
 \param mutex Указатель на мьютекс.
-\return #SYNC_ST_OK - если удалось захватить, #SYNC_ST_ROLL - если не удалось.
+\return #BGRT_ST_OK - если удалось захватить, #BGRT_ST_ROLL - если не удалось.
 
 \~english
 \brief
@@ -160,9 +160,9 @@ Try to lock a mutex.
 If mutex is free then caller process locks it and continues, if not caller process continues without wait.
 
 \param mutex A mutex pointer.
-\return #SYNC_ST_OK - if mutex was successfully locked else - #SYNC_ST_ROLL.
+\return #BGRT_ST_OK - if mutex was successfully locked else - #BGRT_ST_ROLL.
 */
-flag_t mutex_try_lock( mutex_t * mutex );
+status_t mutex_try_lock( mutex_t * mutex );
 /*!
 \~russian
 \brief
@@ -171,7 +171,7 @@ flag_t mutex_try_lock( mutex_t * mutex );
 Если мьютекс свободен - процесс захватывает его и продолжает выполняться, если уже занят - процесс останавливается и записывается в список ожидающих.
 
 \param mutex Указатель на мьютекс.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -180,9 +180,9 @@ Lock a mutex.
 If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
 
 \param mutex A mutex pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t mutex_lock( mutex_t * mutex );
+status_t mutex_lock( mutex_t * mutex );
 /*!
 \~russian
 \brief
@@ -192,7 +192,7 @@ flag_t mutex_lock( mutex_t * mutex );
 Также происходит обработка флагов, при необходимости вызывающий процесс останавливается.
 
 \param mutex Указатель на мьютекс.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -201,8 +201,8 @@ Mutex free.
 If a mutex wait list is empty, then caller process frees a mutex, else mutex wait list head gets launched.
 
 \param mutex A mutex pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t mutex_free( mutex_t * mutex );
+status_t mutex_free( mutex_t * mutex );
 
 #endif // _MUTEX_H_

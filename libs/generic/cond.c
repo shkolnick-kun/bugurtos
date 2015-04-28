@@ -90,13 +90,13 @@ void cond_init( cond_t * cond )
     enable_interrupts();
 }
 
-flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
+status_t cond_wait(  cond_t * cond, mutex_t * mutex )
 {
-    flag_t ret = SYNC_ST_ROLL;
+    status_t ret = BGRT_ST_ROLL;
 
     if( (!mutex) || (!cond) )
     {
-        return SYNC_ST_ENULL;
+        return BGRT_ST_ENULL;
     }
 
     proc_lock(); //Don't stop caller until wakeup!
@@ -105,7 +105,7 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
 
     ret = mutex_free( mutex );
 
-    if( SYNC_ST_EOWN == ret )
+    if( BGRT_ST_EOWN == ret )
     {
         proc_free(); //May stop as error occurred!
     }
@@ -120,9 +120,9 @@ flag_t cond_wait(  cond_t * cond, mutex_t * mutex )
     return ret;
 }
 
-flag_t cond_signal( cond_t * cond )
+status_t cond_signal( cond_t * cond )
 {
-    flag_t ret = SYNC_ST_EEMPTY;
+    status_t ret = BGRT_ST_EEMPTY;
 
     if( cond->blocked )
     {
@@ -137,14 +137,14 @@ flag_t cond_signal( cond_t * cond )
     return ret;
 }
 
-flag_t cond_broadcast( cond_t * cond )
+status_t cond_broadcast( cond_t * cond )
 {
-    flag_t ret = SYNC_ST_ROLL;
+    status_t ret = BGRT_ST_ROLL;
     do
     {
         ret = cond_signal( cond );
     }
-    while( SYNC_ST_OK == ret );
+    while( BGRT_ST_OK == ret );
 
     return ret;
 }

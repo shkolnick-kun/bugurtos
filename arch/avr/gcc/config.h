@@ -48,6 +48,8 @@ typedef unsigned char prio_t;
 // unsigned char is enough.
 typedef unsigned char flag_t;
 
+// unsigned char is enough.
+typedef unsigned char status_t;
 // For AVR only 64Kib of RAM
 // may be available, so count_t can be
 // unsigned char or unsigned short.
@@ -64,26 +66,29 @@ typedef unsigned char bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef unsigned char syscall_t;
-
-// Unsigned short is enough
-// to handle data and pointers.
-// There is no reason to make it bigger
-// or smaller.
-typedef unsigned short ipc_data_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
 #define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
+#define CONFIG_USER_IDLE
 #define CONFIG_PREEMPTIVE_KERNEL
-
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define START_SCHEDULER() (TIMSK2 |= 0x02)
 #define STOP_SCHEDULER() (TIMSK2 &= ~0x02)
+
+extern void test_do_nothing(void);
+#define CONFIG_SAVE_POWER test_do_nothing
+
+extern void(*test_kernel_preempt)(void);
+#ifdef CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() sei(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); cli(); test_kernel_preempt()
+#else // CONFIG_PREEMPTIVE_KERNEL
+#define KERNEL_PREEMPT() test_kernel_preempt()
+#endif //CONFIG_PREEMPTIVE_KERNEL
 
 
 #define PROC_STACK_SIZE 128
@@ -131,16 +136,10 @@ typedef unsigned short ipc_data_t;
 #define blink_G3() (PORTD ^= 0x40)
 #define G3_on() (PORTD |= 0x40)
 #define G3_off() (PORTD &= ~0x40)
-
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() sei(); NOP(); cli()
-#else // CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT()
-#endif //CONFIG_PREEMPTIVE_KERNEL
 
 #endif //__ASSEMBLER__
 #endif //_CONFIG_H_

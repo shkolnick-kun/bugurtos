@@ -13,7 +13,7 @@ void main_with_return( void * arg )
     test_start();
 
     //mutex_try_lock test 1
-    test_output( (SYNC_ST_OK == mutex_try_lock( &test_mutex )), 1 );
+    test_output( (BGRT_ST_OK == mutex_try_lock( &test_mutex )), 1 );
     // mutex_try_lock test 2
     test_output( ( (&proc[0]) == SYNC_GET_OWNER( &test_mutex )), 2 );
     // mutex_try_lock test 3
@@ -31,7 +31,7 @@ void main_with_return( void * arg )
     test_output( ( proc[0].parent.prio == 1 ), 7 );
     //mutex_try_lock test 8
     // must not lock
-    test_output( (SYNC_ST_ROLL == mutex_try_lock( &test_mutex )), 8 );
+    test_output( (BGRT_ST_ROLL == mutex_try_lock( &test_mutex )), 8 );
     //mutex_try_lock test 9
     mutex_free( &test_mutex );
     wait_time( 2 );

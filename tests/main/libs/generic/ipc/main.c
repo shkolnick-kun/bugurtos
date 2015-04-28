@@ -26,7 +26,7 @@ void main_proc_test( void * arg )
     test_start();
     SYNC_SET_OWNER( &test_ep, 0 );
 
-    test_output( SYNC_ST_EEMPTY == ipc_wait( &test_ep, &wait_for, 0), 1 );
+    test_output( BGRT_ST_EEMPTY == ipc_wait( &test_ep, &wait_for, 0), 1 );
     //priority inheritance tests
     proc_run( &proc[3] );
     test_output( proc[0].parent.prio == 1, 2 );
@@ -37,7 +37,7 @@ void main_proc_test( void * arg )
     test_output( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE( (&proc[3]) ), 5 );
     // ipc_send  ipc_wait test 6
     wait_for = &proc[3];
-    test_output( SYNC_ST_OK == ipc_wait( &test_ep, &wait_for, 1), 6 );
+    test_output( BGRT_ST_OK == ipc_wait( &test_ep, &wait_for, 1), 6 );
     // ipc_send  ipc_wait test 7
     test_output( proc[0].parent.prio == 0, 7 );
     // ipc_send  ipc_wait test 8
@@ -45,16 +45,16 @@ void main_proc_test( void * arg )
     test_output( 3 == in->send, 8 );
     // ipc_send  ipc_reply test 9
     in->reply = 9;
-    test_output( SYNC_ST_OK == ipc_reply( &test_ep, wait_for ), 9 );
+    test_output( BGRT_ST_OK == ipc_reply( &test_ep, wait_for ), 9 );
     // ipc_send ipc_wait test 10
     wait_for = (proc_t *)0;
-    test_output( SYNC_ST_OK == ipc_wait( &test_ep, &wait_for, 1), 10 );
+    test_output( BGRT_ST_OK == ipc_wait( &test_ep, &wait_for, 1), 10 );
     // ipc_send ipc_wait test 11
     in = (ipc_msg_t *)test_ep.msg;
     test_output( 2 == in->send, 11 );
     // ipc_send  ipc_reply test 11
     in->reply = 11;
-    test_output( SYNC_ST_OK == ipc_reply( &test_ep, wait_for ), 12 );
+    test_output( BGRT_ST_OK == ipc_reply( &test_ep, wait_for ), 12 );
     wait_time(20);
 
     tests_end();

@@ -142,7 +142,7 @@ void ipc_init( ipc_t * endpoint );
 
 \param out Указатель на конечную точку IPC.
 \param msg Указатель на буфер с сообщением.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -154,9 +154,9 @@ receiver inherits senders priorities.
 
 \param out An IPC endpoint pointer.
 \param msg A message buffer pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t ipc_send( ipc_t * out, void * msg );
+status_t ipc_send( ipc_t * out, void * msg );
 /*!
 \~russian
 \brief
@@ -168,7 +168,7 @@ flag_t ipc_send( ipc_t * out, void * msg );
 \param in Указатель на конечную точку IPC.
 \param proc Двойной указатель на процесс, от которого ожидается сообщение (если *proc == 0, то принимаются сообщения от любых процессов).
 \param block Флаг блокировки вызывающего процесса, если не 0, то вызывающий процесс блокируется до готовности сообщения.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -180,9 +180,9 @@ A buffer pointer must be passed as a second parameter.
 \param in An IPC endpoint pointer.
 \param proc A double pointer to the process which is supposed to send a message (if *proc == 0 then every message is received).
 \param block A caller block flag. If non zero, then caller is blocked until message is sent.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block );
+status_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block );
 
 /*!
 \~russian
@@ -192,7 +192,7 @@ flag_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block );
 
 \param in Указатель на конечную точку IPC.
 \param proc Указатель на процесс-отправитель.
-\return #SYNC_ST_OK в случае успеха, или номер ошибки.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
 \brief
@@ -200,8 +200,8 @@ Unblock a sender process, which message has been received.
 
 \param in An IPC endpoint pointer.
 \param proc A sender process pointer.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t ipc_reply( ipc_t * in, proc_t * proc);
+status_t ipc_reply( ipc_t * in, proc_t * proc);
 
 #endif // _IPC_H_

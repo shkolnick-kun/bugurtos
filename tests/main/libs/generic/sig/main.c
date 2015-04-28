@@ -55,7 +55,7 @@ void main_proc_test( void * arg )
     test_var_sig = 0;
     test_hook = test_inc;
     status = sig_broadcast( &test_sig );
-    test_output( SYNC_ST_EEMPTY == status, 7);
+    test_output( BGRT_ST_EEMPTY == status, 7);
 
     wait_time( 20 );
     test_output( (test_var_sig == 4), 8 );
@@ -69,7 +69,7 @@ void main_sig( void * arg )
     {
         flag_t status;
         status = sig_wait( &test_sig );
-        test_output( SYNC_ST_OK == status, 9 );
+        test_output( BGRT_ST_OK == status, 9 );
         test_hook();
         wait_time(1);
     }
