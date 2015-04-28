@@ -82,13 +82,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
 */
-#define SYNC_ST_OK          0 /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
-#define SYNC_ST_ENULL       1 /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
-#define SYNC_ST_EOWN        2 /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
-#define SYNC_ST_EEMPTY      3 /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
-#define SYNC_ST_ESYNC       4 /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
-#define SYNC_ST_ETIMEOUT    5 /*!< \~russian \brief ИСтек таймаут #sync_t. \~english \brief Timeout expired. */
-#define SYNC_ST_ROLL        6 /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
 typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
 // Свойства
@@ -202,9 +195,9 @@ Set #sync_t object owner.
 
 \param sync A pointer to the object of interest.
 \param proc A pointer to new #sync_t object owner.
-\return #SYNC_ST_OK if owner was set, #SYNC_ST_ROLL if #sync_t object already had an owner.
+\return #BGRT_ST_OK if owner was set, #BGRT_ST_ROLL if #sync_t object already had an owner.
 */
-flag_t sync_set_owner( sync_t * sync, proc_t * proc );
+status_t sync_set_owner( sync_t * sync, proc_t * proc );
 
 #define SYNC_SET_OWNER(s,p) sync_set_owner((sync_t *)s, (proc_t *)p) /*!< \~russian \brief Смотри #sync_set_owner. \~english \brief Watch #sync_set_owner. */
 
@@ -233,7 +226,7 @@ void sync_clear_owner( sync_t * sync );
 Блокирует вызывающий процесс.
 
 \param sync Указатель на объект типа #sync_t.
-\return #SYNC_ST_OK в случае успеха, иначе - код ошибки.
+\return #BGRT_ST_OK в случае успеха, иначе - код ошибки.
 
 \~english
 \brief
@@ -242,9 +235,9 @@ Sleep to wait for synchronization.
 Blocks caller process.
 
 \param sync A pointer to the object of interest.
-\return #SYNC_ST_OK on success, or error number.
+\return #BGRT_ST_OK on success, or error number.
 */
-flag_t sync_sleep( sync_t * sync );
+status_t sync_sleep( sync_t * sync );
 
 /*!
 \~russian
@@ -258,7 +251,7 @@ For internal usage.
 typedef struct
 {
     sync_t * sync; /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
-    flag_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
+    status_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
 sync_sleep_t;
 
@@ -274,7 +267,7 @@ sync_sleep_t;
 \param sync Указатель на объект типа #sync_t.
 \param proc Двойной указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #SYNC_ST_OK в случае если дождался блокировки целевого процесса, #SYNC_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
+\return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
 \~english
 \brief
@@ -285,9 +278,9 @@ Wait until target process is blocked on target #sync_t object.
 \param sync A #sync_t object pointer.
 \param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
 \param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #sync_t object.
-\return #SYNC_ST_OK if target process has blocked on target #sync_t object, #SYNC_ST_ROLL if caller must wait for target process to block, or error code.
+\return #BGRT_ST_OK if target process has blocked on target #sync_t object, #BGRT_ST_ROLL if caller must wait for target process to block, or error code.
 */
-flag_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
+status_t sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 
 /*!
 \~russian
@@ -303,7 +296,7 @@ typedef struct
     sync_t * sync;  /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
     proc_t ** proc; /*!< \~russian Указатель на буфер процесса. \~english A process buffer pointer. */
     flag_t block;   /*!< \~russian Флаг блокирования. \~english A block flag. */
-    flag_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
+    status_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
 sync_wait_t;
 
@@ -311,7 +304,7 @@ sync_wait_t;
 do                                                              \
 {                                                               \
     volatile sync_wait_t scarg;                                 \
-    scarg.status = SYNC_ST_ROLL;                                \
+    scarg.status = BGRT_ST_ROLL;                                \
     scarg.sync = (sync_t *)(s);                                 \
     scarg.proc = (proc_t **)(p);                                \
     scarg.block = (flag_t)(b);                                  \
@@ -319,7 +312,7 @@ do                                                              \
     {                                                           \
         syscall_bugurt( SYSCALL_SYNC_WAIT, (void *)&scarg );    \
     }                                                           \
-    while( scarg.status >= SYNC_ST_ROLL );                      \
+    while( scarg.status >= BGRT_ST_ROLL );                      \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #sync_wait. */
@@ -335,7 +328,7 @@ while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #
 \param sync Указатель на объект типа #sync_t.
 \param proc Указатель на процесс, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
 \param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
-\return #SYNC_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
+\return #BGRT_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
 
 \~english
 \brief
@@ -346,9 +339,9 @@ Unblock some waiting process. A process should be blocked on target #sync_t obje
 \param sync A #sync_t object pointer.
 \param proc A pointer to a process, that is supposed to wake up. If 0, then try to wake up wait list head.
 \param chown A change owner flag. If non 0, then ownership is given to wake up process.
-\return #SYNC_ST_OK on process wakeup, or error code.
+\return #BGRT_ST_OK on process wakeup, or error code.
 */
-flag_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
+status_t sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 
 /*!
 \~russian
@@ -364,7 +357,7 @@ typedef struct
     sync_t * sync; /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
     proc_t * proc; /*!< \~russian Указатель на процесс. \~english A process pointer. */
     flag_t chown;  /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
-    flag_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
+    status_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
 sync_wake_t;
 
@@ -372,7 +365,7 @@ sync_wake_t;
 do                                                              \
 {                                                               \
     volatile sync_wake_t scarg;                                 \
-    scarg.status = SYNC_ST_ROLL;                                \
+    scarg.status = BGRT_ST_ROLL;                                \
     scarg.sync = (sync_t *)(s);                                 \
     scarg.proc = (proc_t *)(p);                                 \
     scarg.chown = (flag_t)(c);                                  \
@@ -380,7 +373,7 @@ do                                                              \
     {                                                           \
         syscall_bugurt( SYSCALL_SYNC_WAKE, (void *)&scarg );    \
     }                                                           \
-    while( scarg.status >= SYNC_ST_ROLL );                      \
+    while( scarg.status >= BGRT_ST_ROLL );                      \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #sync_wake. \~english \brief Watch #sync_wake. */
@@ -394,7 +387,7 @@ while(0) /*!< \~russian \brief Смотри #sync_wake. \~english \brief Watch #
 \brief
 Watch #sync_wake and #sync_sleep.
 */
-flag_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
+status_t sync_wake_and_sleep( sync_t * wake, proc_t * proc, flag_t chown, sync_t * sleep );
 
 /*!
 \~russian
@@ -420,7 +413,7 @@ do                                                                      \
 {                                                                       \
     volatile sync_wake_and_sleep_t scarg;                               \
     scarg.sleep.sync = (sync_t *)(s);                                   \
-    scarg.sleep.status = SYNC_ST_ROLL;                                  \
+    scarg.sleep.status = BGRT_ST_ROLL;                                  \
     scarg.chown = (flag_t)(c);                                          \
     scarg.wake = (sync_t *)(w);                                         \
     scarg.proc = (proc_t *)(p);                                         \
@@ -429,7 +422,7 @@ do                                                                      \
     {                                                                   \
         syscall_bugurt( SYSCALL_SYNC_WAKE_AND_SLEEP, (void *)&scarg );  \
     }                                                                   \
-    while( scarg.sleep.status >= SYNC_ST_ROLL );                        \
+    while( scarg.sleep.status >= BGRT_ST_ROLL );                        \
     (st) = scarg.sleep.status;                                          \
 }                                                                       \
 while(0) /*!< \~russian \brief Смотри #sync_wake_and_sleep. \~english \brief Watch #sync_wake_and_sleep. */
@@ -445,7 +438,7 @@ while(0) /*!< \~russian \brief Смотри #sync_wake_and_sleep. \~english \bri
 Watch #sync_wake and #sync_wait.
 
 */
-flag_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
+status_t sync_wake_and_wait( sync_t * wake, proc_t * proc_wake, flag_t chown, sync_t * wait, proc_t ** proc_wait, flag_t block );
 
 /*!
 \~russian
@@ -473,7 +466,7 @@ do                                                                      \
     scarg.wait.sync   = (sync_t *)(wt);                                 \
     scarg.wait.proc   = (proc_t **)(pwt);                               \
     scarg.wait.block  = (flag_t)(b);                                    \
-    scarg.wait.status = SYNC_ST_ROLL;                                   \
+    scarg.wait.status = BGRT_ST_ROLL;                                   \
     scarg.wake      = (sync_t *)(wk);                                   \
     scarg.proc      = (proc_t *)(pwk);                                  \
     scarg.chown     = (flag_t)(c);                                      \
@@ -493,16 +486,16 @@ while(0) /*!< \~russian \brief Смотри #sync_wake_and_wait. \~english \brie
 "Разбудить", процесс по таймауту.
 
 \param proc Указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
-\return #SYNC_ST_OK в случае, если дождался разбудил целевой процесс, #SYNC_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
+\return #BGRT_ST_OK в случае, если дождался разбудил целевой процесс, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
 \~english
 \brief
 Wake a process on timeout.
 
 \param proc A pointer to a process, that is supposed to wake up.
-\return #SYNC_ST_OK if target process has been woken up, #SYNC_ST_ROLL if caller must do next iteration, or error code.
+\return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_ROLL if caller must do next iteration, or error code.
 */
-flag_t sync_proc_timeout( proc_t * proc );
+status_t sync_proc_timeout( proc_t * proc );
 
 /*!
 \~russian
@@ -512,7 +505,7 @@ flag_t sync_proc_timeout( proc_t * proc );
 \brief
 For internal usage. Watch #sync_set_owner.
 */
-flag_t _sync_set_owner( sync_t * sync, proc_t * proc );
+status_t _sync_set_owner( sync_t * sync, proc_t * proc );
 /*!
 \~russian
 \brief
@@ -532,7 +525,7 @@ void _sync_clear_owner( sync_t * sync );
 \brief
 For internal usage. Watch #sync_wake.
 */
-flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
+status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 /*!
 \~russian
 \brief
@@ -542,7 +535,7 @@ flag_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 \brief
 For internal usage. Watch #sync_sleep.
 */
-flag_t _sync_sleep( sync_t * sync );
+status_t _sync_sleep( sync_t * sync );
 /*!
 \~russian
 \brief
@@ -552,7 +545,7 @@ flag_t _sync_sleep( sync_t * sync );
 \brief
 For internal usage. Watch #sync_wait.
 */
-flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
+status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 /*!
 \~russian
 \brief
@@ -562,5 +555,5 @@ flag_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 \brief
 For internal usage. Watch #sync_proc_timeout.
 */
-flag_t _sync_proc_timeout( proc_t * proc );
+status_t _sync_proc_timeout( proc_t * proc );
 #endif // _SYNC_H_
