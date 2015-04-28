@@ -171,6 +171,11 @@ void proc_init_isr(
 #endif // CONFIG_MP
 )
 {
+    if( !proc )
+    {
+        return;
+    }
+
     SPIN_INIT( proc );
     SPIN_LOCK( proc );
 
@@ -228,6 +233,11 @@ bool_t proc_run_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)1;
 
+    if( !proc )
+    {
+        return (bool_t)0;
+    }
+
     SPIN_LOCK( proc );
 
     if( (proc->flags & PROC_STATE_MASK) != PROC_STATE_STOPED )
@@ -237,9 +247,7 @@ bool_t proc_run_isr(proc_t * proc)
     }
     sched_proc_run( proc, PROC_STATE_READY );
 end:
-
     SPIN_FREE( proc );
-
     return ret;
 }
 //========================================================================================
@@ -263,6 +271,11 @@ bool_t proc_restart_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)1;
 
+    if( !proc )
+    {
+        return (bool_t)0;
+    }
+
     SPIN_LOCK( proc );
 
     if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_STATE_RESTART_MASK) )
@@ -282,9 +295,7 @@ bool_t proc_restart_isr(proc_t * proc)
     }
     sched_proc_run( proc, PROC_STATE_READY );
 end:
-
     SPIN_FREE( proc );
-
     return ret;
 }
 //========================================================================================
@@ -308,6 +319,11 @@ bool_t proc_stop_isr(proc_t * proc)
 {
     bool_t ret = (bool_t)0;
 
+    if( !proc )
+    {
+        proc = current_proc();
+    }
+
     SPIN_LOCK( proc );
     //Check flags
     //When PROC_FLG_MUTEX or PROC_FLG_SEM or both are set we must process PROC_FLG_PRE_STOP on common resource release.
@@ -322,7 +338,6 @@ bool_t proc_stop_isr(proc_t * proc)
     }
 
     SPIN_FREE( proc );
-
     return ret;
 }
 //========================================================================================
