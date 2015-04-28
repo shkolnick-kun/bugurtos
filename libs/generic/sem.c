@@ -78,21 +78,28 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sem.h"
 
-void sem_init_isr( sem_t * sem, count_t count )
+status_t sem_init_isr( sem_t * sem, count_t count )
 {
+    if(!sem)
+    {
+        return BGRT_ST_ENULL;
+    }
     SYNC_INIT_ISR( sem, PROC_PRIO_LOWEST );
     SPIN_INIT( sem );
     SPIN_LOCK( sem );
     sem->counter = count;
     sem->blocked = (count_t)0;
     SPIN_FREE( sem );
+    return BGRT_ST_OK;
 }
 
-void sem_init( sem_t * sem, count_t count )
+status_t sem_init( sem_t * sem, count_t count )
 {
+    status_t ret;
     disable_interrupts();
-    sem_init_isr( sem, count );
+    ret = sem_init_isr( sem, count );
     enable_interrupts();
+    return ret;
 }
 
 status_t sem_try_lock( sem_t * sem )

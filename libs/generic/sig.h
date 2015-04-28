@@ -121,7 +121,7 @@ A signal initiation from ISR or critical section.
 
 \param sig A #sig_t pointer.
 */
-void sig_init_isr( sig_t * sig );
+status_t sig_init_isr( sig_t * sig );
 /*!
 \~russian
 \brief
@@ -135,7 +135,7 @@ Signal initiation.
 
 \param sig A #sig_t pointer.
 */
-void sig_init( sig_t * sig );
+status_t sig_init( sig_t * sig );
 /*!
 
 \~russian

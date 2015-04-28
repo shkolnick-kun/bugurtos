@@ -78,18 +78,25 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sig.h"
 
-void sig_init( sig_t * sig )
+status_t sig_init( sig_t * sig )
 {
+    status_t ret;
     disable_interrupts();
-    sig_init_isr( sig );
+    ret = sig_init_isr( sig );
     enable_interrupts();
+    return ret;
 }
 
-void sig_init_isr( sig_t * sig )
+status_t sig_init_isr( sig_t * sig )
 {
+    if( !sig )
+    {
+        return BGRT_ST_ENULL;
+    }
     cond_init_isr( (cond_t *)sig );
     KERNEL_PREEMPT();
     mutex_init_isr( &sig->wait, PROC_PRIO_LOWEST );
+    return BGRT_ST_OK;
 }
 
 status_t sig_wait( sig_t * sig )

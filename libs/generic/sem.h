@@ -128,7 +128,7 @@ Semaphore initiation from ISR.
 \param sem A #sem_t pointer.
 \param count A counter start value.
 */
-void sem_init_isr( sem_t * sem, count_t count );
+status_t sem_init_isr( sem_t * sem, count_t count );
 /*!
 \~russian
 \brief
@@ -144,7 +144,7 @@ Semaphore initiation.
 \param sem A #sem_t pointer.
 \param count A counter start value.
 */
-void sem_init( sem_t * sem, count_t count );
+status_t sem_init( sem_t * sem, count_t count );
 /*!
 \~russian
 \brief
