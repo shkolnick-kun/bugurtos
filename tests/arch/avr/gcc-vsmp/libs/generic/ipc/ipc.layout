@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../libs/generic/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="6472" topLine="81" />
+	</File>
+	<File name="../../../../../../../libs/generic/ipc.h" open="0" top="0" tabpos="0">
+		<Cursor position="7349" topLine="114" />
+	</File>
 	<File name="../../../../../../main/libs/generic/ipc/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1642" topLine="39" />
 	</File>
