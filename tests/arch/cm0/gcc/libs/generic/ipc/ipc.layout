@@ -4,13 +4,19 @@
 	<File name="../../../../../../../arch/cm0/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="5645" topLine="109" />
 	</File>
-	<File name="../../../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="1">
-		<Cursor position="6695" topLine="83" />
+	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="1">
+		<Cursor position="6888" topLine="88" />
+	</File>
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="6857" topLine="85" />
+	</File>
+	<File name="../../../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
+		<Cursor position="6874" topLine="80" />
 	</File>
 	<File name="../../../../../../../libs/generic/ipc.c" open="0" top="0" tabpos="0">
 		<Cursor position="6557" topLine="81" />
 	</File>
 	<File name="../../../../../../main/libs/generic/ipc/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1642" topLine="47" />
+		<Cursor position="2534" topLine="79" />
 	</File>
 </CodeBlocks_layout_file>
