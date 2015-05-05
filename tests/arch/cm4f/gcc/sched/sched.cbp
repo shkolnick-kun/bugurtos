@@ -43,7 +43,7 @@
 			<Add option='-include&quot;../config.h&quot;' />
 			<Add directory="../../../../../kernel" />
 			<Add directory="../../gcc" />
-			<Add directory="../../../../../../thirdparty/stm32f407" />
+			<Add directory="../../../../../../thirdparty/libopencm3/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-mthumb" />
@@ -52,7 +52,8 @@
 			<Add option="-Xlinker" />
 			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
 			<Add option="-Wl,--gc-sections" />
-			<Add option='-T &quot;../../../../../../thirdparty/stm32f407/stm32f407vg.ld&quot;' />
+			<Add option='-T &quot;../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld&quot;' />
+			<Add library="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f4.a" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
@@ -118,13 +119,7 @@
 		<Unit filename="../../../../main/sched/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32f407/stm32f407vg.S" />
-		<Unit filename="../../../../../../thirdparty/stm32f407/stm32f407vg.ld" />
-		<Unit filename="../../../../../../thirdparty/stm32f407/stm32f4xx.h" />
-		<Unit filename="../../../../../../thirdparty/stm32f407/system_stm32f4xx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32f407/system_stm32f4xx.h" />
+		<Unit filename="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld" />
 		<Extensions>
 			<envvars />
 			<code_completion />
