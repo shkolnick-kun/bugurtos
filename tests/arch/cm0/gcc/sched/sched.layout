@@ -31,7 +31,7 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="5">
 		<Cursor position="7733" topLine="115" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="1" top="1" tabpos="3">
+	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="3">
 		<Cursor position="6857" topLine="93" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
@@ -43,7 +43,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="3">
 		<Cursor position="2774" topLine="40" />
 	</File>
-	<File name="../test_func.h" open="1" top="0" tabpos="3">
+	<File name="../test_func.h" open="1" top="0" tabpos="2">
 		<Cursor position="735" topLine="8" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
