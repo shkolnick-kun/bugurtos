@@ -10,10 +10,6 @@
 #define SYSCALL_TABLE(a) const code_t a
 #define SYSCALL_TABLE_READ(a) a
 
-#ifndef WEAK
-#define WEAK __attribute__(( __weak__ ))
-#endif
-
 #ifndef NOP
 #define NOP() __asm__ __volatile__ ("nop":::)
 #endif
@@ -64,10 +60,12 @@ typedef unsigned char syscall_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
-// These macros needed to interface cstartup code.
-#define SYSTEM_TIMER_ISR 	SysTick_Handler
-#define RESCHED_ISR			PendSV_Handler
-#define SYSCALL_ISR			SVC_Handler
+#define STM32L1
+#include <libopencmsis/core_cm3.h>
+// These macros needed for interface with cstartup code.
+#define SYSTEM_TIMER_ISR 	sys_tick_handler
+#define RESCHED_ISR			pend_sv_handler
+#define SYSCALL_ISR			sv_call_handler
 
 #define CONFIG_FCPU_HZ 			( 32000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )

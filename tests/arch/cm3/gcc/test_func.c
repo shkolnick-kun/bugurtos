@@ -22,7 +22,12 @@ void test_do_nothing(void)
 void init_hardware(void)
 {
     __asm__ __volatile__ ("cpsid i \n\t");
-    SystemInit();
+
+    rcc_clock_setup_pll( &clock_config[CLOCK_VRANGE1_HSI_PLL_32MHZ] );
+
+    rcc_periph_clock_enable(RCC_GPIOB);
+    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN);
+    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, RED);
 }
 
 void sched_fix_proc_2(void)
@@ -32,22 +37,32 @@ void sched_fix_proc_2(void)
     proc[2].flags &= PROC_STATE_CLEAR_MASK;
     enable_interrupts();
 }
+// Can blink numbers from 0 up to 99.
 static void blink_digit( count_t digit )
 {
-	LED_OFF();
+	LED_OFF(RED);
     wait_time(200);
+
+    if(!digit)
+    {
+    	LED_ON(RED);
+    	wait_time(1000);
+    	LED_OFF(RED);
+    	return;
+    }
+
     while(digit--)
     {
-    	LED_ON();
+    	LED_ON(RED);
     	wait_time(200);
-    	LED_OFF();
+    	LED_OFF(RED);
         wait_time(200);
     }
 }
 // Can blink numbers from 0 up to 99.
 static void blink_num( count_t num )
 {
-	LED_OFF();
+	LED_OFF(RED);
     blink_digit( (num/10)%10 ); // Most significant digit
     wait_time(300);
     blink_digit( num%10 ); //Least significant digit
@@ -58,6 +73,7 @@ void test_output( bool_t test_result, count_t test_num )
     // If test has failed, then where will be abnormal program termination!
     if( !test_result )
     {
+        LED_OFF(GREEN);
         while(1)
         {
         	wait_time(500);
@@ -67,17 +83,17 @@ void test_output( bool_t test_result, count_t test_num )
 }
 void test_start(void)
 {
-	LED_ON();
+	LED_ON(GREEN);
 }
 void tests_end(void)
 {
-	LED_OFF();
+	LED_OFF(GREEN);
 	wait_time(1000);
     while(1)
     {
-    	LED_ON();
+    	LED_ON(GREEN);
         wait_time(500);
-        LED_OFF();
+        LED_OFF(GREEN);
         wait_time(500);
     }
 }

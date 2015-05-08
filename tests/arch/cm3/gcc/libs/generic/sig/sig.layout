@@ -7,7 +7,4 @@
 	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1232" topLine="47" />
 	</File>
-	<File name="../../../../../../../../thirdparty/stm32l152/stm32l152rb.S" open="0" top="0" tabpos="0">
-		<Cursor position="3986" topLine="116" />
-	</File>
 </CodeBlocks_layout_file>

@@ -4,7 +4,4 @@
 	<File name="../../../../../../main/libs/generic/mutex/main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1793" topLine="39" />
 	</File>
-	<File name="../../../../../../../../thirdparty/stm32l152/stm32l152rb.S" open="1" top="0" tabpos="1">
-		<Cursor position="3986" topLine="116" />
-	</File>
 </CodeBlocks_layout_file>
