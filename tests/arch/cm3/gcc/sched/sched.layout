@@ -22,28 +22,16 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
 	</File>
-	<File name="../config.h" open="1" top="1" tabpos="0">
-		<Cursor position="1196" topLine="22" />
+	<File name="../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="1947" topLine="54" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="290" topLine="60" />
+		<Cursor position="594" topLine="85" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
-		<Cursor position="589" topLine="6" />
+		<Cursor position="654" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="607" topLine="17" />
-	</File>
-	<File name="../../../../../../thirdparty/stm32l152/stm32l152rb.S" open="0" top="0" tabpos="2">
-		<Cursor position="3986" topLine="133" />
-	</File>
-	<File name="../../../../../../thirdparty/stm32l152/stm32l1xx.h" open="0" top="0" tabpos="0">
-		<Cursor position="257544" topLine="147" />
-	</File>
-	<File name="../../../../../../thirdparty/stm32l152/system_stm32l1xx.c" open="0" top="0" tabpos="4">
-		<Cursor position="7071" topLine="183" />
-	</File>
-	<File name="../../../../../../thirdparty/stm32l152/system_stm32l1xx.h" open="0" top="0" tabpos="0">
-		<Cursor position="1515" topLine="46" />
 	</File>
 </CodeBlocks_layout_file>
