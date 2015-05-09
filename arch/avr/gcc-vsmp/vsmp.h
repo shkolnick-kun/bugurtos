@@ -92,9 +92,9 @@ extern stack_t * bugurt_reverse_byte_order ( stack_t * arg );
 typedef struct _vsmp_vm_t  vsmp_vm_t;
 struct _vsmp_vm_t
 {
-    item_t * int_fifo; // Virtual interrupt fifo;
-    bool_t int_enabled;// Virtual interrupts enabled flag;
-    count_t int_nest_count;
+    volatile item_t * int_fifo; // Virtual interrupt fifo;
+    volatile bool_t int_enabled;// Virtual interrupts enabled flag;
+    volatile count_t int_nest_count;
     stack_t * sp; // VM stack pointer
     stack_t * int_sp; // VM virtual interrupt stack pointer
 };
@@ -110,9 +110,10 @@ struct _vinterrupt_t
 vsmp_vm_t vm_state[MAX_CORES];
 stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
 stack_t vm_int_stack[MAX_CORES][VM_INT_STACK_SIZE];
-core_id_t current_vm;
-void * vm_buf;
-void (*vsmp_systimer_hook)(void);
+volatile core_id_t current_vm;
+volatile void * vm_buf;
+typedef void (*hook_t)(void);
+hook_t vsmp_systimer_hook;
 
 #define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), (count_t)0, f }
 

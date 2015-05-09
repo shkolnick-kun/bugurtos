@@ -83,9 +83,9 @@ vsmp_vm_t vm_state[MAX_CORES];
 stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
 stack_t vm_int_stack[MAX_CORES][VM_INT_STACK_SIZE];
 
-core_id_t current_vm;
-void * vm_buf;
-void (*vsmp_systimer_hook)(void);
+volatile core_id_t current_vm;
+volatile void * vm_buf;
+hook_t vsmp_systimer_hook;
 
 
 
@@ -191,7 +191,7 @@ chained_vinterrupt_return: \
     Local variable is used to call virtual ISR, so wrapper must have two parts.
 */
 // Nested part, uses local variables, so compiler generated prologue and epilogue are needed.
-static void _vinterrupt_wrapper(void)
+void _vinterrupt_wrapper(void)
 {
     void (*isr)(void);
     vm_state[current_vm].int_enabled = (bool_t)0; // Virtual interrupt nesting is not allowed by default.

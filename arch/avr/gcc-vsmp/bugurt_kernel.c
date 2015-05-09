@@ -77,17 +77,20 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt_kernel.h"
-
+#include <util/delay.h>
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #define _bugurt_isr_prologue() \
+    proc_t * cp; \
+    cp = current_proc(); \
     cli(); \
-    kernel.sched[current_vm].current_proc->spointer = vm_state[current_vm].sp; \
+    cp->spointer = vm_state[current_vm].sp; \
     sei()
 
 #define _bugurt_isr_epilogue() \
+    cp = current_proc(); \
     cli(); \
-    vm_state[current_vm].sp = kernel.sched[current_vm].current_proc->spointer; \
-    __asm__ __volatile__("reti"::)
+    vm_state[current_vm].sp = cp->spointer; \
+    sei()
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 proc_t * current_proc(void)
 {
@@ -119,7 +122,7 @@ void spin_lock( lock_t * lock )
         }
         sei();
     }while(i);
-    for(i = 0; i< 1000; i++);// delay, all other vms must spin for a while
+    _delay_us(1100);// delay, all other vms must spin for a while
 }
 void spin_free(lock_t * lock)
 {
@@ -157,7 +160,8 @@ void resched(core_id_t core_id)
 /******************************************************************************************************/
 // Код ядра
 vinterrupt_t resched_vectors[MAX_CORES];
-__attribute__ (( naked )) void resched_isr(void)
+
+void resched_isr(void)
 {
     _bugurt_isr_prologue();
 
@@ -184,7 +188,8 @@ void _systimer_tick_isr(void)
 
     systimer_vectors_fire();
 }
-__attribute__ (( naked )) void systimer_tick_isr(void)
+
+void systimer_tick_isr(void)
 {
     _bugurt_isr_prologue();
 
@@ -193,8 +198,7 @@ __attribute__ (( naked )) void systimer_tick_isr(void)
     _bugurt_isr_epilogue();
 }
 
-
-__attribute__ (( naked )) void systimer_sched_isr(void)
+void systimer_sched_isr(void)
 {
     _bugurt_isr_prologue();
 
@@ -249,7 +253,8 @@ void _syscall_isr(void)
     core = current_core();
     do_syscall( syscall_num[core], syscall_arg[core] );
 }
-__attribute__ (( naked )) void syscall_isr(void)
+//__attribute__ (( naked )) void syscall_isr(void)
+void syscall_isr(void)
 {
     _bugurt_isr_prologue();
 
