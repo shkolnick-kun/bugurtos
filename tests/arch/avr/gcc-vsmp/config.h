@@ -77,7 +77,7 @@ typedef unsigned char affinity_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char lock_t;
+typedef volatile unsigned char lock_t;
 
 // Unsigned char is enough for test purposes.
 typedef unsigned char stat_t;
