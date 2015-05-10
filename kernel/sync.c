@@ -380,18 +380,28 @@ void scall_sync_set_owner( void * arg )
 /**********************************************************************************************
                                        SYSCALL_SYNC_CLEAR_OWNER
 **********************************************************************************************/
-void sync_clear_owner( sync_t * sync )
+typedef struct
 {
-    syscall_bugurt( SYSCALL_SYNC_CLEAR_OWNER, (void *)sync );
+    sync_t * sync;
+    status_t status;
+}sync_clear_owner_t;
+
+status_t sync_clear_owner( sync_t * sync )
+{
+    sync_clear_owner_t scarg;
+    scarg.status = BGRT_ST_EOWN;
+    scarg.sync = sync;
+    syscall_bugurt( SYSCALL_SYNC_CLEAR_OWNER, (void *)&scarg );
+    return scarg.status;
 }
 //========================================================================================
-void _sync_clear_owner( sync_t * sync )
+status_t _sync_clear_owner( sync_t * sync )
 {
     proc_t * proc;
     prio_t prio;
     if(!sync)
     {
-        return;
+        return BGRT_ST_ENULL;
     }
 
     SPIN_LOCK( sync );
@@ -405,17 +415,18 @@ void _sync_clear_owner( sync_t * sync )
     // check proc
     if(!proc)
     {
-        return;
+        return BGRT_ST_OK;
     }
     // update proc priority info
     SPIN_LOCK( proc );
     PROC_LRES_DEC( proc, prio );
     PROC_PROC_PRIO_PROPAGATE( proc );
+    return BGRT_ST_OK;
 }
 //========================================================================================
 void scall_sync_clear_owner( void * arg )
 {
-    _sync_clear_owner( (sync_t *)arg );
+    ((sync_clear_owner_t *)arg)->status = _sync_clear_owner( ((sync_clear_owner_t *)arg)->sync );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_SLEEP

@@ -8,15 +8,15 @@
 		<Cursor position="0" topLine="705" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="28255" topLine="881" />
+		<Cursor position="14834" topLine="373" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="19301" topLine="528" />
+		<Cursor position="25671" topLine="507" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3632" topLine="196" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="15421" topLine="422" />
+	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="15911" topLine="412" />
 	</File>
 </CodeBlocks_layout_file>

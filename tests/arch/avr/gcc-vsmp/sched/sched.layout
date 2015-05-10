@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="1">
-		<Cursor position="11741" topLine="289" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="1" top="0" tabpos="1">
+		<Cursor position="8713" topLine="189" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="6428" topLine="74" />
@@ -64,11 +64,11 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="2">
 		<Cursor position="28434" topLine="889" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
-		<Cursor position="27427" topLine="538" />
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="3">
+		<Cursor position="26674" topLine="533" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="4">
 		<Cursor position="6645" topLine="87" />
@@ -91,8 +91,8 @@
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="2325" topLine="18" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="2">
-		<Cursor position="17" topLine="0" />
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
+		<Cursor position="17" topLine="33" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="27" topLine="0" />
