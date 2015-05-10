@@ -88,8 +88,8 @@
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="1405" topLine="84" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="1">
-		<Cursor position="373" topLine="23" />
+	<File name="../test_func.c" open="1" top="1" tabpos="1">
+		<Cursor position="1872" topLine="80" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
 		<Cursor position="615" topLine="0" />
