@@ -25,7 +25,7 @@
 	<File name="../../../../../../../libs/generic/sig.h" open="0" top="0" tabpos="0">
 		<Cursor position="7903" topLine="126" />
 	</File>
-	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1232" topLine="45" />
+	<File name="../../../../../../main/libs/generic/sig/main.c" open="1" top="1" tabpos="3">
+		<Cursor position="1297" topLine="93" />
 	</File>
 </CodeBlocks_layout_file>

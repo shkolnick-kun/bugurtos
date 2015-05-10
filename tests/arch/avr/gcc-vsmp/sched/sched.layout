@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="1" top="0" tabpos="1">
-		<Cursor position="8713" topLine="189" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="1">
+		<Cursor position="7013" topLine="99" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="6428" topLine="74" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="4">
-		<Cursor position="7451" topLine="96" />
+		<Cursor position="7451" topLine="108" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
 		<Cursor position="7134" topLine="102" />
@@ -64,10 +64,10 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="2">
 		<Cursor position="28434" topLine="889" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
 		<Cursor position="26674" topLine="533" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="4">
@@ -91,13 +91,13 @@
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="2325" topLine="18" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="1">
-		<Cursor position="17" topLine="33" />
+	<File name="../test_func.c" open="1" top="1" tabpos="2">
+		<Cursor position="2759" topLine="179" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="27" topLine="0" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="835" topLine="24" />
+	<File name="../../../../main/sched/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="812" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

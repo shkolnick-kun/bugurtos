@@ -39,7 +39,7 @@ void main_proc_test( void * arg )
     wait_for = &proc[3];
     test_output( BGRT_ST_OK == ipc_wait( &test_ep, &wait_for, 1), 6 );
     // ipc_send  ipc_wait test 7
-    test_output( proc[0].parent.prio == 0, 7 );
+    test_output( 0 == proc[0].parent.prio, 7 );
     // ipc_send  ipc_wait test 8
     in = (ipc_msg_t *)test_ep.msg;
     test_output( 3 == in->send, 8 );
