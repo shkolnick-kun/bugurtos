@@ -184,6 +184,13 @@ static void blink_digit( count_t digit )
 {
     PORTB &= ~0x20;
     _delay_ms(200);
+    if( !digit )
+    {
+        PORTB |= 0x20;
+        _delay_ms(500);
+        PORTB &= ~0x20;
+        return;
+    }
     while(digit--)
     {
         PORTB |= 0x20;

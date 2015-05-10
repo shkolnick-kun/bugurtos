@@ -14,9 +14,9 @@
 		<Cursor position="25671" topLine="507" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="3632" topLine="196" />
+		<Cursor position="3456" topLine="202" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="13731" topLine="355" />
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="16060" topLine="410" />
 	</File>
 </CodeBlocks_layout_file>

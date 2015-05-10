@@ -17,6 +17,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Os" />
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option='-include &quot;${PROJECT_DIR}../../../config.h&quot;' />

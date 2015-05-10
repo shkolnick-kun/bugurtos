@@ -16,11 +16,11 @@ void main_with_return( void * arg )
     //test_output( (test_var_sig == 1), 1 );
     test_output( (BGRT_ST_OK == sem_try_lock( &test_sem )), 1 );
     //sem_try_lock test 2
-    test_output( (test_sem.counter == 0), 2 );
+    test_output( (0 == test_sem.counter), 2 );
     //sem_lock test 3
     proc_run( &proc[2] );
     wait_time( 2 );
-    test_output( (test_sem.counter == 0), 3 );
+    test_output( (0 == test_sem.counter), 3 );
 
     // proc[2] must wait on test_sem.
     //sem_lock test 4
@@ -28,29 +28,29 @@ void main_with_return( void * arg )
     //sem_lock test 5
     test_output( !PROC_RUN_TEST( (&proc[2]) ), 5 );
     //sem_lock test 6
-    test_output( (proc[2].parent.list == (void *)&test_sem.wait), 6 );
+    test_output( ( ((void *)&test_sem.wait) == proc[2].parent.list ), 6 );
     //sem_try_lock test 7
     // must not lock
     test_output( (BGRT_ST_ROLL == sem_try_lock( &test_sem )), 7 );
     //sem_try_lock test 8
-    test_output( (test_sem.counter == 0), 8 );
+    test_output( ( 0 == test_sem.counter ), 8 );
     //sem_free test 9
     // proc[2] must get semaphore and self stop
     sem_free( &test_sem );
     wait_time( 2 );
-    test_output( (test_sem.counter == 0), 9 );
+    test_output( ( 0 == test_sem.counter ), 9 );
     //sem_free test 10
     // proc[2] must free semaphore and self stop
     proc_run( &proc[2] );
     wait_time( 2 );
-    test_output( (test_sem.counter == 1), 10 );
+    test_output( ( 1 == test_sem.counter ), 10 );
     // sem_lock test 11
     // proc[2] must lock a test_sem and self ctop
     proc_run( &proc[2] );
     wait_time( 2 );
-    test_output( (test_sem.counter == 0), 11 );
+    test_output( ( 0 == test_sem.counter ), 11 );
     //sem_lock test 11
-    test_output( (proc[2].flags & PROC_STATE_MASK) != PROC_STATE_SYNC_SLEEP, 12 );
+    test_output( (PROC_STATE_SYNC_SLEEP) != (proc[2].flags & PROC_STATE_MASK) , 12 );
 
     proc_run( &proc[2] );
 

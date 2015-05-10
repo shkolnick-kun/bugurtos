@@ -26,7 +26,7 @@ void main_proc_test( void * arg )
     test_var_sig = 1;
     test_hook = test_clear;
     sig_signal( &test_sig );
-    test_output( (test_var_sig == 1), 1 );
+    test_output( (1 == test_var_sig), 1 );
 
     // sig_broadcast test 2
     // No process must start
@@ -47,7 +47,7 @@ void main_proc_test( void * arg )
 
     sig_signal( &test_sig );
     wait_time( 20 );
-    test_output( (test_var_sig == 1), 6 );
+    test_output( (1 == test_var_sig), 6 );
 
     wait_time( 20 );
 
@@ -58,7 +58,7 @@ void main_proc_test( void * arg )
     test_output( BGRT_ST_EEMPTY == status, 7);
 
     wait_time( 20 );
-    test_output( (test_var_sig == 4), 8 );
+    test_output( (4 == test_var_sig), 8 );
 
     tests_end();
 }
