@@ -207,14 +207,16 @@ status_t sync_set_owner( sync_t * sync, proc_t * proc );
 Сбросить хозяина объекта типа #sync_t.
 
 \param sync Указатель на объект типа #sync_t.
+\return #BGRT_ST_OK если хозяин был сбошен, либо код ошибки.
 
 \~english
 \brief
 Clear #sync_t object owner.
 
 \param sync A pointer to the object of interest.
+\return #BGRT_ST_OK if owner was clear, or error code.
 */
-void sync_clear_owner( sync_t * sync );
+status_t sync_clear_owner( sync_t * sync );
 
 #define SYNC_CLEAR_OWNER(s) sync_clear_owner((sync_t *)s) /*!< \~russian \brief Смотри #sync_clear_owner. \~english \brief Watch #sync_clear_owner. */
 
@@ -515,7 +517,7 @@ status_t _sync_set_owner( sync_t * sync, proc_t * proc );
 \brief
 For internal usage. Watch #sync_clear_owner.
 */
-void _sync_clear_owner( sync_t * sync );
+status_t _sync_clear_owner( sync_t * sync );
 /*!
 \~russian
 \brief

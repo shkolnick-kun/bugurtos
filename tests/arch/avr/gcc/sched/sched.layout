@@ -4,7 +4,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="2">
 		<Cursor position="7642" topLine="123" />
 	</File>
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="3">
 		<Cursor position="7844" topLine="0" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="5">
@@ -13,8 +13,8 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="76" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="1" tabpos="6">
-		<Cursor position="817" topLine="514" />
+	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="3">
+		<Cursor position="8496" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
 		<Cursor position="6766" topLine="77" />
@@ -34,10 +34,10 @@
 	<File name="../../../../../kernel/item.h" open="0" top="0" tabpos="13">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="4">
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="4">
 		<Cursor position="5838" topLine="119" />
 	</File>
-	<File name="../../../../../kernel/kernel.h" open="1" top="0" tabpos="5">
+	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="5">
 		<Cursor position="7573" topLine="91" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="4">
@@ -49,10 +49,10 @@
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
 		<Cursor position="13366" topLine="299" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="3">
 		<Cursor position="24350" topLine="401" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
@@ -61,7 +61,7 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="21">
 		<Cursor position="6929" topLine="300" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
 		<Cursor position="26957" topLine="852" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
@@ -85,10 +85,10 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="29">
 		<Cursor position="163" topLine="0" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="1">
+	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="1405" topLine="84" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
 		<Cursor position="373" topLine="23" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">

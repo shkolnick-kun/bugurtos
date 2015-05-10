@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="9692" topLine="189" />
 	</File>
@@ -32,7 +32,7 @@
 		<Cursor position="17102" topLine="418" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="18113" topLine="324" />
+		<Cursor position="18581" topLine="324" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="11560" topLine="259" />
@@ -41,7 +41,7 @@
 		<Cursor position="0" topLine="300" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="17038" topLine="475" />
+		<Cursor position="21089" topLine="604" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="27479" topLine="539" />
@@ -65,9 +65,9 @@
 		<Cursor position="1539" topLine="36" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1782" topLine="75" />
+		<Cursor position="1681" topLine="75" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="15421" topLine="424" />
+	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="15911" topLine="324" />
 	</File>
 </CodeBlocks_layout_file>
