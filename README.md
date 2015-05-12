@@ -27,7 +27,7 @@ proprietary software development.
 * Current versions are
   * 0.6.5;
   * 0.7.2;
-  * 0.8.2.
+  * 0.8.3.
 
 * Platforms supported:
   * AVR (GNU-toolchain);
@@ -50,6 +50,7 @@ proprietary software development.
 * PROFIT!!!
 
 # News #
+* **May 12th 2015: BuguRTOS-0.8.3** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Added more argument checks, fixed several issues, ported tests to [libopencm3](https://github.com/libopencm3/libopencm3).
 * **April 25th 2015: BuguRTOS-0.8.2** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Added basic timeout support and fifo scheduling policy support, fixed some bugs.
 * **April 25th 2015: BuguRTOS moved to GitHub.**
 * **March 13th 2015: BuguRTOS updated** versions 0.6.5, 0.7.2, 0.8.1 are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Three bugs fixed, significant changes made in 0.8.x branch.
