@@ -17,7 +17,7 @@ proprietary software development.
 
 # Get it! #
 * Old releases are on [Gdrive!](https://drive.google.com/folderview?id=0B32mjehjqcIOYlFtNnRSc0JxdGc&usp=sharing).
-* Since May 12th 2015 new releases are plased [here](https://github.com/shkolnick-kun/bugurtos/releases).
+* Since May 12th 2015 new releases are placed [here](https://github.com/shkolnick-kun/bugurtos/releases).
 
 # Current status #
 * Branches supported:
