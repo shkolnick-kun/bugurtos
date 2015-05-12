@@ -1,4 +1,12 @@
 # Changelog #
+  * 0.8.3
+    * Merged [spelling correction](https://github.com/shkolnick-kun/bugurtos/commit/c4ae75fca01df5f874169c9a348387baf187c9f7) from [dartraiden](https://github.com/dartraiden).
+    * Added argument checks to proc.c.
+    * Added status_t, stattusses are global now.
+    * Ported Cortex<sup>TM</sup>-Mx tests to [libopencm3](https://github.com/libopencm3/libopencm3).
+    * Fixed [several bugs](https://github.com/shkolnick-kun/bugurtos/issues/8) in VSMP port.
+    * Revised tests.
+    * Fixed [stupid mistakes](https://github.com/shkolnick-kun/bugurtos/issues/9) in sync test.
   * 0.8.2
     * Added cnt_lock to proc_t, renamed PROC_FLG_BLOCK to PROC_FLG_LOCK, PROC_FLG_LOCK behavior is now independent from proc->lres.
     * Added FIFO scheduler policy and PROC_FLG_RR to switch to Round Robin sched policy (default).
