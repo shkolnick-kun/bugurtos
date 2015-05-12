@@ -2,7 +2,7 @@
   * 0.8.3
     * Merged [spelling correction](https://github.com/shkolnick-kun/bugurtos/commit/c4ae75fca01df5f874169c9a348387baf187c9f7) from [dartraiden](https://github.com/dartraiden).
     * Added argument checks to proc.c.
-    * Added status_t, stattusses are global now.
+    * Added status_t, statuses are global now.
     * Ported Cortex<sup>TM</sup>-Mx tests to [libopencm3](https://github.com/libopencm3/libopencm3).
     * Fixed [several bugs](https://github.com/shkolnick-kun/bugurtos/issues/8) in VSMP port.
     * Revised tests.
