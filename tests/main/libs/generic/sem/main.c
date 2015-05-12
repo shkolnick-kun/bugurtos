@@ -13,7 +13,6 @@ void main_with_return( void * arg )
     test_start();
 
     //sem_try_lock test 1
-    //test_output( (test_var_sig == 1), 1 );
     test_output( (BGRT_ST_OK == sem_try_lock( &test_sem )), 1 );
     //sem_try_lock test 2
     test_output( (0 == test_sem.counter), 2 );
