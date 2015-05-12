@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/cm4f/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6291" topLine="139" />
+		<Cursor position="6545" topLine="139" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
@@ -23,7 +23,7 @@
 		<Cursor position="7719" topLine="116" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
-		<Cursor position="6462" topLine="72" />
+		<Cursor position="6857" topLine="85" />
 	</File>
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -31,13 +31,13 @@
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="2034" topLine="54" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="0">
-		<Cursor position="472" topLine="11" />
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="472" topLine="38" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="771" topLine="15" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="835" topLine="27" />
+		<Cursor position="812" topLine="21" />
 	</File>
 </CodeBlocks_layout_file>
