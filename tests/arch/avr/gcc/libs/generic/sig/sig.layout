@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="6">
 		<Cursor position="8389" topLine="147" />
 	</File>
@@ -40,7 +40,7 @@
 	<File name="../../../../../../../libs/generic/cond.h" open="0" top="0" tabpos="1">
 		<Cursor position="10471" topLine="183" />
 	</File>
-	<File name="../../../../../../../libs/generic/mutex.c" open="1" top="0" tabpos="10">
+	<File name="../../../../../../../libs/generic/mutex.c" open="0" top="0" tabpos="10">
 		<Cursor position="6902" topLine="101" />
 	</File>
 	<File name="../../../../../../../libs/generic/mutex.h" open="0" top="0" tabpos="4">

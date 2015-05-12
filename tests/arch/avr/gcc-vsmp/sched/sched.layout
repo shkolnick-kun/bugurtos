@@ -91,13 +91,13 @@
 	<File name="../config.h" open="0" top="0" tabpos="0">
 		<Cursor position="2325" topLine="18" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="2">
-		<Cursor position="2759" topLine="179" />
+	<File name="../test_func.c" open="0" top="0" tabpos="2">
+		<Cursor position="2672" topLine="197" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="27" topLine="0" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="1" top="0" tabpos="1">
+	<File name="../../../../main/sched/main.c" open="1" top="1" tabpos="0">
 		<Cursor position="812" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

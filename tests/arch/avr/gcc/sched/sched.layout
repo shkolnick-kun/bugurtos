@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="2">
 		<Cursor position="7642" topLine="123" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="3">
@@ -52,7 +52,7 @@
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
 		<Cursor position="13366" topLine="299" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="24350" topLine="401" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
@@ -88,7 +88,7 @@
 	<File name="../config.h" open="0" top="0" tabpos="1">
 		<Cursor position="1405" topLine="84" />
 	</File>
-	<File name="../test_func.c" open="1" top="1" tabpos="1">
+	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="1175" topLine="47" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">

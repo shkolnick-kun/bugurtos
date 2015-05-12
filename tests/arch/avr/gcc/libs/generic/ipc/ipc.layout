@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
+	<ActiveTarget name="Release" />
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="7711" topLine="128" />
 	</File>
@@ -16,8 +16,8 @@
 	<File name="../../../../../../../libs/generic/ipc.h" open="0" top="0" tabpos="0">
 		<Cursor position="7345" topLine="114" />
 	</File>
-	<File name="../../../config.h" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
+	<File name="../../../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="84" />
 	</File>
 	<File name="../../../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1872" topLine="78" />

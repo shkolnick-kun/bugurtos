@@ -2,10 +2,10 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../../../arch/cm0/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="5645" topLine="109" />
+		<Cursor position="5816" topLine="118" />
 	</File>
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="1">
-		<Cursor position="6888" topLine="88" />
+		<Cursor position="6724" topLine="88" />
 	</File>
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6857" topLine="85" />
@@ -14,7 +14,7 @@
 		<Cursor position="6874" topLine="80" />
 	</File>
 	<File name="../../../../../../../libs/generic/ipc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6557" topLine="81" />
+		<Cursor position="6560" topLine="82" />
 	</File>
 	<File name="../../../../../../main/libs/generic/ipc/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="2534" topLine="79" />
