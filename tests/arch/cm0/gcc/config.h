@@ -60,6 +60,7 @@ typedef unsigned char syscall_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
+#define CONFIG_TEST  //This is test project.
 #define STM32F0
 #include <libopencmsis/core_cm3.h>
 

@@ -59,11 +59,10 @@ typedef unsigned char syscall_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
-// These macros needed to interface cstartup code.
-
+#define CONFIG_TEST  //This is test project.
 #define STM32F4
 #include <libopencmsis/core_cm3.h>
-
+// These macros needed to interface cstartup code.
 #define SYSTEM_TIMER_ISR 	sys_tick_handler
 #define RESCHED_ISR			pend_sv_handler
 #define SYSCALL_ISR			sv_call_handler

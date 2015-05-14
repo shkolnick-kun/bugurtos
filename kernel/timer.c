@@ -111,20 +111,14 @@ void wait_time(timer_t time)
     CLEAR_TIMER(tmr);
     while((bool_t)roll)
     {
+#ifndef CONFIG_TEST
+#ifdef CONFIG_SAVE_POWER
+        if( sched_proc_yeld() )CONFIG_SAVE_POWER();
+#else // CONFIG_SAVE_POWER
+        sched_proc_yeld();
+#endif // CONFIG_SAVE_POWER
+#endif // CONFIG_TEST
         roll = (bool_t)( TIMER(tmr) < (timer_t)time );
     }
 }
 //===========================================================================
-#ifdef CONFIG_SAVE_POWER
-void wait_time_save_power(timer_t time)
-{
-    timer_t tmr;
-    bool_t roll=(bool_t)1;
-    CLEAR_TIMER(tmr);
-    while((bool_t)roll)
-    {
-        if( sched_proc_yeld() )CONFIG_SAVE_POWER();
-        roll = (bool_t)( TIMER(tmr) < (timer_t)time );
-    }
-}
-#endif //CONFIG_SAVE_POWER

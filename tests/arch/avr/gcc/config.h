@@ -76,6 +76,7 @@ typedef unsigned char syscall_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
+#define CONFIG_TEST  //This is test project
 #define SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define START_SCHEDULER() (TIMSK2 |= 0x02)
 #define STOP_SCHEDULER() (TIMSK2 &= ~0x02)
