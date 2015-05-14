@@ -42,7 +42,7 @@ you can see the list of different RTOS.
    * Create a workspace dir.
    * Create a project dir.
    * Copy BuguRTOS to some dir in your workspace.
-   * Write config.h file or take one from examples/tests.
+   * Write config.h file or take one from tests or example config files.
    * Add files to your project and configure it:
      *  preinclude config.h;
      *  add following dirs to compiler search path:
@@ -50,27 +50,92 @@ you can see the list of different RTOS.
         * [%bugurtos_dir%]/libs/generic, 
         * [%bugurtos_dir%]/arch/[%processor%]/[%toolchain%].
    * Write your program, in **main.c** you may write something like:
-   ```C
-   // #include<bugurt.h> // For Cortex-M
-   #include<bugurt_kernel.h> // For AVR, STM8
-   /*Project includes, defines, declarations etc.*/
+```C
+    // #include<bugurt.h> // For Cortex-M
+    #include<bugurt_kernel.h> // For AVR, STM8
+    /*Project includes, defines, declarations etc.*/
 
-   void idle_main(void * arg ){
-	    /*You may write your idle_main or use bultin.*/
-	    while(1);
-  }
-  int main(void){
-	    init_bugurt();
-	    /*Initialize everything*/
-	    start_bugurt();
-	    /*
-	    Don't write anything here, as control never reaches this place.
-	    */
-   }
-   ```
+    void idle_main(void * arg )
+    {
+    	/*You may write your idle_main or use bultin.*/
+    	while(1);
+    }
+    int main(void)
+    {
+    	init_bugurt();
+    	/*Initialize everything*/
+    	start_bugurt();
+    	/*
+    	Don't write anything here, as control never reaches this place.
+    	*/
+    }
+```
    * Try to build your project.
    * ??????
    * PROFIT!!!
 
 ##Inside BuguRTOS.
+First of all, multitasking OS is sheduler and other basic process (task,thread etc.) control services.
+All this stuff will be described below.
 
+###Process
+In different OSes it may be called process, task, thread etc., but the main pint is 
+**independent CPU instruction execution flow**.
+
+So, the process is a part of a program that is being executed. It has its own **pmain** function, and that 
+**pmain** may be written as there are no other processes running!
+
+Each process has its own [stack](http://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29). 
+
+Processes in BuguRTOS can be devided in two groups, they are **real time** and **general purpose** processes.
+The main difference of these two groups is sheduling policy, see Scheduler.
+
+Processes may have common resources, for example, two processes may have common **pmain** function, 
+in such case we may talk about two running instances of such **pmain**.
+
+When the scheduler suspends a process execution it calls **sv_hook** function, and when it unsuspends a process 
+execution, **rs_hook** is called.
+
+Functions **pmain**, **sv_hook** and **rs_hook** take one argument of __void *__ type. 
+This argument is supposed to be a pointer to some data storage, that may differ from one running instanse of 
+**pmain** to another.
+
+Processes may have **common data**, user is responsible of pprotecting such **common data** with OS 
+synchronization primitives. If user **fails** to do that, then 
+[race condition](http://en.wikipedia.org/wiki/Race_condition) may and will occur.
+
+Processes **must** have **different nonoverlapping stacks**. Actually user may allocate one stack for two or 
+more processes, but in such case user **must make sure** that only one such process runs at any time.
+
+####What is needed to create a process?
+You need to do the steps below.
+ 1. Declare a variable of **proc_t** type (a process descriptor). It's better to declare it global.
+ 2. Declare an array of **stack_t**, this is a process stack. It's better to declare it global too.
+ 3. Write some **pmain**:
+```C
+    void my_process_main(void * arg)
+    {
+        /* Do something.*/
+    }
+```
+ 4. Call **proc_init_isr** or **proc_init**:
+```C
+    // This function is called before start_bugurt() call in main or in ISR
+    proc_init_isr( 
+ 		&my_proc,  /*a process decriptor pointer  */
+ 		my_process_main, /*a process main function pointer */
+ 		my_sv_hook, /* «sv_hook» function pointer */
+ 		my_rs_hook, /* «rs_hook» function pointer */
+ 	 	my_main_arg, /*a process arg pointer */
+ 		&my_stack[STACK_LENTH — 1],  /* a stack pottom pointer*/
+ 		MY_PRIORITY, /*a process priority, see Scheduler */
+ 		MY_TIME_QUANT, /*a process time slice, see Scheduler */
+ 		IS_RT, /* 1 for **real time**, 0 for **general purpose** processes, see Scheduler */
+ 		);
+    // If you need to initiate process from other process, then you MUST use proc_init instead.
+```
+ 5. Call **proc_run_isr** or **proc_run**:
+```C
+    proc_run_isr(&my_proc); // Use in ISR or from main before start_bugurt() call.
+    // If you need to run a process from an other process, then you MUST use proc_run instead.
+```
