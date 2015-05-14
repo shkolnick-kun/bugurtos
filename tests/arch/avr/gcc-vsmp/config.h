@@ -114,7 +114,7 @@ typedef unsigned char load_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
-
+#define CONFIG_TEST  //This is test project
 #define CONFIG_USER_IDLE
 
 extern void(*test_kernel_preempt)(void);

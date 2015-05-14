@@ -105,7 +105,7 @@ Initialization wrapper for sched variable in #sched_schedule and #sched_reschedu
 */
 #ifdef CONFIG_MP
 #define _SCHED_INIT() (((sched_t *)kernel.sched) + current_core())
-#else
+#else // CONFIG_MP
 #define _SCHED_INIT() ((sched_t *)&kernel.sched)
 #endif // CONFIG_MP
 
@@ -271,6 +271,7 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 */
 core_id_t sched_highest_load_core( stat_t * stat );
 #endif // CONFIG_MP
+
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))
 /************************************
   "Ленивые" балансировщики нагрузки
@@ -322,7 +323,6 @@ void sched_lazy_local_load_balancer(void);
 Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
 */
 void sched_lazy_global_load_balancer(void);
-
 #endif // CONFIG_MP CONFIG_USE_ALB
 
 #endif // _SCHED_H_

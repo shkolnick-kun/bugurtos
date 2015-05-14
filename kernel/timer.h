@@ -128,16 +128,12 @@ Wrapper macro.
 A wrapper for kernel timer spin-free, on single core system - empty macro.
 */
 #ifdef CONFIG_MP
-
 #define SPIN_LOCK_KERNEL_TIMER() spin_lock( &kernel.timer_lock )
 #define SPIN_FREE_KERNEL_TIMER() spin_free( &kernel.timer_lock )
-
-#else
-
+#else // CONFIG_MP
 #define SPIN_LOCK_KERNEL_TIMER()
 #define SPIN_FREE_KERNEL_TIMER()
-
-#endif
+#endif // CONFIG_MP
 
 // Работа с программными таймерами
 /*!
@@ -188,27 +184,6 @@ Caller process spins in a loop for a time.
 \param time Wait time.
 */
 void wait_time( timer_t time );
-
-#ifdef CONFIG_SAVE_POWER
-/*!
-\~russian
-\brief
-Подождать заданный интервал времени.
-
-Просто ждет в цикле пока пройдет время time.
-
-\param time Время ожидания.
-
-\~english
-\brief
-Wait for certain time.
-
-Caller process spins in a loop for a time.
-
-\param time Wait time.
-*/
-void wait_time_save_power(timer_t time);
-#endif //CONFIG_SAVE_POWER
 // Для внутреннего пользования
 
 /*!

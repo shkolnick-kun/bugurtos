@@ -207,14 +207,14 @@ A wrapper for #resched function.
 #define SPIN_FREE(arg) spin_free( &arg->lock )
 #define RESCHED_PROC(proc) resched( proc->core_id )
 
-#else
+#else //CONFIG_MP
 
 #define SPIN_INIT(arg)
 #define SPIN_LOCK(arg)
 #define SPIN_FREE(arg)
 #define RESCHED_PROC(proc) resched()
 
-#endif
+#endif //CONFIG_MP
 //======================================================
 //   Внешние функции, определяемые пользователем
 //        User defined external functions

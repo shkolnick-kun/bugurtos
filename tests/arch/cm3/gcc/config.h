@@ -60,6 +60,7 @@ typedef unsigned char syscall_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
+#define CONFIG_TEST  //This is test project.
 #define STM32L1
 #include <libopencmsis/core_cm3.h>
 // These macros needed for interface with cstartup code.

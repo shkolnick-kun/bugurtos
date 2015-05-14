@@ -99,10 +99,10 @@ prio_t _sync_prio( sync_t * sync )
 #ifdef CONFIG_MP
 #define PROC_PRIO_PROP_HOOK() hook(hook_arg)
 void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg )
-#else
+#else // CONFIG_MP
 #define PROC_PRIO_PROP_HOOK()
 void _proc_prio_propagate( proc_t * proc )
-#endif
+#endif // CONFIG_MP
 {
     switch( PROC_GET_STATE( proc ) )
     {
@@ -248,9 +248,9 @@ void proc_set_prio( proc_t * proc, prio_t prio )
 //========================================================================================
 #ifdef CONFIG_MP
 #define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p, (code_t)spin_free, (void *)&p->lock )
-#else
+#else // CONFIG_MP
 #define PROC_PROC_PRIO_PROPAGATE(p) _proc_prio_propagate( p )
-#endif
+#endif // CONFIG_MP
 void _proc_set_prio( proc_t * proc, prio_t prio )
 {
     if( !proc )
@@ -276,9 +276,9 @@ static void sync_prio_prop_hook( sync_t * sync )
     SPIN_FREE( sync );
 }
 #define SYNC_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, (code_t)sync_prio_prop_hook, (void *)m )
-#else
+#else // CONFIG_MP
 #define SYNC_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p )
-#endif
+#endif // CONFIG_MP
 //========================================================================================
 status_t sync_init( sync_t * sync, prio_t prio )
 {

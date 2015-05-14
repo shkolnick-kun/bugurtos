@@ -62,6 +62,7 @@ typedef unsigned char syscall_t;
 //=================================================================
 //     Project specific stuff, you are welcome to edit it!!!
 //=================================================================
+#define CONFIG_TEST  //This is test project.
 #include <STM8\STM8S208RB.h>//STM8 include!!!!
 // project specific define of system timer ISR
 #define SPI_TXE_vector 10

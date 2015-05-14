@@ -86,10 +86,12 @@ WEAK void idle_main(void * arg)
     {
 #ifdef CONFIG_SAVE_POWER
         if( sched_proc_yeld() )CONFIG_SAVE_POWER();
-#endif
+#else // CONFIG_SAVE_POWER
+        sched_proc_yeld();
+#endif // CONFIG_SAVE_POWER
     }
 }
-#endif
+#endif // CONFIG_USER_IDLE
 
 void kernel_init(void)
 {
