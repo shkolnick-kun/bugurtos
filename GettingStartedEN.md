@@ -182,3 +182,56 @@ proc_restart(&some_proc);  /*This may restart a process, if it has returned from
 proc_restart_isr(&some_proc);/*Same function for ISR and critical section calls.*/
 proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
 ```
+###Scheduler
+A scheduler is one of the most important OS component. It enables multitasking by switching processes contexts.
+In BuguRTOS scheduler works on periodic system timer interrupts or when rescheduling needed.
+
+####How does it work?
+To enable scheduler there must be one hardware timer, which can generete periodic interrupts (for example one 
+interrupt per millisecond).
+
+System timer interrupt servise routine saves a current process context to current process stack; calls  
+**sched_schedule** function, which selsects next process to execute; switches to next process stack; restores 
+next process context and returns. Next process execution resumes on system timer ISR return.
+
+Recheduling works simpler: **sched_reschedule** function juct selects most prioritized process.
+
+All BuguRTOS system call handlers as well as scheduler routines have O(1) complexity, which means, that
+their execution time has **bounded upper limit**. This feachure enables BuguRTOS usage in hard real time 
+applications.
+
+####How next process is selected?
+As decribed above, there are two kinds of processes in BuguRTOS, they are **general purpose** and 
+**real time** processes.
+
+**General purpose** processes are supposed to run in a background of **real time** processes. 
+On the other hand, **real time** processes are supposed to be stoped most of the time and 
+serve corespondent events.
+
+BuguRTOS has preemptive scheduler, so most prioritized processes are executed first.
+If there are two or more processes of the same priority, they are executed in **fifo** manner, so first started process gets executed first.
+
+Every process has its own timer, which counts process execution time. A process may be preempted by a scheduler 
+on every system timer tick (**round robbin** scheduling policy), or only when its timer expires (clean **fifo** 
+scheduling policy).
+
+In **real time** processes timer is used as watchdog, so when watchdog expires sheduler stops such process
+and gives processor to next ready process. Watchdog expiration is exceptional situation which needs handling,
+so a process with expired watchdog can't be run by **proc_run** function, typicaly it must be restarted 
+(sometimes dependent processes need restart too).
+
+In **general purpose** processes timer is used to count process time slice, so when process time slice expires a
+process gets placed to expired process list and its timer gets reset.
+
+####What is process priority?
+A process priority is metric of level of a process importance. 
+More ipmortant processes must get their time earlier than less important.
+In BuguRTOS zero is the highest priority and lowest priority is PROC_PRIO_LOWEST.
+
+####What is process time slice?
+A process time slice is amount of time when process can run 
+without being stoped or moved to expired process list.
+Time slices are used to share CPU time between processes in needed proportions and to guarantee, 
+that ready processes of at least highest priority will get their CPU time.
+
+###Process synchronization primitives.
