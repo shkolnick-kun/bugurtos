@@ -145,7 +145,8 @@ You can do everything you do in programs main. Here are some functions, which co
 proc_reset_watchdog(); /*This resets watchdog of real time process*/
 proc_self_stop();      /*This stops caller*/
 sched_proc_yeld();     /*This suspends caller execution and resumes next ready process execution. 
-If caller is real time, then its wachdog gets reset, caller is placed to the end of ready process list. 
+If caller is real time, then its wachdog gets reset, 
+caller is placed to the end of ready process list. 
 if caller is general purpose, then it is placed to the end of expired process list. 
 This funtion returns nonzero, if power can be saved.*/
 ```
