@@ -20,9 +20,7 @@ and some people think that OS is a software library, that enables execution of "
 
 BuguRTOS now is such a library. In fact BuguRTOS is a set of source and header files, written in C and assembler,
 that you can use in your project of 
-[Giant](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html) 
-[Anthropomorphic](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html) 
-[Robot](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html)  firmware.
+[Giant](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html) [Anthropomorphic](http://www.youtube.com/watch?v=UPh7uFMLmSw) [Robot](http://player.vimeo.com/video/75781782?title=0&byline=0&portrait=0&autoplay=1) firmware.
 
 ###Why should I need this?
 If you like to blink a LED on you Arduino<sup>TM</sup>, then you definitely **DON'T NEED AN OS!**
