@@ -139,3 +139,45 @@ You need to do the steps below.
     proc_run_isr(&my_proc); // Use in ISR or from main before start_bugurt() call.
     // If you need to run a process from an other process, then you MUST use proc_run instead.
 ```
+####What can I do in process main?
+You can do everything you do in programs main. Here are some functions, which control a process execution:
+```C
+proc_reset_watchdog(); /*This resets watchdog of real time process*/
+proc_self_stop();      /*This stops caller*/
+sched_proc_yeld();     /*This suspends caller execution and resumes next ready process execution. 
+If caller is real time, then its wachdog gets reset, caller is placed to the end of ready process list. 
+if caller is general purpose, then it is placed to the end of expired process list. 
+This funtion returns nonzero, if power can be saved.*/
+```
+Also, be carefull with static variables, as they a common for all running instances.
+To deal with common resources, events and time user needs some synchronuzation primitives.
+BuguRTOS-0.8.x kernel provides following primitives:
+ 1. software timers for time management;
+ 2. critical sections for fast data access control;
+ 3. basic synchronization primitive (sync_t) which can be used to contruct conventional ones such as mutex, semaphore etc.
+
+Software timers and critical sections are supposed to be used directly. 
+
+On the other hand, basic synchronization primitive is supposed to be used through libraries which provide some
+synchronization primitives to user. 
+This primitive in fact does jobs which are common for all blocking synchonization primitives (process suspend, 
+queueing, resume, priority inheritance and priority ceiling), so library coder doesn't need to implement these 
+things from scratch.
+
+There is only **generic** library at the moment, which provides following sync primitives:
+ 1. mutex;
+ 2. counting semaphore;
+ 3. conditional variable;
+ 4. signal (a kind of event);
+ 5. synchronous nonbuffered IPC.
+These primitives will be descibed in next chapters.
+
+####What can I do with processes?
+There are some functions to control process execution, here they are:
+```C
+proc_stop(&some_proc);     /*This may stop a process*/
+proc_stop_isr(&some_proc); /*Same function for ISR and critical section calls.*/
+proc_restart(&some_proc);  /*This may restart a process, if it has returned from pmain.*/
+proc_restart_isr(&some_proc);/*Same function for ISR and critical section calls.*/
+proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
+```
