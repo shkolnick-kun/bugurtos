@@ -436,4 +436,5 @@ status = ipc_wait( &some_ep, wait_for );
 ```
 ##Good luck!
 Good luck %username%, write elegant, robust and maintainable code!
+
 I hope you'll use BuguRTOS in your projects.
