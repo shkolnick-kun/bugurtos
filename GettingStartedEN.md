@@ -284,10 +284,12 @@ Mutex must be declared as **mutex_t** variable.
 Here are mutex handling tools:
 ```C
 mutex_t some_mutex;                    /*This is mutex declaration*/
+status_t status;
 mutex_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
                                        one must use mutex_init_isr in critical sections etc.*/
 status = mutex_try_lock( &test_mutex );/*This funtion tries to lock mutex, caller is not blocked.*/
-status = mutex_lock( &test_mutex );    /*This funtion locks mutex, caller is blocked until mutex is free.*/
+status = mutex_lock( &test_mutex );    /*This funtion locks mutex, caller is blocked 
+                                       until mutex is free.*/
 status = mutex_free( &test_mutex );    /*This function frees mutex, if there are blocked processes,
                                        then mutex is passed to most prioritized of them.*/
 ```
