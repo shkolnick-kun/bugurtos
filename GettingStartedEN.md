@@ -432,7 +432,7 @@ Reply to the sender.
 
 Second arg is sender process pointer.
 */
-status = ipc_wait( &some_ep, wait_for ); 
+status = ipc_reply( &some_ep, wait_for ); 
 ```
 ##Good luck!
 Good luck %username%, write elegant, robust and maintainable code!
