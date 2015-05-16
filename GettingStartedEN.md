@@ -254,9 +254,10 @@ Software timer is a variable of **timer_t** type.
 Here are some timer management tools:
 ```C
 timer_t some_timer;           /*A timer_t variable declaration.*/
-CLEAR_TIMER( some_timer );    /*This macro clears a timer, it also must be used to initiate timers.*/
+CLEAR_TIMER( some_timer );    /*This macro clears a timer, 
+                              it also must be used to initiate timers.*/
 TIMER( some_timer );          /*This macro gives a number of ticks since last timer clear. 
-It may be used to count and compare time intervals.*/
+                              It may be used to count and compare time intervals.*/
 void wait_time( some_time );  /*This function spins for a given time, may be used for delays, etc.*/
 ```
 #####Critical sections.
@@ -283,14 +284,17 @@ It ensures that only one process can access to commmon data at any time.
 Mutex must be declared as **mutex_t** variable.
 Here are mutex handling tools:
 ```C
+#include <mutex.h>
+
 mutex_t some_mutex;                    /*This is mutex declaration*/
 status_t status;
+
 mutex_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
                                        one must use mutex_init_isr in critical sections etc.*/
-status = mutex_try_lock( &test_mutex );/*This funtion tries to lock mutex, caller is not blocked.*/
-status = mutex_lock( &test_mutex );    /*This funtion locks mutex, caller is blocked 
+status = mutex_try_lock( &some_mutex );/*This funtion tries to lock mutex, caller is not blocked.*/
+status = mutex_lock( &some_mutex );    /*This funtion locks mutex, caller is blocked 
                                        until mutex is free.*/
-status = mutex_free( &test_mutex );    /*This function frees mutex, if there are blocked processes,
+status = mutex_free( &some_mutex );    /*This function frees mutex, if there are blocked processes,
                                        then mutex is passed to most prioritized of them.*/
 ```
 Mutex in **generic** lib combines priority inheritance and immediate priority ceiling protocols,
@@ -298,4 +302,96 @@ so one must pass a mutex priority on mutex initialization.
 Immediate priority ceiling is supposed to be main protocol, and priority inheritance is 
 considered to be fallback protocol, if user fails to assign correct priority to a mutex.
 
+Mutex must be freed by its owner process, as other processes cen't free it.
+
 #####Counting semaphore
+Counting semaphore should be used in client-server communications, see 
+[prodicer-consumer problem](http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) for background.
+Semaphore must be declared as **sem_t** variable.
+Here are semaphore tools, provided by **generic** lib:
+```C
+#include <sem.h>
+
+sem_t some_sem;                    /*This is semaphore declaration*/
+status_t status;
+
+sem_init( &some_sem, COUNT_INIT ); /*This initiates semaphore, for usage in processes main,
+                                   one must use sem_init_isr in critical sections etc.*/
+status = sem_try_lock( &some_sem );/*This funtion tries to lock semaphore, caller is not blocked.*/
+status = sem_lock( &some_sem );    /*This funtion locks semaphore, caller is blocked 
+                                   until mutex is free.*/
+status = sem_free( &some_sem );    /*This function frees semaphore, if there are blocked processes,
+                                   then most prioritized of them gets resumed.*/
+
+/*Semaphore in BuguRTOS may have an owner process, as sync_t is used as sem_t parent type.*/
+SYNC_SET_OWNER( &some_sem, &some_proc ); /*This macro assigns an owner*/
+SYNC_CLEAR_OWNER( &some_sem );           /*This macro clears an owner*/
+```
+Counting semaphore may be locked by one process and freed by anoter.
+Counting semaphore may have an owner process, in such case every process can lock this semaphore,
+but only owner can free it.
+
+#####Conditional variable
+Conditional variables are ised in client-server communications just like semaphores, 
+they can be used for data or event synchronization.
+Conditionals are used with mutexes. Here are tools for conditional variable handling:
+```C
+#include <mutex.h>
+#include <cond.h>
+
+mutex_t some_mutex;
+cond_t some_cond;
+status_t status;
+
+mutex_init( &some_mutex, MUTEX_PRIO );
+cond_init( &some_cond );                       /*There is also *_isr version of this.*/
+
+// Conditional wait
+status = mutex_lock( &some_mutex );            /*The mutex must be locked.*/
+/*Do something.*/
+status = cond_wait( &some_cond, &some_mutex ); /*Wait for conditional (caller will block).*/
+/*Do something.*/
+status = mutex_free( &some_mutex );            /*Must free the mutex*/
+
+// Conditional signal
+status = mutex_lock( &some_mutex );            /*Mutex must be locked.*/
+/*Do something.*/
+status = cond_sinal( &some_cond );             /*Wake up most prioritized waiting process.*/
+status = mutex_free( &some_mutex );            /*Must free the mutex*/
+
+// Conditional broadcast
+status = mutex_lock( &some_mutex );            /*Mutex must be locked.*/
+/*Do something.*/
+status = cond_broadcast( &some_cond );         /*Wake up all waiting processes.*/
+status = mutex_free( &some_mutex );            /*Must free the mutex*/
+
+/*Conditional in BuguRTOS may have an owner process, as sync_t is used as cond_t parent type.*/
+SYNC_SET_OWNER( &some_cond, &some_proc ); /*This macro assigns an owner*/
+SYNC_CLEAR_OWNER( &some_cond );           /*This macro clears an owner*/
+```
+Conditionals may have an owber process, in such case onle an owner can broadcast and signal conditionals.
+
+#####Signal
+Signals in BuguRTOS **generic** lib **ARE NOT** POSIX signals. They used for event notification and based on 
+conditionals. A signal contains a conditional and a mutex.
+
+Here are signal tools, provided by generic lib:
+```C
+#include <sig.h>
+
+sig_t some_sig;
+status_t status;
+
+sig_init( &some_sig ); /*There is also *_isr version.*/
+
+status = sig_wait( &some_sig );      /*Wait for signal, caller is blocked.*/
+status = sig_signal( &some_sig );    /*Wake up most prioritized waiting process (if any).*/
+status = sig_broadcast( &some_sig ); /*Wake up all waiting processes (if any). */
+
+/*Signal in BuguRTOS may have an owner process, as cond_t is used as sig_t parent type.*/
+SYNC_SET_OWNER( &some_sig, &some_proc ); /*This macro assigns an owner*/
+SYNC_CLEAR_OWNER( &some_sig );           /*This macro clears an owner*/
+```
+If signal has an owner process, then only owner can signal and broadcast.
+
+#####Inter process communication.
