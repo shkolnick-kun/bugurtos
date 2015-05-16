@@ -145,6 +145,10 @@ You can do everything you do in programs main. Here are some functions, which co
 ```C
 proc_reset_watchdog(); /*This resets watchdog of real time process*/
 proc_self_stop();      /*This stops caller*/
+proc_lock();           /*This makes caller "unstoppable" by proc_stop function.*/
+proc_free();           /*This makes caller "stoppable" by proc_stop function.*/
+/*Calls of proc_lock and proc_free may be nested, in such case caller is "unstoppable" 
+while nest count is greater than zero.*/
 sched_proc_yeld();     /*This suspends caller execution and resumes next ready process execution. 
 If caller is real time, then its wachdog gets reset, 
 caller is placed to the end of ready process list. 
@@ -236,3 +240,60 @@ Time slices are used to share CPU time between processes in needed proportions a
 that ready processes of at least highest priority will get their CPU time.
 
 ###Process synchronization primitives.
+During development process people encounter process synchronization problems.
+Processes must be synchtonized on time, events or common data access.
+BuguRTOS and its **generic** lib provide some synchrinization primitives.
+
+####BuguRTOS kernel primitives.
+BuguRTOS kernel provides three types of primitives, described below.
+
+#####Software timers.
+Software timers are used for time synchronization and time management. 
+The unit of time measurement in BuguRTOS is system timer tick.
+Software timer is a variable of **timer_t** type.
+Here are some timer management tools:
+```C
+timer_t some_timer;           /*A timer_t variable declaration.*/
+CLEAR_TIMER( some_timer );    /*This macro clears a timer, it also must be used to initiate timers.*/
+TIMER( some_timer );          /*This macro gives a number of ticks since last timer clear. 
+It may be used to count and compare time intervals.*/
+void wait_time( some_time );  /*This function spins for a given time, may be used for delays, etc.*/
+```
+#####Critical sections.
+A critical section is a part of a program with disabled interrupts.
+Critical sections may be nested.
+To enter critical section one must call **ENTER_CRIT_SEC** macro.
+To exit critical section one must call **EXIT_CRIT_SEC** macro.
+In case of nesting critical sections interrupts are disabled on first critical section enter 
+and enabled on last critical section exit.
+A prgram is supposed to exit critical sections **as fast as possible**.
+
+#####Basic synchronization primitive
+BuguRTOS kernel provides **sync_t** primitive for library usage. 
+It is documented in BuguRTOS API refference manual, check releases on the project page.
+Also you can see **generic** lib for examples of **sync_t** usage.
+
+####Generic lib synchronization primitives.
+There are some primitives, implemented in **genric** lib.
+All these primitives use **sync_t** primitive, provided by BuguRTOS kernel.
+
+#####Mutex
+Mutex is mutual exclusion primitive. 
+It ensures that only one process can access to commmon data at any time.
+Mutex must be declared as **mutex_t** variable.
+Here are mutex handling tools:
+```C
+mutex_t some_mutex;                    /*This is mutex declaration*/
+mutex_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
+                                       one must use mutex_init_isr in critical sections etc.*/
+status = mutex_try_lock( &test_mutex );/*This funtion tries to lock mutex, caller is not blocked.*/
+status = mutex_lock( &test_mutex );    /*This funtion locks mutex, caller is blocked until mutex is free.*/
+status = mutex_free( &test_mutex );    /*This function frees mutex, if there are blocked processes,
+                                       then mutex is passed to most prioritized of them.*/
+```
+Mutex in **generic** lib combines priority inheritance and immediate priority ceiling protocols,
+so one must pass a mutex priority on mutex initialization.
+Immediate priority ceiling is supposed to be main protocol, and priority inheritance is 
+considered to be fallback protocol, if user fails to assign correct priority to a mutex.
+
+#####Counting semaphore
