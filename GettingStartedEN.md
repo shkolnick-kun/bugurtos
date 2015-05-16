@@ -1,4 +1,3 @@
-# THIS FILE IS WORK IN PROGRESS, IT IS NOT FINISHED YET!!!
 # Getting startted with BuguRTOS-0.8.x
 
 ##Hello, %username%!!!
@@ -79,7 +78,7 @@ you can see the list of different RTOS.
 First of all, multitasking OS is sheduler and other basic process (task,thread etc.) control services.
 All this stuff will be described below.
 
-###Process
+###Process.
 In different OSes it may be called process, task, thread etc., but the main pint is 
 **independent CPU instruction execution flow**.
 
@@ -187,7 +186,7 @@ proc_restart(&some_proc);  /*This may restart a process, if it has returned from
 proc_restart_isr(&some_proc);/*Same function for ISR and critical section calls.*/
 proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
 ```
-###Scheduler
+###Scheduler.
 A scheduler is one of the most important OS component. It enables multitasking by switching processes contexts.
 In BuguRTOS scheduler works on periodic system timer interrupts or when rescheduling needed.
 
@@ -269,7 +268,7 @@ In case of nesting critical sections interrupts are disabled on first critical s
 and enabled on last critical section exit.
 A prgram is supposed to exit critical sections **as fast as possible**.
 
-#####Basic synchronization primitive
+#####Basic synchronization primitive.
 BuguRTOS kernel provides **sync_t** primitive for library usage. 
 It is documented in BuguRTOS API refference manual, check releases on the project page.
 Also you can see **generic** lib for examples of **sync_t** usage.
@@ -278,7 +277,7 @@ Also you can see **generic** lib for examples of **sync_t** usage.
 There are some primitives, implemented in **genric** lib.
 All these primitives use **sync_t** primitive, provided by BuguRTOS kernel.
 
-#####Mutex
+#####Mutexes.
 Mutex is mutual exclusion primitive. 
 It ensures that only one process can access to commmon data at any time.
 Mutex must be declared as **mutex_t** variable.
@@ -304,7 +303,7 @@ considered to be fallback protocol, if user fails to assign correct priority to 
 
 Mutex must be freed by its owner process, as other processes cen't free it.
 
-#####Counting semaphore
+#####Counting semaphores.
 Counting semaphore should be used in client-server communications, see 
 [prodicer-consumer problem](http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) for background.
 Semaphore must be declared as **sem_t** variable.
@@ -331,7 +330,7 @@ Counting semaphore may be locked by one process and freed by anoter.
 Counting semaphore may have an owner process, in such case every process can lock this semaphore,
 but only owner can free it.
 
-#####Conditional variable
+#####Conditional variables.
 Conditional variables are ised in client-server communications just like semaphores, 
 they can be used for data or event synchronization.
 Conditionals are used with mutexes. Here are tools for conditional variable handling:
@@ -371,11 +370,11 @@ SYNC_CLEAR_OWNER( &some_cond );           /*This macro clears an owner*/
 ```
 Conditionals may have an owber process, in such case onle an owner can broadcast and signal conditionals.
 
-#####Signal
+#####Signals.
 Signals in BuguRTOS **generic** lib **ARE NOT** POSIX signals. They used for event notification and based on 
 conditionals. A signal contains a conditional and a mutex.
 
-Here are signal tools, provided by generic lib:
+Here are signal tools, provided by **generic** lib:
 ```C
 #include <sig.h>
 
@@ -394,4 +393,47 @@ SYNC_CLEAR_OWNER( &some_sig );           /*This macro clears an owner*/
 ```
 If signal has an owner process, then only owner can signal and broadcast.
 
-#####Inter process communication.
+#####IPC.
+BuguRTOS **generic** lib provides unbuffered blocking IPC.
+This IPC implementation uses rendezvous method to pass messages between processes.
+Messages are passed by refference through epdpoints. 
+Every endpoint has its owner process, which receives messages.
+Priority inheritance protocol is used in IPC.
+An IPC endpoint is a variable of ipc_t type.
+Here are IPC tools:
+```C
+#include <ipc.h>
+
+ipc_t some_ep;
+status_t status;
+proc_t * wait_for = 0;
+
+ipc_init( &some_ep );                       /*This function has *_isr variant.*/
+SYNC_SET_OWNER( &some_ep, &some_proccess ); /*Set an owner after init. This macro must be called
+                                            from a process main with interrupts enabled.*/
+/*
+Wait for a mesage. 
+This function may be closed (wait for specific sender) or open (wait for any sender).
+This function may block caller crocess (BLOCKC_CALLER != 0) or not (BLOCKC_CALLER == 0).
+
+This call is open, as (wait_for == 0).
+After this call wait_for will point to a sender process.
+*/
+status = ipc_wait( &some_ep, &wait_for, BLOCK_CALLER); 
+
+/*
+Send a message.
+A sender will bw blocked until reply.
+*/
+status = ipc_send( &some_ep, &some_msg );
+
+/*
+Reply to the sender.
+
+Second arg is sender process pointer.
+*/
+status = ipc_wait( &some_ep, wait_for ); 
+```
+##Good luck!
+Good luck %username%, write elegant, robust and maintainable code!
+I hope you'll use BuguRTOS in your projects.
