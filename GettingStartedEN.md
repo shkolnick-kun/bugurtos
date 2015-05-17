@@ -175,6 +175,7 @@ There is only **generic** library at the moment, which provides following sync p
  3. conditional variable;
  4. signal (a kind of event);
  5. synchronous nonbuffered IPC.
+ 
 These primitives will be descibed in next chapters.
 
 ####What can I do with processes?
