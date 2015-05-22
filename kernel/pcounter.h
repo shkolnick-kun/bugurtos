@@ -88,13 +88,13 @@ typedef struct _pcounter_t pcounter_t; /*!< \~russian Смотри #_pcounter_t;
 \brief
 Счетчик захваченных ресурсов.
 
-При использовании опции CONFIG_USE_HIGHEST_LOCKER используется для пересчета захваченных процессом ресурсов.
+Используется для хранения информации о наследуемых приоритетах.
 
 \~english
 \brief
 A locked resource counter.
 
-#pcounter_t objects are used to count mutex controlled resources locked by processes when CONFIG_USE_HIGHEST_LOCKER is defined.
+#pcounter_t objects are used to store information about iherited priorities.
 */
 struct _pcounter_t
 {
