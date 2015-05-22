@@ -228,12 +228,15 @@ A wrapper for #resched function.
 
 Инициализация спин-блокировки на многопроцессорной системе.
 
+\warning Для внутреннего использования.
+
 \param lock Указатель на спин-блокировку.
 \~english
 \brief
 Spin-lock initialization for MP system.
 
-Spin-lock initialization for MP system.
+\warning Internal usage function.
+
 \param lock a pointer to a spin-lock
 */
 extern void spin_init(lock_t * lock);
@@ -245,12 +248,15 @@ extern void spin_init(lock_t * lock);
 
 Захват спин-блокировки на многопроцессорной системе.
 
+\warning Для внутреннего использования.
+
 \param lock Указатель на спин-блокировку.
 \~english
 \brief
 Lock spin-lock on MP system.
 
-Lock spin-lock on MP system.
+\warning Internal usage function.
+
 \param lock a pointer to a spin-lock
 */
 extern void spin_lock(lock_t * lock);
@@ -260,14 +266,16 @@ extern void spin_lock(lock_t * lock);
 \brief
 Освобождение спин-блокировки на многопроцессорной системе.
 
-Освобождение спин-блокировки на многопроцессорной системе.
-
 \param lock Указатель на спин-блокировку.
+
+\warning Для внутреннего использования.
+
 \~english
 \brief
 Unlock spin-lock on MP system.
 
-Unlock spin-lock on MP system.
+\warning Internal usage function.
+
 \param lock a pointer to a spin-lock
 */
 extern void spin_free(lock_t * lock);
@@ -278,11 +286,16 @@ extern void spin_free(lock_t * lock);
 Возвращает id процессорного ядра.
 
 Возвращает id процессорного ядра, на котором исполняется.
+
+\warning Для внутреннего использования.
+
 \~english
 \brief
 Returns processor core id.
 
 This function returns an id of a processor core on which it is run.
+
+\warning Internal usage function.
 */
 extern core_id_t current_core(void);
 
@@ -295,12 +308,17 @@ extern core_id_t current_core(void);
 
 Инициализирует структуру stat_t, в которой хранится статистика.
 
+\warning Для внутреннего использования.
+
 \param stat Указатель на структуру статистики.
 \~english
 \brief
 Statistic initialization.
 
 Initiates a stat_t structure, in which processor core load information is stored.
+
+\warning Internal usage function.
+
 \param stat a pointer to a stat_t structure.
 */
 extern void stat_init(stat_t * stat);
@@ -311,6 +329,8 @@ extern void stat_init(stat_t * stat);
 
 Обновление статистики при запуске процесса/ вставки процесса в очередь сигнала.
 
+\warning Для внутреннего использования.
+
 \param proc Указатель на процесс.
 \param stat Указатель на структуру статистики.
 \~english
@@ -318,6 +338,9 @@ extern void stat_init(stat_t * stat);
 Statistic update on load increase.
 
 Statistic increase on a process run or a process insert to a signal wait list.
+
+\warning Internal usage function.
+
 \param proc a pointer to a process.
 \param stat a pointer to a stat_t structure.
 */
@@ -329,6 +352,8 @@ extern void stat_inc(proc_t * proc, stat_t * stat);
 
 Обновление статистики при останове процесса/ удаления процесса из очереди сигнала.
 
+\warning Для внутреннего использования.
+
 \param proc Указатель на процесс.
 \param stat Указатель на структуру статистики.
 \~english
@@ -336,6 +361,9 @@ extern void stat_inc(proc_t * proc, stat_t * stat);
 Statistic update on load decrease.
 
 Statistic update on a process stop or a process cut from a signal wait list.
+
+\warning Internal usage function.
+
 \param proc a pointer to a process.
 \param stat a pointer to a stat_t structure.
 */
@@ -347,6 +375,8 @@ extern void stat_dec(proc_t * proc, stat_t * stat);
 
 При передаче процессов из списка ожидающих сигнал в список готовых к выполнению надо обновить статистическую информацию в Ядре.
 
+\warning Для внутреннего использования.
+
 \param src_stat Указатель на структуру статистики сигнала.
 \param dst_stat Указатель на структуру статистики Ядра.
 \~english
@@ -354,6 +384,8 @@ extern void stat_dec(proc_t * proc, stat_t * stat);
 Statistic merge.
 
 Updates Kernel and a signal statistic when signal wait list is merged with scheduler ready process list.
+
+\warning Internal usage function.
 
 \param src_stat a pointer to a signal statistic structure.
 \param dst_stat a pointer to a Kernel statistic structure.
@@ -366,6 +398,8 @@ extern void stat_merge(stat_t * src_stat, stat_t * dst_stat);
 
 Расчет нагрузки на одном процессорном ядре.
 
+\warning Для внутреннего использования.
+
 \param prio Приоритет процесса, для которого считаем нагрузку.
 \param stat Указатель на структуру статистики Ядра.
 \return Текущую оценку нагрузки на процессорном ядре, за которое отвечает stat.
@@ -373,6 +407,8 @@ extern void stat_merge(stat_t * src_stat, stat_t * dst_stat);
 Load calculation.
 
 Processor core load calculation.
+
+\warning Internal usage function.
 
 \param prio a priority of a process for which we want to compute a load.
 \param stat a pointer to a Kernel statistic structure.
@@ -386,12 +422,16 @@ extern load_t stat_calc_load(prio_t prio, stat_t * stat);
 
 Запускает перепланировку на одном из процессорных ядер.
 
+\warning Для внутреннего использования.
+
 \param core_id ID ядра, на котором надо перепланировать исполнение процессов.
 \~english
 \brief
 Rescheduling.
 
 Launches a reschedule sequence on one of the processor cores of the system.
+
+\warning Internal usage function.
 
 \param core_id a processor core id.
 */
@@ -404,11 +444,16 @@ extern void resched(core_id_t core_id);
 Перепланировка.
 
 Запускает перепланировку.
+
+\warning Для внутреннего использования.
+
 \~english
 \brief
 Rescheduling.
 
 Launches a reschedule sequence.
+
+\warning Internal usage function.
 */
 extern void resched(void);
 #endif // CONFIG_MP
@@ -418,12 +463,12 @@ extern void resched(void);
 \brief
 Запрет прерываний.
 
-Глобальный запрет прерываний на системе.
+Запрет прерфваний на текущем процессорном ядре.
 \~english
 \brief
 Interrupt disable.
 
-Disables interrupts globally.
+Disables interrupts on current CPU core.
 */
 extern void disable_interrupts(void);
 /*!
@@ -431,12 +476,12 @@ extern void disable_interrupts(void);
 \brief
 Разрешение прерываний.
 
-Глобальное разрешение прерываний на системе.
+Разрешение прерываний на текущем процессорном ядре.
 \~english
 \brief
 Interrupt enable.
 
-Enables interrupts globally.
+Enables interrupts on current CPU core.
 */
 extern void enable_interrupts(void);
 
@@ -445,13 +490,15 @@ extern void enable_interrupts(void);
 \brief
 Текущий процесс.
 
-Текущий процесс.
+\warning Для внутреннего использования.
+
 \return Указатель на текущий процесс, исполняемый на локальном процессоре.
 \~english
 \brief
 Current process.
 
-Current process.
+\warning Internal usage function.
+
 \return a pointer to a current process on a local processor core.
 */
 extern proc_t * current_proc(void);
@@ -462,6 +509,9 @@ extern proc_t * current_proc(void);
 Инициализация стека процесса.
 
 Подготовка стека к запуску процесса. Делает так, что после восстановления контекста процесса происходит вызов функции pmain(arg).
+
+\warning Для внутреннего использования.
+
 \param sstart Дно стека.
 \param pmain Функция, которая будет вызвана после восстановления контекста.
 \param arg Аргумент вызываемой функции.
@@ -473,6 +523,8 @@ A process stack initialization.
 
 This function prepares a process stack for running a process.
 It treats a process stack in such a way that pmain(arg) is called when a process context is restored from a process stack.
+
+\warning Internal usage function.
 
 \param sstart a process stack bottom.
 \param pmain a pointer to a function to call.
@@ -518,6 +570,8 @@ extern void start_bugurt(void);
 
 Именно для этого существует функция syscall_bugurt, которая передает управление Ядру для выполнения требуемой работы.
 
+\warning Для внутреннего использования.
+
 \param num номер системного вызова (что именно надо выполнить).
 \param arg аргумент системного вызова (над чем это надо выполнить).
 \~english
@@ -529,6 +583,7 @@ The kernel code is always run in the kernel context. This is done to save memory
 A system calls are done on every operations with processes, mutexes, semaphores and signals.
 The Kernel does all of this job.
 
+\warning Internal usage function.
 
 \param num a number of a system call (what is going to be done).
 \param arg a system call argument (a pointer to an object to be processed).

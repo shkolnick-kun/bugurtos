@@ -105,10 +105,12 @@ struct _item_t
 /*!
    \~russian
    Статическая инициализация объекта типа #item_t.
+   \warning Для внутреннего использования.
    \param a Имя переменной типа #item_t.
 
    \~english
    Static item initiation.
+   \warning For internel usage.
    \param a An #item_t variable name.
 */
 #define INIT_ITEM_T(a) { (item_t *)&a, (item_t *)&a }
@@ -119,11 +121,15 @@ struct _item_t
 \brief
 Инициализация объекта типа #item_t.
 
+\warning Для внутреннего использования.
+
 \param item Указатель на объект #item_t.
 
 \~english
 \brief
 An #item_t object initiation.
+
+\warning Internal usage function.
 
 \param item An #item_t pointer.
 */
@@ -133,12 +139,16 @@ void item_init(item_t *item);
 \brief
 Вставка элемента типа #item_t в список.
 
+\warning Для внутреннего использования.
+
 \param item Указатель на объект типа #item_t, который будем вставлять.
 \param head Указатель на голову списка типа #item_t.
 
 \~english
 \brief
 Insert an item to a list.
+
+\warning Internal usage function.
 
 \param item \~english A pointer to an item.
 \param head \~english A pointer to a destination list head.
@@ -149,11 +159,15 @@ void item_insert(item_t *item, item_t *head);
 \brief
 Вырезать элемент типа #item_t из списка.
 
+\warning Для внутреннего использования.
+
 \param item Указатель на объект типа #item_t, который будем вырезать.
 
 \~english
 \brief
 Cut an item from a list.
+
+\warning Internal usage function.
 
 \param item A pointer to an item to cut.
 */

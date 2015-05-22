@@ -81,7 +81,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /*!
 \file
-\brief \~russian Заголовок системных вызовов. \~english System call header.
+\brief \~russian Заголовок системных вызовов.
+
+\warning Все содержимое файла для внутреннего использования!
+
+\~english System call header.
+
+\warning This file content is internal usage!
 */
 
 // System call numbers!

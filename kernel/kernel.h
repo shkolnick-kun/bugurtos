@@ -135,11 +135,15 @@ extern kernel_t kernel;
 
 Готовит ядро к запуску.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief
 The kernel initiation.
 
 This function prepares the kernel to work.
+
+\warning Internal usage function.
 */
 void kernel_init(void);
 

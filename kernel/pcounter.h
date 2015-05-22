@@ -107,11 +107,15 @@ struct _pcounter_t
 \brief
 Инициализация счетчика.
 
+\warning Для внутреннего использования.
+
 \param pcounter Указатель на счетчик.
 
 \~english
 \brief
 A #pcounter_t object initiation.
+
+\warning Internal usage function.
 
 \param pcounter A #pcounter_t pointer.
 */
@@ -122,12 +126,16 @@ void pcounter_init(pcounter_t * pcounter);
 \brief
 Инкремент счетчика.
 
+\warning Для внутреннего использования.
+
 \param pcounter Указатель на счетчик.
 \param prio Приоритет.
 
 \~english
 \brief
 Increment counter.
+
+\warning Internal usage function.
 
 \param pcounter A #pcounter_t pointer.
 \param prio A priority.
@@ -138,12 +146,16 @@ void pcounter_inc(pcounter_t * pcounter, prio_t prio);
 \brief
 Декремент счетчика.
 
+\warning Для внутреннего использования.
+
 \param pcounter Указатель на счетчик.
 \param prio Приоритет.
 
 \~english
 \brief
 Decrement counter.
+
+\warning Internal usage function.
 
 \param pcounter A #pcounter_t pointer.
 \param prio A priority.
@@ -154,6 +166,8 @@ index_t pcounter_dec(pcounter_t * pcounter, prio_t prio);
 \brief
 Увеличение счетчика на произвольное количество единиц.
 
+\warning Для внутреннего использования.
+
 \param pcounter Указатель на счетчик.
 \param prio Приоритет.
 \param count Количество единиц.
@@ -161,6 +175,8 @@ index_t pcounter_dec(pcounter_t * pcounter, prio_t prio);
 \~english
 \brief
 Increase counter by a number of steps.
+
+\warning Internal usage function.
 
 \param pcounter A #pcounter_t pointer.
 \param prio A priority.
@@ -172,6 +188,8 @@ void pcounter_plus(pcounter_t * pcounter, prio_t prio, count_t count);
 \brief
 Уменьшение счетчика на произвольное количество единиц.
 
+\warning Для внутреннего использования.
+
 \param pcounter Указатель на счетчик.
 \param prio Приоритет.
 \param count Количество единиц.
@@ -180,6 +198,8 @@ void pcounter_plus(pcounter_t * pcounter, prio_t prio, count_t count);
 \~english
 \brief
 Decrease counter by a number of steps;
+
+\warning Internal usage function.
 
 \param pcounter A #pcounter_t pointer.
 \param prio A priority.

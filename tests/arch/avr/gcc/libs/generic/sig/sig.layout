@@ -35,7 +35,7 @@
 		<Cursor position="6857" topLine="93" />
 	</File>
 	<File name="../../../../../../../libs/generic/cond.c" open="0" top="0" tabpos="8">
-		<Cursor position="7226" topLine="123" />
+		<Cursor position="7226" topLine="89" />
 	</File>
 	<File name="../../../../../../../libs/generic/cond.h" open="0" top="0" tabpos="1">
 		<Cursor position="10471" topLine="183" />
@@ -47,7 +47,7 @@
 		<Cursor position="10731" topLine="176" />
 	</File>
 	<File name="../../../../../../../libs/generic/sig.c" open="0" top="0" tabpos="5">
-		<Cursor position="7197" topLine="117" />
+		<Cursor position="7197" topLine="61" />
 	</File>
 	<File name="../../../../../../../libs/generic/sig.h" open="0" top="0" tabpos="2">
 		<Cursor position="9504" topLine="173" />
@@ -62,6 +62,6 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="1306" topLine="44" />
+		<Cursor position="693" topLine="54" />
 	</File>
 </CodeBlocks_layout_file>

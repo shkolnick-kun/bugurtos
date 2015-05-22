@@ -121,23 +121,24 @@ struct _sync_t
 /*!
 \~russian
 \brief
-Возвращает текущий приоритет объекта типа #sync_t. Для внутреннего использования.
+Возвращает текущий приоритет объекта типа #sync_t.
+\warning Для внутреннего использования.
 
 \~english
 \brief
-Returns current #sync_t object priority. For internal usage.
+Returns current #sync_t object priority.
+\warning For internal usage.
 */
 prio_t _sync_prio( sync_t * sync );
 #define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian \brief Считает приоритет щбъекта типа #sync_t. \~english \brief Calculates a #sync_t object priority */
 /*!
 \~russian
 \brief
-Инициализация из критической секции, или обработчика прерываний.
+Инициализация базового примитива синхронизации.
 
-Да, инициировать из обработчика прерывания можно!
 \~english
 \brief
-A sync initiation for usage in ISRs or in critical sections.
+A basic synchronization primitive initiation.
 */
 status_t sync_init(
     sync_t * sync, /*!< \~russian Указатель на объект типа #sync_t. \~english A sync pointer. */
@@ -149,11 +150,12 @@ status_t sync_init(
 /*!
 \~russian
 \brief
-Инициализация базового примитива синхронизации.
+Инициализация из критической секции, или обработчика прерываний.
 
+Да, инициировать из обработчика прерывания можно!
 \~english
 \brief
-A basic synchronization primitive initiation.
+A sync initiation for usage in ISRs or in critical sections.
 */
 status_t sync_init_isr(
     sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
@@ -502,60 +504,82 @@ status_t sync_proc_timeout( proc_t * proc );
 /*!
 \~russian
 \brief
-Для внутреннего использования. Смотри #sync_set_owner.
+Смотри #sync_set_owner.
+
+\warning Для внутреннего использования.
 \~english
 \brief
-For internal usage. Watch #sync_set_owner.
+Watch #sync_set_owner.
+
+\warning For internal usage.
 */
 status_t _sync_set_owner( sync_t * sync, proc_t * proc );
 /*!
 \~russian
 \brief
-Для внутреннего использования. Смотри #sync_clear_owner.
+Смотри #sync_clear_owner.
+
+\warning Для внутреннего использования.
 
 \~english
 \brief
-For internal usage. Watch #sync_clear_owner.
+Watch #sync_clear_owner.
+
+\warning For internal usage.
 */
 status_t _sync_clear_owner( sync_t * sync );
 /*!
 \~russian
 \brief
-Для внутреннего использования. Смотри #sync_wake.
+Смотри #sync_wake.
+
+\warning Для внутреннего использования.
 
 \~english
 \brief
-For internal usage. Watch #sync_wake.
+Watch #sync_wake.
+
+\warning For internal usage.
 */
 status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown );
 /*!
 \~russian
 \brief
-Для внутреннего использования. Смотри #sync_sleep.
+Смотри #sync_sleep.
+
+\warning Для внутреннего использования.
 
 \~english
 \brief
-For internal usage. Watch #sync_sleep.
+Watch #sync_sleep.
+
+\warning For internal usage.
 */
 status_t _sync_sleep( sync_t * sync );
 /*!
 \~russian
 \brief
-Для внутреннего использования. Смотри #sync_wait.
+Смотри #sync_wait.
 
+\warning Для внутреннего использования.
 \~english
 \brief
-For internal usage. Watch #sync_wait.
+Watch #sync_wait.
+
+\warning For internal usage.
 */
 status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block );
 /*!
 \~russian
 \brief
-Для внутреннего использования. Смотри #sync_proc_timeout.
+Смотри #sync_proc_timeout.
 
+\warning Для внутреннего использования.
 \~english
 \brief
-For internal usage. Watch #sync_proc_timeout.
+Watch #sync_proc_timeout.
+
+\warning For internal usage.
 */
 status_t _sync_proc_timeout( proc_t * proc );
 #endif // _SYNC_H_
