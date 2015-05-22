@@ -14,7 +14,7 @@
 		<Cursor position="163" topLine="76" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="2">
-		<Cursor position="22435" topLine="562" />
+		<Cursor position="22308" topLine="563" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
 		<Cursor position="6766" topLine="75" />
@@ -38,13 +38,13 @@
 		<Cursor position="6362" topLine="78" />
 	</File>
 	<File name="../../../../../kernel/kernel.h" open="1" top="0" tabpos="5">
-		<Cursor position="8509" topLine="133" />
+		<Cursor position="9551" topLine="145" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="4">
 		<Cursor position="6763" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/pcounter.h" open="1" top="0" tabpos="6">
-		<Cursor position="9446" topLine="64" />
+		<Cursor position="6710" topLine="81" />
 	</File>
 	<File name="../../../../../kernel/pitem.c" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -56,7 +56,7 @@
 		<Cursor position="13366" topLine="477" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="9">
-		<Cursor position="21222" topLine="372" />
+		<Cursor position="16650" topLine="312" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="7">
 		<Cursor position="17452" topLine="364" />
@@ -67,8 +67,8 @@
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="9">
 		<Cursor position="6448" topLine="58" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="11">
-		<Cursor position="26713" topLine="555" />
+	<File name="../../../../../kernel/sync.h" open="1" top="1" tabpos="11">
+		<Cursor position="7167" topLine="89" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
 		<Cursor position="7689" topLine="114" />
@@ -85,7 +85,7 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="28">
 		<Cursor position="163" topLine="1" />
 	</File>
-	<File name="../../../../../kernel/xlist.h" open="1" top="1" tabpos="13">
+	<File name="../../../../../kernel/xlist.h" open="1" top="0" tabpos="13">
 		<Cursor position="8240" topLine="85" />
 	</File>
 	<File name="../config.h" open="0" top="0" tabpos="1">

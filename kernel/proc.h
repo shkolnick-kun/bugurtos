@@ -99,18 +99,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \def PROC_LRES_INC(a,b)
 \brief Макрос-обертка.
 
-Инкремент счетчика захваченных мьютексов.
+Инкремент счетчика proc->lres.
 
 \param a указатель на процесс.
-\param b приоритет захваченного мьютекса, если используется протокол highest locker.
+\param b приоритет объекта типа #sync_t.
 
 \def PROC_LRES_DEC(a,b)
 \brief Макрос-обертка.
 
-Декремент счетчика захваченных мьютексов.
+Декремент счетчика proc->lres.
 
 \param a указатель на процесс.
-\param b приоритет захваченного мьютекса, если используется протокол highest locker.
+\param b приоритет объекта типа #sync_t.
 
 \~english
 
@@ -124,18 +124,18 @@ Initiates proc->lres field of a process.
 \def PROC_LRES_INC(a,b)
 \brief Wrapper macro.
 
-An increment of locked mutex counter field of a process.
+An increment of proc->lres.
 
 \param a a pointer to a process.
-\param b a priority of a locked mutex for highest locker protocol.
+\param b a priority of a #sync_t object.
 
 \def PROC_LRES_DEC(a,b)
 \brief Wrapper macro.
 
-A decrement of locked mutex counter field of a process.
+A decrement of proc->lres.
 
 \param a a pointer to a process.
-\param b a priority of a locked mutex for highest locker protocol.
+\param b a priority of a #sync_t object.
 
 */
 
@@ -218,13 +218,13 @@ This flag enables real time process scheduling policy.
 #define PROC_FLG_RR   ((flag_t)0x40)
 /*!
 \~russian
-\brief Флаг захвата мьютексов.
+\brief Флаг блокировки останова процесса.
 
-Процесс удерживает мьютекс.
+В данный момент процесс нельзя останавливать.
 \~english
-\brief A mutex lock flag.
+\brief A process stop lock flag.
 
-A process has locked some mutex controlled resources.
+A process can not be stoped at the moment.
 */
 #define PROC_FLG_LOCK      ((flag_t)0x20)
 /*!
@@ -313,12 +313,12 @@ Used to check if the process has been run.
 \~russian
 \brief Маска проверки состояния процесса.
 
-Используется для того, чтобы проверить, ожидаете ли процесс получения семафора, мьютекса, сообщения через IPC или сигнала.
+Используется для того, чтобы проверить, ожидает ли процесс синхронизации.
 
 \~english
 \brief A process execution state check mask.
 
-Used to check if the process is waiting for semaphore, mutex, ipc or signal.
+Used to check if the process is waiting for synchronization.
 */
 #define PROC_STATE_WAIT_MASK ((flag_t)0x8)
 

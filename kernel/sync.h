@@ -110,7 +110,7 @@ Basic priority inheritance protocol is supported.
 struct _sync_t
 {
     xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-    proc_t * owner;/*!< \~russian Указатель на процесс, удерживающий мьютекс. \~english A pointer to a process, that holds a sync. */
+    proc_t * owner;/*!< \~russian Указатель на процесc-хозяин. \~english A pointer to a process, that holds a sync. */
     count_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritance transaction counter. */
     prio_t prio; /*!< \~russian Приоритет. \~english Priority. */
 #ifdef CONFIG_MP
