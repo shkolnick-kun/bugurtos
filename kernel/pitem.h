@@ -107,11 +107,15 @@ struct _pitem_t
    \~russian
    Статическая инициализация объекта типа #pitem_t
 
+   \warning Для внутреннего использования.
+
    \param a Имя переменной.
    \param p Приоритет.
 
    \~english
    A static #pitem_t object initiation.
+
+   \warning For internal usage.
 
    \param a A variable name.
    \param p A priority.
@@ -124,12 +128,16 @@ struct _pitem_t
 \brief
 Инициализация объект а типа #pitem_t.
 
+\warning Для внутреннего использования.
+
 \param pitem Указатель на объект #pitem_t.
 \param prio Приоритет элемента.
 
 \~english
 \brief
 A #pitem_t object initiation.
+
+\warning For internal usage.
 
 \param pitem A #pitem_t pointer.
 \param prio A priority.
@@ -140,12 +148,16 @@ void pitem_init( pitem_t * pitem, prio_t prio );
 \brief
 Вставка элемента типа #pitem_t в список типа #xlist_t.
 
+\warning Для внутреннего использования.
+
 \param pitem Указатель на объект #pitem_t.
 \param xlist Указатель на список.
 
 \~english
 \brief
 Insert #pitem_t object to #xlist_t container.
+
+\warning For internal usage.
 
 \param pitem A #pitem_t pointer.
 \param xlist A pointer to destination list.
@@ -158,6 +170,8 @@ void pitem_insert( pitem_t * pitem, xlist_t * xlist );
 
 Вырезает объект типа #pitem_t, из списка типа #xlist_t, не обнуляет указатель pitem->list.
 
+\warning Для внутреннего использования.
+
 \param pitem Указатель на объект #pitem_t.
 
 \~english
@@ -165,6 +179,8 @@ void pitem_insert( pitem_t * pitem, xlist_t * xlist );
 Fast cut #pitem_t object from #xlist_t container.
 
 This function cuts #pitem_t object from #xlist_t container without pitem->list field.
+
+\warning For internal usage.
 
 \param pitem A #pitem_t pointer.
 */
@@ -176,6 +192,8 @@ void pitem_fast_cut( pitem_t * pitem );
 
 Вызывает #pitem_fast_cut и обнуляет указатель pitem->list.
 
+\warning Для внутреннего использования.
+
 \param pitem Указатель на объект #pitem_t.
 
 \~english
@@ -183,6 +201,8 @@ void pitem_fast_cut( pitem_t * pitem );
 Cut #pitem_t object from #xlist_t container.
 
 This function calls #pitem_fast_cut and then nulls pitem->list field.
+
+\warning For internal usage.
 
 \param pitem A #pitem_t pointer.
 */
@@ -195,6 +215,8 @@ void pitem_cut( pitem_t * pitem );
 
 Вырезать из списка типа xlist_t все элементы типа #pitem_t и сделать из них простой 2-связный список.
 
+\warning Для внутреннего использования.
+
 \param src Указатель на объект #xlist_t.
 \return Указатель на голову 2-связного списка.
 
@@ -203,6 +225,8 @@ void pitem_cut( pitem_t * pitem );
 "Chain" #pitem_t objects from #xlist_t container.
 
 Cut all #pitem_t objects from #xlist_t container and form an ordinary list from them.
+
+\warning For internal usage.
 
 \param src A #xlist_t pointer.
 \return An ordinary doublelinked list head pointer.

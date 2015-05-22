@@ -144,6 +144,9 @@ struct _sched_t
 \brief Инициализация планировщика.
 
 Готовит планировщик к запуску.
+
+\warning Для внутреннего использования.
+
 \param sched - Указатель на планировщик.
 \param idle - Указатель на процесс холостого хода.
 
@@ -151,6 +154,9 @@ struct _sched_t
 \brief A scheduler initiation routine.
 
 This function prepares a scheduler object for work.
+
+\warning For internal usage.
+
 \param sched - A scheduler pointer.
 \param idle - An IDLE process pointer.
 */
@@ -162,11 +168,15 @@ void sched_init(sched_t * sched, proc_t * idle);
 
 Переключает процессы в обработчике прерывания системного таймера.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief
 A scheduler routine.
 
 This function switches processes in system timer interrupt handler.
+
+\warning For internal usage.
 */
 void sched_schedule(void);
 /*!
@@ -177,11 +187,15 @@ void sched_schedule(void);
 
 Переключает процессы в случае необходимости.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief
 Rescheduler routine.
 
 This function switches processes if needed.
+
+\warning For internal usage.
 */
 void sched_reschedule(void);
 
@@ -201,12 +215,16 @@ void sched_proc_stop(proc_t * proc);
 
 Передает управление следующему процессу, если такой процесс есть.
 
+\warning Для внутреннего использования.
+
 \return 0 если нет других выполняющихся процессов, не 0 - если есть.
 
 \~english
 \brief Pass control to next ready process (for internal usage only!).
 
 If there is another running process, this function passes control to it.
+
+\warning For internal usage.
 
 \return One if power saving mode can be used, zero in other cases.
 */
@@ -238,6 +256,8 @@ bool_t sched_proc_yeld( void );
 
 Используется для балансировки нагрузки в Ядре, а также для предварительной балансировки нагрузки в сигналах.
 
+\warning Для внутреннего использования.
+
 \param proc Указатель на процесс, который надо перенести на новое процессорное ядро.
 \param stat Указатель на массив статистики Ядра, либо сигнала.
 \return ID процессорного ядра с наименьшей нагрузкой.
@@ -246,6 +266,8 @@ bool_t sched_proc_yeld( void );
 \brief A load balancer routine.
 
 This function is used for load balancing of the kernel and of signals.
+
+\warning For internal usage.
 
 \param proc A pointer to a process that we want to place on a process list.
 \param stat A pointer to a stat_t array, that controls corespondent process list.
@@ -258,6 +280,8 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 
 Используется в глобальном ленивом балансировщике нагрузки и функции #sig_signal.
 
+\warning Для внутреннего использования.
+
 \param stat Указатель на массив статистики Ядра, либо сигнала.
 \return ID процессорного ядра с наибольшей нагрузкой.
 
@@ -265,6 +289,8 @@ core_id_t sched_load_balancer(proc_t * proc, stat_t * stat);
 \brief Find most loaded core.
 
  This function is used in Kernel load balancing and in #sig_signal function.
+
+\warning For internal usage.
 
 \param stat A pointer to a stat_t array of the kernel or of a signal.
 \return An ID of the most loaded process list.
@@ -289,12 +315,18 @@ core_id_t sched_highest_load_core( stat_t * stat );
 \brief Ленивая балансировка нагрузки, для внутреннего использования.
 
 Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
+
+\warning Для внутреннего использования.
+
 \param object_core - процессорное ядро, с которого будем снимать нагрузку.
 
 \~english
 \brief A lazy load balancer routine. For internal usage.
 
 This function transfers one process on the least loaded CPU core from the object core.
+
+\warning For internal usage.
+
 \param object_core - A CPU core to decrease a load on.
 */
 void _sched_lazy_load_balancer(core_id_t object_core);

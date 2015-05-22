@@ -189,13 +189,17 @@ void wait_time( timer_t time );
 /*!
 \~russian
 \brief
-Сброс программного таймера, для внутреннего использования.
+Сброс программного таймера.
+
+\warning Для внутреннего использования.
 
 \param t Указатель на таймер.
 
 \~english
 \brief
-Clear software timer. For internal usage.
+Clear software timer.
+
+\warning For internal usage.
 
 \param t A pointer to a timer.
 */
@@ -204,13 +208,17 @@ void _clear_timer(timer_t * t);
 /*!
 \~russian
 \brief
-Получить значение программного таймера, для внутреннего использования.
+Получить значение программного таймера.
+
+\warning Для внутреннего использования.
 
 \param t Значение таймера.
 
 \~english
 \brief
-Get software timer. For internal usage.
+Get software timer value.
+
+\warning For internal usage.
 
 \param t A timer value.
 */

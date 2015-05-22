@@ -87,11 +87,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 Поиск в бинарном индексе.
 
+\warning Для внутреннего использования.
+
 \param index Бинарный индекс.
 \return Наивысший (с минимальным значением) приоритет в индексе.
 
 \brief
 \~english An index search.
+
+\warning Internal usage function.
 
 \param index An index.
 \return Highest priority of an index (with minimal value).

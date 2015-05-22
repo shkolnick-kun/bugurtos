@@ -350,35 +350,53 @@ Used to check if the process is waiting for semaphore, mutex, ipc or signal.
 Используется для проверки процессов на возможность останова по флагу #PROC_FLG_PRE_STOP.
 Процесс не должен удерживать общие ресурсы в момент останова по флагу.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief A #PROC_FLG_PRE_STOP condition test macro.
 
 Used to test if a process can be stopped on #PROC_FLG_PRE_STOP flag.
 A process should not have locked resources at a moment of a flag stop.
+
+\warning For internal usage.
+
 */
 #define PROC_PRE_STOP_TEST(a) ( ( a->flags & PROC_FLG_PRE_STOP ) && ( !( a->flags & PROC_FLG_LOCK_MASK ) ) )
 /*!
 \~russian
 \brief Проверяет, запущен ли процесс.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief Check if process is ready or running
+
+\warning For internal usage.
 */
 #define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
 /*!
 \~russian
 \brief Читает состояние процесса.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief Reads a process state.
+
+\warning For internal usage.
 */
 #define PROC_GET_STATE(a) ( a->flags & PROC_STATE_MASK )
 /*!
 \~russian
 \brief Устанавливает состояние процесса.
 
+\warning Для внутреннего использования.
+
 \~english
-\brief Sets process state.
+\brief Sets a process state.
+
+\warning For internal usage.
+
 */
 #define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, a->flags |= b )
 
@@ -428,7 +446,7 @@ status_t proc_init(
 );
 /*!
 \~russian
-\brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
+\brief Завершение работы процесса после возврата из proc->pmain.
 
 \~english
 \brief A process termination routine called after proc->pmain return. Internal usage function.
@@ -436,10 +454,14 @@ status_t proc_init(
 void proc_terminate( void );
 /*!
 \~russian
-\brief Завершение работы процесса после возврата из proc->pmain. Для внутреннего использования.
+\brief Завершение работы процесса после возврата из proc->pmain.
+
+\warning Для внутреннего использования.
 
 \~english
 \brief A process termination routine called after proc->pmain return. Internal usage function.
+
+\warning For internal usage.
 */
 void _proc_terminate( void );
 /*!
@@ -557,14 +579,19 @@ This function stops caller process.
 void proc_self_stop(void);
 /*!
 \~russian
-\brief Самоостанов процесса (для внутреннего использования).
+\brief Самоостанов процесса.
 
 Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
 
+\warning Для внутреннего использования.
+
 \~english
-\brief A process self stop routine (for internal usage only!).
+\brief A process self stop routine.
 
 This function stops caller process.
+
+\warning For internal usage.
+
 */
 void _proc_self_stop(void);
 
@@ -584,25 +611,33 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 void proc_reset_watchdog(void);
 /*!
 \~russian
-\brief Сброс watchdog для процесса реального времени из обработчика прерывания (для внутреннего использования).
+\brief Сброс watchdog для процесса реального времени из обработчика прерывания.
 
 Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
 Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
 
+\warning Для внутреннего использования.
+
 \~english
-\brief A watchdog reset routine for real time processes for internal usage.
+\brief A watchdog reset routine for real time processes.
 
 If a caller process is real time, then this function resets its timer.
 If a real time process failed to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
+
+\warning For internal usage.
 */
 void _proc_reset_watchdog(void);
 //===========================================================
 /*!
 \~russian
-\brief Передача приоритетов по цепи заблокированных процессов. Для внутреннего использования.
+\brief Передача приоритетов по цепи заблокированных процессов.
+
+\warning Для внутреннего использования.
 
 \~english
-\brief Propagation of priority through a blocked process chain. For internal usage.
+\brief Propagation of priority through a blocked process chain.
+
+\warning For internal usage.
 */
 void _proc_prio_propagate( proc_t * proc
 #ifdef CONFIG_MP
@@ -612,18 +647,26 @@ void _proc_prio_propagate( proc_t * proc
 //===========================================================
 /*!
 \~russian
-\brief "Низкоуровневый" останов процесса с установкой флагов, для внутреннего использования.
+\brief "Низкоуровневый" останов процесса с установкой флагов.
+
+\warning Для внутреннего использования.
 
 \~english
-\brief A low level process stop with flags set routine. For internal usage.
+\brief A low level process stop with flags set routine.
+
+\warning For internal usage.
 */
 void _proc_stop_flags_set( proc_t * proc, flag_t mask );
 /*!
 \~russian
 \brief Установка флага #PROC_FLG_LOCK для вызывающего процесса.
 
+\warning Для внутреннего использования.
+
 \~english
 \brief Set #PROC_FLG_LOCK for caller process.
+
+\warning For internal usage.
 */
 void _proc_lock(void);
 /*!
@@ -636,10 +679,14 @@ void _proc_lock(void);
 void proc_lock(void);
 /*!
 \~russian
-\brief Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания, для внутреннего использования.
+\brief Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.
+
+\warning Для внутреннего использования.
 
 \~english
-\brief A #PROC_FLG_PRE_STOP flag processing routine. For internal usage.
+\brief A #PROC_FLG_PRE_STOP flag processing routine.
+
+\warning For internal usage.
 */
 void _proc_free(void);
 /*!
@@ -653,15 +700,20 @@ void proc_free(void);
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
 /*!
 \~russian
-\brief Управление приоритетом процесса, для внутреннего использования.
+\brief Управление приоритетом процесса.
 
 Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
 \param proc - Указатель на процесс.
+
+\warning Для внутреннего использования.
 
 \~english
 \brief A stopped process priority control routine.
 
 Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stopped before call of the routine.
+
+\warning For internal usage.
+
 \param proc - A pointer to a process.
 */
 void _proc_prio_control_stoped( proc_t * proc );
@@ -687,17 +739,21 @@ void proc_set_prio( proc_t * proc, prio_t prio );
 
 /*!
 \~russian
-\brief Управление приоритетом процесса. Для внутреннего использования.
+\brief Управление приоритетом процесса.
 
 Устанавливает приоритет процесса, находящегося в любом состоянии.
+
+\warning Для внутреннего использования.
 
 \param proc - Указатель на процесс.
 \param prio - Новое значение приоритета.
 
 \~english
-\brief Set a priority of a process. For internal usage.
+\brief Set a priority of a process.
 
 It sets a process priority. A process current state doesn't matter.
+
+\warning For internal usage.
 
 \param proc - A pointer to a process.
 \param prio - New process priority value.
@@ -706,17 +762,21 @@ void _proc_set_prio( proc_t * proc, prio_t prio );
 
 /*!
 \~russian
-\brief Управление приоритетом процесса. Для внутреннего использования.
+\brief Управление приоритетом процесса.
 
 Инкрементирует счетчик proc->lres, устанавливает флаг #PROC_FLG_LOCK.
+
+\warning Для внутреннего использования.
 
 \param proc - Указатель на процесс.
 \param prio - Новое значение приоритета.
 
 \~english
-\brief Process priority control. For internal usage.
+\brief Process priority control.
 
 Increments proc->lres counter, sets #PROC_FLG_LOCK flag.
+
+\warning For internal usage.
 
 \param proc - A pointer to a process.
 \param prio - New process priority value.
@@ -724,17 +784,21 @@ Increments proc->lres counter, sets #PROC_FLG_LOCK flag.
 void _proc_lres_inc( proc_t * proc ,prio_t prio );
 /*!
 \~russian
-\brief Управление приоритетом процесса. Для внутреннего использования.
+\brief Управление приоритетом процесса.
 
 Декрементирует счетчик proc->lres, сбрасывает флаг #PROC_FLG_LOCK при необходимости.
+
+\warning Для внутреннего использования.
 
 \param proc - Указатель на процесс.
 \param prio - Новое значение приоритета.
 
 \~english
-\brief Process priority control. For internal usage.
+\brief Process priority control.
 
 Decrements proc->lres counter, clears #PROC_FLG_LOCK flag if needed.
+
+\warning For internal usage.
 
 \param proc - A pointer to a process.
 \param prio - New process priority value.
@@ -742,16 +806,20 @@ Decrements proc->lres counter, clears #PROC_FLG_LOCK flag if needed.
 void _proc_lres_dec( proc_t * proc ,prio_t prio );
 /*!
 \~russian
-\brief Останов процесса. Для внутреннего использования.
+\brief Останов процесса.
 
 Гарантированно останавливает процесс.
+
+\warning Для внутреннего использования.
 
 \param proc - Указатель на процесс.
 
 \~english
-\brief Stops a process. For internal usage.
+\brief Stops a process.
 
 Stops a process for sure.
+
+\warning For internal usage.
 
 \param proc - A pointer to a process.
 */

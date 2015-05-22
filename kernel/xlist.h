@@ -116,11 +116,15 @@ struct _xlist_t
 \brief
 Инициализация списка.
 
+\warning Для внутреннего использования.
+
 \param xlist Указатель на список.
 
 \~english
 \brief
 An #xlist_t object initiation.
+
+\warning For internal usage.
 
 \param xlist An #xlist_t pointer.
 */
@@ -133,12 +137,16 @@ void xlist_init(
 \brief
 Поиск головы списка.
 
+\warning Для внутреннего использования.
+
 \param xlist Указатель на список.
 \return Указатель на голову - самый приоритетный элемент в массиве указателей.
 
 \~english
 \brief
 List head search.
+
+\warning For internal usage.
 
 \param xlist An #xlist_t pointer.
 \return The head pointer, which is the most prioritized pointer in the list head pointer array.
@@ -153,6 +161,8 @@ item_t * xlist_head(xlist_t * xlist);
 
 Изменяет указатель xlist->item[prio] на xlist->item[prio]->next.
 
+\warning Для внутреннего использования.
+
 \param xlist Указатель на список.
 \param prio Приоритет переключаемой части списка.
 
@@ -160,6 +170,8 @@ item_t * xlist_head(xlist_t * xlist);
 Switch a head pointer.
 
 Does xlist->item[prio] = xlist->item[prio]->next.
+
+\warning For internal usage.
 
 \param xlist An #xlist_t pointer.
 \param prio A priority to switch.
