@@ -37,8 +37,8 @@ you can see the list of different RTOS.
 ###What do I need?
  1. You need to get OS source code, check releases on the project page.
  2. You need a cross toolchain for your processor.
- 3. You may need som IDE, I prefer to use Code::Blocks.
- 4. You need to configure your buid environment:
+ 3. You may need some IDE, I prefer to use Code::Blocks.
+ 4. You need to configure your build environment:
    * Create a workspace dir.
    * Create a project dir.
    * Copy BuguRTOS to some dir in your workspace.
@@ -57,7 +57,7 @@ you can see the list of different RTOS.
 
     void idle_main(void * arg )
     {
-    	/*You may write your idle_main or use bultin.*/
+    	/*You may write your idle_main or use builtin.*/
     	while(1);
     }
     int main(void)
@@ -75,7 +75,7 @@ you can see the list of different RTOS.
    * PROFIT!!!
 
 ##Inside BuguRTOS.
-First of all, multitasking OS is sheduler and other basic process (task,thread etc.) control services.
+First of all, multitasking OS is scheduler and other basic process (task,thread etc.) control services.
 All this stuff will be described below.
 
 ###Process.
@@ -87,8 +87,8 @@ So, the process is a part of a program that is being executed. It has its own **
 
 Each process has its own [stack](http://en.wikipedia.org/wiki/Stack_%28abstract_data_type%29). 
 
-Processes in BuguRTOS can be devided in two groups, they are **real time** and **general purpose** processes.
-The main difference of these two groups is sheduling policy, see Scheduler.
+Processes in BuguRTOS can be divided in two groups, they are **real time** and **general purpose** processes.
+The main difference of these two groups is scheduling policy, see Scheduler.
 
 Processes may have common resources, for example, two processes may have common **pmain** function, 
 in such case we may talk about two running instances of such **pmain**.
@@ -97,10 +97,10 @@ When the scheduler suspends a process execution it calls **sv_hook** function, a
 execution, **rs_hook** is called.
 
 Functions **pmain**, **sv_hook** and **rs_hook** take one argument of __void *__ type. 
-This argument is supposed to be a pointer to some data storage, that may differ from one running instanse of 
+This argument is supposed to be a pointer to some data storage, that may differ from one running instance of 
 **pmain** to another.
 
-Processes may have **common data**, user is responsible of pprotecting such **common data** with OS 
+Processes may have **common data**, user is responsible of protecting such **common data** with OS 
 synchronization primitives. If user **fails** to do that, then 
 [race condition](http://en.wikipedia.org/wiki/Race_condition) may and will occur.
 
@@ -122,12 +122,12 @@ You need to do the steps below.
 ```C
     // This function is called before start_bugurt() call in main or in ISR
     proc_init_isr( 
- 		&my_proc,  /*a process decriptor pointer  */
+ 		&my_proc,  /*a process descriptor pointer  */
  		my_process_main, /*a process main function pointer */
  		my_sv_hook, /* «sv_hook» function pointer */
  		my_rs_hook, /* «rs_hook» function pointer */
  	 	my_main_arg, /*a process arg pointer */
- 		&my_stack[STACK_LENTH — 1],  /* a stack pottom pointer*/
+ 		&my_stack[STACK_LENTH — 1],  /* a stack bottom pointer*/
  		MY_PRIORITY, /*a process priority, see Scheduler */
  		MY_TIME_QUANT, /*a process time slice, see Scheduler */
  		IS_RT, /* 1 for **real time**, 0 for **general purpose** processes, see Scheduler */
@@ -149,24 +149,24 @@ proc_free();           /*This makes caller "stoppable" by proc_stop function.*/
 /*Calls of proc_lock and proc_free may be nested, in such case caller is "unstoppable" 
 while nest count is greater than zero.*/
 sched_proc_yeld();     /*This suspends caller execution and resumes next ready process execution. 
-If caller is real time, then its wachdog gets reset, 
+If caller is real time, then its watchdog gets reset, 
 caller is placed to the end of ready process list. 
 if caller is general purpose, then it is placed to the end of expired process list. 
-This funtion returns nonzero, if power can be saved.*/
+This function returns nonzero, if power can be saved.*/
 ```
-Also, be carefull with static variables, as they a common for all running instances.
-To deal with common resources, events and time user needs some synchronuzation primitives.
+Also, be careful with static variables, as they a common for all running instances.
+To deal with common resources, events and time user needs some synchronization primitives.
 BuguRTOS-0.8.x kernel provides following primitives:
  1. software timers for time management;
  2. critical sections for fast data access control;
- 3. basic synchronization primitive (sync_t) which can be used to contruct conventional ones such as mutex, semaphore etc.
+ 3. basic synchronization primitive (sync_t) which can be used to construct conventional ones such as mutex, semaphore etc.
 
 Software timers and critical sections are supposed to be used directly. 
 
 On the other hand, basic synchronization primitive is supposed to be used through libraries which provide some
 synchronization primitives to user. 
-This primitive in fact does jobs which are common for all blocking synchonization primitives (process suspend, 
-queueing, resume, priority inheritance and priority ceiling), so library coder doesn't need to implement these 
+This primitive in fact does jobs which are common for all blocking synchronization primitives (process suspend, 
+queuing, resume, priority inheritance and priority ceiling), so library coder doesn't need to implement these 
 things from scratch.
 
 There is only **generic** library at the moment, which provides following sync primitives:
@@ -176,7 +176,7 @@ There is only **generic** library at the moment, which provides following sync p
  4. signal (a kind of event);
  5. synchronous nonbuffered IPC.
  
-These primitives will be descibed in next chapters.
+These primitives will be described in next chapters.
 
 ####What can I do with processes?
 There are some functions to control process execution, here they are:
@@ -192,25 +192,25 @@ A scheduler is one of the most important OS component. It enables multitasking b
 In BuguRTOS scheduler works on periodic system timer interrupts or when rescheduling needed.
 
 ####How does it work?
-To enable scheduler there must be one hardware timer, which can generete periodic interrupts (for example one 
+To enable scheduler there must be one hardware timer, which can generate periodic interrupts (for example one 
 interrupt per millisecond).
 
-System timer interrupt servise routine saves a current process context to current process stack; calls  
-**sched_schedule** function, which selsects next process to execute; switches to next process stack; restores 
+System timer interrupt service routine saves a current process context to current process stack; calls  
+**sched_schedule** function, which selects next process to execute; switches to next process stack; restores 
 next process context and returns. Next process execution resumes on system timer ISR return.
 
-Recheduling works simpler: **sched_reschedule** function juct selects most prioritized process.
+Rescheduling works simpler: **sched_reschedule** function just selects most prioritized process.
 
 All BuguRTOS system call handlers as well as scheduler routines have O(1) complexity, which means, that
-their execution time has **bounded upper limit**. This feachure enables BuguRTOS usage in hard real time 
+their execution time has **bounded upper limit**. This feature enables BuguRTOS usage in hard real time 
 applications.
 
 ####How next process is selected?
-As decribed above, there are two kinds of processes in BuguRTOS, they are **general purpose** and 
+As described above, there are two kinds of processes in BuguRTOS, they are **general purpose** and 
 **real time** processes.
 
 **General purpose** processes are supposed to run in a background of **real time** processes. 
-On the other hand, **real time** processes are supposed to be stoped most of the time and 
+On the other hand, **real time** processes are supposed to be stopped most of the time and 
 serve corespondent events.
 
 BuguRTOS has preemptive scheduler, so most prioritized processes are executed first.
@@ -220,9 +220,9 @@ Every process has its own timer, which counts process execution time. A process 
 on every system timer tick (**round robbin** scheduling policy), or only when its timer expires (clean **fifo** 
 scheduling policy).
 
-In **real time** processes timer is used as watchdog, so when watchdog expires sheduler stops such process
+In **real time** processes timer is used as watchdog, so when watchdog expires scheduler stops such process
 and gives processor to next ready process. Watchdog expiration is exceptional situation which needs handling,
-so a process with expired watchdog can't be run by **proc_run** function, typicaly it must be restarted 
+so a process with expired watchdog can't be run by **proc_run** function, typically it must be restarted 
 (sometimes dependent processes need restart too).
 
 In **general purpose** processes timer is used to count process time slice, so when process time slice expires a
@@ -230,19 +230,19 @@ process gets placed to expired process list and its timer gets reset.
 
 ####What is process priority?
 A process priority is metric of level of a process importance. 
-More ipmortant processes must get their time earlier than less important.
+More important processes must get their time earlier than less important.
 In BuguRTOS zero is the highest priority and lowest priority is PROC_PRIO_LOWEST.
 
 ####What is process time slice?
 A process time slice is amount of time when process can run 
-without being stoped or moved to expired process list.
+without being stopped or moved to expired process list.
 Time slices are used to share CPU time between processes in needed proportions and to guarantee, 
 that ready processes of at least highest priority will get their CPU time.
 
 ###Process synchronization primitives.
 During development process people encounter process synchronization problems.
-Processes must be synchtonized on time, events or common data access.
-BuguRTOS and its **generic** lib provide some synchrinization primitives.
+Processes must be synchronized on time, events or common data access.
+BuguRTOS and its **generic** lib provide some synchronization primitives.
 
 ####BuguRTOS kernel primitives.
 BuguRTOS kernel provides three types of primitives, described below.
@@ -267,20 +267,20 @@ To enter critical section one must call **ENTER_CRIT_SEC** macro.
 To exit critical section one must call **EXIT_CRIT_SEC** macro.
 In case of nesting critical sections interrupts are disabled on first critical section enter 
 and enabled on last critical section exit.
-A prgram is supposed to exit critical sections **as fast as possible**.
+A program is supposed to exit critical sections **as fast as possible**.
 
 #####Basic synchronization primitive.
 BuguRTOS kernel provides **sync_t** primitive for library usage. 
-It is documented in BuguRTOS API refference manual, check releases on the project page.
+It is documented in BuguRTOS API reference manual, check releases on the project page.
 Also you can see **generic** lib for examples of **sync_t** usage.
 
 ####Generic lib synchronization primitives.
-There are some primitives, implemented in **genric** lib.
+There are some primitives, implemented in **generic** lib.
 All these primitives use **sync_t** primitive, provided by BuguRTOS kernel.
 
 #####Mutexes.
 Mutex is mutual exclusion primitive. 
-It ensures that only one process can access to commmon data at any time.
+It ensures that only one process can access to common data at any time.
 Mutex must be declared as **mutex_t** variable.
 Here are mutex handling tools:
 ```C
@@ -302,11 +302,11 @@ so one must pass a mutex priority on mutex initialization.
 Immediate priority ceiling is supposed to be main protocol, and priority inheritance is 
 considered to be fallback protocol, if user fails to assign correct priority to a mutex.
 
-Mutex must be freed by its owner process, as other processes cen't free it.
+Mutex must be freed by its owner process, as other processes can't free it.
 
 #####Counting semaphores.
 Counting semaphore should be used in client-server communications, see 
-[prodicer-consumer problem](http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) for background.
+[producer-consumer problem](http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) for background.
 Semaphore must be declared as **sem_t** variable.
 Here are semaphore tools, provided by **generic** lib:
 ```C
@@ -317,8 +317,8 @@ status_t status;
 
 sem_init( &some_sem, COUNT_INIT ); /*This initiates semaphore, for usage in processes main,
                                    one must use sem_init_isr in critical sections etc.*/
-status = sem_try_lock( &some_sem );/*This funtion tries to lock semaphore, caller is not blocked.*/
-status = sem_lock( &some_sem );    /*This funtion locks semaphore, caller is blocked 
+status = sem_try_lock( &some_sem );/*This function tries to lock semaphore, caller is not blocked.*/
+status = sem_lock( &some_sem );    /*This function locks semaphore, caller is blocked 
                                    until mutex is free.*/
 status = sem_free( &some_sem );    /*This function frees semaphore, if there are blocked processes,
                                    then most prioritized of them gets resumed.*/
@@ -327,12 +327,12 @@ status = sem_free( &some_sem );    /*This function frees semaphore, if there are
 SYNC_SET_OWNER( &some_sem, &some_proc ); /*This macro assigns an owner*/
 SYNC_CLEAR_OWNER( &some_sem );           /*This macro clears an owner*/
 ```
-Counting semaphore may be locked by one process and freed by anoter.
+Counting semaphore may be locked by one process and freed by another.
 Counting semaphore may have an owner process, in such case every process can lock this semaphore,
 but only owner can free it.
 
 #####Conditional variables.
-Conditional variables are ised in client-server communications just like semaphores, 
+Conditional variables are used in client-server communications just like semaphores, 
 they can be used for data or event synchronization.
 Conditionals are used with mutexes. Here are tools for conditional variable handling:
 ```C
@@ -369,7 +369,7 @@ status = mutex_free( &some_mutex );            /*Must free the mutex*/
 SYNC_SET_OWNER( &some_cond, &some_proc ); /*This macro assigns an owner*/
 SYNC_CLEAR_OWNER( &some_cond );           /*This macro clears an owner*/
 ```
-Conditionals may have an owber process, in such case onle an owner can broadcast and signal conditionals.
+Conditionals may have an owner process, in such case only an owner can broadcast and signal conditionals.
 
 #####Signals.
 Signals in BuguRTOS **generic** lib **ARE NOT** POSIX signals. They used for event notification and based on 
@@ -397,7 +397,7 @@ If signal has an owner process, then only owner can signal and broadcast.
 #####IPC.
 BuguRTOS **generic** lib provides unbuffered blocking IPC.
 This IPC implementation uses rendezvous method to pass messages between processes.
-Messages are passed by refference through epdpoints. 
+Messages are passed by reference through endpoints. 
 Every endpoint has its owner process, which receives messages.
 Priority inheritance protocol is used in IPC.
 An IPC endpoint is a variable of ipc_t type.
@@ -413,9 +413,9 @@ ipc_init( &some_ep );                       /*This function has *_isr variant.*/
 SYNC_SET_OWNER( &some_ep, &some_proccess ); /*Set an owner after init. This macro must be called
                                             from a process main with interrupts enabled.*/
 /*
-Wait for a mesage. 
+Wait for a message. 
 This function may be closed (wait for specific sender) or open (wait for any sender).
-This function may block caller crocess (BLOCKC_CALLER != 0) or not (BLOCKC_CALLER == 0).
+This function may block caller process (BLOCKC_CALLER != 0) or not (BLOCKC_CALLER == 0).
 
 This call is open, as (wait_for == 0).
 After this call wait_for will point to a sender process.

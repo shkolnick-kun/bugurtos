@@ -7,17 +7,17 @@
     * Fixed [several bugs](https://github.com/shkolnick-kun/bugurtos/issues/8) in VSMP port.
     * Revised tests.
     * Fixed [stupid mistakes](https://github.com/shkolnick-kun/bugurtos/issues/9) in sync test.
-    * Kernel is supposed to stabilize now. Developement will be focused on libs, ports and bug fixes since this release. 
+    * Kernel is supposed to stabilize now. Development will be focused on libs, ports and bug fixes since this release. 
   * 0.8.2
     * Added cnt_lock to proc_t, renamed PROC_FLG_BLOCK to PROC_FLG_LOCK, PROC_FLG_LOCK behavior is now independent from proc->lres.
     * Added FIFO scheduler policy and PROC_FLG_RR to switch to Round Robin sched policy (default).
-    * Removed unused funtiocns.
+    * Removed unused functions.
     * Removed PROC_PRE_STOP flag processing in sync.c.
     * Added timeout support to kernel.
     * Fixed [PROC_SET_STATE](https://github.com/shkolnick-kun/bugurtos/issues/5) macro.
     * Fixed [wrong sync owner handling order](https://github.com/shkolnick-kun/bugurtos/issues/4).
     * Added -Os flag to CM0, CM3, CM4F, AVR test projects.
-    * Fixed [obsolete shceduler code](https://github.com/shkolnick-kun/bugurtos/issues/6).
+    * Fixed [obsolete scheduler code](https://github.com/shkolnick-kun/bugurtos/issues/6).
   * 0.8.1
     * Fixed [old scheduler code](https://github.com/shkolnick-kun/bugurtos/issues/1).
     * Fixed [missed wakeup](https://github.com/shkolnick-kun/bugurtos/issues/2) in sync\_wait call.
@@ -56,9 +56,9 @@
   * 0.6.0
     * pmain return sequence has been revised:
       * no more proc\_wrapper function,
-      * proc\_terminate funcion has been added,
+      * proc\_terminate function has been added,
       * proc terminate system call has been changed,
-      * proc\_stack\_init function has been changed in order to add return adress (a pointer to proc\_terminate function actualy) to initial process context.
+      * proc\_stack\_init function has been changed in order to add return address (a pointer to proc\_terminate function actually) to initial process context.
   * 0.5.2
     * Low level race condition fixed.
     * Stm8/raisonance tests improved (all paths a relative now).
