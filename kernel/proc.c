@@ -107,7 +107,7 @@ void _proc_stop_flags_set( proc_t * proc, flag_t mask )
 // Change a process priority according to its #lres data field.
 void _proc_prio_control_stoped( proc_t * proc )
 {
-    if(proc->lres.index != (index_t)0)
+    if( (index_t)0 != proc->lres.index )
     {
 
         prio_t locker_prio;
@@ -244,7 +244,7 @@ status_t proc_run_isr(proc_t * proc)
 
     SPIN_LOCK( proc );
 
-    if( (proc->flags & PROC_STATE_MASK) != PROC_STATE_STOPED )
+    if( PROC_STATE_STOPED != PROC_GET_STATE( proc ) )
     {
         ret = BGRT_ST_ROLL;
         goto end;
