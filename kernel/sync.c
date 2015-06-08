@@ -135,7 +135,7 @@ void _proc_prio_propagate( proc_t * proc )
 
         KERNEL_PREEMPT();
 
-        if( sync == (sync_t *)0 )
+        if( (sync_t *)0 == sync )
         {
             // A process was trying to free a dirty sync and blocked
             SPIN_LOCK( proc );
@@ -601,7 +601,7 @@ status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
     status = PROC_GET_STATE( current );
     SPIN_FREE( current );
 
-    if( status == PROC_STATE_TO_RUNNING )
+    if( PROC_STATE_TO_RUNNING == status )
     {
         return BGRT_ST_ETIMEOUT;
     }
@@ -691,7 +691,7 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     // Check sync ownership
     if( owner )
     {
-        if( owner != current_proc() )
+        if( current_proc() != owner )
         {
             SPIN_FREE( sync );
 

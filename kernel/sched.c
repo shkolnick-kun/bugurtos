@@ -390,7 +390,7 @@ void sched_schedule(void)
                 If process have some locked resources, then it goes to DEAD state,
                 or it goes to WD_STOPED state.
                 **********************************************************************/
-                if( (flags & PROC_FLG_LOCK_MASK) == (flag_t)0 )
+                if( (flag_t)0 == (flags & PROC_FLG_LOCK_MASK) )
                 {
                     flags |= PROC_STATE_WD_STOPED;
                 }
@@ -429,7 +429,7 @@ void sched_reschedule(void)
     // Need to spin-lock a current proc!
     SPIN_LOCK( current_proc );
 
-    if( ( current_proc->flags & PROC_STATE_RUN_MASK ) == PROC_STATE_RUNNING )
+    if( PROC_STATE_RUNNING == ( current_proc->flags & PROC_STATE_RUN_MASK ) )
     {
         current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
         current_proc->flags |= PROC_STATE_READY;
@@ -560,7 +560,7 @@ void _sched_lazy_load_balancer(core_id_t object_core)
 
     SPIN_LOCK( sched );
 
-    if(sched->expired->index == (index_t)0)
+    if( (index_t)0 == sched->expired->index )
     {
         SPIN_FREE( sched );
         enable_interrupts();
