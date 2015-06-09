@@ -95,7 +95,42 @@ prio_t _sync_prio( sync_t * sync )
         return sprio;
     }
 }
+//========================================================================================
+static void _sync_do_pending_wake( sync_t * sync )
+{
+    proc_t * proc;
 
+    sync->pwake--;
+
+    proc = (proc_t *)xlist_head( (xlist_t *)sync );
+
+    if( proc )
+    {
+        SPIN_LOCK( proc );
+
+        proc->sync = (void *)0; //It doesn't wait on sync any more.
+
+        if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
+        {
+            PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
+        }
+        else
+        {
+            pitem_cut( (pitem_t *)proc );
+            sched_proc_run( proc, PROC_STATE_SYNC_READY );
+        }
+        SPIN_FREE( proc );
+    }
+}
+//========================================================================================
+static void _sync_check_pending_wake( sync_t * sync )
+{
+    if( sync->pwake )
+    {
+        _sync_do_pending_wake( sync );
+    }
+}
+//========================================================================================
 #ifdef CONFIG_MP
 #define PROC_PRIO_PROP_HOOK() hook(hook_arg)
 void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg )
@@ -301,6 +336,7 @@ status_t sync_init_isr( sync_t * sync, prio_t prio )
     xlist_init( (xlist_t *)sync );
     sync->owner = (proc_t *)0;
     sync->dirty = (count_t)0;
+    sync->pwake = (count_t)0;
     sync->prio = prio;
     SPIN_FREE( sync );
     return BGRT_ST_OK;
@@ -356,12 +392,12 @@ status_t _sync_set_owner( sync_t * sync, proc_t * proc )
     owner = sync->owner;
     if( !owner )
     {
-        prio_t sync_prio;
+        _sync_check_pending_wake( sync );
 
-        sync_prio = SYNC_PRIO( sync );
         sync->owner = proc;
+
         SPIN_LOCK(proc);
-        PROC_LRES_INC( proc, sync_prio );
+        PROC_LRES_INC( proc, SYNC_PRIO( sync ) );
         SYNC_PROC_PRIO_PROPAGATE( proc, sync );
 
         return BGRT_ST_OK;
@@ -467,6 +503,10 @@ status_t _sync_sleep( sync_t * sync )
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
 
+        SPIN_LOCK( sync );
+        _sync_check_pending_wake( sync );
+        SPIN_FREE( sync );
+
         return BGRT_ST_OK;
     }
     case PROC_STATE_TO_RUNNING:
@@ -495,6 +535,7 @@ status_t _sync_sleep( sync_t * sync )
     {
         //This is priority inheritance transaction end
         dirty = sync->dirty--; //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
+        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
     }
     else
     {
@@ -508,6 +549,23 @@ status_t _sync_sleep( sync_t * sync )
 
         return BGRT_ST_EOWN;
     }
+
+    if( (dirty <= (count_t)1 ) && (sync->pwake) )
+    {
+        if( ((pitem_t *)proc)->prio > old_prio )
+        {
+            SPIN_FREE( proc );
+            SPIN_FREE( sync );
+
+            return BGRT_ST_OK;
+        }
+        else
+        {
+            _sync_do_pending_wake( sync );
+        }
+    }
+
+
 
     proc->sync = sync;
     _proc_stop_flags_set( proc, PROC_STATE_SYNC_SLEEP );
@@ -704,6 +762,16 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             SPIN_FREE( sync );
 
             return BGRT_ST_ROLL;
+        }
+    }
+    else
+    {
+        if( sync->dirty )
+        {
+            sync->pwake++;
+            SPIN_FREE( sync );
+
+            return BGRT_ST_OK;
         }
     }
     // Nonzero proc argument???
