@@ -102,22 +102,24 @@ static void _sync_do_pending_wake( sync_t * sync )
 
     sync->pwake--;
 
-    proc = (proc_t *)xlist_head( (xlist_t *)sync );
+    proc = (proc_t *)xlist_head( (xlist_t *)sync ); /// Not covered!!!
 
     if( proc )
     {
         SPIN_LOCK( proc );
 
+        /// Not covered!!!
+
         proc->sync = (void *)0; //It doesn't wait on sync any more.
 
         if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
         {
-            PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
+            PROC_SET_STATE ( proc, PROC_STATE_PI_DONE ); /// Not covered!!!
         }
         else
         {
             pitem_cut( (pitem_t *)proc );
-            sched_proc_run( proc, PROC_STATE_SYNC_READY );
+            sched_proc_run( proc, PROC_STATE_SYNC_READY ); /// Not covered!!!
         }
         SPIN_FREE( proc );
     }
@@ -127,7 +129,7 @@ static void _sync_check_pending_wake( sync_t * sync )
 {
     if( sync->pwake )
     {
-        _sync_do_pending_wake( sync );
+        _sync_do_pending_wake( sync ); /// Not covered!!!
     }
 }
 //========================================================================================
@@ -557,11 +559,11 @@ status_t _sync_sleep( sync_t * sync )
             SPIN_FREE( proc );
             SPIN_FREE( sync );
 
-            return BGRT_ST_OK;
+            return BGRT_ST_OK; /// Not covered!!!
         }
         else
         {
-            _sync_do_pending_wake( sync );
+            _sync_do_pending_wake( sync ); /// Not covered!!!
         }
     }
 
@@ -590,7 +592,7 @@ status_t _sync_sleep( sync_t * sync )
             SPIN_LOCK( proc );
             if( PROC_STATE_SYNC_WAIT == PROC_GET_STATE( proc ) )
             {
-                sched_proc_run( proc, PROC_STATE_READY );
+                sched_proc_run( proc, PROC_STATE_READY ); /// Not covered!!!
             }
             SPIN_FREE( proc );
             SPIN_FREE( sync );
@@ -771,7 +773,7 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             sync->pwake++;
             SPIN_FREE( sync );
 
-            return BGRT_ST_OK;
+            return BGRT_ST_OK; /// Not covered!!!
         }
     }
     // Nonzero proc argument???
