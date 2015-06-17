@@ -73,7 +73,7 @@
 1433755530 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1433850266 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1434540102 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
 1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c

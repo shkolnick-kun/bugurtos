@@ -96,33 +96,48 @@ prio_t _sync_prio( sync_t * sync )
     }
 }
 //========================================================================================
-static void _sync_do_pending_wake( sync_t * sync )
+static status_t _sync_do_wake( proc_t * proc, sync_t * sync, flag_t chown )
 {
-    proc_t * proc;
-
-    sync->pwake--;
-
-    proc = (proc_t *)xlist_head( (xlist_t *)sync ); /// Not covered!!!
-
     if( proc )
     {
         SPIN_LOCK( proc );
-
-        /// Not covered!!!
 
         proc->sync = (void *)0; //It doesn't wait on sync any more.
 
         if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
         {
-            PROC_SET_STATE ( proc, PROC_STATE_PI_DONE ); /// Not covered!!!
+            PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
+            if( chown )
+            {
+                PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
+            }
         }
         else
         {
             pitem_cut( (pitem_t *)proc );
-            sched_proc_run( proc, PROC_STATE_SYNC_READY ); /// Not covered!!!
+            if( chown )
+            {
+                PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
+                _proc_prio_control_stoped( proc );
+            }
+            sched_proc_run( proc, PROC_STATE_SYNC_READY );
         }
         SPIN_FREE( proc );
+
+        return BGRT_ST_OK;
     }
+    else
+    {
+        return BGRT_ST_EEMPTY;
+    }
+}
+//========================================================================================
+static void _sync_do_pending_wake( sync_t * sync ) /// Not covered!!!
+{
+    proc_t * proc;
+    sync->pwake--;
+    proc = (proc_t *)xlist_head( (xlist_t *)sync );
+    _sync_do_wake( proc, sync, (flag_t)0 );
 }
 //========================================================================================
 static void _sync_check_pending_wake( sync_t * sync )
@@ -357,6 +372,14 @@ proc_t * sync_get_owner( sync_t * sync )
 /**********************************************************************************************
                                        SYSCALL_SYNC_SET_OWNER
 **********************************************************************************************/
+static void _sync_assign_owner( sync_t * sync, proc_t * proc )
+{
+    sync->owner = proc;
+    SPIN_LOCK(proc);
+    PROC_LRES_INC( proc, SYNC_PRIO( sync ) );
+    SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+}
+//========================================================================================
 typedef struct
 {
     sync_t * sync;
@@ -378,37 +401,50 @@ status_t sync_set_owner( sync_t * sync, proc_t * proc )
 status_t _sync_set_owner( sync_t * sync, proc_t * proc )
 {
     proc_t * owner;
+    prio_t old_prio;
 
     if(!sync)
     {
         return BGRT_ST_ENULL;
     }
 
-    if(!proc)
-    {
-        proc = current_proc();
-    }
-
+    //Clear last owner
     SPIN_LOCK( sync );
 
+    old_prio = SYNC_PRIO( sync );
     owner = sync->owner;
-    if( !owner )
+
+    if( owner == proc )
     {
-        _sync_check_pending_wake( sync );
-
-        sync->owner = proc;
-
-        SPIN_LOCK(proc);
-        PROC_LRES_INC( proc, SYNC_PRIO( sync ) );
-        SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+        SPIN_FREE( sync );
 
         return BGRT_ST_OK;
     }
-    else
+
+    sync->owner = (proc_t *)0;
+    SPIN_FREE( sync );
+
+    // check proc
+    if( owner )
     {
-        SPIN_FREE( sync );
-        return BGRT_ST_ROLL;
+        // update proc priority info
+        SPIN_LOCK( owner );
+        PROC_LRES_DEC( owner, old_prio );
+        PROC_PROC_PRIO_PROPAGATE( owner );
     }
+
+    //Check new owner
+    if( !proc )
+    {
+        return BGRT_ST_OK;
+    }
+
+    //We have some new owner
+    SPIN_LOCK( sync );
+    _sync_assign_owner(sync, proc);
+
+
+    return BGRT_ST_OK;
 }
 //========================================================================================
 void scall_sync_set_owner( void * arg )
@@ -422,21 +458,22 @@ typedef struct
 {
     sync_t * sync;
     status_t status;
-}sync_clear_owner_t;
+}sync_own_t;
 
-status_t sync_clear_owner( sync_t * sync )
+status_t sync_own( sync_t * sync )
 {
-    sync_clear_owner_t scarg;
+    sync_own_t scarg;
     scarg.status = BGRT_ST_EOWN;
     scarg.sync = sync;
-    syscall_bugurt( SYSCALL_SYNC_CLEAR_OWNER, (void *)&scarg );
+    syscall_bugurt( SYSCALL_SYNC_OWN, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-status_t _sync_clear_owner( sync_t * sync )
+status_t _sync_own( sync_t * sync )
 {
-    proc_t * proc;
-    prio_t prio;
+    proc_t * owner;
+
+
     if(!sync)
     {
         return BGRT_ST_ENULL;
@@ -444,27 +481,24 @@ status_t _sync_clear_owner( sync_t * sync )
 
     SPIN_LOCK( sync );
 
-    prio = SYNC_PRIO( sync );
-    proc = sync->owner;
-
-    sync->owner = (proc_t *)0;
-
-    SPIN_FREE( sync );
-    // check proc
-    if(!proc)
+    owner = sync->owner;
+    if( !owner )
     {
+        _sync_assign_owner( sync, current_proc() );
+
         return BGRT_ST_OK;
     }
-    // update proc priority info
-    SPIN_LOCK( proc );
-    PROC_LRES_DEC( proc, prio );
-    PROC_PROC_PRIO_PROPAGATE( proc );
-    return BGRT_ST_OK;
+    else
+    {
+        SPIN_FREE( sync );
+
+        return BGRT_ST_ROLL;
+    }
 }
 //========================================================================================
-void scall_sync_clear_owner( void * arg )
+void scall_sync_own( void * arg )
 {
-    ((sync_clear_owner_t *)arg)->status = _sync_clear_owner( ((sync_clear_owner_t *)arg)->sync );
+    ((sync_own_t *)arg)->status = _sync_own( ((sync_own_t *)arg)->sync );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_SLEEP
@@ -486,7 +520,7 @@ status_t _sync_sleep( sync_t * sync )
 {
     proc_t * proc;
     prio_t old_prio, new_prio;
-    count_t dirty;
+    bool_t sync_clear;
 
     _proc_reset_watchdog();
 
@@ -528,20 +562,18 @@ status_t _sync_sleep( sync_t * sync )
     KERNEL_PREEMPT();
 
     SPIN_LOCK( sync );
-
-    old_prio = SYNC_PRIO( sync );
-
     SPIN_LOCK( proc );
 
     if( PROC_STATE_PI_RUNNING == PROC_GET_STATE( proc ) )
     {
-        //This is priority inheritance transaction end
-        dirty = sync->dirty--; //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
+        //The end of priority inheritance transaction or sync_own transaction
+        //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
         PROC_SET_STATE( proc, PROC_STATE_RUNNING );
+        sync_clear = ( (count_t)1 == sync->dirty-- );
     }
     else
     {
-        dirty = (count_t)0;
+        sync_clear = (bool_t)0;
     }
     // Must be handled after proc state
     if( sync->owner == proc )
@@ -552,7 +584,9 @@ status_t _sync_sleep( sync_t * sync )
         return BGRT_ST_EOWN;
     }
 
-    if( (dirty <= (count_t)1 ) && (sync->pwake) )
+    old_prio = SYNC_PRIO( sync );
+
+    if( (sync_clear) && (sync->pwake) )
     {
         if( ((pitem_t *)proc)->prio > old_prio )
         {
@@ -566,9 +600,6 @@ status_t _sync_sleep( sync_t * sync )
             _sync_do_pending_wake( sync ); /// Not covered!!!
         }
     }
-
-
-
     proc->sync = sync;
     _proc_stop_flags_set( proc, PROC_STATE_SYNC_SLEEP );
     pitem_insert( (pitem_t *)proc, (xlist_t *)sync );
@@ -579,7 +610,7 @@ status_t _sync_sleep( sync_t * sync )
     if( proc )
     {
         new_prio = SYNC_PRIO( sync );
-        if( (old_prio != new_prio) || dirty )
+        if( (old_prio != new_prio) || sync_clear )
         {
             // When owner in PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called sync_wait.
             SPIN_LOCK( proc );
@@ -739,8 +770,6 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
 
     _proc_reset_watchdog();
 
-    status = BGRT_ST_EEMPTY;
-
     if( !sync )
     {
         return BGRT_ST_ENULL;
@@ -810,34 +839,7 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
         sync->owner = proc;
     }
     // We can wake some proc.
-    if( proc )
-    {
-        status = BGRT_ST_OK;
-
-        SPIN_LOCK( proc );
-
-        proc->sync = (void *)0; //It doesn't wait on sync any more.
-
-        if( PROC_STATE_PI_PEND == PROC_GET_STATE( proc ) )
-        {
-            PROC_SET_STATE ( proc, PROC_STATE_PI_DONE );
-            if( chown )
-            {
-                PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
-            }
-        }
-        else
-        {
-            pitem_cut( (pitem_t *)proc );
-            if( chown )
-            {
-                PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
-                _proc_prio_control_stoped( proc );
-            }
-            sched_proc_run( proc, PROC_STATE_SYNC_READY );
-        }
-        SPIN_FREE( proc );
-    }
+    status = _sync_do_wake( proc, sync, chown );
 
     if( owner )
     {
