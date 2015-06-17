@@ -93,7 +93,7 @@ SYSCALL_TABLE( syscall_routine[] ) =
     scall_sched_proc_yeld,
     // Bsync
     scall_sync_set_owner,
-    scall_sync_clear_owner,
+    scall_sync_own,
     scall_sync_sleep,
     scall_sync_wake,
     scall_sync_wait,

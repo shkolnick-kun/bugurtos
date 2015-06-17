@@ -207,21 +207,21 @@ status_t sync_set_owner( sync_t * sync, proc_t * proc );
 /*!
 \~russian
 \brief
-Сбросить хозяина объекта типа #sync_t.
+Завладеть объектом типа #sync_t.
 
 \param sync Указатель на объект типа #sync_t.
-\return #BGRT_ST_OK если хозяин был сбошен, либо код ошибки.
+\return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
 \brief
-Clear #sync_t object owner.
+Own #sync_t object.
 
 \param sync A pointer to the object of interest.
-\return #BGRT_ST_OK if owner was clear, or error code.
+\return #BGRT_ST_OK if on success, or error code.
 */
-status_t sync_clear_owner( sync_t * sync );
+status_t sync_own( sync_t * sync );
 
-#define SYNC_CLEAR_OWNER(s) sync_clear_owner((sync_t *)s) /*!< \~russian \brief Смотри #sync_clear_owner. \~english \brief Watch #sync_clear_owner. */
+#define SYNC_OWN(s) sync_own((sync_t *)s) /*!< \~russian \brief Смотри #sync_own. \~english \brief Watch #sync_own. */
 
 /*!
 \~russian
@@ -518,17 +518,17 @@ status_t _sync_set_owner( sync_t * sync, proc_t * proc );
 /*!
 \~russian
 \brief
-Смотри #sync_clear_owner.
+Смотри #sync_own.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #sync_clear_owner.
+Watch #sync_own.
 
 \warning For internal usage.
 */
-status_t _sync_clear_owner( sync_t * sync );
+status_t _sync_own( sync_t * sync );
 /*!
 \~russian
 \brief
