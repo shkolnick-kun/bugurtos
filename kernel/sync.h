@@ -219,9 +219,9 @@ Own #sync_t object.
 \param sync A pointer to the object of interest.
 \return #BGRT_ST_OK if on success, or error code.
 */
-status_t sync_own( sync_t * sync );
+status_t sync_own( sync_t * sync, flag_t touch );
 
-#define SYNC_OWN(s) sync_own((sync_t *)s) /*!< \~russian \brief Смотри #sync_own. \~english \brief Watch #sync_own. */
+#define SYNC_OWN(s,t) sync_own( (sync_t *)(s), (flag_t)(t) ) /*!< \~russian \brief Смотри #sync_own. \~english \brief Watch #sync_own. */
 
 /*!
 \~russian
@@ -528,7 +528,7 @@ Watch #sync_own.
 
 \warning For internal usage.
 */
-status_t _sync_own( sync_t * sync );
+status_t _sync_own( sync_t * sync, flag_t touch );
 /*!
 \~russian
 \brief

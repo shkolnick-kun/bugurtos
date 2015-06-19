@@ -68,13 +68,13 @@
 		<Cursor position="24552" topLine="704" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="4">
-		<Cursor position="25649" topLine="505" />
+		<Cursor position="11710" topLine="202" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
 		<Cursor position="7689" topLine="114" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="5">
-		<Cursor position="6390" topLine="145" />
+		<Cursor position="9336" topLine="83" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="10">
 		<Cursor position="6876" topLine="94" />

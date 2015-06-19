@@ -94,12 +94,14 @@ SYSCALL_TABLE( syscall_routine[] ) =
     // Bsync
     scall_sync_set_owner,
     scall_sync_own,
+    scall_sync_touch,
     scall_sync_sleep,
     scall_sync_wake,
     scall_sync_wait,
     scall_sync_wake_and_sleep,
     scall_sync_wake_and_wait,
     scall_sync_proc_timeout,
+    //Arbitrary code execution
     scall_user
 };
 
