@@ -56,13 +56,13 @@
 		<Cursor position="6841" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="16974" topLine="457" />
+		<Cursor position="19637" topLine="551" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="7925" topLine="98" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="6482" topLine="86" />
+		<Cursor position="6690" topLine="77" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="17637" topLine="346" />
@@ -86,6 +86,6 @@
 		<Cursor position="1988" topLine="74" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="19481" topLine="534" />
+		<Cursor position="18761" topLine="530" />
 	</File>
 </CodeBlocks_layout_file>

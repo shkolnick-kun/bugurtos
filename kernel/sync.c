@@ -457,19 +457,21 @@ void scall_sync_set_owner( void * arg )
 typedef struct
 {
     sync_t * sync;
+    flag_t touch;
     status_t status;
 }sync_own_t;
 
-status_t sync_own( sync_t * sync )
+status_t sync_own( sync_t * sync, flag_t touch )
 {
     sync_own_t scarg;
     scarg.status = BGRT_ST_EOWN;
     scarg.sync = sync;
+    scarg.touch = touch;
     syscall_bugurt( SYSCALL_SYNC_OWN, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-status_t _sync_own( sync_t * sync )
+status_t _sync_own( sync_t * sync, flag_t touch )
 {
     proc_t * owner;
 
@@ -490,15 +492,79 @@ status_t _sync_own( sync_t * sync )
     }
     else
     {
-        SPIN_FREE( sync );
+        proc_t * current;
+        current = current_proc();
 
-        return BGRT_ST_ROLL;
+        if( current != owner )
+        {
+            if( touch )
+            {
+                sync->dirty++;
+                SPIN_FREE( sync );
+
+                SPIN_LOCK( current );
+                PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
+                SPIN_FREE( current );
+            }
+            else
+            {
+                SPIN_FREE( sync );
+            }
+            return BGRT_ST_ROLL;
+        }
+        else
+        {
+            SPIN_FREE( sync );
+
+            return BGRT_ST_OK;
+        }
     }
 }
 //========================================================================================
 void scall_sync_own( void * arg )
 {
-    ((sync_own_t *)arg)->status = _sync_own( ((sync_own_t *)arg)->sync );
+    ((sync_own_t *)arg)->status = _sync_own( ((sync_own_t *)arg)->sync, ((sync_own_t *)arg)->touch );
+}
+/**********************************************************************************************
+                                       SYSCALL_SYNC_TOUCH
+**********************************************************************************************/
+typedef struct
+{
+    sync_t * sync;
+    status_t status;
+}sync_touch_t;
+//========================================================================================
+status_t sync_touch( sync_t * sync )
+{
+    sync_touch_t scarg;
+    scarg.status = BGRT_ST_ENULL;
+    scarg.sync = sync;
+    syscall_bugurt( SYSCALL_SYNC_OWN, (void *)&scarg );
+    return scarg.status;
+}
+//========================================================================================
+status_t _sync_touch( sync_t * sync )
+{
+    proc_t * current;
+
+    if( !sync )
+    {
+        return BGRT_ST_ENULL;
+    }
+
+    SPIN_LOCK( sync );
+    sync->dirty++;
+    SPIN_FREE( sync );
+
+    current = current_proc();
+    SPIN_LOCK( current );
+    PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
+    SPIN_FREE( current );
+}
+//========================================================================================
+void scall_sync_touch( void * arg )
+{
+    ((sync_touch_t *)arg)->status = _sync_touch( ((sync_touch_t *)arg)->sync );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_SLEEP

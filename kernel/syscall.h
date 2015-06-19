@@ -105,7 +105,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_PROC_YELD + (syscall_t)(1))       /*!< \~russian \brief Установить нового хозяина объекта типа #sync_t. \~english \brief Set new #sync_t object owner. */
 #define SYSCALL_SYNC_OWN                       (SYSCALL_SYNC_SET_OWNER + (syscall_t)(1))        /*!< \~russian \brief Завладеть объектом типа #sync_t. \~english \brief Own #sync_t object. */
-#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_OWN + (syscall_t)(1))              /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
+#define SYSCALL_SYNC_TOUCH                     (SYSCALL_SYNC_OWN + (syscall_t)(1))              /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
+#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_TOUCH + (syscall_t)(1))            /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
 #define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (syscall_t)(1))            /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
 
 #define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (syscall_t)(1))             /*!< \~russian \brief Подождать блокировки процесса на объекте типа #sync_t. \~english \brief Wait for process to block on #sync_t object*/
@@ -359,6 +360,19 @@ A #SYSCALL_SYNC_OWN handler.
 This function calls #_sync_own.
 */
 void scall_sync_own( void * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_TOUCH.
+
+Вызывает #_sync_touch.
+\~english
+\brief
+A #SYSCALL_SYNC_TOUCH handler.
+
+This function calls #_sync_touch.
+*/
+void scall_sync_touch( void * arg );
 
 /*!
 \~russian
