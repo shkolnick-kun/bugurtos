@@ -5,7 +5,7 @@
 		<Cursor position="9692" topLine="189" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="10798" topLine="251" />
+		<Cursor position="8936" topLine="139" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6922" topLine="87" />
@@ -44,7 +44,7 @@
 		<Cursor position="152" topLine="181" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="9768" topLine="189" />
+		<Cursor position="6447" topLine="198" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="33235" topLine="630" />
@@ -56,10 +56,10 @@
 		<Cursor position="6841" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="19637" topLine="551" />
+		<Cursor position="18142" topLine="493" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="7925" topLine="98" />
+		<Cursor position="14603" topLine="276" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="6690" topLine="77" />
@@ -86,6 +86,6 @@
 		<Cursor position="1988" topLine="74" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="18761" topLine="530" />
+		<Cursor position="14695" topLine="429" />
 	</File>
 </CodeBlocks_layout_file>
