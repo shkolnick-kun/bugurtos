@@ -132,20 +132,12 @@ static status_t _sync_do_wake( proc_t * proc, sync_t * sync, flag_t chown )
     }
 }
 //========================================================================================
-static void _sync_do_pending_wake( sync_t * sync ) /// Not covered!!!
+static void _sync_do_pending_wake( sync_t * sync )
 {
     proc_t * proc;
     sync->pwake--;
     proc = (proc_t *)xlist_head( (xlist_t *)sync );
     _sync_do_wake( proc, sync, (flag_t)0 );
-}
-//========================================================================================
-static void _sync_check_pending_wake( sync_t * sync )
-{
-    if( sync->pwake )
-    {
-        _sync_do_pending_wake( sync ); /// Not covered!!!
-    }
 }
 //========================================================================================
 #ifdef CONFIG_MP
@@ -441,7 +433,7 @@ status_t _sync_set_owner( sync_t * sync, proc_t * proc )
 
     //We have some new owner
     SPIN_LOCK( sync );
-    _sync_assign_owner(sync, proc);
+    _sync_assign_owner( sync, proc );
 
 
     return BGRT_ST_OK;
@@ -460,7 +452,7 @@ typedef struct
     flag_t touch;
     status_t status;
 }sync_own_t;
-
+//========================================================================================
 status_t sync_own( sync_t * sync, flag_t touch )
 {
     sync_own_t scarg;
@@ -539,7 +531,7 @@ status_t sync_touch( sync_t * sync )
     sync_touch_t scarg;
     scarg.status = BGRT_ST_ENULL;
     scarg.sync = sync;
-    syscall_bugurt( SYSCALL_SYNC_OWN, (void *)&scarg );
+    syscall_bugurt( SYSCALL_SYNC_TOUCH, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -560,6 +552,7 @@ status_t _sync_touch( sync_t * sync )
     SPIN_LOCK( current );
     PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
     SPIN_FREE( current );
+    return BGRT_ST_OK;
 }
 //========================================================================================
 void scall_sync_touch( void * arg )
@@ -582,11 +575,19 @@ status_t sync_sleep( sync_t * sync )
     return scarg.status;
 }
 //========================================================================================
+static void _sync_sleep_swap_locks( sync_t * sync, proc_t * proc )
+{
+    SPIN_FREE( proc );
+    KERNEL_PREEMPT();
+    SPIN_LOCK( sync );
+    SPIN_LOCK( proc );
+}
+//========================================================================================
 status_t _sync_sleep( sync_t * sync )
 {
     proc_t * proc;
     prio_t old_prio, new_prio;
-    bool_t sync_clear;
+    flag_t sync_clear;
 
     _proc_reset_watchdog();
 
@@ -598,48 +599,43 @@ status_t _sync_sleep( sync_t * sync )
     proc = current_proc();
 
     SPIN_LOCK( proc );
-    switch( PROC_GET_STATE( proc ) )
+    switch( sync_clear = PROC_GET_STATE( proc ), PROC_SET_STATE( proc, PROC_STATE_RUNNING ), sync_clear ) //Use sync_clear as temp var.
     {
     case PROC_STATE_SYNC_RUNNING:
     {
-        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
 
+        KERNEL_PREEMPT();
+
         SPIN_LOCK( sync );
-        _sync_check_pending_wake( sync );
+        if( sync->pwake )
+        {
+            _sync_do_pending_wake( sync );
+        }
         SPIN_FREE( sync );
 
         return BGRT_ST_OK;
     }
     case PROC_STATE_TO_RUNNING:
     {
-        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
         SPIN_FREE( proc );
 
         return BGRT_ST_ETIMEOUT;
     }
-    default:
+    case PROC_STATE_PI_RUNNING:
     {
-        break;
-    }
-    }
-    SPIN_FREE( proc );
-
-    KERNEL_PREEMPT();
-
-    SPIN_LOCK( sync );
-    SPIN_LOCK( proc );
-
-    if( PROC_STATE_PI_RUNNING == PROC_GET_STATE( proc ) )
-    {
+        _sync_sleep_swap_locks( sync, proc );
         //The end of priority inheritance transaction or sync_own transaction
         //No zero check needed, as a process state is PROC_STATE_PI_RUNNING.
-        PROC_SET_STATE( proc, PROC_STATE_RUNNING );
-        sync_clear = ( (count_t)1 == sync->dirty-- );
+        sync_clear = (flag_t)( (count_t)1 == sync->dirty-- );
+        break;
     }
-    else
+    default:
     {
-        sync_clear = (bool_t)0;
+        _sync_sleep_swap_locks( sync, proc );
+        sync_clear = (flag_t)0;
+        break;
+    }
     }
     // Must be handled after proc state
     if( sync->owner == proc )
@@ -652,25 +648,16 @@ status_t _sync_sleep( sync_t * sync )
 
     old_prio = SYNC_PRIO( sync );
 
-    if( (sync_clear) && (sync->pwake) )
-    {
-        if( ((pitem_t *)proc)->prio > old_prio )
-        {
-            SPIN_FREE( proc );
-            SPIN_FREE( sync );
-
-            return BGRT_ST_OK; /// Not covered!!!
-        }
-        else
-        {
-            _sync_do_pending_wake( sync ); /// Not covered!!!
-        }
-    }
     proc->sync = sync;
     _proc_stop_flags_set( proc, PROC_STATE_SYNC_SLEEP );
     pitem_insert( (pitem_t *)proc, (xlist_t *)sync );
 
     SPIN_FREE( proc );
+
+    if( (sync_clear) && (sync->pwake) )
+    {
+        _sync_do_pending_wake( sync );
+    }
 
     proc = sync->owner;
     if( proc )
@@ -689,7 +676,7 @@ status_t _sync_sleep( sync_t * sync )
             SPIN_LOCK( proc );
             if( PROC_STATE_SYNC_WAIT == PROC_GET_STATE( proc ) )
             {
-                sched_proc_run( proc, PROC_STATE_READY ); /// Not covered!!!
+                sched_proc_run( proc, PROC_STATE_READY );
             }
             SPIN_FREE( proc );
             SPIN_FREE( sync );
@@ -868,7 +855,7 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
             sync->pwake++;
             SPIN_FREE( sync );
 
-            return BGRT_ST_OK; /// Not covered!!!
+            return BGRT_ST_OK;
         }
     }
     // Nonzero proc argument???

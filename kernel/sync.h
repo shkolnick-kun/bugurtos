@@ -191,6 +191,7 @@ proc_t * sync_get_owner( sync_t * sync );
 
 \param sync Указатель на объект типа #sync_t.
 \param proc Указатель на новый процесс-хозяин объекта типа #sync_t.
+\return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
 \brief
@@ -198,7 +199,7 @@ Set #sync_t object owner.
 
 \param sync A pointer to the object of interest.
 \param proc A pointer to new #sync_t object owner.
-\return #BGRT_ST_OK if owner was set, #BGRT_ST_ROLL if #sync_t object already had an owner.
+\return #BGRT_ST_OK on sucess, or error code.
 */
 status_t sync_set_owner( sync_t * sync, proc_t * proc );
 
@@ -222,6 +223,9 @@ Own #sync_t object.
 status_t sync_own( sync_t * sync, flag_t touch );
 
 #define SYNC_OWN(s,t) sync_own( (sync_t *)(s), (flag_t)(t) ) /*!< \~russian \brief Смотри #sync_own. \~english \brief Watch #sync_own. */
+
+status_t sync_touch( sync_t * sync );
+#define SYNC_TOUCH(s,t) sync_touch( (sync_t *)(s) )
 
 /*!
 \~russian
