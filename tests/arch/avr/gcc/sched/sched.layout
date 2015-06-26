@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="2">
-		<Cursor position="7642" topLine="123" />
+		<Cursor position="7397" topLine="109" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel.h" open="0" top="0" tabpos="3">
 		<Cursor position="7844" topLine="0" />
@@ -13,8 +13,8 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="76" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="7">
-		<Cursor position="8946" topLine="134" />
+	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="5">
+		<Cursor position="8817" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
 		<Cursor position="6766" topLine="75" />
@@ -53,9 +53,9 @@
 		<Cursor position="9318" topLine="178" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="1">
-		<Cursor position="13366" topLine="476" />
+		<Cursor position="13366" topLine="474" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="6">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="4">
 		<Cursor position="18190" topLine="322" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="2">
@@ -65,13 +65,13 @@
 		<Cursor position="14864" topLine="309" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="3">
-		<Cursor position="21752" topLine="669" />
+		<Cursor position="26730" topLine="810" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="3">
 		<Cursor position="10871" topLine="190" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="2">
-		<Cursor position="7689" topLine="85" />
+		<Cursor position="5472" topLine="54" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="4">
 		<Cursor position="9336" topLine="83" />
@@ -92,7 +92,7 @@
 		<Cursor position="1405" topLine="84" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="1">
-		<Cursor position="1175" topLine="77" />
+		<Cursor position="2859" topLine="131" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
 		<Cursor position="615" topLine="0" />
