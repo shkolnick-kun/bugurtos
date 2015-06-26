@@ -178,7 +178,7 @@
 1433755530 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1435077648 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1435230645 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
 1434690930 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
@@ -193,6 +193,6 @@
 1431287111 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
 	<test_func.h>
 
-1435077272 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
+1435230937 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 

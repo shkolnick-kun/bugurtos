@@ -750,8 +750,6 @@ status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         return BGRT_ST_ETIMEOUT;
     }
 
-    status = (block)?BGRT_ST_ROLL:BGRT_ST_EEMPTY;
-
     SPIN_LOCK( sync );
     owner = sync->owner;
 
@@ -773,6 +771,7 @@ status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
         *proc = (proc_t *)xlist_head( ((xlist_t *)sync) );
     }
 
+    status = (block)?BGRT_ST_ROLL:BGRT_ST_EEMPTY;
     if( *proc )
     {
         SPIN_LOCK( (*proc) );
@@ -880,7 +879,7 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     if( owner )
     {
         SPIN_LOCK( owner );
-        // As PROC_FLG_sync is set, a process can be stopped safely.
+
         sched_proc_stop( owner );
         PROC_LRES_DEC( owner, SYNC_PRIO( sync ) );// No prio control now!
 
