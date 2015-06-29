@@ -496,6 +496,7 @@ status_t _sync_own( sync_t * sync, flag_t touch )
 
                 SPIN_LOCK( current );
                 PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
+                current->sync = sync;
                 SPIN_FREE( current );
             }
             else
@@ -551,6 +552,7 @@ status_t _sync_touch( sync_t * sync )
     current = current_proc();
     SPIN_LOCK( current );
     PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
+    current->sync = sync;
     SPIN_FREE( current );
     return BGRT_ST_OK;
 }
@@ -1097,7 +1099,7 @@ status_t _sync_proc_timeout( proc_t * proc )
         SPIN_FREE( proc );
         SPIN_FREE( sync );
 
-        return BGRT_ST_ESYNC;
+        return BGRT_ST_ESYNC;  /// Not covered !!!
     }
 
     switch( PROC_GET_STATE( proc ) )
@@ -1110,7 +1112,7 @@ status_t _sync_proc_timeout( proc_t * proc )
         old_prio = SYNC_PRIO( sync );
 
         pitem_cut( (pitem_t *)proc );
-
+        proc->sync = (sync_t *)0;
         sched_proc_run( proc, PROC_STATE_TO_READY );
         SPIN_FREE(proc);
 
