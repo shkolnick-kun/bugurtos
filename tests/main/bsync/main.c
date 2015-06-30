@@ -468,7 +468,7 @@ void main_0( void * arg )
     test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //92 sync_wait sync_wake
-    wait_time(10);
+    wait_time(20);
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     //93 sync_wait sync_wake
@@ -535,7 +535,7 @@ void main_0( void * arg )
     test = ( (sync_t *)0 == proc[1].sync );
     test_output( test, test_num++ );
     //108 sync_wake
-    wait_time(10);
+    wait_time(20);
     test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //109 sync_wake
@@ -583,6 +583,7 @@ void main_0( void * arg )
     proc_run( &proc[2] );
     wait_time(5);
     status[0] = sync_wake( &sync_1, (proc_t *)0, 1 );
+    wait_time(5);
     test = ( BGRT_ST_OK == status[0] );
     test_output( test, test_num++ );
     //118 sync_wake
@@ -607,6 +608,7 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == sync_proc_timeout( &proc[2] ) );
     test_output( test, test_num++ );
     //123 sync_proc_timeout
+    wait_time(5);
     test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
 
@@ -614,13 +616,15 @@ void main_0( void * arg )
     sync_set_owner( &sync_1, &proc[1] );
     proc_run( &proc[2] );
     wait_time(5);
-    test = ( BGRT_ST_OK == sync_proc_timeout( &proc[1] ) );
+    status[0] = sync_proc_timeout( &proc[1] );
+    test = ( BGRT_ST_OK == status[0] );
     test_output( test, test_num++ );
     //125 sync_proc_timeout
-    test = ( BGRT_ST_ROLL == sync_proc_timeout( &proc[2] ) );
+    status[0] =  sync_proc_timeout( &proc[2] );
+    test = ( BGRT_ST_ROLL == status[0] );
     test_output( test, test_num++ );
     //126 sync_proc_timeout
-    wait_time(10);
+    wait_time(20);
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     //127 sync_proc_timeout
@@ -629,8 +633,211 @@ void main_0( void * arg )
     //128 sync_proc_timeout
     test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
+    /// sync_proc_timeout tested but not covered!!!
 
+    // 129 priority inheritance/ceiling
+    sync_set_owner( &sync_2, &proc[2] );
+    sync_set_owner( &sync_3, &proc[3] );
+    proc_run( &proc[2] );
+    wait_time(5);
+    test = ( 4 == proc[1].parent.prio);
+    test_output( test, test_num++ );
 
+    // 130 priority inheritance/ceiling
+    proc_run( &proc[3] );
+    wait_time(5);
+    test = ( 3 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 131 priority inheritance/ceiling
+    test = ( 3 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 132 priority inheritance/ceiling
+    proc_run( &proc[4] );
+    wait_time(5);
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 133 priority inheritance/ceiling
+    test = ( 2 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 134 priority inheritance/ceiling
+    test = ( 2 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 135 priority inheritance/ceiling
+    proc_run( &proc[5] );
+    wait_time(5);
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 136 priority inheritance/ceiling
+    test = ( 1 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 137 priority inheritance/ceiling
+    test = ( 1 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 138 priority inheritance/ceiling
+    proc_set_prio( &proc[5], 0 );
+    wait_time(5);
+    test = ( 0 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 139 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 140 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 141 priority inheritance/ceiling
+    test = ( 0 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 142 priority inheritance/ceiling
+    test = ( 0 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 143 priority inheritance/ceiling
+    proc_set_prio( &proc[5], 1 );
+    wait_time(5);
+    test = ( 1 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 144 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 145 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 146 priority inheritance/ceiling
+    test = ( 1 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 147 priority inheritance/ceiling
+    test = ( 1 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 148 priority inheritance/ceiling
+    proc_set_prio( &proc[2], 0 );
+    wait_time(5);
+    test = ( 1 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 149 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 150 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 151 priority inheritance/ceiling
+    test = ( 0 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 152 priority inheritance/ceiling
+    test = ( 0 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 153 priority inheritance/ceiling
+    proc_set_prio( &proc[2], 1 );
+    wait_time(5);
+    test = ( 1 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 154 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 155 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 156 priority inheritance/ceiling
+    test = ( 1 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 157 priority inheritance/ceiling
+    test = ( 1 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 158 priority inheritance/ceiling
+    proc_set_prio( &proc[2], 4 );
+    wait_time(5);
+    test = ( 1 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 159 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 160 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 161 priority inheritance/ceiling
+    test = ( 1 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 162 priority inheritance/ceiling
+    test = ( 1 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 163 priority inheritance/ceiling
+    proc_set_prio( &proc[4], 4 );
+    wait_time(5);
+    test = ( 1 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 164 priority inheritance/ceiling
+    test = ( 4 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 165 priority inheritance/ceiling
+    test = ( 3 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 166 priority inheritance/ceiling
+    test = ( 1 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 167 priority inheritance/ceiling
+    test = ( 1 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 168 priority inheritance/ceiling
+    proc_set_prio( &proc[4], 2 );
+    wait_time(5);
+    test = ( 1 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 169 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 170 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 171 priority inheritance/ceiling
+    test = ( 1 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 172 priority inheritance/ceiling
+    test = ( 1 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 173 priority inheritance/ceiling
+    proc_set_prio( &proc[5], LOWEST );
+    wait_time(5);
+    test = ( LOWEST == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 174 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 175 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 176 priority inheritance/ceiling
+    test = ( 2 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 177 priority inheritance/ceiling
+    test = ( 2 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+
+    // 178 priority inheritance/ceiling
+    sync_set_owner( &sync_4, &proc[5] );
+    wait_time(5);
+    test = ( 0 == proc[5].parent.prio);
+    test_output( test, test_num++ );
+    // 179 priority inheritance/ceiling
+    test = ( 2 == proc[4].parent.prio);
+    test_output( test, test_num++ );
+    // 180 priority inheritance/ceiling
+    test = ( 2 == proc[3].parent.prio);
+    test_output( test, test_num++ );
+    // 181 priority inheritance/ceiling
+    test = ( 0 == proc[2].parent.prio);
+    test_output( test, test_num++ );
+    // 182 priority inheritance/ceiling
+    test = ( 0 == proc[1].parent.prio);
+    test_output( test, test_num++ );
+    /// priority inheritance/ceiling tested!!!
 
     tests_end();
 }
@@ -767,25 +974,38 @@ void main_2( void * arg )
     wait_time(10);
     sync_sleep( &sync_1 );
     proc_self_stop();
+
+    // priority inheritance/ceiling
+    sync_sleep( &sync_1 );
+    proc_self_stop();
 }
 
 void main_3( void * arg )
 {
+    // priority inheritance/ceiling
+    sync_sleep( &sync_2 );
+    proc_self_stop();
 }
 
 void main_4( void * arg )
 {
+    // priority inheritance/ceiling
+    sync_sleep( &sync_3 );
+    proc_self_stop();
 }
 
 void main_5( void * arg )
 {
+    // priority inheritance/ceiling
+    sync_sleep( &sync_2 );
+    proc_self_stop();
 }
 
 void idle_main( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        wait_time(5);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
     }

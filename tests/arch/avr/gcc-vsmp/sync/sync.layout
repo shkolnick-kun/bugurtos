@@ -4,11 +4,14 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="7985" topLine="150" />
 	</File>
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="11317" topLine="228" />
+	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="705" />
+		<Cursor position="0" topLine="324" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="17906" topLine="490" />
+		<Cursor position="34797" topLine="1132" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="25671" topLine="507" />
@@ -17,6 +20,6 @@
 		<Cursor position="3456" topLine="202" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="14686" topLine="428" />
+		<Cursor position="27717" topLine="630" />
 	</File>
 </CodeBlocks_layout_file>
