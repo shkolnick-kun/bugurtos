@@ -122,7 +122,7 @@ status_t cond_wait(  cond_t * cond, mutex_t * mutex )
     return ret;
 }
 
-status_t cond_signal( cond_t * cond )
+static status_t _cond_signal( cond_t * cond )
 {
     status_t ret = BGRT_ST_EEMPTY;
 
@@ -131,6 +131,12 @@ status_t cond_signal( cond_t * cond )
         proc_t * dummy = (proc_t *)0;
 
         SYNC_WAIT( cond, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
+
+        if( BGRT_ST_OK != ret )
+        {
+            return ret;
+        }
+
         SYNC_WAKE( cond, 0, 0, ret );
 
         cond->blocked--;
@@ -139,14 +145,39 @@ status_t cond_signal( cond_t * cond )
     return ret;
 }
 
+status_t cond_signal( cond_t * cond )
+{
+    status_t ret, clr_own;
+
+    clr_own = SYNC_OWN( cond, 0 );
+
+    ret = _cond_signal( cond );
+
+    if( BGRT_ST_OK == clr_own )
+    {
+        SYNC_SET_OWNER( cond, 0 );
+    }
+
+    return ret;
+}
+
 status_t cond_broadcast( cond_t * cond )
 {
     status_t ret = BGRT_ST_ROLL;
+    status_t clr_own;
+
+    clr_own = SYNC_OWN( cond, 0 );
+
     do
     {
-        ret = cond_signal( cond );
+        ret = _cond_signal( cond );
     }
     while( BGRT_ST_OK == ret );
+
+    if( BGRT_ST_OK == clr_own )
+    {
+        SYNC_SET_OWNER( cond, 0 );
+    }
 
     return ret;
 }

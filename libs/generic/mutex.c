@@ -98,7 +98,7 @@ status_t mutex_try_lock( mutex_t * mutex )
 
     proc_lock();
 
-    ret = SYNC_SET_OWNER( mutex, 0 );
+    ret = SYNC_OWN( mutex, 0 );
 
     if( ret == BGRT_ST_OK )
     {
@@ -116,7 +116,7 @@ status_t mutex_lock( mutex_t * mutex )
 
     proc_lock(); //Now process must not stop!
 
-    ret = SYNC_SET_OWNER( mutex, 0 ); //Try to lock mutex
+    ret = SYNC_OWN( mutex, 1 ); //Try to lock mutex
 
     if( ret == BGRT_ST_ROLL )
     {

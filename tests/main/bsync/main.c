@@ -225,7 +225,7 @@ void main_0( void * arg )
 
     // 42 sync_own
     status[0] = sync_own( &sync_1, (flag_t)0 );
-    test = (BGRT_ST_OK == status[0]);
+    test = (BGRT_ST_ROLL == status[0]);
     test_output( test, test_num++ );
     // 43 sync_own
     test = ( (&proc[0]) == sync_1.owner );
@@ -262,7 +262,8 @@ void main_0( void * arg )
 
     // 50 sync_own
     status[0] = sync_own( &sync_1, (flag_t)1 );
-    test = (BGRT_ST_OK == status[0]);
+    test = (BGRT_ST_ROLL == status[0]);
+    test = test && ( 0 == sync_1.dirty );
     test_output( test, test_num++ );
     // 51 sync_own
     test = ( (&proc[0]) == sync_1.owner );

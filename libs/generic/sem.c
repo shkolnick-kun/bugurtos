@@ -193,8 +193,6 @@ status_t sem_free( sem_t * sem )
 
     if( ret == BGRT_ST_ROLL )
     {
-        proc_t * dummy = (proc_t *)0;
-        SYNC_WAIT( sem, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
         SYNC_WAKE( sem,  0, 0, ret );// Now we can wake some process.
     }
 

@@ -487,30 +487,21 @@ status_t _sync_own( sync_t * sync, flag_t touch )
         proc_t * current;
         current = current_proc();
 
-        if( current != owner )
+        if( touch && (owner != current) )
         {
-            if( touch )
-            {
-                sync->dirty++;
-                SPIN_FREE( sync );
+            sync->dirty++;
+            SPIN_FREE( sync );
 
-                SPIN_LOCK( current );
-                PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
-                current->sync = sync;
-                SPIN_FREE( current );
-            }
-            else
-            {
-                SPIN_FREE( sync );
-            }
-            return BGRT_ST_ROLL;
+            SPIN_LOCK( current );
+            PROC_SET_STATE( current, PROC_STATE_PI_RUNNING );
+            current->sync = sync;
+            SPIN_FREE( current );
         }
         else
         {
             SPIN_FREE( sync );
-
-            return BGRT_ST_OK;
         }
+        return BGRT_ST_ROLL;
     }
 }
 //========================================================================================

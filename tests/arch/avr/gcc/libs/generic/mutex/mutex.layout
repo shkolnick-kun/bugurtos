@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="18189" topLine="321" />
+	</File>
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="13530" topLine="339" />
+		<Cursor position="17861" topLine="480" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="17810" topLine="346" />
+		<Cursor position="11694" topLine="202" />
 	</File>
 	<File name="../../../../../../../libs/generic/mutex.c" open="0" top="0" tabpos="0">
-		<Cursor position="6899" topLine="108" />
+		<Cursor position="6613" topLine="88" />
 	</File>
 	<File name="../../../../../../../libs/generic/mutex.h" open="0" top="0" tabpos="1">
 		<Cursor position="6083" topLine="61" />
@@ -16,7 +19,7 @@
 	<File name="../../../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1872" topLine="78" />
 	</File>
-	<File name="../../../../../../main/libs/generic/mutex/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2095" topLine="8" />
+	<File name="../../../../../../main/libs/generic/mutex/main.c" open="0" top="0" tabpos="1">
+		<Cursor position="1793" topLine="27" />
 	</File>
 </CodeBlocks_layout_file>
