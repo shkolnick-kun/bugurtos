@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="0" top="0" tabpos="1">
-		<Cursor position="7013" topLine="99" />
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.c" open="1" top="0" tabpos="5">
+		<Cursor position="10697" topLine="229" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="6428" topLine="74" />
 	</File>
-	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="4">
-		<Cursor position="7451" topLine="108" />
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="4">
+		<Cursor position="11410" topLine="225" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
 		<Cursor position="7134" topLine="102" />
@@ -20,7 +20,7 @@
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="94" topLine="0" />
+		<Cursor position="10643" topLine="190" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="4">
 		<Cursor position="94" topLine="1" />
@@ -52,14 +52,14 @@
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
-		<Cursor position="11272" topLine="231" />
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="6">
+		<Cursor position="11090" topLine="231" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="4">
 		<Cursor position="35551" topLine="624" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
-		<Cursor position="11732" topLine="236" />
+		<Cursor position="9601" topLine="181" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
@@ -88,11 +88,11 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="7">
 		<Cursor position="7895" topLine="149" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="2325" topLine="18" />
+	<File name="../config.h" open="0" top="0" tabpos="4">
+		<Cursor position="3995" topLine="114" />
 	</File>
 	<File name="../test_func.c" open="1" top="0" tabpos="1">
-		<Cursor position="2672" topLine="197" />
+		<Cursor position="3381" topLine="209" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="27" topLine="0" />

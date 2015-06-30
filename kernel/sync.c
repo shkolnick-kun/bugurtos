@@ -1134,6 +1134,10 @@ status_t _sync_proc_timeout( proc_t * proc )
                 SPIN_FREE( sync );
             }
         }
+        else
+        {
+            SPIN_FREE( sync );
+        }
 
         return BGRT_ST_OK;
     }

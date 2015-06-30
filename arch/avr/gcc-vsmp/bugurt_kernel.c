@@ -154,7 +154,9 @@ load_t stat_calc_load(prio_t prio, stat_t * stat)
 }
 void resched(core_id_t core_id)
 {
+    cli();
     vsmp_vinterrupt_isr( core_id, ( vinterrupt_t * )resched_vectors + core_id );
+    sei();
 }
 
 /******************************************************************************************************/
@@ -222,7 +224,9 @@ void systimer_vectors_fire(void)
     core_id_t i;
     for(i = 0; i < MAX_CORES; i++)
     {
+        cli();
         vsmp_vinterrupt_isr( i, (vinterrupt_t *)systimer_vectors + i );
+        sei();
     }
 }
 
@@ -236,7 +240,9 @@ void vsmp_systimer_hook_bugurt(void)
         if( systimer_hook_counter >= CONFIG_SYSTIMER_HOOK_THR )
         {
             systimer_hook_counter = (count_t)0;
+            cli();
             vsmp_vinterrupt_isr(0,&systimer_tick_vector);
+            sei();
         }
 
     }
