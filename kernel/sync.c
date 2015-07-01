@@ -141,12 +141,13 @@ static void _sync_do_pending_wake( sync_t * sync )
 }
 //========================================================================================
 #ifdef CONFIG_MP
+#define PROC_PRIO_PROP_ARGS proc_t * proc, code_t hook, void * hook_arg
 #define PROC_PRIO_PROP_HOOK() hook(hook_arg)
-void _proc_prio_propagate( proc_t * proc, code_t hook, void * hook_arg )
 #else // CONFIG_MP
+#define PROC_PRIO_PROP_ARGS proc_t * proc
 #define PROC_PRIO_PROP_HOOK()
-void _proc_prio_propagate( proc_t * proc )
 #endif // CONFIG_MP
+static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
 {
     switch( PROC_GET_STATE( proc ) )
     {

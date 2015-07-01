@@ -53,10 +53,10 @@
 		<Cursor position="9318" topLine="178" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="1">
-		<Cursor position="13366" topLine="474" />
+		<Cursor position="13366" topLine="77" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="4">
-		<Cursor position="18190" topLine="322" />
+	<File name="../../../../../kernel/proc.h" open="1" top="1" tabpos="4">
+		<Cursor position="7457" topLine="780" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="2">
 		<Cursor position="10071" topLine="199" />
@@ -71,7 +71,7 @@
 		<Cursor position="10871" topLine="190" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="2">
-		<Cursor position="5472" topLine="54" />
+		<Cursor position="6380" topLine="81" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="4">
 		<Cursor position="9336" topLine="83" />

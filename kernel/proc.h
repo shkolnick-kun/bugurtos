@@ -139,9 +139,9 @@ A decrement of proc->lres.
 
 */
 
-#define PROC_LRES_INIT(a) pcounter_init(&a->lres)
-#define PROC_LRES_INC(a,b) pcounter_inc( &a->lres, b )
-#define PROC_LRES_DEC(a,b) pcounter_dec( &a->lres, b )
+#define PROC_LRES_INIT(a) pcounter_init( &((a)->lres) )
+#define PROC_LRES_INC(a,b) pcounter_inc( &((a)->lres), b )
+#define PROC_LRES_DEC(a,b) pcounter_dec( &((a)->lres), b )
 
 //Процесс
 typedef struct _proc_t proc_t; /*!< \~russian Смотри #_proc_t; \~english See #_proc_t; */
@@ -361,7 +361,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define PROC_PRE_STOP_TEST(a) ( ( a->flags & PROC_FLG_PRE_STOP ) && ( !( a->flags & PROC_FLG_LOCK_MASK ) ) )
+#define PROC_PRE_STOP_TEST(a) ( ( (a)->flags & PROC_FLG_PRE_STOP ) && ( !( (a)->flags & PROC_FLG_LOCK_MASK ) ) )
 /*!
 \~russian
 \brief Проверяет, запущен ли процесс.
@@ -373,7 +373,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define PROC_RUN_TEST(a) ( ( a->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
+#define PROC_RUN_TEST(a) ( ( (a)->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
 /*!
 \~russian
 \brief Читает состояние процесса.
@@ -385,7 +385,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define PROC_GET_STATE(a) ( a->flags & PROC_STATE_MASK )
+#define PROC_GET_STATE(a) ( (a)->flags & PROC_STATE_MASK )
 /*!
 \~russian
 \brief Устанавливает состояние процесса.
@@ -398,7 +398,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define PROC_SET_STATE(a,b) ( a->flags &= PROC_STATE_CLEAR_MASK, a->flags |= b )
+#define PROC_SET_STATE(a,b) ( (a)->flags &= PROC_STATE_CLEAR_MASK, (a)->flags |= b )
 
 /*!
 \~russian
@@ -627,23 +627,6 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 \warning For internal usage.
 */
 void _proc_reset_watchdog(void);
-//===========================================================
-/*!
-\~russian
-\brief Передача приоритетов по цепи заблокированных процессов.
-
-\warning Для внутреннего использования.
-
-\~english
-\brief Propagation of priority through a blocked process chain.
-
-\warning For internal usage.
-*/
-void _proc_prio_propagate( proc_t * proc
-#ifdef CONFIG_MP
-                          , code_t hook, void * hook_arg
-#endif //CONFIG_MP
-                         );
 //===========================================================
 /*!
 \~russian

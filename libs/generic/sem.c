@@ -193,9 +193,64 @@ status_t sem_free( sem_t * sem )
 
     if( ret == BGRT_ST_ROLL )
     {
+        status_t clr_own;
+        proc_t * dummy = (proc_t *)0;
+
+        clr_own = SYNC_OWN( sem, 0 );
+
+        SYNC_WAIT( sem, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
+
+        if( BGRT_ST_OK != ret )
+        {
+            goto end;
+        }
         SYNC_WAKE( sem,  0, 0, ret );// Now we can wake some process.
+
+        if( BGRT_ST_OK == clr_own )
+        {
+            SYNC_SET_OWNER( sem, 0 );
+        }
+    }
+end:
+    proc_free();
+    return ret;
+}
+
+status_t sem_free_isr( sem_t * sem )
+{
+    status_t ret;
+
+    if( !sem )
+    {
+        return BGRT_ST_ENULL;
     }
 
-    proc_free();
+    SPIN_LOCK( sem );
+
+    if( ((sync_t *)sem)->owner )
+    {
+        SPIN_FREE( sem );
+        return BGRT_ST_EOWN;
+    }
+
+    if( sem->blocked )
+    {
+        sem->blocked--;
+        ret = BGRT_ST_ROLL;
+    }
+    else
+    {
+        sem->counter++;
+        ret = BGRT_ST_OK;
+    }
+
+    SPIN_FREE( sem );
+
+    KERNEL_PREEMPT();
+
+    if( ret == BGRT_ST_ROLL )
+    {
+        ret = _sync_wake( (sync_t *)sem, (proc_t *)0, (flag_t)0 );// Now we can wake some process.
+    }
     return ret;
 }
