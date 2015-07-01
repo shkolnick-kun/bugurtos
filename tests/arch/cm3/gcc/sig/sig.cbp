@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
+					<Add option="-Os" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -38,7 +39,7 @@
 			<Add option="-fdata-sections" />
 			<Add option="-mcpu=cortex-m3" />
 			<Add option='-include&quot;../config.h&quot;' />
-			<Add directory="../../../../../../thirdparty/stm32l152" />
+			<Add directory="../../../../../../thirdparty/libopencm3/include" />
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../include" />
 		</Compiler>
@@ -49,7 +50,8 @@
 			<Add option="-Wl,--gc-sections" />
 			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
-			<Add option='-T &quot;../../../../../../thirdparty/stm32l152/stm32l152rb.ld&quot;' />
+			<Add option='-T &quot;../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld&quot;' />
+			<Add library="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l1.a" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
@@ -127,13 +129,6 @@
 		<Unit filename="../../../../main/sig/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32l152/stm32l152rb.S" />
-		<Unit filename="../../../../../../thirdparty/stm32l152/stm32l152rb.ld" />
-		<Unit filename="../../../../../../thirdparty/stm32l152/stm32l1xx.h" />
-		<Unit filename="../../../../../../thirdparty/stm32l152/system_stm32l1xx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32l152/system_stm32l1xx.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
