@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="../../../../../../../arch/avr/gcc/bugurt_kernel.c" open="0" top="0" tabpos="6">
 		<Cursor position="8389" topLine="147" />
 	</File>
@@ -20,10 +20,10 @@
 		<Cursor position="35471" topLine="636" />
 	</File>
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="2">
-		<Cursor position="23030" topLine="438" />
+		<Cursor position="26310" topLine="804" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="9">
-		<Cursor position="6655" topLine="78" />
+		<Cursor position="18948" topLine="360" />
 	</File>
 	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="1">
 		<Cursor position="7607" topLine="116" />
@@ -34,8 +34,8 @@
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6857" topLine="93" />
 	</File>
-	<File name="../../../../../../../libs/generic/cond.c" open="1" top="1" tabpos="1">
-		<Cursor position="7809" topLine="119" />
+	<File name="../../../../../../../libs/generic/cond.c" open="0" top="0" tabpos="1">
+		<Cursor position="7452" topLine="137" />
 	</File>
 	<File name="../../../../../../../libs/generic/cond.h" open="0" top="0" tabpos="1">
 		<Cursor position="10471" topLine="183" />
@@ -61,7 +61,7 @@
 	<File name="../../../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../../main/libs/generic/sig/main.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../../main/libs/generic/sig/main.c" open="0" top="0" tabpos="2">
 		<Cursor position="1306" topLine="48" />
 	</File>
 </CodeBlocks_layout_file>

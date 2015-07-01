@@ -31,7 +31,7 @@
 
 1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
 
-1432279315 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+1435747791 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
 
 1432277611 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
 
@@ -73,7 +73,7 @@
 1433755530 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1435650146 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1435747416 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
 1434690930 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c

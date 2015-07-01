@@ -212,4 +212,31 @@ else semaphore wait list head will be launched.
 */
 status_t sem_free( sem_t * sem );
 
+/*!
+\~russian
+\brief
+Освобождение семафора из обработчика прерывания.
+
+\warning У семафора не должно быть хозяина!!!
+
+Если список ожидающих захвата семафора пуст, то счетчик семафора увеличиваем на 1.
+Если не пуст - возобновляем работу головы списка.
+
+\param sem Указатель на семафор.
+\return #BGRT_ST_OK в случае успеха, или номер ошибки.
+
+\~english
+\brief
+Semaphore free. For ISR usage.
+
+\warning A semaphore must not have an owner
+
+If semaphore wait list is empty, then counter will be increased,
+else semaphore wait list head will be launched.
+
+\param sem A #sem_t pointer.
+\return #BGRT_ST_OK on success, or error number.
+*/
+status_t sem_free_isr( sem_t * sem );
+
 #endif // _SEM_H_

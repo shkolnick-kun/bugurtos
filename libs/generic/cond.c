@@ -136,7 +136,6 @@ static status_t _cond_signal( cond_t * cond )
         {
             return ret;
         }
-
         SYNC_WAKE( cond, 0, 0, ret );
 
         cond->blocked--;
