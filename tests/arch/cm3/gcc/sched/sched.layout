@@ -31,8 +31,8 @@
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
 	</File>
-	<File name="../config.h" open="1" top="0" tabpos="2">
-		<Cursor position="1445" topLine="33" />
+	<File name="../config.h" open="1" top="1" tabpos="0">
+		<Cursor position="1307" topLine="25" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="1024" topLine="33" />

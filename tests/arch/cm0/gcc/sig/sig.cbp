@@ -129,16 +129,6 @@
 		<Unit filename="../../../../main/sig/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../thirdparty/startup-cm.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32f051/stm32f051r8.S" />
-		<Unit filename="../../../../../../thirdparty/stm32f051/stm32f051r8.ld" />
-		<Unit filename="../../../../../../thirdparty/stm32f051/stm32f0xx.h" />
-		<Unit filename="../../../../../../thirdparty/stm32f051/system_stm32f0xx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32f051/system_stm32f0xx.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
