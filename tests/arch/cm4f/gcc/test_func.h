@@ -1,5 +1,12 @@
 #include <bugurt.h>
-#include <stm32f4xx.h>
+
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/stm32/timer.h>
+#include <libopencm3/cm3/nvic.h>
+#include <libopencm3/stm32/exti.h>
+
+extern void(*test_kernel_preempt)(void);
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
@@ -15,9 +22,15 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 
-/// TODO write led init and control!!!
-#define LED_ON()
-#define LED_OFF()
+#define GREEN GPIO12
+#define RED   GPIO13
+
+#define LED_ON(CL)  gpio_set(GPIOD, CL)
+#define LED_OFF(CL) gpio_clear(GPIOD, CL)
+
+void kernel_preemt_hook_add( void(*arg)(void) );
+void kernel_preemt_hook(void);
+void test_do_nothing(void);
 
 void init_hardware(void);
 void sched_fix_proc_2(void);

@@ -10,7 +10,10 @@
 	<File name="../config.h" open="0" top="0" tabpos="2">
 		<Cursor position="365" topLine="3" />
 	</File>
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1024" topLine="33" />
+	</File>
 	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="4979" topLine="124" />
+		<Cursor position="4821" topLine="173" />
 	</File>
 </CodeBlocks_layout_file>

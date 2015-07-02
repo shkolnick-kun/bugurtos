@@ -10,10 +10,6 @@
 #define SYSCALL_TABLE(a) const code_t a
 #define SYSCALL_TABLE_READ(a) a
 
-#ifndef WEAK
-#define WEAK __attribute__(( __weak__ ))
-#endif
-
 #ifndef NOP
 #define NOP() __asm__ __volatile__ ("nop":::)
 #endif
@@ -33,11 +29,13 @@ typedef unsigned long index_t;
 
 // Even if index_t is unsigned long long,
 // there will be only 64 priority levels available,
-// so unsigned char is allways enough.
+// so unsigned char is always enough.
 typedef unsigned char prio_t;
 
 // unsigned char is enough.
 typedef unsigned char flag_t;
+// unsigned char is enough.
+typedef unsigned char status_t;
 
 typedef unsigned long count_t;
 
@@ -51,10 +49,6 @@ typedef unsigned char bool_t;
 // There is no reason to make it bigger.
 typedef unsigned char syscall_t;
 
-// Unsigned short is enough
-// to handle data and pointers.
-// There is no reason to make it bigger
-// or smaller.
 typedef unsigned long ipc_data_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
@@ -65,18 +59,21 @@ typedef unsigned long ipc_data_t;
 #define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
-///     Project stecific stuff, you are welcome to edit it!!!
+///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
+#define CONFIG_TEST  //This is test project.
+#define STM32F4
+#include <libopencmsis/core_cm3.h>
 // These macros needed to interface cstartup code.
-#define SYSTEM_TIMER_ISR 	SysTick_Handler
-#define RESCHED_ISR			PendSV_Handler
-#define SYSCALL_ISR			SVC_Handler
+#define SYSTEM_TIMER_ISR 	sys_tick_handler
+#define RESCHED_ISR			pend_sv_handler
+#define SYSCALL_ISR			sv_call_handler
 
 #define CONFIG_FCPU_HZ 			( 168000000ul )
 #define CONFIG_FSYSTICK_HZ 		( 1000ul )
 
 #define CONFIG_PRIO_BITS        4  // Used upper priority bits
-#define CONFIG_SYSCALL_PRIO 	16 // SysCall prioity
+#define CONFIG_SYSCALL_PRIO 	16 // SysCall priority
 #define CONFIG_CRITSEC_PRIO 	17 // Critical section priority
 #define CONFIG_SCHED_PRIO 		17 // Scheduler priority
 
@@ -106,10 +103,11 @@ typedef unsigned long ipc_data_t;
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
+extern void kernel_preemt_hook(void);
 #ifdef CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts()
+#define KERNEL_PREEMPT() enable_interrupts(); disable_interrupts(); kernel_preemt_hook()
 #else // CONFIG_PREEMPTIVE_KERNEL
-#define KERNEL_PREEMPT()
+#define KERNEL_PREEMPT() kernel_preemt_hook()
 #endif // CONFIG_PREEMPTIVE_KERNEL
 
 #endif //__ASSEMBLER__

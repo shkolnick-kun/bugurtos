@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
+					<Add option="-Os" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -30,6 +31,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-mthumb" />
+			<Add option="-Os" />
 			<Add option="-mcpu=cortex-m4" />
 			<Add option="-mfloat-abi=hard" />
 			<Add option="-mfpu=fpv4-sp-d16" />
@@ -40,7 +42,7 @@
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
 			<Add option='-include&quot;../config.h&quot;' />
-			<Add directory="../../../../../../thirdparty/stm32f407" />
+			<Add directory="../../../../../../thirdparty/libopencm3/include" />
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../include" />
 		</Compiler>
@@ -51,7 +53,8 @@
 			<Add option="-Xlinker" />
 			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
 			<Add option="-Wl,--gc-sections" />
-			<Add option='-T &quot;../../../../../../thirdparty/stm32f407/stm32f407vg.ld&quot;' />
+			<Add option='-T &quot;../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld&quot;' />
+			<Add library="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f4.a" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
@@ -129,13 +132,6 @@
 		<Unit filename="../../../../main/ipc/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32f407/stm32f407vg.S" />
-		<Unit filename="../../../../../../thirdparty/stm32f407/stm32f407vg.ld" />
-		<Unit filename="../../../../../../thirdparty/stm32f407/stm32f4xx.h" />
-		<Unit filename="../../../../../../thirdparty/stm32f407/system_stm32f4xx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/stm32f407/system_stm32f4xx.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
