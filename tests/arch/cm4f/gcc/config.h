@@ -34,8 +34,6 @@ typedef unsigned char prio_t;
 
 // unsigned char is enough.
 typedef unsigned char flag_t;
-// unsigned char is enough.
-typedef unsigned char status_t;
 
 typedef unsigned long count_t;
 

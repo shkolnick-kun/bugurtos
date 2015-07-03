@@ -35,9 +35,6 @@ typedef unsigned char prio_t;
 // unsigned char is enough.
 typedef unsigned char flag_t;
 
-// unsigned char is enough.
-typedef unsigned char status_t;
-
 typedef unsigned long count_t;
 
 typedef volatile unsigned long timer_t;
@@ -62,7 +59,6 @@ typedef unsigned long ipc_data_t;
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
-#define CONFIG_TEST  //This is test project.
 #define STM32L1
 #include <libopencmsis/core_cm3.h>
 // These macros needed for interface with cstartup code.
