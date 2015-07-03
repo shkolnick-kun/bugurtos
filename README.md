@@ -51,6 +51,7 @@ proprietary software development.
 * PROFIT!!!
 
 # News #
+* **May 12th 2015: BuguRTOS-0.6.6,0.7.3,0.8.4,**,  are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)!
 * **May 12th 2015: BuguRTOS-0.8.3** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Added more argument checks, fixed several issues, ported tests to [libopencm3](https://github.com/libopencm3/libopencm3).
 * **May 12th 2015:** Added [third party code](https://github.com/shkolnick-kun/bugurtos/tree/archives) to project repository.
 * **April 25th 2015: BuguRTOS-0.8.2** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Added basic timeout support and fifo scheduling policy support, fixed some bugs.
