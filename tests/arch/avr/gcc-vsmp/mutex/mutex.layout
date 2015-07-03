@@ -7,6 +7,9 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
 		<Cursor position="11753" topLine="237" />
 	</File>
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="0">
+		<Cursor position="6148" topLine="103" />
+	</File>
 	<File name="../../../../../include/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="111" />
 	</File>

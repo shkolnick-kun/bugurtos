@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="avrgcc" />
 				<Compiler>
+					<Add option="-Os" />
 					<Add option="-g" />
 					<Add option="-O0" />
 				</Compiler>
