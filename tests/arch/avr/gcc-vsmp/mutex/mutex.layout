@@ -7,6 +7,9 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
 		<Cursor position="7442" topLine="116" />
 	</File>
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="0">
+		<Cursor position="6474" topLine="103" />
+	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="7138" topLine="112" />
 	</File>

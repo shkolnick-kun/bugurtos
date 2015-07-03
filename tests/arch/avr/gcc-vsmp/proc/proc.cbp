@@ -12,12 +12,14 @@
 				<Option type="1" />
 				<Option compiler="avrgcc" />
 				<Compiler>
+					<Add option="-Os" />
 					<Add option="-g" />
 					<Add option="-O0" />
 				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Os" />
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option='-include &quot;${PROJECT_DIR}../config.h&quot;' />
