@@ -35,9 +35,6 @@ typedef unsigned char prio_t;
 // unsigned char is enough.
 typedef unsigned char flag_t;
 
-// unsigned char is enough.
-typedef unsigned char status_t;
-
 typedef unsigned long count_t;
 
 typedef volatile unsigned long timer_t;
@@ -55,14 +52,12 @@ typedef unsigned long ipc_data_t;
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
 #define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
 #define CONFIG_HARD_RT
 #define CONFIG_PREEMPTIVE_KERNEL
 
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
-#define CONFIG_TEST  //This is test project.
 #define STM32L1
 #include <libopencmsis/core_cm3.h>
 // These macros needed for interface with cstartup code.
