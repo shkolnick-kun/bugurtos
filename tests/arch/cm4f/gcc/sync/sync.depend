@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1398525120 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/cm4f/gcc/bugurt_kernel.c
+1398525120 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/cm4f/gcc/bugurt_port.c
 	<bugurt.h>
 
 1420865584 /home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/kernel/bugurt.h
@@ -98,7 +98,7 @@
 1394103722 source:/home/anon/Desktop/BuguRTOS-0.8.x/thirdparty/stm32f407/system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm4f/gcc/bugurt_kernel.c
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm4f/gcc/bugurt_port.c
 	<bugurt.h>
 
 1432276231 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
@@ -201,7 +201,7 @@
 1394103722 source:/home/anon/BuguRTOS/0.8.x/thirdparty/stm32f407/system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos-exp/arch/cm4f/gcc/bugurt_kernel.c
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos-exp/arch/cm4f/gcc/bugurt_port.c
 	<bugurt.h>
 
 1430201713 /home/anon/BuguRTOS/0.8.x/bugurtos-exp/kernel/bugurt.h

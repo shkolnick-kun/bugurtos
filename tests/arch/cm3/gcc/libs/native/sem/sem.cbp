@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="sem" />
+		<Option pch_mode="2" />
+		<Option compiler="armnoneeabigcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/sem.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="armnoneeabigcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/sem.elf" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="armnoneeabigcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-mthumb" />
+			<Add option="-Os" />
+			<Add option="-g3" />
+			<Add option="-fmessage-length=0" />
+			<Add option="-fno-builtin" />
+			<Add option="-ffunction-sections" />
+			<Add option="-fdata-sections" />
+			<Add option="-mcpu=cortex-m3" />
+			<Add directory="../../../../../../../kernel" />
+			<Add directory="../../../../gcc" />
+			<Add directory="../../../../../../../libs/native" />
+			<Add directory="../../../../../../../../thirdparty/libopencm3/include" />
+			<Add directory="../../../../../../../arch/cm3/gcc" />
+		</Compiler>
+		<Linker>
+			<Add option="-nostdlib" />
+			<Add option="-Xlinker" />
+			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
+			<Add option="-Wl,--gc-sections" />
+			<Add option="-mcpu=cortex-m3" />
+			<Add option="-mthumb" />
+			<Add option='-T &quot;../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld&quot;' />
+			<Add library="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l1.a" />
+		</Linker>
+		<ExtraCommands>
+			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
+			<Mode after="always" />
+		</ExtraCommands>
+		<Unit filename="../../../../../../../arch/cm3/gcc/bugurt_port.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/bugurt.h" />
+		<Unit filename="../../../../../../../kernel/crit_sec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/crit_sec.h" />
+		<Unit filename="../../../../../../../kernel/index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/index.h" />
+		<Unit filename="../../../../../../../kernel/item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/item.h" />
+		<Unit filename="../../../../../../../kernel/kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/kernel.h" />
+		<Unit filename="../../../../../../../kernel/pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/pcounter.h" />
+		<Unit filename="../../../../../../../kernel/pitem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/pitem.h" />
+		<Unit filename="../../../../../../../kernel/proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/proc.h" />
+		<Unit filename="../../../../../../../kernel/sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/sched.h" />
+		<Unit filename="../../../../../../../kernel/sync.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/sync.h" />
+		<Unit filename="../../../../../../../kernel/syscall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/syscall.h" />
+		<Unit filename="../../../../../../../kernel/timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/timer.h" />
+		<Unit filename="../../../../../../../kernel/xlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../kernel/xlist.h" />
+		<Unit filename="../../../../../../../libs/native/sem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../libs/native/sem.h" />
+		<Unit filename="../../../config.h" />
+		<Unit filename="../../../test_func.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../test_func.h" />
+		<Unit filename="../../../../../../main/libs/native/sem/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger>
+				<search_path add="bin/Debug" />
+				<remote_debugging>
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="4242" additional_cmds="load&#x0A;tb main&#x0A;monitor reset" additional_cmds_before="shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
+				</remote_debugging>
+			</debugger>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -6,11 +6,11 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_kernel.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</file>
       <file>$PROJ_DIR$\Debug\List\crit_sec.lst</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_kernel.o</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_kernel_asm.S</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_kernel.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.o</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\crit_sec.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\index.c</file>
@@ -24,7 +24,7 @@
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.c</file>
       <file>$PROJ_DIR$\..\..\..\..\main\sched\main.c</file>
       <file>$PROJ_DIR$\..\test_func.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_kernel.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.pbi</file>
       <file>$PROJ_DIR$\..\test_func.h</file>
       <file>$PROJ_DIR$\Debug\Obj\test_func.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.pbi</file>
@@ -52,7 +52,7 @@
       <file>$PROJ_DIR$\..\config.h</file>
       <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
       <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_kernel_asm.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>
       <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
       <file>$PROJ_DIR$\Debug\Obj\syscall.o</file>
       <file>$PROJ_DIR$\Debug\Obj\sched.pbi</file>
@@ -78,8 +78,8 @@
       <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\sched.pbd</file>
       <file>$PROJ_DIR$\Debug\Exe\sched.out</file>
-      <file>$PROJ_DIR$\Debug\List\bugurt_kernel_asm.lst</file>
-      <file>$PROJ_DIR$\Debug\List\bugurt_kernel.lst</file>
+      <file>$PROJ_DIR$\Debug\List\bugurt_port_asm.lst</file>
+      <file>$PROJ_DIR$\Debug\List\bugurt_port.lst</file>
       <file>$PROJ_DIR$\Debug\List\index.lst</file>
       <file>$PROJ_DIR$\Debug\List\bugurt_proc_stack_init.lst</file>
       <file>$PROJ_DIR$\..\..\..\cm4f\gcc\test_func.c</file>
@@ -102,7 +102,7 @@
       <file>$PROJ_DIR$\Debug\List\sync.lst</file>
     </outputs>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_kernel.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -125,7 +125,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_kernel_asm.S</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</name>
       <outputs>
         <tool>
           <name>ASTM8</name>

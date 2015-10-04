@@ -1,4 +1,4 @@
-#include <bugurt_kernel.h>
+#include <bugurt.h>
 #include <util/delay.h>
 extern proc_t proc[6];
 extern stack_t proc_stack[6][PROC_STACK_SIZE];

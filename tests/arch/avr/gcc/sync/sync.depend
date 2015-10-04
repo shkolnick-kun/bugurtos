@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel.c
-	"bugurt_kernel.h"
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port.c
+	"bugurt_port.h"
 
-1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel.h
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port.h
 	"../../../kernel/bugurt.h"
 
 1432276231 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
@@ -43,7 +43,7 @@
 
 1434690411 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
 
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port_asm.S
 	<avr/io.h>
 
 1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c

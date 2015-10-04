@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" open="0" top="0" tabpos="0">
+	<File name="../../../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="9692" topLine="189" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
@@ -85,7 +85,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1988" topLine="74" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="8854" topLine="340" />
 	</File>
 </CodeBlocks_layout_file>

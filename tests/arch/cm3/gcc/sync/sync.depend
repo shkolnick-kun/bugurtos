@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1398525082 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/cm3/gcc/bugurt_kernel.c
+1398525082 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/cm3/gcc/bugurt_port.c
 	<bugurt.h>
 
 1420865584 /home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/kernel/bugurt.h
@@ -101,7 +101,7 @@
 1420865584 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm3/gcc/bugurt_kernel.c
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm3/gcc/bugurt_port.c
 	<bugurt.h>
 
 1430201713 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h

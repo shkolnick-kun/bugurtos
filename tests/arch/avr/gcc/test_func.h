@@ -1,4 +1,4 @@
-#include <bugurt_kernel.h>
+#include <bugurt.h>
 #include <util/delay.h>
 
 extern void(*test_kernel_preempt)(void);

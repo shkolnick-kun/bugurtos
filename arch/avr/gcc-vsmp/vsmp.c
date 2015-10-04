@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#include "vsmp.h"
+#include <bugurt.h>
 
 vsmp_vm_t vm_state[MAX_CORES];
 stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];

@@ -1,4 +1,4 @@
-#include <bugurt_kernel.h>
+#include <bugurt.h>
 
 extern void(*test_kernel_preempt)(void);
 extern proc_t proc[6];

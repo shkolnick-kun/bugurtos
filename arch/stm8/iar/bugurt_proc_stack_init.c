@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#include"../../../kernel/bugurt.h"
+#include <bugurt.h>
 
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
 #define BGRT_INT_PTR unsigned long

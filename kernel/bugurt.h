@@ -129,9 +129,7 @@ typedef void (* code_t)(void *);
 //                     ИНКЛЮДЫ
 //======================================================
 
-#ifndef _CONFIG_H_
-#error  "You must include config.h to your project!!!"
-#endif //_CONFIG_H_
+#include <bugurt_config.h>
 
 #include "index.h"
 #include "item.h"
@@ -145,6 +143,8 @@ typedef void (* code_t)(void *);
 #include "sync.h"
 #include "timer.h"
 #include "syscall.h"
+
+#include <bugurt_port.h>
 
 #define BGRT_ST_OK          ((status_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
 #define BGRT_ST_ENULL       ((status_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */

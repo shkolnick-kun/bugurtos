@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1398525078 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/cm0/gcc/bugurt_kernel.c
+1398525078 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/cm0/gcc/bugurt_port.c
 	<bugurt.h>
 
 1420865584 /home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/kernel/bugurt.h
@@ -100,7 +100,7 @@
 1393752699 source:/home/anon/Desktop/BuguRTOS-0.8.x/thirdparty/stm32f051/system_stm32f0xx.c
 	"stm32f0xx.h"
 
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm0/gcc/bugurt_kernel.c
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm0/gcc/bugurt_port.c
 	<bugurt.h>
 
 1430201713 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h

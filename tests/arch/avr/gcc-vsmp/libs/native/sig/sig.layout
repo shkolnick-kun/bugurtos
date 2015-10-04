@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="12134" topLine="275" />
+	</File>
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="8842" topLine="135" />
+	</File>
+	<File name="../../../../../../../libs/native/cond.c" open="0" top="0" tabpos="0">
+		<Cursor position="6242" topLine="125" />
+	</File>
+	<File name="../../../../../../../libs/native/cond.h" open="0" top="0" tabpos="0">
+		<Cursor position="8155" topLine="150" />
+	</File>
+	<File name="../../../../../../../libs/native/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="6385" topLine="78" />
+	</File>
+	<File name="../../../../../../../libs/native/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="8388" topLine="120" />
+	</File>
+	<File name="../../../../../../../libs/native/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="6329" topLine="105" />
+	</File>
+	<File name="../../../../../../../libs/native/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="7903" topLine="126" />
+	</File>
+	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="1">
+		<Cursor position="1297" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
