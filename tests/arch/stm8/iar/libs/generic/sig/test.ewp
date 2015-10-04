@@ -243,14 +243,10 @@
           <state>0</state>
         </option>
         <option>
-          <name>PreInclude</name>
-          <state>$PROJ_DIR$\..\..\..\config.h</state>
-        </option>
-        <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar</state>
           <state>$PROJ_DIR$\..\..\..\..\..\..\..\kernel</state>
-          <state>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native</state>
           <state>$PROJ_DIR$\..\..\..</state>
         </option>
         <option>
@@ -1615,41 +1611,38 @@
   <group>
     <name>libs-generic</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\cond.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\cond.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\ipc.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\ipc.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\mutex.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\mutex.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sem.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sem.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sig.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sig.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.h</name>
     </file>
   </group>
   <file>
-    <name>$PROJ_DIR$\..\..\..\config.h</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\generic\sig\main.c</name>
+    <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\test_func.c</name>

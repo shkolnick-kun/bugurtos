@@ -52,9 +52,6 @@
 	<File name="../../../../../../../libs/native/sig.h" open="0" top="0" tabpos="2">
 		<Cursor position="9504" topLine="173" />
 	</File>
-	<File name="../../../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="1890" topLine="43" />
-	</File>
 	<File name="../../../test_func.c" open="0" top="0" tabpos="2">
 		<Cursor position="2661" topLine="103" />
 	</File>

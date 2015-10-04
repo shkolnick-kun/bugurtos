@@ -75,7 +75,6 @@
 	</Flags>
 	<Views>
 		<View File="..\..\..\..\main\sched\main.c" Line="34" Index="0" />
-		<View File="..\config.h" Line="102" Index="1" focus="1" />
 		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Line="79" Index="2" />
 		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="77" Index="3" />
 		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.c" Line="0" Index="4" />

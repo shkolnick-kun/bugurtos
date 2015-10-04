@@ -243,10 +243,6 @@
           <state>0</state>
         </option>
         <option>
-          <name>PreInclude</name>
-          <state>$PROJ_DIR$\..\config.h</state>
-        </option>
-        <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar</state>
           <state>$PROJ_DIR$\..</state>
@@ -1610,9 +1606,6 @@
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.h</name>
     </file>
   </group>
-  <file>
-    <name>$PROJ_DIR$\..\config.h</name>
-  </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\..\main\sched\main.c</name>
   </file>

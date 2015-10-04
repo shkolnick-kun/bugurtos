@@ -36,16 +36,15 @@
 
 		</Group>
 		<Group Header="libs-generic" Marker="-1" OutputFile="" sate="0" >
-			<NodeC Path="..\..\..\..\..\..\..\libs\generic\ipc.c" Header="ipc.c" Marker="-1" OutputFile=".\bin\ipc.obj" sate="0" />
-			<NodeH Path="..\..\..\..\..\..\..\libs\generic\ipc.h" Header="ipc.h" Marker="-1" OutputFile="" sate="0" />
+			<NodeC Path="..\..\..\..\..\..\..\libs\native\ipc.c" Header="ipc.c" Marker="-1" OutputFile=".\bin\ipc.obj" sate="0" />
+			<NodeH Path="..\..\..\..\..\..\..\libs\native\ipc.h" Header="ipc.h" Marker="-1" OutputFile="" sate="0" />
 
 		</Group>
 
 	</Group>
-	<NodeH Path="..\..\..\config.h" Header="config.h" Marker="-1" OutputFile="" sate="0" />
 	<NodeC Path="..\..\..\test_func.C" Header="test_func.C" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" />
 	<NodeH Path="..\..\..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
-	<NodeC Path="..\..\..\..\..\..\main\libs\generic\ipc\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
+	<NodeC Path="..\..\..\..\..\..\main\libs\native\ipc\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
 	<Options>
 		<Config Header="Standard" >
 			<Set Header="ApplicationBuild" >
@@ -74,7 +73,7 @@
 			</Set>
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
-					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\generic&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;) I($(ApplicationDir)\..\..\..\config.h)" Removable="1" />
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\native&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;)" Removable="1" />
 
 				</Section>
 				<Section Header="Model" >

@@ -4,9 +4,6 @@
 	<File name="../../../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
 		<Cursor position="1261" topLine="14" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="2">
-		<Cursor position="365" topLine="3" />
-	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1318" topLine="63" />
 	</File>

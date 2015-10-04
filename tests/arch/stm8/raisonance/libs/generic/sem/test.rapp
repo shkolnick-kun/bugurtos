@@ -36,14 +36,13 @@
 
 		</Group>
 		<Group Header="libs-generic" Marker="-1" OutputFile="" sate="64" >
-			<NodeH Path="..\..\..\..\..\..\..\libs\generic\sem.h" Header="sem.h" Marker="-1" OutputFile="" sate="0" />
-			<NodeC Path="..\..\..\..\..\..\..\libs\generic\sem.c" Header="sem.c" Marker="-1" OutputFile=".\bin\sem.obj" sate="0" />
+			<NodeH Path="..\..\..\..\..\..\..\libs\native\sem.h" Header="sem.h" Marker="-1" OutputFile="" sate="0" />
+			<NodeC Path="..\..\..\..\..\..\..\libs\native\sem.c" Header="sem.c" Marker="-1" OutputFile=".\bin\sem.obj" sate="0" />
 
 		</Group>
 
 	</Group>
-	<NodeC Path="..\..\..\..\..\..\main\libs\generic\sem\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="2" />
-	<NodeH Path="..\..\..\config.h" Header="config.h" Marker="-1" OutputFile="" sate="0" />
+	<NodeC Path="..\..\..\..\..\..\main\libs\native\sem\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="2" />
 	<NodeC Path="..\..\..\test_func.C" Header="test_func.C" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" />
 	<NodeH Path="..\..\..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
 	<Options>
@@ -74,7 +73,7 @@
 			</Set>
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
-					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\generic&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;) I($(ApplicationDir)\..\..\..\config.h)" Removable="1" />
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\native&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;)" Removable="1" />
 
 				</Section>
 				<Section Header="Model" >
