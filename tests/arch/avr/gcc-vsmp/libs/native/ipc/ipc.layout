@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../libs/native/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="6472" topLine="81" />
+	</File>
+	<File name="../../../../../../../libs/native/ipc.h" open="0" top="0" tabpos="0">
+		<Cursor position="7349" topLine="114" />
+	</File>
+	<File name="../../../../../../main/libs/native/ipc/main.c" open="0" top="0" tabpos="1">
+		<Cursor position="1799" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

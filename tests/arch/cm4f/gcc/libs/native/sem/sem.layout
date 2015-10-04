@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="1697" topLine="79" />
+	</File>
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="18556" topLine="275" />
+	</File>
+	<File name="../../../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="1998" topLine="94" />
+	</File>
+</CodeBlocks_layout_file>

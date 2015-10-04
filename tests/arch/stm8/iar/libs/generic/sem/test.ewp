@@ -1522,13 +1522,13 @@
   <group>
     <name>arch</name>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_kernel.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_kernel.h</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_kernel_asm.S</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</name>

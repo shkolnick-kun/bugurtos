@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="6">
+		<Cursor position="8389" topLine="147" />
+	</File>
+	<File name="../../../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
+		<Cursor position="8331" topLine="101" />
+	</File>
+	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="9285" topLine="181" />
+	</File>
+	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="6682" topLine="77" />
+	</File>
+	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="7">
+		<Cursor position="10741" topLine="222" />
+	</File>
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
+		<Cursor position="35471" topLine="636" />
+	</File>
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="2">
+		<Cursor position="26310" topLine="804" />
+	</File>
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="9">
+		<Cursor position="18948" topLine="360" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="1">
+		<Cursor position="7607" topLine="116" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="6">
+		<Cursor position="7755" topLine="82" />
+	</File>
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="6857" topLine="93" />
+	</File>
+	<File name="../../../../../../../libs/native/cond.c" open="0" top="0" tabpos="1">
+		<Cursor position="7452" topLine="137" />
+	</File>
+	<File name="../../../../../../../libs/native/cond.h" open="0" top="0" tabpos="1">
+		<Cursor position="10471" topLine="183" />
+	</File>
+	<File name="../../../../../../../libs/native/mutex.c" open="0" top="0" tabpos="10">
+		<Cursor position="6902" topLine="101" />
+	</File>
+	<File name="../../../../../../../libs/native/mutex.h" open="0" top="0" tabpos="4">
+		<Cursor position="10731" topLine="176" />
+	</File>
+	<File name="../../../../../../../libs/native/sig.c" open="0" top="0" tabpos="5">
+		<Cursor position="7197" topLine="61" />
+	</File>
+	<File name="../../../../../../../libs/native/sig.h" open="0" top="0" tabpos="2">
+		<Cursor position="9504" topLine="173" />
+	</File>
+	<File name="../../../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="1890" topLine="43" />
+	</File>
+	<File name="../../../test_func.c" open="0" top="0" tabpos="2">
+		<Cursor position="2661" topLine="103" />
+	</File>
+	<File name="../../../test_func.h" open="0" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="2">
+		<Cursor position="1306" topLine="48" />
+	</File>
+</CodeBlocks_layout_file>

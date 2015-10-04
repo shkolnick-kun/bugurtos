@@ -37,10 +37,10 @@
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
 			<Add option="-mcpu=cortex-m3" />
-			<Add option='-include&quot;../config.h&quot;' />
 			<Add directory="../../../../../kernel" />
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../../thirdparty/libopencm3/include" />
+			<Add directory="../../../../../arch/cm3/gcc" />
 		</Compiler>
 		<Linker>
 			<Add option="-nostdlib" />
@@ -56,7 +56,7 @@
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../../../arch/cm3/gcc/bugurt_kernel.c">
+		<Unit filename="../../../../../arch/cm3/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/bugurt.h" />

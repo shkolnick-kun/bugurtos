@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/cm4f/gcc/bugurt_kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="152" topLine="0" />
-	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="17712" topLine="453" />
+		<Cursor position="7755" topLine="117" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="7064" topLine="106" />
@@ -34,7 +31,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1342" topLine="63" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="32502" topLine="986" />
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="32502" topLine="1004" />
 	</File>
 </CodeBlocks_layout_file>

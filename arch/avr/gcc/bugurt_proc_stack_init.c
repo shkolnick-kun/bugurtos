@@ -76,7 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include"../../../kernel/bugurt.h"
+#include <bugurt.h>
+
 stack_t * proc_stack_init(
                           stack_t * sstart,
                           code_t pmain,

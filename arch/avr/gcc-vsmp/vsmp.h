@@ -80,8 +80,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _VSMP_H_
 #define _VSMP_H_
 
-#include "../../../kernel/bugurt.h"
-
 extern stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( stack_t * new_sp );
 extern void bugurt_pop_context(void);

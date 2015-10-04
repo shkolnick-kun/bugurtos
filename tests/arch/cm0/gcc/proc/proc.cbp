@@ -37,10 +37,10 @@
 			<Add option="-fno-builtin" />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
-			<Add option='-include&quot;../config.h&quot;' />
 			<Add directory="../../../../../../thirdparty/libopencm3/include" />
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../kernel" />
+			<Add directory="../../../../../arch/cm0/gcc" />
 		</Compiler>
 		<Linker>
 			<Add option="-Xlinker" />
@@ -56,7 +56,7 @@
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../../../arch/cm0/gcc/bugurt_kernel.c">
+		<Unit filename="../../../../../arch/cm0/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/bugurt.h" />

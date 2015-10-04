@@ -32,12 +32,12 @@
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option="-std=c99" />
-			<Add option='-include &quot;${PROJECT_DIR}../config.h&quot;' />
-			<Add option='-I &quot;${PROJECT_DIR}../../../../../arch/avr/gcc&quot;' />
-			<Add option='-I &quot;${PROJECT_DIR}../&quot;' />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
 			<Add option="-DF_CPU=16000000UL" />
+			<Add directory="../../../../../kernel" />
+			<Add directory="../../../../../arch/avr/gcc" />
+			<Add directory="../../gcc" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega328p" />
@@ -49,11 +49,11 @@
 			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
 			<Add after="avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_FILE).lss" />
 		</ExtraCommands>
-		<Unit filename="../../../../../arch/avr/gcc/bugurt_kernel.c">
+		<Unit filename="../../../../../arch/avr/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../arch/avr/gcc/bugurt_kernel.h" />
-		<Unit filename="../../../../../arch/avr/gcc/bugurt_kernel_asm.S" />
+		<Unit filename="../../../../../arch/avr/gcc/bugurt_port.h" />
+		<Unit filename="../../../../../arch/avr/gcc/bugurt_port_asm.S" />
 		<Unit filename="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
 		</Unit>

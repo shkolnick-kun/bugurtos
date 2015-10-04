@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1399452095 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.c
-	"bugurt_kernel.h"
+1399452095 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_port.c
+	"bugurt_port.h"
 
-1398525092 /home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.h
+1398525092 /home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_port.h
 	"vsmp.h"
 
 1420781289 /home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc-vsmp/vsmp.h
@@ -49,7 +49,7 @@
 1398525086 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	"vsmp.h"
 
-1398525105 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+1398525105 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc/bugurt_port_asm.S
 	<avr/io.h>
 
 1420779741 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
@@ -97,11 +97,11 @@
 1420865584 source:/home/anon/Desktop/BuguRTOS-0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 
-1435648284 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.c
-	"bugurt_kernel.h"
+1435648284 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_port.c
+	"bugurt_port.h"
 	<util/delay.h>
 
-1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_kernel.h
+1430110565 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_port.h
 	"vsmp.h"
 
 1431173958 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/vsmp.h
@@ -148,7 +148,7 @@
 1431173957 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	"vsmp.h"
 
-1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_kernel_asm.S
+1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port_asm.S
 	<avr/io.h>
 
 1430110565 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c

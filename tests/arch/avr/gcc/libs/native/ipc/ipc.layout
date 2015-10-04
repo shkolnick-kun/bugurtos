@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="7711" topLine="128" />
+	</File>
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="21803" topLine="598" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="7584" topLine="103" />
+	</File>
+	<File name="../../../../../../../libs/native/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="6989" topLine="123" />
+	</File>
+	<File name="../../../../../../../libs/native/ipc.h" open="0" top="0" tabpos="0">
+		<Cursor position="7345" topLine="114" />
+	</File>
+	<File name="../../../config.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="84" />
+	</File>
+	<File name="../../../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1872" topLine="78" />
+	</File>
+	<File name="../../../../../../main/libs/native/ipc/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="1649" topLine="43" />
+	</File>
+</CodeBlocks_layout_file>
