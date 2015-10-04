@@ -27,21 +27,20 @@
 			<NodeH Path="..\..\..\..\..\kernel\timer.h" Header="timer.h" Marker="-1" OutputFile="" sate="0" />
 			<NodeC Path="..\..\..\..\..\kernel\xlist.c" Header="xlist.c" Marker="-1" OutputFile=".\bin\xlist.obj" sate="0" />
 			<NodeH Path="..\..\..\..\..\kernel\xlist.h" Header="xlist.h" Marker="-1" OutputFile="" sate="0" />
-																																																		
+
 		</Group>
 		<Group Header="arch" Marker="-1" OutputFile="" sate="0" >
 			<NodeC Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.c" Header="bugurt_kernel.c" Marker="-1" OutputFile=".\bin\bugurt_kernel.obj" sate="0" />
 			<NodeH Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_kernel.h" Header="bugurt_kernel.h" Marker="-1" OutputFile="" sate="0" />
 			<NodeC Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Header="bugurt_proc_stack_init.c" Marker="-1" OutputFile=".\bin\bugurt_proc_stack_init.obj" sate="0" />
-																																																		
+
 		</Group>
-																														
+
 	</Group>
-	<NodeH Path="..\config.h" Header="config.h" Marker="-1" OutputFile="" sate="0" />
 	<NodeH Path="..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
 	<NodeC Path="..\test_func.C" Header="test_func.C" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" >
 		<Options/>
-																														
+
 	</NodeC>
 	<NodeC Path="..\..\..\..\main\bsync\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
 	<Options>
@@ -49,48 +48,48 @@
 			<Set Header="ApplicationBuild" >
 				<Section Header="General" >
 					<Property Header="TargetFamily" Value="ST7" />
-																																																																																																										
+
 				</Section>
 				<Section Header="Directories" >
 					<Property Header="OutDir" Value="$(ApplicationDir)\bin" Removable="1" />
 					<Property Header="ListDir" Value="$(ApplicationDir)\bin" Removable="1" />
-																																																													
+
 				</Section>
-																																															
+
 			</Set>
 			<Set Header="Target" >
 				<Section Header="ProcessorST7" >
 					<Property Header="Processor" Value="STM8S208MB" Removable="1" />
-																																																																																																										
+
 				</Section>
 				<Section Header="ToolSetST7" >
 					<Property Header="BuildToolSetST7" Value="ST7\RaisonanceTools.config" Removable="1" />
 					<Property Header="ArelocInfo" Value="" Removable="1" />
-							
+
 				</Section>
-					
+
 			</Set>
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
-					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\include&quot;) PIN(&quot;$(ApplicationDir)\..\&quot;) I($(ApplicationDir)\..\config.h)" Removable="1" />
-																																																													
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\include&quot;) PIN(&quot;$(ApplicationDir)\..\&quot;)" Removable="1" />
+
 				</Section>
 				<Section Header="Model" >
 					<Property Header="GlobalMemory" Value="DGC(DATA)" Removable="1" />
-																																																																																																	
+
 				</Section>
 				<Section Header="OPTIM" >
 					<Property Header="OTLEVEL" Value="0" Removable="1" />
-																																																																																																	
+
 				</Section>
-																																															
+
 			</Set>
 			<Set Header="RLST7" >
 				<Section Header="Output" >
 					<Property Header="ExtendedBin" Value="" Removable="1" />
-							
+
 				</Section>
-					
+
 			</Set>
 		</Config>
 	</Options>

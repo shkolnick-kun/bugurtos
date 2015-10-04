@@ -10,9 +10,6 @@
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6534" topLine="83" />
 	</File>
-	<File name="../../../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="24" />
-	</File>
 	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1971" topLine="96" />
 	</File>

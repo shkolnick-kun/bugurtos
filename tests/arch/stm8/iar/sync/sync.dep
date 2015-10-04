@@ -37,7 +37,6 @@
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\timer.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.h</file>
-      <file>$PROJ_DIR$\..\config.h</file>
       <file>$PROJ_DIR$\..\..\..\..\main\bsync\main.c</file>
       <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>
       <file>$PROJ_DIR$\Debug\Obj\test_func.o</file>

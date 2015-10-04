@@ -38,7 +38,6 @@
 
 	</Group>
 	<NodeC Path="..\..\..\..\main\proc\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="2" />
-	<NodeH Path="..\config.h" Header="config.h" Marker="-1" OutputFile="" sate="0" />
 	<NodeC Path="..\test_func.C" Header="test_func.C" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" >
 		<Options/>
 
@@ -72,7 +71,7 @@
 			</Set>
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
-					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\include&quot;) PIN(&quot;$(ApplicationDir)\..\&quot;) I($(ApplicationDir)\..\config.h)" Removable="1" />
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\include&quot;) PIN(&quot;$(ApplicationDir)\..\&quot;)" Removable="1" />
 
 				</Section>
 				<Section Header="Model" >

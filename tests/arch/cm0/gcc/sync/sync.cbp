@@ -109,7 +109,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/xlist.h" />
-		<Unit filename="../config.h" />
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>

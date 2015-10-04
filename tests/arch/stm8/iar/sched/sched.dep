@@ -49,7 +49,6 @@
       <file>$PROJ_DIR$\Debug\List\sched.lst</file>
       <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.o</file>
       <file>$PROJ_DIR$\Debug\Obj\crit_sec.o</file>
-      <file>$PROJ_DIR$\..\config.h</file>
       <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
       <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
       <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>

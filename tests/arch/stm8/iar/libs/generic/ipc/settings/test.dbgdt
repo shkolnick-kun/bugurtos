@@ -76,7 +76,7 @@
       <Pane>
         <Tab>
           <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\..\..\..\..\..\libs\generic\cond.h</Filename>
+          <Filename>$WS_DIR$\..\..\..\..\..\..\..\libs\native\cond.h</Filename>
           <XPos>0</XPos>
           <YPos>62</YPos>
           <SelStart>6300</SelStart>
@@ -84,7 +84,7 @@
         </Tab>
         <Tab>
           <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\..\..\..\..\..\main\libs\generic\ipc\main.c</Filename>
+          <Filename>$WS_DIR$\..\..\..\..\..\..\main\libs\native\ipc\main.c</Filename>
           <XPos>0</XPos>
           <YPos>42</YPos>
           <SelStart>1646</SelStart>

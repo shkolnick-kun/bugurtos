@@ -25,9 +25,6 @@
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="15061" topLine="279" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="1570" topLine="39" />
-	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1796" topLine="70" />
 	</File>

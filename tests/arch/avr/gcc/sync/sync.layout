@@ -79,9 +79,6 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="148" />
 	</File>
-	<File name="../config.h" open="0" top="0" tabpos="0">
-		<Cursor position="2604" topLine="63" />
-	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1988" topLine="74" />
 	</File>

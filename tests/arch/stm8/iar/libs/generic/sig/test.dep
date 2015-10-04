@@ -35,17 +35,16 @@
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\cond.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\cond.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\ipc.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\ipc.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\mutex.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\mutex.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sem.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sem.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sig.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sig.h</file>
-      <file>$PROJ_DIR$\..\..\..\config.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.h</file>
       <file>$PROJ_DIR$\..\..\..\test_func.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.h</file>
       <file>$PROJ_DIR$\Debug\List\bugurt_port_asm.lst</file>
@@ -139,7 +138,7 @@
       <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</file>
       <file>$PROJ_DIR$\Debug\Obj\cond.o</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\proc.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\generic\sig\main.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c</file>
       <file>$PROJ_DIR$\Debug\List\main.lst</file>
     </outputs>
     <file>
@@ -480,7 +479,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\cond.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -503,7 +502,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\ipc.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -526,7 +525,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\mutex.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -549,7 +548,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sem.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -581,7 +580,7 @@
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\generic\sig.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -820,7 +819,7 @@
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\generic\sig\main.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>

@@ -36,20 +36,19 @@
 
 		</Group>
 		<Group Header="libs-generic" Marker="-1" OutputFile="" sate="0" >
-			<NodeC Path="..\..\..\..\..\..\..\libs\generic\mutex.c" Header="mutex.c" Marker="-1" OutputFile=".\bin\mutex.obj" sate="0" />
-			<NodeH Path="..\..\..\..\..\..\..\libs\generic\mutex.h" Header="mutex.h" Marker="-1" OutputFile="" sate="0" />
-			<NodeC Path="..\..\..\..\..\..\..\libs\generic\cond.c" Header="cond.c" Marker="-1" OutputFile=".\bin\cond.obj" sate="0" />
-			<NodeH Path="..\..\..\..\..\..\..\libs\generic\cond.h" Header="cond.h" Marker="-1" OutputFile="" sate="0" />
-			<NodeC Path="..\..\..\..\..\..\..\libs\generic\sig.c" Header="sig.c" Marker="-1" OutputFile=".\bin\sig.obj" sate="0" />
-			<NodeH Path="..\..\..\..\..\..\..\libs\generic\sig.h" Header="sig.h" Marker="-1" OutputFile="" sate="0" />
+			<NodeC Path="..\..\..\..\..\..\..\libs\native\mutex.c" Header="mutex.c" Marker="-1" OutputFile=".\bin\mutex.obj" sate="0" />
+			<NodeH Path="..\..\..\..\..\..\..\libs\native\mutex.h" Header="mutex.h" Marker="-1" OutputFile="" sate="0" />
+			<NodeC Path="..\..\..\..\..\..\..\libs\native\cond.c" Header="cond.c" Marker="-1" OutputFile=".\bin\cond.obj" sate="0" />
+			<NodeH Path="..\..\..\..\..\..\..\libs\native\cond.h" Header="cond.h" Marker="-1" OutputFile="" sate="0" />
+			<NodeC Path="..\..\..\..\..\..\..\libs\native\sig.c" Header="sig.c" Marker="-1" OutputFile=".\bin\sig.obj" sate="0" />
+			<NodeH Path="..\..\..\..\..\..\..\libs\native\sig.h" Header="sig.h" Marker="-1" OutputFile="" sate="0" />
 
 		</Group>
 
 	</Group>
-	<NodeH Path="..\..\..\config.h" Header="config.h" Marker="-1" OutputFile="" sate="0" />
 	<NodeC Path="..\..\..\test_func.C" Header="test_func.C" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" />
 	<NodeH Path="..\..\..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
-	<NodeC Path="..\..\..\..\..\..\main\libs\generic\sig\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
+	<NodeC Path="..\..\..\..\..\..\main\libs\native\sig\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
 	<Options>
 		<Config Header="Standard" >
 			<Set Header="ApplicationBuild" >
@@ -78,7 +77,7 @@
 			</Set>
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
-					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\generic&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;) I($(ApplicationDir)\..\..\..\config.h)" Removable="1" />
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\native&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;)" Removable="1" />
 
 				</Section>
 				<Section Header="Model" >
