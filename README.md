@@ -51,11 +51,11 @@ proprietary software development.
 * PROFIT!!!
 
 # News #
-* **July 3rd 2015: BuguRTOS updated** versions 0.6.6, 0.7.3, 0.8.4 are out,  are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)!
-* **May 12th 2015: BuguRTOS-0.8.3** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Added more argument checks, fixed several issues, ported tests to [libopencm3](https://github.com/libopencm3/libopencm3).
+* **July 3rd 2015: BuguRTOS updated** versions 0.6.6, 0.7.3, 0.8.4 are out,  are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)!
+* **May 12th 2015: BuguRTOS-0.8.3** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)! Added more argument checks, fixed several issues, ported tests to [libopencm3](https://github.com/libopencm3/libopencm3).
 * **May 12th 2015:** Added [third party code](https://github.com/shkolnick-kun/bugurtos/tree/archives) to project repository.
-* **April 25th 2015: BuguRTOS-0.8.2** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Added basic timeout support and fifo scheduling policy support, fixed some bugs.
+* **April 25th 2015: BuguRTOS-0.8.2** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)! Added basic timeout support and fifo scheduling policy support, fixed some bugs.
 * **April 25th 2015: BuguRTOS moved to GitHub.**
-* **March 13th 2015: BuguRTOS updated** versions 0.6.5, 0.7.2, 0.8.1 are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Three bugs fixed, significant changes made in 0.8.x branch.
-* **January 24th 2015: BuguRTOS-0.8.0** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md)! Actually It's not just a new version, but a New branch. I will focus on it for a while. Working on this new branch I found and fixed some bugs in priority inheritance protocol of 0.7.x branch. Branches 0.6.x and 0.7.x will have only new ports and bug fixes.
-* **BuguRTOS-0.7.1** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/wiki/Changelog.md), BuguRTOS-0.8.0 is on the way!
+* **March 13th 2015: BuguRTOS updated** versions 0.6.5, 0.7.2, 0.8.1 are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)! Three bugs fixed, significant changes made in 0.8.x branch.
+* **January 24th 2015: BuguRTOS-0.8.0** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)! Actually It's not just a new version, but a New branch. I will focus on it for a while. Working on this new branch I found and fixed some bugs in priority inheritance protocol of 0.7.x branch. Branches 0.6.x and 0.7.x will have only new ports and bug fixes.
+* **BuguRTOS-0.7.1** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md), BuguRTOS-0.8.0 is on the way!
