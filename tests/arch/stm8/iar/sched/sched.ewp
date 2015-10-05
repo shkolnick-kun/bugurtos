@@ -121,6 +121,10 @@
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
+          <name>PreInclude</name>
+          <state></state>
+        </option>
+        <option>
           <name>IccRequirePrototypes</name>
           <state>0</state>
         </option>
@@ -244,6 +248,7 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
+          <state>$PROJ_DIR$\..\..\..\..\..\kernel</state>
           <state>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar</state>
           <state>$PROJ_DIR$\..</state>
         </option>
