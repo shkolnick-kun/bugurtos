@@ -136,6 +136,10 @@ void system_timer_isr(void) interrupt SYSTEM_TIMER_VECTOR
 #endif
 }
 
+//In single processor system call reentrancy is not necessary.
+syscall_t syscall_num = (syscall_t)0;
+void * syscall_arg = (void *)0;
+
 void syscall_bugurt( syscall_t num, void * arg )
 {
     disable_interrupts();
@@ -150,7 +154,7 @@ void system_call_handler(void) trap
     BUGURT_ISR_START();
 
     // Обрабатываем системный вызов
-    do_syscall();
+    do_syscall(syscall_num, syscall_arg);
 
     BUGURT_ISR_END();
 }

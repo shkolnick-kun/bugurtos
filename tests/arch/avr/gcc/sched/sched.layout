@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="2">
-		<Cursor position="7397" topLine="109" />
+		<Cursor position="8195" topLine="135" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="3">
 		<Cursor position="7844" topLine="0" />
@@ -64,8 +64,8 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="10">
 		<Cursor position="14864" topLine="309" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="1" tabpos="0">
-		<Cursor position="26730" topLine="810" />
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="26463" topLine="825" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
 		<Cursor position="10871" topLine="190" />

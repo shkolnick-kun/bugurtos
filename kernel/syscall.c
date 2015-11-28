@@ -77,53 +77,55 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-SYSCALL_TABLE( syscall_routine[] ) =
+
+#define BGRT_SC_TBL_ENTRY(f) ((code_t)f)
+
+SYSCALL_TABLE( syscall_handler[] ) =
 {
     // Process control
-    scall_proc_run,
-    scall_proc_restart,
-    scall_proc_stop,
-    scall_proc_self_stop,
-    scall_proc_terminate,
-    scall_proc_lock,
-    scall_proc_free,
-    scall_proc_reset_watchdog,
-    scall_proc_set_prio,
+    BGRT_SC_TBL_ENTRY( scall_proc_run               ),
+    BGRT_SC_TBL_ENTRY( scall_proc_restart           ),
+    BGRT_SC_TBL_ENTRY( scall_proc_stop              ),
+    BGRT_SC_TBL_ENTRY( scall_proc_self_stop         ),
+    BGRT_SC_TBL_ENTRY( scall_proc_terminate         ),
+    BGRT_SC_TBL_ENTRY( scall_proc_lock              ),
+    BGRT_SC_TBL_ENTRY( scall_proc_free              ),
+    BGRT_SC_TBL_ENTRY( scall_proc_reset_watchdog    ),
+    BGRT_SC_TBL_ENTRY( scall_proc_set_prio          ),
     // Scheduler
-    scall_sched_proc_yeld,
+    BGRT_SC_TBL_ENTRY( scall_sched_proc_yeld        ),
     // Bsync
-    scall_sync_set_owner,
-    scall_sync_own,
-    scall_sync_touch,
-    scall_sync_sleep,
-    scall_sync_wake,
-    scall_sync_wait,
-    scall_sync_wake_and_sleep,
-    scall_sync_wake_and_wait,
-    scall_sync_proc_timeout,
+    BGRT_SC_TBL_ENTRY( scall_sync_set_owner         ),
+    BGRT_SC_TBL_ENTRY( scall_sync_own               ),
+    BGRT_SC_TBL_ENTRY( scall_sync_touch             ),
+    BGRT_SC_TBL_ENTRY( scall_sync_sleep             ),
+    BGRT_SC_TBL_ENTRY( scall_sync_wake              ),
+    BGRT_SC_TBL_ENTRY( scall_sync_wait              ),
+    BGRT_SC_TBL_ENTRY( scall_sync_wake_and_sleep    ),
+    BGRT_SC_TBL_ENTRY( scall_sync_wake_and_wait     ),
+    BGRT_SC_TBL_ENTRY( scall_sync_proc_timeout      ),
     //Arbitrary code execution
-    scall_user
+    BGRT_SC_TBL_ENTRY( scall_user                   )
 };
 
-#ifdef CONFIG_MP
+#ifndef CONFIG_SYSCALL_CHECK
+//Default syscall sanity check macro
+#define CONFIG_SYSCALL_CHECK(n,a)                       \
+do{                                                     \
+    if(  ( (syscall_t)0 == n )&&( SYSCALL_USER < n  ) ) \
+    {                                                   \
+        return;                                         \
+    }                                                   \
+}while(0)
 
-// In MP system do_syscall must be reentrant.
+#endif //CONFIG_SYSCALL_CHECK
+
 void do_syscall( syscall_t syscall_num, void * syscall_arg )
-#else // CONFIG_MP
-
-//In single processor system call reentrancy is not necessary.
-syscall_t syscall_num = (syscall_t)0;
-void * syscall_arg = (void *)0;
-
-void do_syscall( void )
-#endif // CONFIG_MP
 {
-    if( syscall_num != (syscall_t)0 )
-    {
-        syscall_num--;
-        (SYSCALL_TABLE_READ(syscall_routine[syscall_num]))(syscall_arg);
-        syscall_num = (syscall_t)0;
-    }
+    //Sanity check
+    CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg);
+    //Syscall processing
+    (SYSCALL_TABLE_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
 }
 
 /**********************************************************************************************
@@ -131,11 +133,12 @@ void do_syscall( void )
 ***********************************************************************************************
                                        SYSCALL_USER
 **********************************************************************************************/
-typedef struct
+typedef union
 {
     code_t func;
     void * arg;
-}scall_user_t;
+}
+scall_user_t;
 
 void scall_user(void * arg)
 {
