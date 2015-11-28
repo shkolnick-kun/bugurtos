@@ -267,22 +267,6 @@ static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
 /**********************************************************************************************
                                        SYSCALL_PROC_SET_PRIO
 **********************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системного вызова #SYSCALL_PROC_SET_PRIO.
-
-\~english
-\brief
-An argument for system call #SYSCALL_PROC_SET_PRIO.
-*/
-typedef struct
-{
-    proc_t * proc; /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
-    prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
-}
-proc_set_prio_arg_t;
-
 void proc_set_prio( proc_t * proc, prio_t prio )
 {
     volatile proc_set_prio_arg_t arg;
@@ -307,9 +291,9 @@ void _proc_set_prio( proc_t * proc, prio_t prio )
     PROC_PROC_PRIO_PROPAGATE( proc );
 }
 //========================================================================================
-void scall_proc_set_prio( void * arg )
+void scall_proc_set_prio( proc_set_prio_arg_t * arg )
 {
-    _proc_set_prio( ((proc_set_prio_arg_t *)arg)->proc, ((proc_set_prio_arg_t *)arg)->prio );
+    _proc_set_prio( arg->proc, arg->prio );
 }
 /**********************************************************************************************
                                        Bsync methods
@@ -373,14 +357,6 @@ static void _sync_assign_owner( sync_t * sync, proc_t * proc )
     SYNC_PROC_PRIO_PROPAGATE( proc, sync );
 }
 //========================================================================================
-typedef struct
-{
-    sync_t * sync;
-    proc_t * proc;
-    status_t status;
-}
-sync_set_owner_t;
-//========================================================================================
 status_t sync_set_owner( sync_t * sync, proc_t * proc )
 {
     volatile sync_set_owner_t scarg;
@@ -440,20 +416,13 @@ status_t _sync_set_owner( sync_t * sync, proc_t * proc )
     return BGRT_ST_OK;
 }
 //========================================================================================
-void scall_sync_set_owner( void * arg )
+void scall_sync_set_owner( sync_set_owner_t * arg )
 {
-    ((sync_set_owner_t *)arg)->status = _sync_set_owner( ((sync_set_owner_t *)arg)->sync, ((sync_set_owner_t *)arg)->proc );
+    arg->status = _sync_set_owner( arg->sync, arg->proc );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_CLEAR_OWNER
 **********************************************************************************************/
-typedef struct
-{
-    sync_t * sync;
-    flag_t touch;
-    status_t status;
-}sync_own_t;
-//========================================================================================
 status_t sync_own( sync_t * sync, flag_t touch )
 {
     sync_own_t scarg;
@@ -506,19 +475,13 @@ status_t _sync_own( sync_t * sync, flag_t touch )
     }
 }
 //========================================================================================
-void scall_sync_own( void * arg )
+void scall_sync_own( sync_own_t * arg )
 {
-    ((sync_own_t *)arg)->status = _sync_own( ((sync_own_t *)arg)->sync, ((sync_own_t *)arg)->touch );
+    arg->status = _sync_own( arg->sync, arg->touch );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_TOUCH
 **********************************************************************************************/
-typedef struct
-{
-    sync_t * sync;
-    status_t status;
-}sync_touch_t;
-//========================================================================================
 status_t sync_touch( sync_t * sync )
 {
     sync_touch_t scarg;
@@ -549,9 +512,9 @@ status_t _sync_touch( sync_t * sync )
     return BGRT_ST_OK;
 }
 //========================================================================================
-void scall_sync_touch( void * arg )
+void scall_sync_touch( sync_touch_t * arg )
 {
-    ((sync_touch_t *)arg)->status = _sync_touch( ((sync_touch_t *)arg)->sync );
+    arg->status = _sync_touch( arg->sync );
 }
 /**********************************************************************************************
                                        SYSCALL_SYNC_SLEEP
@@ -683,9 +646,9 @@ status_t _sync_sleep( sync_t * sync )
     return BGRT_ST_ROLL;
 }
 //========================================================================================
-void scall_sync_sleep( void * arg )
+void scall_sync_sleep( sync_sleep_t * arg )
 {
-    ((sync_sleep_t *)arg)->status = _sync_sleep( ((sync_sleep_t *)arg)->sync );
+    arg->status = _sync_sleep( arg->sync );
 }
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAIT
@@ -787,9 +750,9 @@ status_t _sync_wait( sync_t * sync, proc_t ** proc, flag_t block )
     return status;
 }
 //========================================================================================
-void scall_sync_wait( void * arg )
+void scall_sync_wait( sync_wait_t * arg )
 {
-    ((sync_wait_t *)arg)->status = _sync_wait( ((sync_wait_t *)arg)->sync, ((sync_wait_t *)arg)->proc, ((sync_wait_t *)arg)->block );
+    arg->status = _sync_wait( arg->sync, arg->proc, arg->block );
 }
 /**********************************************************************************************
                                     SYSCALL_SYNC_WAKE
@@ -905,9 +868,9 @@ status_t _sync_wake( sync_t * sync, proc_t * proc, flag_t chown )
     return status;
 }
 //========================================================================================
-void scall_sync_wake( void * arg )
+void scall_sync_wake( sync_wake_t * arg )
 {
-    ((sync_wake_t *)arg)->status = _sync_wake( ((sync_wake_t *)arg)->sync , ((sync_wake_t *)arg)->proc, ((sync_wake_t *)arg)->chown );
+    arg->status = _sync_wake( arg->sync , arg->proc, arg->chown );
 }
 /**********************************************************************************************
                                 SYSCALL_SYNC_WAKE_AND_SLEEP
@@ -1007,13 +970,6 @@ void scall_sync_wake_and_wait( void * arg )
 /**********************************************************************************************
                                 SYSCALL_SYNC_PROC_TIMEOUT
 **********************************************************************************************/
-typedef struct
-{
-    proc_t * proc;
-    status_t status;
-}
-sync_proc_timeout_t;
-//========================================================================================
 status_t sync_proc_timeout( proc_t * proc )
 {
     volatile sync_proc_timeout_t scarg;
@@ -1023,9 +979,9 @@ status_t sync_proc_timeout( proc_t * proc )
     return scarg.status;
 }
 //========================================================================================
-void scall_sync_proc_timeout( void * arg )
+void scall_sync_proc_timeout( sync_proc_timeout_t * arg )
 {
-    ((sync_proc_timeout_t *)arg)->status = _sync_proc_timeout( ((sync_proc_timeout_t *)arg)->proc );
+    arg->status = _sync_proc_timeout( arg->proc );
 }
 //========================================================================================
 status_t _sync_proc_timeout( proc_t * proc )

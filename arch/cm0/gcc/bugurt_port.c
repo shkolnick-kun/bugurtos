@@ -172,15 +172,6 @@ void start_bugurt(void)
     idle_main((void *)0);
 }
 //====================================================================================
-void syscall_bugurt( syscall_t num, void * arg )
-{
-    disable_interrupts();
-    syscall_num = num;
-    syscall_arg = arg;
-    BUGURT_SYS_ICSR |= BUGURT_PENDSV_SET;
-    enable_interrupts();
-}
-//====================================================================================
 volatile unsigned char systimer_flag = 0;
 void SYSTEM_TIMER_ISR(void)
 {
@@ -195,6 +186,19 @@ void SYSTEM_TIMER_ISR(void)
     enable_interrupts();
 }
 //====================================================================================
+//In single processor system call reentrancy is not necessary.
+syscall_t syscall_num = (syscall_t)0;
+void * syscall_arg = (void *)0;
+//====================================================================================
+void syscall_bugurt( syscall_t num, void * arg )
+{
+    disable_interrupts();
+    syscall_num = num;
+    syscall_arg = arg;
+    BUGURT_SYS_ICSR |= BUGURT_PENDSV_SET;
+    enable_interrupts();
+}
+//====================================================================================
 __attribute__ (( naked )) void SYSCALL_ISR(void)
 {
     BUGURT_SCHED_ENTER();
@@ -202,7 +206,7 @@ __attribute__ (( naked )) void SYSCALL_ISR(void)
     disable_interrupts();
 
     // Обрабатываем системный вызов
-    do_syscall();
+    do_syscall(syscall_num, syscall_arg);
 
     KERNEL_PREEMPT();
 

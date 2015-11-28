@@ -209,20 +209,6 @@ status_t proc_init_isr(
 /**********************************************************************************************
                                        SYSCALL_PROC_RUN
 **********************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системных вызовов #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
-
-\~english
-\brief
-An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
-*/
-typedef struct{
-    proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
-    status_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
-}proc_runtime_arg_t;
-
 
 status_t proc_run( proc_t * proc )
 {
@@ -255,9 +241,9 @@ end:
     return ret;
 }
 //========================================================================================
-void scall_proc_run( void * arg )
+void scall_proc_run( proc_runtime_arg_t * arg )
 {
-    ((proc_runtime_arg_t *)arg)->ret = proc_run_isr( ((proc_runtime_arg_t *)arg)->proc );
+    arg->ret = proc_run_isr( arg->proc );
 }
 /**********************************************************************************************
                                        SYSCALL_PROC_RESTART
@@ -303,9 +289,9 @@ end:
     return ret;
 }
 //========================================================================================
-void scall_proc_restart( void * arg )
+void scall_proc_restart( proc_runtime_arg_t * arg )
 {
-    ((proc_runtime_arg_t *)arg)->ret = proc_restart_isr( ((proc_runtime_arg_t *)arg)->proc );
+    arg->ret = proc_restart_isr( arg->proc );
 }
 /**********************************************************************************************
                                         SYSCALL_PROC_STOP
@@ -345,9 +331,9 @@ status_t proc_stop_isr(proc_t * proc)
     return ret;
 }
 //========================================================================================
-void scall_proc_stop( void * arg )
+void scall_proc_stop( proc_runtime_arg_t * arg )
 {
-    ((proc_runtime_arg_t *)arg)->ret = proc_stop_isr( ((proc_runtime_arg_t *)arg)->proc );
+    arg->ret = proc_stop_isr( arg->proc );
 }
 /**********************************************************************************************
                                        SYSCALL_PROC_LOCK

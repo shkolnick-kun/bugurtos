@@ -357,4 +357,27 @@ Finds the most loaded CPU core on the system and transfers one process from it t
 void sched_lazy_global_load_balancer(void);
 #endif // CONFIG_MP CONFIG_USE_ALB
 
+/*****************************************************************************************/
+/*                               System call handlers !!!                                */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SCHED_PROC_YELD.
+
+Передает управление следующему процессу.
+
+\param arg не используется.
+
+\~english
+\brief
+A #SYSCALL_SCHED_PROC_YELD handler.
+
+Transfers control to another process.
+
+\param arg Not used.
+*/
+void scall_sched_proc_yeld( bool_t * arg );
+/*****************************************************************************************/
+
 #endif // _SCHED_H_

@@ -534,9 +534,9 @@ bool_t _sched_proc_yeld( void )
     return save_power;
 }
 //========================================================================================
-void scall_sched_proc_yeld( void * arg )
+void scall_sched_proc_yeld( bool_t * arg )
 {
-    *((bool_t *)arg) = _sched_proc_yeld();
+    *arg = _sched_proc_yeld();
 }
 
 #if defined(CONFIG_MP) && (!defined(CONFIG_USE_ALB))

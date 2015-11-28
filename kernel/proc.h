@@ -808,4 +808,168 @@ Stops a process for sure.
 */
 void _proc_stop_ensure( proc_t * proc );
 
+/*****************************************************************************************/
+/*                               System call handlers !!!                                */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системных вызовов #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+
+\~english
+\brief
+An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+*/
+typedef struct{
+    proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
+    status_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+}proc_runtime_arg_t;
+
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_RUN.
+
+Пытается запустить процесс, вызывая #proc_run_isr.
+
+\param arg указатель на структуру #proc_runtime_arg_t.
+
+\~english
+\brief
+A #SYSCALL_PROC_RUN handler.
+
+This function tries to launch a process by #proc_run_isr call.
+
+\param arg A #proc_runtime_arg_t pointer.
+*/
+void scall_proc_run( proc_runtime_arg_t * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_RESTART.
+
+Пытается перезапустить процесс, вызывая #proc_restart_isr.
+
+\param arg указатель на структуру #proc_runtime_arg_t.
+
+\~english
+\brief
+A #SYSCALL_PROC_RESTART handler.
+
+This function tries to restart a process by #proc_restart_isr call.
+
+\param arg A #proc_runtime_arg_t pointer.
+*/
+void scall_proc_restart( proc_runtime_arg_t * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_STOP.
+
+Пытается остановить процесс, вызывая #proc_stop_isr.
+
+\param arg указатель на структуру #proc_runtime_arg_t.
+
+\~english
+\brief
+A #SYSCALL_PROC_STOP handler.
+
+This function tries to stop a process by #proc_stop_isr call.
+
+\param arg A #proc_runtime_arg_t pointer.
+*/
+void scall_proc_stop( proc_runtime_arg_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_SELF_STOP.
+
+Останавливает вызывающий процесс.
+
+\param arg не используется.
+
+\~english
+\brief
+A #SYSCALL_PROC_SELF_STOP handler.
+
+This function stops calling process.
+
+\param arg Not used.
+*/
+void scall_proc_self_stop( void * arg );
+
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_TERMINATE.
+
+Завершает выполнение процесса после выхода из pmain. Вызывает #_proc_terminate.
+
+\param arg указатель на процесс.
+
+\~english
+\brief
+A #SYSCALL_PROC_TERMINATE handler.
+
+This function terminates calling process after pmain return by #_proc_terminate call.
+
+\param arg A pointer to a process.
+*/
+void scall_proc_terminate( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_LOCK.
+
+Устанавливает флаг #PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
+
+\~english
+\brief
+A #SYSCALL_PROC_LOCK handler.
+
+Sets #PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
+*/
+void scall_proc_lock( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_FREE.
+
+Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP.
+Вызывает #_proc_free.
+
+\param arg указатель на маску обнуления флагов процесса.
+
+\~english
+\brief
+A #SYSCALL_PROC_FREE handler.
+
+This function decreases proc->lres counter, clears #PROC_FLG_LOCK if needed and, process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
+It calls #_proc_free.
+
+\param arg A pointer to a flag mask.
+*/
+void scall_proc_free( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_RESET_WATCHDOG.
+
+Вызывает #_proc_reset_watchdog.
+
+\param arg не используется.
+
+\~english
+\brief
+A #SYSCALL_PROC_RESET_WATCHDOG handler.
+
+This function calls #_proc_reset_watchdog.
+
+\param arg Not used.
+*/
+void scall_proc_reset_watchdog( void * arg );
 #endif // _PROC_H_

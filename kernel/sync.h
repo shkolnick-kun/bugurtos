@@ -587,4 +587,221 @@ Watch #sync_proc_timeout.
 \warning For internal usage.
 */
 status_t _sync_proc_timeout( proc_t * proc );
+
+/*****************************************************************************************/
+/*                               System call handlers !!!                                */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системного вызова #SYSCALL_PROC_SET_PRIO.
+
+\~english
+\brief
+An argument for system call #SYSCALL_PROC_SET_PRIO.
+*/
+typedef struct
+{
+    proc_t * proc; /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
+    prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
+}
+proc_set_prio_arg_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_PROC_SET_PRIO.
+
+Вызывает #_proc_set_prio.
+
+\param arg Указатель на переменную типа #proc_set_prio_arg_t.
+
+\~english
+\brief
+A #SYSCALL_PROC_SET_PRIO handler.
+
+This function calls #_proc_set_prio.
+
+\param arg A pointer to #proc_set_prio_arg_t object.
+*/
+void scall_proc_set_prio( proc_set_prio_arg_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #SYSCALL_SYNC_SET_OWNER.
+
+\~english
+\brief
+A #SYSCALL_SYNC_SET_OWNER arg.
+*/
+typedef struct
+{
+    sync_t * sync;
+    proc_t * proc;
+    status_t status;
+}
+sync_set_owner_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_SET_OWNER.
+
+Вызывает #_sync_set_owner.
+\~english
+\brief
+A #SYSCALL_SYNC_SET_OWNER handler.
+
+This function calls #_sync_set_owner.
+*/
+void scall_sync_set_owner( sync_set_owner_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #SYSCALL_SYNC_OWN.
+
+\~english
+\brief
+A #SYSCALL_SYNC_OWN arg.
+*/
+typedef struct
+{
+    sync_t * sync;
+    flag_t touch;
+    status_t status;
+}sync_own_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_OWN.
+
+Вызывает #_sync_own.
+\~english
+\brief
+A #SYSCALL_SYNC_OWN handler.
+
+This function calls #_sync_own.
+*/
+void scall_sync_own( sync_own_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #SYSCALL_SYNC_TOUCH.
+
+\~english
+\brief
+A #SYSCALL_SYNC_TOUCH arg.
+*/
+typedef struct
+{
+    sync_t * sync;
+    status_t status;
+}sync_touch_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_TOUCH.
+
+Вызывает #_sync_touch.
+\~english
+\brief
+A #SYSCALL_SYNC_TOUCH handler.
+
+This function calls #_sync_touch.
+*/
+void scall_sync_touch( sync_touch_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_SLEEP.
+
+Вызывает #_sync_sleep.
+\~english
+\brief
+A #SYSCALL_SYNC_SLEEP handler.
+
+This function calls #_sync_sleep.
+*/
+void scall_sync_sleep( sync_sleep_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_WAKE.
+
+Вызывает #_sync_wake.
+\~english
+\brief
+A #SYSCALL_SYNC_WAKE handler.
+
+This function calls #_sync_wake.
+*/
+void scall_sync_wake( sync_wake_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_WAIT.
+
+Вызывает #_sync_wait.
+\~english
+\brief
+A #SYSCALL_SYNC_WAIT handler.
+
+This function calls #_sync_wait.
+*/
+void scall_sync_wait( sync_wait_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_WAKE_AND_SLEEP.
+\~english
+\brief
+A #SYSCALL_SYNC_WAKE_AND_SLEEP handler.
+*/
+void scall_sync_wake_and_sleep( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_WAKE_AND_WAIT.
+\~english
+\brief
+A #SYSCALL_SYNC_WAKE_AND_WAIT handler.
+*/
+void scall_sync_wake_and_wait( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #SYSCALL_SYNC_PROC_TIMEOUT.
+
+\~english
+\brief
+A #SYSCALL_SYNC_PROC_TIMEOUT arg.
+*/
+typedef struct
+{
+    proc_t * proc;
+    status_t status;
+}
+sync_proc_timeout_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #SYSCALL_SYNC_PROC_TIMEOUT.
+\~english
+\brief
+A #SYSCALL_SYNC_PROC_TIMEOUT handler.
+*/
+void scall_sync_proc_timeout( sync_proc_timeout_t * arg );
+/*****************************************************************************************/
 #endif // _SYNC_H_
