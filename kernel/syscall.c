@@ -101,8 +101,6 @@ SYSCALL_TABLE( syscall_handler[] ) =
     BGRT_SC_TBL_ENTRY( scall_sync_sleep             ),
     BGRT_SC_TBL_ENTRY( scall_sync_wake              ),
     BGRT_SC_TBL_ENTRY( scall_sync_wait              ),
-    BGRT_SC_TBL_ENTRY( scall_sync_wake_and_sleep    ),
-    BGRT_SC_TBL_ENTRY( scall_sync_wake_and_wait     ),
     BGRT_SC_TBL_ENTRY( scall_sync_proc_timeout      ),
     //Arbitrary code execution
     BGRT_SC_TBL_ENTRY( scall_user                   )
@@ -110,22 +108,24 @@ SYSCALL_TABLE( syscall_handler[] ) =
 
 #ifndef CONFIG_SYSCALL_CHECK
 //Default syscall sanity check macro
-#define CONFIG_SYSCALL_CHECK(n,a)                       \
-do{                                                     \
-    if(  ( (syscall_t)0 == n )&&( SYSCALL_USER < n  ) ) \
-    {                                                   \
-        return;                                         \
-    }                                                   \
-}while(0)
+#define CONFIG_SYSCALL_CHECK(n,a) \
+( ( (syscall_t)0 == n )&&( SYSCALL_USER < n  ) )
 
 #endif //CONFIG_SYSCALL_CHECK
 
 void do_syscall( syscall_t syscall_num, void * syscall_arg )
 {
     //Sanity check
-    CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg);
-    //Syscall processing
-    (SYSCALL_TABLE_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
+    if( CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg) )
+    {
+        //Fail
+        return;
+    }
+    else
+    {
+        //Syscall processing
+        (SYSCALL_TABLE_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
+    }
 }
 
 /**********************************************************************************************

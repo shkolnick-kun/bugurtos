@@ -108,12 +108,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define SYSCALL_SYNC_TOUCH                     (SYSCALL_SYNC_OWN + (syscall_t)(1))              /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
 #define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_TOUCH + (syscall_t)(1))            /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
 #define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (syscall_t)(1))            /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
-
 #define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (syscall_t)(1))             /*!< \~russian \brief Подождать блокировки процесса на объекте типа #sync_t. \~english \brief Wait for process to block on #sync_t object*/
-#define SYSCALL_SYNC_WAKE_AND_SLEEP            (SYSCALL_SYNC_WAIT + (syscall_t)(1))             /*!< \~russian \brief Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_SLEEP. \~english \brief Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_SLEEP. */
-#define SYSCALL_SYNC_WAKE_AND_WAIT             (SYSCALL_SYNC_WAKE_AND_SLEEP + (syscall_t)(1))   /*!< \~russian \brief Смотри #SYSCALL_SYNC_WAKE и #SYSCALL_SYNC_WAIT. \~english \brief Watch #SYSCALL_SYNC_WAKE and #SYSCALL_SYNC_WAIT. */
-#define SYSCALL_SYNC_PROC_TIMEOUT              (SYSCALL_SYNC_WAKE_AND_WAIT + (syscall_t)(1))   /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
-#define SYSCALL_USER                           (SYSCALL_SYNC_PROC_TIMEOUT + (syscall_t)(1))    /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
+#define SYSCALL_SYNC_PROC_TIMEOUT              (SYSCALL_SYNC_WAIT + (syscall_t)(1))             /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
+
+#define SYSCALL_USER                           (SYSCALL_SYNC_PROC_TIMEOUT + (syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 /*!
 \~russian
 \brief
