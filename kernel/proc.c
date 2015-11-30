@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 void _proc_stop_ensure( proc_t * proc )
 {
-    if( PROC_RUN_TEST( proc ) )
+    if( BGRT_PROC_RUN_TEST( proc ) )
     {
         bgrt_sched_proc_stop( proc );
     }
@@ -91,7 +91,7 @@ void _proc_stop_ensure( proc_t * proc )
 void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask )
 {
     // Was a process stopped some where else?
-    if( PROC_RUN_TEST( proc ) )
+    if( BGRT_PROC_RUN_TEST( proc ) )
     {
         // No, stop it now.
         bgrt_sched_proc_stop( proc );
@@ -99,8 +99,8 @@ void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask )
     }
     else
     {
-        // Yes, no need for actual stop, set PROC_FLG_PRE_STOP flag.
-        proc->flags |= (bgrt_flag_t)(mask|PROC_FLG_PRE_STOP);
+        // Yes, no need for actual stop, set BGRT_PROC_FLG_PRE_STOP flag.
+        proc->flags |= (bgrt_flag_t)(mask|BGRT_PROC_FLG_PRE_STOP);
     }
 }
 //========================================================================================
@@ -182,9 +182,9 @@ bgrt_st_t proc_init_isr(
     BGRT_SPIN_LOCK( proc );
 
     bgrt_prit_init( (bgrt_prit_t *)proc, prio );
-    proc->flags = ( is_rt )?(PROC_FLG_RT|PROC_FLG_RR):(PROC_FLG_RR); // Default behavior is round robin scheduling
+    proc->flags = ( is_rt )?(BGRT_PROC_FLG_RT|BGRT_PROC_FLG_RR):(BGRT_PROC_FLG_RR); // Default behavior is round robin scheduling
 
-    PROC_LRES_INIT( proc );
+    BGRT_PROC_LRES_INIT( proc );
 
     proc->base_prio = prio;
     proc->time_quant = time_quant;
@@ -207,18 +207,18 @@ bgrt_st_t proc_init_isr(
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_RUN
+                                       SYSCALL_BGRT_PROC_RUN
 **********************************************************************************************/
 
 bgrt_st_t proc_run( proc_t * proc )
 {
     volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    bgrt_syscall( SYSCALL_PROC_RUN, (void *)&scarg );
+    bgrt_syscall( SYSCALL_BGRT_PROC_RUN, (void *)&scarg );
     return scarg.ret;
 }
 //========================================================================================
-// Run a process? used in ISRs and in #SYSCALL_PROC_RUN
+// Run a process? used in ISRs and in #SYSCALL_BGRT_PROC_RUN
 bgrt_st_t proc_run_isr(proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_OK;
@@ -230,12 +230,12 @@ bgrt_st_t proc_run_isr(proc_t * proc)
 
     BGRT_SPIN_LOCK( proc );
 
-    if( PROC_STATE_STOPED != PROC_GET_STATE( proc ) )
+    if( BGRT_PROC_STATE_STOPED != BGRT_PROC_GET_STATE( proc ) )
     {
         ret = BGRT_ST_ROLL;
         goto end;
     }
-    bgrt_sched_proc_run( proc, PROC_STATE_READY );
+    bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
 end:
     BGRT_SPIN_FREE( proc );
     return ret;
@@ -246,13 +246,13 @@ void scall_proc_run( proc_runtime_arg_t * arg )
     arg->ret = proc_run_isr( arg->proc );
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_RESTART
+                                       SYSCALL_BGRT_PROC_RESTART
 **********************************************************************************************/
 bgrt_st_t proc_restart( proc_t * proc )
 {
     volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    bgrt_syscall( SYSCALL_PROC_RESTART, (void *)&scarg );
+    bgrt_syscall( SYSCALL_BGRT_PROC_RESTART, (void *)&scarg );
     return scarg.ret;
 }
 //========================================================================================
@@ -268,14 +268,14 @@ bgrt_st_t proc_restart_isr(proc_t * proc)
 
     BGRT_SPIN_LOCK( proc );
 
-    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_STATE_RESTART_MASK) )
+    if( proc->flags & (BGRT_PROC_FLG_LOCK_MASK|BGRT_PROC_STATE_RESTART_MASK) )
     {
         ret = BGRT_ST_ESTAT;
         goto end;
     }
-    proc->flags = ( proc->flags & PROC_FLG_RT )?PROC_FLG_RT:(bgrt_flag_t)0;
+    proc->flags = ( proc->flags & BGRT_PROC_FLG_RT )?BGRT_PROC_FLG_RT:(bgrt_flag_t)0;
 
-    PROC_LRES_INIT( proc );
+    BGRT_PROC_LRES_INIT( proc );
 
     proc->timer = proc->time_quant;
 
@@ -283,7 +283,7 @@ bgrt_st_t proc_restart_isr(proc_t * proc)
     {
         proc->spointer = proc_stack_init( proc->sstart, (bgrt_code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
     }
-    bgrt_sched_proc_run( proc, PROC_STATE_READY );
+    bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
 end:
     BGRT_SPIN_FREE( proc );
     return ret;
@@ -294,13 +294,13 @@ void scall_proc_restart( proc_runtime_arg_t * arg )
     arg->ret = proc_restart_isr( arg->proc );
 }
 /**********************************************************************************************
-                                        SYSCALL_PROC_STOP
+                                        SYSCALL_BGRT_PROC_STOP
 **********************************************************************************************/
 bgrt_st_t proc_stop( proc_t * proc )
 {
     volatile proc_runtime_arg_t scarg;
     scarg.proc = proc;
-    bgrt_syscall( SYSCALL_PROC_STOP, (void *)&scarg);
+    bgrt_syscall( SYSCALL_BGRT_PROC_STOP, (void *)&scarg);
     return scarg.ret;
 }
 //========================================================================================
@@ -316,10 +316,10 @@ bgrt_st_t proc_stop_isr(proc_t * proc)
 
     BGRT_SPIN_LOCK( proc );
     //Check flags
-    //When PROC_FLG_MUTEX or PROC_FLG_SEM or both are set we must process PROC_FLG_PRE_STOP on common resource release.
-    if( proc->flags & (PROC_FLG_LOCK_MASK|PROC_FLG_PRE_STOP|PROC_STATE_WAIT_MASK) )
+    //When BGRT_PROC_FLG_MUTEX or BGRT_PROC_FLG_SEM or both are set we must process BGRT_PROC_FLG_PRE_STOP on common resource release.
+    if( proc->flags & (BGRT_PROC_FLG_LOCK_MASK|BGRT_PROC_FLG_PRE_STOP|BGRT_PROC_STATE_WAIT_MASK) )
     {
-        proc->flags |= PROC_FLG_PRE_STOP;
+        proc->flags |= BGRT_PROC_FLG_PRE_STOP;
     }
     else
     {
@@ -336,11 +336,11 @@ void scall_proc_stop( proc_runtime_arg_t * arg )
     arg->ret = proc_stop_isr( arg->proc );
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_LOCK
+                                       SYSCALL_BGRT_PROC_LOCK
 **********************************************************************************************/
 void proc_lock( void )
 {
-    bgrt_syscall( SYSCALL_PROC_LOCK, (void *)0 );
+    bgrt_syscall( SYSCALL_BGRT_PROC_LOCK, (void *)0 );
 }
 //========================================================================================
 void _proc_lock( void )
@@ -350,7 +350,7 @@ void _proc_lock( void )
 
     BGRT_SPIN_LOCK( proc );
 
-    proc->flags |= PROC_FLG_LOCK;
+    proc->flags |= BGRT_PROC_FLG_LOCK;
     proc->cnt_lock++;
 
     BGRT_SPIN_FREE( proc );
@@ -361,14 +361,14 @@ void scall_proc_lock( void * arg )
     _proc_lock();
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_FREE
+                                       SYSCALL_BGRT_PROC_FREE
 **********************************************************************************************/
 void proc_free( void )
 {
-    bgrt_syscall( SYSCALL_PROC_FREE, (void *)0 );
+    bgrt_syscall( SYSCALL_BGRT_PROC_FREE, (void *)0 );
 }
 //========================================================================================
-// #PROC_FLG_PRE_STOP processing with mask clearing.
+// #BGRT_PROC_FLG_PRE_STOP processing with mask clearing.
 void _proc_free( void )
 {
     proc_t * proc;
@@ -383,17 +383,17 @@ void _proc_free( void )
 
     if( ((bgrt_cnt_t)0) == proc->cnt_lock )
     {
-        proc->flags &= ~PROC_FLG_LOCK;
+        proc->flags &= ~BGRT_PROC_FLG_LOCK;
     }
     /*
     If a process stop was called
     and a process does not have locked resources,
     then stop a process.
     */
-    if(  PROC_PRE_STOP_TEST(proc)  )
+    if(  BGRT_PROC_PRE_STOP_TEST(proc)  )
     {
         _proc_stop_ensure( proc );
-        proc->flags &= ~PROC_FLG_PRE_STOP;
+        proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;
     }
 
     BGRT_SPIN_FREE( proc );
@@ -404,11 +404,11 @@ void scall_proc_free( void * arg )
     _proc_free();
 }
 /**********************************************************************************************
-                                    SYSCALL_PROC_SELF_STOP
+                                    SYSCALL_BGRT_PROC_SELF_STOP
 **********************************************************************************************/
 void proc_self_stop(void)
 {
-    bgrt_syscall( SYSCALL_PROC_SELF_STOP, (void *)1 );
+    bgrt_syscall( SYSCALL_BGRT_PROC_SELF_STOP, (void *)1 );
 }
 //========================================================================================
 void _proc_self_stop(void)
@@ -428,12 +428,12 @@ void scall_proc_self_stop( void * arg )
     _proc_self_stop();
 }
 /**********************************************************************************************
-                                    SYSCALL_PROC_TERMINATE
+                                    SYSCALL_BGRT_PROC_TERMINATE
 **********************************************************************************************/
 // Terminate a process after pmain return.
 void proc_terminate( void )
 {
-    bgrt_syscall( SYSCALL_PROC_TERMINATE, (void *)0 );
+    bgrt_syscall( SYSCALL_BGRT_PROC_TERMINATE, (void *)0 );
 }
 //========================================================================================
 void _proc_terminate( void )
@@ -446,16 +446,16 @@ void _proc_terminate( void )
     _proc_stop_ensure( proc );
     // Flags processing!
     // A process is not allowed to return from pmain не wuth resources locked!
-    if( proc->flags & PROC_FLG_LOCK_MASK )
+    if( proc->flags & BGRT_PROC_FLG_LOCK_MASK )
     {
-        proc->flags |= PROC_STATE_DEAD;
+        proc->flags |= BGRT_PROC_STATE_DEAD;
     }
     else
     {
         // A normal process termination.
-        proc->flags |= PROC_STATE_END;
+        proc->flags |= BGRT_PROC_STATE_END;
     }
-    proc->flags &= ~PROC_FLG_PRE_STOP;
+    proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;
 
     BGRT_SPIN_FREE( proc );
 }
@@ -465,11 +465,11 @@ void scall_proc_terminate( void * arg )
     _proc_terminate();
 }
 /**********************************************************************************************
-                                       SYSCALL_PROC_RESET_WATCHDOG
+                                       SYSCALL_BGRT_PROC_RESET_WATCHDOG
 **********************************************************************************************/
 void proc_reset_watchdog(void)
 {
-    bgrt_syscall( SYSCALL_PROC_RESET_WATCHDOG, (void *)0 );
+    bgrt_syscall( SYSCALL_BGRT_PROC_RESET_WATCHDOG, (void *)0 );
 }
 //========================================================================================
 void _proc_reset_watchdog( void )
@@ -479,7 +479,7 @@ void _proc_reset_watchdog( void )
 
     BGRT_SPIN_LOCK( proc );
 
-    if( proc->flags & PROC_FLG_RT )
+    if( proc->flags & BGRT_PROC_FLG_RT )
     {
         proc->timer = proc->time_quant;
     }

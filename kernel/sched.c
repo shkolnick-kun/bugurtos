@@ -158,7 +158,7 @@ void bgrt_sched_init(bgrt_sched_t * sched, proc_t * idle)
     sched->expired = (bgrt_xlist_t *)sched->plst + 1;
     bgrt_xlist_init( sched->expired );
     bgrt_prit_insert( (bgrt_prit_t *)idle, sched->ready );
-    idle->flags |= PROC_STATE_RUNNING;
+    idle->flags |= BGRT_PROC_STATE_RUNNING;
     sched->current_proc = idle;
     sched->nested_crit_sec = (bgrt_cnt_t)0;
 #ifdef BGRT_CONFIG_MP
@@ -191,7 +191,7 @@ void bgrt_sched_proc_run( proc_t * proc, bgrt_flag_t state )
 {
     bgrt_sched_t * sched;
     //Set new state
-    PROC_SET_STATE( proc, state );
+    BGRT_PROC_SET_STATE( proc, state );
     sched = BGRT_SCHED_STAT_UPDATE_RUN( proc );
 
     BGRT_SPIN_LOCK( sched );
@@ -215,7 +215,7 @@ void bgrt_sched_proc_stop(proc_t * proc)
     bgrt_spin_lock( bgrt_xlist_lock );
 #endif // BGRT_CONFIG_MP
 
-    proc->flags &= PROC_STATE_CLEAR_MASK;
+    proc->flags &= BGRT_PROC_STATE_CLEAR_MASK;
     bgrt_prit_cut( (bgrt_prit_t *)proc );
 
 #ifdef BGRT_CONFIG_MP
@@ -254,8 +254,8 @@ static void _sched_switch_current( bgrt_sched_t * sched, proc_t * current_proc )
     If a process was in READY state then it will go to RUNNING state,
     and if it was in W_READY state? then it will go to W_RUNNING state!!!
     ***************************************************************************/
-    current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
-    current_proc->flags |= PROC_STATE_RUNNING;
+    current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
+    current_proc->flags |= BGRT_PROC_STATE_RUNNING;
     //Context restore hook
     if( current_proc->rs_hook )
     {
@@ -288,9 +288,9 @@ void bgrt_sched_schedule(void)
         /***************************************************************************
         Switch a process state from RUNNING/W_RUNNING to STOPED/W_MUT!
         ***************************************************************************/
-        current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
+        current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
 
-        if( current_proc->flags & PROC_FLG_RR )
+        if( current_proc->flags & BGRT_PROC_FLG_RR )
         {
             // Switch ready sublist to a next process.
             BGRT_SPIN_LOCK( sched );
@@ -304,7 +304,7 @@ void bgrt_sched_schedule(void)
             /**********************************************************************
             Switch a process state to READY/PI_READY/SYNC_READY.
             **********************************************************************/
-            current_proc->flags |= PROC_STATE_READY;
+            current_proc->flags |= BGRT_PROC_STATE_READY;
         }
         else
         {
@@ -325,9 +325,9 @@ void bgrt_sched_schedule(void)
             // What process is it?
             flags = current_proc->flags;
             if(
-                (!(flags & PROC_FLG_RT))
+                (!(flags & BGRT_PROC_FLG_RT))
 #ifndef BGRT_CONFIG_HARD_RT
-                ||(flags & PROC_FLG_LOCK_MASK)
+                ||(flags & BGRT_PROC_FLG_LOCK_MASK)
 #endif // BGRT_CONFIG_HARD_RT
 
             )
@@ -362,7 +362,7 @@ void bgrt_sched_schedule(void)
                 /**********************************************************************
                 Switch a process state to READY/PI_READY/SYNC_READY.
                 **********************************************************************/
-                current_proc->flags |= PROC_STATE_READY;
+                current_proc->flags |= BGRT_PROC_STATE_READY;
             }
             else
             {
@@ -384,27 +384,27 @@ void bgrt_sched_schedule(void)
                 bgrt_spin_free( &bgrt_kernel.stat_lock );
 #endif // BGRT_CONFIG_MP
                 ((bgrt_prit_t *)current_proc)->list = (void *)0;// Просто вырезали из списка, как в bgrt_prit_cut
-                flags &= PROC_STATE_CLEAR_MASK;
+                flags &= BGRT_PROC_STATE_CLEAR_MASK;
 #ifdef BGRT_CONFIG_HARD_RT
                 /**********************************************************************
                 If process have some locked resources, then it goes to DEAD state,
                 or it goes to WD_STOPED state.
                 **********************************************************************/
-                if( (bgrt_flag_t)0 == (flags & PROC_FLG_LOCK_MASK) )
+                if( (bgrt_flag_t)0 == (flags & BGRT_PROC_FLG_LOCK_MASK) )
                 {
-                    flags |= PROC_STATE_WD_STOPED;
+                    flags |= BGRT_PROC_STATE_WD_STOPED;
                 }
                 else
                 {
                     // Go to DEAD state.
-                    flags |= PROC_STATE_DEAD;
+                    flags |= BGRT_PROC_STATE_DEAD;
                 }
 #else // BGRT_CONFIG_HARD_RT
                 /**********************************************************************
                 In that branch of #ifdef BGRT_CONFIG_HARD_RT, we have a RT process, which
                 does not have locked resources.
                 **********************************************************************/
-                flags |= PROC_STATE_WD_STOPED;
+                flags |= BGRT_PROC_STATE_WD_STOPED;
 #endif // BGRT_CONFIG_HARD_RT
                 current_proc->flags = flags;
             }
@@ -429,22 +429,22 @@ void bgrt_sched_reschedule(void)
     // Need to spin-lock a current proc!
     BGRT_SPIN_LOCK( current_proc );
 
-    if( PROC_STATE_RUNNING == ( current_proc->flags & PROC_STATE_RUN_MASK ) )
+    if( BGRT_PROC_STATE_RUNNING == ( current_proc->flags & BGRT_PROC_STATE_RUN_MASK ) )
     {
-        current_proc->flags &= PROC_STATE_CLEAR_RUN_MASK;
-        current_proc->flags |= PROC_STATE_READY;
+        current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
+        current_proc->flags |= BGRT_PROC_STATE_READY;
     }
 
     BGRT_SPIN_FREE( current_proc );
     _sched_switch_current( sched, current_proc );
 }
 /**********************************************************************************************
-                                      SYSCALL_PROC_YELD
+                                      SYSCALL_BGRT_PROC_YELD
 **********************************************************************************************/
 bgrt_bool_t bgrt_sched_proc_yeld(void)
 {
     volatile bgrt_bool_t ret;
-    bgrt_syscall( SYSCALL_SCHED_PROC_YELD, (void *)&ret );
+    bgrt_syscall( SYSCALL_SCHED_BGRT_PROC_YELD, (void *)&ret );
     return ret;
 }
 //========================================================================================
@@ -460,9 +460,9 @@ bgrt_bool_t _bgrt_bgrt_sched_proc_yeld( void )
 
     BGRT_SPIN_LOCK( proc );
 
-    if( PROC_RUN_TEST( proc ) )
+    if( BGRT_PROC_RUN_TEST( proc ) )
     {
-        if( proc->flags & PROC_FLG_RT )
+        if( proc->flags & BGRT_PROC_FLG_RT )
         {
             bgrt_prio_t prio;
 
@@ -498,7 +498,7 @@ bgrt_bool_t _bgrt_bgrt_sched_proc_yeld( void )
             proc_map |= sched->ready->index;
             BGRT_SPIN_FREE( sched );
 
-            PROC_SET_STATE( proc, PROC_STATE_READY );
+            BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_READY );
 
             sched = sched_stat_update_run( proc );
 
@@ -574,7 +574,7 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
     bgrt_disable_interrupts();
     BGRT_SPIN_LOCK( proc );
     // Check if a process is still running.
-    if( PROC_RUN_TEST( proc ) )
+    if( BGRT_PROC_RUN_TEST( proc ) )
     {
         // Stop it;
         BGRT_SPIN_LOCK( sched );

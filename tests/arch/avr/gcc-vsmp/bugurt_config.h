@@ -136,7 +136,7 @@ extern void(*test_kernel_preempt)(void);
 //Virtual machine interrupt stack size.
 #define VM_INT_STACK_SIZE (160)
 
-#define PROC_STACK_SIZE 128
+#define BGRT_PROC_STACK_SIZE 128
 
 #define LOWEST (BGRT_BITS_IN_INDEX_T - 1)
 

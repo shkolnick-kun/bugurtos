@@ -492,11 +492,11 @@ bgrt_st_t _sync_proc_timeout( proc_t * proc );
 /*!
 \~russian
 \brief
-Параметр системного вызова #SYSCALL_PROC_SET_PRIO.
+Параметр системного вызова #SYSCALL_BGRT_PROC_SET_PRIO.
 
 \~english
 \brief
-An argument for system call #SYSCALL_PROC_SET_PRIO.
+An argument for system call #SYSCALL_BGRT_PROC_SET_PRIO.
 */
 typedef struct
 {
@@ -508,7 +508,7 @@ proc_set_prio_arg_t;
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_SET_PRIO.
+Обработчик вызова #SYSCALL_BGRT_PROC_SET_PRIO.
 
 Вызывает #_proc_set_prio.
 
@@ -516,7 +516,7 @@ proc_set_prio_arg_t;
 
 \~english
 \brief
-A #SYSCALL_PROC_SET_PRIO handler.
+A #SYSCALL_BGRT_PROC_SET_PRIO handler.
 
 This function calls #_proc_set_prio.
 
@@ -679,11 +679,11 @@ void scall_sync_wake_and_wait( void * arg );
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_SYNC_PROC_TIMEOUT.
+Аргумент вызова #SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
 
 \~english
 \brief
-A #SYSCALL_SYNC_PROC_TIMEOUT arg.
+A #SYSCALL_SYNC_BGRT_PROC_TIMEOUT arg.
 */
 typedef struct
 {
@@ -695,10 +695,10 @@ sync_proc_timeout_t;
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_PROC_TIMEOUT.
+Обработчик вызова #SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
 \~english
 \brief
-A #SYSCALL_SYNC_PROC_TIMEOUT handler.
+A #SYSCALL_SYNC_BGRT_PROC_TIMEOUT handler.
 */
 void scall_sync_proc_timeout( sync_proc_timeout_t * arg );
 /*****************************************************************************************/

@@ -74,7 +74,7 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_STOP_SCHEDULER() (TIM4_IER = 0x00)
 #define BGRT_START_SCHEDULER() (TIM4_IER = 0x01)
 
-#define PROC_STACK_SIZE 128
+#define BGRT_PROC_STACK_SIZE 128
 
 #define LOWEST (BGRT_BITS_IN_INDEX_T - 1)
 

@@ -37,8 +37,8 @@ void init_hardware(void)
 void sched_fix_proc_2(void)
 {
     cli();
-    proc[2].flags &= ~PROC_FLG_RT;
-    proc[2].flags &= PROC_STATE_CLEAR_MASK;
+    proc[2].flags &= ~BGRT_PROC_FLG_RT;
+    proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
     sei();
 }
 
