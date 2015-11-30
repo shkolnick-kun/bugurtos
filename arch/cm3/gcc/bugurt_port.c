@@ -250,7 +250,7 @@ void bgrt_syscall( bgrt_syscall_t num, void * arg )
     bgrt_enable_interrupts();
 }
 //====================================================================================
-void SYSCALL_ISR(void)
+void BGRT_SYSCALL_ISR(void)
 {
     // Обрабатываем системный вызов
     do_syscall(syscall_num, syscall_arg);
