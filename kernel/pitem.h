@@ -231,5 +231,5 @@ Cut all #bgrt_prit_t objects from #bgrt_xlist_t container and form an ordinary l
 \param src A #bgrt_xlist_t pointer.
 \return An ordinary doublelinked list head pointer.
 */
-bgrt_prit_t * bgrt_prit_bgrt_xlist_chain( bgrt_xlist_t * src );
+bgrt_prit_t * bgrt_prit_xlist_chain( bgrt_xlist_t * src );
 #endif // _BGRT_PRIT_H_

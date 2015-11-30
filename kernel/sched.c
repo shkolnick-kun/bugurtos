@@ -448,7 +448,7 @@ bgrt_bool_t bgrt_sched_proc_yeld(void)
     return ret;
 }
 //========================================================================================
-bgrt_bool_t _bgrt_bgrt_sched_proc_yeld( void )
+bgrt_bool_t _bgrt_sched_proc_yeld( void )
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;
     bgrt_index_t proc_map;
@@ -534,9 +534,9 @@ bgrt_bool_t _bgrt_bgrt_sched_proc_yeld( void )
     return save_power;
 }
 //========================================================================================
-void scall_bgrt_bgrt_sched_proc_yeld( bgrt_bool_t * arg )
+void scall_bgrt_sched_proc_yeld( bgrt_bool_t * arg )
 {
-    *arg = _bgrt_bgrt_sched_proc_yeld();
+    *arg = _bgrt_sched_proc_yeld();
 }
 
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))

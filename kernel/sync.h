@@ -402,7 +402,7 @@ Wake a process on timeout.
 \param proc A pointer to a process, that is supposed to wake up.
 \return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_ROLL if caller must do next iteration, or error code.
 */
-bgrt_st_t bgrt_sync_bgrt_proc_timeout( bgrt_proc_t * proc );
+bgrt_st_t bgrt_sync_proc_timeout( bgrt_proc_t * proc );
 
 /*!
 \~russian
@@ -475,16 +475,16 @@ bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t 
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_bgrt_proc_timeout.
+Смотри #bgrt_sync_proc_timeout.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #bgrt_sync_bgrt_proc_timeout.
+Watch #bgrt_sync_proc_timeout.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_bgrt_proc_timeout( bgrt_proc_t * proc );
+bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc );
 
 /*****************************************************************************************/
 /*                               System call handlers !!!                                */
@@ -690,7 +690,7 @@ typedef struct
     bgrt_proc_t * proc;
     bgrt_st_t status;
 }
-bgrt_sync_bgrt_proc_timeout_t;
+bgrt_sync_proc_timeout_t;
 /*****************************************************************************************/
 /*!
 \~russian
@@ -700,6 +700,6 @@ bgrt_sync_bgrt_proc_timeout_t;
 \brief
 A #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT handler.
 */
-void scall_bgrt_sync_bgrt_proc_timeout( bgrt_sync_bgrt_proc_timeout_t * arg );
+void scall_bgrt_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 /*****************************************************************************************/
 #endif // _BGRT_SYNC_H_

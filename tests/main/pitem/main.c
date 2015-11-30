@@ -104,14 +104,14 @@ int main()
 
     print_test_res( test );
 
-    printf("Test 4: bgrt_prit_bgrt_xlist_chain function: ");
+    printf("Test 4: bgrt_prit_xlist_chain function: ");
 
     for( i=0; i<6; i++ )
     {
         bgrt_prit_insert( &my_item[i], &list );
     }
 
-    test |= ( &my_item[0] != bgrt_prit_bgrt_xlist_chain( &list ) );
+    test |= ( &my_item[0] != bgrt_prit_xlist_chain( &list ) );
 
     test |= ( my_item[0].parent.next != &my_item[1] )||( my_item[0].parent.prev != &my_item[5] );
     test |= ( my_item[1].parent.next != &my_item[2] )||( my_item[1].parent.prev != &my_item[0] );

@@ -398,16 +398,16 @@ void main_0( void * arg )
     test = ( 5 == proc[1].parent.prio );
     test_output( test, test_num++ );
 
-    //76 bgrt_sync_sleep bgrt_sync_bgrt_proc_timeout
-    status[0] = bgrt_sync_bgrt_proc_timeout( &proc[2] );
+    //76 bgrt_sync_sleep bgrt_sync_proc_timeout
+    status[0] = bgrt_sync_proc_timeout( &proc[2] );
     bgrt_wait_time(5);
     test = (BGRT_ST_OK == status[0]);
     test = test && ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
-    //77 bgrt_sync_sleep bgrt_sync_bgrt_proc_timeout
+    //77 bgrt_sync_sleep bgrt_sync_proc_timeout
     test = ( BGRT_ST_ETIMEOUT == status[2] );
     test_output( test, test_num++ );
-    //78 bgrt_sync_sleep bgrt_sync_bgrt_proc_timeout
+    //78 bgrt_sync_sleep bgrt_sync_proc_timeout
     test = ( LOWEST == proc[1].parent.prio );
     test_output( test, test_num++ );
 
@@ -496,15 +496,15 @@ void main_0( void * arg )
     bgrt_wait_time(5);
     test = ( BGRT_PROC_STATE_SYNC_WAIT == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
-    //98 bgrt_sync_wait bgrt_sync_bgrt_proc_timeout
-    status[0] = bgrt_sync_bgrt_proc_timeout( &proc[1] );
+    //98 bgrt_sync_wait bgrt_sync_proc_timeout
+    status[0] = bgrt_sync_proc_timeout( &proc[1] );
     test = ( BGRT_ST_OK == status[0] );
     test_output( test, test_num++ );
-    //99 bgrt_sync_wait bgrt_sync_bgrt_proc_timeout
+    //99 bgrt_sync_wait bgrt_sync_proc_timeout
     bgrt_wait_time(5);
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
-    //100 bgrt_sync_wait bgrt_sync_bgrt_proc_timeout
+    //100 bgrt_sync_wait bgrt_sync_proc_timeout
     test = ( BGRT_ST_ETIMEOUT == status[1] );
     test_output( test, test_num++ );
     /// bgrt_sync_wait covered!!!
@@ -595,46 +595,46 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     /// bgrt_sync_wait and _bgrt_sync_do_wake covered!!!
 
-    //120 bgrt_sync_bgrt_proc_timeout
-    test = ( BGRT_ST_ENULL == bgrt_sync_bgrt_proc_timeout( (bgrt_proc_t *)0 ) );
+    //120 bgrt_sync_proc_timeout
+    test = ( BGRT_ST_ENULL == bgrt_sync_proc_timeout( (bgrt_proc_t *)0 ) );
     test_output( test, test_num++ );
-    //121 bgrt_sync_bgrt_proc_timeout
-    test = ( BGRT_ST_ESYNC == bgrt_sync_bgrt_proc_timeout( &proc[0] ) );
+    //121 bgrt_sync_proc_timeout
+    test = ( BGRT_ST_ESYNC == bgrt_sync_proc_timeout( &proc[0] ) );
     test_output( test, test_num++ );
 
-    //122 bgrt_sync_bgrt_proc_timeout
+    //122 bgrt_sync_proc_timeout
     bgrt_sync_set_owner( &bgrt_sync_1, (bgrt_proc_t *)0 );
     bgrt_proc_run( &proc[2] );
     bgrt_wait_time(5);
-    test = ( BGRT_ST_OK == bgrt_sync_bgrt_proc_timeout( &proc[2] ) );
+    test = ( BGRT_ST_OK == bgrt_sync_proc_timeout( &proc[2] ) );
     test_output( test, test_num++ );
-    //123 bgrt_sync_bgrt_proc_timeout
+    //123 bgrt_sync_proc_timeout
     bgrt_wait_time(5);
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
 
-    //124 bgrt_sync_bgrt_proc_timeout
+    //124 bgrt_sync_proc_timeout
     bgrt_sync_set_owner( &bgrt_sync_1, &proc[1] );
     bgrt_proc_run( &proc[2] );
     bgrt_wait_time(5);
-    status[0] = bgrt_sync_bgrt_proc_timeout( &proc[1] );
+    status[0] = bgrt_sync_proc_timeout( &proc[1] );
     test = ( BGRT_ST_OK == status[0] );
     test_output( test, test_num++ );
-    //125 bgrt_sync_bgrt_proc_timeout
-    status[0] =  bgrt_sync_bgrt_proc_timeout( &proc[2] );
+    //125 bgrt_sync_proc_timeout
+    status[0] =  bgrt_sync_proc_timeout( &proc[2] );
     test = ( BGRT_ST_ROLL == status[0] );
     test_output( test, test_num++ );
-    //126 bgrt_sync_bgrt_proc_timeout
+    //126 bgrt_sync_proc_timeout
     bgrt_wait_time(20);
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
-    //127 bgrt_sync_bgrt_proc_timeout
+    //127 bgrt_sync_proc_timeout
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
-    //128 bgrt_sync_bgrt_proc_timeout
+    //128 bgrt_sync_proc_timeout
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
-    /// bgrt_sync_bgrt_proc_timeout tested but not covered!!!
+    /// bgrt_sync_proc_timeout tested but not covered!!!
 
     // 129 priority inheritance/ceiling
     bgrt_sync_set_owner( &bgrt_sync_2, &proc[2] );

@@ -228,7 +228,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bgrt_bool_t _bgrt_bgrt_sched_proc_yeld( void );
+bgrt_bool_t _bgrt_sched_proc_yeld( void );
 /*!
 \~russian
 \brief Передача управления следующему процессу.
@@ -377,7 +377,7 @@ Transfers control to another process.
 
 \param arg Not used.
 */
-void scall_bgrt_bgrt_sched_proc_yeld( bgrt_bool_t * arg );
+void scall_bgrt_sched_proc_yeld( bgrt_bool_t * arg );
 /*****************************************************************************************/
 
 #endif // _BGRT_SCHED_H_
