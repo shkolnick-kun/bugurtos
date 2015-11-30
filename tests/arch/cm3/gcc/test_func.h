@@ -8,7 +8,7 @@
 
 extern void(*test_kernel_preempt)(void);
 extern proc_t proc[6];
-extern bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
+extern bgrt_stack_t proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 #define ARG_END
 
@@ -20,7 +20,7 @@ extern bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
 #define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
 
-#define BGRT_SCHED_FIX_PROC_2() sched_fix_proc_2()
+#define BGRT_SCHED_FIX_BGRT_PROC_2() sched_fix_proc_2()
 
 #define GREEN GPIO7
 #define RED   GPIO6

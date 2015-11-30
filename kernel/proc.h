@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _PROC_H_
-#define _PROC_H_
+#ifndef _BGRT_PROC_H_
+#define _BGRT_PROC_H_
 /*!
 \file
 \~russian
@@ -89,14 +89,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*!
 \~russian
 
-\def PROC_LRES_INIT(a)
+\def BGRT_PROC_LRES_INIT(a)
 \brief Макрос-обертка.
 
 Инициирует поле proc->lres процесса.
 
 \param a указатель на процесс.
 
-\def PROC_LRES_INC(a,b)
+\def BGRT_PROC_LRES_INC(a,b)
 \brief Макрос-обертка.
 
 Инкремент счетчика proc->lres.
@@ -104,7 +104,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \param a указатель на процесс.
 \param b приоритет объекта типа #sync_t.
 
-\def PROC_LRES_DEC(a,b)
+\def BGRT_PROC_LRES_DEC(a,b)
 \brief Макрос-обертка.
 
 Декремент счетчика proc->lres.
@@ -114,14 +114,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 \~english
 
-\def PROC_LRES_INIT(a)
+\def BGRT_PROC_LRES_INIT(a)
 \brief Wrapper macro.
 
 Initiates proc->lres field of a process.
 
 \param a a pointer to a process.
 
-\def PROC_LRES_INC(a,b)
+\def BGRT_PROC_LRES_INC(a,b)
 \brief Wrapper macro.
 
 An increment of proc->lres.
@@ -129,7 +129,7 @@ An increment of proc->lres.
 \param a a pointer to a process.
 \param b a priority of a #sync_t object.
 
-\def PROC_LRES_DEC(a,b)
+\def BGRT_PROC_LRES_DEC(a,b)
 \brief Wrapper macro.
 
 A decrement of proc->lres.
@@ -139,9 +139,9 @@ A decrement of proc->lres.
 
 */
 
-#define PROC_LRES_INIT(a) bgrt_pcounter_init( &((a)->lres) )
-#define PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), b )
-#define PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), b )
+#define BGRT_PROC_LRES_INIT(a) bgrt_pcounter_init( &((a)->lres) )
+#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), b )
+#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), b )
 
 //Процесс
 typedef struct _proc_t proc_t; /*!< \~russian Смотри #_proc_t; \~english See #_proc_t; */
@@ -213,9 +213,9 @@ struct _proc_t
 
 This flag enables real time process scheduling policy.
 */
-#define PROC_FLG_RT         ((bgrt_flag_t)0x80)
+#define BGRT_PROC_FLG_RT         ((bgrt_flag_t)0x80)
 
-#define PROC_FLG_RR   ((bgrt_flag_t)0x40)
+#define BGRT_PROC_FLG_RR   ((bgrt_flag_t)0x40)
 /*!
 \~russian
 \brief Флаг блокировки останова процесса.
@@ -226,7 +226,7 @@ This flag enables real time process scheduling policy.
 
 A process can not be stoped at the moment.
 */
-#define PROC_FLG_LOCK      ((bgrt_flag_t)0x20)
+#define BGRT_PROC_FLG_LOCK      ((bgrt_flag_t)0x20)
 /*!
 \~russian
 \brief Флаг запроса останова.
@@ -237,19 +237,19 @@ A process can not be stoped at the moment.
 
 A process must be stopped, but it can't be stopped now. It'll be stopped when possible.
 */
-#define PROC_FLG_PRE_STOP    ((bgrt_flag_t)0x10)
+#define BGRT_PROC_FLG_PRE_STOP    ((bgrt_flag_t)0x10)
 
 /*!
 \~russian
-\brief Маска #PROC_FLG_LOCK.
+\brief Маска #BGRT_PROC_FLG_LOCK.
 
 Нужна, чтобы определить, удерживает ли процесс общие ресурсы.
 \~english
-\brief A #PROC_FLG_LOCK.
+\brief A #BGRT_PROC_FLG_LOCK.
 
 Used to test if a process has locked some resources.
 */
-#define PROC_FLG_LOCK_MASK ((bgrt_flag_t)(PROC_FLG_LOCK))
+#define BGRT_PROC_FLG_LOCK_MASK ((bgrt_flag_t)(BGRT_PROC_FLG_LOCK))
 
 /*!
 \~russian
@@ -261,7 +261,7 @@ Used to test if a process has locked some resources.
 
 Used clear execution state bits in proc->flags.
 */
-#define PROC_STATE_CLEAR_MASK ((bgrt_flag_t)0xF0)
+#define BGRT_PROC_STATE_CLEAR_MASK ((bgrt_flag_t)0xF0)
 
 /*!
 \~russian
@@ -273,7 +273,7 @@ Used clear execution state bits in proc->flags.
 
 Used clear execution three LSBs state bits in proc->flags.
 */
-#define PROC_STATE_CLEAR_RUN_MASK ((bgrt_flag_t)0xFC)
+#define BGRT_PROC_STATE_CLEAR_RUN_MASK ((bgrt_flag_t)0xFC)
 
 /*!
 \~russian
@@ -282,7 +282,7 @@ Used clear execution three LSBs state bits in proc->flags.
 \~english
 \brief An execution state mask.
 */
-#define PROC_STATE_MASK ((bgrt_flag_t)0x0F)
+#define BGRT_PROC_STATE_MASK ((bgrt_flag_t)0x0F)
 /*!
 \~russian
 \brief Маска проверки состояния процесса.
@@ -294,7 +294,7 @@ Used clear execution three LSBs state bits in proc->flags.
 
 Used by #proc_restart and #proc_restart_isr to check for restart possibility.
 */
-#define PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
+#define BGRT_PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
 
 /*!
 \~russian
@@ -307,7 +307,7 @@ Used by #proc_restart and #proc_restart_isr to check for restart possibility.
 
 Used to check if the process has been run.
 */
-#define PROC_STATE_RUN_MASK ((bgrt_flag_t)0x3)
+#define BGRT_PROC_STATE_RUN_MASK ((bgrt_flag_t)0x3)
 
 /*!
 \~russian
@@ -320,48 +320,48 @@ Used to check if the process has been run.
 
 Used to check if the process is waiting for synchronization.
 */
-#define PROC_STATE_WAIT_MASK ((bgrt_flag_t)0x8)
+#define BGRT_PROC_STATE_WAIT_MASK ((bgrt_flag_t)0x8)
 
 //process states
-#define PROC_STATE_STOPED           ((bgrt_flag_t)0x0)   /*!< \~russian \brief Начальное состояние, остановлен. \~english \brief Initial state, stopped. */
-#define PROC_STATE_END              ((bgrt_flag_t)0x1)   /*!< \~russian \brief Завершен. \~english \brief Normal process termination. */
-#define PROC_STATE_READY            ((bgrt_flag_t)0x2)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_RUNNING          ((bgrt_flag_t)0x3)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define BGRT_PROC_STATE_STOPED           ((bgrt_flag_t)0x0)   /*!< \~russian \brief Начальное состояние, остановлен. \~english \brief Initial state, stopped. */
+#define BGRT_PROC_STATE_END              ((bgrt_flag_t)0x1)   /*!< \~russian \brief Завершен. \~english \brief Normal process termination. */
+#define BGRT_PROC_STATE_READY            ((bgrt_flag_t)0x2)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define BGRT_PROC_STATE_RUNNING          ((bgrt_flag_t)0x3)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_WD_STOPED        ((bgrt_flag_t)0x4)   /*!< \~russian \brief Остановлен по вачдог. \~english \brief Watchdog termination. */
-#define PROC_STATE_DEAD             ((bgrt_flag_t)0x5)   /*!< \~russian \brief Завершен до завершения ipc-транзакций. \~english \brief Abnormal termination, terminated with waiting ipc transactions. */
-#define PROC_STATE_TO_READY         ((bgrt_flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_TO_RUNNING       ((bgrt_flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define BGRT_PROC_STATE_WD_STOPED        ((bgrt_flag_t)0x4)   /*!< \~russian \brief Остановлен по вачдог. \~english \brief Watchdog termination. */
+#define BGRT_PROC_STATE_DEAD             ((bgrt_flag_t)0x5)   /*!< \~russian \brief Завершен до завершения ipc-транзакций. \~english \brief Abnormal termination, terminated with waiting ipc transactions. */
+#define BGRT_PROC_STATE_TO_READY         ((bgrt_flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define BGRT_PROC_STATE_TO_RUNNING       ((bgrt_flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_SYNC_WAIT        ((bgrt_flag_t)0x8)   /*!< \~russian \brief Ожидает приема спящих процессов. \~english \brief Is waiting for sleaping processes.*/
-#define PROC_STATE_SYNC_SLEEP       ((bgrt_flag_t)0x9)   /*!< \~russian \brief Ожидает пробуждения. \~english \brief Is waiting for wakeup. */
-#define PROC_STATE_SYNC_READY       ((bgrt_flag_t)0xA)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_SYNC_RUNNING     ((bgrt_flag_t)0xB)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define BGRT_PROC_STATE_SYNC_WAIT        ((bgrt_flag_t)0x8)   /*!< \~russian \brief Ожидает приема спящих процессов. \~english \brief Is waiting for sleaping processes.*/
+#define BGRT_PROC_STATE_SYNC_SLEEP       ((bgrt_flag_t)0x9)   /*!< \~russian \brief Ожидает пробуждения. \~english \brief Is waiting for wakeup. */
+#define BGRT_PROC_STATE_SYNC_READY       ((bgrt_flag_t)0xA)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define BGRT_PROC_STATE_SYNC_RUNNING     ((bgrt_flag_t)0xB)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_PI_PEND          ((bgrt_flag_t)0xC)   /*!< \~russian \brief Ожидает смены приоритета \~english \brief A process is waiting for priority change */
-#define PROC_STATE_PI_DONE          ((bgrt_flag_t)0xD)   /*!< \~russian \brief Запущен при смене приоритета \~english \brief A process has been run during priority change */
-#define PROC_STATE_PI_READY         ((bgrt_flag_t)0xE)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_PI_RUNNING       ((bgrt_flag_t)0xF)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define BGRT_PROC_STATE_PI_PEND          ((bgrt_flag_t)0xC)   /*!< \~russian \brief Ожидает смены приоритета \~english \brief A process is waiting for priority change */
+#define BGRT_PROC_STATE_PI_DONE          ((bgrt_flag_t)0xD)   /*!< \~russian \brief Запущен при смене приоритета \~english \brief A process has been run during priority change */
+#define BGRT_PROC_STATE_PI_READY         ((bgrt_flag_t)0xE)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define BGRT_PROC_STATE_PI_RUNNING       ((bgrt_flag_t)0xF)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
 /*!
 \~russian
-\brief Макрос проверки условий останова по флагу #PROC_FLG_PRE_STOP.
+\brief Макрос проверки условий останова по флагу #BGRT_PROC_FLG_PRE_STOP.
 
-Используется для проверки процессов на возможность останова по флагу #PROC_FLG_PRE_STOP.
+Используется для проверки процессов на возможность останова по флагу #BGRT_PROC_FLG_PRE_STOP.
 Процесс не должен удерживать общие ресурсы в момент останова по флагу.
 
 \warning Для внутреннего использования.
 
 \~english
-\brief A #PROC_FLG_PRE_STOP condition test macro.
+\brief A #BGRT_PROC_FLG_PRE_STOP condition test macro.
 
-Used to test if a process can be stopped on #PROC_FLG_PRE_STOP flag.
+Used to test if a process can be stopped on #BGRT_PROC_FLG_PRE_STOP flag.
 A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 
 */
-#define PROC_PRE_STOP_TEST(a) ( ( (a)->flags & PROC_FLG_PRE_STOP ) && ( !( (a)->flags & PROC_FLG_LOCK_MASK ) ) )
+#define BGRT_PROC_PRE_STOP_TEST(a) ( ( (a)->flags & BGRT_PROC_FLG_PRE_STOP ) && ( !( (a)->flags & BGRT_PROC_FLG_LOCK_MASK ) ) )
 /*!
 \~russian
 \brief Проверяет, запущен ли процесс.
@@ -373,7 +373,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define PROC_RUN_TEST(a) ( ( (a)->flags & PROC_STATE_RUN_MASK ) >= PROC_STATE_READY )
+#define BGRT_PROC_RUN_TEST(a) ( ( (a)->flags & BGRT_PROC_STATE_RUN_MASK ) >= BGRT_PROC_STATE_READY )
 /*!
 \~russian
 \brief Читает состояние процесса.
@@ -385,7 +385,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define PROC_GET_STATE(a) ( (a)->flags & PROC_STATE_MASK )
+#define BGRT_PROC_GET_STATE(a) ( (a)->flags & BGRT_PROC_STATE_MASK )
 /*!
 \~russian
 \brief Устанавливает состояние процесса.
@@ -398,7 +398,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define PROC_SET_STATE(a,b) ( (a)->flags &= PROC_STATE_CLEAR_MASK, (a)->flags |= b )
+#define BGRT_PROC_SET_STATE(a,b) ( (a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b )
 
 /*!
 \~russian
@@ -407,7 +407,7 @@ A process should not have locked resources at a moment of a flag stop.
 \~english
 \brief Lowest priority level.
 */
-#define PROC_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
+#define BGRT_PROC_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
 
 // Методы
 /*!
@@ -642,42 +642,42 @@ void _proc_reset_watchdog(void);
 void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask );
 /*!
 \~russian
-\brief Установка флага #PROC_FLG_LOCK для вызывающего процесса.
+\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
 
 \warning Для внутреннего использования.
 
 \~english
-\brief Set #PROC_FLG_LOCK for caller process.
+\brief Set #BGRT_PROC_FLG_LOCK for caller process.
 
 \warning For internal usage.
 */
 void _proc_lock(void);
 /*!
 \~russian
-\brief Установка флага #PROC_FLG_LOCK для вызывающего процесса.
+\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
 
 \~english
-\brief Set #PROC_FLG_LOCK for caller process.
+\brief Set #BGRT_PROC_FLG_LOCK for caller process.
 */
 void proc_lock(void);
 /*!
 \~russian
-\brief Останов процесса по флагу #PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.
+\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.
 
 \warning Для внутреннего использования.
 
 \~english
-\brief A #PROC_FLG_PRE_STOP flag processing routine.
+\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
 
 \warning For internal usage.
 */
 void _proc_free(void);
 /*!
 \~russian
-\brief Останов процесса по флагу #PROC_FLG_PRE_STOP.
+\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
 
 \~english
-\brief A #PROC_FLG_PRE_STOP flag processing routine.
+\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
 */
 void proc_free(void);
 // Упраление счетчиком захваченных ресурсов, для внутреннего использования
@@ -747,7 +747,7 @@ void _proc_set_prio( proc_t * proc, bgrt_prio_t prio );
 \~russian
 \brief Управление приоритетом процесса.
 
-Инкрементирует счетчик proc->lres, устанавливает флаг #PROC_FLG_LOCK.
+Инкрементирует счетчик proc->lres, устанавливает флаг #BGRT_PROC_FLG_LOCK.
 
 \warning Для внутреннего использования.
 
@@ -757,7 +757,7 @@ void _proc_set_prio( proc_t * proc, bgrt_prio_t prio );
 \~english
 \brief Process priority control.
 
-Increments proc->lres counter, sets #PROC_FLG_LOCK flag.
+Increments proc->lres counter, sets #BGRT_PROC_FLG_LOCK flag.
 
 \warning For internal usage.
 
@@ -769,7 +769,7 @@ void _proc_lres_inc( proc_t * proc ,bgrt_prio_t prio );
 \~russian
 \brief Управление приоритетом процесса.
 
-Декрементирует счетчик proc->lres, сбрасывает флаг #PROC_FLG_LOCK при необходимости.
+Декрементирует счетчик proc->lres, сбрасывает флаг #BGRT_PROC_FLG_LOCK при необходимости.
 
 \warning Для внутреннего использования.
 
@@ -779,7 +779,7 @@ void _proc_lres_inc( proc_t * proc ,bgrt_prio_t prio );
 \~english
 \brief Process priority control.
 
-Decrements proc->lres counter, clears #PROC_FLG_LOCK flag if needed.
+Decrements proc->lres counter, clears #BGRT_PROC_FLG_LOCK flag if needed.
 
 \warning For internal usage.
 
@@ -814,11 +814,11 @@ void _proc_stop_ensure( proc_t * proc );
 /*!
 \~russian
 \brief
-Параметр системных вызовов #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+Параметр системных вызовов #SYSCALL_BGRT_PROC_RUN, #SYSCALL_BGRT_PROC_RESTART, #SYSCALL_BGRT_PROC_STOP.
 
 \~english
 \brief
-An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_PROC_STOP.
+An argument for system calls #SYSCALL_BGRT_PROC_RUN, #SYSCALL_BGRT_PROC_RESTART, #SYSCALL_BGRT_PROC_STOP.
 */
 typedef struct{
     proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
@@ -828,7 +828,7 @@ typedef struct{
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_RUN.
+Обработчик вызова #SYSCALL_BGRT_PROC_RUN.
 
 Пытается запустить процесс, вызывая #proc_run_isr.
 
@@ -836,7 +836,7 @@ typedef struct{
 
 \~english
 \brief
-A #SYSCALL_PROC_RUN handler.
+A #SYSCALL_BGRT_PROC_RUN handler.
 
 This function tries to launch a process by #proc_run_isr call.
 
@@ -846,7 +846,7 @@ void scall_proc_run( proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_RESTART.
+Обработчик вызова #SYSCALL_BGRT_PROC_RESTART.
 
 Пытается перезапустить процесс, вызывая #proc_restart_isr.
 
@@ -854,7 +854,7 @@ void scall_proc_run( proc_runtime_arg_t * arg );
 
 \~english
 \brief
-A #SYSCALL_PROC_RESTART handler.
+A #SYSCALL_BGRT_PROC_RESTART handler.
 
 This function tries to restart a process by #proc_restart_isr call.
 
@@ -864,7 +864,7 @@ void scall_proc_restart( proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_STOP.
+Обработчик вызова #SYSCALL_BGRT_PROC_STOP.
 
 Пытается остановить процесс, вызывая #proc_stop_isr.
 
@@ -872,7 +872,7 @@ void scall_proc_restart( proc_runtime_arg_t * arg );
 
 \~english
 \brief
-A #SYSCALL_PROC_STOP handler.
+A #SYSCALL_BGRT_PROC_STOP handler.
 
 This function tries to stop a process by #proc_stop_isr call.
 
@@ -883,7 +883,7 @@ void scall_proc_stop( proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_SELF_STOP.
+Обработчик вызова #SYSCALL_BGRT_PROC_SELF_STOP.
 
 Останавливает вызывающий процесс.
 
@@ -891,7 +891,7 @@ void scall_proc_stop( proc_runtime_arg_t * arg );
 
 \~english
 \brief
-A #SYSCALL_PROC_SELF_STOP handler.
+A #SYSCALL_BGRT_PROC_SELF_STOP handler.
 
 This function stops calling process.
 
@@ -902,7 +902,7 @@ void scall_proc_self_stop( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_TERMINATE.
+Обработчик вызова #SYSCALL_BGRT_PROC_TERMINATE.
 
 Завершает выполнение процесса после выхода из pmain. Вызывает #_proc_terminate.
 
@@ -910,7 +910,7 @@ void scall_proc_self_stop( void * arg );
 
 \~english
 \brief
-A #SYSCALL_PROC_TERMINATE handler.
+A #SYSCALL_BGRT_PROC_TERMINATE handler.
 
 This function terminates calling process after pmain return by #_proc_terminate call.
 
@@ -921,33 +921,33 @@ void scall_proc_terminate( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_LOCK.
+Обработчик вызова #SYSCALL_BGRT_PROC_LOCK.
 
-Устанавливает флаг #PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
+Устанавливает флаг #BGRT_PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
 
 \~english
 \brief
-A #SYSCALL_PROC_LOCK handler.
+A #SYSCALL_BGRT_PROC_LOCK handler.
 
-Sets #PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
+Sets #BGRT_PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
 */
 void scall_proc_lock( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_FREE.
+Обработчик вызова #SYSCALL_BGRT_PROC_FREE.
 
-Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #PROC_FLG_PRE_STOP.
+Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #BGRT_PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #BGRT_PROC_FLG_PRE_STOP.
 Вызывает #_proc_free.
 
 \param arg указатель на маску обнуления флагов процесса.
 
 \~english
 \brief
-A #SYSCALL_PROC_FREE handler.
+A #SYSCALL_BGRT_PROC_FREE handler.
 
-This function decreases proc->lres counter, clears #PROC_FLG_LOCK if needed and, process #PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
+This function decreases proc->lres counter, clears #BGRT_PROC_FLG_LOCK if needed and, process #BGRT_PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
 It calls #_proc_free.
 
 \param arg A pointer to a flag mask.
@@ -957,7 +957,7 @@ void scall_proc_free( void * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_PROC_RESET_WATCHDOG.
+Обработчик вызова #SYSCALL_BGRT_PROC_RESET_WATCHDOG.
 
 Вызывает #_proc_reset_watchdog.
 
@@ -965,11 +965,11 @@ void scall_proc_free( void * arg );
 
 \~english
 \brief
-A #SYSCALL_PROC_RESET_WATCHDOG handler.
+A #SYSCALL_BGRT_PROC_RESET_WATCHDOG handler.
 
 This function calls #_proc_reset_watchdog.
 
 \param arg Not used.
 */
 void scall_proc_reset_watchdog( void * arg );
-#endif // _PROC_H_
+#endif // _BGRT_PROC_H_

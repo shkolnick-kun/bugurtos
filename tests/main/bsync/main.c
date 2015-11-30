@@ -1,7 +1,7 @@
 #include <test_func.h>
 
 proc_t proc[6];
-bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
+bgrt_stack_t proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 sync_t sync_1, sync_2, sync_3, sync_4;
 bgrt_bool_t test;
@@ -11,16 +11,16 @@ unsigned char test_num = 1;
 
 void prio_propagate_hook_0(void)
 {
-    if( PROC_STATE_PI_PEND == PROC_GET_STATE( (&proc[1]) ) )
+    if( BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE( (&proc[1]) ) )
     {
         test_kernel_preempt = test_do_nothing;
-        PROC_SET_STATE( (&proc[1]), PROC_STATE_PI_DONE );
+        BGRT_PROC_SET_STATE( (&proc[1]), BGRT_PROC_STATE_PI_DONE );
     }
 }
 
 void prio_propagate_hook_1(void)
 {
-    if( PROC_STATE_PI_PEND == PROC_GET_STATE( (&proc[2]) ) )
+    if( BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE( (&proc[2]) ) )
     {
         test_kernel_preempt = test_do_nothing;
         status[6] = _sync_wake(&sync_1, &proc[2], 1 ); //chown
@@ -29,7 +29,7 @@ void prio_propagate_hook_1(void)
 
 void prio_propagate_hook_2(void)
 {
-    if( PROC_STATE_PI_PEND == PROC_GET_STATE( (&proc[2]) ) )
+    if( BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE( (&proc[2]) ) )
     {
         test_kernel_preempt = test_do_nothing;
         status[6] = _sync_wake(&sync_1, &proc[2], 0 );
@@ -57,7 +57,7 @@ void main_0( void * arg )
 
     // 5 _proc_prio_propagate proc_set_prio
     status[1] = BGRT_ST_ESTAT;
-    PROC_SET_STATE( (&proc[1]), PROC_STATE_SYNC_WAIT );
+    BGRT_PROC_SET_STATE( (&proc[1]), BGRT_PROC_STATE_SYNC_WAIT );
     proc_set_prio( &proc[1], 4 );
     bgrt_wait_time(5);
     test = ( 4 == proc[1].base_prio );
@@ -71,7 +71,7 @@ void main_0( void * arg )
 
     // 8 _proc_prio_propagate proc_set_prio
     status[1] = BGRT_ST_ESTAT;
-    PROC_SET_STATE( (&proc[1]), PROC_STATE_SYNC_SLEEP );
+    BGRT_PROC_SET_STATE( (&proc[1]), BGRT_PROC_STATE_SYNC_SLEEP );
     proc_set_prio( &proc[1], 5 );
     bgrt_wait_time(5);
     test = ( 5 == proc[1].base_prio );
@@ -84,7 +84,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 11 _proc_prio_propagate proc_set_prio
-    PROC_SET_STATE( (&proc[1]), PROC_STATE_SYNC_SLEEP );
+    BGRT_PROC_SET_STATE( (&proc[1]), BGRT_PROC_STATE_SYNC_SLEEP );
     bgrt_prit_insert( (bgrt_prit_t *)(&proc[1]), (bgrt_xlist_t *)(&sync_1) );
     proc[1].sync = &sync_1;
     proc_set_prio( &proc[1], 4 );
@@ -95,13 +95,13 @@ void main_0( void * arg )
     test = ( 4 == proc[1].parent.prio);
     test_output( test, test_num++ );
     // 13 _proc_prio_propagate proc_set_prio
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
 
     // 14 _proc_prio_propagate proc_set_prio
     status[1] = BGRT_ST_ESTAT;
     sync_1.owner = &proc[2];
-    PROC_LRES_INC( (&proc[2]), SYNC_PRIO(&sync_1) );
+    BGRT_PROC_LRES_INC( (&proc[2]), SYNC_PRIO(&sync_1) );
     proc_set_prio( &proc[1], 5 );
     bgrt_wait_time(5);
     test = ( 5 == proc[1].base_prio );
@@ -116,18 +116,18 @@ void main_0( void * arg )
     test = ( 1 == sync_1.dirty );
     test_output( test, test_num++ );
     // 18 _proc_prio_propagate proc_set_prio
-    test = ( 1 == proc[2].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 19 _proc_prio_propagate proc_set_prio
     status[1] = BGRT_ST_ESTAT;
 
-    PROC_SET_STATE( (&proc[1]), PROC_STATE_SYNC_SLEEP );
+    BGRT_PROC_SET_STATE( (&proc[1]), BGRT_PROC_STATE_SYNC_SLEEP );
     proc[1].sync = &sync_1;
     sync_1.dirty = (bgrt_cnt_t)0;
-    PROC_LRES_DEC( (&proc[2]), SYNC_PRIO(&sync_1) );
+    BGRT_PROC_LRES_DEC( (&proc[2]), SYNC_PRIO(&sync_1) );
     bgrt_prit_insert( (bgrt_prit_t *)(&proc[1]), (bgrt_xlist_t *)(&sync_1) );
-    PROC_LRES_INC( (&proc[2]), SYNC_PRIO(&sync_1) );
+    BGRT_PROC_LRES_INC( (&proc[2]), SYNC_PRIO(&sync_1) );
 
     kernel_preemt_hook_add( prio_propagate_hook_0 );
 
@@ -142,11 +142,11 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     // 22 _proc_prio_propagate proc_set_prio
-    test = ( 1 == proc[2].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     /// _proc_prio_propagate covered!!!
     //cleanup
-    PROC_LRES_DEC( (&proc[2]), SYNC_PRIO(&sync_1) );
+    BGRT_PROC_LRES_DEC( (&proc[2]), SYNC_PRIO(&sync_1) );
     sync_1.owner = (proc_t *)0;
     // 23 sync_set_owner
     status[0] = sync_set_owner( (sync_t *)0, (proc_t *)0 );
@@ -161,7 +161,7 @@ void main_0( void * arg )
     test = ( (&proc[1]) == sync_1.owner );
     test_output( test, test_num++ );
     // 26 sync_set_owner
-    test = ( 1 == proc[1].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 27 sync_set_owner
@@ -172,7 +172,7 @@ void main_0( void * arg )
     test = ( (&proc[1]) == sync_1.owner );
     test_output( test, test_num++ );
     // 29 sync_set_owner
-    test = ( 1 == proc[1].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 30 sync_set_owner
@@ -183,10 +183,10 @@ void main_0( void * arg )
     test = ( (&proc[2]) == sync_1.owner );
     test_output( test, test_num++ );
     // 32 sync_set_owner
-    test = ( 1 == proc[2].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 33 sync_set_owner
-    test = ( 0 == proc[1].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 34 sync_set_owner
@@ -197,7 +197,7 @@ void main_0( void * arg )
     test = ( ((proc_t *)0) == sync_1.owner );
     test_output( test, test_num++ );
     // 36 sync_set_owner
-    test = ( 0 == proc[2].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     /// sync_set_owner covered !!!
     // 37 sync_own
@@ -213,12 +213,12 @@ void main_0( void * arg )
     test = ( (&proc[0]) == sync_1.owner );
     test_output( test, test_num++ );
     // 40 sync_own
-    test = ( 1 == proc[0].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 41 sync_own
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     //BGRT_SPIN_FREE( (&proc[0]) );
     bgrt_enable_interrupts();
     test_output( test, test_num++ );
@@ -231,12 +231,12 @@ void main_0( void * arg )
     test = ( (&proc[0]) == sync_1.owner );
     test_output( test, test_num++ );
     // 44 sync_own
-    test = ( 1 == proc[0].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 45 sync_own
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     //BGRT_SPIN_FREE( (&proc[0]) );
     bgrt_enable_interrupts();
     test_output( test, test_num++ );
@@ -250,12 +250,12 @@ void main_0( void * arg )
     test = ( (&proc[0]) == sync_1.owner );
     test_output( test, test_num++ );
     // 48 sync_own
-    test = ( 1 == proc[0].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 49 sync_own
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     //BGRT_SPIN_FREE( (&proc[0]) );
     bgrt_enable_interrupts();
     test_output( test, test_num++ );
@@ -269,12 +269,12 @@ void main_0( void * arg )
     test = ( (&proc[0]) == sync_1.owner );
     test_output( test, test_num++ );
     // 52 sync_own
-    test = ( 1 == proc[0].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 53 sync_own
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     //BGRT_SPIN_FREE( (&proc[0]) );
     bgrt_enable_interrupts();
     test_output( test, test_num++ );
@@ -288,15 +288,15 @@ void main_0( void * arg )
     test = ( (&proc[1]) == sync_1.owner );
     test_output( test, test_num++ );
     // 56 sync_own
-    test = ( 1 == proc[1].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 57 sync_own
-    test = ( 0 == proc[0].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 58 sync_own
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     //BGRT_SPIN_FREE( (&proc[0]) );
     bgrt_enable_interrupts();
     test_output( test, test_num++ );
@@ -309,18 +309,18 @@ void main_0( void * arg )
     test = ( (&proc[1]) == sync_1.owner );
     test_output( test, test_num++ );
     // 61 sync_own
-    test = ( 1 == proc[1].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 62 sync_own
-    test = ( 0 == proc[0].lres.counter[PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 63 sync_own
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_PI_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_PI_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     if(test)
     {
-        PROC_SET_STATE( (&proc[0]), PROC_STATE_RUNNING );
+        BGRT_PROC_SET_STATE( (&proc[0]), BGRT_PROC_STATE_RUNNING );
         proc[0].sync = (sync_t *)0;
     }
     //BGRT_SPIN_FREE( (&proc[0]) );
@@ -338,7 +338,7 @@ void main_0( void * arg )
     //65 sync_touch
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     //BGRT_SPIN_FREE( (&proc[0]) );
     bgrt_enable_interrupts();
     test_output( test, test_num++ );
@@ -350,10 +350,10 @@ void main_0( void * arg )
     //67 sync_touch
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[0]) );
-    test = ( PROC_STATE_PI_RUNNING == PROC_GET_STATE((&proc[0])) );
+    test = ( BGRT_PROC_STATE_PI_RUNNING == BGRT_PROC_GET_STATE((&proc[0])) );
     if(test)
     {
-        PROC_SET_STATE( (&proc[0]), PROC_STATE_RUNNING );
+        BGRT_PROC_SET_STATE( (&proc[0]), BGRT_PROC_STATE_RUNNING );
         proc[0].sync = (sync_t *)0;
     }
     //BGRT_SPIN_FREE( (&proc[0]) );
@@ -368,7 +368,7 @@ void main_0( void * arg )
     //69 sync_sleep
     proc_run( &proc[2] );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //70 sync_sleep sync_wake
     test = ( BGRT_ST_OK == sync_wake( &sync_1, 0, 0 ) );
@@ -383,7 +383,7 @@ void main_0( void * arg )
     sync_set_owner( &sync_1, &proc[1] );
     proc_run( &proc[2] );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //73 sync_sleep
     test = ( 4 == proc[1].parent.prio );
@@ -392,7 +392,7 @@ void main_0( void * arg )
     //74 sync_sleep
     proc_set_prio( &proc[2], 5 );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //75 sync_sleep
     test = ( 5 == proc[1].parent.prio );
@@ -402,7 +402,7 @@ void main_0( void * arg )
     status[0] = sync_proc_timeout( &proc[2] );
     bgrt_wait_time(5);
     test = (BGRT_ST_OK == status[0]);
-    test = test && ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = test && ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //77 sync_sleep sync_proc_timeout
     test = ( BGRT_ST_ETIMEOUT == status[2] );
@@ -416,13 +416,13 @@ void main_0( void * arg )
     proc_run( &proc[1] );
     proc_run( &proc[2] );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //80 sync_sleep sync_wait
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     //81 sync_sleep sync_wait
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
 
     //82 sync_sleep sync_wake
@@ -441,7 +441,7 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[2] );
     test_output( test, test_num++ );
     //86 sync_sleep
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //cleanup
     proc_set_prio( &proc[2], 4 );
@@ -466,7 +466,7 @@ void main_0( void * arg )
     //sync_touch( &sync_1 );
     proc_run( &proc[2] );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //92 sync_wait sync_wake
     bgrt_wait_time(20);
@@ -476,10 +476,10 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[2] );
     test_output( test, test_num++ );
     //94 sync_wait sync_wake
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //95 sync_wait sync_wake
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
 
     //96 sync_wait
@@ -488,13 +488,13 @@ void main_0( void * arg )
     test = ( BGRT_ST_EEMPTY == status[1] );
     test_output( test, test_num++ );
     //97 sync_wait
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
 
     //97 sync_wait
     proc_run( &proc[1] );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_WAIT == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_SYNC_WAIT == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //98 sync_wait sync_proc_timeout
     status[0] = sync_proc_timeout( &proc[1] );
@@ -502,7 +502,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     //99 sync_wait sync_proc_timeout
     bgrt_wait_time(5);
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //100 sync_wait sync_proc_timeout
     test = ( BGRT_ST_ETIMEOUT == status[1] );
@@ -530,17 +530,17 @@ void main_0( void * arg )
     sync_set_owner( &sync_1, &proc[1] );
     proc_run( &proc[2] );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_SYNC_SLEEP == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //107 sync_wake
     test = ( (sync_t *)0 == proc[1].sync );
     test_output( test, test_num++ );
     //108 sync_wake
     bgrt_wait_time(20);
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //109 sync_wake
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //110 sync_wake
     test = ( BGRT_ST_OK == status[1] );
@@ -554,7 +554,7 @@ void main_0( void * arg )
     kernel_preemt_hook_add( prio_propagate_hook_1 );
     proc_set_prio( &proc[2], 4 );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //112 sync_wake
     test = ( BGRT_ST_OK == status[6] );
@@ -571,7 +571,7 @@ void main_0( void * arg )
     kernel_preemt_hook_add( prio_propagate_hook_2 );
     proc_set_prio( &proc[2], 4 );
     bgrt_wait_time(5);
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //115 sync_wake
     test = ( BGRT_ST_OK == status[6] );
@@ -588,7 +588,7 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[0] );
     test_output( test, test_num++ );
     //118 sync_wake
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     //119 sync_wake
     test = ( &proc[2] == sync_1.owner );
@@ -610,7 +610,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     //123 sync_proc_timeout
     bgrt_wait_time(5);
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
 
     //124 sync_proc_timeout
@@ -629,10 +629,10 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     //127 sync_proc_timeout
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[1])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[1])) );
     test_output( test, test_num++ );
     //128 sync_proc_timeout
-    test = ( PROC_STATE_STOPED == PROC_GET_STATE((&proc[2])) );
+    test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((&proc[2])) );
     test_output( test, test_num++ );
     /// sync_proc_timeout tested but not covered!!!
 
@@ -849,34 +849,34 @@ void main_1( void * arg )
     // 5,6,7
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[1]) );
-    state = PROC_GET_STATE((&proc[1]));
+    state = BGRT_PROC_GET_STATE((&proc[1]));
     //BGRT_SPIN_FREE( (&proc[1]) );
     bgrt_enable_interrupts();
-    status[1] = (PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
+    status[1] = (BGRT_PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     proc_self_stop();
     // 8,9,10
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[1]) );
-    state = PROC_GET_STATE((&proc[1]));
+    state = BGRT_PROC_GET_STATE((&proc[1]));
     //BGRT_SPIN_FREE( (&proc[1]) );
     bgrt_enable_interrupts();
-    status[1] = (PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
+    status[1] = (BGRT_PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     proc_self_stop();
     // 14,15,16,17,18
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[1]) );
-    state = PROC_GET_STATE((&proc[1]));
+    state = BGRT_PROC_GET_STATE((&proc[1]));
     //BGRT_SPIN_FREE( (&proc[1]) );
     bgrt_enable_interrupts();
-    status[1] = (PROC_STATE_PI_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
+    status[1] = (BGRT_PROC_STATE_PI_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     proc_self_stop();
     // 19,20,21,22,23
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (&proc[1]) );
-    state = PROC_GET_STATE((&proc[1]));
+    state = BGRT_PROC_GET_STATE((&proc[1]));
     //BGRT_SPIN_FREE( (&proc[1]) );
     bgrt_enable_interrupts();
-    status[1] = (PROC_STATE_SYNC_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
+    status[1] = (BGRT_PROC_STATE_SYNC_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     proc_self_stop();
 
     //79,80,81,82
@@ -1027,12 +1027,12 @@ int main(void)
 
     BGRT_SCHED_SYSTICK_HOOK_ADD();
 
-    proc_init_isr( &proc[0], main_0, SVH0, RSH0, 0, &proc_stack[0][PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
-    proc_init_isr( &proc[1], main_1, SVH1, RSH1, 0, &proc_stack[1][PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
-    proc_init_isr( &proc[2], main_2, SVH2, RSH2, 0, &proc_stack[2][PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
-    proc_init_isr( &proc[3], main_3, SVH3, RSH3, 0, &proc_stack[3][PROC_STACK_SIZE-1], 3,      1, 0 ARG_END );
-    proc_init_isr( &proc[4], main_4, SVH4, RSH4, 0, &proc_stack[4][PROC_STACK_SIZE-1], 2,      1, 0 ARG_END );
-    proc_init_isr( &proc[5], main_5, SVH5, RSH5, 0, &proc_stack[5][PROC_STACK_SIZE-1], 1,      1, 0 ARG_END );
+    proc_init_isr( &proc[0], main_0, SVH0, RSH0, 0, &proc_stack[0][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
+    proc_init_isr( &proc[1], main_1, SVH1, RSH1, 0, &proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
+    proc_init_isr( &proc[2], main_2, SVH2, RSH2, 0, &proc_stack[2][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
+    proc_init_isr( &proc[3], main_3, SVH3, RSH3, 0, &proc_stack[3][BGRT_PROC_STACK_SIZE-1], 3,      1, 0 ARG_END );
+    proc_init_isr( &proc[4], main_4, SVH4, RSH4, 0, &proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      1, 0 ARG_END );
+    proc_init_isr( &proc[5], main_5, SVH5, RSH5, 0, &proc_stack[5][BGRT_PROC_STACK_SIZE-1], 1,      1, 0 ARG_END );
 
     sync_init_isr( &sync_1, LOWEST );
     sync_init_isr( &sync_2, LOWEST );

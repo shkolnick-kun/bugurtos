@@ -92,7 +92,7 @@ extern void(*test_kernel_preempt)(void);
 #endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 
-#define PROC_STACK_SIZE 128
+#define BGRT_PROC_STACK_SIZE 128
 
 #define LOWEST (BGRT_BITS_IN_INDEX_T - 1)
 

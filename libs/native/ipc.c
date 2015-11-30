@@ -84,7 +84,7 @@ bgrt_st_t ipc_init_isr( ipc_t * endpoint )
     {
         return BGRT_ST_ENULL;
     }
-    SYNC_INIT_ISR( endpoint, PROC_PRIO_LOWEST );
+    SYNC_INIT_ISR( endpoint, BGRT_PROC_PRIO_LOWEST );
     endpoint->msg = (void *)0;
     return BGRT_ST_OK;
 }

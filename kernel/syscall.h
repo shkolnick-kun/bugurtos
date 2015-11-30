@@ -91,27 +91,27 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 
 // System call numbers!
-#define SYSCALL_PROC_RUN                        ((bgrt_syscall_t)(1))                                /*!< \~russian \brief Запуск процесса. \~english \brief A process launch. */
-#define SYSCALL_PROC_RESTART                    (SYSCALL_PROC_RUN + (bgrt_syscall_t)(1))             /*!< \~russian \brief Перезапуск процесса. \~english \brief A Process restart. */
-#define SYSCALL_PROC_STOP                       (SYSCALL_PROC_RESTART + (bgrt_syscall_t)(1))         /*!< \~russian \brief Останов процесса. \~english \brief A process stop. */
-#define SYSCALL_PROC_SELF_STOP                  (SYSCALL_PROC_STOP + (bgrt_syscall_t)(1))            /*!< \~russian \brief Самоостанов процесса. \~english \brief A process self stop. */
-#define SYSCALL_PROC_TERMINATE                  (SYSCALL_PROC_SELF_STOP + (bgrt_syscall_t)(1))       /*!< \~russian \brief Завершение работы процесса. \~english \brief A process termination. */
-#define SYSCALL_PROC_LOCK                       (SYSCALL_PROC_TERMINATE + (bgrt_syscall_t)(1))       /*!< \~russian \brief Установить флаг #PROC_FLG_LOCK для вызывающего процесса. \~english \brief #PROC_FLG_LOCK for caller process. */
-#define SYSCALL_PROC_FREE                       (SYSCALL_PROC_LOCK + (bgrt_syscall_t)(1))            /*!< \~russian \brief Останов процесса по флагу #PROC_FLG_PRE_STOP. \~english \brief #PROC_FLG_PRE_STOP flag processing. */
-#define SYSCALL_PROC_RESET_WATCHDOG             (SYSCALL_PROC_FREE + (bgrt_syscall_t)(1))            /*!< \~russian \brief Сброс watchdog процесса реального времени. \~english \brief A real time process watchdog reset. */
-#define SYSCALL_PROC_SET_PRIO                   (SYSCALL_PROC_RESET_WATCHDOG + (bgrt_syscall_t)(1))  /*!< \~russian \brief Установить приоритет процесса \~english \brief Set a process priority. */
+#define SYSCALL_BGRT_PROC_RUN                        ((bgrt_syscall_t)(1))                                /*!< \~russian \brief Запуск процесса. \~english \brief A process launch. */
+#define SYSCALL_BGRT_PROC_RESTART                    (SYSCALL_BGRT_PROC_RUN + (bgrt_syscall_t)(1))             /*!< \~russian \brief Перезапуск процесса. \~english \brief A Process restart. */
+#define SYSCALL_BGRT_PROC_STOP                       (SYSCALL_BGRT_PROC_RESTART + (bgrt_syscall_t)(1))         /*!< \~russian \brief Останов процесса. \~english \brief A process stop. */
+#define SYSCALL_BGRT_PROC_SELF_STOP                  (SYSCALL_BGRT_PROC_STOP + (bgrt_syscall_t)(1))            /*!< \~russian \brief Самоостанов процесса. \~english \brief A process self stop. */
+#define SYSCALL_BGRT_PROC_TERMINATE                  (SYSCALL_BGRT_PROC_SELF_STOP + (bgrt_syscall_t)(1))       /*!< \~russian \brief Завершение работы процесса. \~english \brief A process termination. */
+#define SYSCALL_BGRT_PROC_LOCK                       (SYSCALL_BGRT_PROC_TERMINATE + (bgrt_syscall_t)(1))       /*!< \~russian \brief Установить флаг #BGRT_PROC_FLG_LOCK для вызывающего процесса. \~english \brief #BGRT_PROC_FLG_LOCK for caller process. */
+#define SYSCALL_BGRT_PROC_FREE                       (SYSCALL_BGRT_PROC_LOCK + (bgrt_syscall_t)(1))            /*!< \~russian \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP. \~english \brief #BGRT_PROC_FLG_PRE_STOP flag processing. */
+#define SYSCALL_BGRT_PROC_RESET_WATCHDOG             (SYSCALL_BGRT_PROC_FREE + (bgrt_syscall_t)(1))            /*!< \~russian \brief Сброс watchdog процесса реального времени. \~english \brief A real time process watchdog reset. */
+#define SYSCALL_BGRT_PROC_SET_PRIO                   (SYSCALL_BGRT_PROC_RESET_WATCHDOG + (bgrt_syscall_t)(1))  /*!< \~russian \brief Установить приоритет процесса \~english \brief Set a process priority. */
 
-#define SYSCALL_SCHED_PROC_YELD                 (SYSCALL_PROC_SET_PRIO + (bgrt_syscall_t)(1))        /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
+#define SYSCALL_SCHED_BGRT_PROC_YELD                 (SYSCALL_BGRT_PROC_SET_PRIO + (bgrt_syscall_t)(1))        /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
 
-#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_PROC_YELD + (bgrt_syscall_t)(1))       /*!< \~russian \brief Установить нового хозяина объекта типа #sync_t. \~english \brief Set new #sync_t object owner. */
+#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_BGRT_PROC_YELD + (bgrt_syscall_t)(1))       /*!< \~russian \brief Установить нового хозяина объекта типа #sync_t. \~english \brief Set new #sync_t object owner. */
 #define SYSCALL_SYNC_OWN                       (SYSCALL_SYNC_SET_OWNER + (bgrt_syscall_t)(1))        /*!< \~russian \brief Завладеть объектом типа #sync_t. \~english \brief Own #sync_t object. */
 #define SYSCALL_SYNC_TOUCH                     (SYSCALL_SYNC_OWN + (bgrt_syscall_t)(1))              /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
 #define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_TOUCH + (bgrt_syscall_t)(1))            /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
 #define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (bgrt_syscall_t)(1))            /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
 #define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (bgrt_syscall_t)(1))             /*!< \~russian \brief Подождать блокировки процесса на объекте типа #sync_t. \~english \brief Wait for process to block on #sync_t object*/
-#define SYSCALL_SYNC_PROC_TIMEOUT              (SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))             /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
+#define SYSCALL_SYNC_BGRT_PROC_TIMEOUT              (SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))             /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
 
-#define SYSCALL_USER                           (SYSCALL_SYNC_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
+#define SYSCALL_USER                           (SYSCALL_SYNC_BGRT_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 /*!
 \~russian
 \brief

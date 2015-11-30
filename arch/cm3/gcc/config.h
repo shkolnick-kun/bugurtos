@@ -77,7 +77,7 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_CONFIG_CRITSEC_PRIO 	17 // Critical section priority
 #define BGRT_CONFIG_SCHED_PRIO 		17 // Scheduler priority
 
-#define PROC_STACK_SIZE 128
+#define BGRT_PROC_STACK_SIZE 128
 
 #define LOWEST (BGRT_BITS_IN_INDEX_T - 1)
 

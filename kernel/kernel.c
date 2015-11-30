@@ -110,7 +110,7 @@ void bgrt_kernel_init(void)
             (bgrt_code_t)0, // none
             (void *)0, // null
             0,         // null, will be replaced with kernel stack pointer.
-            PROC_PRIO_LOWEST,// idle has lowest priority
+            BGRT_PROC_PRIO_LOWEST,// idle has lowest priority
             (bgrt_tmr_t)1,// Smallest time slice
             (bgrt_bool_t)0,// idle is not RT
             ((bgrt_aff_t)1)<<i // Disable to other cores!
@@ -134,7 +134,7 @@ void bgrt_kernel_init(void)
         (bgrt_code_t)0, // none
         (void *)0, // null
         0,         // null, will be replaced with kernel stack pointer.
-        PROC_PRIO_LOWEST, // idle has lowest priority
+        BGRT_PROC_PRIO_LOWEST, // idle has lowest priority
         (bgrt_tmr_t)1,//Smallest time slice
         (bgrt_bool_t)0// Idle is not RT
     );

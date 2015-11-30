@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 bgrt_st_t cond_init_isr( cond_t * cond )
 {
-    return SYNC_INIT_ISR( cond, PROC_PRIO_LOWEST );
+    return SYNC_INIT_ISR( cond, BGRT_PROC_PRIO_LOWEST );
 }
 
 bgrt_st_t cond_init( cond_t * cond )
