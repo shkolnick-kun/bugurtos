@@ -101,13 +101,13 @@ The kernel stores information about launched processes, system time and other im
 struct _bgrt_kernel_t
 {
 #ifdef BGRT_CONFIG_MP
-    sched_t sched[BGRT_MAX_CPU];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
+    bgrt_sched_t sched[BGRT_MAX_CPU];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
     proc_t idle[BGRT_MAX_CPU];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
     bgrt_ls_t stat[BGRT_MAX_CPU];     /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
     bgrt_lock_t stat_lock; /*!< \~russian Спин-блокировка статистики. \~english A statistic spin-lock. */
     bgrt_lock_t timer_lock; /*!< \~russian Спин-блокировка таймера. \~english A system timer spin-lock. */
 #else
-    sched_t sched; /*!< \~russian Планировщик. \~english The scheduler. */
+    bgrt_sched_t sched; /*!< \~russian Планировщик. \~english The scheduler. */
     proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
 #endif // BGRT_CONFIG_MP
     bgrt_tmr_t timer; /*!< \~russian Системный таймер. \~english The system timer. */

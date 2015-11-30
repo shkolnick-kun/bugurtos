@@ -84,7 +84,7 @@ void _proc_stop_ensure( proc_t * proc )
 {
     if( PROC_RUN_TEST( proc ) )
     {
-        sched_proc_stop( proc );
+        bgrt_sched_proc_stop( proc );
     }
 }
 //========================================================================================
@@ -94,7 +94,7 @@ void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask )
     if( PROC_RUN_TEST( proc ) )
     {
         // No, stop it now.
-        sched_proc_stop( proc );
+        bgrt_sched_proc_stop( proc );
         proc->flags |= mask;
     }
     else
@@ -235,7 +235,7 @@ bgrt_st_t proc_run_isr(proc_t * proc)
         ret = BGRT_ST_ROLL;
         goto end;
     }
-    sched_proc_run( proc, PROC_STATE_READY );
+    bgrt_sched_proc_run( proc, PROC_STATE_READY );
 end:
     BGRT_SPIN_FREE( proc );
     return ret;
@@ -283,7 +283,7 @@ bgrt_st_t proc_restart_isr(proc_t * proc)
     {
         proc->spointer = proc_stack_init( proc->sstart, (bgrt_code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
     }
-    sched_proc_run( proc, PROC_STATE_READY );
+    bgrt_sched_proc_run( proc, PROC_STATE_READY );
 end:
     BGRT_SPIN_FREE( proc );
     return ret;

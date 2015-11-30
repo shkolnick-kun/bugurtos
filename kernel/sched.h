@@ -97,20 +97,20 @@ A scheduler header.
 \~russian
 \brief Макрос-обертка.
 
-Обертка инициализации переменной sched в функциях #sched_schedule и #sched_reschedule.
+Обертка инициализации переменной sched в функциях #bgrt_sched_schedule и #bgrt_sched_reschedule.
 \~english
 \brief Wrapper macro.
 
-Initialization wrapper for sched variable in #sched_schedule and #sched_reschedule functions.
+Initialization wrapper for sched variable in #bgrt_sched_schedule and #bgrt_sched_reschedule functions.
 */
 #ifdef BGRT_CONFIG_MP
-#define BGRT_SCHED_INIT() (((sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
+#define BGRT_SCHED_INIT() (((bgrt_sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
 #else // BGRT_CONFIG_MP
-#define BGRT_SCHED_INIT() ((sched_t *)&bgrt_kernel.sched)
+#define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.sched)
 #endif // BGRT_CONFIG_MP
 
 // Планировщик
-typedef struct _sched_t sched_t; /*!< \~russian Смотри #_sched_t; \~english See #_sched_t; */
+typedef struct _bgrt_sched_t bgrt_sched_t; /*!< \~russian Смотри #_bgrt_sched_t; \~english See #_bgrt_sched_t; */
 // Свойства
 /*!
 \~russian
@@ -125,7 +125,7 @@ A scheduler.
 
 A scheduler object contains an information about processes, running on some CPU core.
 */
-struct _sched_t
+struct _bgrt_sched_t
 {
     proc_t * current_proc;      /*!< \~russian Текущий процесс. \~english A currently running process. */
     bgrt_xlist_t * ready;            /*!< \~russian Указатель на список готовых к выполнению процессов. \~english A pointer to a ready process list. */
@@ -160,7 +160,7 @@ This function prepares a scheduler object for work.
 \param sched - A scheduler pointer.
 \param idle - An IDLE process pointer.
 */
-void sched_init(sched_t * sched, proc_t * idle);
+void bgrt_sched_init(bgrt_sched_t * sched, proc_t * idle);
 /*!
 \~russian
 \brief
@@ -178,7 +178,7 @@ This function switches processes in system timer interrupt handler.
 
 \warning For internal usage.
 */
-void sched_schedule(void);
+void bgrt_sched_schedule(void);
 /*!
 
 \~russian
@@ -197,16 +197,16 @@ This function switches processes if needed.
 
 \warning For internal usage.
 */
-void sched_reschedule(void);
+void bgrt_sched_reschedule(void);
 
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
-void sched_proc_run( proc_t * proc, bgrt_flag_t state );
+void bgrt_sched_proc_run( proc_t * proc, bgrt_flag_t state );
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
-void sched_proc_stop(proc_t * proc);
+void bgrt_sched_proc_stop( proc_t * proc );
 
 
 /*!
@@ -228,7 +228,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bgrt_bool_t _sched_proc_yeld( void );
+bgrt_bool_t _bgrt_bgrt_sched_proc_yeld( void );
 /*!
 \~russian
 \brief Передача управления следующему процессу.
@@ -244,7 +244,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bgrt_bool_t sched_proc_yeld( void );
+bgrt_bool_t bgrt_sched_proc_yeld( void );
 
 
 
@@ -273,7 +273,7 @@ This function is used for load balancing of the kernel and of signals.
 \param stat A pointer to a bgrt_ls_t array, that controls corespondent process list.
 \return An ID of the least loaded process list.
 */
-bgrt_cpuid_t sched_load_balancer(proc_t * proc, bgrt_ls_t * stat);
+bgrt_cpuid_t bgrt_sched_load_balancer(proc_t * proc, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief Функция поиска процессорного Ядра с максимальной нагрузкой.
@@ -295,7 +295,7 @@ bgrt_cpuid_t sched_load_balancer(proc_t * proc, bgrt_ls_t * stat);
 \param stat A pointer to a bgrt_ls_t array of the kernel or of a signal.
 \return An ID of the most loaded process list.
 */
-bgrt_cpuid_t sched_highest_load_core( bgrt_ls_t * stat );
+bgrt_cpuid_t bgrt_sched_highest_load_core( bgrt_ls_t * stat );
 #endif // BGRT_CONFIG_MP
 
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
@@ -329,7 +329,7 @@ This function transfers one process on the least loaded CPU core from the object
 
 \param object_core - A CPU core to decrease a load on.
 */
-void _sched_lazy_load_balancer(bgrt_cpuid_t object_core);
+void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core);
 
 /*!
 \~russian
@@ -342,7 +342,7 @@ void _sched_lazy_load_balancer(bgrt_cpuid_t object_core);
 
 Transfers one process from a current CPU core to the least loaded CPU core on the system.
 */
-void sched_lazy_local_load_balancer(void);
+void bgrt_sched_lazy_local_load_balancer(void);
 /*!
 \~russian
 \brief Ленивая балансировка нагрузки, глобальный балансировщик.
@@ -354,7 +354,7 @@ void sched_lazy_local_load_balancer(void);
 
 Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
 */
-void sched_lazy_global_load_balancer(void);
+void bgrt_sched_lazy_global_load_balancer(void);
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 
 /*****************************************************************************************/
@@ -377,7 +377,7 @@ Transfers control to another process.
 
 \param arg Not used.
 */
-void scall_sched_proc_yeld( bgrt_bool_t * arg );
+void scall_bgrt_bgrt_sched_proc_yeld( bgrt_bool_t * arg );
 /*****************************************************************************************/
 
 #endif // _BGRT_SCHED_H_

@@ -120,7 +120,7 @@ static bgrt_st_t _sync_do_wake( proc_t * proc, sync_t * sync, bgrt_flag_t chown 
                 PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
                 _proc_prio_control_stoped( proc );
             }
-            sched_proc_run( proc, PROC_STATE_SYNC_READY );
+            bgrt_sched_proc_run( proc, PROC_STATE_SYNC_READY );
         }
         BGRT_SPIN_FREE( proc );
 
@@ -164,7 +164,7 @@ static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
         state = PROC_GET_STATE( proc );
         _proc_stop_ensure( proc );
         _proc_prio_control_stoped( proc );
-        sched_proc_run( proc, state );
+        bgrt_sched_proc_run( proc, state );
         PROC_PRIO_PROP_HOOK();
         break;
     }
@@ -186,7 +186,7 @@ static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
             BGRT_SPIN_LOCK( proc );
 
             _proc_prio_control_stoped( proc );
-            sched_proc_run( proc, PROC_STATE_READY ); // A process must unlock the sync.
+            bgrt_sched_proc_run( proc, PROC_STATE_READY ); // A process must unlock the sync.
 
             BGRT_SPIN_FREE( proc );
             break; //Break the switch!
@@ -206,7 +206,7 @@ static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
             {
                 // Start priority inheritance transaction.
                 sync->dirty++;
-                sched_proc_run( proc, PROC_STATE_PI_READY );
+                bgrt_sched_proc_run( proc, PROC_STATE_PI_READY );
             }
             else
             {
@@ -218,7 +218,7 @@ static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
         else
         {
             // Finish process wakeup
-            sched_proc_run( proc, PROC_STATE_SYNC_READY );
+            bgrt_sched_proc_run( proc, PROC_STATE_SYNC_READY );
         }
 
         BGRT_SPIN_FREE( proc );
@@ -243,7 +243,7 @@ static void _proc_prio_propagate( PROC_PRIO_PROP_ARGS )
     case PROC_STATE_SYNC_WAIT:
     {
         _proc_prio_control_stoped( proc );
-        sched_proc_run( proc, PROC_STATE_READY );
+        bgrt_sched_proc_run( proc, PROC_STATE_READY );
         PROC_PRIO_PROP_HOOK();
         break;
     }
@@ -633,7 +633,7 @@ bgrt_st_t _sync_sleep( sync_t * sync )
             BGRT_SPIN_LOCK( proc );
             if( PROC_STATE_SYNC_WAIT == PROC_GET_STATE( proc ) )
             {
-                sched_proc_run( proc, PROC_STATE_READY );
+                bgrt_sched_proc_run( proc, PROC_STATE_READY );
             }
             BGRT_SPIN_FREE( proc );
             BGRT_SPIN_FREE( sync );
@@ -837,7 +837,7 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
     {
         BGRT_SPIN_LOCK( owner );
 
-        sched_proc_stop( owner );
+        bgrt_sched_proc_stop( owner );
         PROC_LRES_DEC( owner, SYNC_PRIO( sync ) );// No prio control now!
 
         BGRT_SPIN_FREE( owner );
@@ -859,7 +859,7 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
             PROC_LRES_INC( owner, SYNC_PRIO( sync ) );
         }
         _proc_prio_control_stoped( owner );
-        sched_proc_run( owner, PROC_STATE_READY );
+        bgrt_sched_proc_run( owner, PROC_STATE_READY );
 
         BGRT_SPIN_FREE( owner );
     }
@@ -919,7 +919,7 @@ bgrt_st_t _sync_proc_timeout( proc_t * proc )
         {
             //Is waiting on empty sync, wake up
             status = BGRT_ST_OK;
-            sched_proc_run( proc, PROC_STATE_TO_READY );
+            bgrt_sched_proc_run( proc, PROC_STATE_TO_READY );
         }
         break;
 
@@ -966,7 +966,7 @@ bgrt_st_t _sync_proc_timeout( proc_t * proc )
 
         bgrt_prit_cut( (bgrt_prit_t *)proc );
         proc->sync = (sync_t *)0;
-        sched_proc_run( proc, PROC_STATE_TO_READY );
+        bgrt_sched_proc_run( proc, PROC_STATE_TO_READY );
         BGRT_SPIN_FREE(proc);
 
         proc = sync->owner;

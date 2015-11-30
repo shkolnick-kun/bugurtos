@@ -13,7 +13,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="76" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="5">
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="5">
 		<Cursor position="8817" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
@@ -76,7 +76,7 @@
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="4">
 		<Cursor position="9336" topLine="83" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="1">
 		<Cursor position="6876" topLine="89" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="12">
