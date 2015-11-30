@@ -1008,7 +1008,7 @@ void bgrt_idle_main( void * arg )
     {
         bgrt_wait_time(5);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
-        SCHED_IDLE_LOAD_BALANCER();
+        BGRT_SCHED_IDLE_LOAD_BALANCER();
     }
 }
 int main(void)
@@ -1025,7 +1025,7 @@ int main(void)
     init_hardware();
     bgrt_init();
 
-    SCHED_SYSTICK_HOOK_ADD();
+    BGRT_SCHED_SYSTICK_HOOK_ADD();
 
     proc_init_isr( &proc[0], main_0, SVH0, RSH0, 0, &proc_stack[0][PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
     proc_init_isr( &proc[1], main_1, SVH1, RSH1, 0, &proc_stack[1][PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );

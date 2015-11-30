@@ -13,14 +13,14 @@ extern bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 #define ARG_END
 
 // No load balancing, single core!
-#define SCHED_LOCAL_LOAD_BALANCER() float_test_1()
-#define SCHED_IDLE_LOAD_BALANCER() float_test_2()
-#define SCHED_ARG_END
-#define SCHED_LB_TEST_START()
+#define BGRT_SCHED_LOCAL_LOAD_BALANCER() float_test_1()
+#define BGRT_SCHED_IDLE_LOAD_BALANCER() float_test_2()
+#define BGRT_SCHED_ARG_END
+#define BGRT_SCHED_LB_TEST_START()
 
-#define SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
+#define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
 
-#define SCHED_FIX_PROC_2() sched_fix_proc_2()
+#define BGRT_SCHED_FIX_PROC_2() sched_fix_proc_2()
 
 #define GREEN GPIO12
 #define RED   GPIO13

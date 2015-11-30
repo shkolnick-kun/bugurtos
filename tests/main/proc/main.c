@@ -186,7 +186,7 @@ void main_lb( void * arg )
     while(1)
     {
         // Run local load balancer on multicore system with local load balancing.
-        SCHED_LOCAL_LOAD_BALANCER();
+        BGRT_SCHED_LOCAL_LOAD_BALANCER();
         IDLE_YELD();
     }
 }
@@ -196,7 +196,7 @@ void bgrt_idle_main( void * arg )
     while(1)
     {
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
-        SCHED_IDLE_LOAD_BALANCER();
+        BGRT_SCHED_IDLE_LOAD_BALANCER();
         IDLE_YELD();
     }
 }
@@ -215,10 +215,10 @@ int main(void)
     init_hardware();
     bgrt_init();
 
-    SCHED_SYSTICK_HOOK_ADD();
+    BGRT_SCHED_SYSTICK_HOOK_ADD();
 
     proc_init_isr( &proc[0], main_proc_test,     SVH0, RSH0, 0, &proc_stack[0][PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
-    proc_init_isr( &proc[1], main_lb,            SVH1, RSH1, 0, &proc_stack[1][PROC_STACK_SIZE-1], LOWEST, 1, 0 SCHED_ARG_END );
+    proc_init_isr( &proc[1], main_lb,            SVH1, RSH1, 0, &proc_stack[1][PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
     proc_init_isr( &proc[2], main_with_return,   SVH2, RSH2, 0, &proc_stack[2][PROC_STACK_SIZE-1], 0,      2, 0 ARG_END );
     proc_init_isr( &proc[3], main_with_return,   SVH3, RSH3, 0, &proc_stack[3][PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
     proc_init_isr( &proc[4], main_fs,            SVH4, RSH4, 0, &proc_stack[4][PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
