@@ -141,13 +141,13 @@ static void _bgrt_sync_do_pending_wake( bgrt_sync_t * sync )
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
-#define BGRT_PROC_PRIO_PROP_ARGS bgrt_proc_t * proc, bgrt_code_t hook, void * hook_arg
-#define BGRT_PROC_PRIO_PROP_HOOK() hook(hook_arg)
+#define BGRT_PI_PRIO_PROP_ARGS bgrt_proc_t * proc, bgrt_code_t hook, void * hook_arg
+#define BGRT_PI_PRIO_PROP_HOOK() hook(hook_arg)
 #else // BGRT_CONFIG_MP
-#define BGRT_PROC_PRIO_PROP_ARGS bgrt_proc_t * proc
-#define BGRT_PROC_PRIO_PROP_HOOK()
+#define BGRT_PI_PRIO_PROP_ARGS bgrt_proc_t * proc
+#define BGRT_PI_PRIO_PROP_HOOK()
 #endif // BGRT_CONFIG_MP
-static void _bgrt_proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
+static void _bgrt_pi_prio_propagate( BGRT_PI_PRIO_PROP_ARGS )
 {
     switch( BGRT_PROC_GET_STATE( proc ) )
     {
@@ -165,7 +165,7 @@ static void _bgrt_proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
         _bgrt_proc_stop_ensure( proc );
         _bgrt_proc_prio_control_stoped( proc );
         bgrt_sched_proc_run( proc, state );
-        BGRT_PROC_PRIO_PROP_HOOK();
+        BGRT_PI_PRIO_PROP_HOOK();
         break;
     }
     case BGRT_PROC_STATE_SYNC_SLEEP:
@@ -176,7 +176,7 @@ static void _bgrt_proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
 
         sync = proc->sync;
 
-        BGRT_PROC_PRIO_PROP_HOOK();
+        BGRT_PI_PRIO_PROP_HOOK();
 
         BGRT_KERNEL_PREEMPT();
 
@@ -244,7 +244,7 @@ static void _bgrt_proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
     {
         _bgrt_proc_prio_control_stoped( proc );
         bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
-        BGRT_PROC_PRIO_PROP_HOOK();
+        BGRT_PI_PRIO_PROP_HOOK();
         break;
     }
     case BGRT_PROC_STATE_STOPED:
@@ -259,7 +259,7 @@ static void _bgrt_proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
     case BGRT_PROC_STATE_PI_DONE:
     default:
     {
-        BGRT_PROC_PRIO_PROP_HOOK();
+        BGRT_PI_PRIO_PROP_HOOK();
     }
     }
 }
@@ -276,9 +276,9 @@ void bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
-#define BGRT_PROC_BGRT_PROC_PRIO_PROPAGATE(p) _bgrt_proc_prio_propagate( p, (bgrt_code_t)bgrt_spin_free, (void *)&p->lock )
+#define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pi_prio_propagate( p, (bgrt_code_t)bgrt_spin_free, (void *)&p->lock )
 #else // BGRT_CONFIG_MP
-#define BGRT_PROC_BGRT_PROC_PRIO_PROPAGATE(p) _bgrt_proc_prio_propagate( p )
+#define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pi_prio_propagate( p )
 #endif // BGRT_CONFIG_MP
 void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
 {
@@ -288,7 +288,7 @@ void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
     }
     BGRT_SPIN_LOCK( proc );
     proc->base_prio = prio;
-    BGRT_PROC_BGRT_PROC_PRIO_PROPAGATE( proc );
+    BGRT_PROC_PS_PI_PRIO_PROPAGATE( proc );
 }
 //========================================================================================
 void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg )
@@ -304,9 +304,9 @@ static void bgrt_sync_prio_prop_hook( bgrt_sync_t * sync )
     BGRT_SPIN_FREE( (sync->owner) );
     BGRT_SPIN_FREE( sync );
 }
-#define BGRT_SYNC_PROC_PRIO_PROPAGATE(p,m) _bgrt_proc_prio_propagate( p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m )
+#define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pi_prio_propagate( p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m )
 #else // BGRT_CONFIG_MP
-#define BGRT_SYNC_PROC_PRIO_PROPAGATE(p,m) _bgrt_proc_prio_propagate( p )
+#define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pi_prio_propagate( p )
 #endif // BGRT_CONFIG_MP
 //========================================================================================
 bgrt_st_t bgrt_sync_init( bgrt_sync_t * sync, bgrt_prio_t prio )
@@ -354,7 +354,7 @@ static void _bgrt_sync_assign_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
     sync->owner = proc;
     BGRT_SPIN_LOCK(proc);
     BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );
-    BGRT_SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+    BGRT_SYNC_PI_PRIO_PROPAGATE( proc, sync );
 }
 //========================================================================================
 bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
@@ -399,7 +399,7 @@ bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
         // update proc priority info
         BGRT_SPIN_LOCK( owner );
         BGRT_PROC_LRES_DEC( owner, old_prio );
-        BGRT_PROC_BGRT_PROC_PRIO_PROPAGATE( owner );
+        BGRT_PROC_PS_PI_PRIO_PROPAGATE( owner );
     }
 
     //Check new owner
@@ -626,7 +626,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
             BGRT_SPIN_LOCK( proc );
             BGRT_PROC_LRES_DEC( proc, old_prio );
             BGRT_PROC_LRES_INC( proc, new_prio );
-            BGRT_SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+            BGRT_SYNC_PI_PRIO_PROPAGATE( proc, sync );
         }
         else
         {
@@ -873,14 +873,14 @@ void bgrt_scall_sync_wake( bgrt_sync_wake_t * arg )
     arg->status = _bgrt_sync_wake( arg->sync , arg->proc, arg->chown );
 }
 /**********************************************************************************************
-                                BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT
+                                BGRT_SYSCALL_SYNC_PROC_TIMEOUT
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 {
     volatile bgrt_sync_proc_timeout_t scarg;
     scarg.proc = proc;
     scarg.status = BGRT_ST_ROLL;
-    bgrt_syscall( BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT, (void *)&scarg );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_PROC_TIMEOUT, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -980,7 +980,7 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
                 BGRT_SPIN_LOCK( proc );
                 BGRT_PROC_LRES_DEC( proc, old_prio );
                 BGRT_PROC_LRES_INC( proc, new_prio );
-                BGRT_SYNC_PROC_PRIO_PROPAGATE( proc, sync );
+                BGRT_SYNC_PI_PRIO_PROPAGATE( proc, sync );
             }
             else
             {

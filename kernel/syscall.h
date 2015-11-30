@@ -109,9 +109,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SYSCALL_SYNC_SLEEP                     (BGRT_SYSCALL_SYNC_TOUCH + (bgrt_syscall_t)(1))                 /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
 #define BGRT_SYSCALL_SYNC_WAKE                      (BGRT_SYSCALL_SYNC_SLEEP + (bgrt_syscall_t)(1))                 /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
 #define BGRT_SYSCALL_SYNC_WAIT                      (BGRT_SYSCALL_SYNC_WAKE + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Подождать блокировки процесса на объекте типа #bgrt_sync_t. \~english \brief Wait for process to block on #bgrt_sync_t object*/
-#define BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT         (BGRT_SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
+#define BGRT_SYSCALL_SYNC_PROC_TIMEOUT              (BGRT_SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
 
-#define BGRT_SYSCALL_USER                                (BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
+#define BGRT_SYSCALL_USER                                (BGRT_SYSCALL_SYNC_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 /*!
 \~russian
 \brief

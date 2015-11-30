@@ -14,7 +14,7 @@ extern unsigned char test_is_running;
 #define BGRT_SCHED_IDLE_LOAD_BALANCER()
 #define BGRT_SCHED_ARG_END
 #define BGRT_SCHED_LB_TEST_START()
-#define BGRT_SCHED_FIX_BGRT_PROC_2() sched_fix_bgrt_proc_2()
+#define BGRT_SCHED_FIX_PROC_2() sched_fix_bgrt_proc_2()
 
 #define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
 
