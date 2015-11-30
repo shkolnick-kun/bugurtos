@@ -32,7 +32,7 @@ extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 #define BGRT_SCHED_LB_TEST_START() sched_lb_test_start()
 
 #define BGRT_SCHED_SYSTICK_HOOK_ADD() sched_systick_hook_add()
-#define BGRT_SCHED_FIX_BGRT_PROC_2() sched_fix_bgrt_proc_2()
+#define BGRT_SCHED_FIX_PROC_2() sched_fix_bgrt_proc_2()
 
 void init_hardware(void);
 

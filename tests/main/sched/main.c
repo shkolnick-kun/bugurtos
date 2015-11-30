@@ -13,7 +13,7 @@ void main_with_return( void * arg )
 
     bgrt_wait_time(100);
     // Reset proc[2] BGRT_PROC_FLG_RT and BGRT_PROC_STATE_WD_STOP before second run.
-    BGRT_SCHED_FIX_BGRT_PROC_2();
+    BGRT_SCHED_FIX_PROC_2();
     bgrt_proc_run( &proc[2] );
 
     bgrt_wait_time(100);

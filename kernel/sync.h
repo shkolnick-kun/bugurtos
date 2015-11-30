@@ -679,11 +679,11 @@ void bgrt_scall_sync_wake_and_wait( void * arg );
 /*!
 \~russian
 \brief
-Аргумент вызова #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
+Аргумент вызова #BGRT_SYSCALL_SYNC_PROC_TIMEOUT.
 
 \~english
 \brief
-A #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT arg.
+A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT arg.
 */
 typedef struct
 {
@@ -695,10 +695,10 @@ bgrt_sync_proc_timeout_t;
 /*!
 \~russian
 \brief
-Обработчик вызова #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
+Обработчик вызова #BGRT_SYSCALL_SYNC_PROC_TIMEOUT.
 \~english
 \brief
-A #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT handler.
+A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT handler.
 */
 void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 /*****************************************************************************************/
