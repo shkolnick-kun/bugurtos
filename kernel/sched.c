@@ -302,7 +302,7 @@ void bgrt_sched_schedule(void)
         {
             current_proc->timer--;// No! Decrement a process timer!
             /**********************************************************************
-            Switch a process state to READY/PI_READY/SYNC_READY.
+            Switch a process state to READY/PI_READY/BGRT_SYNC_READY.
             **********************************************************************/
             current_proc->flags |= BGRT_PROC_STATE_READY;
         }
@@ -360,7 +360,7 @@ void bgrt_sched_schedule(void)
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
                 current_proc->timer = current_proc->time_quant; // Сбросили таймер!
                 /**********************************************************************
-                Switch a process state to READY/PI_READY/SYNC_READY.
+                Switch a process state to READY/PI_READY/BGRT_SYNC_READY.
                 **********************************************************************/
                 current_proc->flags |= BGRT_PROC_STATE_READY;
             }

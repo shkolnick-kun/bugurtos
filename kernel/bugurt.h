@@ -150,8 +150,8 @@ typedef void (* bgrt_code_t)(void *);
 #define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
 #define BGRT_ST_EOWN        ((bgrt_st_t)2) /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
 #define BGRT_ST_EEMPTY      ((bgrt_st_t)3) /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
-#define BGRT_ST_ESYNC       ((bgrt_st_t)4) /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
-#define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5) /*!< \~russian \brief Иcтек таймаут #sync_t. \~english \brief Timeout expired. */
+#define BGRT_ST_ESYNC       ((bgrt_st_t)4) /*!< \~russian \brief Не тот объект типа #bgrt_sync_t. \~english \brief Wrong #bgrt_sync_t object. */
+#define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5) /*!< \~russian \brief Иcтек таймаут #bgrt_sync_t. \~english \brief Timeout expired. */
 #define BGRT_ST_ESTAT       ((bgrt_st_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
 #define BGRT_ST_ROLL        ((bgrt_st_t)7) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 

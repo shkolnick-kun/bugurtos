@@ -76,14 +76,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SYNC_H_
-#define _SYNC_H_
+#ifndef _BGRT_SYNC_H_
+#define _BGRT_SYNC_H_
 /*!
 \file
 \brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
 */
 
-typedef struct _sync_t sync_t; /*!< \~russian Смотри #_sync_t; \~english See #_sync_t; */
+typedef struct _bgrt_sync_t bgrt_sync_t; /*!< \~russian Смотри #_bgrt_sync_t; \~english See #_bgrt_sync_t; */
 // Свойства
 /*!
 \~russian
@@ -107,7 +107,7 @@ By wrapping this type one can get traditional synchronization primitives
 Basic priority inheritance protocol is supported.
 
 */
-struct _sync_t
+struct _bgrt_sync_t
 {
     bgrt_xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     proc_t * owner;/*!< \~russian Указатель на процесc-хозяин. \~english A pointer to a process, that holds a sync. */
@@ -122,16 +122,16 @@ struct _sync_t
 /*!
 \~russian
 \brief
-Возвращает текущий приоритет объекта типа #sync_t.
+Возвращает текущий приоритет объекта типа #bgrt_sync_t.
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Returns current #sync_t object priority.
+Returns current #bgrt_sync_t object priority.
 \warning For internal usage.
 */
-bgrt_prio_t _sync_prio( sync_t * sync );
-#define SYNC_PRIO(s) _sync_prio(s) /*!< \~russian \brief Считает приоритет щбъекта типа #sync_t. \~english \brief Calculates a #sync_t object priority */
+bgrt_prio_t _bgrt_sync_prio( bgrt_sync_t * sync );
+#define BGRT_SYNC_PRIO(s) _bgrt_sync_prio(s) /*!< \~russian \brief Считает приоритет щбъекта типа #bgrt_sync_t. \~english \brief Calculates a #bgrt_sync_t object priority */
 /*!
 \~russian
 \brief
@@ -141,12 +141,12 @@ bgrt_prio_t _sync_prio( sync_t * sync );
 \brief
 A basic synchronization primitive initiation.
 */
-bgrt_st_t sync_init(
-    sync_t * sync, /*!< \~russian Указатель на объект типа #sync_t. \~english A sync pointer. */
+bgrt_st_t bgrt_sync_init(
+    bgrt_sync_t * sync, /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A sync pointer. */
     bgrt_prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 
-#define SYNC_INIT(s,p) sync_init((sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #sync_init. \~english \brief Watch #sync_init. */
+#define BGRT_SYNC_INIT(s,p) bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #bgrt_sync_init. \~english \brief Watch #bgrt_sync_init. */
 
 /*!
 \~russian
@@ -158,83 +158,83 @@ bgrt_st_t sync_init(
 \brief
 A sync initiation for usage in ISRs or in critical sections.
 */
-bgrt_st_t sync_init_isr(
-    sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
+bgrt_st_t bgrt_sync_init_isr(
+    bgrt_sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
     bgrt_prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
 
-#define SYNC_INIT_ISR(s,p) sync_init_isr((sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #sync_init_isr. \~english \brief Watch #sync_init_isr. */
+#define BGRT_SYNC_INIT_ISR(s,p) bgrt_sync_init_isr((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #bgrt_sync_init_isr. \~english \brief Watch #bgrt_sync_init_isr. */
 
 /*!
 \~russian
 \brief
 Получить хозяина примитива.
 
-\param sync Указатель на интересующий объект типа #sync_t.
-\return Указатель на процесс-хозяин объекта типа #sync_t.
+\param sync Указатель на интересующий объект типа #bgrt_sync_t.
+\return Указатель на процесс-хозяин объекта типа #bgrt_sync_t.
 
 \~english
 \brief
-Get current #sync_t object owner.
+Get current #bgrt_sync_t object owner.
 
 \param sync A pointer to the object of interest.
-\return A pointer to #sync_t object owner.
+\return A pointer to #bgrt_sync_t object owner.
 */
-proc_t * sync_get_owner( sync_t * sync );
+proc_t * bgrt_sync_get_owner( bgrt_sync_t * sync );
 
-#define SYNC_GET_OWNER(s) sync_get_owner((sync_t *)s) /*!< \~russian \brief Смотри #sync_get_owner. \~english \brief Watch #sync_get_owner. */
+#define BGRT_SYNC_GET_OWNER(s) bgrt_sync_get_owner((bgrt_sync_t *)s) /*!< \~russian \brief Смотри #bgrt_sync_get_owner. \~english \brief Watch #bgrt_sync_get_owner. */
 
 /*!
 \~russian
 \brief
-Назначить хозяина объекта типа #sync_t.
+Назначить хозяина объекта типа #bgrt_sync_t.
 
-\param sync Указатель на объект типа #sync_t.
-\param proc Указатель на новый процесс-хозяин объекта типа #sync_t.
+\param sync Указатель на объект типа #bgrt_sync_t.
+\param proc Указатель на новый процесс-хозяин объекта типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
 \brief
-Set #sync_t object owner.
+Set #bgrt_sync_t object owner.
 
 \param sync A pointer to the object of interest.
-\param proc A pointer to new #sync_t object owner.
+\param proc A pointer to new #bgrt_sync_t object owner.
 \return #BGRT_ST_OK on sucess, or error code.
 */
-bgrt_st_t sync_set_owner( sync_t * sync, proc_t * proc );
+bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, proc_t * proc );
 
-#define SYNC_SET_OWNER(s,p) sync_set_owner((sync_t *)s, (proc_t *)p) /*!< \~russian \brief Смотри #sync_set_owner. \~english \brief Watch #sync_set_owner. */
+#define BGRT_SYNC_SET_OWNER(s,p) bgrt_sync_set_owner((bgrt_sync_t *)s, (proc_t *)p) /*!< \~russian \brief Смотри #bgrt_sync_set_owner. \~english \brief Watch #bgrt_sync_set_owner. */
 
 /*!
 \~russian
 \brief
-Завладеть объектом типа #sync_t.
+Завладеть объектом типа #bgrt_sync_t.
 
-\param sync Указатель на объект типа #sync_t.
+\param sync Указатель на объект типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
 \brief
-Own #sync_t object.
+Own #bgrt_sync_t object.
 
 \param sync A pointer to the object of interest.
 \return #BGRT_ST_OK if on success, or error code.
 */
-bgrt_st_t sync_own( sync_t * sync, bgrt_flag_t touch );
+bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
 
-#define SYNC_OWN(s,t) sync_own( (sync_t *)(s), (bgrt_flag_t)(t) ) /*!< \~russian \brief Смотри #sync_own. \~english \brief Watch #sync_own. */
+#define BGRT_SYNC_OWN(s,t) bgrt_sync_own( (bgrt_sync_t *)(s), (bgrt_flag_t)(t) ) /*!< \~russian \brief Смотри #bgrt_sync_own. \~english \brief Watch #bgrt_sync_own. */
 
-bgrt_st_t sync_touch( sync_t * sync );
-#define SYNC_TOUCH(s,t) sync_touch( (sync_t *)(s) )
+bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync );
+#define BGRT_SYNC_TOUCH(s,t) bgrt_sync_touch( (bgrt_sync_t *)(s) )
 
 /*!
 \~russian
 \brief
-"Уснуть" в ожидании синхронизации #sync_t.
+"Уснуть" в ожидании синхронизации #bgrt_sync_t.
 
 Блокирует вызывающий процесс.
 
-\param sync Указатель на объект типа #sync_t.
+\param sync Указатель на объект типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае успеха, иначе - код ошибки.
 
 \~english
@@ -246,7 +246,7 @@ Blocks caller process.
 \param sync A pointer to the object of interest.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sync_sleep( sync_t * sync );
+bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync );
 
 /*!
 \~russian
@@ -259,12 +259,12 @@ For internal usage.
 */
 typedef struct
 {
-    sync_t * sync; /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
+    bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
     bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
-sync_sleep_t;
+bgrt_sync_sleep_t;
 
-#define SYNC_SLEEP(s) sync_sleep((sync_t *)s) /*!< \~russian \brief Смотри #sync_sleep. \~english \brief Watch #sync_sleep. */
+#define BGRT_SYNC_SLEEP(s) bgrt_sync_sleep((bgrt_sync_t *)s) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
 
 /*!
 \~russian
@@ -273,8 +273,8 @@ sync_sleep_t;
 
 Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
 
-\param sync Указатель на объект типа #sync_t.
-\param proc Двойной указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\param sync Указатель на объект типа #bgrt_sync_t.
+\param proc Двойной указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
 \return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
@@ -282,14 +282,14 @@ sync_sleep_t;
 \brief
 Sleep to wait for synchronization.
 
-Wait until target process is blocked on target #sync_t object.
+Wait until target process is blocked on target #bgrt_sync_t object.
 
-\param sync A #sync_t object pointer.
-\param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #sync_t object.
-\param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #sync_t object.
-\return #BGRT_ST_OK if target process has blocked on target #sync_t object, #BGRT_ST_ROLL if caller must wait for target process to block, or error code.
+\param sync A #bgrt_sync_t object pointer.
+\param proc A double pointer to a process, that is supposed to block. If *proc is zero, then caller may wait for first process to block on #bgrt_sync_t object.
+\param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
+\return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, #BGRT_ST_ROLL if caller must wait for target process to block, or error code.
 */
-bgrt_st_t sync_wait( sync_t * sync, proc_t ** proc, bgrt_flag_t block );
+bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, proc_t ** proc, bgrt_flag_t block );
 
 /*!
 \~russian
@@ -302,29 +302,29 @@ For internal usage.
 */
 typedef struct
 {
-    sync_t * sync;  /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
+    bgrt_sync_t * sync;  /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
     proc_t ** proc; /*!< \~russian Указатель на буфер процесса. \~english A process buffer pointer. */
     bgrt_flag_t block;   /*!< \~russian Флаг блокирования. \~english A block flag. */
     bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
-sync_wait_t;
+bgrt_sync_wait_t;
 
-#define SYNC_WAIT(s,p,b,st)                                     \
+#define BGRT_SYNC_WAIT(s,p,b,st)                                     \
 do                                                              \
 {                                                               \
-    volatile sync_wait_t scarg;                                 \
+    volatile bgrt_sync_wait_t scarg;                                 \
     scarg.status = BGRT_ST_ROLL;                                \
-    scarg.sync = (sync_t *)(s);                                 \
+    scarg.sync = (bgrt_sync_t *)(s);                                 \
     scarg.proc = (proc_t **)(p);                                \
     scarg.block = (bgrt_flag_t)(b);                                  \
     do                                                          \
     {                                                           \
-        bgrt_syscall( SYSCALL_SYNC_WAIT, (void *)&scarg );    \
+        bgrt_syscall( SYSCALL_BGRT_SYNC_WAIT, (void *)&scarg );    \
     }                                                           \
     while( scarg.status >= BGRT_ST_ROLL );                      \
     (st) = scarg.status;                                        \
 }                                                               \
-while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #sync_wait. */
+while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */
 
 /*!
 \~russian
@@ -334,7 +334,7 @@ while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #
 Запускает ожидающий процесс. Может запустить "голову" списка ожидающих процессов,
 или какой-то конкретный процесс, в случае, если он заблокирован на целевом примитиве синхронизации.
 
-\param sync Указатель на объект типа #sync_t.
+\param sync Указатель на объект типа #bgrt_sync_t.
 \param proc Указатель на процесс, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
 \param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
 \return #BGRT_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
@@ -343,14 +343,14 @@ while(0) /*!< \~russian \brief Смотри #sync_wait. \~english \brief Watch #
 \brief
 Sleep to wait for synchronization.
 
-Unblock some waiting process. A process should be blocked on target #sync_t object.
+Unblock some waiting process. A process should be blocked on target #bgrt_sync_t object.
 
-\param sync A #sync_t object pointer.
+\param sync A #bgrt_sync_t object pointer.
 \param proc A pointer to a process, that is supposed to wake up. If 0, then try to wake up wait list head.
 \param chown A change owner flag. If non 0, then ownership is given to wake up process.
 \return #BGRT_ST_OK on process wakeup, or error code.
 */
-bgrt_st_t sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown );
+bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, proc_t * proc, bgrt_flag_t chown );
 
 /*!
 \~russian
@@ -363,36 +363,36 @@ For internal usage.
 */
 typedef struct
 {
-    sync_t * sync; /*!< \~russian Указатель на объект типа #sync_t. \~english A #sync_t object pointer. */
+    bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
     proc_t * proc; /*!< \~russian Указатель на процесс. \~english A process pointer. */
     bgrt_flag_t chown;  /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
     bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
-sync_wake_t;
+bgrt_sync_wake_t;
 
-#define SYNC_WAKE(s,p,c,st)                                     \
+#define BGRT_SYNC_WAKE(s,p,c,st)                                     \
 do                                                              \
 {                                                               \
-    volatile sync_wake_t scarg;                                 \
+    volatile bgrt_sync_wake_t scarg;                                 \
     scarg.status = BGRT_ST_ROLL;                                \
-    scarg.sync = (sync_t *)(s);                                 \
+    scarg.sync = (bgrt_sync_t *)(s);                                 \
     scarg.proc = (proc_t *)(p);                                 \
     scarg.chown = (bgrt_flag_t)(c);                                  \
     do                                                          \
     {                                                           \
-        bgrt_syscall( SYSCALL_SYNC_WAKE, (void *)&scarg );    \
+        bgrt_syscall( SYSCALL_BGRT_SYNC_WAKE, (void *)&scarg );    \
     }                                                           \
     while( scarg.status >= BGRT_ST_ROLL );                      \
     (st) = scarg.status;                                        \
 }                                                               \
-while(0) /*!< \~russian \brief Смотри #sync_wake. \~english \brief Watch #sync_wake. */
+while(0) /*!< \~russian \brief Смотри #bgrt_sync_wake. \~english \brief Watch #bgrt_sync_wake. */
 
 /*!
 \~russian
 \brief
 "Разбудить", процесс по таймауту.
 
-\param proc Указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #sync_t.
+\param proc Указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае, если дождался разбудил целевой процесс, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
 \~english
@@ -402,89 +402,89 @@ Wake a process on timeout.
 \param proc A pointer to a process, that is supposed to wake up.
 \return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_ROLL if caller must do next iteration, or error code.
 */
-bgrt_st_t sync_proc_timeout( proc_t * proc );
+bgrt_st_t bgrt_sync_proc_timeout( proc_t * proc );
 
 /*!
 \~russian
 \brief
-Смотри #sync_set_owner.
+Смотри #bgrt_sync_set_owner.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #sync_set_owner.
+Watch #bgrt_sync_set_owner.
 
 \warning For internal usage.
 */
-bgrt_st_t _sync_set_owner( sync_t * sync, proc_t * proc );
+bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, proc_t * proc );
 /*!
 \~russian
 \brief
-Смотри #sync_own.
-
-\warning Для внутреннего использования.
-
-\~english
-\brief
-Watch #sync_own.
-
-\warning For internal usage.
-*/
-bgrt_st_t _sync_own( sync_t * sync, bgrt_flag_t touch );
-/*!
-\~russian
-\brief
-Смотри #sync_wake.
+Смотри #bgrt_sync_own.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #sync_wake.
+Watch #bgrt_sync_own.
 
 \warning For internal usage.
 */
-bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown );
+bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
 /*!
 \~russian
 \brief
-Смотри #sync_sleep.
+Смотри #bgrt_sync_wake.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #sync_sleep.
+Watch #bgrt_sync_wake.
 
 \warning For internal usage.
 */
-bgrt_st_t _sync_sleep( sync_t * sync );
+bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, proc_t * proc, bgrt_flag_t chown );
 /*!
 \~russian
 \brief
-Смотри #sync_wait.
+Смотри #bgrt_sync_sleep.
+
+\warning Для внутреннего использования.
+
+\~english
+\brief
+Watch #bgrt_sync_sleep.
+
+\warning For internal usage.
+*/
+bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync );
+/*!
+\~russian
+\brief
+Смотри #bgrt_sync_wait.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #sync_wait.
+Watch #bgrt_sync_wait.
 
 \warning For internal usage.
 */
-bgrt_st_t _sync_wait( sync_t * sync, proc_t ** proc, bgrt_flag_t block );
+bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, proc_t ** proc, bgrt_flag_t block );
 /*!
 \~russian
 \brief
-Смотри #sync_proc_timeout.
+Смотри #bgrt_sync_proc_timeout.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #sync_proc_timeout.
+Watch #bgrt_sync_proc_timeout.
 
 \warning For internal usage.
 */
-bgrt_st_t _sync_proc_timeout( proc_t * proc );
+bgrt_st_t _bgrt_sync_proc_timeout( proc_t * proc );
 
 /*****************************************************************************************/
 /*                               System call handlers !!!                                */
@@ -527,179 +527,179 @@ void scall_proc_set_prio( proc_set_prio_arg_t * arg );
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_SYNC_SET_OWNER.
+Аргумент вызова #SYSCALL_BGRT_SYNC_SET_OWNER.
 
 \~english
 \brief
-A #SYSCALL_SYNC_SET_OWNER arg.
+A #SYSCALL_BGRT_SYNC_SET_OWNER arg.
 */
 typedef struct
 {
-    sync_t * sync;
+    bgrt_sync_t * sync;
     proc_t * proc;
     bgrt_st_t status;
 }
-sync_set_owner_t;
+bgrt_sync_set_owner_t;
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_SET_OWNER.
+Обработчик вызова #SYSCALL_BGRT_SYNC_SET_OWNER.
 
-Вызывает #_sync_set_owner.
+Вызывает #_bgrt_sync_set_owner.
 \~english
 \brief
-A #SYSCALL_SYNC_SET_OWNER handler.
+A #SYSCALL_BGRT_SYNC_SET_OWNER handler.
 
-This function calls #_sync_set_owner.
+This function calls #_bgrt_sync_set_owner.
 */
-void scall_sync_set_owner( sync_set_owner_t * arg );
+void scall_bgrt_sync_set_owner( bgrt_sync_set_owner_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_SYNC_OWN.
+Аргумент вызова #SYSCALL_BGRT_SYNC_OWN.
 
 \~english
 \brief
-A #SYSCALL_SYNC_OWN arg.
+A #SYSCALL_BGRT_SYNC_OWN arg.
 */
 typedef struct
 {
-    sync_t * sync;
+    bgrt_sync_t * sync;
     bgrt_flag_t touch;
     bgrt_st_t status;
-}sync_own_t;
+}bgrt_sync_own_t;
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_OWN.
+Обработчик вызова #SYSCALL_BGRT_SYNC_OWN.
 
-Вызывает #_sync_own.
+Вызывает #_bgrt_sync_own.
 \~english
 \brief
-A #SYSCALL_SYNC_OWN handler.
+A #SYSCALL_BGRT_SYNC_OWN handler.
 
-This function calls #_sync_own.
+This function calls #_bgrt_sync_own.
 */
-void scall_sync_own( sync_own_t * arg );
+void scall_bgrt_sync_own( bgrt_sync_own_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_SYNC_TOUCH.
+Аргумент вызова #SYSCALL_BGRT_SYNC_TOUCH.
 
 \~english
 \brief
-A #SYSCALL_SYNC_TOUCH arg.
+A #SYSCALL_BGRT_SYNC_TOUCH arg.
 */
 typedef struct
 {
-    sync_t * sync;
+    bgrt_sync_t * sync;
     bgrt_st_t status;
-}sync_touch_t;
+}bgrt_sync_touch_t;
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_TOUCH.
+Обработчик вызова #SYSCALL_BGRT_SYNC_TOUCH.
 
-Вызывает #_sync_touch.
+Вызывает #_bgrt_sync_touch.
 \~english
 \brief
-A #SYSCALL_SYNC_TOUCH handler.
+A #SYSCALL_BGRT_SYNC_TOUCH handler.
 
-This function calls #_sync_touch.
+This function calls #_bgrt_sync_touch.
 */
-void scall_sync_touch( sync_touch_t * arg );
+void scall_bgrt_sync_touch( bgrt_sync_touch_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_SLEEP.
+Обработчик вызова #SYSCALL_BGRT_SYNC_SLEEP.
 
-Вызывает #_sync_sleep.
+Вызывает #_bgrt_sync_sleep.
 \~english
 \brief
-A #SYSCALL_SYNC_SLEEP handler.
+A #SYSCALL_BGRT_SYNC_SLEEP handler.
 
-This function calls #_sync_sleep.
+This function calls #_bgrt_sync_sleep.
 */
-void scall_sync_sleep( sync_sleep_t * arg );
+void scall_bgrt_sync_sleep( bgrt_sync_sleep_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_WAKE.
+Обработчик вызова #SYSCALL_BGRT_SYNC_WAKE.
 
-Вызывает #_sync_wake.
+Вызывает #_bgrt_sync_wake.
 \~english
 \brief
-A #SYSCALL_SYNC_WAKE handler.
+A #SYSCALL_BGRT_SYNC_WAKE handler.
 
-This function calls #_sync_wake.
+This function calls #_bgrt_sync_wake.
 */
-void scall_sync_wake( sync_wake_t * arg );
+void scall_bgrt_sync_wake( bgrt_sync_wake_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_WAIT.
+Обработчик вызова #SYSCALL_BGRT_SYNC_WAIT.
 
-Вызывает #_sync_wait.
+Вызывает #_bgrt_sync_wait.
 \~english
 \brief
-A #SYSCALL_SYNC_WAIT handler.
+A #SYSCALL_BGRT_SYNC_WAIT handler.
 
-This function calls #_sync_wait.
+This function calls #_bgrt_sync_wait.
 */
-void scall_sync_wait( sync_wait_t * arg );
+void scall_bgrt_sync_wait( bgrt_sync_wait_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_WAKE_AND_SLEEP.
+Обработчик вызова #SYSCALL_BGRT_SYNC_WAKE_AND_SLEEP.
 \~english
 \brief
-A #SYSCALL_SYNC_WAKE_AND_SLEEP handler.
+A #SYSCALL_BGRT_SYNC_WAKE_AND_SLEEP handler.
 */
-void scall_sync_wake_and_sleep( void * arg );
+void scall_bgrt_sync_wake_and_sleep( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_WAKE_AND_WAIT.
+Обработчик вызова #SYSCALL_BGRT_SYNC_WAKE_AND_WAIT.
 \~english
 \brief
-A #SYSCALL_SYNC_WAKE_AND_WAIT handler.
+A #SYSCALL_BGRT_SYNC_WAKE_AND_WAIT handler.
 */
-void scall_sync_wake_and_wait( void * arg );
+void scall_bgrt_sync_wake_and_wait( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
+Аргумент вызова #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT.
 
 \~english
 \brief
-A #SYSCALL_SYNC_BGRT_PROC_TIMEOUT arg.
+A #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT arg.
 */
 typedef struct
 {
     proc_t * proc;
     bgrt_st_t status;
 }
-sync_proc_timeout_t;
+bgrt_sync_proc_timeout_t;
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
+Обработчик вызова #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT.
 \~english
 \brief
-A #SYSCALL_SYNC_BGRT_PROC_TIMEOUT handler.
+A #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT handler.
 */
-void scall_sync_proc_timeout( sync_proc_timeout_t * arg );
+void scall_bgrt_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 /*****************************************************************************************/
-#endif // _SYNC_H_
+#endif // _BGRT_SYNC_H_

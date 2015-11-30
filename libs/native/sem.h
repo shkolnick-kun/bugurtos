@@ -104,7 +104,7 @@ A counting semaphore can be locked by one process and freed by another.
 */
 struct _sem_t
 {
-    sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
+    bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_cnt_t counter;/*!< \~russian Счетчик ресурсов. \~english A resource counter. */
     bgrt_cnt_t blocked;/*!< \~russian Счетчик блокированных процессов. \~english A blocked process counter. */
 #ifdef BGRT_CONFIG_MP

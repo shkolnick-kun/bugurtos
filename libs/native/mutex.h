@@ -108,7 +108,7 @@ then you should use mutex instead of critical section. Mutex nesting is supporte
 */
 struct _mutex_t
 {
-    sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
+    bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 };
 // Методы
 /*!

@@ -101,7 +101,7 @@ Used for blocking synchronous or asynchronous IPC protocol implementation.
 */
 struct _ipc_t
 {
-    sync_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes.  */
+    bgrt_sync_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes.  */
     void * msg;  /*!< \~russian Указатель на буфер с сообщением. \~english A message buffer pointer. */
 };
 // Методы
