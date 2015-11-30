@@ -143,7 +143,7 @@ void bgrt_prit_cut(bgrt_prit_t * pitem)
     pitem->list = (bgrt_xlist_t *)0;
 }
 
-bgrt_prit_t * bgrt_prit_bgrt_xlist_chain( bgrt_xlist_t * src )
+bgrt_prit_t * bgrt_prit_xlist_chain( bgrt_xlist_t * src )
 {
     bgrt_prit_t * ret;  // return value
     ret = (bgrt_prit_t *)bgrt_xlist_head( src );     // will return former xlist head

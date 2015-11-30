@@ -875,21 +875,21 @@ void scall_bgrt_sync_wake( bgrt_sync_wake_t * arg )
 /**********************************************************************************************
                                 SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_bgrt_proc_timeout( bgrt_proc_t * proc )
+bgrt_st_t bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 {
-    volatile bgrt_sync_bgrt_proc_timeout_t scarg;
+    volatile bgrt_sync_proc_timeout_t scarg;
     scarg.proc = proc;
     scarg.status = BGRT_ST_ROLL;
     bgrt_syscall( SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-void scall_bgrt_sync_bgrt_proc_timeout( bgrt_sync_bgrt_proc_timeout_t * arg )
+void scall_bgrt_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg )
 {
-    arg->status = _bgrt_sync_bgrt_proc_timeout( arg->proc );
+    arg->status = _bgrt_sync_proc_timeout( arg->proc );
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_bgrt_proc_timeout( bgrt_proc_t * proc )
+bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 {
     bgrt_st_t status;
     bgrt_sync_t * sync;
