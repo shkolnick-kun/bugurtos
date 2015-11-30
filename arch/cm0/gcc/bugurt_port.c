@@ -199,7 +199,7 @@ void bgrt_syscall( bgrt_syscall_t num, void * arg )
     bgrt_enable_interrupts();
 }
 //====================================================================================
-__attribute__ (( naked )) void SYSCALL_ISR(void)
+__attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
 {
     BUGURT_SCHED_ENTER();
     bgrt_kernel.sched.current_proc->spointer = bugurt_read_psp();

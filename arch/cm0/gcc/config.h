@@ -66,7 +66,7 @@ typedef unsigned char bgrt_syscall_t;
 ///=================================================================
 // These macros needed to interface cstartup code.
 #define BGRT_SYSTEM_TIMER_ISR 	SysTick_Handler
-#define SYSCALL_ISR			PendSV_Handler
+#define BGRT_SYSCALL_ISR			PendSV_Handler
 
 #define BGRT_CONFIG_FCPU_HZ 			( 32000000ul )
 #define BGRT_CONFIG_FSYSTICK_HZ 		( 1000ul )
