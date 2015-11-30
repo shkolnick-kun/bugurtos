@@ -78,41 +78,41 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sem.h"
 
-status_t sem_init_isr( sem_t * sem, count_t count )
+bgrt_st_t sem_init_isr( sem_t * sem, bgrt_cnt_t count )
 {
     if(!sem)
     {
         return BGRT_ST_ENULL;
     }
     SYNC_INIT_ISR( sem, PROC_PRIO_LOWEST );
-    SPIN_INIT( sem );
-    SPIN_LOCK( sem );
+    BGRT_SPIN_INIT( sem );
+    BGRT_SPIN_LOCK( sem );
     sem->counter = count;
-    sem->blocked = (count_t)0;
-    SPIN_FREE( sem );
+    sem->blocked = (bgrt_cnt_t)0;
+    BGRT_SPIN_FREE( sem );
     return BGRT_ST_OK;
 }
 
-status_t sem_init( sem_t * sem, count_t count )
+bgrt_st_t sem_init( sem_t * sem, bgrt_cnt_t count )
 {
-    status_t ret;
-    disable_interrupts();
+    bgrt_st_t ret;
+    bgrt_disable_interrupts();
     ret = sem_init_isr( sem, count );
-    enable_interrupts();
+    bgrt_enable_interrupts();
     return ret;
 }
 
-status_t sem_try_lock( sem_t * sem )
+bgrt_st_t sem_try_lock( sem_t * sem )
 {
-    status_t ret = BGRT_ST_ROLL;
+    bgrt_st_t ret = BGRT_ST_ROLL;
 
     if( !sem )
     {
         return BGRT_ST_ENULL;
     }
 
-    disable_interrupts();
-    SPIN_LOCK( sem );
+    bgrt_disable_interrupts();
+    BGRT_SPIN_LOCK( sem );
 
     if( sem->counter )
     {
@@ -120,15 +120,15 @@ status_t sem_try_lock( sem_t * sem )
         ret = BGRT_ST_OK;
     }
 
-    SPIN_FREE( sem );
-    enable_interrupts();
+    BGRT_SPIN_FREE( sem );
+    bgrt_enable_interrupts();
 
     return ret;
 }
 
-status_t sem_lock( sem_t * sem )
+bgrt_st_t sem_lock( sem_t * sem )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     if( !sem )
     {
@@ -137,8 +137,8 @@ status_t sem_lock( sem_t * sem )
 
     proc_lock();
 
-    disable_interrupts();
-    SPIN_LOCK( sem );
+    bgrt_disable_interrupts();
+    BGRT_SPIN_LOCK( sem );
 
     if( sem->counter )
     {
@@ -151,8 +151,8 @@ status_t sem_lock( sem_t * sem )
         ret = BGRT_ST_ROLL;
     }
 
-    SPIN_FREE( sem );
-    enable_interrupts();
+    BGRT_SPIN_FREE( sem );
+    bgrt_enable_interrupts();
 
     if( ret == BGRT_ST_ROLL )
     {
@@ -163,9 +163,9 @@ status_t sem_lock( sem_t * sem )
     return ret;
 }
 
-status_t sem_free( sem_t * sem )
+bgrt_st_t sem_free( sem_t * sem )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     if( !sem )
     {
@@ -174,8 +174,8 @@ status_t sem_free( sem_t * sem )
 
     proc_lock();
 
-    disable_interrupts();
-    SPIN_LOCK( sem );
+    bgrt_disable_interrupts();
+    BGRT_SPIN_LOCK( sem );
 
     if( sem->blocked )
     {
@@ -188,12 +188,12 @@ status_t sem_free( sem_t * sem )
         ret = BGRT_ST_OK;
     }
 
-    SPIN_FREE( sem );
-    enable_interrupts();
+    BGRT_SPIN_FREE( sem );
+    bgrt_enable_interrupts();
 
     if( ret == BGRT_ST_ROLL )
     {
-        status_t clr_own;
+        bgrt_st_t clr_own;
         proc_t * dummy = (proc_t *)0;
 
         clr_own = SYNC_OWN( sem, 0 );
@@ -216,20 +216,20 @@ end:
     return ret;
 }
 
-status_t sem_free_isr( sem_t * sem )
+bgrt_st_t sem_free_isr( sem_t * sem )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     if( !sem )
     {
         return BGRT_ST_ENULL;
     }
 
-    SPIN_LOCK( sem );
+    BGRT_SPIN_LOCK( sem );
 
     if( ((sync_t *)sem)->owner )
     {
-        SPIN_FREE( sem );
+        BGRT_SPIN_FREE( sem );
         return BGRT_ST_EOWN;
     }
 
@@ -244,13 +244,13 @@ status_t sem_free_isr( sem_t * sem )
         ret = BGRT_ST_OK;
     }
 
-    SPIN_FREE( sem );
+    BGRT_SPIN_FREE( sem );
 
-    KERNEL_PREEMPT();
+    BGRT_KERNEL_PREEMPT();
 
     if( ret == BGRT_ST_ROLL )
     {
-        ret = _sync_wake( (sync_t *)sem, (proc_t *)0, (flag_t)0 );// Now we can wake some process.
+        ret = _sync_wake( (sync_t *)sem, (proc_t *)0, (bgrt_flag_t)0 );// Now we can wake some process.
     }
     return ret;
 }

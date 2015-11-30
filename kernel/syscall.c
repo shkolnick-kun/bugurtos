@@ -78,9 +78,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-#define BGRT_SC_TBL_ENTRY(f) ((code_t)f)
+#define BGRT_SC_TBL_ENTRY(f) ((bgrt_code_t)f)
 
-SYSCALL_TABLE( syscall_handler[] ) =
+BGRT_SCL_TBL( syscall_handler[] ) =
 {
     // Process control
     BGRT_SC_TBL_ENTRY( scall_proc_run               ),
@@ -106,17 +106,17 @@ SYSCALL_TABLE( syscall_handler[] ) =
     BGRT_SC_TBL_ENTRY( scall_user                   )
 };
 
-#ifndef CONFIG_SYSCALL_CHECK
+#ifndef BGRT_CONFIG_SYSCALL_CHECK
 //Default syscall sanity check macro
-#define CONFIG_SYSCALL_CHECK(n,a) \
-( ( (syscall_t)0 == n )&&( SYSCALL_USER < n  ) )
+#define BGRT_CONFIG_SYSCALL_CHECK(n,a) \
+( ( (bgrt_syscall_t)0 == n )&&( SYSCALL_USER < n  ) )
 
-#endif //CONFIG_SYSCALL_CHECK
+#endif //BGRT_CONFIG_SYSCALL_CHECK
 
-void do_syscall( syscall_t syscall_num, void * syscall_arg )
+void do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
 {
     //Sanity check
-    if( CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg) )
+    if( BGRT_CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg) )
     {
         //Fail
         return;
@@ -124,7 +124,7 @@ void do_syscall( syscall_t syscall_num, void * syscall_arg )
     else
     {
         //Syscall processing
-        (SYSCALL_TABLE_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
+        (BGRT_SCL_TBL_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
     }
 }
 
@@ -135,7 +135,7 @@ void do_syscall( syscall_t syscall_num, void * syscall_arg )
 **********************************************************************************************/
 typedef union
 {
-    code_t func;
+    bgrt_code_t func;
     void * arg;
 }
 scall_user_t;
@@ -143,7 +143,7 @@ scall_user_t;
 void scall_user(void * arg)
 {
     scall_user_t user;
-    user.func = (code_t)0;
+    user.func = (bgrt_code_t)0;
     user.arg = arg;
     user.func(arg);
 }

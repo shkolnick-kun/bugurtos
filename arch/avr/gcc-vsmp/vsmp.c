@@ -79,40 +79,40 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include <bugurt.h>
 
-vsmp_vm_t vm_state[MAX_CORES];
-stack_t vm_stack[MAX_CORES -1][VM_STACK_SIZE];
-stack_t vm_int_stack[MAX_CORES][VM_INT_STACK_SIZE];
+vsmp_vm_t vm_state[BGRT_MAX_CPU];
+bgrt_stack_t vm_stack[BGRT_MAX_CPU -1][VM_STACK_SIZE];
+bgrt_stack_t vm_int_stack[BGRT_MAX_CPU][VM_INT_STACK_SIZE];
 
-volatile core_id_t current_vm;
+volatile bgrt_cpuid_t current_vm;
 volatile void * vm_buf;
 hook_t vsmp_systimer_hook;
 
 
 
-void vsmp_vm_init( vsmp_vm_t * vm, stack_t * sp, stack_t * int_sp )
+void vsmp_vm_init( vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp )
 {
-    vm->int_fifo = (item_t *)0; // Нет прерываний;
+    vm->int_fifo = (bgrt_item_t *)0; // Нет прерываний;
     vm->int_enabled = 1;// прерывания разрешены
-    vm->sp = (stack_t *)sp;
-    vm->int_sp = (stack_t *)int_sp;
-    vm->int_nest_count = (count_t)0;
+    vm->sp = (bgrt_stack_t *)sp;
+    vm->int_sp = (bgrt_stack_t *)int_sp;
+    vm->int_nest_count = (bgrt_cnt_t)0;
 }
 void vsmp_init( void )
 {
     unsigned short i;
     cli();
     for(i = 0; i < VM_STACK_SIZE; i++ )vm_int_stack[0][i] = 0x55;
-    vsmp_vm_init( &vm_state[0], (stack_t *)0 , &vm_int_stack[0][VM_INT_STACK_SIZE-1] );
-    for( current_vm = 1; current_vm < MAX_CORES; current_vm++ )
+    vsmp_vm_init( &vm_state[0], (bgrt_stack_t *)0 , &vm_int_stack[0][VM_INT_STACK_SIZE-1] );
+    for( current_vm = 1; current_vm < BGRT_MAX_CPU; current_vm++ )
     {
-        stack_t * vm_sp;
+        bgrt_stack_t * vm_sp;
         for(i = 0; i < VM_STACK_SIZE; i++ )
         {
             vm_stack[current_vm - 1][i] = 0x55;
             vm_int_stack[current_vm][i] = 0x55;
         }
-        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (code_t)vsmp_idle_main, (void *)0, (void(*)(void))vsmp_idle_main );
-        vsmp_vm_init( &vm_state[current_vm], (stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
+        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (bgrt_code_t)vsmp_bgrt_idle_main, (void *)0, (void(*)(void))vsmp_bgrt_idle_main );
+        vsmp_vm_init( &vm_state[current_vm], (bgrt_stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
     }
     current_vm = 0;
 }
@@ -121,37 +121,37 @@ void vsmp_run( void )
 {
     sei();
 }
-void vsmp_idle_main( void * arg )
+void vsmp_bgrt_idle_main( void * arg )
 {
     while(1);
 }
 
-bool_t vsmp_do_interrupt(void)
+bgrt_bool_t vsmp_do_interrupt(void)
 {
     // if current vm is interruptible and there are some interrupts in fifo,
     if( (vm_state[current_vm].int_enabled) && (vm_state[current_vm].int_fifo) )
     {
         // cut head interrupt,
         vm_buf = (void *)vm_state[current_vm].int_fifo;
-        if( vm_buf == (void *)((item_t *)vm_buf)->next )
+        if( vm_buf == (void *)((bgrt_item_t *)vm_buf)->next )
         {
             /* only one interrupt in fifo */
-            vm_state[current_vm].int_fifo = (item_t *)0;
+            vm_state[current_vm].int_fifo = (bgrt_item_t *)0;
         }
         else
         {
             /* many interrupts in fifo */
-            vm_state[current_vm].int_fifo = (void *)((item_t *)vm_buf)->next;
-            item_cut( (item_t *)vm_buf );
+            vm_state[current_vm].int_fifo = (void *)((bgrt_item_t *)vm_buf)->next;
+            bgrt_item_cut( (bgrt_item_t *)vm_buf );
         }
         // write its isr pointer to vm_buf,
-        ((vinterrupt_t *)vm_buf)->num_pending = (count_t)0;
+        ((vinterrupt_t *)vm_buf)->num_pending = (bgrt_cnt_t)0;
         vm_buf = (void *)(((vinterrupt_t *)vm_buf)->isr);
         // and return 1;
-        return (bool_t)1;
+        return (bgrt_bool_t)1;
     }
     // else return 0.
-    return (bool_t)0;
+    return (bgrt_bool_t)0;
 }
 
 /* Virtual interrupt prologue and epilogue inline functions (I can,t debug macros !) */
@@ -159,11 +159,11 @@ bool_t vsmp_do_interrupt(void)
     vm_buf = (void *)bugurt_save_context(); \
     if( vm_state[current_vm].int_nest_count ) \
     { \
-        vm_state[current_vm].int_sp = (stack_t *)vm_buf; \
+        vm_state[current_vm].int_sp = (bgrt_stack_t *)vm_buf; \
     } \
     else \
     { \
-        vm_state[current_vm].sp = (stack_t *)vm_buf; \
+        vm_state[current_vm].sp = (bgrt_stack_t *)vm_buf; \
     } \
     bugurt_set_stack_pointer( vm_state[current_vm].int_sp )
 
@@ -194,7 +194,7 @@ chained_vinterrupt_return: \
 void _vinterrupt_wrapper(void)
 {
     void (*isr)(void);
-    vm_state[current_vm].int_enabled = (bool_t)0; // Virtual interrupt nesting is not allowed by default.
+    vm_state[current_vm].int_enabled = (bgrt_bool_t)0; // Virtual interrupt nesting is not allowed by default.
     isr = (void (*)(void))vm_buf;
     // After vm-buf read we can reenable real interrupts!
     sei();
@@ -206,18 +206,18 @@ __attribute__ (( naked )) void vinterrupt_wrapper(void)
     _vinterrupt_wrapper();
     cli();
     // Virtual interrupts are enabled after interrupt processing.
-    vm_state[current_vm].int_enabled = (bool_t)1;
+    vm_state[current_vm].int_enabled = (bgrt_bool_t)1;
     // Tail recursion, will return to it self entry point until all virtual interrupts are processed, lol!
     _vsmp_interrupt_epilogue();
 }
 // System timer interrupt, round robin scheduler.
-__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
-void SYSTEM_TIMER_ISR(void)
+__attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
+void BGRT_SYSTEM_TIMER_ISR(void)
 {
     _vsmp_interrupt_prologue();
 
     current_vm++;
-    if(current_vm >= MAX_CORES)current_vm = (core_id_t)0;
+    if(current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
 
     if(vsmp_systimer_hook)
     {
@@ -240,21 +240,21 @@ __attribute__ (( naked )) void _vsmp_vinterrupt(void)
 }
 
 // Software virtual interrupt ( For ISR usage only ! Do NOT call from "main"!)
-bool_t vsmp_vinterrupt_isr( core_id_t vm, vinterrupt_t * vector )
+bgrt_bool_t vsmp_vinterrupt_isr( bgrt_cpuid_t vm, vinterrupt_t * vector )
 {
-    if( vector->num_pending++ ) return (bool_t)0;
+    if( vector->num_pending++ ) return (bgrt_bool_t)0;
     if( vm_state[vm].int_fifo )
     {
-        item_insert( (item_t *)vector, (item_t *)vm_state[vm].int_fifo );
+        bgrt_item_insert( (bgrt_item_t *)vector, (bgrt_item_t *)vm_state[vm].int_fifo );
     }
     else
     {
-        vm_state[vm].int_fifo = (item_t *)vector;
+        vm_state[vm].int_fifo = (bgrt_item_t *)vector;
     }
-    return (bool_t)1;
+    return (bgrt_bool_t)1;
 }
 // Software virtual interrupt ( Use in "main" only ! Do NOT call from ISR!)
-void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector )
+void vsmp_vinterrupt( bgrt_cpuid_t vm, vinterrupt_t * vector )
 {
     cli();
     if( vsmp_vinterrupt_isr( vm, vector ) ) _vsmp_vinterrupt();
@@ -263,29 +263,29 @@ void vsmp_vinterrupt( core_id_t vm, vinterrupt_t * vector )
 
 void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) )
 {
-    item_init( (item_t *)vector );
-    vector->num_pending = (count_t)0;
+    bgrt_item_init( (bgrt_item_t *)vector );
+    vector->num_pending = (bgrt_cnt_t)0;
     vector->isr = isr;
 }
 
-void disable_interrupts(void)
+void bgrt_disable_interrupts(void)
 {
     cli();
-    vm_state[current_vm].int_enabled = (bool_t)0;
+    vm_state[current_vm].int_enabled = (bgrt_bool_t)0;
     sei();
 }
 
-void enable_interrupts(void)
+void bgrt_enable_interrupts(void)
 {
     cli();
-    vm_state[current_vm].int_enabled = (bool_t)1;
+    vm_state[current_vm].int_enabled = (bgrt_bool_t)1;
     if( vm_state[current_vm].int_fifo ) _vsmp_vinterrupt();
     else sei();
 }
 
-core_id_t current_core(void)
+bgrt_cpuid_t bgrt_current_cpu(void)
 {
-    core_id_t ret;
+    bgrt_cpuid_t ret;
     cli();
     ret = current_vm;
     sei();

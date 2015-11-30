@@ -78,23 +78,23 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "mutex.h"
 
-status_t mutex_init_isr( mutex_t * mutex, prio_t prio )
+bgrt_st_t mutex_init_isr( mutex_t * mutex, bgrt_prio_t prio )
 {
     return SYNC_INIT_ISR( mutex, prio );
 }
 
-status_t mutex_init( mutex_t * mutex, prio_t prio )
+bgrt_st_t mutex_init( mutex_t * mutex, bgrt_prio_t prio )
 {
-    status_t ret;
-    disable_interrupts();
+    bgrt_st_t ret;
+    bgrt_disable_interrupts();
     ret = mutex_init_isr( mutex, prio );
-    enable_interrupts();
+    bgrt_enable_interrupts();
     return ret;
 }
 
-status_t mutex_try_lock( mutex_t * mutex )
+bgrt_st_t mutex_try_lock( mutex_t * mutex )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     proc_lock();
 
@@ -110,9 +110,9 @@ status_t mutex_try_lock( mutex_t * mutex )
     return ret;
 }
 
-status_t mutex_lock( mutex_t * mutex )
+bgrt_st_t mutex_lock( mutex_t * mutex )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     proc_lock(); //Now process must not stop!
 
@@ -126,9 +126,9 @@ status_t mutex_lock( mutex_t * mutex )
     return ret;
 }
 
-status_t mutex_free( mutex_t * mutex )
+bgrt_st_t mutex_free( mutex_t * mutex )
 {
-    status_t ret = BGRT_ST_ROLL;
+    bgrt_st_t ret = BGRT_ST_ROLL;
 
     SYNC_WAKE( mutex,  0, 1, ret );    // Now we can wake some process.
     proc_free();                       // May stop caller process.

@@ -87,16 +87,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /// Используется переменная saved_sp для временного хранения
 /// указателя стека прерываемого процесса, если так не делать,
 /// компилятор будет стирать r16, r17 до сохранения контекста.
-#ifndef CONFIG_PREEMPTIVE_KERNEL
+#ifndef BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
-    kernel.sched.current_proc->spointer = saved_sp;\
-    bugurt_set_stack_pointer( kernel.idle.spointer )
+    bgrt_kernel.sched.current_proc->spointer = saved_sp;\
+    bugurt_set_stack_pointer( bgrt_kernel.idle.spointer )
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BUGURT_ISR_EXIT() \
-    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
     __asm__ __volatile__("reti"::)
 
 // Эпилог обработчика прерывания
@@ -104,26 +104,26 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     bugurt_check_resched();\
     BUGURT_ISR_EXIT()
 
-#else // CONFIG_PREEMPTIVE_KERNEL
+#else // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
     if( nested_interrupts ) goto  skip_stack_switch;\
-    kernel.sched.current_proc->spointer = saved_sp;\
-    STOP_SCHEDULER();\
-    bugurt_set_stack_pointer( kernel.idle.spointer );\
+    bgrt_kernel.sched.current_proc->spointer = saved_sp;\
+    BGRT_STOP_SCHEDULER();\
+    bugurt_set_stack_pointer( bgrt_kernel.idle.spointer );\
 skip_stack_switch:\
     nested_interrupts++
 
 
 // Выход из обработчика прерывания
 #define BUGURT_ISR_EXIT() \
-    KERNEL_PREEMPT();\
+    BGRT_KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
-    START_SCHEDULER();\
-    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    BGRT_START_SCHEDULER();\
+    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
     __asm__ __volatile__("reti"::); \
 exit_nested: \
     bugurt_pop_context();\
@@ -131,18 +131,18 @@ exit_nested: \
 
 // Эпилог обработчика прерывания, отличается от BUGURT_ISR_EXIT вызовом bugurt_check_resched
 #define BUGURT_ISR_END() \
-    KERNEL_PREEMPT();\
+    BGRT_KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     bugurt_check_resched();\
-    START_SCHEDULER();\
-    bugurt_restore_context( kernel.sched.current_proc->spointer );\
+    BGRT_START_SCHEDULER();\
+    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
     __asm__ __volatile__("reti"::); \
 exit_nested: \
     bugurt_pop_context();\
     __asm__ __volatile__("reti"::)
 
-#endif // CONFIG_PREEMPTIVE_KERNEL
+#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
@@ -171,19 +171,19 @@ void BUGURT_CONCAT(v,_func)(void)
 // Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
 
-unsigned char kernel_state;
+unsigned char bgrt_kernel_state;
 //Временное хранилище для указателей стеков процессов.
-stack_t * saved_sp;
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-count_t nested_interrupts;
-#endif //CONFIG_PREEMPTIVE_KERNEL
+bgrt_stack_t * saved_sp;
+#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
+bgrt_cnt_t nested_interrupts;
+#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 void bugurt_check_resched( void );
 
-extern stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( stack_t * new_sp );
+extern bgrt_stack_t * bugurt_save_context( void );
+extern void bugurt_restore_context( bgrt_stack_t * new_sp );
 extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( stack_t * new_sp );
-extern stack_t * bugurt_reverse_byte_order ( stack_t * arg );
+extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
+extern bgrt_stack_t * bugurt_reverse_byte_order ( bgrt_stack_t * arg );
 
 #endif // _BUGURT_PORT_H_

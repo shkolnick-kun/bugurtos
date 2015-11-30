@@ -8,7 +8,7 @@
 
 extern void(*test_kernel_preempt)(void);
 extern proc_t proc[6];
-extern stack_t proc_stack[6][PROC_STACK_SIZE];
+extern bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
 #define ARG_END
 
@@ -18,7 +18,7 @@ extern stack_t proc_stack[6][PROC_STACK_SIZE];
 #define SCHED_ARG_END
 #define SCHED_LB_TEST_START()
 
-#define SCHED_SYSTICK_HOOK_ADD() (kernel.timer_tick = systick_hook)
+#define SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
 
 #define SCHED_FIX_PROC_2() sched_fix_proc_2()
 
@@ -36,7 +36,7 @@ void init_hardware(void);
 void sched_fix_proc_2(void);
 
 // proc test functions
-void test_output( bool_t test_result, count_t test_mun );
+void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_mun );
 void test_start(void);
 void tests_end(void);
 

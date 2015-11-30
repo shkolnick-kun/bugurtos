@@ -84,57 +84,57 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
-#ifndef CONFIG_PREEMPTIVE_KERNEL
+#ifndef BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     _bugurt_do_it(); \
-    kernel.sched.current_proc->spointer = (stack_t *)_getSP_();\
-   _setSP_( (unsigned int)kernel.idle.spointer )
+    bgrt_kernel.sched.current_proc->spointer = (bgrt_stack_t *)_getSP_();\
+   _setSP_( (unsigned int)bgrt_kernel.idle.spointer )
 
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BUGURT_ISR_EXIT() \
-    _setSP_( (unsigned int)kernel.sched.current_proc->spointer )
+    _setSP_( (unsigned int)bgrt_kernel.sched.current_proc->spointer )
 
 // Эпилог обработчика прерывания
 #define BUGURT_ISR_END() \
     bugurt_check_resched();\
     BUGURT_ISR_EXIT()
 
-#else // CONFIG_PREEMPTIVE_KERNEL
+#else // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Пролог обработчика прерывания
-/// NOTE: No KERNEL_PREEMPT() call on the end of prologue to avoid ISR reentrance!
+/// NOTE: No BGRT_KERNEL_PREEMPT() call on the end of prologue to avoid ISR reentrance!
 #define BUGURT_ISR_START() \
     _bugurt_do_it(); \
-    saved_sp = (stack_t *)_getSP_();\
+    saved_sp = (bgrt_stack_t *)_getSP_();\
     if( nested_interrupts ) goto  skip_stack_switch;\
-    kernel.sched.current_proc->spointer = saved_sp;\
-    STOP_SCHEDULER();\
-    _setSP_( (unsigned int)kernel.idle.spointer );\
+    bgrt_kernel.sched.current_proc->spointer = saved_sp;\
+    BGRT_STOP_SCHEDULER();\
+    _setSP_( (unsigned int)bgrt_kernel.idle.spointer );\
 skip_stack_switch:\
     nested_interrupts++
 
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BUGURT_ISR_EXIT() \
-    KERNEL_PREEMPT();\
+    BGRT_KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
-    START_SCHEDULER();\
-    _setSP_( (unsigned int)kernel.sched.current_proc->spointer );\
+    BGRT_START_SCHEDULER();\
+    _setSP_( (unsigned int)bgrt_kernel.sched.current_proc->spointer );\
 exit_nested: \
 
 // Эпилог обработчика прерывания
 #define BUGURT_ISR_END() \
-    KERNEL_PREEMPT();\
+    BGRT_KERNEL_PREEMPT();\
     nested_interrupts--;\
     if( nested_interrupts )goto exit_nested;\
     bugurt_check_resched();\
-    START_SCHEDULER();\
-    _setSP_( (unsigned int)kernel.sched.current_proc->spointer );\
+    BGRT_START_SCHEDULER();\
+    _setSP_( (unsigned int)bgrt_kernel.sched.current_proc->spointer );\
 exit_nested: \
 
-#endif // CONFIG_PREEMPTIVE_KERNEL
+#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 /*
 Объявление обработчика прерывания.
@@ -158,20 +158,20 @@ void BUGURT_CONCAT(vector_func_,v)(void)
 // Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
 
-extern unsigned char kernel_state;
-extern stack_t * saved_sp;
+extern unsigned char bgrt_kernel_state;
+extern bgrt_stack_t * saved_sp;
 extern void (*_bugurt_do_it)(void); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
-#ifdef CONFIG_PREEMPTIVE_KERNEL
-extern count_t nested_interrupts;
-#endif // CONFIG_PREEMPTIVE_KERNEL
+#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
+extern bgrt_cnt_t nested_interrupts;
+#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 void _bugurt_do_nothing( void ); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
 
 void bugurt_check_resched( void );
 
-extern stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( stack_t * new_sp );
+extern bgrt_stack_t * bugurt_save_context( void );
+extern void bugurt_restore_context( bgrt_stack_t * new_sp );
 extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( stack_t * new_sp );
+extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
 
 #endif // _BUGURT_PORT_H_

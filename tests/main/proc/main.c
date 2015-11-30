@@ -1,9 +1,9 @@
 #include <test_func.h>
 
 proc_t proc[6];
-stack_t proc_stack[6][PROC_STACK_SIZE];
+bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
-bool_t test;
+bgrt_bool_t test;
 
 void main_proc_test( void * arg )
 {
@@ -11,7 +11,7 @@ void main_proc_test( void * arg )
 
     test_start();
     // No other processes are running,
-    // so it's not necessary to disable interrupts or to spin_lock something.
+    // so it's not necessary to disable interrupts or to bgrt_spin_lock something.
 
     // proc_run test 1
     proc[2].flags |= PROC_STATE_DEAD;
@@ -27,15 +27,15 @@ void main_proc_test( void * arg )
     test_output( test , 2 );
 
     // proc_terminate test 3
-    wait_time( 10 );
+    bgrt_wait_time( 10 );
     // proc[2] has higher priority, so it must BE DEAD now!
-    test = (bool_t)( PROC_STATE_DEAD == ( proc[2].flags & PROC_STATE_MASK ) );
+    test = (bgrt_bool_t)( PROC_STATE_DEAD == ( proc[2].flags & PROC_STATE_MASK ) );
     test_output( test , 3 );
 
     // proc_terminate test 4
     proc_run( &proc[3] );
-    wait_time( 10 );
-    test = (bool_t)( PROC_STATE_END == ( proc[3].flags & PROC_STATE_MASK ) );
+    bgrt_wait_time( 10 );
+    test = (bgrt_bool_t)( PROC_STATE_END == ( proc[3].flags & PROC_STATE_MASK ) );
     test_output( test , 4 );
 
     // proc_restart test 5
@@ -60,8 +60,8 @@ void main_proc_test( void * arg )
 
     // proc_free test 8
     // Must NOT stop the process!
-    wait_time(2); // let proc[4] to call proc_free!
-    test = (bool_t)PROC_RUN_TEST( (&proc[4]) );
+    bgrt_wait_time(2); // let proc[4] to call proc_free!
+    test = (bgrt_bool_t)PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 8 );
 
     // proc_stop test 9
@@ -73,7 +73,7 @@ void main_proc_test( void * arg )
     // Must NOT stop the process!
     // proc[4] is stopped, we can work with it,s properties!
     proc[4].flags |= PROC_FLG_LOCK;
-    proc[4].cnt_lock = (count_t)1;
+    proc[4].cnt_lock = (bgrt_cnt_t)1;
 
     proc_run( &proc[4] );
     test = ( BGRT_ST_ROLL == proc_stop( &proc[4] ) );
@@ -82,37 +82,37 @@ void main_proc_test( void * arg )
 
     // proc_free test 11
     // Must stop the process!
-    wait_time(20); // let proc[4] to call proc_free!
+    bgrt_wait_time(20); // let proc[4] to call proc_free!
     test = !PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 11 );
 
     // proc_reset_watchdog test 12
     test = 0;
     proc_run( &proc[5] );
-    wait_time(10); // let proc[5] test proc_reset_watchdog!
+    bgrt_wait_time(10); // let proc[5] test proc_reset_watchdog!
     test_output( test , 12 );
 
     // proc_self_stop test 13
-    wait_time(10); // let proc[4] to call proc_self_stop!
+    bgrt_wait_time(10); // let proc[4] to call proc_self_stop!
     test = !PROC_RUN_TEST( (&proc[4]) );
     test_output( test , 13 );
 
     // proc_yeld test 14
     test = 0;
     proc_run( &proc[5] );
-    wait_time(10);
+    bgrt_wait_time(10);
     test_output( test , 14 );
 
     // proc_reset_watchdog test 15
     test = 0;
     proc[5].flags &= ~PROC_FLG_RT;
     proc_run( &proc[5] );
-    wait_time(10); // let proc[5] test proc_reset_watchdog!
+    bgrt_wait_time(10); // let proc[5] test proc_reset_watchdog!
     test_output( test , 15 );
 
     // proc_reset_watchdog test 16
     proc_run( &proc[5] );
-    wait_time(10); // let proc[5] test proc_reset_watchdog!
+    bgrt_wait_time(10); // let proc[5] test proc_reset_watchdog!
     test_output( test , 16 );
 
     tests_end();
@@ -120,41 +120,41 @@ void main_proc_test( void * arg )
 
 void main_with_return( void * arg )
 {
-    wait_time(1);
+    bgrt_wait_time(1);
 }
 
 void main_wd_ss( void * arg )
 {
     // proc_reset_watchdog test 12
-    wait_time(1);
+    bgrt_wait_time(1);
     proc_reset_watchdog();
-    wait_time(1);
+    bgrt_wait_time(1);
     proc_reset_watchdog();
-    wait_time(1);
+    bgrt_wait_time(1);
     proc_reset_watchdog();
-    wait_time(1);
+    bgrt_wait_time(1);
     proc_reset_watchdog();
     test = 1; // If wathdog has been reset then test must pass.
     proc_self_stop();
 
-    wait_time(1);
+    bgrt_wait_time(1);
     sched_proc_yeld();
-    wait_time(1);
+    bgrt_wait_time(1);
     sched_proc_yeld();
-    wait_time(1);
+    bgrt_wait_time(1);
     sched_proc_yeld();
-    wait_time(1);
+    bgrt_wait_time(1);
     sched_proc_yeld();
     test = 1; // If wathdog has been reset then test must pass.
     proc_self_stop();
 
     // proc_reset_watchdog test 14
-    wait_time(1);
+    bgrt_wait_time(1);
     proc_reset_watchdog();
     test = (proc[5].timer != proc[5].time_quant);
     proc_self_stop();
 
-    wait_time(1);
+    bgrt_wait_time(1);
     sched_proc_yeld();
     test = (proc[5].timer == proc[5].time_quant);
 }
@@ -163,7 +163,7 @@ void main_fs( void * arg )
 {
     // For proc_free tests 8 and 11
     proc_free();
-    wait_time(10);
+    bgrt_wait_time(10);
     proc_free();
     while(1)
     {
@@ -171,15 +171,15 @@ void main_fs( void * arg )
     }
 }
 
-#ifdef CONFIG_SAVE_POWER
+#ifdef BGRT_CONFIG_SAVE_POWER
 
-#define IDLE_YELD() if( sched_proc_yeld() )CONFIG_SAVE_POWER()
+#define IDLE_YELD() if( sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER()
 
-#else //CONFIG_SAVE_POWER
+#else //BGRT_CONFIG_SAVE_POWER
 
 #define IDLE_YELD() sched_proc_yeld()
 
-#endif//CONFIG_SAVE_POWER
+#endif//BGRT_CONFIG_SAVE_POWER
 
 void main_lb( void * arg )
 {
@@ -191,7 +191,7 @@ void main_lb( void * arg )
     }
 }
 
-void idle_main( void * arg )
+void bgrt_idle_main( void * arg )
 {
     while(1)
     {
@@ -206,14 +206,14 @@ int main(void)
     /**************************************************
     *          For test purposes only!!!              *
     *  It is strongly recomended to initiate hardware *
-    *         AFTER init_bugurt() call!!!             *
+    *         AFTER bgrt_init() call!!!             *
     **************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.
      */
     init_hardware();
-    init_bugurt();
+    bgrt_init();
 
     SCHED_SYSTICK_HOOK_ADD();
 
@@ -226,6 +226,6 @@ int main(void)
 
     proc_run_isr( &proc[0] );
 
-    start_bugurt();
+    bgrt_start();
     return 0;
 }

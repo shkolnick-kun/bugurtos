@@ -46,7 +46,7 @@ void sched_lb_test_start(void)
 void sched_systick_hook_add(void)
 {
     cli();
-    kernel.timer_tick = load_bar_graph;
+    bgrt_kernel.timer_tick = load_bar_graph;
     sei();
 }
 
@@ -142,7 +142,7 @@ void load_bar_graph(void)
     PORTB |= 0x3f;
     PORTC |= 0x1f;
     PORTD |= 0x80;
-    switch(kernel.stat[0])
+    switch(bgrt_kernel.stat[0])
     {
 
         case 1:
@@ -160,7 +160,7 @@ void load_bar_graph(void)
         default:
             break;
     }
-    switch(kernel.stat[1])
+    switch(bgrt_kernel.stat[1])
     {
         case 1:
             PORTC &= ~0x10;
@@ -180,7 +180,7 @@ void load_bar_graph(void)
     sei();
 }
 
-static void blink_digit( count_t digit )
+static void blink_digit( bgrt_cnt_t digit )
 {
     PORTB &= ~0x20;
     _delay_ms(200);
@@ -200,7 +200,7 @@ static void blink_digit( count_t digit )
     }
 }
 // Can blink numbers from 0 up to 99.
-static void blink_num( count_t num )
+static void blink_num( bgrt_cnt_t num )
 {
     PORTB &= ~0x20;
     PORTD &= ~0x40;
@@ -212,7 +212,7 @@ static void blink_num( count_t num )
     blink_digit( num%10 ); //Least significant digit
 
 }
-void test_output( bool_t test_result, count_t test_num )
+void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
 {
     // If test has failed, then where will be abnormal program termination!
     if( !test_result )

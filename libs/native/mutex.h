@@ -126,7 +126,7 @@ A mutex initiation for usage in ISRs or in critical sections.
 \param mutex A mutex pointer.
 \param prio A mutex priority.
 */
-status_t mutex_init_isr( mutex_t * mutex, prio_t prio );
+bgrt_st_t mutex_init_isr( mutex_t * mutex, bgrt_prio_t prio );
 /*!
 \~russian
 \brief
@@ -141,7 +141,7 @@ A mutex initiation
 \param mutex A mutex pointer.
 \param prio A mutex priority.
 */
-status_t mutex_init( mutex_t * mutex, prio_t prio );
+bgrt_st_t mutex_init( mutex_t * mutex, bgrt_prio_t prio );
 
 /*!
 \~russian
@@ -162,7 +162,7 @@ If mutex is free then caller process locks it and continues, if not caller proce
 \param mutex A mutex pointer.
 \return #BGRT_ST_OK - if mutex was successfully locked else - #BGRT_ST_ROLL.
 */
-status_t mutex_try_lock( mutex_t * mutex );
+bgrt_st_t mutex_try_lock( mutex_t * mutex );
 /*!
 \~russian
 \brief
@@ -182,7 +182,7 @@ If a mutex is free then caller process locks it and continues, else caller proce
 \param mutex A mutex pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-status_t mutex_lock( mutex_t * mutex );
+bgrt_st_t mutex_lock( mutex_t * mutex );
 /*!
 \~russian
 \brief
@@ -203,6 +203,6 @@ If a mutex wait list is empty, then caller process frees a mutex, else mutex wai
 \param mutex A mutex pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-status_t mutex_free( mutex_t * mutex );
+bgrt_st_t mutex_free( mutex_t * mutex );
 
 #endif // _MUTEX_H_

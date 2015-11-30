@@ -5,7 +5,7 @@
 		<Cursor position="7819" topLine="135" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="8949" topLine="129" />
+		<Cursor position="7932" topLine="125" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="13728" topLine="318" />
@@ -24,6 +24,9 @@
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="15061" topLine="279" />
+	</File>
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="6613" topLine="81" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1796" topLine="70" />

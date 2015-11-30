@@ -81,20 +81,20 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include "vsmp.h"
 
-vinterrupt_t resched_vectors[MAX_CORES];
+vinterrupt_t resched_vectors[BGRT_MAX_CPU];
 void resched_isr(void);
 void resched_vectors_init(void);
 
-vinterrupt_t systimer_vectors[MAX_CORES];
+vinterrupt_t systimer_vectors[BGRT_MAX_CPU];
 void systimer_tick_isr(void);
 void systimer_sched_isr(void);
 void systimer_vectors_init(void);
 void systimer_vectors_fire(void);
 void vsmp_systimer_hook_bugurt(void);
 
-vinterrupt_t syscall_vectors[MAX_CORES];
-syscall_t syscall_num[MAX_CORES];
-void * syscall_arg[MAX_CORES];
+vinterrupt_t syscall_vectors[BGRT_MAX_CPU];
+bgrt_syscall_t syscall_num[BGRT_MAX_CPU];
+void * syscall_arg[BGRT_MAX_CPU];
 void syscall_isr(void);
 void syscall_vectors_init(void);
 

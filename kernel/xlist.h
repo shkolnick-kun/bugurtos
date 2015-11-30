@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _XLIST_H_
-#define _XLIST_H_
+#ifndef _BGRT_XLIST_H_
+#define _BGRT_XLIST_H_
 /*!
 \file
 
@@ -89,26 +89,26 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 A prioritized list header.
 */
-typedef struct _xlist_t xlist_t; /*!< \~russian Смотри #_xlist_t; \~english See #_xlist_t; */
+typedef struct _bgrt_xlist_t bgrt_xlist_t; /*!< \~russian Смотри #_bgrt_xlist_t; \~english See #_bgrt_xlist_t; */
 // свойства
 /*!
 \~russian
 \brief
 Список с приоритетами.
 
-Такой список хранит ссылки на структуры типа #item_t. Фактически в нем будут храниться ссылки на элементы типа #pitem_t.
+Такой список хранит ссылки на структуры типа #bgrt_item_t. Фактически в нем будут храниться ссылки на элементы типа #bgrt_prit_t.
 
 \~english
 \brief
 A prioritized list.
 
-A container type, #xlist_t objects store lists of #item_t objects.
-In fact these containers store lists of #pitem_t or other compatible objects.
+A container type, #bgrt_xlist_t objects store lists of #bgrt_item_t objects.
+In fact these containers store lists of #bgrt_prit_t or other compatible objects.
 */
-struct _xlist_t
+struct _bgrt_xlist_t
 {
-    item_t * item[BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
-    index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
+    bgrt_item_t * item[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
+    bgrt_index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
 };
 // методы
 /*!
@@ -122,14 +122,14 @@ struct _xlist_t
 
 \~english
 \brief
-An #xlist_t object initiation.
+An #bgrt_xlist_t object initiation.
 
 \warning For internal usage.
 
-\param xlist An #xlist_t pointer.
+\param xlist An #bgrt_xlist_t pointer.
 */
-void xlist_init(
-    xlist_t * xlist
+void bgrt_xlist_init(
+    bgrt_xlist_t * xlist
 );
 
 /*!
@@ -148,10 +148,10 @@ List head search.
 
 \warning For internal usage.
 
-\param xlist An #xlist_t pointer.
+\param xlist An #bgrt_xlist_t pointer.
 \return The head pointer, which is the most prioritized pointer in the list head pointer array.
 */
-item_t * xlist_head(xlist_t * xlist);
+bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist);
 
 /*!
 \brief
@@ -173,13 +173,13 @@ Does xlist->item[prio] = xlist->item[prio]->next.
 
 \warning For internal usage.
 
-\param xlist An #xlist_t pointer.
+\param xlist An #bgrt_xlist_t pointer.
 \param prio A priority to switch.
 */
-void xlist_switch(xlist_t * xlist, prio_t prio);
+void bgrt_xlist_switch(bgrt_xlist_t * xlist, bgrt_prio_t prio);
 
 /*---------------------------------------------------
-Для типов элементов, ссылки на которые будут хранится в xlist_t
+Для типов элементов, ссылки на которые будут хранится в bgrt_xlist_t
 должны быть определены методы
 
 "вырезать"
@@ -187,4 +187,4 @@ void xlist_switch(xlist_t * xlist, prio_t prio);
 "переместить в другой список"
 ----------------------------------------------------*/
 
-#endif // _XLIST_H_
+#endif // _BGRT_XLIST_H_

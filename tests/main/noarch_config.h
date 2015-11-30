@@ -71,57 +71,54 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _CONFIG_H_
+#ifndef _BGRT_CONFIG_H_
 // Тестовый конфиг-файл, в последствии будет заменен
-#define _CONFIG_H_
+#define _BGRT_CONFIG_H_
 
-#define SYSCALL_TABLE(a) const code_t a
-#define SYSCALL_TABLE_READ(a) a
+#define BGRT_SCL_TBL(a) const bgrt_code_t a
+#define BGRT_SCL_TBL_READ(a) a
 
 // data types
-typedef unsigned char index_t;
-#define BITS_IN_INDEX_T (8)
+typedef unsigned char bgrt_index_t;
+#define BGRT_BITS_IN_INDEX_T (8)
 
-typedef unsigned char prio_t;
-typedef int * stack_t;
+typedef unsigned char bgrt_prio_t;
+typedef int * bgrt_stack_t;
 
-typedef unsigned int flag_t;
+typedef unsigned int bgrt_flag_t;
 
 typedef unsigned int ipc_data_t;
 
-typedef unsigned int syscall_t;
+typedef unsigned int bgrt_syscall_t;
 
-typedef unsigned int affinity_t;
+typedef unsigned int bgrt_aff_t;
 
 typedef unsigned long load_t;
 
-typedef unsigned long count_t;
+typedef unsigned long bgrt_cnt_t;
 
-#define timer_t unsigned long
-//typedef unsigned long timer_t;
+typedef unsigned long bgrt_tmr_t;
 
-typedef volatile int lock_t;
+typedef volatile int bgrt_lock_t;
 
-typedef unsigned long bool_t;
+typedef unsigned long bgrt_bool_t;
 
-typedef unsigned long core_id_t;
+typedef unsigned long bgrt_cpuid_t;
 
-typedef struct _stat
+typedef struct _load_stat
 {
-    timer_t total_time_quant;
-    count_t total_proc_count;
-} stat_t;
-
-typedef long signal_t;
+    bgrt_tmr_t total_time_quant;
+    bgrt_cnt_t total_proc_count;
+} bgrt_ls_t;
 
 #define WEAK __attribute__((__weak__))
 
 // defines
-#define CONFIG_USE_O1_SEARCH
-#define CONFIG_USE_HIGHEST_LOCKER
-#define CONFIG_MP
-#define MAX_CORES (4)
-#define CONFIG_USE_ALB
-#define CONFIG_HARD_RT
+#define BGRT_CONFIG_USE_O1_SEARCH
+#define BGRT_CONFIG_USE_HIGHEST_LOCKER
+#define BGRT_CONFIG_MP
+#define BGRT_MAX_CPU (4)
+#define BGRT_CONFIG_USE_ALB
+#define BGRT_CONFIG_HARD_RT
 
-#endif //_CONFIG_H_
+#endif //_BGRT_CONFIG_H_

@@ -78,47 +78,47 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 //========================================================================================
-void _clear_timer(timer_t * t)
+void _bgrt_clear_timer(bgrt_tmr_t * t)
 {
-    ENTER_CRIT_SEC();
-    SPIN_LOCK_KERNEL_TIMER();
+    BGRT_CRIT_SEC_ENTER();
+    BGRT_SPIN_LOCK_KERNEL_TIMER();
 
-    *t = kernel.timer;
+    *t = bgrt_kernel.timer;
 
-    SPIN_FREE_KERNEL_TIMER();
-    EXIT_CRIT_SEC();
+    BGRT_SPIN_FREE_KERNEL_TIMER();
+    BGRT_CRIT_SEC_EXIT();
 }
 //===========================================================================
-timer_t _timer(timer_t t)
+bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t)
 {
-    timer_t ret;
-    ENTER_CRIT_SEC();
-    SPIN_LOCK_KERNEL_TIMER();
+    bgrt_tmr_t ret;
+    BGRT_CRIT_SEC_ENTER();
+    BGRT_SPIN_LOCK_KERNEL_TIMER();
 
-    ret = (timer_t)kernel.timer - (timer_t)t;
+    ret = (bgrt_tmr_t)bgrt_kernel.timer - (bgrt_tmr_t)t;
 
-    SPIN_FREE_KERNEL_TIMER();
-    EXIT_CRIT_SEC();
+    BGRT_SPIN_FREE_KERNEL_TIMER();
+    BGRT_CRIT_SEC_EXIT();
 
     return ret;
 }
 
 //===========================================================================
-void wait_time(timer_t time)
+void bgrt_wait_time(bgrt_tmr_t time)
 {
-    timer_t tmr;
-    bool_t roll=(bool_t)1;
-    CLEAR_TIMER(tmr);
-    while((bool_t)roll)
+    bgrt_tmr_t tmr;
+    bgrt_bool_t roll=(bgrt_bool_t)1;
+    BGRT_CLEAR_TIMER(tmr);
+    while((bgrt_bool_t)roll)
     {
-#ifndef CONFIG_TEST
-#ifdef CONFIG_SAVE_POWER
-        if( sched_proc_yeld() )CONFIG_SAVE_POWER();
-#else // CONFIG_SAVE_POWER
+#ifndef BGRT_CONFIG_TEST
+#ifdef BGRT_CONFIG_SAVE_POWER
+        if( sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER();
+#else // BGRT_CONFIG_SAVE_POWER
         sched_proc_yeld();
-#endif // CONFIG_SAVE_POWER
-#endif // CONFIG_TEST
-        roll = (bool_t)( TIMER(tmr) < (timer_t)time );
+#endif // BGRT_CONFIG_SAVE_POWER
+#endif // BGRT_CONFIG_TEST
+        roll = (bgrt_bool_t)( BGRT_TIMER(tmr) < (bgrt_tmr_t)time );
     }
 }
 //===========================================================================

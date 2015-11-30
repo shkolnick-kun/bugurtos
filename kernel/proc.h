@@ -139,9 +139,9 @@ A decrement of proc->lres.
 
 */
 
-#define PROC_LRES_INIT(a) pcounter_init( &((a)->lres) )
-#define PROC_LRES_INC(a,b) pcounter_inc( &((a)->lres), b )
-#define PROC_LRES_DEC(a,b) pcounter_dec( &((a)->lres), b )
+#define PROC_LRES_INIT(a) bgrt_pcounter_init( &((a)->lres) )
+#define PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), b )
+#define PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), b )
 
 //Процесс
 typedef struct _proc_t proc_t; /*!< \~russian Смотри #_proc_t; \~english See #_proc_t; */
@@ -174,27 +174,27 @@ You must access such static variables using process synchronization facilities.
 */
 struct _proc_t
 {
-    pitem_t parent;     /*!<\~russian Родитель - #pitem_t. \~english A parent is #pitem_t.*/
-    flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
-    prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
-    pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
-    timer_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
-    timer_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
+    bgrt_prit_t parent;     /*!<\~russian Родитель - #bgrt_prit_t. \~english A parent is #bgrt_prit_t.*/
+    bgrt_flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
+    bgrt_prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
+    bgrt_pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
+    bgrt_tmr_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
+    bgrt_tmr_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     struct _sync_t * sync;
-    count_t cnt_lock;    /*!<\~russian  Счетчик уровней вложенности #proc_lock. \~english A counter of #proc_lock nesting.*/
-#ifdef CONFIG_MP
+    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счетчик уровней вложенности #proc_lock. \~english A counter of #proc_lock nesting.*/
+#ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
-    core_id_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
-    affinity_t affinity;    /*!<\~russian  Аффинность (индекс процессоров, на котором может исполняться процесс). \~english An Affinity of a process.*/
-    lock_t lock;            /*!<\~russian  Спин блокировка процесса. \~english  A process spin-lock.*/
+    bgrt_cpuid_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
+    bgrt_aff_t affinity;    /*!<\~russian  Аффинность (индекс процессоров, на котором может исполняться процесс). \~english An Affinity of a process.*/
+    bgrt_lock_t lock;            /*!<\~russian  Спин блокировка процесса. \~english  A process spin-lock.*/
 #endif
-    code_t pmain;       /*!<\~russian  Главная функция процесса. \~english A pointer to a process "main" routine.*/
-    code_t sv_hook;     /*!<\~russian  Хук, исполняется планировщиком после сохранения контекста процесса. \~english A context save hook, it is run after saving a process context.*/
-    code_t rs_hook;     /*!<\~russian  Хук, исполняется планировщиком перед восстановлением контекста процесса. \~english  A context restore hook, it is run before restoring a process context.*/
+    bgrt_code_t pmain;       /*!<\~russian  Главная функция процесса. \~english A pointer to a process "main" routine.*/
+    bgrt_code_t sv_hook;     /*!<\~russian  Хук, исполняется планировщиком после сохранения контекста процесса. \~english A context save hook, it is run after saving a process context.*/
+    bgrt_code_t rs_hook;     /*!<\~russian  Хук, исполняется планировщиком перед восстановлением контекста процесса. \~english  A context restore hook, it is run before restoring a process context.*/
     void * arg;         /*!<\~russian  Аргумент для pmain, sv_hook, rs_hook, может хранить ссылку на локальные данные конкретного экземпляра процесса. \~english An argument for pmain, sv_hook, rs_hook, may be used to store process local data.*/
 
-    stack_t * sstart;   /*!<\~russian  Указатель на дно стека экземпляра процесса. \~english A process stack bottom pointer.*/
-    stack_t * spointer; /*!<\~russian Указатель на вершину стека экземпляра процесса. \~english A process stack top pointer.*/
+    bgrt_stack_t * sstart;   /*!<\~russian  Указатель на дно стека экземпляра процесса. \~english A process stack bottom pointer.*/
+    bgrt_stack_t * spointer; /*!<\~russian Указатель на вершину стека экземпляра процесса. \~english A process stack top pointer.*/
 };
 /*
 Порядок захвата блокировок:
@@ -213,9 +213,9 @@ struct _proc_t
 
 This flag enables real time process scheduling policy.
 */
-#define PROC_FLG_RT         ((flag_t)0x80)
+#define PROC_FLG_RT         ((bgrt_flag_t)0x80)
 
-#define PROC_FLG_RR   ((flag_t)0x40)
+#define PROC_FLG_RR   ((bgrt_flag_t)0x40)
 /*!
 \~russian
 \brief Флаг блокировки останова процесса.
@@ -226,7 +226,7 @@ This flag enables real time process scheduling policy.
 
 A process can not be stoped at the moment.
 */
-#define PROC_FLG_LOCK      ((flag_t)0x20)
+#define PROC_FLG_LOCK      ((bgrt_flag_t)0x20)
 /*!
 \~russian
 \brief Флаг запроса останова.
@@ -237,7 +237,7 @@ A process can not be stoped at the moment.
 
 A process must be stopped, but it can't be stopped now. It'll be stopped when possible.
 */
-#define PROC_FLG_PRE_STOP    ((flag_t)0x10)
+#define PROC_FLG_PRE_STOP    ((bgrt_flag_t)0x10)
 
 /*!
 \~russian
@@ -249,7 +249,7 @@ A process must be stopped, but it can't be stopped now. It'll be stopped when po
 
 Used to test if a process has locked some resources.
 */
-#define PROC_FLG_LOCK_MASK ((flag_t)(PROC_FLG_LOCK))
+#define PROC_FLG_LOCK_MASK ((bgrt_flag_t)(PROC_FLG_LOCK))
 
 /*!
 \~russian
@@ -261,7 +261,7 @@ Used to test if a process has locked some resources.
 
 Used clear execution state bits in proc->flags.
 */
-#define PROC_STATE_CLEAR_MASK ((flag_t)0xF0)
+#define PROC_STATE_CLEAR_MASK ((bgrt_flag_t)0xF0)
 
 /*!
 \~russian
@@ -273,7 +273,7 @@ Used clear execution state bits in proc->flags.
 
 Used clear execution three LSBs state bits in proc->flags.
 */
-#define PROC_STATE_CLEAR_RUN_MASK ((flag_t)0xFC)
+#define PROC_STATE_CLEAR_RUN_MASK ((bgrt_flag_t)0xFC)
 
 /*!
 \~russian
@@ -282,7 +282,7 @@ Used clear execution three LSBs state bits in proc->flags.
 \~english
 \brief An execution state mask.
 */
-#define PROC_STATE_MASK ((flag_t)0x0F)
+#define PROC_STATE_MASK ((bgrt_flag_t)0x0F)
 /*!
 \~russian
 \brief Маска проверки состояния процесса.
@@ -294,7 +294,7 @@ Used clear execution three LSBs state bits in proc->flags.
 
 Used by #proc_restart and #proc_restart_isr to check for restart possibility.
 */
-#define PROC_STATE_RESTART_MASK ((flag_t)0x8)
+#define PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
 
 /*!
 \~russian
@@ -307,7 +307,7 @@ Used by #proc_restart and #proc_restart_isr to check for restart possibility.
 
 Used to check if the process has been run.
 */
-#define PROC_STATE_RUN_MASK ((flag_t)0x3)
+#define PROC_STATE_RUN_MASK ((bgrt_flag_t)0x3)
 
 /*!
 \~russian
@@ -320,28 +320,28 @@ Used to check if the process has been run.
 
 Used to check if the process is waiting for synchronization.
 */
-#define PROC_STATE_WAIT_MASK ((flag_t)0x8)
+#define PROC_STATE_WAIT_MASK ((bgrt_flag_t)0x8)
 
 //process states
-#define PROC_STATE_STOPED           ((flag_t)0x0)   /*!< \~russian \brief Начальное состояние, остановлен. \~english \brief Initial state, stopped. */
-#define PROC_STATE_END              ((flag_t)0x1)   /*!< \~russian \brief Завершен. \~english \brief Normal process termination. */
-#define PROC_STATE_READY            ((flag_t)0x2)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_RUNNING          ((flag_t)0x3)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define PROC_STATE_STOPED           ((bgrt_flag_t)0x0)   /*!< \~russian \brief Начальное состояние, остановлен. \~english \brief Initial state, stopped. */
+#define PROC_STATE_END              ((bgrt_flag_t)0x1)   /*!< \~russian \brief Завершен. \~english \brief Normal process termination. */
+#define PROC_STATE_READY            ((bgrt_flag_t)0x2)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_RUNNING          ((bgrt_flag_t)0x3)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_WD_STOPED        ((flag_t)0x4)   /*!< \~russian \brief Остановлен по вачдог. \~english \brief Watchdog termination. */
-#define PROC_STATE_DEAD             ((flag_t)0x5)   /*!< \~russian \brief Завершен до завершения ipc-транзакций. \~english \brief Abnormal termination, terminated with waiting ipc transactions. */
-#define PROC_STATE_TO_READY         ((flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_TO_RUNNING       ((flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define PROC_STATE_WD_STOPED        ((bgrt_flag_t)0x4)   /*!< \~russian \brief Остановлен по вачдог. \~english \brief Watchdog termination. */
+#define PROC_STATE_DEAD             ((bgrt_flag_t)0x5)   /*!< \~russian \brief Завершен до завершения ipc-транзакций. \~english \brief Abnormal termination, terminated with waiting ipc transactions. */
+#define PROC_STATE_TO_READY         ((bgrt_flag_t)0x6)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_TO_RUNNING       ((bgrt_flag_t)0x7)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_SYNC_WAIT        ((flag_t)0x8)   /*!< \~russian \brief Ожидает приема спящих процессов. \~english \brief Is waiting for sleaping processes.*/
-#define PROC_STATE_SYNC_SLEEP       ((flag_t)0x9)   /*!< \~russian \brief Ожидает пробуждения. \~english \brief Is waiting for wakeup. */
-#define PROC_STATE_SYNC_READY       ((flag_t)0xA)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_SYNC_RUNNING     ((flag_t)0xB)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define PROC_STATE_SYNC_WAIT        ((bgrt_flag_t)0x8)   /*!< \~russian \brief Ожидает приема спящих процессов. \~english \brief Is waiting for sleaping processes.*/
+#define PROC_STATE_SYNC_SLEEP       ((bgrt_flag_t)0x9)   /*!< \~russian \brief Ожидает пробуждения. \~english \brief Is waiting for wakeup. */
+#define PROC_STATE_SYNC_READY       ((bgrt_flag_t)0xA)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_SYNC_RUNNING     ((bgrt_flag_t)0xB)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
-#define PROC_STATE_PI_PEND          ((flag_t)0xC)   /*!< \~russian \brief Ожидает смены приоритета \~english \brief A process is waiting for priority change */
-#define PROC_STATE_PI_DONE          ((flag_t)0xD)   /*!< \~russian \brief Запущен при смене приоритета \~english \brief A process has been run during priority change */
-#define PROC_STATE_PI_READY         ((flag_t)0xE)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
-#define PROC_STATE_PI_RUNNING       ((flag_t)0xF)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
+#define PROC_STATE_PI_PEND          ((bgrt_flag_t)0xC)   /*!< \~russian \brief Ожидает смены приоритета \~english \brief A process is waiting for priority change */
+#define PROC_STATE_PI_DONE          ((bgrt_flag_t)0xD)   /*!< \~russian \brief Запущен при смене приоритета \~english \brief A process has been run during priority change */
+#define PROC_STATE_PI_READY         ((bgrt_flag_t)0xE)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
+#define PROC_STATE_PI_RUNNING       ((bgrt_flag_t)0xF)   /*!< \~russian \brief Выполняется. \~english \brief Is running. */
 
 /*!
 \~russian
@@ -407,42 +407,42 @@ A process should not have locked resources at a moment of a flag stop.
 \~english
 \brief Lowest priority level.
 */
-#define PROC_PRIO_LOWEST ((prio_t)BITS_IN_INDEX_T - (prio_t)1)
+#define PROC_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
 
 // Методы
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
-status_t proc_init_isr(
+bgrt_st_t proc_init_isr(
     proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A pointer to a initialized process.*/
-    code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
-    code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
-    code_t rs_hook,     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*/
+    bgrt_code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
+    bgrt_code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
+    bgrt_code_t rs_hook,     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*/
     void * arg,         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
-    stack_t *sstart,    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
-    prio_t prio,        /*!< \~russian Приоритет. \~english A process priority.*/
-    timer_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
-    bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
-#ifdef CONFIG_MP
-    ,affinity_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
-#endif // CONFIG_MP
+    bgrt_stack_t *sstart,    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
+    bgrt_prio_t prio,        /*!< \~russian Приоритет. \~english A process priority.*/
+    bgrt_tmr_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
+    bgrt_bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
+#ifdef BGRT_CONFIG_MP
+    ,bgrt_aff_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
+#endif // BGRT_CONFIG_MP
 );
 /*!
 \brief \~russian Инициализация процесса. \~english A process initialization.
 */
-status_t proc_init(
+bgrt_st_t proc_init(
     proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A pointer to a initialized process.*/
-    code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
-    code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
-    code_t rs_hook,     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*/
+    bgrt_code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
+    bgrt_code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
+    bgrt_code_t rs_hook,     /*!< \~russian Указатель на хук proc->rs_hook. \~english A context save hook pointer.*/
     void * arg,         /*!< \~russian Указатель на аргумент. \~english An argument pointer.*/
-    stack_t *sstart,    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
-    prio_t prio,        /*!< \~russian Приоритет. \~english A process priority.*/
-    timer_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
-    bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
-#ifdef CONFIG_MP
-    ,affinity_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
-#endif // CONFIG_MP
+    bgrt_stack_t *sstart,    /*!< \~russian Указатель на дно стека процесса. \~english A process stack bottom pointer.*/
+    bgrt_prio_t prio,        /*!< \~russian Приоритет. \~english A process priority.*/
+    bgrt_tmr_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
+    bgrt_bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
+#ifdef BGRT_CONFIG_MP
+    ,bgrt_aff_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
+#endif // BGRT_CONFIG_MP
 );
 /*!
 \~russian
@@ -480,7 +480,7 @@ This function schedules a process if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-status_t proc_run(proc_t * proc);
+bgrt_st_t proc_run(proc_t * proc);
 /*!
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
@@ -497,7 +497,7 @@ This function schedules a process if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-status_t proc_run_isr(proc_t * proc);
+bgrt_st_t proc_run_isr(proc_t * proc);
 
 /*!
 \~russian
@@ -515,7 +515,7 @@ This function reinitializes a process and schedules it if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-status_t proc_restart(proc_t * proc);
+bgrt_st_t proc_restart(proc_t * proc);
 /*!
 \~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
@@ -532,7 +532,7 @@ This function reinitializes a process and schedules it if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, erroro code in other cases.
 */
-status_t proc_restart_isr(proc_t * proc);
+bgrt_st_t proc_restart_isr(proc_t * proc);
 /*!
 \~russian
 \brief Останов процесса.
@@ -548,7 +548,7 @@ This function stops a process if possible.
 \param proc - A pointer to a process to stop.
 \return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-status_t proc_stop(proc_t * proc);
+bgrt_st_t proc_stop(proc_t * proc);
 /*!
 \~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
@@ -564,7 +564,7 @@ This function stops a process if possible.
 \param proc - A pointer to a process to stop.
 \return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-status_t proc_stop_isr(proc_t * proc);
+bgrt_st_t proc_stop_isr(proc_t * proc);
 /*!
 \~russian
 \brief Самоостанов процесса.
@@ -639,7 +639,7 @@ void _proc_reset_watchdog(void);
 
 \warning For internal usage.
 */
-void _proc_stop_flags_set( proc_t * proc, flag_t mask );
+void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask );
 /*!
 \~russian
 \brief Установка флага #PROC_FLG_LOCK для вызывающего процесса.
@@ -685,7 +685,7 @@ void proc_free(void);
 \~russian
 \brief Управление приоритетом процесса.
 
-Используется совместно с опцией CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
+Используется совместно с опцией BGRT_CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
 \param proc - Указатель на процесс.
 
 \warning Для внутреннего использования.
@@ -693,7 +693,7 @@ void proc_free(void);
 \~english
 \brief A stopped process priority control routine.
 
-Used with CONFIG_USE_HIGHEST_LOCKER option. A process must be stopped before call of the routine.
+Used with BGRT_CONFIG_USE_HIGHEST_LOCKER option. A process must be stopped before call of the routine.
 
 \warning For internal usage.
 
@@ -718,7 +718,7 @@ It sets a process priority. A process current state doesn't matter.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void proc_set_prio( proc_t * proc, prio_t prio );
+void proc_set_prio( proc_t * proc, bgrt_prio_t prio );
 
 /*!
 \~russian
@@ -741,7 +741,7 @@ It sets a process priority. A process current state doesn't matter.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _proc_set_prio( proc_t * proc, prio_t prio );
+void _proc_set_prio( proc_t * proc, bgrt_prio_t prio );
 
 /*!
 \~russian
@@ -764,7 +764,7 @@ Increments proc->lres counter, sets #PROC_FLG_LOCK flag.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _proc_lres_inc( proc_t * proc ,prio_t prio );
+void _proc_lres_inc( proc_t * proc ,bgrt_prio_t prio );
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -786,7 +786,7 @@ Decrements proc->lres counter, clears #PROC_FLG_LOCK flag if needed.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _proc_lres_dec( proc_t * proc ,prio_t prio );
+void _proc_lres_dec( proc_t * proc ,bgrt_prio_t prio );
 /*!
 \~russian
 \brief Останов процесса.
@@ -822,7 +822,7 @@ An argument for system calls #SYSCALL_PROC_RUN, #SYSCALL_PROC_RESTART, #SYSCALL_
 */
 typedef struct{
     proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
-    status_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+    bgrt_st_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
 }proc_runtime_arg_t;
 
 /*!

@@ -76,13 +76,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _PCOUNTER_H_
-#define _PCOUNTER_H_
+#ifndef _BGRT_PCOUNTER_H_
+#define _BGRT_PCOUNTER_H_
 /*!
 \file
 \brief \~russian Заголовок счетчиков захваченных ресурсов. \~english A locked resource counter header.
 */
-typedef struct _pcounter_t pcounter_t; /*!< \~russian Смотри #_pcounter_t; \~english See #_pcounter_t; */
+typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_bgrt_pcounter_t; \~english See #_bgrt_pcounter_t; */
 /*!
 \~russian
 \brief
@@ -94,12 +94,12 @@ typedef struct _pcounter_t pcounter_t; /*!< \~russian Смотри #_pcounter_t;
 \brief
 A locked resource counter.
 
-#pcounter_t objects are used to store information about iherited priorities.
+#bgrt_pcounter_t objects are used to store information about iherited priorities.
 */
-struct _pcounter_t
+struct _bgrt_pcounter_t
 {
-    count_t counter[BITS_IN_INDEX_T]; /*!< \~russian Массив счетчиков. \~english A counter array. */
-    index_t index; /*!< \~russian Индекс для ускорения поиска. \~english An index to speedup search. */
+    bgrt_cnt_t counter[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив счетчиков. \~english A counter array. */
+    bgrt_index_t index; /*!< \~russian Индекс для ускорения поиска. \~english An index to speedup search. */
 };
 
 /*!
@@ -113,13 +113,13 @@ struct _pcounter_t
 
 \~english
 \brief
-A #pcounter_t object initiation.
+A #bgrt_pcounter_t object initiation.
 
 \warning Internal usage function.
 
-\param pcounter A #pcounter_t pointer.
+\param pcounter A #bgrt_pcounter_t pointer.
 */
-void pcounter_init(pcounter_t * pcounter);
+void bgrt_pcounter_init(bgrt_pcounter_t * pcounter);
 
 /*!
 \~russian
@@ -137,10 +137,10 @@ Increment counter.
 
 \warning Internal usage function.
 
-\param pcounter A #pcounter_t pointer.
+\param pcounter A #bgrt_pcounter_t pointer.
 \param prio A priority.
 */
-void pcounter_inc(pcounter_t * pcounter, prio_t prio);
+void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio);
 /*!
 \~russian
 \brief
@@ -157,10 +157,10 @@ Decrement counter.
 
 \warning Internal usage function.
 
-\param pcounter A #pcounter_t pointer.
+\param pcounter A #bgrt_pcounter_t pointer.
 \param prio A priority.
 */
-index_t pcounter_dec(pcounter_t * pcounter, prio_t prio);
+bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio);
 /*!
 \~russian
 \brief
@@ -178,11 +178,11 @@ Increase counter by a number of steps.
 
 \warning Internal usage function.
 
-\param pcounter A #pcounter_t pointer.
+\param pcounter A #bgrt_pcounter_t pointer.
 \param prio A priority.
 \param count A number of increment steps.
 */
-void pcounter_plus(pcounter_t * pcounter, prio_t prio, count_t count);
+void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
 /*!
 \~russian
 \brief
@@ -201,10 +201,10 @@ Decrease counter by a number of steps;
 
 \warning Internal usage function.
 
-\param pcounter A #pcounter_t pointer.
+\param pcounter A #bgrt_pcounter_t pointer.
 \param prio A priority.
 \param count A number of decrement steps.
 \return 0 if correspondent counter is nulled, not 0 else.
 */
-index_t pcounter_minus(pcounter_t * pcounter, prio_t prio, count_t count);
-#endif // _PCOUNTER_H_
+bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
+#endif // _BGRT_PCOUNTER_H_

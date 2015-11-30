@@ -99,7 +99,7 @@ Software timers used for time-process synchronization.
 */
 
 /*!
-\def SPIN_LOCK_KERNEL_TIMER()
+\def BGRT_SPIN_LOCK_KERNEL_TIMER()
 \~russian
 \brief
 Макрос-обертка.
@@ -113,7 +113,7 @@ Wrapper macro.
 A wrapper for kernel timer spin-lock, on single core system - empty macro.
 */
 /*!
-\def SPIN_FREE_KERNEL_TIMER()
+\def BGRT_SPIN_FREE_KERNEL_TIMER()
 
 \~russian
 \brief
@@ -127,13 +127,13 @@ Wrapper macro.
 
 A wrapper for kernel timer spin-free, on single core system - empty macro.
 */
-#ifdef CONFIG_MP
-#define SPIN_LOCK_KERNEL_TIMER() spin_lock( &kernel.timer_lock )
-#define SPIN_FREE_KERNEL_TIMER() spin_free( &kernel.timer_lock )
-#else // CONFIG_MP
-#define SPIN_LOCK_KERNEL_TIMER()
-#define SPIN_FREE_KERNEL_TIMER()
-#endif // CONFIG_MP
+#ifdef BGRT_CONFIG_MP
+#define BGRT_SPIN_LOCK_KERNEL_TIMER() bgrt_spin_lock( &bgrt_kernel.timer_lock )
+#define BGRT_SPIN_FREE_KERNEL_TIMER() bgrt_spin_free( &bgrt_kernel.timer_lock )
+#else // BGRT_CONFIG_MP
+#define BGRT_SPIN_LOCK_KERNEL_TIMER()
+#define BGRT_SPIN_FREE_KERNEL_TIMER()
+#endif // BGRT_CONFIG_MP
 
 // Работа с программными таймерами
 /*!
@@ -148,7 +148,7 @@ Reset software timer.
 
 \param t A timer variable name.
 */
-#define CLEAR_TIMER(t) _clear_timer( (timer_t *)&t)
+#define BGRT_CLEAR_TIMER(t) _bgrt_clear_timer( (bgrt_tmr_t *)&t)
 
 /*!
 
@@ -164,7 +164,7 @@ Get software timer value.
 
 \param t Software timer value.
 */
-#define TIMER(t) (timer_t)_timer( (timer_t)t )
+#define BGRT_TIMER(t) (bgrt_tmr_t)_bgrt_timer( (bgrt_tmr_t)t )
 
 /*!
 \~russian
@@ -183,7 +183,7 @@ Caller process spins in a loop for a time.
 
 \param time Wait time.
 */
-void wait_time( timer_t time );
+void bgrt_wait_time( bgrt_tmr_t time );
 // Для внутреннего пользования
 
 /*!
@@ -203,7 +203,7 @@ Clear software timer.
 
 \param t A pointer to a timer.
 */
-void _clear_timer(timer_t * t);
+void _bgrt_clear_timer(bgrt_tmr_t * t);
 
 /*!
 \~russian
@@ -222,6 +222,6 @@ Get software timer value.
 
 \param t A timer value.
 */
-timer_t _timer(timer_t t);
+bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t);
 
 #endif // _TIMER_H_

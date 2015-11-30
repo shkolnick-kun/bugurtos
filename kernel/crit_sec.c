@@ -77,44 +77,44 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-#ifdef CONFIG_MP
+#ifdef BGRT_CONFIG_MP
 // No need to spinlock sched as all changes are local!
-core_id_t _enter_crit_sec(void)
+bgrt_cpuid_t _bgrt_crit_sec_enter(void)
 {
-    core_id_t ret;
-    disable_interrupts();
-    ret = current_core();
-    kernel.sched[ret].nested_crit_sec++;
+    bgrt_cpuid_t ret;
+    bgrt_disable_interrupts();
+    ret = bgrt_current_cpu();
+    bgrt_kernel.sched[ret].nested_crit_sec++;
     return ret;
 }
 
-void _exit_crit_sec(core_id_t core)
+void _bgrt_crit_sec_exit(bgrt_cpuid_t core)
 {
-    if( kernel.sched[core].nested_crit_sec != (count_t)0 )
+    if( bgrt_kernel.sched[core].nested_crit_sec != (bgrt_cnt_t)0 )
     {
-        kernel.sched[core].nested_crit_sec--;
+        bgrt_kernel.sched[core].nested_crit_sec--;
     }
-    if( kernel.sched[core].nested_crit_sec == (count_t)0 )
+    if( bgrt_kernel.sched[core].nested_crit_sec == (bgrt_cnt_t)0 )
     {
-        enable_interrupts();
+        bgrt_enable_interrupts();
     }
 }
 
 #else
-void enter_crit_sec(void)
+void bgrt_crit_sec_enter(void)
 {
-    disable_interrupts();
-    kernel.sched.nested_crit_sec++;
+    bgrt_disable_interrupts();
+    bgrt_kernel.sched.nested_crit_sec++;
 }
-void exit_crit_sec(void)
+void bgrt_crit_sec_exit(void)
 {
-    if( kernel.sched.nested_crit_sec != (count_t)0 )
+    if( bgrt_kernel.sched.nested_crit_sec != (bgrt_cnt_t)0 )
     {
-        kernel.sched.nested_crit_sec--;
+        bgrt_kernel.sched.nested_crit_sec--;
     }
-    if( kernel.sched.nested_crit_sec == (count_t)0 )
+    if( bgrt_kernel.sched.nested_crit_sec == (bgrt_cnt_t)0 )
     {
-        enable_interrupts();
+        bgrt_enable_interrupts();
     }
 }
 #endif

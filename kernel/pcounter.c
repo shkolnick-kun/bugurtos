@@ -77,33 +77,33 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-// pcounter_t methods
+// bgrt_pcounter_t methods
 // Initiation
-void pcounter_init(pcounter_t * pcounter)
+void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 {
-    prio_t p;
-    pcounter->index = (index_t)0;
-    for(p = 0; p < (index_t)BITS_IN_INDEX_T; p++)pcounter->counter[p] = (count_t)0;
+    bgrt_prio_t p;
+    pcounter->index = (bgrt_index_t)0;
+    for(p = 0; p < (bgrt_index_t)BGRT_BITS_IN_INDEX_T; p++)pcounter->counter[p] = (bgrt_cnt_t)0;
 }
 // Increment
-void pcounter_inc(pcounter_t * pcounter, prio_t prio)
+void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
     pcounter->counter[prio]++;
-    pcounter->index |= ((index_t)1)<<prio;
+    pcounter->index |= ((bgrt_index_t)1)<<prio;
 }
 // Decrement
-index_t pcounter_dec(pcounter_t * pcounter, prio_t prio)
+bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
-    index_t mask;
+    bgrt_index_t mask;
 
-    mask = ((index_t)1)<<prio;
+    mask = ((bgrt_index_t)1)<<prio;
 
     if(pcounter->counter[prio])
     {
         pcounter->counter[prio]--;
     }
 
-    if(pcounter->counter[prio] == (count_t)0)
+    if(pcounter->counter[prio] == (bgrt_cnt_t)0)
     {
         pcounter->index &= ~mask;
     }
@@ -111,20 +111,20 @@ index_t pcounter_dec(pcounter_t * pcounter, prio_t prio)
     return pcounter->index & mask;
 }
 // Multiple increment
-void pcounter_plus(pcounter_t * pcounter, prio_t prio, count_t count)
+void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
-    pcounter->index |= ((index_t)1)<<prio;
+    pcounter->index |= ((bgrt_index_t)1)<<prio;
     pcounter->counter[prio] += count;
 }
 // Multiple decrement
-index_t pcounter_minus(pcounter_t * pcounter, prio_t prio, count_t count)
+bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
-    index_t mask;
-    mask = ((index_t)1)<<prio;
+    bgrt_index_t mask;
+    mask = ((bgrt_index_t)1)<<prio;
     if( pcounter->counter[prio] <= count )
     {
         pcounter->index &= ~mask;
-        pcounter->counter[prio] = (count_t)0;
+        pcounter->counter[prio] = (bgrt_cnt_t)0;
     }
     else
     {

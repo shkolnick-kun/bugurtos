@@ -1,7 +1,7 @@
 #include <test_func.h>
 #include <ipc.h>
 proc_t proc[6];
-stack_t proc_stack[6][PROC_STACK_SIZE];
+bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
 ipc_t test_ep;
 
@@ -55,7 +55,7 @@ void main_proc_test( void * arg )
     // ipc_send  ipc_reply test 11
     in->reply = 11;
     test_output( BGRT_ST_OK == ipc_reply( &test_ep, wait_for ), 12 );
-    wait_time(20);
+    bgrt_wait_time(20);
 
     tests_end();
 }
@@ -68,7 +68,7 @@ void main_2( void * arg )
         msg_2.reply = 0;
         ipc_send( &test_ep, (void *)&msg_2 );
         test_output( 11 == msg_2.reply , 13 );
-        wait_time(1);
+        bgrt_wait_time(1);
     }
 }
 
@@ -80,7 +80,7 @@ void main_3( void * arg )
         msg_3.reply = 0;
         ipc_send( &test_ep, (void *)&msg_3 );
         test_output( 9 == msg_3.reply , 14 );
-        wait_time(1);
+        bgrt_wait_time(1);
     }
 }
 
@@ -88,17 +88,17 @@ void main_lb( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
     }
 }
 
-void idle_main( void * arg )
+void bgrt_idle_main( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
     }
@@ -109,14 +109,14 @@ int main(void)
     /**************************************************
     *          For test purposes only!!!              *
     *  It is strongly recomended to initiate hardware *
-    *         AFTER init_bugurt() call!!!             *
+    *         AFTER bgrt_init() call!!!             *
     **************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.
      */
     init_hardware();
-    init_bugurt();
+    bgrt_init();
 
     SCHED_SYSTICK_HOOK_ADD();
 
@@ -129,6 +129,6 @@ int main(void)
 
     proc_run_isr( &proc[0] );
 
-    start_bugurt();
+    bgrt_start();
     return 0;
 }

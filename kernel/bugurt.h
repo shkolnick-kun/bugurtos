@@ -88,7 +88,7 @@ BuguRTOS - ядро операционной системы реального �
 \warning Распространяется под измененной лицензией GPLv3, смотрите exception.txt.
 
 \~english
-The BuguRTOS is a RTOS kernel. It is written by anonymous JUST FOR FUN.
+The BuguRTOS is a RTOS bgrt_kernel. It is written by anonymous JUST FOR FUN.
 \warning BuguRTOS license is modified GPLv3, look at exception.txt for more info.
 
 */
@@ -123,7 +123,7 @@ Executable code.
 
 A pointer to a void function, that takes void pointer as argument.
 */
-typedef void (* code_t)(void *);
+typedef void (* bgrt_code_t)(void *);
 
 //======================================================
 //                     ИНКЛЮДЫ
@@ -146,17 +146,17 @@ typedef void (* code_t)(void *);
 
 #include <bugurt_port.h>
 
-#define BGRT_ST_OK          ((status_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
-#define BGRT_ST_ENULL       ((status_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
-#define BGRT_ST_EOWN        ((status_t)2) /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
-#define BGRT_ST_EEMPTY      ((status_t)3) /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
-#define BGRT_ST_ESYNC       ((status_t)4) /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
-#define BGRT_ST_ETIMEOUT    ((status_t)5) /*!< \~russian \brief Иcтек таймаут #sync_t. \~english \brief Timeout expired. */
-#define BGRT_ST_ESTAT       ((status_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
-#define BGRT_ST_ROLL        ((status_t)7) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+#define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
+#define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
+#define BGRT_ST_EOWN        ((bgrt_st_t)2) /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
+#define BGRT_ST_EEMPTY      ((bgrt_st_t)3) /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
+#define BGRT_ST_ESYNC       ((bgrt_st_t)4) /*!< \~russian \brief Не тот объект типа #sync_t. \~english \brief Wrong #sync_t object. */
+#define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5) /*!< \~russian \brief Иcтек таймаут #sync_t. \~english \brief Timeout expired. */
+#define BGRT_ST_ESTAT       ((bgrt_st_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
+#define BGRT_ST_ROLL        ((bgrt_st_t)7) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
 /*!
-\def SPIN_INIT(arg)
+\def BGRT_SPIN_INIT(arg)
 \~russian
 \brief Макрос-обертка.
 
@@ -167,7 +167,7 @@ typedef void (* code_t)(void *);
 Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 */
 /*!
-\def SPIN_LOCK(arg)
+\def BGRT_SPIN_LOCK(arg)
 \~russian
 \brief Макрос-обертка.
 
@@ -178,7 +178,7 @@ Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 */
 /*!
-\def SPIN_FREE(arg)
+\def BGRT_SPIN_FREE(arg)
 \~russian
 \brief Макрос-обертка.
 
@@ -189,7 +189,7 @@ Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 */
 /*!
-\def RESCHED_PROC(arg)
+\def BGRT_RESCHED_PROC(arg)
 \~russian
 \brief Макрос-обертка.
 
@@ -200,26 +200,26 @@ Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 A wrapper for #resched function.
 */
 
-#ifdef CONFIG_MP
+#ifdef BGRT_CONFIG_MP
 
-#define SPIN_INIT(arg) spin_init( &arg->lock )
-#define SPIN_LOCK(arg) spin_lock( &arg->lock )
-#define SPIN_FREE(arg) spin_free( &arg->lock )
-#define RESCHED_PROC(proc) resched( proc->core_id )
+#define BGRT_SPIN_INIT(arg) bgrt_spin_init( &arg->lock )
+#define BGRT_SPIN_LOCK(arg) bgrt_spin_lock( &arg->lock )
+#define BGRT_SPIN_FREE(arg) bgrt_spin_free( &arg->lock )
+#define BGRT_RESCHED_PROC(proc) bgrt_resched( proc->core_id )
 
-#else //CONFIG_MP
+#else //BGRT_CONFIG_MP
 
-#define SPIN_INIT(arg)
-#define SPIN_LOCK(arg)
-#define SPIN_FREE(arg)
-#define RESCHED_PROC(proc) resched()
+#define BGRT_SPIN_INIT(arg)
+#define BGRT_SPIN_LOCK(arg)
+#define BGRT_SPIN_FREE(arg)
+#define BGRT_RESCHED_PROC(proc) bgrt_resched()
 
-#endif //CONFIG_MP
+#endif //BGRT_CONFIG_MP
 //======================================================
 //   Внешние функции, определяемые пользователем
 //        User defined external functions
 //======================================================
-#ifdef CONFIG_MP
+#ifdef BGRT_CONFIG_MP
 
 /*!
 \~russian
@@ -239,7 +239,7 @@ Spin-lock initialization for MP system.
 
 \param lock a pointer to a spin-lock
 */
-extern void spin_init(lock_t * lock);
+extern void bgrt_spin_init(bgrt_lock_t * lock);
 
 /*!
 \~russian
@@ -259,7 +259,7 @@ Lock spin-lock on MP system.
 
 \param lock a pointer to a spin-lock
 */
-extern void spin_lock(lock_t * lock);
+extern void bgrt_spin_lock(bgrt_lock_t * lock);
 
 /*!
 \~russian
@@ -278,7 +278,7 @@ Unlock spin-lock on MP system.
 
 \param lock a pointer to a spin-lock
 */
-extern void spin_free(lock_t * lock);
+extern void bgrt_spin_free(bgrt_lock_t * lock);
 
 /*!
 \~russian
@@ -297,16 +297,16 @@ This function returns an id of a processor core on which it is run.
 
 \warning Internal usage function.
 */
-extern core_id_t current_core(void);
+extern bgrt_cpuid_t bgrt_current_cpu(void);
 
-// Доступ к объектам типа stat_t должен быть атомарным!!!
-// A stat_t access must be atomic!!!
+// Доступ к объектам типа bgrt_ls_t должен быть атомарным!!!
+// A bgrt_ls_t access must be atomic!!!
 /*!
 \~russian
 \brief
 Инициализция статистики
 
-Инициализирует структуру stat_t, в которой хранится статистика.
+Инициализирует структуру bgrt_ls_t, в которой хранится статистика.
 
 \warning Для внутреннего использования.
 
@@ -315,13 +315,13 @@ extern core_id_t current_core(void);
 \brief
 Statistic initialization.
 
-Initiates a stat_t structure, in which processor core load information is stored.
+Initiates a bgrt_ls_t structure, in which processor core load information is stored.
 
 \warning Internal usage function.
 
-\param stat a pointer to a stat_t structure.
+\param stat a pointer to a bgrt_ls_t structure.
 */
-extern void stat_init(stat_t * stat);
+extern void bgrt_stat_init(bgrt_ls_t * stat);
 /*!
 \~russian
 \brief
@@ -342,9 +342,9 @@ Statistic increase on a process run or a process insert to a signal wait list.
 \warning Internal usage function.
 
 \param proc a pointer to a process.
-\param stat a pointer to a stat_t structure.
+\param stat a pointer to a bgrt_ls_t structure.
 */
-extern void stat_inc(proc_t * proc, stat_t * stat);
+extern void bgrt_stat_inc(proc_t * proc, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief
@@ -365,9 +365,9 @@ Statistic update on a process stop or a process cut from a signal wait list.
 \warning Internal usage function.
 
 \param proc a pointer to a process.
-\param stat a pointer to a stat_t structure.
+\param stat a pointer to a bgrt_ls_t structure.
 */
-extern void stat_dec(proc_t * proc, stat_t * stat);
+extern void bgrt_stat_dec(proc_t * proc, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief
@@ -390,7 +390,7 @@ Updates Kernel and a signal statistic when signal wait list is merged with sched
 \param src_stat a pointer to a signal statistic structure.
 \param dst_stat a pointer to a Kernel statistic structure.
 */
-extern void stat_merge(stat_t * src_stat, stat_t * dst_stat);
+extern void bgrt_stat_merge(bgrt_ls_t * src_stat, bgrt_ls_t * dst_stat);
 /*!
 \~russian
 \brief
@@ -414,7 +414,7 @@ Processor core load calculation.
 \param stat a pointer to a Kernel statistic structure.
 \return current estimation of the core load.
 */
-extern load_t stat_calc_load(prio_t prio, stat_t * stat);
+extern load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief
@@ -435,8 +435,8 @@ Launches a reschedule sequence on one of the processor cores of the system.
 
 \param core_id a processor core id.
 */
-extern void resched(core_id_t core_id);
-#else //#ifdef CONFIG_SAVE_POWER
+extern void bgrt_resched(bgrt_cpuid_t core_id);
+#else //#ifdef BGRT_CONFIG_SAVE_POWER
 
 /*!
 \~russian
@@ -455,8 +455,8 @@ Launches a reschedule sequence.
 
 \warning Internal usage function.
 */
-extern void resched(void);
-#endif // CONFIG_MP
+extern void bgrt_resched(void);
+#endif // BGRT_CONFIG_MP
 
 /*!
 \~russian
@@ -470,7 +470,7 @@ Interrupt disable.
 
 Disables interrupts on current CPU core.
 */
-extern void disable_interrupts(void);
+extern void bgrt_disable_interrupts(void);
 /*!
 \~russian
 \brief
@@ -483,7 +483,7 @@ Interrupt enable.
 
 Enables interrupts on current CPU core.
 */
-extern void enable_interrupts(void);
+extern void bgrt_enable_interrupts(void);
 
 /*!
 \~russian
@@ -501,7 +501,7 @@ Current process.
 
 \return a pointer to a current process on a local processor core.
 */
-extern proc_t * current_proc(void);
+extern proc_t * bgrt_curr_proc(void);
 
 /*!
 \~russian
@@ -532,7 +532,7 @@ It treats a process stack in such a way that pmain(arg) is called when a process
 \param return_address an address to return from pmain.
 \return a pointer to a prepared process stack top.
 */
-extern stack_t * proc_stack_init(stack_t * sstart, code_t pmain, void * arg, void (*return_address)(void));
+extern bgrt_stack_t * proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void (*return_address)(void));
 /*!
 \~russian
 \brief
@@ -545,7 +545,7 @@ The Kernel initiation.
 
 Initiates the Kernel before the OS start.
 */
-extern void init_bugurt(void);
+extern void bgrt_init(void);
 /*!
 \~russian
 \brief
@@ -558,7 +558,7 @@ The OS start.
 
 The OS start. It is not necessary to write any code after call of this function, because such a code won't be run normally.
 */
-extern void start_bugurt(void);
+extern void bgrt_start(void);
 /*!
 \~russian
 \brief
@@ -568,7 +568,7 @@ extern void start_bugurt(void);
 Соответственно, если мы хотим выполнить какие либо операции над процессами, мьютексами, семафорами, сигналами,
 то нам нужно "попросить" Ядро сделать эту работу.
 
-Именно для этого существует функция syscall_bugurt, которая передает управление Ядру для выполнения требуемой работы.
+Именно для этого существует функция bgrt_syscall, которая передает управление Ядру для выполнения требуемой работы.
 
 \warning Для внутреннего использования.
 
@@ -588,6 +588,6 @@ The Kernel does all of this job.
 \param num a number of a system call (what is going to be done).
 \param arg a system call argument (a pointer to an object to be processed).
 */
-extern void syscall_bugurt( syscall_t num, void * arg );
+extern void bgrt_syscall( bgrt_syscall_t num, void * arg );
 
 #endif //_BUGURT_H_

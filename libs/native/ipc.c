@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "ipc.h"
 
-status_t ipc_init_isr( ipc_t * endpoint )
+bgrt_st_t ipc_init_isr( ipc_t * endpoint )
 {
     if(!endpoint)
     {
@@ -89,18 +89,18 @@ status_t ipc_init_isr( ipc_t * endpoint )
     return BGRT_ST_OK;
 }
 
-status_t ipc_init( ipc_t * endpoint )
+bgrt_st_t ipc_init( ipc_t * endpoint )
 {
-    status_t ret;
-    disable_interrupts();
+    bgrt_st_t ret;
+    bgrt_disable_interrupts();
     ret = ipc_init_isr( endpoint );
-    enable_interrupts();
+    bgrt_enable_interrupts();
     return ret;
 }
 
-status_t ipc_send( ipc_t * out, void * msg )
+bgrt_st_t ipc_send( ipc_t * out, void * msg )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     proc_lock();
 
@@ -119,9 +119,9 @@ status_t ipc_send( ipc_t * out, void * msg )
     return ret;
 }
 
-status_t ipc_wait( ipc_t * in, proc_t ** proc, flag_t block )
+bgrt_st_t ipc_wait( ipc_t * in, proc_t ** proc, bgrt_flag_t block )
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     proc_lock();
 
@@ -143,9 +143,9 @@ end:
     return ret;
 }
 
-status_t ipc_reply( ipc_t * in, proc_t * proc)
+bgrt_st_t ipc_reply( ipc_t * in, proc_t * proc)
 {
-    status_t ret;
+    bgrt_st_t ret;
 
     proc_lock();
 

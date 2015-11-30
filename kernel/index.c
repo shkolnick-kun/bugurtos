@@ -77,16 +77,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-prio_t index_search(index_t index)
+bgrt_prio_t bgrt_index_search(bgrt_index_t index)
 {
-    prio_t prio = (prio_t)0;
-#ifdef CONFIG_USE_O1_SEARCH
+    bgrt_prio_t prio = (bgrt_prio_t)0;
+#ifdef BGRT_CONFIG_USE_O1_SEARCH
     /*
         Binary search.
-        Takes O(LOG2(BITS_IN_INDEX_T)) time always, as BITS_IN_INDEX_T is fixed, then it's O(1).
+        Takes O(LOG2(BGRT_BITS_IN_INDEX_T)) time always, as BGRT_BITS_IN_INDEX_T is fixed, then it's O(1).
         */
-    index_t upper = ~(index_t)0, lower = ~(index_t)0, middle;
-    prio_t step = (prio_t)BITS_IN_INDEX_T;
+    bgrt_index_t upper = ~(bgrt_index_t)0, lower = ~(bgrt_index_t)0, middle;
+    bgrt_prio_t step = (bgrt_prio_t)BGRT_BITS_IN_INDEX_T;
     while( step )
     {
         step>>=1; // Bisection
@@ -104,9 +104,9 @@ prio_t index_search(index_t index)
 #else
     /*
     Linear search.
-    Time limitation is O(BITS_IN_INDEX_T), which is also O(1).
+    Time limitation is O(BGRT_BITS_IN_INDEX_T), which is also O(1).
     */
-    index_t mask = (index_t)1;
+    bgrt_index_t mask = (bgrt_index_t)1;
     while( mask )
     {
         if ( mask & index )break;

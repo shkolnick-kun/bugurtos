@@ -81,35 +81,35 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Платформозависимый код
 // Просто функции, специфичные для AVR
 
-void disable_interrupts(void)
+void bgrt_disable_interrupts(void)
 {
     cli();
 }
-void enable_interrupts(void)
+void bgrt_enable_interrupts(void)
 {
     sei();
 }
 
-proc_t * current_proc(void)
+proc_t * bgrt_curr_proc(void)
 {
-    return kernel.sched.current_proc;
+    return bgrt_kernel.sched.current_proc;
 }
 
 /******************************************************************************************************/
 // Код ядра
 
 // Состояние ядра, выполняем перепланировку
-unsigned char kernel_state = KRN_FLG_RESCHED;
+unsigned char bgrt_kernel_state = KRN_FLG_RESCHED;
 //Временное хранилище для указателей стеков процессов.
-stack_t * saved_sp;
-#ifdef CONFIG_PREEMPTIVE_KERNEL
+bgrt_stack_t * saved_sp;
+#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
 // Счетчик уровней вложенности прерываний
-count_t nested_interrupts = (count_t)0;
-#endif //CONFIG_PREEMPTIVE_KERNEL
+bgrt_cnt_t nested_interrupts = (bgrt_cnt_t)0;
+#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
 // Функция перепланировки
-void resched( void )
+void bgrt_resched( void )
 {
-    kernel_state |= KRN_FLG_RESCHED;
+    bgrt_kernel_state |= KRN_FLG_RESCHED;
 }
 /*
   Перепланировка при необходимости,
@@ -119,31 +119,31 @@ void resched( void )
 */
 void bugurt_check_resched( void )
 {
-    if( kernel_state & KRN_FLG_RESCHED )
+    if( bgrt_kernel_state & KRN_FLG_RESCHED )
     {
-        kernel_state &= ~KRN_FLG_RESCHED;
+        bgrt_kernel_state &= ~KRN_FLG_RESCHED;
         sched_reschedule();
     }
 }
 
 
-__attribute__ (( signal, naked )) void SYSTEM_TIMER_ISR(void);
-void SYSTEM_TIMER_ISR(void)
+__attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
+void BGRT_SYSTEM_TIMER_ISR(void)
 {
     BUGURT_ISR_START();
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT()
+    BGRT_KERNEL_PREEMPT(); /// BGRT_KERNEL_PREEMPT()
 
-    kernel.timer++;
-    if( kernel.timer_tick != (void (*)(void))0 ) kernel.timer_tick();
+    bgrt_kernel.timer++;
+    if( bgrt_kernel.timer_tick != (void (*)(void))0 ) bgrt_kernel.timer_tick();
 
-    KERNEL_PREEMPT(); /// KERNEL_PREEMPT()
+    BGRT_KERNEL_PREEMPT(); /// BGRT_KERNEL_PREEMPT()
     sched_schedule();
 
     BUGURT_ISR_END();
 }
 
 //In single processor system call reentrancy is not necessary.
-syscall_t syscall_num = (syscall_t)0;
+bgrt_syscall_t syscall_num = (bgrt_syscall_t)0;
 void * syscall_arg = (void *)0;
 
 __attribute__ (( naked )) void _syscall(void);
@@ -157,7 +157,7 @@ void _syscall(void)
     BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
 }
 ///Если не используется программное прерывание - прямая передача управления
-void syscall_bugurt( unsigned char num, void * arg )
+void bgrt_syscall( unsigned char num, void * arg )
 {
     cli();
     syscall_num = num;
@@ -167,16 +167,16 @@ void syscall_bugurt( unsigned char num, void * arg )
 /***************************************************************************************************************/
 // Функции общего пользования
 
-void init_bugurt(void)
+void bgrt_init(void)
 {
     cli();
-    kernel_init();
-    kernel.sched.nested_crit_sec = (count_t)1;// Только после инициализации Ядра!!!
+    bgrt_kernel_init();
+    bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)1;// Только после инициализации Ядра!!!
 }
-void start_bugurt(void)
+void bgrt_start(void)
 {
-    START_SCHEDULER();
-    kernel.sched.nested_crit_sec = (count_t)0;
+    BGRT_START_SCHEDULER();
+    bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)0;
     sei();
-    idle_main( (void *)0 );
+    bgrt_idle_main( (void *)0 );
 }

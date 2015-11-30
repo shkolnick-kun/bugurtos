@@ -23,43 +23,43 @@ void print_fail(void)
 
 int main()
 {
-    item_t
-        item_1 = INIT_ITEM_T( item_1 ),
-        item_2 = INIT_ITEM_T( item_2 ),
-        item_3 = INIT_ITEM_T( item_3 );
+    bgrt_item_t
+        bgrt_item_1 = INIT_ITEM_T( bgrt_item_1 ),
+        bgrt_item_2 = INIT_ITEM_T( bgrt_item_2 ),
+        bgrt_item_3 = INIT_ITEM_T( bgrt_item_3 );
 
-    item_t * head;
-    xlist_t list;
+    bgrt_item_t * head;
+    bgrt_xlist_t list;
     int test, i;
 
-    printf("Test 1: xlist_init function: ");
+    printf("Test 1: bgrt_xlist_init function: ");
 
-    xlist_init( &list );
+    bgrt_xlist_init( &list );
 
-    test = (list.index != (index_t)0);
-    for( i=0; i<BITS_IN_INDEX_T; i++ )
+    test = (list.index != (bgrt_index_t)0);
+    for( i=0; i<BGRT_BITS_IN_INDEX_T; i++ )
     {
-        test |= ( list.item[i]!=(item_t*)0 );
+        test |= ( list.item[i]!=(bgrt_item_t*)0 );
     }
 
     print_test_res( test );
 
-    printf("Test 2: xlist_head function: ");
+    printf("Test 2: bgrt_xlist_head function: ");
 
     list.index = 5;
-    list.item[0] = &item_1;
-    list.item[2] = &item_2;
-    item_insert(&item_3, list.item[0]);
+    list.item[0] = &bgrt_item_1;
+    list.item[2] = &bgrt_item_2;
+    bgrt_item_insert(&bgrt_item_3, list.item[0]);
 
-    head = xlist_head( &list );
+    head = bgrt_xlist_head( &list );
 
-    print_test_res( (head != &item_1) );
+    print_test_res( (head != &bgrt_item_1) );
 
-    printf("Test 3: xlist_switch function: ");
+    printf("Test 3: bgrt_xlist_switch function: ");
 
-    xlist_switch( &list, 0 );
-    head = xlist_head( &list );
-    print_test_res( (head != &item_3) );
+    bgrt_xlist_switch( &list, 0 );
+    head = bgrt_xlist_head( &list );
+    print_test_res( (head != &bgrt_item_3) );
 
     return 0;
 }
