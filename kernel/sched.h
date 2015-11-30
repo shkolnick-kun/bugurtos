@@ -363,7 +363,7 @@ void bgrt_sched_lazy_global_load_balancer(void);
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_SCHED_BGRT_PROC_YELD.
+Обработчик вызова #BGRT_SYSCALL_SCHED_PROC_YELD.
 
 Передает управление следующему процессу.
 
@@ -371,13 +371,13 @@ void bgrt_sched_lazy_global_load_balancer(void);
 
 \~english
 \brief
-A #SYSCALL_SCHED_BGRT_PROC_YELD handler.
+A #BGRT_SYSCALL_SCHED_PROC_YELD handler.
 
 Transfers control to another process.
 
 \param arg Not used.
 */
-void scall_bgrt_sched_proc_yeld( bgrt_bool_t * arg );
+void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg );
 /*****************************************************************************************/
 
 #endif // _BGRT_SCHED_H_

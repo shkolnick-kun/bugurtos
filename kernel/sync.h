@@ -319,7 +319,7 @@ do                                                              \
     scarg.block = (bgrt_flag_t)(b);                                  \
     do                                                          \
     {                                                           \
-        bgrt_syscall( SYSCALL_BGRT_SYNC_WAIT, (void *)&scarg );    \
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );    \
     }                                                           \
     while( scarg.status >= BGRT_ST_ROLL );                      \
     (st) = scarg.status;                                        \
@@ -380,7 +380,7 @@ do                                                              \
     scarg.chown = (bgrt_flag_t)(c);                                  \
     do                                                          \
     {                                                           \
-        bgrt_syscall( SYSCALL_BGRT_SYNC_WAKE, (void *)&scarg );    \
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );    \
     }                                                           \
     while( scarg.status >= BGRT_ST_ROLL );                      \
     (st) = scarg.status;                                        \
@@ -492,11 +492,11 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc );
 /*!
 \~russian
 \brief
-Параметр системного вызова #SYSCALL_BGRT_PROC_SET_PRIO.
+Параметр системного вызова #BGRT_SYSCALL_PROC_SET_PRIO.
 
 \~english
 \brief
-An argument for system call #SYSCALL_BGRT_PROC_SET_PRIO.
+An argument for system call #BGRT_SYSCALL_PROC_SET_PRIO.
 */
 typedef struct
 {
@@ -508,7 +508,7 @@ bgrt_proc_set_prio_arg_t;
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_SET_PRIO.
+Обработчик вызова #BGRT_SYSCALL_PROC_SET_PRIO.
 
 Вызывает #_bgrt_proc_set_prio.
 
@@ -516,22 +516,22 @@ bgrt_proc_set_prio_arg_t;
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_SET_PRIO handler.
+A #BGRT_SYSCALL_PROC_SET_PRIO handler.
 
 This function calls #_bgrt_proc_set_prio.
 
 \param arg A pointer to #bgrt_proc_set_prio_arg_t object.
 */
-void scall_bgrt_proc_set_prio( bgrt_proc_set_prio_arg_t * arg );
+void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_BGRT_SYNC_SET_OWNER.
+Аргумент вызова #BGRT_SYSCALL_SYNC_SET_OWNER.
 
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_SET_OWNER arg.
+A #BGRT_SYSCALL_SYNC_SET_OWNER arg.
 */
 typedef struct
 {
@@ -544,25 +544,25 @@ bgrt_sync_set_owner_t;
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_SET_OWNER.
+Обработчик вызова #BGRT_SYSCALL_SYNC_SET_OWNER.
 
 Вызывает #_bgrt_sync_set_owner.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_SET_OWNER handler.
+A #BGRT_SYSCALL_SYNC_SET_OWNER handler.
 
 This function calls #_bgrt_sync_set_owner.
 */
-void scall_bgrt_sync_set_owner( bgrt_sync_set_owner_t * arg );
+void bgrt_scall_sync_set_owner( bgrt_sync_set_owner_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_BGRT_SYNC_OWN.
+Аргумент вызова #BGRT_SYSCALL_SYNC_OWN.
 
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_OWN arg.
+A #BGRT_SYSCALL_SYNC_OWN arg.
 */
 typedef struct
 {
@@ -574,25 +574,25 @@ typedef struct
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_OWN.
+Обработчик вызова #BGRT_SYSCALL_SYNC_OWN.
 
 Вызывает #_bgrt_sync_own.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_OWN handler.
+A #BGRT_SYSCALL_SYNC_OWN handler.
 
 This function calls #_bgrt_sync_own.
 */
-void scall_bgrt_sync_own( bgrt_sync_own_t * arg );
+void bgrt_scall_sync_own( bgrt_sync_own_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_BGRT_SYNC_TOUCH.
+Аргумент вызова #BGRT_SYSCALL_SYNC_TOUCH.
 
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_TOUCH arg.
+A #BGRT_SYSCALL_SYNC_TOUCH arg.
 */
 typedef struct
 {
@@ -603,87 +603,87 @@ typedef struct
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_TOUCH.
+Обработчик вызова #BGRT_SYSCALL_SYNC_TOUCH.
 
 Вызывает #_bgrt_sync_touch.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_TOUCH handler.
+A #BGRT_SYSCALL_SYNC_TOUCH handler.
 
 This function calls #_bgrt_sync_touch.
 */
-void scall_bgrt_sync_touch( bgrt_sync_touch_t * arg );
+void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_SLEEP.
+Обработчик вызова #BGRT_SYSCALL_SYNC_SLEEP.
 
 Вызывает #_bgrt_sync_sleep.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_SLEEP handler.
+A #BGRT_SYSCALL_SYNC_SLEEP handler.
 
 This function calls #_bgrt_sync_sleep.
 */
-void scall_bgrt_sync_sleep( bgrt_sync_sleep_t * arg );
+void bgrt_scall_sync_sleep( bgrt_sync_sleep_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_WAKE.
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE.
 
 Вызывает #_bgrt_sync_wake.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_WAKE handler.
+A #BGRT_SYSCALL_SYNC_WAKE handler.
 
 This function calls #_bgrt_sync_wake.
 */
-void scall_bgrt_sync_wake( bgrt_sync_wake_t * arg );
+void bgrt_scall_sync_wake( bgrt_sync_wake_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_WAIT.
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAIT.
 
 Вызывает #_bgrt_sync_wait.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_WAIT handler.
+A #BGRT_SYSCALL_SYNC_WAIT handler.
 
 This function calls #_bgrt_sync_wait.
 */
-void scall_bgrt_sync_wait( bgrt_sync_wait_t * arg );
+void bgrt_scall_sync_wait( bgrt_sync_wait_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_WAKE_AND_SLEEP.
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE_AND_SLEEP.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_WAKE_AND_SLEEP handler.
+A #BGRT_SYSCALL_SYNC_WAKE_AND_SLEEP handler.
 */
-void scall_bgrt_sync_wake_and_sleep( void * arg );
+void bgrt_scall_sync_wake_and_sleep( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_WAKE_AND_WAIT.
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE_AND_WAIT.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_WAKE_AND_WAIT handler.
+A #BGRT_SYSCALL_SYNC_WAKE_AND_WAIT handler.
 */
-void scall_bgrt_sync_wake_and_wait( void * arg );
+void bgrt_scall_sync_wake_and_wait( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Аргумент вызова #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT.
+Аргумент вызова #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
 
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT arg.
+A #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT arg.
 */
 typedef struct
 {
@@ -695,11 +695,11 @@ bgrt_sync_proc_timeout_t;
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT.
+Обработчик вызова #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT.
 \~english
 \brief
-A #SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT handler.
+A #BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT handler.
 */
-void scall_bgrt_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
+void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 /*****************************************************************************************/
 #endif // _BGRT_SYNC_H_

@@ -83,37 +83,37 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 BGRT_SCL_TBL( syscall_handler[] ) =
 {
     // Process control
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_run               ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_restart           ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_stop              ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_self_stop         ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_terminate         ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_lock              ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_free              ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_reset_watchdog    ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_set_prio          ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_run               ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_restart           ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_stop              ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_self_stop         ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_terminate         ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_lock              ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_free              ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_reset_watchdog    ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_set_prio          ),
     // Scheduler
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sched_proc_yeld        ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sched_proc_yeld        ),
     // Bsync
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_set_owner         ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_own               ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_touch             ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_sleep             ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_wake              ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_wait              ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_proc_timeout      ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_set_owner         ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_own               ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_touch             ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_sleep             ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_wake              ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_wait              ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_proc_timeout      ),
     //Arbitrary code execution
-    BGRT_SC_TBL_ENTRY( scall_user                   )
+    BGRT_SC_TBL_ENTRY( bgrt_scall_user                   )
 };
 
 #ifndef BGRT_CONFIG_SYSCALL_CHECK
 //Default syscall sanity check macro
 #define BGRT_CONFIG_SYSCALL_CHECK(n,a) \
-( ( (bgrt_syscall_t)0 == n )&&( SYSCALL_USER < n  ) )
+( ( (bgrt_syscall_t)0 == n )&&( BGRT_SYSCALL_USER < n  ) )
 
 #endif //BGRT_CONFIG_SYSCALL_CHECK
 
-void do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
+void bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
 {
     //Sanity check
     if( BGRT_CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg) )
@@ -131,18 +131,18 @@ void do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
 /**********************************************************************************************
                                   System call handlers !!!
 ***********************************************************************************************
-                                       SYSCALL_USER
+                                       BGRT_SYSCALL_USER
 **********************************************************************************************/
 typedef union
 {
     bgrt_code_t func;
     void * arg;
 }
-scall_user_t;
+bgrt_scall_user_t;
 
-void scall_user(void * arg)
+void bgrt_scall_user(void * arg)
 {
-    scall_user_t user;
+    bgrt_scall_user_t user;
     user.func = (bgrt_code_t)0;
     user.arg = arg;
     user.func(arg);
