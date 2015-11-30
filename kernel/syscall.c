@@ -83,15 +83,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 BGRT_SCL_TBL( syscall_handler[] ) =
 {
     // Process control
-    BGRT_SC_TBL_ENTRY( scall_proc_run               ),
-    BGRT_SC_TBL_ENTRY( scall_proc_restart           ),
-    BGRT_SC_TBL_ENTRY( scall_proc_stop              ),
-    BGRT_SC_TBL_ENTRY( scall_proc_self_stop         ),
-    BGRT_SC_TBL_ENTRY( scall_proc_terminate         ),
-    BGRT_SC_TBL_ENTRY( scall_proc_lock              ),
-    BGRT_SC_TBL_ENTRY( scall_proc_free              ),
-    BGRT_SC_TBL_ENTRY( scall_proc_reset_watchdog    ),
-    BGRT_SC_TBL_ENTRY( scall_proc_set_prio          ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_run               ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_restart           ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_stop              ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_self_stop         ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_terminate         ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_lock              ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_free              ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_reset_watchdog    ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_proc_set_prio          ),
     // Scheduler
     BGRT_SC_TBL_ENTRY( scall_bgrt_bgrt_sched_proc_yeld        ),
     // Bsync
@@ -101,7 +101,7 @@ BGRT_SCL_TBL( syscall_handler[] ) =
     BGRT_SC_TBL_ENTRY( scall_bgrt_sync_sleep             ),
     BGRT_SC_TBL_ENTRY( scall_bgrt_sync_wake              ),
     BGRT_SC_TBL_ENTRY( scall_bgrt_sync_wait              ),
-    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_proc_timeout      ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_bgrt_proc_timeout      ),
     //Arbitrary code execution
     BGRT_SC_TBL_ENTRY( scall_user                   )
 };

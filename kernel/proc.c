@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************
                               Internal Usage functions!!!
 *****************************************************************************************/
-void _proc_stop_ensure( proc_t * proc )
+void _bgrt_proc_stop_ensure( bgrt_proc_t * proc )
 {
     if( BGRT_PROC_RUN_TEST( proc ) )
     {
@@ -88,7 +88,7 @@ void _proc_stop_ensure( proc_t * proc )
     }
 }
 //========================================================================================
-void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask )
+void _bgrt_proc_stop_flags_set( bgrt_proc_t * proc, bgrt_flag_t mask )
 {
     // Was a process stopped some where else?
     if( BGRT_PROC_RUN_TEST( proc ) )
@@ -105,7 +105,7 @@ void _proc_stop_flags_set( proc_t * proc, bgrt_flag_t mask )
 }
 //========================================================================================
 // Change a process priority according to its #lres data field.
-void _proc_prio_control_stoped( proc_t * proc )
+void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc )
 {
     if( (bgrt_index_t)0 != proc->lres.index )
     {
@@ -123,8 +123,8 @@ void _proc_prio_control_stoped( proc_t * proc )
                                     Process control !!!
 **********************************************************************************************/
 // Initiation.
-bgrt_st_t proc_init(
-                    proc_t * proc, //A process pointer
+bgrt_st_t bgrt_proc_init(
+                    bgrt_proc_t * proc, //A process pointer
                     bgrt_code_t pmain,
                     bgrt_code_t sv_hook,
                     bgrt_code_t rs_hook,
@@ -140,7 +140,7 @@ bgrt_st_t proc_init(
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = proc_init_isr(
+    ret = bgrt_proc_init_isr(
                     proc, //A process pointer
                     pmain,
                     sv_hook,
@@ -158,8 +158,8 @@ bgrt_st_t proc_init(
     return ret;
 }
 //========================================================================================
-bgrt_st_t proc_init_isr(
-    proc_t * proc, //A process pointer!
+bgrt_st_t bgrt_proc_init_isr(
+    bgrt_proc_t * proc, //A process pointer!
     bgrt_code_t pmain,
     bgrt_code_t sv_hook,
     bgrt_code_t rs_hook,
@@ -200,7 +200,7 @@ bgrt_st_t proc_init_isr(
     proc->rs_hook = rs_hook;
     proc->arg = arg;
     proc->sstart = sstart;
-    if( sstart )proc->spointer = proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))proc_terminate);
+    if( sstart )proc->spointer = bgrt_proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))bgrt_proc_terminate);
 
     BGRT_SPIN_FREE( proc );
 
@@ -210,16 +210,16 @@ bgrt_st_t proc_init_isr(
                                        SYSCALL_BGRT_PROC_RUN
 **********************************************************************************************/
 
-bgrt_st_t proc_run( proc_t * proc )
+bgrt_st_t bgrt_proc_run( bgrt_proc_t * proc )
 {
-    volatile proc_runtime_arg_t scarg;
+    volatile bgrt_proc_runtime_arg_t scarg;
     scarg.proc = proc;
     bgrt_syscall( SYSCALL_BGRT_PROC_RUN, (void *)&scarg );
     return scarg.ret;
 }
 //========================================================================================
 // Run a process? used in ISRs and in #SYSCALL_BGRT_PROC_RUN
-bgrt_st_t proc_run_isr(proc_t * proc)
+bgrt_st_t bgrt_proc_run_isr(bgrt_proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_OK;
 
@@ -241,23 +241,23 @@ end:
     return ret;
 }
 //========================================================================================
-void scall_proc_run( proc_runtime_arg_t * arg )
+void scall_bgrt_proc_run( bgrt_proc_runtime_arg_t * arg )
 {
-    arg->ret = proc_run_isr( arg->proc );
+    arg->ret = bgrt_proc_run_isr( arg->proc );
 }
 /**********************************************************************************************
                                        SYSCALL_BGRT_PROC_RESTART
 **********************************************************************************************/
-bgrt_st_t proc_restart( proc_t * proc )
+bgrt_st_t bgrt_proc_restart( bgrt_proc_t * proc )
 {
-    volatile proc_runtime_arg_t scarg;
+    volatile bgrt_proc_runtime_arg_t scarg;
     scarg.proc = proc;
     bgrt_syscall( SYSCALL_BGRT_PROC_RESTART, (void *)&scarg );
     return scarg.ret;
 }
 //========================================================================================
 // Restart a process from some ISR.
-bgrt_st_t proc_restart_isr(proc_t * proc)
+bgrt_st_t bgrt_proc_restart_isr(bgrt_proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_OK;
 
@@ -281,7 +281,7 @@ bgrt_st_t proc_restart_isr(proc_t * proc)
 
     if( proc->sstart )
     {
-        proc->spointer = proc_stack_init( proc->sstart, (bgrt_code_t)proc->pmain, (void *)proc->arg, (void (*)(void))proc_terminate );
+        proc->spointer = bgrt_proc_stack_init( proc->sstart, (bgrt_code_t)proc->pmain, (void *)proc->arg, (void (*)(void))bgrt_proc_terminate );
     }
     bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
 end:
@@ -289,23 +289,23 @@ end:
     return ret;
 }
 //========================================================================================
-void scall_proc_restart( proc_runtime_arg_t * arg )
+void scall_bgrt_proc_restart( bgrt_proc_runtime_arg_t * arg )
 {
-    arg->ret = proc_restart_isr( arg->proc );
+    arg->ret = bgrt_proc_restart_isr( arg->proc );
 }
 /**********************************************************************************************
                                         SYSCALL_BGRT_PROC_STOP
 **********************************************************************************************/
-bgrt_st_t proc_stop( proc_t * proc )
+bgrt_st_t bgrt_proc_stop( bgrt_proc_t * proc )
 {
-    volatile proc_runtime_arg_t scarg;
+    volatile bgrt_proc_runtime_arg_t scarg;
     scarg.proc = proc;
     bgrt_syscall( SYSCALL_BGRT_PROC_STOP, (void *)&scarg);
     return scarg.ret;
 }
 //========================================================================================
 // Stop a process from ISR
-bgrt_st_t proc_stop_isr(proc_t * proc)
+bgrt_st_t bgrt_proc_stop_isr(bgrt_proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
@@ -323,7 +323,7 @@ bgrt_st_t proc_stop_isr(proc_t * proc)
     }
     else
     {
-        _proc_stop_ensure( proc );
+        _bgrt_proc_stop_ensure( proc );
         ret = BGRT_ST_OK;;
     }
 
@@ -331,21 +331,21 @@ bgrt_st_t proc_stop_isr(proc_t * proc)
     return ret;
 }
 //========================================================================================
-void scall_proc_stop( proc_runtime_arg_t * arg )
+void scall_bgrt_proc_stop( bgrt_proc_runtime_arg_t * arg )
 {
-    arg->ret = proc_stop_isr( arg->proc );
+    arg->ret = bgrt_proc_stop_isr( arg->proc );
 }
 /**********************************************************************************************
                                        SYSCALL_BGRT_PROC_LOCK
 **********************************************************************************************/
-void proc_lock( void )
+void bgrt_proc_lock( void )
 {
     bgrt_syscall( SYSCALL_BGRT_PROC_LOCK, (void *)0 );
 }
 //========================================================================================
-void _proc_lock( void )
+void _bgrt_proc_lock( void )
 {
-    proc_t * proc;
+    bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK( proc );
@@ -356,22 +356,22 @@ void _proc_lock( void )
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_lock( void * arg )
+void scall_bgrt_proc_lock( void * arg )
 {
-    _proc_lock();
+    _bgrt_proc_lock();
 }
 /**********************************************************************************************
                                        SYSCALL_BGRT_PROC_FREE
 **********************************************************************************************/
-void proc_free( void )
+void bgrt_proc_free( void )
 {
     bgrt_syscall( SYSCALL_BGRT_PROC_FREE, (void *)0 );
 }
 //========================================================================================
 // #BGRT_PROC_FLG_PRE_STOP processing with mask clearing.
-void _proc_free( void )
+void _bgrt_proc_free( void )
 {
-    proc_t * proc;
+    bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK( proc );
@@ -392,58 +392,58 @@ void _proc_free( void )
     */
     if(  BGRT_PROC_PRE_STOP_TEST(proc)  )
     {
-        _proc_stop_ensure( proc );
+        _bgrt_proc_stop_ensure( proc );
         proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;
     }
 
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_free( void * arg )
+void scall_bgrt_proc_free( void * arg )
 {
-    _proc_free();
+    _bgrt_proc_free();
 }
 /**********************************************************************************************
                                     SYSCALL_BGRT_PROC_SELF_STOP
 **********************************************************************************************/
-void proc_self_stop(void)
+void bgrt_proc_self_stop(void)
 {
     bgrt_syscall( SYSCALL_BGRT_PROC_SELF_STOP, (void *)1 );
 }
 //========================================================================================
-void _proc_self_stop(void)
+void _bgrt_proc_self_stop(void)
 {
-    proc_t * proc;
+    bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK( proc );
 
-    _proc_stop_ensure( proc );
+    _bgrt_proc_stop_ensure( proc );
 
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_self_stop( void * arg )
+void scall_bgrt_proc_self_stop( void * arg )
 {
-    _proc_self_stop();
+    _bgrt_proc_self_stop();
 }
 /**********************************************************************************************
                                     SYSCALL_BGRT_PROC_TERMINATE
 **********************************************************************************************/
 // Terminate a process after pmain return.
-void proc_terminate( void )
+void bgrt_proc_terminate( void )
 {
     bgrt_syscall( SYSCALL_BGRT_PROC_TERMINATE, (void *)0 );
 }
 //========================================================================================
-void _proc_terminate( void )
+void _bgrt_proc_terminate( void )
 {
-    proc_t * proc;
+    bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK( proc );
 
-    _proc_stop_ensure( proc );
+    _bgrt_proc_stop_ensure( proc );
     // Flags processing!
     // A process is not allowed to return from pmain не wuth resources locked!
     if( proc->flags & BGRT_PROC_FLG_LOCK_MASK )
@@ -460,21 +460,21 @@ void _proc_terminate( void )
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_terminate( void * arg )
+void scall_bgrt_proc_terminate( void * arg )
 {
-    _proc_terminate();
+    _bgrt_proc_terminate();
 }
 /**********************************************************************************************
                                        SYSCALL_BGRT_PROC_RESET_WATCHDOG
 **********************************************************************************************/
-void proc_reset_watchdog(void)
+void bgrt_proc_reset_watchdog(void)
 {
     bgrt_syscall( SYSCALL_BGRT_PROC_RESET_WATCHDOG, (void *)0 );
 }
 //========================================================================================
-void _proc_reset_watchdog( void )
+void _bgrt_proc_reset_watchdog( void )
 {
-    proc_t * proc;
+    bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK( proc );
@@ -487,7 +487,7 @@ void _proc_reset_watchdog( void )
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void scall_proc_reset_watchdog( void * arg )
+void scall_bgrt_proc_reset_watchdog( void * arg )
 {
-    _proc_reset_watchdog();
+    _bgrt_proc_reset_watchdog();
 }

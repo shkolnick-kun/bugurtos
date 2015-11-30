@@ -344,7 +344,7 @@ Statistic increase on a process run or a process insert to a signal wait list.
 \param proc a pointer to a process.
 \param stat a pointer to a bgrt_ls_t structure.
 */
-extern void bgrt_stat_inc(proc_t * proc, bgrt_ls_t * stat);
+extern void bgrt_stat_inc(bgrt_proc_t * proc, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief
@@ -367,7 +367,7 @@ Statistic update on a process stop or a process cut from a signal wait list.
 \param proc a pointer to a process.
 \param stat a pointer to a bgrt_ls_t structure.
 */
-extern void bgrt_stat_dec(proc_t * proc, bgrt_ls_t * stat);
+extern void bgrt_stat_dec(bgrt_proc_t * proc, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief
@@ -501,7 +501,7 @@ Current process.
 
 \return a pointer to a current process on a local processor core.
 */
-extern proc_t * bgrt_curr_proc(void);
+extern bgrt_proc_t * bgrt_curr_proc(void);
 
 /*!
 \~russian
@@ -532,7 +532,7 @@ It treats a process stack in such a way that pmain(arg) is called when a process
 \param return_address an address to return from pmain.
 \return a pointer to a prepared process stack top.
 */
-extern bgrt_stack_t * proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void (*return_address)(void));
+extern bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void (*return_address)(void));
 /*!
 \~russian
 \brief

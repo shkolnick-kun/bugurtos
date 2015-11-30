@@ -102,13 +102,13 @@ struct _bgrt_kernel_t
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_sched_t sched[BGRT_MAX_CPU];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
-    proc_t idle[BGRT_MAX_CPU];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
+    bgrt_proc_t idle[BGRT_MAX_CPU];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
     bgrt_ls_t stat[BGRT_MAX_CPU];     /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
     bgrt_lock_t stat_lock; /*!< \~russian Спин-блокировка статистики. \~english A statistic spin-lock. */
     bgrt_lock_t timer_lock; /*!< \~russian Спин-блокировка таймера. \~english A system timer spin-lock. */
 #else
     bgrt_sched_t sched; /*!< \~russian Планировщик. \~english The scheduler. */
-    proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
+    bgrt_proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
 #endif // BGRT_CONFIG_MP
     bgrt_tmr_t timer; /*!< \~russian Системный таймер. \~english The system timer. */
     void (*timer_tick)(void);/*!< \~russian Хук обработчика системного таймера. \~english The system timer tick hook pointer. */

@@ -1,14 +1,14 @@
 #include <test_func.h>
 #include <mutex.h>
 
-proc_t proc[6];
-bgrt_stack_t proc_stack[6][BGRT_PROC_STACK_SIZE];
+bgrt_proc_t proc[6];
+bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 mutex_t test_mutex;
 
 void main_with_return( void * arg )
 {
-    proc_run( &proc[1] );
+    bgrt_proc_run( &proc[1] );
 
     test_start();
 
@@ -20,7 +20,7 @@ void main_with_return( void * arg )
     test_output( ( proc[0].parent.prio == 3 ), 3 );
     //mutex_try_lock test 3
     //mutex_lock test 4
-    proc_run( &proc[2] );
+    bgrt_proc_run( &proc[2] );
     bgrt_wait_time( 2 );
     test_output( ((BGRT_PROC_STATE_SYNC_SLEEP) == (proc[2].flags & (BGRT_PROC_STATE_MASK) ) ), 4 );
     //mutex_lock test 7
@@ -40,18 +40,18 @@ void main_with_return( void * arg )
     test_output( ( (&proc[2]) == BGRT_SYNC_GET_OWNER( &test_mutex )), 10 );
     //mutex_free test 11
     // proc[2] must free mutexaphore and self stop
-    proc_run( &proc[2] );
+    bgrt_proc_run( &proc[2] );
     bgrt_wait_time( 2 );
-    test_output( ( ((proc_t *)0) == BGRT_SYNC_GET_OWNER( &test_mutex )), 11 );
+    test_output( ( ((bgrt_proc_t *)0) == BGRT_SYNC_GET_OWNER( &test_mutex )), 11 );
     // mutex_lock test 12
     // proc[2] must lock a test_mutex and self ctop
-    proc_run( &proc[2] );
+    bgrt_proc_run( &proc[2] );
     bgrt_wait_time( 2 );
     test_output( ( (&proc[2]) == BGRT_SYNC_GET_OWNER( &test_mutex )), 12 );
     //mutex_lock test 13
     test_output( (proc[2].flags & BGRT_PROC_STATE_MASK) != BGRT_PROC_STATE_SYNC_SLEEP, 13 );
 
-    proc_run( &proc[2] );
+    bgrt_proc_run( &proc[2] );
 
     tests_end();
 }
@@ -69,9 +69,9 @@ void main_mutex( void * arg )
     while(1)
     {
         mutex_lock( &test_mutex );
-        proc_self_stop();
+        bgrt_proc_self_stop();
         mutex_free( &test_mutex );
-        proc_self_stop();
+        bgrt_proc_self_stop();
     }
 }
 void bgrt_idle_main( void * arg )
@@ -100,13 +100,13 @@ int main(void)
 
     BGRT_SCHED_SYSTICK_HOOK_ADD();
 
-    proc_init_isr( &proc[0], main_with_return,   SVH0, RSH0, 0, &proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
-    proc_init_isr( &proc[1], main_lb,            SVH1, RSH1, 0, &proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
-    proc_init_isr( &proc[2], main_mutex,         SVH2, RSH2, 0, &proc_stack[2][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
+    bgrt_proc_init_isr( &proc[0], main_with_return,   SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
+    bgrt_proc_init_isr( &proc[1], main_lb,            SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
+    bgrt_proc_init_isr( &proc[2], main_mutex,         SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
 
     mutex_init_isr( &test_mutex, 3 );
 
-    proc_run_isr( &proc[0] );
+    bgrt_proc_run_isr( &proc[0] );
 
     bgrt_start();
     return 0;

@@ -127,7 +127,7 @@ A scheduler object contains an information about processes, running on some CPU 
 */
 struct _bgrt_sched_t
 {
-    proc_t * current_proc;      /*!< \~russian Текущий процесс. \~english A currently running process. */
+    bgrt_proc_t * current_proc;      /*!< \~russian Текущий процесс. \~english A currently running process. */
     bgrt_xlist_t * ready;            /*!< \~russian Указатель на список готовых к выполнению процессов. \~english A pointer to a ready process list. */
     bgrt_xlist_t * expired;          /*!< \~russian Указатель на список процессов, исчерпавших свой квант времени. \~english A pointer to an expired process list. */
     bgrt_xlist_t plst[2];            /*!< \~russian Сами списки процессов. \~english A storage for a ready and for an expired process lists. */
@@ -160,7 +160,7 @@ This function prepares a scheduler object for work.
 \param sched - A scheduler pointer.
 \param idle - An IDLE process pointer.
 */
-void bgrt_sched_init(bgrt_sched_t * sched, proc_t * idle);
+void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle);
 /*!
 \~russian
 \brief
@@ -202,11 +202,11 @@ void bgrt_sched_reschedule(void);
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
-void bgrt_sched_proc_run( proc_t * proc, bgrt_flag_t state );
+void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state );
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
-void bgrt_sched_proc_stop( proc_t * proc );
+void bgrt_sched_proc_stop( bgrt_proc_t * proc );
 
 
 /*!
@@ -273,7 +273,7 @@ This function is used for load balancing of the kernel and of signals.
 \param stat A pointer to a bgrt_ls_t array, that controls corespondent process list.
 \return An ID of the least loaded process list.
 */
-bgrt_cpuid_t bgrt_sched_load_balancer(proc_t * proc, bgrt_ls_t * stat);
+bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief Функция поиска процессорного Ядра с максимальной нагрузкой.

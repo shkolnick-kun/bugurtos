@@ -90,7 +90,7 @@ void bgrt_enable_interrupts(void)
     sei();
 }
 
-proc_t * bgrt_curr_proc(void)
+bgrt_proc_t * bgrt_curr_proc(void)
 {
     return bgrt_kernel.sched.current_proc;
 }

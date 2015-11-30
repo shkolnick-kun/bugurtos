@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 // Платформозависимый код
 // Просто функции, специфичные для AVR
-proc_t * bgrt_curr_proc(void)
+bgrt_proc_t * bgrt_curr_proc(void)
 {
     return bgrt_kernel.sched.current_proc;
 }

@@ -34,7 +34,7 @@ void init_hardware(void)
     G3_on();
 }
 
-void sched_fix_proc_2(void)
+void sched_fix_bgrt_proc_2(void)
 {
     cli();
     proc[2].flags &= ~BGRT_PROC_FLG_RT;

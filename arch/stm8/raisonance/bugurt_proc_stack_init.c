@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_INT_PTR unsigned short
 #endif
 
-bgrt_stack_t * proc_stack_init(
+bgrt_stack_t * bgrt_proc_stack_init(
                             bgrt_stack_t * bgrt_stack_top,
                             bgrt_code_t pmain,
                             void * arg,
