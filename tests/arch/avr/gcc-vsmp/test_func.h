@@ -7,32 +7,32 @@ extern bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 #define ARG_END ,(bgrt_aff_t)0x3
 // Scheduler test proc_init argument terminator
 #if (BGRT_CONFIG_LB_SCHEME != 0)
-    #define SCHED_ARG_END ,(bgrt_aff_t)0x2
+    #define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x2
 #else
-    #define SCHED_ARG_END ,(bgrt_aff_t)0x3
+    #define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x3
 #endif
 //======================================================================
 #if (BGRT_CONFIG_LB_SCHEME == 2)
-    #define SCHED_LOCAL_LOAD_BALANCER() sched_lazy_local_load_balancer()
+    #define BGRT_SCHED_LOCAL_LOAD_BALANCER() sched_lazy_local_load_balancer()
 #else  //BGRT_CONFIG_LB_SCHEME == 2
-    #define SCHED_LOCAL_LOAD_BALANCER()
+    #define BGRT_SCHED_LOCAL_LOAD_BALANCER()
 #endif //BGRT_CONFIG_LB_SCHEME == 2
 //======================================================================
 #if (BGRT_CONFIG_LB_SCHEME == 2)
-    #define SCHED_IDLE_LOAD_BALANCER() sched_lazy_local_load_balancer()
+    #define BGRT_SCHED_IDLE_LOAD_BALANCER() sched_lazy_local_load_balancer()
 #else  //BGRT_CONFIG_LB_SCHEME == 2
 #if (BGRT_CONFIG_LB_SCHEME == 3)
-    #define SCHED_IDLE_LOAD_BALANCER() sched_lazy_global_load_balancer()
+    #define BGRT_SCHED_IDLE_LOAD_BALANCER() sched_lazy_global_load_balancer()
 #else  //BGRT_CONFIG_LB_SCHEME == 3
-    #define SCHED_IDLE_LOAD_BALANCER()
+    #define BGRT_SCHED_IDLE_LOAD_BALANCER()
 #endif //BGRT_CONFIG_LB_SCHEME == 3
 #endif //BGRT_CONFIG_LB_SCHEME == 2
 //======================================================================
 
-#define SCHED_LB_TEST_START() sched_lb_test_start()
+#define BGRT_SCHED_LB_TEST_START() sched_lb_test_start()
 
-#define SCHED_SYSTICK_HOOK_ADD() sched_systick_hook_add()
-#define SCHED_FIX_PROC_2() sched_fix_proc_2()
+#define BGRT_SCHED_SYSTICK_HOOK_ADD() sched_systick_hook_add()
+#define BGRT_SCHED_FIX_PROC_2() sched_fix_proc_2()
 
 void init_hardware(void);
 

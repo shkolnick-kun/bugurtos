@@ -22,7 +22,7 @@
 #define WEAK __attribute__(( __weak__ ))
 
 #define SYS_TMR_ISR_ATTR __attribute__ (( signal, naked ))
-#define RESCHED_ISR_ATTR __attribute__ (( signal, naked ))
+#define BGRT_RESCHED_ISR_ATTR __attribute__ (( signal, naked ))
 
 #define NOP() __asm__ __volatile__("nop"::)
 #define SYSCALL_DELLAY() NOP();NOP();NOP()

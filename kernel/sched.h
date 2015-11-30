@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SCHED_H_
-#define _SCHED_H_
+#ifndef _BGRT_SCHED_H_
+#define _BGRT_SCHED_H_
 /*!
 \file
 \~russian
@@ -93,7 +93,7 @@ A scheduler header.
 \warning All functions in this file are internal usage functions!!!
 */
 /*!
-\def _SCHED_INIT()
+\def BGRT_SCHED_INIT()
 \~russian
 \brief Макрос-обертка.
 
@@ -104,9 +104,9 @@ A scheduler header.
 Initialization wrapper for sched variable in #sched_schedule and #sched_reschedule functions.
 */
 #ifdef BGRT_CONFIG_MP
-#define _SCHED_INIT() (((sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
+#define BGRT_SCHED_INIT() (((sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
 #else // BGRT_CONFIG_MP
-#define _SCHED_INIT() ((sched_t *)&bgrt_kernel.sched)
+#define BGRT_SCHED_INIT() ((sched_t *)&bgrt_kernel.sched)
 #endif // BGRT_CONFIG_MP
 
 // Планировщик
@@ -380,4 +380,4 @@ Transfers control to another process.
 void scall_sched_proc_yeld( bgrt_bool_t * arg );
 /*****************************************************************************************/
 
-#endif // _SCHED_H_
+#endif // _BGRT_SCHED_H_

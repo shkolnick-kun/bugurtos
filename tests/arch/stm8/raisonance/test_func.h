@@ -10,13 +10,13 @@ extern unsigned char test_is_running;
 #define ARG_END
 
 // No load balancing, single core!
-#define SCHED_LOCAL_LOAD_BALANCER()
-#define SCHED_IDLE_LOAD_BALANCER()
-#define SCHED_ARG_END
-#define SCHED_LB_TEST_START()
-#define SCHED_FIX_PROC_2() sched_fix_proc_2()
+#define BGRT_SCHED_LOCAL_LOAD_BALANCER()
+#define BGRT_SCHED_IDLE_LOAD_BALANCER()
+#define BGRT_SCHED_ARG_END
+#define BGRT_SCHED_LB_TEST_START()
+#define BGRT_SCHED_FIX_PROC_2() sched_fix_proc_2()
 
-#define SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
+#define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
 
 void kernel_preemt_hook_add( void(*arg)(void) );
 void kernel_preemt_hook(void);

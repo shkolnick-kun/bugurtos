@@ -64,7 +64,7 @@ typedef unsigned char bgrt_syscall_t;
 #include <libopencmsis/core_cm3.h>
 // These macros needed for interface with cstartup code.
 #define BGRT_SYSTEM_TIMER_ISR 	sys_tick_handler
-#define RESCHED_ISR			pend_sv_handler
+#define BGRT_RESCHED_ISR			pend_sv_handler
 #define SYSCALL_ISR			sv_call_handler
 
 #define BGRT_CONFIG_FCPU_HZ 			( 32000000ul )

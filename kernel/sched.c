@@ -180,11 +180,11 @@ static sched_t * sched_stat_update_run( proc_t * proc )
     return ((sched_t *)bgrt_kernel.sched + proc->core_id);
 }
 
-#define SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
+#define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
 
 #else  //BGRT_CONFIG_MP
 
-#define SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
+#define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
 
 #endif //BGRT_CONFIG_MP
 void sched_proc_run( proc_t * proc, bgrt_flag_t state )
@@ -192,7 +192,7 @@ void sched_proc_run( proc_t * proc, bgrt_flag_t state )
     sched_t * sched;
     //Set new state
     PROC_SET_STATE( proc, state );
-    sched = SCHED_STAT_UPDATE_RUN( proc );
+    sched = BGRT_SCHED_STAT_UPDATE_RUN( proc );
 
     BGRT_SPIN_LOCK( sched );
     bgrt_prit_insert( (bgrt_prit_t *)proc, sched->ready );
@@ -277,7 +277,7 @@ void sched_schedule(void)
 {
     proc_t * current_proc;
     sched_t * sched;
-    sched = _SCHED_INIT();
+    sched = BGRT_SCHED_INIT();
     // As sched->current_proc is changed on local core, we don't need to spin-lock sched->lock!
     current_proc = sched->current_proc;
     // We must spin-lock a process!
@@ -423,7 +423,7 @@ void sched_reschedule(void)
 {
     proc_t * current_proc;
     sched_t * sched;
-    sched = _SCHED_INIT();
+    sched = BGRT_SCHED_INIT();
     // We don't need to lock sched->lock as sched->current_proc changed on local core!
     current_proc = sched->current_proc;
     // Need to spin-lock a current proc!
@@ -455,7 +455,7 @@ bgrt_bool_t _sched_proc_yeld( void )
     sched_t * sched;
     proc_t * proc;
 
-    sched = _SCHED_INIT();
+    sched = BGRT_SCHED_INIT();
     proc = sched->current_proc;
 
     BGRT_SPIN_LOCK( proc );

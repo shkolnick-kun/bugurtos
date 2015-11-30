@@ -218,7 +218,7 @@ __attribute__ (( naked )) void BGRT_SYSTEM_TIMER_ISR(void)
     BUGURT_SCHED_EXIT();
 }
 //====================================================================================
-__attribute__ (( naked )) void RESCHED_ISR(void)
+__attribute__ (( naked )) void BGRT_RESCHED_ISR(void)
 {
     BUGURT_SCHED_ENTER();
     bgrt_kernel.sched.current_proc->spointer = bugurt_read_psp();
