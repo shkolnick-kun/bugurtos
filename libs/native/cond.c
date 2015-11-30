@@ -78,23 +78,23 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "cond.h"
 
-status_t cond_init_isr( cond_t * cond )
+bgrt_st_t cond_init_isr( cond_t * cond )
 {
     return SYNC_INIT_ISR( cond, PROC_PRIO_LOWEST );
 }
 
-status_t cond_init( cond_t * cond )
+bgrt_st_t cond_init( cond_t * cond )
 {
-    status_t ret;
-    disable_interrupts();
+    bgrt_st_t ret;
+    bgrt_disable_interrupts();
     ret = cond_init_isr( cond );
-    enable_interrupts();
+    bgrt_enable_interrupts();
     return ret;
 }
 
-status_t cond_wait(  cond_t * cond, mutex_t * mutex )
+bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
 {
-    status_t ret = BGRT_ST_ROLL;
+    bgrt_st_t ret = BGRT_ST_ROLL;
 
     if( (!mutex) || (!cond) )
     {
@@ -122,9 +122,9 @@ status_t cond_wait(  cond_t * cond, mutex_t * mutex )
     return ret;
 }
 
-static status_t _cond_signal( cond_t * cond )
+static bgrt_st_t _cond_signal( cond_t * cond )
 {
-    status_t ret = BGRT_ST_EEMPTY;
+    bgrt_st_t ret = BGRT_ST_EEMPTY;
 
     if( cond->blocked )
     {
@@ -144,9 +144,9 @@ static status_t _cond_signal( cond_t * cond )
     return ret;
 }
 
-status_t cond_signal( cond_t * cond )
+bgrt_st_t cond_signal( cond_t * cond )
 {
-    status_t ret, clr_own;
+    bgrt_st_t ret, clr_own;
 
     clr_own = SYNC_OWN( cond, 0 );
 
@@ -160,10 +160,10 @@ status_t cond_signal( cond_t * cond )
     return ret;
 }
 
-status_t cond_broadcast( cond_t * cond )
+bgrt_st_t cond_broadcast( cond_t * cond )
 {
-    status_t ret = BGRT_ST_ROLL;
-    status_t clr_own;
+    bgrt_st_t ret = BGRT_ST_ROLL;
+    bgrt_st_t clr_own;
 
     clr_own = SYNC_OWN( cond, 0 );
 

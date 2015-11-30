@@ -77,18 +77,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-// item_t methods.
+// bgrt_item_t methods.
 // Initiation
-void item_init(item_t *item)
+void bgrt_item_init(bgrt_item_t *item)
 {
     item->prev = item;
     item->next = item;
 }
 // Insert an item to a list
-void item_insert(item_t *item, item_t *head)
+void bgrt_item_insert(bgrt_item_t *item, bgrt_item_t *head)
 {
     // A tail of a list
-    item_t * tail;
+    bgrt_item_t * tail;
     tail = head->prev;
     // Insert an item between a head and a tail
     item->prev = tail;
@@ -98,10 +98,10 @@ void item_insert(item_t *item, item_t *head)
     tail->next = item;
 }
 //Cut an item
-void item_cut( item_t *item )
+void bgrt_item_cut( bgrt_item_t *item )
 {
-    item_t * prev;
-    item_t * next;
+    bgrt_item_t * prev;
+    bgrt_item_t * next;
     prev = item->prev; //Previous item
     next = item->next; //Next item
 

@@ -105,11 +105,11 @@ A counting semaphore can be locked by one process and freed by another.
 struct _sem_t
 {
     sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-    count_t counter;/*!< \~russian Счетчик ресурсов. \~english A resource counter. */
-    count_t blocked;/*!< \~russian Счетчик блокированных процессов. \~english A blocked process counter. */
-#ifdef CONFIG_MP
-    lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
-#endif // CONFIG_MP
+    bgrt_cnt_t counter;/*!< \~russian Счетчик ресурсов. \~english A resource counter. */
+    bgrt_cnt_t blocked;/*!< \~russian Счетчик блокированных процессов. \~english A blocked process counter. */
+#ifdef BGRT_CONFIG_MP
+    bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
+#endif // BGRT_CONFIG_MP
 };
 // Методы
 // Инициализация
@@ -128,7 +128,7 @@ Semaphore initiation from ISR.
 \param sem A #sem_t pointer.
 \param count A counter start value.
 */
-status_t sem_init_isr( sem_t * sem, count_t count );
+bgrt_st_t sem_init_isr( sem_t * sem, bgrt_cnt_t count );
 /*!
 \~russian
 \brief
@@ -144,7 +144,7 @@ Semaphore initiation.
 \param sem A #sem_t pointer.
 \param count A counter start value.
 */
-status_t sem_init( sem_t * sem, count_t count );
+bgrt_st_t sem_init( sem_t * sem, bgrt_cnt_t count );
 /*!
 \~russian
 \brief
@@ -166,7 +166,7 @@ else  caller process will stop and wait until semaphore get free.
 \param sem A #sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-status_t sem_lock( sem_t * sem );
+bgrt_st_t sem_lock( sem_t * sem );
 /*!
 \~russian
 \brief
@@ -188,7 +188,7 @@ else caller process will just continue.
 \param sem A #sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-status_t sem_try_lock( sem_t * sem );
+bgrt_st_t sem_try_lock( sem_t * sem );
 /*!
 \~russian
 \brief
@@ -210,7 +210,7 @@ else semaphore wait list head will be launched.
 \param sem A #sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-status_t sem_free( sem_t * sem );
+bgrt_st_t sem_free( sem_t * sem );
 
 /*!
 \~russian
@@ -237,6 +237,6 @@ else semaphore wait list head will be launched.
 \param sem A #sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-status_t sem_free_isr( sem_t * sem );
+bgrt_st_t sem_free_isr( sem_t * sem );
 
 #endif // _SEM_H_

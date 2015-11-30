@@ -76,14 +76,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _KERNEL_H_
-#define _KERNEL_H_
+#ifndef _BGRT_KERNEL_H_
+#define _BGRT_KERNEL_H_
 /*!
 \file
 \brief \~russian Заголовок Ядра. \~english A kernel header.
 */
 //Ядро
-typedef struct _kernel_t kernel_t; /*!< \~russian Смотри #_kernel_t; \~english See #_kernel_t; */
+typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
 /*!
 \~russian
 \brief
@@ -98,19 +98,19 @@ A BuguRTOS kernel structure.
 The kernel stores information about launched processes, system time and other important information.
 
 */
-struct _kernel_t
+struct _bgrt_kernel_t
 {
-#ifdef CONFIG_MP
-    sched_t sched[MAX_CORES];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
-    proc_t idle[MAX_CORES];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
-    stat_t stat[MAX_CORES];     /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
-    lock_t stat_lock; /*!< \~russian Спин-блокировка статистики. \~english A statistic spin-lock. */
-    lock_t timer_lock; /*!< \~russian Спин-блокировка таймера. \~english A system timer spin-lock. */
+#ifdef BGRT_CONFIG_MP
+    sched_t sched[BGRT_MAX_CPU];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
+    proc_t idle[BGRT_MAX_CPU];     /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
+    bgrt_ls_t stat[BGRT_MAX_CPU];     /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
+    bgrt_lock_t stat_lock; /*!< \~russian Спин-блокировка статистики. \~english A statistic spin-lock. */
+    bgrt_lock_t timer_lock; /*!< \~russian Спин-блокировка таймера. \~english A system timer spin-lock. */
 #else
     sched_t sched; /*!< \~russian Планировщик. \~english The scheduler. */
     proc_t idle; /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
-#endif // CONFIG_MP
-    timer_t timer; /*!< \~russian Системный таймер. \~english The system timer. */
+#endif // BGRT_CONFIG_MP
+    bgrt_tmr_t timer; /*!< \~russian Системный таймер. \~english The system timer. */
     void (*timer_tick)(void);/*!< \~russian Хук обработчика системного таймера. \~english The system timer tick hook pointer. */
 };
 /*!
@@ -122,11 +122,11 @@ struct _kernel_t
 
 \~english
 \brief
-The BuguRTOS kernel.
+The BuguRTOS bgrt_kernel.
 
 It's the one for the entire system!
 */
-extern kernel_t kernel;
+extern bgrt_kernel_t bgrt_kernel;
 // Методы
 /*!
 \~russian
@@ -145,7 +145,7 @@ This function prepares the kernel to work.
 
 \warning Internal usage function.
 */
-void kernel_init(void);
+void bgrt_kernel_init(void);
 
 /*!
 \~russian
@@ -153,7 +153,7 @@ void kernel_init(void);
 Главная функция процесса холостого хода.
 
 Можно использовать встроенную функцию, а можно определить ее самому.
-Из #idle_main можно работать с программными таймерами, подавать сигналы, ОСВОБОЖДАТЬ семафоры.
+Из #bgrt_idle_main можно работать с программными таймерами, подавать сигналы, ОСВОБОЖДАТЬ семафоры.
 
 \warning Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семафоры и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил!
 
@@ -166,10 +166,10 @@ An IDLE process main function.
 You can use built-in function, or you can write your own.
 IDLE process can work with timers, fire signals and FREE semaphores, SEND IPC data!
 
-\warning An idle_main should NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
+\warning An bgrt_idle_main should NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
 
 \param arg An argument pointer.
 */
-void idle_main(void * arg);
+void bgrt_idle_main(void * arg);
 
-#endif // _KERNEL_H_
+#endif // _BGRT_KERNEL_H_

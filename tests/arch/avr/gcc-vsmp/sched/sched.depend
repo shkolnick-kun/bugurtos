@@ -1,1 +1,85 @@
 # depslib dependency file v1.0
+1448775507 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port_asm.S
+	<avr/io.h>
+
+1448876533 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_proc_stack_init.c
+	<bugurt.h>
+
+1448878810 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+	<bugurt_config.h>
+	"index.h"
+	"item.h"
+	"xlist.h"
+	"pitem.h"
+	"pcounter.h"
+	"crit_sec.h"
+	"proc.h"
+	"sched.h"
+	"kernel.h"
+	"sync.h"
+	"timer.h"
+	"syscall.h"
+	<bugurt_port.h>
+
+1448877899 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/bugurt_config.h
+	<avr/io.h>
+	<avr/interrupt.h>
+	<avr/pgmspace.h>
+
+1448876671 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
+
+1448775507 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
+
+1448876672 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
+
+1448876672 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.h
+
+1448876792 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
+
+1448877470 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
+
+1448877691 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+
+1448878327 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
+
+1448877844 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
+
+1448877471 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+
+1448878271 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
+
+1448876946 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+
+1448877845 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/bugurt_port.h
+	"vsmp.h"
+
+1448877844 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/vsmp.h
+
+1448876671 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+	"bugurt.h"
+
+1448775507 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+	"bugurt.h"
+
+1448876792 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.c
+	"bugurt.h"
+
+1448876671 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
+	"bugurt.h"
+
+1448877899 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
+	"bugurt.h"
+
+1448878049 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.c
+	"bugurt.h"
+
+1448876792 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
+	"bugurt.h"
+
+1448876894 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
+	<test_func.h>
+
+1448877691 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/test_func.h
+	<bugurt.h>
+	<util/delay.h>
+

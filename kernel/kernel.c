@@ -77,69 +77,69 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-kernel_t kernel;// The kernel, it is the one!
+bgrt_kernel_t bgrt_kernel;// The kernel, it is the one!
 
-#ifndef CONFIG_USER_IDLE
-WEAK void idle_main(void * arg)
+#ifndef BGRT_CONFIG_USER_IDLE
+WEAK void bgrt_idle_main(void * arg)
 {
     while(1)
     {
-#ifdef CONFIG_SAVE_POWER
-        if( sched_proc_yeld() )CONFIG_SAVE_POWER();
-#else // CONFIG_SAVE_POWER
+#ifdef BGRT_CONFIG_SAVE_POWER
+        if( sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER();
+#else // BGRT_CONFIG_SAVE_POWER
         sched_proc_yeld();
-#endif // CONFIG_SAVE_POWER
+#endif // BGRT_CONFIG_SAVE_POWER
     }
 }
-#endif // CONFIG_USER_IDLE
+#endif // BGRT_CONFIG_USER_IDLE
 
-void kernel_init(void)
+void bgrt_kernel_init(void)
 {
-#ifdef CONFIG_MP
-    core_id_t i;
+#ifdef BGRT_CONFIG_MP
+    bgrt_cpuid_t i;
 
-    spin_init( &kernel.stat_lock );
-    spin_lock( &kernel.stat_lock );
+    bgrt_spin_init( &bgrt_kernel.stat_lock );
+    bgrt_spin_lock( &bgrt_kernel.stat_lock );
     //The Kernel initiation!
-    for( i = (core_id_t)0; i<(core_id_t)MAX_CORES; i++ )
+    for( i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++ )
     {
         proc_init_isr(
-            kernel.idle + i, //A kernel.idle[i] process
-            idle_main, // main
-            (code_t)0, // none
-            (code_t)0, // none
+            bgrt_kernel.idle + i, //A bgrt_kernel.idle[i] process
+            bgrt_idle_main, // main
+            (bgrt_code_t)0, // none
+            (bgrt_code_t)0, // none
             (void *)0, // null
             0,         // null, will be replaced with kernel stack pointer.
             PROC_PRIO_LOWEST,// idle has lowest priority
-            (timer_t)1,// Smallest time slice
-            (bool_t)0,// idle is not RT
-            ((affinity_t)1)<<i // Disable to other cores!
+            (bgrt_tmr_t)1,// Smallest time slice
+            (bgrt_bool_t)0,// idle is not RT
+            ((bgrt_aff_t)1)<<i // Disable to other cores!
         );
-        kernel.idle[i].core_id = i;
-        stat_init( (stat_t *)kernel.stat + i );
-        sched_init( (sched_t *)kernel.sched + i, (proc_t *)kernel.idle + i );
+        bgrt_kernel.idle[i].core_id = i;
+        bgrt_stat_init( (bgrt_ls_t *)bgrt_kernel.stat + i );
+        sched_init( (sched_t *)bgrt_kernel.sched + i, (proc_t *)bgrt_kernel.idle + i );
     }
-    spin_free( &kernel.stat_lock );
+    bgrt_spin_free( &bgrt_kernel.stat_lock );
 
-    spin_init(&kernel.timer_lock);
-    spin_lock(&kernel.timer_lock);
-    kernel.timer = (timer_t)0;
-    kernel.timer_tick = (void(*)(void))0;
-    spin_free(&kernel.timer_lock);
+    bgrt_spin_init(&bgrt_kernel.timer_lock);
+    bgrt_spin_lock(&bgrt_kernel.timer_lock);
+    bgrt_kernel.timer = (bgrt_tmr_t)0;
+    bgrt_kernel.timer_tick = (void(*)(void))0;
+    bgrt_spin_free(&bgrt_kernel.timer_lock);
 #else
     proc_init_isr(
-        &kernel.idle, //The kernel.idle process.
-        idle_main, // pmain
-        (code_t)0, // none
-        (code_t)0, // none
+        &bgrt_kernel.idle, //The bgrt_kernel.idle process.
+        bgrt_idle_main, // pmain
+        (bgrt_code_t)0, // none
+        (bgrt_code_t)0, // none
         (void *)0, // null
         0,         // null, will be replaced with kernel stack pointer.
         PROC_PRIO_LOWEST, // idle has lowest priority
-        (timer_t)1,//Smallest time slice
-        (bool_t)0// Idle is not RT
+        (bgrt_tmr_t)1,//Smallest time slice
+        (bgrt_bool_t)0// Idle is not RT
     );
-    sched_init( (sched_t *)&kernel.sched, (proc_t *)&kernel.idle );
-    kernel.timer = (timer_t)0;
-    kernel.timer_tick = (void(*)(void))0;
-#endif // CONFIG_MP
+    sched_init( (sched_t *)&bgrt_kernel.sched, (proc_t *)&bgrt_kernel.idle );
+    bgrt_kernel.timer = (bgrt_tmr_t)0;
+    bgrt_kernel.timer_tick = (void(*)(void))0;
+#endif // BGRT_CONFIG_MP
 }

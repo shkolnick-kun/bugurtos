@@ -83,66 +83,66 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок элементов 2-связного списка. \~english A list item header.
 */
 //Элемент 2-связного списка;
-typedef struct _item_t item_t; /*!< \~russian Смотри #_item_t; \~english See #_item_t; */
+typedef struct _bgrt_item_t bgrt_item_t; /*!< \~russian Смотри #_bgrt_item_t; \~english See #_bgrt_item_t; */
 //Свойства
 /*!
 \~russian
 \brief Элемент 2-связного списка.
 
-Все структуры, где будут применяться 2-связные списки, унаследуют свойства и методы #item_t.
+Все структуры, где будут применяться 2-связные списки, унаследуют свойства и методы #bgrt_item_t.
 
 \~english
 \brief A list item.
 
-All structures, that must be listed, will inherit #item_t properties and methods.
+All structures, that must be listed, will inherit #bgrt_item_t properties and methods.
 */
-struct _item_t
+struct _bgrt_item_t
 {
-    item_t *next;  /*!< \~russian Следующий элемент. \~english Next item in a list. */
-    item_t *prev;  /*!< \~russian Предыдущий элемент. \~english Previous item in a list. */
+    bgrt_item_t *next;  /*!< \~russian Следующий элемент. \~english Next item in a list. */
+    bgrt_item_t *prev;  /*!< \~russian Предыдущий элемент. \~english Previous item in a list. */
 };
 
 /*!
    \~russian
-   Статическая инициализация объекта типа #item_t.
+   Статическая инициализация объекта типа #bgrt_item_t.
    \warning Для внутреннего использования.
-   \param a Имя переменной типа #item_t.
+   \param a Имя переменной типа #bgrt_item_t.
 
    \~english
    Static item initiation.
    \warning For internel usage.
-   \param a An #item_t variable name.
+   \param a An #bgrt_item_t variable name.
 */
-#define INIT_ITEM_T(a) { (item_t *)&a, (item_t *)&a }
+#define INIT_ITEM_T(a) { (bgrt_item_t *)&a, (bgrt_item_t *)&a }
 
 //Методы
 /*!
 \~russian
 \brief
-Инициализация объекта типа #item_t.
+Инициализация объекта типа #bgrt_item_t.
 
 \warning Для внутреннего использования.
 
-\param item Указатель на объект #item_t.
+\param item Указатель на объект #bgrt_item_t.
 
 \~english
 \brief
-An #item_t object initiation.
+An #bgrt_item_t object initiation.
 
 \warning Internal usage function.
 
-\param item An #item_t pointer.
+\param item An #bgrt_item_t pointer.
 */
-void item_init(item_t *item);
+void bgrt_item_init(bgrt_item_t *item);
 /*!
 \~russian
 \brief
-Вставка элемента типа #item_t в список.
+Вставка элемента типа #bgrt_item_t в список.
 
 \warning Для внутреннего использования.
 
-\param item Указатель на объект типа #item_t, который будем вставлять.
-\param head Указатель на голову списка типа #item_t.
+\param item Указатель на объект типа #bgrt_item_t, который будем вставлять.
+\param head Указатель на голову списка типа #bgrt_item_t.
 
 \~english
 \brief
@@ -153,15 +153,15 @@ Insert an item to a list.
 \param item \~english A pointer to an item.
 \param head \~english A pointer to a destination list head.
 */
-void item_insert(item_t *item, item_t *head);
+void bgrt_item_insert(bgrt_item_t *item, bgrt_item_t *head);
 /*!
 \~russian
 \brief
-Вырезать элемент типа #item_t из списка.
+Вырезать элемент типа #bgrt_item_t из списка.
 
 \warning Для внутреннего использования.
 
-\param item Указатель на объект типа #item_t, который будем вырезать.
+\param item Указатель на объект типа #bgrt_item_t, который будем вырезать.
 
 \~english
 \brief
@@ -171,5 +171,5 @@ Cut an item from a list.
 
 \param item A pointer to an item to cut.
 */
-void item_cut(item_t *item);
+void bgrt_item_cut(bgrt_item_t *item);
 #endif //_ITEM_H_

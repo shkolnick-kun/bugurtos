@@ -1,32 +1,32 @@
 #include <bugurt.h>
 #include <util/delay.h>
 extern proc_t proc[6];
-extern stack_t proc_stack[6][PROC_STACK_SIZE];
+extern bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 //======================================================================
 // Generic proc_init argument terminator.
-#define ARG_END ,(affinity_t)0x3
+#define ARG_END ,(bgrt_aff_t)0x3
 // Scheduler test proc_init argument terminator
-#if (CONFIG_LB_SCHEME != 0)
-    #define SCHED_ARG_END ,(affinity_t)0x2
+#if (BGRT_CONFIG_LB_SCHEME != 0)
+    #define SCHED_ARG_END ,(bgrt_aff_t)0x2
 #else
-    #define SCHED_ARG_END ,(affinity_t)0x3
+    #define SCHED_ARG_END ,(bgrt_aff_t)0x3
 #endif
 //======================================================================
-#if (CONFIG_LB_SCHEME == 2)
+#if (BGRT_CONFIG_LB_SCHEME == 2)
     #define SCHED_LOCAL_LOAD_BALANCER() sched_lazy_local_load_balancer()
-#else  //CONFIG_LB_SCHEME == 2
+#else  //BGRT_CONFIG_LB_SCHEME == 2
     #define SCHED_LOCAL_LOAD_BALANCER()
-#endif //CONFIG_LB_SCHEME == 2
+#endif //BGRT_CONFIG_LB_SCHEME == 2
 //======================================================================
-#if (CONFIG_LB_SCHEME == 2)
+#if (BGRT_CONFIG_LB_SCHEME == 2)
     #define SCHED_IDLE_LOAD_BALANCER() sched_lazy_local_load_balancer()
-#else  //CONFIG_LB_SCHEME == 2
-#if (CONFIG_LB_SCHEME == 3)
+#else  //BGRT_CONFIG_LB_SCHEME == 2
+#if (BGRT_CONFIG_LB_SCHEME == 3)
     #define SCHED_IDLE_LOAD_BALANCER() sched_lazy_global_load_balancer()
-#else  //CONFIG_LB_SCHEME == 3
+#else  //BGRT_CONFIG_LB_SCHEME == 3
     #define SCHED_IDLE_LOAD_BALANCER()
-#endif //CONFIG_LB_SCHEME == 3
-#endif //CONFIG_LB_SCHEME == 2
+#endif //BGRT_CONFIG_LB_SCHEME == 3
+#endif //BGRT_CONFIG_LB_SCHEME == 2
 //======================================================================
 
 #define SCHED_LB_TEST_START() sched_lb_test_start()
@@ -56,7 +56,7 @@ void blink_6(void);
 void load_bar_graph(void);
 
 // proc test functions
-void test_output( bool_t test_result, count_t test_mun );
+void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_mun );
 void test_start(void);
 void tests_end(void);
 

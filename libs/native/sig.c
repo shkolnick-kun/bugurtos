@@ -78,30 +78,30 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sig.h"
 
-status_t sig_init( sig_t * sig )
+bgrt_st_t sig_init( sig_t * sig )
 {
-    status_t ret;
-    disable_interrupts();
+    bgrt_st_t ret;
+    bgrt_disable_interrupts();
     ret = sig_init_isr( sig );
-    enable_interrupts();
+    bgrt_enable_interrupts();
     return ret;
 }
 
-status_t sig_init_isr( sig_t * sig )
+bgrt_st_t sig_init_isr( sig_t * sig )
 {
     if( !sig )
     {
         return BGRT_ST_ENULL;
     }
     cond_init_isr( (cond_t *)sig );
-    KERNEL_PREEMPT();
+    BGRT_KERNEL_PREEMPT();
     mutex_init_isr( &sig->wait, PROC_PRIO_LOWEST );
     return BGRT_ST_OK;
 }
 
-status_t sig_wait( sig_t * sig )
+bgrt_st_t sig_wait( sig_t * sig )
 {
-    status_t ret;
+    bgrt_st_t ret;
     if( !sig )
     {
         return BGRT_ST_ENULL;
@@ -116,9 +116,9 @@ status_t sig_wait( sig_t * sig )
     return ret;
 }
 
-status_t sig_signal( sig_t * sig )
+bgrt_st_t sig_signal( sig_t * sig )
 {
-    status_t ret;
+    bgrt_st_t ret;
     if( !sig )
     {
         return BGRT_ST_ENULL;
@@ -133,9 +133,9 @@ status_t sig_signal( sig_t * sig )
     return ret;
 }
 
-status_t sig_broadcast( sig_t * sig )
+bgrt_st_t sig_broadcast( sig_t * sig )
 {
-    status_t ret;
+    bgrt_st_t ret;
     if( !sig )
     {
         return BGRT_ST_ENULL;

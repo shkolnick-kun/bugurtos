@@ -2,7 +2,7 @@
 #include <sem.h>
 
 proc_t proc[6];
-stack_t proc_stack[6][PROC_STACK_SIZE];
+bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
 sem_t test_sem;
 
@@ -18,7 +18,7 @@ void main_with_return( void * arg )
     test_output( (0 == test_sem.counter), 2 );
     //sem_lock test 3
     proc_run( &proc[2] );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( (0 == test_sem.counter), 3 );
 
     // proc[2] must wait on test_sem.
@@ -36,17 +36,17 @@ void main_with_return( void * arg )
     //sem_free test 9
     // proc[2] must get semaphore and self stop
     sem_free( &test_sem );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ( 0 == test_sem.counter ), 9 );
     //sem_free test 10
     // proc[2] must free semaphore and self stop
     proc_run( &proc[2] );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ( 1 == test_sem.counter ), 10 );
     // sem_lock test 11
     // proc[2] must lock a test_sem and self ctop
     proc_run( &proc[2] );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ( 0 == test_sem.counter ), 11 );
     //sem_lock test 11
     test_output( (PROC_STATE_SYNC_SLEEP) != (proc[2].flags & PROC_STATE_MASK) , 12 );
@@ -59,7 +59,7 @@ void main_lb( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
     }
@@ -74,11 +74,11 @@ void main_sem( void * arg )
         proc_self_stop();
     }
 }
-void idle_main( void * arg )
+void bgrt_idle_main( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
     }
@@ -89,14 +89,14 @@ int main(void)
     /**************************************************
     *          For test purposes only!!!              *
     *  It is strongly recomended to initiate hardware *
-    *         AFTER init_bugurt() call!!!             *
+    *         AFTER bgrt_init() call!!!             *
     **************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.
      */
     init_hardware();
-    init_bugurt();
+    bgrt_init();
 
     SCHED_SYSTICK_HOOK_ADD();
 
@@ -108,6 +108,6 @@ int main(void)
 
     proc_run_isr( &proc[0] );
 
-    start_bugurt();
+    bgrt_start();
     return 0;
 }

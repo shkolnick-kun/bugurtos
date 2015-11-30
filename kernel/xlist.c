@@ -78,41 +78,41 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 /**********************************************
-Методы xlist_t
+Методы bgrt_xlist_t
 
 Всегда вызывать при запрещенных прерываниях!!!
 **********************************************/
 //Инициация
-void xlist_init(
-    xlist_t * xlist
+void bgrt_xlist_init(
+    bgrt_xlist_t * xlist
 )
 {
-    count_t i;
+    bgrt_cnt_t i;
     //xlist is empty
-    xlist->index = (index_t)0;
+    xlist->index = (bgrt_index_t)0;
     //all sublists are empty
-    for( i = 0; i < BITS_IN_INDEX_T; i++ )xlist->item[i] = (item_t *)0;
+    for( i = 0; i < BGRT_BITS_IN_INDEX_T; i++ )xlist->item[i] = (bgrt_item_t *)0;
 }
 //===========================================================================
 //Find the head.
-item_t * xlist_head(xlist_t * xlist)
+bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
 {
-    item_t * ret_val = (item_t *)0;
-    index_t index;
+    bgrt_item_t * ret_val = (bgrt_item_t *)0;
+    bgrt_index_t index;
     index = xlist->index;
 
-    if( index != (index_t)0 )
+    if( index != (bgrt_index_t)0 )
     {
-        ret_val = xlist->item[ index_search( index ) ];
+        ret_val = xlist->item[ bgrt_index_search( index ) ];
     }
     return ret_val;
 }
 //===========================================================================
 // Switch sublist head
-void xlist_switch(xlist_t * xlist, prio_t prio)
+void bgrt_xlist_switch(bgrt_xlist_t * xlist, bgrt_prio_t prio)
 {
-    item_t ** current;
+    bgrt_item_t ** current;
     current = xlist->item + prio;
     *current = (*current)->next;
-    //*current = (item_t *)*(item_t **)*(item_t ***)current;
+    //*current = (bgrt_item_t *)*(bgrt_item_t **)*(bgrt_item_t ***)current;
 }

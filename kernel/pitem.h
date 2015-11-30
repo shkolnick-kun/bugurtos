@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _PITEM_H_
-#define _PITEM_H_
+#ifndef _BGRT_PRIT_H_
+#define _BGRT_PRIT_H_
 
 /*!
 \file
@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 //Элемент списка с приоритетами
 
-typedef struct _pitem_t pitem_t;
+typedef struct _bgrt_prit_t bgrt_prit_t;
 //Свойства
 /*!
 \~russian
@@ -96,16 +96,16 @@ typedef struct _pitem_t pitem_t;
 \brief
 A prioritized list item.
 */
-struct _pitem_t
+struct _bgrt_prit_t
 {
-    item_t parent; /*!< \~russian Родитель - #item_t. \~english A parent - #item_t. */
-    xlist_t * list; /*!< \~russian Указатель на спиок в который будем вставлять. \~english A pointer to an #xlist_t object.*/
-    prio_t prio; /*!< \~russian Приоритет. \~english A priority. */
+    bgrt_item_t parent; /*!< \~russian Родитель - #bgrt_item_t. \~english A parent - #bgrt_item_t. */
+    bgrt_xlist_t * list; /*!< \~russian Указатель на спиок в который будем вставлять. \~english A pointer to an #bgrt_xlist_t object.*/
+    bgrt_prio_t prio; /*!< \~russian Приоритет. \~english A priority. */
 };
 
 /*!
    \~russian
-   Статическая инициализация объекта типа #pitem_t
+   Статическая инициализация объекта типа #bgrt_prit_t
 
    \warning Для внутреннего использования.
 
@@ -113,123 +113,123 @@ struct _pitem_t
    \param p Приоритет.
 
    \~english
-   A static #pitem_t object initiation.
+   A static #bgrt_prit_t object initiation.
 
    \warning For internal usage.
 
    \param a A variable name.
    \param p A priority.
 */
-#define INIT_P_ITEM_T(a,p) { INIT_ITEM_T(a), (xlist_t *)0, (prio_t)p }
+#define INIT_PRIT_T(a,p) { INIT_ITEM_T(a), (bgrt_xlist_t *)0, (bgrt_prio_t)p }
 
 //Методы
 /*!
 \~russian
 \brief
-Инициализация объект а типа #pitem_t.
+Инициализация объект а типа #bgrt_prit_t.
 
 \warning Для внутреннего использования.
 
-\param pitem Указатель на объект #pitem_t.
+\param pitem Указатель на объект #bgrt_prit_t.
 \param prio Приоритет элемента.
 
 \~english
 \brief
-A #pitem_t object initiation.
+A #bgrt_prit_t object initiation.
 
 \warning For internal usage.
 
-\param pitem A #pitem_t pointer.
+\param pitem A #bgrt_prit_t pointer.
 \param prio A priority.
 */
-void pitem_init( pitem_t * pitem, prio_t prio );
+void bgrt_prit_init( bgrt_prit_t * pitem, bgrt_prio_t prio );
 /*!
 \~russian
 \brief
-Вставка элемента типа #pitem_t в список типа #xlist_t.
+Вставка элемента типа #bgrt_prit_t в список типа #bgrt_xlist_t.
 
 \warning Для внутреннего использования.
 
-\param pitem Указатель на объект #pitem_t.
+\param pitem Указатель на объект #bgrt_prit_t.
 \param xlist Указатель на список.
 
 \~english
 \brief
-Insert #pitem_t object to #xlist_t container.
+Insert #bgrt_prit_t object to #bgrt_xlist_t container.
 
 \warning For internal usage.
 
-\param pitem A #pitem_t pointer.
+\param pitem A #bgrt_prit_t pointer.
 \param xlist A pointer to destination list.
 */
-void pitem_insert( pitem_t * pitem, xlist_t * xlist );
+void bgrt_prit_insert( bgrt_prit_t * pitem, bgrt_xlist_t * xlist );
 /*!
 \~russian
 \brief
 Быстро вырезать из списка.
 
-Вырезает объект типа #pitem_t, из списка типа #xlist_t, не обнуляет указатель pitem->list.
+Вырезает объект типа #bgrt_prit_t, из списка типа #bgrt_xlist_t, не обнуляет указатель pitem->list.
 
 \warning Для внутреннего использования.
 
-\param pitem Указатель на объект #pitem_t.
+\param pitem Указатель на объект #bgrt_prit_t.
 
 \~english
 \brief
-Fast cut #pitem_t object from #xlist_t container.
+Fast cut #bgrt_prit_t object from #bgrt_xlist_t container.
 
-This function cuts #pitem_t object from #xlist_t container without pitem->list field.
+This function cuts #bgrt_prit_t object from #bgrt_xlist_t container without pitem->list field.
 
 \warning For internal usage.
 
-\param pitem A #pitem_t pointer.
+\param pitem A #bgrt_prit_t pointer.
 */
-void pitem_fast_cut( pitem_t * pitem );
+void bgrt_prit_fast_cut( bgrt_prit_t * pitem );
 /*!
 \~russian
 \brief
 Вырезать из списка.
 
-Вызывает #pitem_fast_cut и обнуляет указатель pitem->list.
+Вызывает #bgrt_prit_fast_cut и обнуляет указатель pitem->list.
 
 \warning Для внутреннего использования.
 
-\param pitem Указатель на объект #pitem_t.
+\param pitem Указатель на объект #bgrt_prit_t.
 
 \~english
 \brief
-Cut #pitem_t object from #xlist_t container.
+Cut #bgrt_prit_t object from #bgrt_xlist_t container.
 
-This function calls #pitem_fast_cut and then nulls pitem->list field.
+This function calls #bgrt_prit_fast_cut and then nulls pitem->list field.
 
 \warning For internal usage.
 
-\param pitem A #pitem_t pointer.
+\param pitem A #bgrt_prit_t pointer.
 */
-void pitem_cut( pitem_t * pitem );
+void bgrt_prit_cut( bgrt_prit_t * pitem );
 
 /*!
 \~russian
 \brief
-"Сцепить" список типа #xlist_t.
+"Сцепить" список типа #bgrt_xlist_t.
 
-Вырезать из списка типа xlist_t все элементы типа #pitem_t и сделать из них простой 2-связный список.
+Вырезать из списка типа bgrt_xlist_t все элементы типа #bgrt_prit_t и сделать из них простой 2-связный список.
 
 \warning Для внутреннего использования.
 
-\param src Указатель на объект #xlist_t.
+\param src Указатель на объект #bgrt_xlist_t.
 \return Указатель на голову 2-связного списка.
 
 \~english
 \brief
-"Chain" #pitem_t objects from #xlist_t container.
+"Chain" #bgrt_prit_t objects from #bgrt_xlist_t container.
 
-Cut all #pitem_t objects from #xlist_t container and form an ordinary list from them.
+Cut all #bgrt_prit_t objects from #bgrt_xlist_t container and form an ordinary list from them.
 
 \warning For internal usage.
 
-\param src A #xlist_t pointer.
+\param src A #bgrt_xlist_t pointer.
 \return An ordinary doublelinked list head pointer.
 */
-pitem_t * pitem_xlist_chain( xlist_t * src );
-#endif // _PITEM_H_
+bgrt_prit_t * bgrt_prit_bgrt_xlist_chain( bgrt_xlist_t * src );
+#endif // _BGRT_PRIT_H_

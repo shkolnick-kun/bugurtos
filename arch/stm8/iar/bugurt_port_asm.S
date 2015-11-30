@@ -84,7 +84,7 @@
 
   #include "vregs.inc"
 
-; stack_t * bugurt_save_context( void );
+; bgrt_stack_t * bugurt_save_context( void );
 ; Initial conditions are:
 ; ?b0...?b7 are saved to the stack by the compiler,
 ; return address is on top of the stack.

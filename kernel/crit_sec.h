@@ -100,22 +100,22 @@ Critical sections may be nested, in this case interrupts get enabled on exit fro
 */
 
 /*!
-\def ENTER_CRIT_SEC()
+\def BGRT_CRIT_SEC_ENTER()
 \~russian
 \brief Макрос-обертка.
 
 Вход в критическую секцию.
 \warning Использовать в начале блока!
-\warning Все локальные переменные должны быть объявлены до #ENTER_CRIT_SEC
+\warning Все локальные переменные должны быть объявлены до #BGRT_CRIT_SEC_ENTER
 
 \~english
 \brief A wrapper macro.
 
 A critical section start.
 \warning Must be used on a start of a code block!
-\warning All local variables must be declared before #ENTER_CRIT_SEC, and all executable code must be below it.
+\warning All local variables must be declared before #BGRT_CRIT_SEC_ENTER, and all executable code must be below it.
 
-\def EXIT_CRIT_SEC()
+\def BGRT_CRIT_SEC_EXIT()
 \~russian
 \brief Макрос-обертка.
 
@@ -128,12 +128,12 @@ A critical section start.
 A critical section end.
 \warning Must be used at the end of a code block.
 */
-#ifdef CONFIG_MP
+#ifdef BGRT_CONFIG_MP
 
-#define ENTER_CRIT_SEC() core_id_t current_core; \
-                         current_core = _enter_crit_sec()
+#define BGRT_CRIT_SEC_ENTER() bgrt_cpuid_t current_core; \
+                         current_core = _bgrt_crit_sec_enter()
 
-#define EXIT_CRIT_SEC() _exit_crit_sec( current_core )
+#define BGRT_CRIT_SEC_EXIT() _bgrt_crit_sec_exit( current_core )
 
 /*!
 \~russian
@@ -147,7 +147,7 @@ A critical section end.
 \return
  An ID of the local CPU core.
 */
-core_id_t _enter_crit_sec(void);
+bgrt_cpuid_t _bgrt_crit_sec_enter(void);
 /*!
 \~russian
 \brief Выход из критической секции на многопроцессорной системе
@@ -162,11 +162,11 @@ core_id_t _enter_crit_sec(void);
 
 \warning If core param don't match the local CPU core the behavior is undefined.
 */
-void _exit_crit_sec(core_id_t core);
+void _bgrt_crit_sec_exit(bgrt_cpuid_t core);
 #else
 
-#define ENTER_CRIT_SEC() enter_crit_sec()
-#define EXIT_CRIT_SEC() exit_crit_sec()
+#define BGRT_CRIT_SEC_ENTER() bgrt_crit_sec_enter()
+#define BGRT_CRIT_SEC_EXIT() bgrt_crit_sec_exit()
 
 /*!
 \~russian
@@ -178,7 +178,7 @@ void _exit_crit_sec(core_id_t core);
 
 A critical section start.
 */
-void enter_crit_sec(void);
+void bgrt_crit_sec_enter(void);
 /*!
 \~russian
 \brief Выход из критической секции.
@@ -189,7 +189,7 @@ void enter_crit_sec(void);
 
 A critical section end.
 */
-void exit_crit_sec(void);
-#endif // CONFIG_MP
+void bgrt_crit_sec_exit(void);
+#endif // BGRT_CONFIG_MP
 
 #endif // _CRIT_SEC_H_

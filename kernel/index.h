@@ -100,6 +100,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \param index An index.
 \return Highest priority of an index (with minimal value).
 */
-prio_t index_search(index_t index);
+bgrt_prio_t bgrt_index_search(bgrt_index_t index);
 
 #endif // _INDEX_H_

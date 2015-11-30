@@ -49,7 +49,7 @@ void blink_4(void) {PORTB ^= 0x02;}
 void blink_5(void) {PORTB ^= 0x01;}
 void blink_6(void) {PORTD ^= 0x80;}
 
-static void blink_digit( count_t digit )
+static void blink_digit( bgrt_cnt_t digit )
 {
     PORTB &= ~0x20;
     _delay_ms(200);
@@ -69,7 +69,7 @@ static void blink_digit( count_t digit )
     }
 }
 // Can blink numbers from 0 up to 99.
-static void blink_num( count_t num )
+static void blink_num( bgrt_cnt_t num )
 {
     PORTB &= ~0x20;
     PORTD &= ~0x40;
@@ -81,7 +81,7 @@ static void blink_num( count_t num )
     blink_digit( num%10 ); //Least significant digit
 
 }
-void test_output( bool_t test_result, count_t test_num )
+void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
 {
     // If test has failed, then where will be abnormal program termination!
     if( !test_result )
@@ -126,7 +126,7 @@ void test_inc(void)
 
 void show_nested_int(void)
 {
-#ifdef CONFIG_PREEMPTIVE_KERNEL
+#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
     PORTC |= 0x1f;
     switch(nested_interrupts)
     {
@@ -143,7 +143,7 @@ void show_nested_int(void)
         default:
             break;
     }
-#endif //CONFIG_PREEMPTIVE_KERNEL
+#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
 }
 void systick_hook(void)
 {

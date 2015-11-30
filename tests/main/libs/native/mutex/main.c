@@ -2,7 +2,7 @@
 #include <mutex.h>
 
 proc_t proc[6];
-stack_t proc_stack[6][PROC_STACK_SIZE];
+bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
 mutex_t test_mutex;
 
@@ -21,7 +21,7 @@ void main_with_return( void * arg )
     //mutex_try_lock test 3
     //mutex_lock test 4
     proc_run( &proc[2] );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ((PROC_STATE_SYNC_SLEEP) == (proc[2].flags & (PROC_STATE_MASK) ) ), 4 );
     //mutex_lock test 7
     test_output( !PROC_RUN_TEST( (&proc[2]) ), 5 );
@@ -34,19 +34,19 @@ void main_with_return( void * arg )
     test_output( (BGRT_ST_ROLL == mutex_try_lock( &test_mutex )), 8 );
     //mutex_try_lock test 9
     mutex_free( &test_mutex );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ( proc[0].parent.prio == 4 ), 9 );
     //mutex_free test 10
     test_output( ( (&proc[2]) == SYNC_GET_OWNER( &test_mutex )), 10 );
     //mutex_free test 11
     // proc[2] must free mutexaphore and self stop
     proc_run( &proc[2] );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ( ((proc_t *)0) == SYNC_GET_OWNER( &test_mutex )), 11 );
     // mutex_lock test 12
     // proc[2] must lock a test_mutex and self ctop
     proc_run( &proc[2] );
-    wait_time( 2 );
+    bgrt_wait_time( 2 );
     test_output( ( (&proc[2]) == SYNC_GET_OWNER( &test_mutex )), 12 );
     //mutex_lock test 13
     test_output( (proc[2].flags & PROC_STATE_MASK) != PROC_STATE_SYNC_SLEEP, 13 );
@@ -59,7 +59,7 @@ void main_lb( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
     }
@@ -74,11 +74,11 @@ void main_mutex( void * arg )
         proc_self_stop();
     }
 }
-void idle_main( void * arg )
+void bgrt_idle_main( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
     }
@@ -89,14 +89,14 @@ int main(void)
     /**************************************************
     *          For test purposes only!!!              *
     *  It is strongly recomended to initiate hardware *
-    *         AFTER init_bugurt() call!!!             *
+    *         AFTER bgrt_init() call!!!             *
     **************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.
      */
     init_hardware();
-    init_bugurt();
+    bgrt_init();
 
     SCHED_SYSTICK_HOOK_ADD();
 
@@ -108,6 +108,6 @@ int main(void)
 
     proc_run_isr( &proc[0] );
 
-    start_bugurt();
+    bgrt_start();
     return 0;
 }

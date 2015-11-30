@@ -78,111 +78,111 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 // Инициация
-void pitem_init( pitem_t * pitem, prio_t prio )
+void bgrt_prit_init( bgrt_prit_t * pitem, bgrt_prio_t prio )
 {
-    item_init( (item_t *)pitem );
-    pitem->list = (xlist_t *)0;
+    bgrt_item_init( (bgrt_item_t *)pitem );
+    pitem->list = (bgrt_xlist_t *)0;
     pitem->prio = prio;
 }
 // Вставка в список
-void pitem_insert( pitem_t * pitem, xlist_t * xlist )
+void bgrt_prit_insert( bgrt_prit_t * pitem, bgrt_xlist_t * xlist )
 {
-    prio_t prio;
-    index_t mask;
-    item_t ** head;
+    bgrt_prio_t prio;
+    bgrt_index_t mask;
+    bgrt_item_t ** head;
 
     prio = pitem->prio;
-    mask = ((index_t)1)<<prio;
-    head = (item_t **)xlist + prio;
+    mask = ((bgrt_index_t)1)<<prio;
+    head = (bgrt_item_t **)xlist + prio;
     // Пуста ли часть списка с таким приоритетом
     if( ( xlist->index )& mask)
     {
         //Не пуста вставляем туда gitem
-        item_insert( (item_t *)pitem, *head );
+        bgrt_item_insert( (bgrt_item_t *)pitem, *head );
     }
     else
     {
         // Пуста, gitem будет головой
-        *head = (item_t *)pitem;
+        *head = (bgrt_item_t *)pitem;
         xlist->index |= mask;
     }
     pitem->list = xlist;
 }
 // Быстрая вырезка из списка
-void pitem_fast_cut( pitem_t * pitem )
+void bgrt_prit_fast_cut( bgrt_prit_t * pitem )
 {
-    prio_t prio;
-    xlist_t * xlist;
+    bgrt_prio_t prio;
+    bgrt_xlist_t * xlist;
 
     prio = pitem->prio;
-    xlist = (xlist_t *)pitem->list;
+    xlist = (bgrt_xlist_t *)pitem->list;
     //Является ли элемент единственным в своей части списка?
-    if( ((item_t *)pitem)->next == (item_t *)pitem )
+    if( ((bgrt_item_t *)pitem)->next == (bgrt_item_t *)pitem )
     {
         // Да, является!
-        xlist->item[prio] = (item_t *)0;
-        xlist->index &= ~(((index_t)1)<<prio);
+        xlist->item[prio] = (bgrt_item_t *)0;
+        xlist->index &= ~(((bgrt_index_t)1)<<prio);
     }
     else
     {
         // Нет, не является!
         // Является ли элемент головой своей части списка?
-        if( xlist->item[(prio_t)prio] == (item_t *)pitem )
+        if( xlist->item[(bgrt_prio_t)prio] == (bgrt_item_t *)pitem )
         {
             // Является, список надо переключить
-            xlist_switch( xlist, prio );
+            bgrt_xlist_switch( xlist, prio );
         }
         // Собственно - вырезаем элемент
-        item_cut( (item_t *)pitem );
+        bgrt_item_cut( (bgrt_item_t *)pitem );
     }
 }
 // Вырезка из списка
-void pitem_cut(pitem_t * pitem)
+void bgrt_prit_cut(bgrt_prit_t * pitem)
 {
-    pitem_fast_cut( pitem );
-    pitem->list = (xlist_t *)0;
+    bgrt_prit_fast_cut( pitem );
+    pitem->list = (bgrt_xlist_t *)0;
 }
 
-pitem_t * pitem_xlist_chain( xlist_t * src )
+bgrt_prit_t * bgrt_prit_bgrt_xlist_chain( bgrt_xlist_t * src )
 {
-    pitem_t * ret;  // return value
-    ret = (pitem_t *)xlist_head( src );     // will return former xlist head
+    bgrt_prit_t * ret;  // return value
+    ret = (bgrt_prit_t *)bgrt_xlist_head( src );     // will return former xlist head
     if(ret)
     {
-        index_t mask,   // index mask to check for items in xlist
+        bgrt_index_t mask,   // index mask to check for items in xlist
                 index;  // buffer for xlist index
-        prio_t  prio;   // current working priority
-        item_t * tail;  // current list tail;
+        bgrt_prio_t  prio;   // current working priority
+        bgrt_item_t * tail;  // current list tail;
 
 
-        tail = ((item_t *)ret)->prev;           // current list tail initial value
+        tail = ((bgrt_item_t *)ret)->prev;           // current list tail initial value
         prio = ret->prio;                       // initial working prio
-        src->item[prio++] = (item_t *)0;        // cut all items from current xlist part
+        src->item[prio++] = (bgrt_item_t *)0;        // cut all items from current xlist part
         index = src->index;                     // remember xlist index to improve performance
-        mask = ((index_t)1) << prio;            // initial mask value
+        mask = ((bgrt_index_t)1) << prio;            // initial mask value
         // cut all items from xlist and form an ordinary list of them
         while(mask)
         {
             if( index & mask )
             {
                 // current part of xlist has some items to cut
-                item_t * xhead;
-                item_t * buf;
+                bgrt_item_t * xhead;
+                bgrt_item_t * buf;
                 xhead = src->item[prio];                    // current xlist head;
-                src->item[prio] = (item_t *)0;              // cut all items from current xlist part
+                src->item[prio] = (bgrt_item_t *)0;              // cut all items from current xlist part
                 // chain former xlist head to a list tail
                 tail->next = xhead;
                 buf = xhead->prev;
                 xhead->prev = tail;
                 tail = buf;
             }
-            mask <<= (prio_t)1;
+            mask <<= (bgrt_prio_t)1;
             prio++;
         }
         // complete the list by chaining tail and head
-        ((item_t *)ret)->prev = tail;
-        tail->next = (item_t *)ret;
-        src->index = (index_t)0;        // xlist is empty.
+        ((bgrt_item_t *)ret)->prev = tail;
+        tail->next = (bgrt_item_t *)ret;
+        src->index = (bgrt_index_t)0;        // xlist is empty.
     }
     return ret;                     // return list head;
 }

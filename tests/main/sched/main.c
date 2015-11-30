@@ -1,7 +1,7 @@
 #include <test_func.h>
 
 proc_t proc[6];
-stack_t proc_stack[6][PROC_STACK_SIZE];
+bgrt_stack_t proc_stack[6][PROC_STACK_SIZE];
 
 void main_with_return( void * arg )
 {
@@ -11,22 +11,22 @@ void main_with_return( void * arg )
     proc_run( &proc[4] );
     proc_run( &proc[5] );
 
-    wait_time(100);
+    bgrt_wait_time(100);
     // Reset proc[2] PROC_FLG_RT and PROC_STATE_WD_STOP before second run.
     SCHED_FIX_PROC_2();
     proc_run( &proc[2] );
 
-    wait_time(100);
+    bgrt_wait_time(100);
     // Start load balancing test on multicore system (chnges affinity of running processes).
     SCHED_LB_TEST_START();
 
-    wait_time(100);
+    bgrt_wait_time(100);
 }
 void main_lb( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local load balancer on multicore system with local load balancing.
         SCHED_LOCAL_LOAD_BALANCER();
     }
@@ -35,14 +35,14 @@ void main_no_return( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
     }
 }
-void idle_main( void * arg )
+void bgrt_idle_main( void * arg )
 {
     while(1)
     {
-        wait_time(10);
+        bgrt_wait_time(10);
         // Run local/global load balancer on multicore system with local/global lazy load balancing.
         SCHED_IDLE_LOAD_BALANCER();
     }
@@ -52,14 +52,14 @@ int main(void)
     /**************************************************
     *          For test purposes only!!!              *
     *  It is strongly recomended to initiate hardware *
-    *         AFTER init_bugurt() call!!!             *
+    *         AFTER bgrt_init() call!!!             *
     **************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.
      */
     init_hardware();
-    init_bugurt();
+    bgrt_init();
 
     SCHED_SYSTICK_HOOK_ADD();
 
@@ -74,6 +74,6 @@ int main(void)
 
     proc_run_isr( &proc[0] );
 
-    start_bugurt();
+    bgrt_start();
     return 0;
 }
