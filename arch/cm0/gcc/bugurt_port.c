@@ -213,7 +213,7 @@ __attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
     if( resched_flag )
     {
         resched_flag = 0;
-        sched_reschedule();
+        bgrt_sched_reschedule();
     }
 
     BGRT_KERNEL_PREEMPT();
@@ -221,7 +221,7 @@ __attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
     if( systimer_flag )
     {
         systimer_flag = 0;
-        sched_schedule();
+        bgrt_sched_schedule();
     }
 
     BGRT_KERNEL_PREEMPT();

@@ -107,7 +107,7 @@ void bugurt_check_resched( void )
     if( bgrt_kernel_state & KRN_FLG_RESCHED )
     {
         bgrt_kernel_state &= ~KRN_FLG_RESCHED;
-        sched_reschedule();
+        bgrt_sched_reschedule();
     }
 }
 
@@ -125,7 +125,7 @@ __interrupt void system_timer_isr(void)
     if( bgrt_kernel.timer_tick != (void (*)(void))0 ) bgrt_kernel.timer_tick();
 
     BGRT_KERNEL_PREEMPT(); /// BGRT_KERNEL_PREEMPT
-    sched_schedule();
+    bgrt_sched_schedule();
 #ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
     BUGURT_ISR_END();
 #else

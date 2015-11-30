@@ -93,7 +93,7 @@ BGRT_SCL_TBL( syscall_handler[] ) =
     BGRT_SC_TBL_ENTRY( scall_proc_reset_watchdog    ),
     BGRT_SC_TBL_ENTRY( scall_proc_set_prio          ),
     // Scheduler
-    BGRT_SC_TBL_ENTRY( scall_sched_proc_yeld        ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_bgrt_sched_proc_yeld        ),
     // Bsync
     BGRT_SC_TBL_ENTRY( scall_sync_set_owner         ),
     BGRT_SC_TBL_ENTRY( scall_sync_own               ),

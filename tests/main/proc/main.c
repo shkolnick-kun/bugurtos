@@ -138,13 +138,13 @@ void main_wd_ss( void * arg )
     proc_self_stop();
 
     bgrt_wait_time(1);
-    sched_proc_yeld();
+    bgrt_sched_proc_yeld();
     bgrt_wait_time(1);
-    sched_proc_yeld();
+    bgrt_sched_proc_yeld();
     bgrt_wait_time(1);
-    sched_proc_yeld();
+    bgrt_sched_proc_yeld();
     bgrt_wait_time(1);
-    sched_proc_yeld();
+    bgrt_sched_proc_yeld();
     test = 1; // If wathdog has been reset then test must pass.
     proc_self_stop();
 
@@ -155,7 +155,7 @@ void main_wd_ss( void * arg )
     proc_self_stop();
 
     bgrt_wait_time(1);
-    sched_proc_yeld();
+    bgrt_sched_proc_yeld();
     test = (proc[5].timer == proc[5].time_quant);
 }
 
@@ -173,11 +173,11 @@ void main_fs( void * arg )
 
 #ifdef BGRT_CONFIG_SAVE_POWER
 
-#define IDLE_YELD() if( sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER()
+#define IDLE_YELD() if( bgrt_sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER()
 
 #else //BGRT_CONFIG_SAVE_POWER
 
-#define IDLE_YELD() sched_proc_yeld()
+#define IDLE_YELD() bgrt_sched_proc_yeld()
 
 #endif//BGRT_CONFIG_SAVE_POWER
 

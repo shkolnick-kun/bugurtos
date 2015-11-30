@@ -167,7 +167,7 @@ void resched_isr(void)
 {
     _bugurt_isr_prologue();
 
-    sched_reschedule();
+    bgrt_sched_reschedule();
 
     _bugurt_isr_epilogue();
 }
@@ -204,7 +204,7 @@ void systimer_sched_isr(void)
 {
     _bugurt_isr_prologue();
 
-    sched_schedule();
+    bgrt_sched_schedule();
 
     _bugurt_isr_epilogue();
 }

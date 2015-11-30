@@ -107,7 +107,7 @@ typedef unsigned char load_t;
 
 #if (BGRT_CONFIG_LB_SCHEME == 1)
 // Use "Active Load Balancing",
-// sched_schedule() function is responsible for load balancing.
+// bgrt_sched_schedule() function is responsible for load balancing.
 #define BGRT_CONFIG_USE_ALB
 #endif
 

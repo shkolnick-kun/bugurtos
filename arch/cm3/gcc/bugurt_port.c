@@ -210,7 +210,7 @@ __attribute__ (( naked )) void BGRT_SYSTEM_TIMER_ISR(void)
 
     BGRT_KERNEL_PREEMPT(); ///BGRT_KERNEL_PREEMPT
 
-    sched_schedule();
+    bgrt_sched_schedule();
 
     bgrt_enable_interrupts();
 
@@ -225,7 +225,7 @@ __attribute__ (( naked )) void BGRT_RESCHED_ISR(void)
 
     bgrt_disable_interrupts();
 
-    sched_reschedule();
+    bgrt_sched_reschedule();
     BUGURT_SYS_ICSR |= BUGURT_PENDSV_CLR; // Fix for a hardware race condition.
 
     bgrt_enable_interrupts();
