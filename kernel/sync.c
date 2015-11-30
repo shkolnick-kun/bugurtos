@@ -265,14 +265,14 @@ static void _bgrt_proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
 }
 
 /**********************************************************************************************
-                                       SYSCALL_BGRT_PROC_SET_PRIO
+                                       BGRT_SYSCALL_PROC_SET_PRIO
 **********************************************************************************************/
 void bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
 {
     volatile bgrt_proc_set_prio_arg_t arg;
     arg.proc = proc;
     arg.prio = prio;
-    bgrt_syscall( SYSCALL_BGRT_PROC_SET_PRIO, (void *)&arg );
+    bgrt_syscall( BGRT_SYSCALL_PROC_SET_PRIO, (void *)&arg );
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
@@ -291,7 +291,7 @@ void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
     BGRT_PROC_BGRT_PROC_PRIO_PROPAGATE( proc );
 }
 //========================================================================================
-void scall_bgrt_proc_set_prio( bgrt_proc_set_prio_arg_t * arg )
+void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg )
 {
     _bgrt_proc_set_prio( arg->proc, arg->prio );
 }
@@ -347,7 +347,7 @@ bgrt_proc_t * bgrt_sync_get_owner( bgrt_sync_t * sync )
     return ret;
 }
 /**********************************************************************************************
-                                       SYSCALL_BGRT_SYNC_SET_OWNER
+                                       BGRT_SYSCALL_SYNC_SET_OWNER
 **********************************************************************************************/
 static void _bgrt_sync_assign_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
 {
@@ -363,7 +363,7 @@ bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.status = BGRT_ST_ROLL;
-    bgrt_syscall( SYSCALL_BGRT_SYNC_SET_OWNER, (void *)&scarg );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_SET_OWNER, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -416,12 +416,12 @@ bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
     return BGRT_ST_OK;
 }
 //========================================================================================
-void scall_bgrt_sync_set_owner( bgrt_sync_set_owner_t * arg )
+void bgrt_scall_sync_set_owner( bgrt_sync_set_owner_t * arg )
 {
     arg->status = _bgrt_sync_set_owner( arg->sync, arg->proc );
 }
 /**********************************************************************************************
-                                       SYSCALL_BGRT_SYNC_CLEAR_OWNER
+                                       BGRT_SYSCALL_SYNC_CLEAR_OWNER
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
 {
@@ -429,7 +429,7 @@ bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
     scarg.status = BGRT_ST_EOWN;
     scarg.sync = sync;
     scarg.touch = touch;
-    bgrt_syscall( SYSCALL_BGRT_SYNC_OWN, (void *)&scarg );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_OWN, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -475,19 +475,19 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
     }
 }
 //========================================================================================
-void scall_bgrt_sync_own( bgrt_sync_own_t * arg )
+void bgrt_scall_sync_own( bgrt_sync_own_t * arg )
 {
     arg->status = _bgrt_sync_own( arg->sync, arg->touch );
 }
 /**********************************************************************************************
-                                       SYSCALL_BGRT_SYNC_TOUCH
+                                       BGRT_SYSCALL_SYNC_TOUCH
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync )
 {
     bgrt_sync_touch_t scarg;
     scarg.status = BGRT_ST_ENULL;
     scarg.sync = sync;
-    bgrt_syscall( SYSCALL_BGRT_SYNC_TOUCH, (void *)&scarg );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_TOUCH, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -512,12 +512,12 @@ bgrt_st_t _bgrt_sync_touch( bgrt_sync_t * sync )
     return BGRT_ST_OK;
 }
 //========================================================================================
-void scall_bgrt_sync_touch( bgrt_sync_touch_t * arg )
+void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg )
 {
     arg->status = _bgrt_sync_touch( arg->sync );
 }
 /**********************************************************************************************
-                                       SYSCALL_BGRT_SYNC_SLEEP
+                                       BGRT_SYSCALL_SYNC_SLEEP
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync )
 {
@@ -526,7 +526,7 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync )
     scarg.sync = sync;
     do
     {
-        bgrt_syscall( SYSCALL_BGRT_SYNC_SLEEP, (void *)&scarg );
+        bgrt_syscall( BGRT_SYSCALL_SYNC_SLEEP, (void *)&scarg );
     }
     while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
@@ -646,12 +646,12 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
     return BGRT_ST_ROLL;
 }
 //========================================================================================
-void scall_bgrt_sync_sleep( bgrt_sync_sleep_t * arg )
+void bgrt_scall_sync_sleep( bgrt_sync_sleep_t * arg )
 {
     arg->status = _bgrt_sync_sleep( arg->sync );
 }
 /**********************************************************************************************
-                                    SYSCALL_BGRT_SYNC_WAIT
+                                    BGRT_SYSCALL_SYNC_WAIT
 **********************************************************************************************/
 static void _bgrt_sync_owner_block( bgrt_proc_t * owner )
 {
@@ -672,7 +672,7 @@ bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t b
     scarg.block = block;
     do
     {
-        bgrt_syscall( SYSCALL_BGRT_SYNC_WAIT, (void *)&scarg );
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );
     }
     while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
@@ -750,12 +750,12 @@ bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t 
     return status;
 }
 //========================================================================================
-void scall_bgrt_sync_wait( bgrt_sync_wait_t * arg )
+void bgrt_scall_sync_wait( bgrt_sync_wait_t * arg )
 {
     arg->status = _bgrt_sync_wait( arg->sync, arg->proc, arg->block );
 }
 /**********************************************************************************************
-                                    SYSCALL_BGRT_SYNC_WAKE
+                                    BGRT_SYSCALL_SYNC_WAKE
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t chown )
 {
@@ -766,7 +766,7 @@ bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t ch
     scarg.chown = chown;
     do
     {
-        bgrt_syscall( SYSCALL_BGRT_SYNC_WAKE, (void *)&scarg );
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );
     }
     while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
@@ -868,23 +868,23 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
     return status;
 }
 //========================================================================================
-void scall_bgrt_sync_wake( bgrt_sync_wake_t * arg )
+void bgrt_scall_sync_wake( bgrt_sync_wake_t * arg )
 {
     arg->status = _bgrt_sync_wake( arg->sync , arg->proc, arg->chown );
 }
 /**********************************************************************************************
-                                SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT
+                                BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 {
     volatile bgrt_sync_proc_timeout_t scarg;
     scarg.proc = proc;
     scarg.status = BGRT_ST_ROLL;
-    bgrt_syscall( SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT, (void *)&scarg );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_BGRT_PROC_TIMEOUT, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-void scall_bgrt_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg )
+void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg )
 {
     arg->status = _bgrt_sync_proc_timeout( arg->proc );
 }

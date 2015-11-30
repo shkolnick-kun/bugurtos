@@ -439,12 +439,12 @@ void bgrt_sched_reschedule(void)
     _sched_switch_current( sched, current_proc );
 }
 /**********************************************************************************************
-                                      SYSCALL_BGRT_PROC_YELD
+                                      BGRT_SYSCALL_PROC_YELD
 **********************************************************************************************/
 bgrt_bool_t bgrt_sched_proc_yeld(void)
 {
     volatile bgrt_bool_t ret;
-    bgrt_syscall( SYSCALL_SCHED_BGRT_PROC_YELD, (void *)&ret );
+    bgrt_syscall( BGRT_SYSCALL_SCHED_PROC_YELD, (void *)&ret );
     return ret;
 }
 //========================================================================================
@@ -534,7 +534,7 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
     return save_power;
 }
 //========================================================================================
-void scall_bgrt_sched_proc_yeld( bgrt_bool_t * arg )
+void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg )
 {
     *arg = _bgrt_sched_proc_yeld();
 }

@@ -206,7 +206,7 @@ __attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
     bgrt_disable_interrupts();
 
     // Обрабатываем системный вызов
-    do_syscall(syscall_num, syscall_arg);
+    bgrt_do_syscall(syscall_num, syscall_arg);
 
     BGRT_KERNEL_PREEMPT();
 

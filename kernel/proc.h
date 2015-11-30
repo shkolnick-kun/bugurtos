@@ -814,11 +814,11 @@ void _bgrt_proc_stop_ensure( bgrt_proc_t * proc );
 /*!
 \~russian
 \brief
-Параметр системных вызовов #SYSCALL_BGRT_PROC_RUN, #SYSCALL_BGRT_PROC_RESTART, #SYSCALL_BGRT_PROC_STOP.
+Параметр системных вызовов #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
 
 \~english
 \brief
-An argument for system calls #SYSCALL_BGRT_PROC_RUN, #SYSCALL_BGRT_PROC_RESTART, #SYSCALL_BGRT_PROC_STOP.
+An argument for system calls #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
 */
 typedef struct{
     bgrt_proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
@@ -828,7 +828,7 @@ typedef struct{
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_RUN.
+Обработчик вызова #BGRT_SYSCALL_PROC_RUN.
 
 Пытается запустить процесс, вызывая #bgrt_proc_run_isr.
 
@@ -836,17 +836,17 @@ typedef struct{
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_RUN handler.
+A #BGRT_SYSCALL_PROC_RUN handler.
 
 This function tries to launch a process by #bgrt_proc_run_isr call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
-void scall_bgrt_proc_run( bgrt_proc_runtime_arg_t * arg );
+void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_RESTART.
+Обработчик вызова #BGRT_SYSCALL_PROC_RESTART.
 
 Пытается перезапустить процесс, вызывая #bgrt_proc_restart_isr.
 
@@ -854,17 +854,17 @@ void scall_bgrt_proc_run( bgrt_proc_runtime_arg_t * arg );
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_RESTART handler.
+A #BGRT_SYSCALL_PROC_RESTART handler.
 
 This function tries to restart a process by #bgrt_proc_restart_isr call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
-void scall_bgrt_proc_restart( bgrt_proc_runtime_arg_t * arg );
+void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_STOP.
+Обработчик вызова #BGRT_SYSCALL_PROC_STOP.
 
 Пытается остановить процесс, вызывая #bgrt_proc_stop_isr.
 
@@ -872,18 +872,18 @@ void scall_bgrt_proc_restart( bgrt_proc_runtime_arg_t * arg );
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_STOP handler.
+A #BGRT_SYSCALL_PROC_STOP handler.
 
 This function tries to stop a process by #bgrt_proc_stop_isr call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
-void scall_bgrt_proc_stop( bgrt_proc_runtime_arg_t * arg );
+void bgrt_scall_proc_stop( bgrt_proc_runtime_arg_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_SELF_STOP.
+Обработчик вызова #BGRT_SYSCALL_PROC_SELF_STOP.
 
 Останавливает вызывающий процесс.
 
@@ -891,18 +891,18 @@ void scall_bgrt_proc_stop( bgrt_proc_runtime_arg_t * arg );
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_SELF_STOP handler.
+A #BGRT_SYSCALL_PROC_SELF_STOP handler.
 
 This function stops calling process.
 
 \param arg Not used.
 */
-void scall_bgrt_proc_self_stop( void * arg );
+void bgrt_scall_proc_self_stop( void * arg );
 
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_TERMINATE.
+Обработчик вызова #BGRT_SYSCALL_PROC_TERMINATE.
 
 Завершает выполнение процесса после выхода из pmain. Вызывает #_bgrt_proc_terminate.
 
@@ -910,33 +910,33 @@ void scall_bgrt_proc_self_stop( void * arg );
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_TERMINATE handler.
+A #BGRT_SYSCALL_PROC_TERMINATE handler.
 
 This function terminates calling process after pmain return by #_bgrt_proc_terminate call.
 
 \param arg A pointer to a process.
 */
-void scall_bgrt_proc_terminate( void * arg );
+void bgrt_scall_proc_terminate( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_LOCK.
+Обработчик вызова #BGRT_SYSCALL_PROC_LOCK.
 
 Устанавливает флаг #BGRT_PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_LOCK handler.
+A #BGRT_SYSCALL_PROC_LOCK handler.
 
 Sets #BGRT_PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
 */
-void scall_bgrt_proc_lock( void * arg );
+void bgrt_scall_proc_lock( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_FREE.
+Обработчик вызова #BGRT_SYSCALL_PROC_FREE.
 
 Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #BGRT_PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #BGRT_PROC_FLG_PRE_STOP.
 Вызывает #_bgrt_proc_free.
@@ -945,19 +945,19 @@ void scall_bgrt_proc_lock( void * arg );
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_FREE handler.
+A #BGRT_SYSCALL_PROC_FREE handler.
 
 This function decreases proc->lres counter, clears #BGRT_PROC_FLG_LOCK if needed and, process #BGRT_PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
 It calls #_bgrt_proc_free.
 
 \param arg A pointer to a flag mask.
 */
-void scall_bgrt_proc_free( void * arg );
+void bgrt_scall_proc_free( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
 \brief
-Обработчик вызова #SYSCALL_BGRT_PROC_RESET_WATCHDOG.
+Обработчик вызова #BGRT_SYSCALL_PROC_RESET_WATCHDOG.
 
 Вызывает #_bgrt_proc_reset_watchdog.
 
@@ -965,11 +965,11 @@ void scall_bgrt_proc_free( void * arg );
 
 \~english
 \brief
-A #SYSCALL_BGRT_PROC_RESET_WATCHDOG handler.
+A #BGRT_SYSCALL_PROC_RESET_WATCHDOG handler.
 
 This function calls #_bgrt_proc_reset_watchdog.
 
 \param arg Not used.
 */
-void scall_bgrt_proc_reset_watchdog( void * arg );
+void bgrt_scall_proc_reset_watchdog( void * arg );
 #endif // _BGRT_PROC_H_
