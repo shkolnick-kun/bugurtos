@@ -121,7 +121,7 @@ static void bugurt_write_psp( volatile bgrt_stack_t * ptr )
                           : : "r" (ptr) );
 }
 //====================================================================================
-bgrt_stack_t * proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void(*return_address)(void)  )
+bgrt_stack_t * bgrt_proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void(*return_address)(void)  )
 {
     // регистры, сохраняемые аппаратно
     *sstart = (bgrt_stack_t)0x01000000;		// psr
@@ -176,7 +176,7 @@ void bgrt_enable_interrupts(void)
                           );
 }
 //====================================================================================
-proc_t * bgrt_curr_proc(void)
+bgrt_proc_t * bgrt_curr_proc(void)
 {
     return bgrt_kernel.sched.current_proc;
 }

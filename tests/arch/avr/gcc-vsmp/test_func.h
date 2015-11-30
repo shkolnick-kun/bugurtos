@@ -1,11 +1,11 @@
 #include <bugurt.h>
 #include <util/delay.h>
-extern proc_t proc[6];
-extern bgrt_stack_t proc_stack[6][BGRT_PROC_STACK_SIZE];
+extern bgrt_proc_t proc[6];
+extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 //======================================================================
-// Generic proc_init argument terminator.
+// Generic bgrt_proc_init argument terminator.
 #define ARG_END ,(bgrt_aff_t)0x3
-// Scheduler test proc_init argument terminator
+// Scheduler test bgrt_proc_init argument terminator
 #if (BGRT_CONFIG_LB_SCHEME != 0)
     #define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x2
 #else
@@ -32,12 +32,12 @@ extern bgrt_stack_t proc_stack[6][BGRT_PROC_STACK_SIZE];
 #define BGRT_SCHED_LB_TEST_START() sched_lb_test_start()
 
 #define BGRT_SCHED_SYSTICK_HOOK_ADD() sched_systick_hook_add()
-#define BGRT_SCHED_FIX_BGRT_PROC_2() sched_fix_proc_2()
+#define BGRT_SCHED_FIX_BGRT_PROC_2() sched_fix_bgrt_proc_2()
 
 void init_hardware(void);
 
 // Scheduler test functions
-void sched_fix_proc_2(void);
+void sched_fix_bgrt_proc_2(void);
 void sched_lb_test_start(void);
 void sched_systick_hook_add(void);
 

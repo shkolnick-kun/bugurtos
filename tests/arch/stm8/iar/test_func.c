@@ -36,7 +36,7 @@ void init_hardware(void)
     SPI_CR2 = 0x03;
 }
 
-void sched_fix_proc_2(void)
+void sched_fix_bgrt_proc_2(void)
 {
     bgrt_disable_interrupts();
     proc[2].flags &= ~BGRT_PROC_FLG_RT;

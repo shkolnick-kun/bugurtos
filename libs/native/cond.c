@@ -101,7 +101,7 @@ bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
         return BGRT_ST_ENULL;
     }
 
-    proc_lock(); //Don't stop caller until wakeup!
+    bgrt_proc_lock(); //Don't stop caller until wakeup!
 
     cond->blocked++; //Guarded by mutex
 
@@ -109,12 +109,12 @@ bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
 
     if( BGRT_ST_EOWN == ret )
     {
-        proc_free(); //May stop as error occurred!
+        bgrt_proc_free(); //May stop as error occurred!
     }
     else
     {
         ret = BGRT_SYNC_SLEEP( cond );
-        proc_free(); //Now may stop!
+        bgrt_proc_free(); //Now may stop!
 
         mutex_lock( mutex );
     }
@@ -128,7 +128,7 @@ static bgrt_st_t _cond_signal( cond_t * cond )
 
     if( cond->blocked )
     {
-        proc_t * dummy = (proc_t *)0;
+        bgrt_proc_t * dummy = (bgrt_proc_t *)0;
 
         BGRT_SYNC_WAIT( cond, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
 

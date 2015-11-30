@@ -111,7 +111,7 @@ void vsmp_init( void )
             vm_stack[current_vm - 1][i] = 0x55;
             vm_int_stack[current_vm][i] = 0x55;
         }
-        vm_sp = proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (bgrt_code_t)vsmp_bgrt_idle_main, (void *)0, (void(*)(void))vsmp_bgrt_idle_main );
+        vm_sp = bgrt_proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (bgrt_code_t)vsmp_idle_main, (void *)0, (void(*)(void))vsmp_idle_main );
         vsmp_vm_init( &vm_state[current_vm], (bgrt_stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
     }
     current_vm = 0;
@@ -121,7 +121,7 @@ void vsmp_run( void )
 {
     sei();
 }
-void vsmp_bgrt_idle_main( void * arg )
+void vsmp_idle_main( void * arg )
 {
     while(1);
 }

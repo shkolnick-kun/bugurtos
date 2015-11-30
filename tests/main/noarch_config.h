@@ -108,7 +108,7 @@ typedef unsigned long bgrt_cpuid_t;
 typedef struct _load_stat
 {
     bgrt_tmr_t total_time_quant;
-    bgrt_cnt_t total_proc_count;
+    bgrt_cnt_t total_bgrt_proc_count;
 } bgrt_ls_t;
 
 #define WEAK __attribute__((__weak__))

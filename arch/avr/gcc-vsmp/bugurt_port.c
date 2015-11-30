@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <util/delay.h>
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #define _bugurt_isr_prologue() \
-    proc_t * cp; \
+    bgrt_proc_t * cp; \
     cp = bgrt_curr_proc(); \
     cli(); \
     cp->spointer = vm_state[current_vm].sp; \
@@ -92,9 +92,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     vm_state[current_vm].sp = cp->spointer; \
     sei()
 ///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-proc_t * bgrt_curr_proc(void)
+bgrt_proc_t * bgrt_curr_proc(void)
 {
-    proc_t * ret;
+    bgrt_proc_t * ret;
     cli();
     ret = bgrt_kernel.sched[current_vm].current_proc;
     sei();
@@ -135,11 +135,11 @@ void bgrt_stat_init( bgrt_ls_t * stat )
 {
     *stat = 0; // no lad on a system
 }
-void bgrt_stat_dec( proc_t * proc, bgrt_ls_t * stat )
+void bgrt_stat_dec( bgrt_proc_t * proc, bgrt_ls_t * stat )
 {
     (*stat)--;
 }
-void bgrt_stat_inc( proc_t * proc, bgrt_ls_t * stat )
+void bgrt_stat_inc( bgrt_proc_t * proc, bgrt_ls_t * stat )
 {
     (*stat)++;
 }
@@ -321,7 +321,7 @@ void bgrt_init(void)
     bgrt_kernel.sched[bgrt_current_cpu()].nested_crit_sec = (bgrt_cnt_t)1;
     for(i = 1; i < BGRT_MAX_CPU; i++)
     {
-        bgrt_kernel.idle[i].pmain = vsmp_bgrt_idle_main;
+        bgrt_kernel.idle[i].pmain = vsmp_idle_main;
     }
 }
 void bgrt_start(void)

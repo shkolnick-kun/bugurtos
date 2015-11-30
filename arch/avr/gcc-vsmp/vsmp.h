@@ -120,7 +120,7 @@ void vsmp_vm_init( vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp );
 void vsmp_init( void );
 void vsmp_run( void );
 
-void vsmp_bgrt_idle_main( void * arg );
+void vsmp_idle_main( void * arg );
 
 void _vsmp_vinterrupt(void);
 void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) );

@@ -182,7 +182,7 @@ A buffer pointer must be passed as a second parameter.
 \param block A caller block flag. If non zero, then caller is blocked until message is sent.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_wait( ipc_t * in, proc_t ** proc, bgrt_flag_t block );
+bgrt_st_t ipc_wait( ipc_t * in, bgrt_proc_t ** proc, bgrt_flag_t block );
 
 /*!
 \~russian
@@ -202,6 +202,6 @@ Unblock a sender process, which message has been received.
 \param proc A sender process pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_reply( ipc_t * in, proc_t * proc);
+bgrt_st_t ipc_reply( ipc_t * in, bgrt_proc_t * proc);
 
 #endif // _IPC_H_

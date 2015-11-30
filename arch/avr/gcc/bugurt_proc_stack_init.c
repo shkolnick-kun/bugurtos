@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include <bugurt.h>
 
-bgrt_stack_t * proc_stack_init(
+bgrt_stack_t * bgrt_proc_stack_init(
                           bgrt_stack_t * sstart,
                           bgrt_code_t pmain,
                           void * arg,
