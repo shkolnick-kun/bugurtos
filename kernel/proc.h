@@ -102,7 +102,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 Инкремент счетчика proc->lres.
 
 \param a указатель на процесс.
-\param b приоритет объекта типа #sync_t.
+\param b приоритет объекта типа #bgrt_sync_t.
 
 \def BGRT_PROC_LRES_DEC(a,b)
 \brief Макрос-обертка.
@@ -110,7 +110,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 Декремент счетчика proc->lres.
 
 \param a указатель на процесс.
-\param b приоритет объекта типа #sync_t.
+\param b приоритет объекта типа #bgrt_sync_t.
 
 \~english
 
@@ -127,7 +127,7 @@ Initiates proc->lres field of a process.
 An increment of proc->lres.
 
 \param a a pointer to a process.
-\param b a priority of a #sync_t object.
+\param b a priority of a #bgrt_sync_t object.
 
 \def BGRT_PROC_LRES_DEC(a,b)
 \brief Wrapper macro.
@@ -135,7 +135,7 @@ An increment of proc->lres.
 A decrement of proc->lres.
 
 \param a a pointer to a process.
-\param b a priority of a #sync_t object.
+\param b a priority of a #bgrt_sync_t object.
 
 */
 
@@ -180,7 +180,7 @@ struct _proc_t
     bgrt_pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
     bgrt_tmr_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     bgrt_tmr_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
-    struct _sync_t * sync;
+    struct _bgrt_sync_t * sync;
     bgrt_cnt_t cnt_lock;    /*!<\~russian  Счетчик уровней вложенности #proc_lock. \~english A counter of #proc_lock nesting.*/
 #ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;

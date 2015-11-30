@@ -103,15 +103,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define SYSCALL_SCHED_BGRT_PROC_YELD                 (SYSCALL_BGRT_PROC_SET_PRIO + (bgrt_syscall_t)(1))        /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
 
-#define SYSCALL_SYNC_SET_OWNER                 (SYSCALL_SCHED_BGRT_PROC_YELD + (bgrt_syscall_t)(1))       /*!< \~russian \brief Установить нового хозяина объекта типа #sync_t. \~english \brief Set new #sync_t object owner. */
-#define SYSCALL_SYNC_OWN                       (SYSCALL_SYNC_SET_OWNER + (bgrt_syscall_t)(1))        /*!< \~russian \brief Завладеть объектом типа #sync_t. \~english \brief Own #sync_t object. */
-#define SYSCALL_SYNC_TOUCH                     (SYSCALL_SYNC_OWN + (bgrt_syscall_t)(1))              /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
-#define SYSCALL_SYNC_SLEEP                     (SYSCALL_SYNC_TOUCH + (bgrt_syscall_t)(1))            /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
-#define SYSCALL_SYNC_WAKE                      (SYSCALL_SYNC_SLEEP + (bgrt_syscall_t)(1))            /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
-#define SYSCALL_SYNC_WAIT                      (SYSCALL_SYNC_WAKE + (bgrt_syscall_t)(1))             /*!< \~russian \brief Подождать блокировки процесса на объекте типа #sync_t. \~english \brief Wait for process to block on #sync_t object*/
-#define SYSCALL_SYNC_BGRT_PROC_TIMEOUT              (SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))             /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
+#define SYSCALL_BGRT_SYNC_SET_OWNER                 (SYSCALL_SCHED_BGRT_PROC_YELD + (bgrt_syscall_t)(1))       /*!< \~russian \brief Установить нового хозяина объекта типа #bgrt_sync_t. \~english \brief Set new #bgrt_sync_t object owner. */
+#define SYSCALL_BGRT_SYNC_OWN                       (SYSCALL_BGRT_SYNC_SET_OWNER + (bgrt_syscall_t)(1))        /*!< \~russian \brief Завладеть объектом типа #bgrt_sync_t. \~english \brief Own #bgrt_sync_t object. */
+#define SYSCALL_BGRT_SYNC_TOUCH                     (SYSCALL_BGRT_SYNC_OWN + (bgrt_syscall_t)(1))              /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
+#define SYSCALL_BGRT_SYNC_SLEEP                     (SYSCALL_BGRT_SYNC_TOUCH + (bgrt_syscall_t)(1))            /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
+#define SYSCALL_BGRT_SYNC_WAKE                      (SYSCALL_BGRT_SYNC_SLEEP + (bgrt_syscall_t)(1))            /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
+#define SYSCALL_BGRT_SYNC_WAIT                      (SYSCALL_BGRT_SYNC_WAKE + (bgrt_syscall_t)(1))             /*!< \~russian \brief Подождать блокировки процесса на объекте типа #bgrt_sync_t. \~english \brief Wait for process to block on #bgrt_sync_t object*/
+#define SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT              (SYSCALL_BGRT_SYNC_WAIT + (bgrt_syscall_t)(1))             /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
 
-#define SYSCALL_USER                           (SYSCALL_SYNC_BGRT_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
+#define SYSCALL_USER                           (SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 /*!
 \~russian
 \brief

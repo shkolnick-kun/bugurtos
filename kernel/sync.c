@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-bgrt_prio_t _sync_prio( sync_t * sync )
+bgrt_prio_t _bgrt_sync_prio( bgrt_sync_t * sync )
 {
     bgrt_prio_t sprio; //sync prio
 
@@ -96,7 +96,7 @@ bgrt_prio_t _sync_prio( sync_t * sync )
     }
 }
 //========================================================================================
-static bgrt_st_t _sync_do_wake( proc_t * proc, sync_t * sync, bgrt_flag_t chown )
+static bgrt_st_t _bgrt_sync_do_wake( proc_t * proc, bgrt_sync_t * sync, bgrt_flag_t chown )
 {
     if( proc )
     {
@@ -109,7 +109,7 @@ static bgrt_st_t _sync_do_wake( proc_t * proc, sync_t * sync, bgrt_flag_t chown 
             BGRT_PROC_SET_STATE ( proc, BGRT_PROC_STATE_PI_DONE );
             if( chown )
             {
-                BGRT_PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
+                BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );  //sync prio has changed
             }
         }
         else
@@ -117,7 +117,7 @@ static bgrt_st_t _sync_do_wake( proc_t * proc, sync_t * sync, bgrt_flag_t chown 
             bgrt_prit_cut( (bgrt_prit_t *)proc );
             if( chown )
             {
-                BGRT_PROC_LRES_INC( proc, SYNC_PRIO( sync ) );  //sync prio has changed
+                BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );  //sync prio has changed
                 _proc_prio_control_stoped( proc );
             }
             bgrt_sched_proc_run( proc, BGRT_PROC_STATE_SYNC_READY );
@@ -132,12 +132,12 @@ static bgrt_st_t _sync_do_wake( proc_t * proc, sync_t * sync, bgrt_flag_t chown 
     }
 }
 //========================================================================================
-static void _sync_do_pending_wake( sync_t * sync )
+static void _bgrt_sync_do_pending_wake( bgrt_sync_t * sync )
 {
     proc_t * proc;
     sync->pwake--;
     proc = (proc_t *)bgrt_xlist_head( (bgrt_xlist_t *)sync );
-    _sync_do_wake( proc, sync, (bgrt_flag_t)0 );
+    _bgrt_sync_do_wake( proc, sync, (bgrt_flag_t)0 );
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
@@ -170,7 +170,7 @@ static void _proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
     }
     case BGRT_PROC_STATE_SYNC_SLEEP:
     {
-        sync_t * sync;
+        bgrt_sync_t * sync;
         bgrt_prio_t old_prio, new_prio;
         BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_PI_PEND );  // Ensure that process will not run, and stay in a sync sleep list!
 
@@ -180,7 +180,7 @@ static void _proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
 
         BGRT_KERNEL_PREEMPT();
 
-        if( (sync_t *)0 == sync )
+        if( (bgrt_sync_t *)0 == sync )
         {
             // A process was trying to free a dirty sync and blocked
             BGRT_SPIN_LOCK( proc );
@@ -194,7 +194,7 @@ static void _proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
 
         BGRT_SPIN_LOCK( sync );
 
-        old_prio = SYNC_PRIO( sync ); // Get sync prio to keep sync->owner priority data consistent
+        old_prio = BGRT_SYNC_PRIO( sync ); // Get sync prio to keep sync->owner priority data consistent
 
         BGRT_SPIN_LOCK( proc );
 
@@ -227,7 +227,7 @@ static void _proc_prio_propagate( BGRT_PROC_PRIO_PROP_ARGS )
         if( proc )
         {
             // Keep priority data consistent
-            new_prio = SYNC_PRIO( sync );
+            new_prio = BGRT_SYNC_PRIO( sync );
             if( new_prio != old_prio )
             {
                 BGRT_SPIN_LOCK( proc );
@@ -299,26 +299,26 @@ void scall_proc_set_prio( proc_set_prio_arg_t * arg )
                                        Bsync methods
 **********************************************************************************************/
 #ifdef BGRT_CONFIG_MP
-static void sync_prio_prop_hook( sync_t * sync )
+static void bgrt_sync_prio_prop_hook( bgrt_sync_t * sync )
 {
     BGRT_SPIN_FREE( (sync->owner) );
     BGRT_SPIN_FREE( sync );
 }
-#define SYNC_BGRT_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, (bgrt_code_t)sync_prio_prop_hook, (void *)m )
+#define BGRT_SYNC_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m )
 #else // BGRT_CONFIG_MP
-#define SYNC_BGRT_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p )
+#define BGRT_SYNC_PROC_PRIO_PROPAGATE(p,m) _proc_prio_propagate( p )
 #endif // BGRT_CONFIG_MP
 //========================================================================================
-bgrt_st_t sync_init( sync_t * sync, bgrt_prio_t prio )
+bgrt_st_t bgrt_sync_init( bgrt_sync_t * sync, bgrt_prio_t prio )
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = sync_init_isr( sync, prio );
+    ret = bgrt_sync_init_isr( sync, prio );
     bgrt_enable_interrupts();
     return ret;
 }
 //========================================================================================
-bgrt_st_t sync_init_isr( sync_t * sync, bgrt_prio_t prio )
+bgrt_st_t bgrt_sync_init_isr( bgrt_sync_t * sync, bgrt_prio_t prio )
 {
     if( !sync )
     {
@@ -336,7 +336,7 @@ bgrt_st_t sync_init_isr( sync_t * sync, bgrt_prio_t prio )
     return BGRT_ST_OK;
 }
 //**********************************************************************************************
-proc_t * sync_get_owner( sync_t * sync )
+proc_t * bgrt_sync_get_owner( bgrt_sync_t * sync )
 {
     proc_t * ret;
     bgrt_disable_interrupts();
@@ -347,27 +347,27 @@ proc_t * sync_get_owner( sync_t * sync )
     return ret;
 }
 /**********************************************************************************************
-                                       SYSCALL_SYNC_SET_OWNER
+                                       SYSCALL_BGRT_SYNC_SET_OWNER
 **********************************************************************************************/
-static void _sync_assign_owner( sync_t * sync, proc_t * proc )
+static void _bgrt_sync_assign_owner( bgrt_sync_t * sync, proc_t * proc )
 {
     sync->owner = proc;
     BGRT_SPIN_LOCK(proc);
-    BGRT_PROC_LRES_INC( proc, SYNC_PRIO( sync ) );
-    SYNC_BGRT_PROC_PRIO_PROPAGATE( proc, sync );
+    BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );
+    BGRT_SYNC_PROC_PRIO_PROPAGATE( proc, sync );
 }
 //========================================================================================
-bgrt_st_t sync_set_owner( sync_t * sync, proc_t * proc )
+bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, proc_t * proc )
 {
-    volatile sync_set_owner_t scarg;
+    volatile bgrt_sync_set_owner_t scarg;
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.status = BGRT_ST_ROLL;
-    bgrt_syscall( SYSCALL_SYNC_SET_OWNER, (void *)&scarg );
+    bgrt_syscall( SYSCALL_BGRT_SYNC_SET_OWNER, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-bgrt_st_t _sync_set_owner( sync_t * sync, proc_t * proc )
+bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, proc_t * proc )
 {
     proc_t * owner;
     bgrt_prio_t old_prio;
@@ -380,7 +380,7 @@ bgrt_st_t _sync_set_owner( sync_t * sync, proc_t * proc )
     //Clear last owner
     BGRT_SPIN_LOCK( sync );
 
-    old_prio = SYNC_PRIO( sync );
+    old_prio = BGRT_SYNC_PRIO( sync );
     owner = sync->owner;
 
     if( owner == proc )
@@ -410,30 +410,30 @@ bgrt_st_t _sync_set_owner( sync_t * sync, proc_t * proc )
 
     //We have some new owner
     BGRT_SPIN_LOCK( sync );
-    _sync_assign_owner( sync, proc );
+    _bgrt_sync_assign_owner( sync, proc );
 
 
     return BGRT_ST_OK;
 }
 //========================================================================================
-void scall_sync_set_owner( sync_set_owner_t * arg )
+void scall_bgrt_sync_set_owner( bgrt_sync_set_owner_t * arg )
 {
-    arg->status = _sync_set_owner( arg->sync, arg->proc );
+    arg->status = _bgrt_sync_set_owner( arg->sync, arg->proc );
 }
 /**********************************************************************************************
-                                       SYSCALL_SYNC_CLEAR_OWNER
+                                       SYSCALL_BGRT_SYNC_CLEAR_OWNER
 **********************************************************************************************/
-bgrt_st_t sync_own( sync_t * sync, bgrt_flag_t touch )
+bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
 {
-    sync_own_t scarg;
+    bgrt_sync_own_t scarg;
     scarg.status = BGRT_ST_EOWN;
     scarg.sync = sync;
     scarg.touch = touch;
-    bgrt_syscall( SYSCALL_SYNC_OWN, (void *)&scarg );
+    bgrt_syscall( SYSCALL_BGRT_SYNC_OWN, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-bgrt_st_t _sync_own( sync_t * sync, bgrt_flag_t touch )
+bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
 {
     proc_t * owner;
 
@@ -448,7 +448,7 @@ bgrt_st_t _sync_own( sync_t * sync, bgrt_flag_t touch )
     owner = sync->owner;
     if( !owner )
     {
-        _sync_assign_owner( sync, bgrt_curr_proc() );
+        _bgrt_sync_assign_owner( sync, bgrt_curr_proc() );
 
         return BGRT_ST_OK;
     }
@@ -475,23 +475,23 @@ bgrt_st_t _sync_own( sync_t * sync, bgrt_flag_t touch )
     }
 }
 //========================================================================================
-void scall_sync_own( sync_own_t * arg )
+void scall_bgrt_sync_own( bgrt_sync_own_t * arg )
 {
-    arg->status = _sync_own( arg->sync, arg->touch );
+    arg->status = _bgrt_sync_own( arg->sync, arg->touch );
 }
 /**********************************************************************************************
-                                       SYSCALL_SYNC_TOUCH
+                                       SYSCALL_BGRT_SYNC_TOUCH
 **********************************************************************************************/
-bgrt_st_t sync_touch( sync_t * sync )
+bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync )
 {
-    sync_touch_t scarg;
+    bgrt_sync_touch_t scarg;
     scarg.status = BGRT_ST_ENULL;
     scarg.sync = sync;
-    bgrt_syscall( SYSCALL_SYNC_TOUCH, (void *)&scarg );
+    bgrt_syscall( SYSCALL_BGRT_SYNC_TOUCH, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-bgrt_st_t _sync_touch( sync_t * sync )
+bgrt_st_t _bgrt_sync_touch( bgrt_sync_t * sync )
 {
     proc_t * current;
 
@@ -512,27 +512,27 @@ bgrt_st_t _sync_touch( sync_t * sync )
     return BGRT_ST_OK;
 }
 //========================================================================================
-void scall_sync_touch( sync_touch_t * arg )
+void scall_bgrt_sync_touch( bgrt_sync_touch_t * arg )
 {
-    arg->status = _sync_touch( arg->sync );
+    arg->status = _bgrt_sync_touch( arg->sync );
 }
 /**********************************************************************************************
-                                       SYSCALL_SYNC_SLEEP
+                                       SYSCALL_BGRT_SYNC_SLEEP
 **********************************************************************************************/
-bgrt_st_t sync_sleep( sync_t * sync )
+bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync )
 {
-    volatile sync_sleep_t scarg;
+    volatile bgrt_sync_sleep_t scarg;
     scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     do
     {
-        bgrt_syscall( SYSCALL_SYNC_SLEEP, (void *)&scarg );
+        bgrt_syscall( SYSCALL_BGRT_SYNC_SLEEP, (void *)&scarg );
     }
     while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
 }
 //========================================================================================
-static void _sync_sleep_swap_locks( sync_t * sync, proc_t * proc )
+static void _bgrt_sync_sleep_swap_locks( bgrt_sync_t * sync, proc_t * proc )
 {
     BGRT_SPIN_FREE( proc );
     BGRT_KERNEL_PREEMPT();
@@ -540,7 +540,7 @@ static void _sync_sleep_swap_locks( sync_t * sync, proc_t * proc )
     BGRT_SPIN_LOCK( proc );
 }
 //========================================================================================
-bgrt_st_t _sync_sleep( sync_t * sync )
+bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
 {
     proc_t * proc;
     bgrt_prio_t old_prio, new_prio;
@@ -567,7 +567,7 @@ bgrt_st_t _sync_sleep( sync_t * sync )
         BGRT_SPIN_LOCK( sync );
         if( sync->pwake )
         {
-            _sync_do_pending_wake( sync );
+            _bgrt_sync_do_pending_wake( sync );
         }
         BGRT_SPIN_FREE( sync );
 
@@ -581,15 +581,15 @@ bgrt_st_t _sync_sleep( sync_t * sync )
     }
     case BGRT_PROC_STATE_PI_RUNNING:
     {
-        _sync_sleep_swap_locks( sync, proc );
-        //The end of priority inheritance transaction or sync_own transaction
+        _bgrt_sync_sleep_swap_locks( sync, proc );
+        //The end of priority inheritance transaction or bgrt_sync_own transaction
         //No zero check needed, as a process state is BGRT_PROC_STATE_PI_RUNNING.
         sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty-- );
         break;
     }
     default:
     {
-        _sync_sleep_swap_locks( sync, proc );
+        _bgrt_sync_sleep_swap_locks( sync, proc );
         sync_clear = (bgrt_flag_t)0;
         break;
     }
@@ -603,7 +603,7 @@ bgrt_st_t _sync_sleep( sync_t * sync )
         return BGRT_ST_EOWN;
     }
 
-    old_prio = SYNC_PRIO( sync );
+    old_prio = BGRT_SYNC_PRIO( sync );
 
     proc->sync = sync;
     _proc_stop_flags_set( proc, BGRT_PROC_STATE_SYNC_SLEEP );
@@ -613,20 +613,20 @@ bgrt_st_t _sync_sleep( sync_t * sync )
 
     if( (sync_clear) && (sync->pwake) )
     {
-        _sync_do_pending_wake( sync );
+        _bgrt_sync_do_pending_wake( sync );
     }
 
     proc = sync->owner;
     if( proc )
     {
-        new_prio = SYNC_PRIO( sync );
+        new_prio = BGRT_SYNC_PRIO( sync );
         if( (old_prio != new_prio) || sync_clear )
         {
-            // When owner in BGRT_PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called sync_wait.
+            // When owner in BGRT_PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called bgrt_sync_wait.
             BGRT_SPIN_LOCK( proc );
             BGRT_PROC_LRES_DEC( proc, old_prio );
             BGRT_PROC_LRES_INC( proc, new_prio );
-            SYNC_BGRT_PROC_PRIO_PROPAGATE( proc, sync );
+            BGRT_SYNC_PROC_PRIO_PROPAGATE( proc, sync );
         }
         else
         {
@@ -646,39 +646,39 @@ bgrt_st_t _sync_sleep( sync_t * sync )
     return BGRT_ST_ROLL;
 }
 //========================================================================================
-void scall_sync_sleep( sync_sleep_t * arg )
+void scall_bgrt_sync_sleep( bgrt_sync_sleep_t * arg )
 {
-    arg->status = _sync_sleep( arg->sync );
+    arg->status = _bgrt_sync_sleep( arg->sync );
 }
 /**********************************************************************************************
-                                    SYSCALL_SYNC_WAIT
+                                    SYSCALL_BGRT_SYNC_WAIT
 **********************************************************************************************/
-static void _sync_owner_block( proc_t * owner )
+static void _bgrt_sync_owner_block( proc_t * owner )
 {
     BGRT_SPIN_LOCK( owner );
 
-    owner->sync = (sync_t *)0;
+    owner->sync = (bgrt_sync_t *)0;
     _proc_stop_flags_set( owner, BGRT_PROC_STATE_SYNC_SLEEP );
 
     BGRT_SPIN_FREE( owner );
 }
 //========================================================================================
-bgrt_st_t sync_wait( sync_t * sync, proc_t ** proc, bgrt_flag_t block )
+bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, proc_t ** proc, bgrt_flag_t block )
 {
-    volatile sync_wait_t scarg;
+    volatile bgrt_sync_wait_t scarg;
     scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.block = block;
     do
     {
-        bgrt_syscall( SYSCALL_SYNC_WAIT, (void *)&scarg );
+        bgrt_syscall( SYSCALL_BGRT_SYNC_WAIT, (void *)&scarg );
     }
     while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
 }
 //========================================================================================
-bgrt_st_t _sync_wait( sync_t * sync, proc_t ** proc, bgrt_flag_t block )
+bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, proc_t ** proc, bgrt_flag_t block )
 {
     proc_t * current;
     proc_t * owner;
@@ -718,7 +718,7 @@ bgrt_st_t _sync_wait( sync_t * sync, proc_t ** proc, bgrt_flag_t block )
 
     if( sync->dirty )
     {
-        _sync_owner_block( owner );
+        _bgrt_sync_owner_block( owner );
         BGRT_SPIN_FREE( sync );
         return BGRT_ST_ROLL;
     }
@@ -750,29 +750,29 @@ bgrt_st_t _sync_wait( sync_t * sync, proc_t ** proc, bgrt_flag_t block )
     return status;
 }
 //========================================================================================
-void scall_sync_wait( sync_wait_t * arg )
+void scall_bgrt_sync_wait( bgrt_sync_wait_t * arg )
 {
-    arg->status = _sync_wait( arg->sync, arg->proc, arg->block );
+    arg->status = _bgrt_sync_wait( arg->sync, arg->proc, arg->block );
 }
 /**********************************************************************************************
-                                    SYSCALL_SYNC_WAKE
+                                    SYSCALL_BGRT_SYNC_WAKE
 **********************************************************************************************/
-bgrt_st_t sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
+bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, proc_t * proc, bgrt_flag_t chown )
 {
-    volatile sync_wake_t scarg;
+    volatile bgrt_sync_wake_t scarg;
     scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     scarg.proc = proc;
     scarg.chown = chown;
     do
     {
-        bgrt_syscall( SYSCALL_SYNC_WAKE, (void *)&scarg );
+        bgrt_syscall( SYSCALL_BGRT_SYNC_WAKE, (void *)&scarg );
     }
     while( scarg.status >= BGRT_ST_ROLL );
     return scarg.status;
 }
 //========================================================================================
-bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
+bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, proc_t * proc, bgrt_flag_t chown )
 {
     proc_t * owner;
     bgrt_st_t status;
@@ -798,7 +798,7 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
         //Check for dirty priority inheritance transactions
         if( sync->dirty )
         {
-            _sync_owner_block( owner );
+            _bgrt_sync_owner_block( owner );
             BGRT_SPIN_FREE( sync );
 
             return BGRT_ST_ROLL;
@@ -838,7 +838,7 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
         BGRT_SPIN_LOCK( owner );
 
         bgrt_sched_proc_stop( owner );
-        BGRT_PROC_LRES_DEC( owner, SYNC_PRIO( sync ) );// No prio control now!
+        BGRT_PROC_LRES_DEC( owner, BGRT_SYNC_PRIO( sync ) );// No prio control now!
 
         BGRT_SPIN_FREE( owner );
     }
@@ -848,7 +848,7 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
         sync->owner = proc;
     }
     // We can wake some proc.
-    status = _sync_do_wake( proc, sync, chown );
+    status = _bgrt_sync_do_wake( proc, sync, chown );
 
     if( owner )
     {
@@ -856,7 +856,7 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
 
         if( !chown )
         {
-            BGRT_PROC_LRES_INC( owner, SYNC_PRIO( sync ) );
+            BGRT_PROC_LRES_INC( owner, BGRT_SYNC_PRIO( sync ) );
         }
         _proc_prio_control_stoped( owner );
         bgrt_sched_proc_run( owner, BGRT_PROC_STATE_READY );
@@ -868,31 +868,31 @@ bgrt_st_t _sync_wake( sync_t * sync, proc_t * proc, bgrt_flag_t chown )
     return status;
 }
 //========================================================================================
-void scall_sync_wake( sync_wake_t * arg )
+void scall_bgrt_sync_wake( bgrt_sync_wake_t * arg )
 {
-    arg->status = _sync_wake( arg->sync , arg->proc, arg->chown );
+    arg->status = _bgrt_sync_wake( arg->sync , arg->proc, arg->chown );
 }
 /**********************************************************************************************
-                                SYSCALL_SYNC_BGRT_PROC_TIMEOUT
+                                SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT
 **********************************************************************************************/
-bgrt_st_t sync_proc_timeout( proc_t * proc )
+bgrt_st_t bgrt_sync_proc_timeout( proc_t * proc )
 {
-    volatile sync_proc_timeout_t scarg;
+    volatile bgrt_sync_proc_timeout_t scarg;
     scarg.proc = proc;
     scarg.status = BGRT_ST_ROLL;
-    bgrt_syscall( SYSCALL_SYNC_BGRT_PROC_TIMEOUT, (void *)&scarg );
+    bgrt_syscall( SYSCALL_BGRT_SYNC_BGRT_PROC_TIMEOUT, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
-void scall_sync_proc_timeout( sync_proc_timeout_t * arg )
+void scall_bgrt_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg )
 {
-    arg->status = _sync_proc_timeout( arg->proc );
+    arg->status = _bgrt_sync_proc_timeout( arg->proc );
 }
 //========================================================================================
-bgrt_st_t _sync_proc_timeout( proc_t * proc )
+bgrt_st_t _bgrt_sync_proc_timeout( proc_t * proc )
 {
     bgrt_st_t status;
-    sync_t * sync;
+    bgrt_sync_t * sync;
 
     _proc_reset_watchdog();
 
@@ -907,7 +907,7 @@ bgrt_st_t _sync_proc_timeout( proc_t * proc )
     sync = proc->sync;
     BGRT_SPIN_FREE( proc );
 
-    if( (sync_t *)0 == sync )
+    if( (bgrt_sync_t *)0 == sync )
     {
         BGRT_KERNEL_PREEMPT();
 
@@ -959,13 +959,13 @@ bgrt_st_t _sync_proc_timeout( proc_t * proc )
     {
     case BGRT_PROC_STATE_SYNC_SLEEP:
     {
-        //Undo sync_sleep
+        //Undo bgrt_sync_sleep
         bgrt_prio_t old_prio;
 
-        old_prio = SYNC_PRIO( sync );
+        old_prio = BGRT_SYNC_PRIO( sync );
 
         bgrt_prit_cut( (bgrt_prit_t *)proc );
-        proc->sync = (sync_t *)0;
+        proc->sync = (bgrt_sync_t *)0;
         bgrt_sched_proc_run( proc, BGRT_PROC_STATE_TO_READY );
         BGRT_SPIN_FREE(proc);
 
@@ -974,13 +974,13 @@ bgrt_st_t _sync_proc_timeout( proc_t * proc )
         {
             bgrt_prio_t new_prio;
 
-            new_prio = SYNC_PRIO( sync );
+            new_prio = BGRT_SYNC_PRIO( sync );
             if( new_prio != old_prio )
             {
                 BGRT_SPIN_LOCK( proc );
                 BGRT_PROC_LRES_DEC( proc, old_prio );
                 BGRT_PROC_LRES_INC( proc, new_prio );
-                SYNC_BGRT_PROC_PRIO_PROPAGATE( proc, sync );
+                BGRT_SYNC_PROC_PRIO_PROPAGATE( proc, sync );
             }
             else
             {

@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 bgrt_st_t cond_init_isr( cond_t * cond )
 {
-    return SYNC_INIT_ISR( cond, BGRT_PROC_PRIO_LOWEST );
+    return BGRT_SYNC_INIT_ISR( cond, BGRT_PROC_PRIO_LOWEST );
 }
 
 bgrt_st_t cond_init( cond_t * cond )
@@ -113,7 +113,7 @@ bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
     }
     else
     {
-        ret = SYNC_SLEEP( cond );
+        ret = BGRT_SYNC_SLEEP( cond );
         proc_free(); //Now may stop!
 
         mutex_lock( mutex );
@@ -130,13 +130,13 @@ static bgrt_st_t _cond_signal( cond_t * cond )
     {
         proc_t * dummy = (proc_t *)0;
 
-        SYNC_WAIT( cond, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
+        BGRT_SYNC_WAIT( cond, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
 
         if( BGRT_ST_OK != ret )
         {
             return ret;
         }
-        SYNC_WAKE( cond, 0, 0, ret );
+        BGRT_SYNC_WAKE( cond, 0, 0, ret );
 
         cond->blocked--;
     }
@@ -148,13 +148,13 @@ bgrt_st_t cond_signal( cond_t * cond )
 {
     bgrt_st_t ret, clr_own;
 
-    clr_own = SYNC_OWN( cond, 0 );
+    clr_own = BGRT_SYNC_OWN( cond, 0 );
 
     ret = _cond_signal( cond );
 
     if( BGRT_ST_OK == clr_own )
     {
-        SYNC_SET_OWNER( cond, 0 );
+        BGRT_SYNC_SET_OWNER( cond, 0 );
     }
 
     return ret;
@@ -165,7 +165,7 @@ bgrt_st_t cond_broadcast( cond_t * cond )
     bgrt_st_t ret = BGRT_ST_ROLL;
     bgrt_st_t clr_own;
 
-    clr_own = SYNC_OWN( cond, 0 );
+    clr_own = BGRT_SYNC_OWN( cond, 0 );
 
     do
     {
@@ -175,7 +175,7 @@ bgrt_st_t cond_broadcast( cond_t * cond )
 
     if( BGRT_ST_OK == clr_own )
     {
-        SYNC_SET_OWNER( cond, 0 );
+        BGRT_SYNC_SET_OWNER( cond, 0 );
     }
 
     return ret;

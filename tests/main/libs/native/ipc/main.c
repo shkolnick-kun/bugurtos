@@ -24,7 +24,7 @@ void main_proc_test( void * arg )
     proc_run( &proc[1] );
 
     test_start();
-    SYNC_SET_OWNER( &test_ep, &proc[0] );
+    BGRT_SYNC_SET_OWNER( &test_ep, &proc[0] );
 
     test_output( BGRT_ST_EEMPTY == ipc_wait( &test_ep, &wait_for, 0), 1 );
     //priority inheritance tests

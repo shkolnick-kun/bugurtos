@@ -15,7 +15,7 @@ void main_with_return( void * arg )
     //mutex_try_lock test 1
     test_output( (BGRT_ST_OK == mutex_try_lock( &test_mutex )), 1 );
     // mutex_try_lock test 2
-    test_output( ( (&proc[0]) == SYNC_GET_OWNER( &test_mutex )), 2 );
+    test_output( ( (&proc[0]) == BGRT_SYNC_GET_OWNER( &test_mutex )), 2 );
     // mutex_try_lock test 3
     test_output( ( proc[0].parent.prio == 3 ), 3 );
     //mutex_try_lock test 3
@@ -37,17 +37,17 @@ void main_with_return( void * arg )
     bgrt_wait_time( 2 );
     test_output( ( proc[0].parent.prio == 4 ), 9 );
     //mutex_free test 10
-    test_output( ( (&proc[2]) == SYNC_GET_OWNER( &test_mutex )), 10 );
+    test_output( ( (&proc[2]) == BGRT_SYNC_GET_OWNER( &test_mutex )), 10 );
     //mutex_free test 11
     // proc[2] must free mutexaphore and self stop
     proc_run( &proc[2] );
     bgrt_wait_time( 2 );
-    test_output( ( ((proc_t *)0) == SYNC_GET_OWNER( &test_mutex )), 11 );
+    test_output( ( ((proc_t *)0) == BGRT_SYNC_GET_OWNER( &test_mutex )), 11 );
     // mutex_lock test 12
     // proc[2] must lock a test_mutex and self ctop
     proc_run( &proc[2] );
     bgrt_wait_time( 2 );
-    test_output( ( (&proc[2]) == SYNC_GET_OWNER( &test_mutex )), 12 );
+    test_output( ( (&proc[2]) == BGRT_SYNC_GET_OWNER( &test_mutex )), 12 );
     //mutex_lock test 13
     test_output( (proc[2].flags & BGRT_PROC_STATE_MASK) != BGRT_PROC_STATE_SYNC_SLEEP, 13 );
 

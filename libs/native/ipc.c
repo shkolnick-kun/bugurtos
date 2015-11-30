@@ -84,7 +84,7 @@ bgrt_st_t ipc_init_isr( ipc_t * endpoint )
     {
         return BGRT_ST_ENULL;
     }
-    SYNC_INIT_ISR( endpoint, BGRT_PROC_PRIO_LOWEST );
+    BGRT_SYNC_INIT_ISR( endpoint, BGRT_PROC_PRIO_LOWEST );
     endpoint->msg = (void *)0;
     return BGRT_ST_OK;
 }
@@ -104,7 +104,7 @@ bgrt_st_t ipc_send( ipc_t * out, void * msg )
 
     proc_lock();
 
-    ret = SYNC_SLEEP( out );
+    ret = BGRT_SYNC_SLEEP( out );
 
     if( BGRT_ST_OK != ret )
     {
@@ -113,7 +113,7 @@ bgrt_st_t ipc_send( ipc_t * out, void * msg )
     }
 
     out->msg = msg;
-    ret = SYNC_SLEEP( out );
+    ret = BGRT_SYNC_SLEEP( out );
 
     proc_free();
     return ret;
@@ -125,18 +125,18 @@ bgrt_st_t ipc_wait( ipc_t * in, proc_t ** proc, bgrt_flag_t block )
 
     proc_lock();
 
-    SYNC_WAIT(in, proc, block, ret );
+    BGRT_SYNC_WAIT(in, proc, block, ret );
 
     if( BGRT_ST_OK != ret )
     {
         goto end;
     }
 
-    SYNC_WAKE(in, *proc, 0, ret );
+    BGRT_SYNC_WAKE(in, *proc, 0, ret );
 
     if( BGRT_ST_OK == ret )
     {
-        SYNC_WAIT(in, proc, 1, ret );
+        BGRT_SYNC_WAIT(in, proc, 1, ret );
     }
 end:
     proc_free();
@@ -149,7 +149,7 @@ bgrt_st_t ipc_reply( ipc_t * in, proc_t * proc)
 
     proc_lock();
 
-    SYNC_WAKE(in, proc, 0, ret );
+    BGRT_SYNC_WAKE(in, proc, 0, ret );
 
     proc_free();
 

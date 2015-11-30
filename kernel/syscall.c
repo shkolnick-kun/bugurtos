@@ -95,13 +95,13 @@ BGRT_SCL_TBL( syscall_handler[] ) =
     // Scheduler
     BGRT_SC_TBL_ENTRY( scall_bgrt_bgrt_sched_proc_yeld        ),
     // Bsync
-    BGRT_SC_TBL_ENTRY( scall_sync_set_owner         ),
-    BGRT_SC_TBL_ENTRY( scall_sync_own               ),
-    BGRT_SC_TBL_ENTRY( scall_sync_touch             ),
-    BGRT_SC_TBL_ENTRY( scall_sync_sleep             ),
-    BGRT_SC_TBL_ENTRY( scall_sync_wake              ),
-    BGRT_SC_TBL_ENTRY( scall_sync_wait              ),
-    BGRT_SC_TBL_ENTRY( scall_sync_proc_timeout      ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_set_owner         ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_own               ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_touch             ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_sleep             ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_wake              ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_wait              ),
+    BGRT_SC_TBL_ENTRY( scall_bgrt_sync_proc_timeout      ),
     //Arbitrary code execution
     BGRT_SC_TBL_ENTRY( scall_user                   )
 };

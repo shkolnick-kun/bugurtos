@@ -189,7 +189,7 @@ bgrt_st_t proc_init_isr(
     proc->base_prio = prio;
     proc->time_quant = time_quant;
     proc->timer = time_quant;
-    proc->sync = (sync_t *)0;
+    proc->sync = (bgrt_sync_t *)0;
     proc->cnt_lock = (bgrt_cnt_t)0;
 #ifdef BGRT_CONFIG_MP
     proc->core_id = (bgrt_cpuid_t)0;

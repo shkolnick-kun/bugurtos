@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 bgrt_st_t mutex_init_isr( mutex_t * mutex, bgrt_prio_t prio )
 {
-    return SYNC_INIT_ISR( mutex, prio );
+    return BGRT_SYNC_INIT_ISR( mutex, prio );
 }
 
 bgrt_st_t mutex_init( mutex_t * mutex, bgrt_prio_t prio )
@@ -98,7 +98,7 @@ bgrt_st_t mutex_try_lock( mutex_t * mutex )
 
     proc_lock();
 
-    ret = SYNC_OWN( mutex, 0 );
+    ret = BGRT_SYNC_OWN( mutex, 0 );
 
     if( ret == BGRT_ST_OK )
     {
@@ -116,11 +116,11 @@ bgrt_st_t mutex_lock( mutex_t * mutex )
 
     proc_lock(); //Now process must not stop!
 
-    ret = SYNC_OWN( mutex, 1 ); //Try to lock mutex
+    ret = BGRT_SYNC_OWN( mutex, 1 ); //Try to lock mutex
 
     if( ret == BGRT_ST_ROLL )
     {
-        ret = SYNC_SLEEP( mutex );
+        ret = BGRT_SYNC_SLEEP( mutex );
     }
 
     return ret;
@@ -130,7 +130,7 @@ bgrt_st_t mutex_free( mutex_t * mutex )
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
-    SYNC_WAKE( mutex,  0, 1, ret );    // Now we can wake some process.
+    BGRT_SYNC_WAKE( mutex,  0, 1, ret );    // Now we can wake some process.
     proc_free();                       // May stop caller process.
 
     return ret;
