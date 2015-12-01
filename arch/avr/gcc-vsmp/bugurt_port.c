@@ -258,6 +258,7 @@ void _syscall_isr(void)
     bgrt_cpuid_t core;
     core = bgrt_current_cpu();
     bgrt_do_syscall( syscall_num[core], syscall_arg[core] );
+    syscall_num[core] = 0;//Готово
 }
 //__attribute__ (( naked )) void syscall_isr(void)
 void syscall_isr(void)

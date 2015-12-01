@@ -109,7 +109,7 @@ BGRT_SCL_TBL( syscall_handler[] ) =
 #ifndef BGRT_CONFIG_SYSCALL_CHECK
 //Default syscall sanity check macro
 #define BGRT_CONFIG_SYSCALL_CHECK(n,a) \
-( ( (bgrt_syscall_t)0 == n )&&( BGRT_SYSCALL_USER < n  ) )
+( ( (bgrt_syscall_t)0 == n )||( BGRT_SYSCALL_USER < n  ) )
 
 #endif //BGRT_CONFIG_SYSCALL_CHECK
 
