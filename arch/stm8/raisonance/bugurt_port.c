@@ -155,6 +155,7 @@ void system_call_handler(void) trap
 
     // Обрабатываем системный вызов
     bgrt_do_syscall(syscall_num, syscall_arg);
+    syscall_num = 0;//Готово
 
     BUGURT_ISR_END();
 }

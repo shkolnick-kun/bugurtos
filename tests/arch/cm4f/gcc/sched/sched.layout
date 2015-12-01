@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="6545" topLine="139" />
-	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="1" tabpos="0">
-		<Cursor position="0" topLine="0" />
+	<File name="../../../../../arch/cm4f/gcc/bugurt_port.c" open="1" top="1" tabpos="4">
+		<Cursor position="6785" topLine="154" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6659" topLine="78" />
@@ -22,8 +19,8 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="1">
 		<Cursor position="7719" topLine="116" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="4">
-		<Cursor position="6534" topLine="85" />
+	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="2">
+		<Cursor position="6727" topLine="85" />
 	</File>
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -35,6 +32,6 @@
 		<Cursor position="771" topLine="15" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="812" topLine="21" />
+		<Cursor position="692" topLine="48" />
 	</File>
 </CodeBlocks_layout_file>
