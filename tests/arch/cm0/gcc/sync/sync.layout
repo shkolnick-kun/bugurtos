@@ -7,9 +7,6 @@
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="21394" topLine="384" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="32502" topLine="1015" />
 	</File>

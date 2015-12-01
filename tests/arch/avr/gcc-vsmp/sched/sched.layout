@@ -52,13 +52,13 @@
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="5">
-		<Cursor position="11090" topLine="231" />
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="5">
+		<Cursor position="11090" topLine="222" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="35551" topLine="624" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
 		<Cursor position="9601" topLine="181" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
