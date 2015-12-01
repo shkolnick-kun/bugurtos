@@ -85,7 +85,7 @@ void main_0( void * arg )
 
     // 11 _bgrt_proc_prio_propagate bgrt_proc_set_prio
     BGRT_PROC_SET_STATE( (&proc[1]), BGRT_PROC_STATE_SYNC_SLEEP );
-    bgrt_prit_insert( (bgrt_prit_t *)(&proc[1]), (bgrt_xlist_t *)(&bgrt_sync_1) );
+    bgrt_pitem_insert( (bgrt_pitem_t *)(&proc[1]), (bgrt_xlist_t *)(&bgrt_sync_1) );
     proc[1].sync = &bgrt_sync_1;
     bgrt_proc_set_prio( &proc[1], 4 );
     bgrt_wait_time(5);
@@ -126,7 +126,7 @@ void main_0( void * arg )
     proc[1].sync = &bgrt_sync_1;
     bgrt_sync_1.dirty = (bgrt_cnt_t)0;
     BGRT_PROC_LRES_DEC( (&proc[2]), BGRT_SYNC_PRIO(&bgrt_sync_1) );
-    bgrt_prit_insert( (bgrt_prit_t *)(&proc[1]), (bgrt_xlist_t *)(&bgrt_sync_1) );
+    bgrt_pitem_insert( (bgrt_pitem_t *)(&proc[1]), (bgrt_xlist_t *)(&bgrt_sync_1) );
     BGRT_PROC_LRES_INC( (&proc[2]), BGRT_SYNC_PRIO(&bgrt_sync_1) );
 
     kernel_preemt_hook_add( prio_propagate_hook_0 );

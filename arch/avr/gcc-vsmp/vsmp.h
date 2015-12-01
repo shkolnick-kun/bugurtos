@@ -113,7 +113,7 @@ volatile void * vm_buf;
 typedef void (*hook_t)(void);
 hook_t vsmp_systimer_hook;
 
-#define VINTERRUPT_INIT(v, f) { INIT_ITEM_T(v), (bgrt_cnt_t)0, f }
+#define VINTERRUPT_INIT(v, f) { BGRT_ITEM_T_INIT(v), (bgrt_cnt_t)0, f }
 
 void vsmp_vm_init( vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp );
 

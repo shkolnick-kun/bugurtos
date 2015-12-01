@@ -78,14 +78,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 // Инициация
-void bgrt_prit_init( bgrt_prit_t * pitem, bgrt_prio_t prio )
+void bgrt_pitem_init( bgrt_pitem_t * pitem, bgrt_prio_t prio )
 {
     bgrt_item_init( (bgrt_item_t *)pitem );
     pitem->list = (bgrt_xlist_t *)0;
     pitem->prio = prio;
 }
 // Вставка в список
-void bgrt_prit_insert( bgrt_prit_t * pitem, bgrt_xlist_t * xlist )
+void bgrt_pitem_insert( bgrt_pitem_t * pitem, bgrt_xlist_t * xlist )
 {
     bgrt_prio_t prio;
     bgrt_index_t mask;
@@ -109,7 +109,7 @@ void bgrt_prit_insert( bgrt_prit_t * pitem, bgrt_xlist_t * xlist )
     pitem->list = xlist;
 }
 // Быстрая вырезка из списка
-void bgrt_prit_fast_cut( bgrt_prit_t * pitem )
+void bgrt_pitem_fast_cut( bgrt_pitem_t * pitem )
 {
     bgrt_prio_t prio;
     bgrt_xlist_t * xlist;
@@ -137,16 +137,16 @@ void bgrt_prit_fast_cut( bgrt_prit_t * pitem )
     }
 }
 // Вырезка из списка
-void bgrt_prit_cut(bgrt_prit_t * pitem)
+void bgrt_pitem_cut(bgrt_pitem_t * pitem)
 {
-    bgrt_prit_fast_cut( pitem );
+    bgrt_pitem_fast_cut( pitem );
     pitem->list = (bgrt_xlist_t *)0;
 }
 
-bgrt_prit_t * bgrt_prit_xlist_chain( bgrt_xlist_t * src )
+bgrt_pitem_t * bgrt_pitem_xlist_chain( bgrt_xlist_t * src )
 {
-    bgrt_prit_t * ret;  // return value
-    ret = (bgrt_prit_t *)bgrt_xlist_head( src );     // will return former xlist head
+    bgrt_pitem_t * ret;  // return value
+    ret = (bgrt_pitem_t *)bgrt_xlist_head( src );     // will return former xlist head
     if(ret)
     {
         bgrt_index_t mask,   // index mask to check for items in xlist

@@ -96,14 +96,14 @@ typedef struct _bgrt_xlist_t bgrt_xlist_t; /*!< \~russian Смотри #_bgrt_xl
 \brief
 Список с приоритетами.
 
-Такой список хранит ссылки на структуры типа #bgrt_item_t. Фактически в нем будут храниться ссылки на элементы типа #bgrt_prit_t.
+Такой список хранит ссылки на структуры типа #bgrt_item_t. Фактически в нем будут храниться ссылки на элементы типа #bgrt_pitem_t.
 
 \~english
 \brief
 A prioritized list.
 
 A container type, #bgrt_xlist_t objects store lists of #bgrt_item_t objects.
-In fact these containers store lists of #bgrt_prit_t or other compatible objects.
+In fact these containers store lists of #bgrt_pitem_t or other compatible objects.
 */
 struct _bgrt_xlist_t
 {
