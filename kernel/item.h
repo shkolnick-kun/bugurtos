@@ -113,7 +113,7 @@ struct _bgrt_item_t
    \warning For internel usage.
    \param a An #bgrt_item_t variable name.
 */
-#define INIT_ITEM_T(a) { (bgrt_item_t *)&a, (bgrt_item_t *)&a }
+#define BGRT_ITEM_T_INIT(a) { (bgrt_item_t *)&a, (bgrt_item_t *)&a }
 
 //Методы
 /*!

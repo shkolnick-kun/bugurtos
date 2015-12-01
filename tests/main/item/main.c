@@ -13,12 +13,12 @@ void print_fail(void)
 }
 int main()
 {
-    bgrt_item_t bgrt_item_1 = INIT_ITEM_T( bgrt_item_1 );
+    bgrt_item_t bgrt_item_1 = BGRT_ITEM_T_INIT( bgrt_item_1 );
     bgrt_item_t bgrt_item_2, bgrt_item_3;
     bgrt_item_t * head;
     int test;
 
-    printf("Test 1: INIT_ITEM_T macro: ");
+    printf("Test 1: BGRT_ITEM_T_INIT macro: ");
     if( (bgrt_item_1.next != &bgrt_item_1) || (bgrt_item_1.prev != &bgrt_item_1) )
     {
         print_fail();

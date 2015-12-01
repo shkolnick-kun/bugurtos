@@ -112,11 +112,11 @@ void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc )
 
         bgrt_prio_t locker_prio;
         locker_prio = bgrt_index_search( proc->lres.index );
-        ((bgrt_prit_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
+        ((bgrt_pitem_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
     }
     else
     {
-        ((bgrt_prit_t *)proc)->prio = proc->base_prio;
+        ((bgrt_pitem_t *)proc)->prio = proc->base_prio;
     }
 }
 /**********************************************************************************************
@@ -181,7 +181,7 @@ bgrt_st_t bgrt_proc_init_isr(
     BGRT_SPIN_INIT( proc );
     BGRT_SPIN_LOCK( proc );
 
-    bgrt_prit_init( (bgrt_prit_t *)proc, prio );
+    bgrt_pitem_init( (bgrt_pitem_t *)proc, prio );
     proc->flags = ( is_rt )?(BGRT_PROC_FLG_RT|BGRT_PROC_FLG_RR):(BGRT_PROC_FLG_RR); // Default behavior is round robin scheduling
 
     BGRT_PROC_LRES_INIT( proc );

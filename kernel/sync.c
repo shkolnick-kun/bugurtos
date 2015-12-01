@@ -114,7 +114,7 @@ static bgrt_st_t _bgrt_sync_do_wake( bgrt_proc_t * proc, bgrt_sync_t * sync, bgr
         }
         else
         {
-            bgrt_prit_cut( (bgrt_prit_t *)proc );
+            bgrt_pitem_cut( (bgrt_pitem_t *)proc );
             if( chown )
             {
                 BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );  //sync prio has changed
@@ -198,7 +198,7 @@ static void _bgrt_pi_prio_propagate( BGRT_PI_PRIO_PROP_ARGS )
 
         BGRT_SPIN_LOCK( proc );
 
-        bgrt_prit_cut( (bgrt_prit_t *)proc );
+        bgrt_pitem_cut( (bgrt_pitem_t *)proc );
         _bgrt_proc_prio_control_stoped( proc );
         if( BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE( proc ) )
         {
@@ -212,7 +212,7 @@ static void _bgrt_pi_prio_propagate( BGRT_PI_PRIO_PROP_ARGS )
             {
                 // Put back into sync->sleep
                 BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_SYNC_SLEEP );
-                bgrt_prit_insert( (bgrt_prit_t *)proc, (bgrt_xlist_t *)sync );
+                bgrt_pitem_insert( (bgrt_pitem_t *)proc, (bgrt_xlist_t *)sync );
             }
         }
         else
@@ -607,7 +607,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
 
     proc->sync = sync;
     _bgrt_proc_stop_flags_set( proc, BGRT_PROC_STATE_SYNC_SLEEP );
-    bgrt_prit_insert( (bgrt_prit_t *)proc, (bgrt_xlist_t *)sync );
+    bgrt_pitem_insert( (bgrt_pitem_t *)proc, (bgrt_xlist_t *)sync );
 
     BGRT_SPIN_FREE( proc );
 
@@ -964,7 +964,7 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 
         old_prio = BGRT_SYNC_PRIO( sync );
 
-        bgrt_prit_cut( (bgrt_prit_t *)proc );
+        bgrt_pitem_cut( (bgrt_pitem_t *)proc );
         proc->sync = (bgrt_sync_t *)0;
         bgrt_sched_proc_run( proc, BGRT_PROC_STATE_TO_READY );
         BGRT_SPIN_FREE(proc);

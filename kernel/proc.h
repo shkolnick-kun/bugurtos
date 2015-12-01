@@ -174,7 +174,7 @@ You must access such static variables using process synchronization facilities.
 */
 struct _bgrt_proc_t
 {
-    bgrt_prit_t parent;     /*!<\~russian Родитель - #bgrt_prit_t. \~english A parent is #bgrt_prit_t.*/
+    bgrt_pitem_t parent;     /*!<\~russian Родитель - #bgrt_pitem_t. \~english A parent is #bgrt_pitem_t.*/
     bgrt_flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
     bgrt_prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
     bgrt_pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
