@@ -106,7 +106,7 @@ int main(void)
 
     sem_init_isr( &test_sem, 1 );
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;

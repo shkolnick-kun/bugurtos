@@ -500,7 +500,7 @@ An argument for system call #BGRT_SYSCALL_PROC_SET_PRIO.
 */
 typedef struct
 {
-    bgrt_proc_t * proc; /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
+    BGRT_PID_T pid;     /*!< \~russian Идентификатор процесса. \~english A process ID. */
     bgrt_prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
 }
 bgrt_proc_set_prio_arg_t;

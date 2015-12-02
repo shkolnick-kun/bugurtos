@@ -267,10 +267,10 @@ static void _bgrt_pi_prio_propagate( BGRT_PI_PRIO_PROP_ARGS )
 /**********************************************************************************************
                                        BGRT_SYSCALL_PROC_SET_PRIO
 **********************************************************************************************/
-void bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
+void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio )
 {
     volatile bgrt_proc_set_prio_arg_t arg;
-    arg.proc = proc;
+    arg.pid = pid;
     arg.prio = prio;
     bgrt_syscall( BGRT_SYSCALL_PROC_SET_PRIO, (void *)&arg );
 }
@@ -293,7 +293,7 @@ void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
 //========================================================================================
 void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg )
 {
-    _bgrt_proc_set_prio( arg->proc, arg->prio );
+    _bgrt_proc_set_prio( BGRT_PID_TO_PROC( arg->pid ), arg->prio );
 }
 /**********************************************************************************************
                                        Bsync methods

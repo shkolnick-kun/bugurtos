@@ -100,8 +100,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SYSCALL_PROC_FREE                      (BGRT_SYSCALL_PROC_LOCK + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP. \~english \brief #BGRT_PROC_FLG_PRE_STOP flag processing. */
 #define BGRT_SYSCALL_PROC_RESET_WATCHDOG            (BGRT_SYSCALL_PROC_FREE + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Сброс watchdog процесса реального времени. \~english \brief A real time process watchdog reset. */
 #define BGRT_SYSCALL_PROC_SET_PRIO                  (BGRT_SYSCALL_PROC_RESET_WATCHDOG + (bgrt_syscall_t)(1))        /*!< \~russian \brief Установить приоритет процесса \~english \brief Set a process priority. */
+#define BGRT_SYSCALL_PROC_GET_PRIO                  (BGRT_SYSCALL_PROC_SET_PRIO + (bgrt_syscall_t)(1))              /*!< \~russian \brief Получить приоритет процесса \~english \brief Get a process priority. */
+#define BGRT_SYSCALL_PROC_GET_ID                    (BGRT_SYSCALL_PROC_GET_PRIO + (bgrt_syscall_t)(1))              /*!< \~russian \brief Установить приоритет процесса \~english \brief Set a process priority. */
 
-#define BGRT_SYSCALL_SCHED_PROC_YELD                (BGRT_SYSCALL_PROC_SET_PRIO + (bgrt_syscall_t)(1))              /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
+#define BGRT_SYSCALL_SCHED_PROC_YELD                (BGRT_SYSCALL_PROC_GET_ID + (bgrt_syscall_t)(1))                /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
 
 #define BGRT_SYSCALL_SYNC_SET_OWNER                 (BGRT_SYSCALL_SCHED_PROC_YELD + (bgrt_syscall_t)(1))            /*!< \~russian \brief Установить нового хозяина объекта типа #bgrt_sync_t. \~english \brief Set new #bgrt_sync_t object owner. */
 #define BGRT_SYSCALL_SYNC_OWN                       (BGRT_SYSCALL_SYNC_SET_OWNER + (bgrt_syscall_t)(1))             /*!< \~russian \brief Завладеть объектом типа #bgrt_sync_t. \~english \brief Own #bgrt_sync_t object. */

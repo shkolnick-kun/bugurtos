@@ -127,7 +127,7 @@ int main(void)
 
     ipc_init_isr( &test_ep );
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;

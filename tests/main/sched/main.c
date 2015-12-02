@@ -72,7 +72,7 @@ int main(void)
 
     proc[5].flags &= ~BGRT_PROC_FLG_RR;
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;
