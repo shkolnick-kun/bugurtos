@@ -92,6 +92,8 @@ BGRT_SCL_TBL( syscall_handler[] ) =
     BGRT_SC_TBL_ENTRY( bgrt_scall_proc_free              ),
     BGRT_SC_TBL_ENTRY( bgrt_scall_proc_reset_watchdog    ),
     BGRT_SC_TBL_ENTRY( bgrt_scall_proc_set_prio          ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_get_prio          ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_proc_get_id            ),
     // Scheduler
     BGRT_SC_TBL_ENTRY( bgrt_scall_sched_proc_yeld        ),
     // Bsync
@@ -108,15 +110,19 @@ BGRT_SCL_TBL( syscall_handler[] ) =
 
 #ifndef BGRT_CONFIG_SYSCALL_CHECK
 //Default syscall sanity check macro
-#define BGRT_CONFIG_SYSCALL_CHECK(n,a) \
+#define BGRT_SYSCALL_CHECK(n,a) \
 ( ( (bgrt_syscall_t)0 == n )||( BGRT_SYSCALL_USER < n  ) )
+
+#else  //BGRT_CONFIG_SYSCALL_CHECK
+
+#define BGRT_SYSCALL_CHECK BGRT_CONFIG_SYSCALL_CHECK
 
 #endif //BGRT_CONFIG_SYSCALL_CHECK
 
 void bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
 {
     //Sanity check
-    if( BGRT_CONFIG_SYSCALL_CHECK(syscall_num, syscall_arg) )
+    if( BGRT_SYSCALL_CHECK(syscall_num, syscall_arg) )
     {
         //Fail
         return;

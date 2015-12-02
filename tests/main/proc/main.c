@@ -224,7 +224,7 @@ int main(void)
     bgrt_proc_init_isr( &proc[4], main_fs,            SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
     bgrt_proc_init_isr( &proc[5], main_wd_ss,         SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 3,      2, 1 ARG_END );
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;

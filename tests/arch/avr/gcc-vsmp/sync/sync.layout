@@ -5,19 +5,19 @@
 		<Cursor position="7985" topLine="150" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="11317" topLine="207" />
+		<Cursor position="20759" topLine="492" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="324" />
+		<Cursor position="9128" topLine="664" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="20230" topLine="598" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="34797" topLine="1132" />
+		<Cursor position="12487" topLine="276" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="25671" topLine="507" />
+		<Cursor position="25671" topLine="153" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3456" topLine="202" />

@@ -145,6 +145,59 @@ A decrement of proc->lres.
 
 //Процесс
 typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc_t; \~english See #_bgrt_proc_t; */
+
+
+/*!
+\file
+\~russian
+
+\def BGRT_PID_T
+\brief Уникальный идентификатор процесса.
+
+\def BGRT_PID_TO_PROC
+\brief Преобразование идентификатора процесса в указатель на процесс.
+
+\note Может проверять идентификатор процесса на допустимость.
+
+\param Уникальный идентификатор процесса.
+\return Указатель на объект типа #bgrt_proc_t, или нулевой указатель.
+
+\def BGRT_PROC_TO_PID
+\brief Преобразование указателя на процесс в идентификатор процесса.
+
+\note Может проверять допустимость значения указателя.
+
+\param Указатель на объект типа #bgrt_proc_t.
+\return Уникальный идентификатор процесса.
+
+\~english
+
+\def BGRT_PID_T
+\brief A unique process ID.
+
+\def BGRT_PID_TO_PROC
+\brief Lookup the #bgrt_proc_t object for a given process ID.
+
+\note This macro may check the process ID for validity.
+
+\param A process ID.
+\return The #bgrt_proc_t pointer or a zero pointer.
+
+\def BGRT_PROC_TO_PID
+\brief Lookup the ID for a specified #bgrt_proc_t object.
+
+\note This macro may check the #bgrt_proc_t pointer for validity.
+
+\param A #bgrt_proc_t pointer.
+\return The process ID.
+*/
+#ifndef BGRT_PID_T
+#define BGRT_PID_T bgrt_proc_t *
+#define BGRT_PID_TO_PROC(p) (p)
+#define BGRT_PROC_TO_PID(p) (p)
+#endif//BGRT_PID_T
+
+
 // Свойства
 /*!
 \~russian
@@ -287,12 +340,12 @@ Used clear execution three LSBs state bits in proc->flags.
 \~russian
 \brief Маска проверки состояния процесса.
 
-Используется функциями #bgrt_proc_restart и #bgrt_proc_restart_isr, для проверки возможности перезапуска.
+Используется функциями #bgrt_proc_restart и #_bgrt_proc_restart, для проверки возможности перезапуска.
 
 \~english
 \brief A process execution state check mask.
 
-Used by #bgrt_proc_restart and #bgrt_proc_restart_isr to check for restart possibility.
+Used by #bgrt_proc_restart and #_bgrt_proc_restart to check for restart possibility.
 */
 #define BGRT_PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
 
@@ -410,6 +463,103 @@ A process should not have locked resources at a moment of a flag stop.
 #define BGRT_PROC_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
 
 // Методы
+// Упраление счетчиком захваченных ресурсов, для внутреннего использования
+/*!
+\~russian
+\brief Управление приоритетом процесса.
+
+Инкрементирует счетчик proc->lres, устанавливает флаг #BGRT_PROC_FLG_LOCK.
+
+\warning Для внутреннего использования.
+
+\param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
+
+\~english
+\brief Process priority control.
+
+Increments proc->lres counter, sets #BGRT_PROC_FLG_LOCK flag.
+
+\warning For internal usage.
+
+\param proc - A pointer to a process.
+\param prio - New process priority value.
+*/
+void _bgrt_proc_lres_inc( bgrt_proc_t * proc ,bgrt_prio_t prio );
+/*!
+\~russian
+\brief Управление приоритетом процесса.
+
+Декрементирует счетчик proc->lres, сбрасывает флаг #BGRT_PROC_FLG_LOCK при необходимости.
+
+\warning Для внутреннего использования.
+
+\param proc - Указатель на процесс.
+\param prio - Новое значение приоритета.
+
+\~english
+\brief Process priority control.
+
+Decrements proc->lres counter, clears #BGRT_PROC_FLG_LOCK flag if needed.
+
+\warning For internal usage.
+
+\param proc - A pointer to a process.
+\param prio - New process priority value.
+*/
+void _bgrt_proc_lres_dec( bgrt_proc_t * proc ,bgrt_prio_t prio );
+/*!
+\~russian
+\brief Останов процесса.
+
+Гарантированно останавливает процесс.
+
+\warning Для внутреннего использования.
+
+\param proc - Указатель на процесс.
+
+\~english
+\brief Stops a process.
+
+Stops a process for sure.
+
+\warning For internal usage.
+
+\param proc - A pointer to a process.
+*/
+void _bgrt_proc_stop_ensure( bgrt_proc_t * proc );
+/*!
+\~russian
+\brief "Низкоуровневый" останов процесса с установкой флагов.
+
+\warning Для внутреннего использования.
+
+\~english
+\brief A low level process stop with flags set routine.
+
+\warning For internal usage.
+*/
+void _bgrt_proc_stop_flags_set( bgrt_proc_t * proc, bgrt_flag_t mask );
+/*!
+\~russian
+\brief Управление приоритетом процесса.
+
+Используется совместно с опцией BGRT_CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
+\param proc - Указатель на процесс.
+
+\warning Для внутреннего использования.
+
+\~english
+\brief A stopped process priority control routine.
+
+Used with BGRT_CONFIG_USE_HIGHEST_LOCKER option. A process must be stopped before call of the routine.
+
+\warning For internal usage.
+
+\param proc - A pointer to a process.
+*/
+void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc );
+
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
@@ -469,7 +619,7 @@ void _bgrt_proc_terminate( void );
 \brief Запуск процесса.
 
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
-\param proc - Указатель на запускаемый процесс.
+\param pid - Идентификатор процесса.
 \return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
@@ -477,10 +627,10 @@ void _bgrt_proc_terminate( void );
 
 This function schedules a process if possible.
 
-\param proc - A pointer to a process to launch.
+\param pid - A process ID.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bgrt_st_t bgrt_proc_run(bgrt_proc_t * proc);
+bgrt_st_t bgrt_proc_run(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
@@ -497,14 +647,14 @@ This function schedules a process if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bgrt_st_t bgrt_proc_run_isr(bgrt_proc_t * proc);
+bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc);
 
 /*!
 \~russian
 \brief Перезапуск процесса.
 
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #bgrt_proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
-\param proc - Указатель на запускаемый процесс.
+\param pid - Идентификатор процусса.
 \return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
@@ -512,10 +662,10 @@ bgrt_st_t bgrt_proc_run_isr(bgrt_proc_t * proc);
 
 This function reinitializes a process and schedules it if possible.
 
-\param proc - A pointer to a process to launch.
+\param pid - A process ID.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bgrt_st_t bgrt_proc_restart(bgrt_proc_t * proc);
+bgrt_st_t bgrt_proc_restart(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
@@ -532,23 +682,23 @@ This function reinitializes a process and schedules it if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, erroro code in other cases.
 */
-bgrt_st_t bgrt_proc_restart_isr(bgrt_proc_t * proc);
+bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc);
 /*!
 \~russian
 \brief Останов процесса.
 
 Вырезает процесс из списка готовых к выполнению и производит перепланировку.
-\param proc - Указатель на останавливаемый процесс.
+\param pid - Идентификатор процесса.
 \return BGRT_ST_OK - если процесс был вырезан из списка готовых к выполнению, либо код ошибки.
 
 \~english
 \brief A process stop routine.
 
 This function stops a process if possible.
-\param proc - A pointer to a process to stop.
+\param pid - A process ID.
 \return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-bgrt_st_t bgrt_proc_stop(bgrt_proc_t * proc);
+bgrt_st_t bgrt_proc_stop(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
@@ -564,7 +714,7 @@ This function stops a process if possible.
 \param proc - A pointer to a process to stop.
 \return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-bgrt_st_t bgrt_proc_stop_isr(bgrt_proc_t * proc);
+bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc);
 /*!
 \~russian
 \brief Самоостанов процесса.
@@ -630,16 +780,12 @@ void _bgrt_proc_reset_watchdog(void);
 //===========================================================
 /*!
 \~russian
-\brief "Низкоуровневый" останов процесса с установкой флагов.
-
-\warning Для внутреннего использования.
+\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
 
 \~english
-\brief A low level process stop with flags set routine.
-
-\warning For internal usage.
+\brief Set #BGRT_PROC_FLG_LOCK for caller process.
 */
-void _bgrt_proc_stop_flags_set( bgrt_proc_t * proc, bgrt_flag_t mask );
+void bgrt_proc_lock(void);
 /*!
 \~russian
 \brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
@@ -654,12 +800,12 @@ void _bgrt_proc_stop_flags_set( bgrt_proc_t * proc, bgrt_flag_t mask );
 void _bgrt_proc_lock(void);
 /*!
 \~russian
-\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
+\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
 
 \~english
-\brief Set #BGRT_PROC_FLG_LOCK for caller process.
+\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
 */
-void bgrt_proc_lock(void);
+void bgrt_proc_free(void);
 /*!
 \~russian
 \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.
@@ -674,40 +820,11 @@ void bgrt_proc_lock(void);
 void _bgrt_proc_free(void);
 /*!
 \~russian
-\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
-
-\~english
-\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
-*/
-void bgrt_proc_free(void);
-// Упраление счетчиком захваченных ресурсов, для внутреннего использования
-/*!
-\~russian
-\brief Управление приоритетом процесса.
-
-Используется совместно с опцией BGRT_CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
-\param proc - Указатель на процесс.
-
-\warning Для внутреннего использования.
-
-\~english
-\brief A stopped process priority control routine.
-
-Used with BGRT_CONFIG_USE_HIGHEST_LOCKER option. A process must be stopped before call of the routine.
-
-\warning For internal usage.
-
-\param proc - A pointer to a process.
-*/
-void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc );
-
-/*!
-\~russian
 \brief Управление приоритетом процесса.
 
 Устанавливает приоритет процесса, находящегося в любом состоянии.
 
-\param proc - Указатель на процесс.
+\param pid - Идентификатор процесса.
 \param prio - Новое значение приоритета.
 
 \~english
@@ -715,11 +832,10 @@ void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc );
 
 It sets a process priority. A process current state doesn't matter.
 
-\param proc - A pointer to a process.
+\param pid - A process ID.
 \param prio - New process priority value.
 */
-void bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
-
+void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio );
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -745,69 +861,49 @@ void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
 
 /*!
 \~russian
-\brief Управление приоритетом процесса.
+\brief Получить приоритет процесса.
 
-Инкрементирует счетчик proc->lres, устанавливает флаг #BGRT_PROC_FLG_LOCK.
-
-\warning Для внутреннего использования.
-
-\param proc - Указатель на процесс.
-\param prio - Новое значение приоритета.
+\param pid - Идентификатор процесса.
+\return - Значение приоритета процесса.
 
 \~english
-\brief Process priority control.
+\brief Get a priority of a process.
 
-Increments proc->lres counter, sets #BGRT_PROC_FLG_LOCK flag.
-
-\warning For internal usage.
-
-\param proc - A pointer to a process.
-\param prio - New process priority value.
+\param pid - A process ID.
+\return - A process priority value.
 */
-void _bgrt_proc_lres_inc( bgrt_proc_t * proc ,bgrt_prio_t prio );
+bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
 /*!
 \~russian
-\brief Управление приоритетом процесса.
-
-Декрементирует счетчик proc->lres, сбрасывает флаг #BGRT_PROC_FLG_LOCK при необходимости.
+\brief Получить приоритет процесса.
 
 \warning Для внутреннего использования.
 
-\param proc - Указатель на процесс.
-\param prio - Новое значение приоритета.
+\param pid - Идентификатор процесса.
+\return - Значение приоритета процесса.
 
 \~english
-\brief Process priority control.
-
-Decrements proc->lres counter, clears #BGRT_PROC_FLG_LOCK flag if needed.
+\brief Get a priority of a process.
 
 \warning For internal usage.
 
-\param proc - A pointer to a process.
-\param prio - New process priority value.
+\param pid - A process ID.
+\return - A process priority value.
 */
-void _bgrt_proc_lres_dec( bgrt_proc_t * proc ,bgrt_prio_t prio );
+bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc );
+
 /*!
 \~russian
-\brief Останов процесса.
+\brief Получить идентификатор текущего процесса.
 
-Гарантированно останавливает процесс.
-
-\warning Для внутреннего использования.
-
-\param proc - Указатель на процесс.
+\return Идентификатор процесса.
 
 \~english
-\brief Stops a process.
+\brief Get a current process ID.
 
-Stops a process for sure.
-
-\warning For internal usage.
-
-\param proc - A pointer to a process.
+\return A current process ID.
 */
-void _bgrt_proc_stop_ensure( bgrt_proc_t * proc );
-
+BGRT_PID_T bgrt_proc_get_id(void);
 /*****************************************************************************************/
 /*                               System call handlers !!!                                */
 /*****************************************************************************************/
@@ -821,7 +917,7 @@ void _bgrt_proc_stop_ensure( bgrt_proc_t * proc );
 An argument for system calls #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
 */
 typedef struct{
-    bgrt_proc_t * proc;      /*!< \~russian Указатель на процесс. \~english A pointer to a process. */
+    BGRT_PID_T pid;      /*!< \~russian Идентификатор процесса. \~english A process ID. */
     bgrt_st_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
 }bgrt_proc_runtime_arg_t;
 
@@ -830,7 +926,7 @@ typedef struct{
 \brief
 Обработчик вызова #BGRT_SYSCALL_PROC_RUN.
 
-Пытается запустить процесс, вызывая #bgrt_proc_run_isr.
+Пытается запустить процесс, вызывая #_bgrt_proc_run.
 
 \param arg указатель на структуру #bgrt_proc_runtime_arg_t.
 
@@ -838,7 +934,7 @@ typedef struct{
 \brief
 A #BGRT_SYSCALL_PROC_RUN handler.
 
-This function tries to launch a process by #bgrt_proc_run_isr call.
+This function tries to launch a process by #_bgrt_proc_run call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
@@ -848,7 +944,7 @@ void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg );
 \brief
 Обработчик вызова #BGRT_SYSCALL_PROC_RESTART.
 
-Пытается перезапустить процесс, вызывая #bgrt_proc_restart_isr.
+Пытается перезапустить процесс, вызывая #_bgrt_proc_restart.
 
 \param arg указатель на структуру #bgrt_proc_runtime_arg_t.
 
@@ -856,7 +952,7 @@ void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg );
 \brief
 A #BGRT_SYSCALL_PROC_RESTART handler.
 
-This function tries to restart a process by #bgrt_proc_restart_isr call.
+This function tries to restart a process by #_bgrt_proc_restart call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
@@ -866,7 +962,7 @@ void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg );
 \brief
 Обработчик вызова #BGRT_SYSCALL_PROC_STOP.
 
-Пытается остановить процесс, вызывая #bgrt_proc_stop_isr.
+Пытается остановить процесс, вызывая #_bgrt_proc_stop.
 
 \param arg указатель на структуру #bgrt_proc_runtime_arg_t.
 
@@ -874,7 +970,7 @@ void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg );
 \brief
 A #BGRT_SYSCALL_PROC_STOP handler.
 
-This function tries to stop a process by #bgrt_proc_stop_isr call.
+This function tries to stop a process by #_bgrt_proc_stop call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
@@ -972,4 +1068,40 @@ This function calls #_bgrt_proc_reset_watchdog.
 \param arg Not used.
 */
 void bgrt_scall_proc_reset_watchdog( void * arg );
+/*****************************************************************************************/
+typedef struct{
+    BGRT_PID_T pid;          /*!< \~russian Идентификатор процесса. \~english A process ID. */
+    bgrt_prio_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+}bgrt_proc_get_prio_arg_t;   /*!< \~russian Аргумент #bgrt_scall_proc_get_prio. \~english An arg for #bgrt_scall_proc_get_prio.*/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_GET_PRIO.
+
+Вызывает #_bgrt_proc_get_prio.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_GET_PRIO handler.
+
+This function calls #_bgrt_proc_get_prio.
+*/
+void bgrt_scall_proc_get_prio( bgrt_proc_get_prio_arg_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_GET_ID.
+
+Вызывает #bgrt_curr_proc.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_GET_ID handler.
+
+This function calls #bgrt_curr_proc.
+*/
+void bgrt_scall_proc_get_id( BGRT_PID_T * arg );
+/*****************************************************************************************/
+
 #endif // _BGRT_PROC_H_

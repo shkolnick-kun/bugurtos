@@ -1039,7 +1039,7 @@ int main(void)
     bgrt_sync_init_isr( &bgrt_sync_3, LOWEST );
     bgrt_sync_init_isr( &bgrt_sync_4, 0 );
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;

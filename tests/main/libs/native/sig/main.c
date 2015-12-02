@@ -120,7 +120,7 @@ int main(void)
 
     sig_init_isr( &test_sig );
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;

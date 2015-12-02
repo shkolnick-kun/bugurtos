@@ -106,7 +106,7 @@ int main(void)
 
     mutex_init_isr( &test_mutex, 3 );
 
-    bgrt_proc_run_isr( &proc[0] );
+    _bgrt_proc_run( &proc[0] );
 
     bgrt_start();
     return 0;
