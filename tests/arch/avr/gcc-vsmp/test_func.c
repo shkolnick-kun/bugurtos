@@ -259,3 +259,7 @@ void test_inc(void)
     test_var_sig++;
     sei();
 }
+
+
+extern bgrt_proc_t proc[6];
+const struct _bgrt_proc_t * proc_base = proc;

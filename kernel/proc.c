@@ -140,7 +140,7 @@ bgrt_st_t bgrt_proc_init(
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = bgrt_proc_init_isr(
+    ret = _bgrt_proc_init(
                     proc, //A process pointer
                     pmain,
                     sv_hook,
@@ -158,7 +158,7 @@ bgrt_st_t bgrt_proc_init(
     return ret;
 }
 //========================================================================================
-bgrt_st_t bgrt_proc_init_isr(
+bgrt_st_t _bgrt_proc_init(
     bgrt_proc_t * proc, //A process pointer!
     bgrt_code_t pmain,
     bgrt_code_t sv_hook,

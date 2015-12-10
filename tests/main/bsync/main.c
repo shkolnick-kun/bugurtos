@@ -453,13 +453,13 @@ void main_0( void * arg )
 
     //88 bgrt_sync_wait
     bgrt_sync_set_owner( &bgrt_sync_1, &proc[1] );
-    test = ( BGRT_ST_EOWN == bgrt_sync_wait( &bgrt_sync_1, &bgrt_proc_buff, 0 ) );
+    test = ( BGRT_ST_EOWN == bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 0 ) );
     test_output( test, test_num++ );
     //89 bgrt_sync_wait
-    test = ( BGRT_ST_ENULL == bgrt_sync_wait( (bgrt_sync_t *)0, &bgrt_proc_buff, 0 ) );
+    test = ( BGRT_ST_ENULL == bgrt_sync_wait( (bgrt_sync_t *)0, (BGRT_PID_T *)&bgrt_proc_buff, 0 ) );
     test_output( test, test_num++ );
     //90 bgrt_sync_wait
-    test = ( BGRT_ST_ENULL == bgrt_sync_wait( &bgrt_sync_1, (bgrt_proc_t **)0, 0 ) );
+    test = ( BGRT_ST_ENULL == bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)0, 0 ) );
     test_output( test, test_num++ );
 
     //91 bgrt_sync_wait bgrt_sync_wake
@@ -881,26 +881,26 @@ void main_1( void * arg )
 
     //79,80,81,82
     status[1] = BGRT_ST_ESTAT;
-    status[1] = bgrt_sync_wait( &bgrt_sync_1, &bgrt_proc_buff, 1 );
+    status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
     bgrt_proc_self_stop();
 
     //91,92,93,94,95
     bgrt_proc_buff = (bgrt_proc_t *)0;
     status[1] = BGRT_ST_ESTAT;
-    status[1] = bgrt_sync_wait( &bgrt_sync_1, &bgrt_proc_buff, 1 );
+    status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
     status[2] = BGRT_ST_ESTAT;
-    status[2] = bgrt_sync_wake( &bgrt_sync_1, bgrt_proc_buff, 0);
+    status[2] = bgrt_sync_wake( &bgrt_sync_1, (BGRT_PID_T)bgrt_proc_buff, 0);
     bgrt_proc_self_stop();
 
     //96,97
     bgrt_proc_buff = (bgrt_proc_t *)0;
     status[1] = BGRT_ST_ESTAT;
-    status[1] = bgrt_sync_wait( &bgrt_sync_1, &bgrt_proc_buff, 0 );
+    status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 0 );
     bgrt_proc_self_stop();
 
     //98,99,100
     status[1] = BGRT_ST_ESTAT;
-    status[1] = bgrt_sync_wait( &bgrt_sync_1, &bgrt_proc_buff, 1 );
+    status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
     bgrt_proc_self_stop();
 
     //106,107,108,109,110
@@ -911,7 +911,7 @@ void main_1( void * arg )
     //124,125,126,127
     bgrt_proc_buff = (bgrt_proc_t *)0;
     status[1] = BGRT_ST_ESTAT;
-    status[1] = bgrt_sync_wait( &bgrt_sync_1, &bgrt_proc_buff, 1 );
+    status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
     bgrt_sync_wake( &bgrt_sync_1, bgrt_proc_buff, 0);
     bgrt_proc_self_stop();
 }
@@ -1027,17 +1027,17 @@ int main(void)
 
     BGRT_SCHED_SYSTICK_HOOK_ADD();
 
-    bgrt_proc_init_isr( &proc[0], main_0, SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
-    bgrt_proc_init_isr( &proc[1], main_1, SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
-    bgrt_proc_init_isr( &proc[2], main_2, SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
-    bgrt_proc_init_isr( &proc[3], main_3, SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 3,      1, 0 ARG_END );
-    bgrt_proc_init_isr( &proc[4], main_4, SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      1, 0 ARG_END );
-    bgrt_proc_init_isr( &proc[5], main_5, SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 1,      1, 0 ARG_END );
+    _bgrt_proc_init( &proc[0], main_0, SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
+    _bgrt_proc_init( &proc[1], main_1, SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 ARG_END );
+    _bgrt_proc_init( &proc[2], main_2, SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
+    _bgrt_proc_init( &proc[3], main_3, SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 3,      1, 0 ARG_END );
+    _bgrt_proc_init( &proc[4], main_4, SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      1, 0 ARG_END );
+    _bgrt_proc_init( &proc[5], main_5, SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 1,      1, 0 ARG_END );
 
-    bgrt_sync_init_isr( &bgrt_sync_1, LOWEST );
-    bgrt_sync_init_isr( &bgrt_sync_2, LOWEST );
-    bgrt_sync_init_isr( &bgrt_sync_3, LOWEST );
-    bgrt_sync_init_isr( &bgrt_sync_4, 0 );
+    _bgrt_sync_init( &bgrt_sync_1, LOWEST );
+    _bgrt_sync_init( &bgrt_sync_2, LOWEST );
+    _bgrt_sync_init( &bgrt_sync_3, LOWEST );
+    _bgrt_sync_init( &bgrt_sync_4, 0 );
 
     _bgrt_proc_run( &proc[0] );
 

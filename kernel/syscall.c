@@ -98,6 +98,7 @@ BGRT_SCL_TBL( syscall_handler[] ) =
     BGRT_SC_TBL_ENTRY( bgrt_scall_sched_proc_yeld        ),
     // Bsync
     BGRT_SC_TBL_ENTRY( bgrt_scall_sync_set_owner         ),
+    BGRT_SC_TBL_ENTRY( bgrt_scall_sync_get_owner         ),
     BGRT_SC_TBL_ENTRY( bgrt_scall_sync_own               ),
     BGRT_SC_TBL_ENTRY( bgrt_scall_sync_touch             ),
     BGRT_SC_TBL_ENTRY( bgrt_scall_sync_sleep             ),

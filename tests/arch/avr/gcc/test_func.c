@@ -160,3 +160,6 @@ void test_do_nothing(void)
 {
     NOP();
 }
+
+extern bgrt_proc_t proc[6];
+const struct _bgrt_proc_t * proc_base = proc;

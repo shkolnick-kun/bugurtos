@@ -84,7 +84,7 @@ bgrt_st_t sem_init_isr( sem_t * sem, bgrt_cnt_t count )
     {
         return BGRT_ST_ENULL;
     }
-    BGRT_SYNC_INIT_ISR( sem, BGRT_PROC_PRIO_LOWEST );
+    _BGRT_SYNC_INIT( sem, BGRT_PROC_PRIO_LOWEST );
     BGRT_SPIN_INIT( sem );
     BGRT_SPIN_LOCK( sem );
     sem->counter = count;

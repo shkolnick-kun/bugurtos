@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="2">
-		<Cursor position="8195" topLine="135" />
+		<Cursor position="8519" topLine="99" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="3">
 		<Cursor position="7844" topLine="0" />
@@ -13,11 +13,11 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="6">
 		<Cursor position="163" topLine="76" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="5">
-		<Cursor position="8817" topLine="134" />
+	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="6">
+		<Cursor position="7758" topLine="110" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="8">
-		<Cursor position="6766" topLine="75" />
+	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="4">
+		<Cursor position="6098" topLine="75" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="3">
 		<Cursor position="163" topLine="93" />
@@ -55,7 +55,7 @@
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="1">
 		<Cursor position="13366" topLine="77" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="4">
 		<Cursor position="7457" topLine="780" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="2">
@@ -64,14 +64,14 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="10">
 		<Cursor position="14864" topLine="309" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
 		<Cursor position="26463" topLine="825" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
-		<Cursor position="10871" topLine="190" />
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="3">
+		<Cursor position="15814" topLine="298" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
-		<Cursor position="6380" topLine="81" />
+		<Cursor position="8144" topLine="107" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="4">
 		<Cursor position="9336" topLine="83" />
@@ -88,8 +88,8 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="13">
 		<Cursor position="8240" topLine="85" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
-		<Cursor position="2859" topLine="131" />
+	<File name="../test_func.c" open="1" top="0" tabpos="2">
+		<Cursor position="2985" topLine="139" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
 		<Cursor position="615" topLine="0" />

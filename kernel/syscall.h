@@ -106,7 +106,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SYSCALL_SCHED_PROC_YELD                (BGRT_SYSCALL_PROC_GET_ID + (bgrt_syscall_t)(1))                /*!< \~russian \brief Передача управления другому процессу. \~english \brief Transfer control to another process. */
 
 #define BGRT_SYSCALL_SYNC_SET_OWNER                 (BGRT_SYSCALL_SCHED_PROC_YELD + (bgrt_syscall_t)(1))            /*!< \~russian \brief Установить нового хозяина объекта типа #bgrt_sync_t. \~english \brief Set new #bgrt_sync_t object owner. */
-#define BGRT_SYSCALL_SYNC_OWN                       (BGRT_SYSCALL_SYNC_SET_OWNER + (bgrt_syscall_t)(1))             /*!< \~russian \brief Завладеть объектом типа #bgrt_sync_t. \~english \brief Own #bgrt_sync_t object. */
+#define BGRT_SYSCALL_SYNC_GET_OWNER                 (BGRT_SYSCALL_SYNC_SET_OWNER + (bgrt_syscall_t)(1))             /*!< \~russian \brief Узнать принадлежность объекта типа #bgrt_sync_t. \~english \brief Get #bgrt_sync_t object owner. */
+#define BGRT_SYSCALL_SYNC_OWN                       (BGRT_SYSCALL_SYNC_GET_OWNER + (bgrt_syscall_t)(1))             /*!< \~russian \brief Завладеть объектом типа #bgrt_sync_t. \~english \brief Own #bgrt_sync_t object. */
 #define BGRT_SYSCALL_SYNC_TOUCH                     (BGRT_SYSCALL_SYNC_OWN + (bgrt_syscall_t)(1))                   /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
 #define BGRT_SYSCALL_SYNC_SLEEP                     (BGRT_SYSCALL_SYNC_TOUCH + (bgrt_syscall_t)(1))                 /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
 #define BGRT_SYSCALL_SYNC_WAKE                      (BGRT_SYSCALL_SYNC_SLEEP + (bgrt_syscall_t)(1))                 /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
