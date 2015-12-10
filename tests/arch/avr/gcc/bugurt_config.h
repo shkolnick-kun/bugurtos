@@ -81,6 +81,17 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_START_SCHEDULER() (TIMSK2 |= 0x02)
 #define BGRT_STOP_SCHEDULER() (TIMSK2 &= ~0x02)
 
+///*
+//extern const struct _bgrt_proc_t * proc_base;
+//#define BGRT_PID_T void *
+//#define BGRT_PID_TO_PROC(p) (((bgrt_proc_t *)proc_base) + p)
+//#define BGRT_PROC_TO_PID(p) ( p - ((bgrt_proc_t *)proc_base) )
+
+#define BGRT_PID_T void *
+#define BGRT_PID_TO_PROC(p) ((bgrt_proc_t *)(p))
+#define BGRT_PROC_TO_PID(p) ( (void *)p )
+//*/
+
 extern void test_do_nothing(void);
 #define BGRT_CONFIG_SAVE_POWER test_do_nothing
 

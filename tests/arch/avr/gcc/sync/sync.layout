@@ -8,7 +8,7 @@
 		<Cursor position="8936" topLine="139" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
-		<Cursor position="6922" topLine="87" />
+		<Cursor position="6099" topLine="60" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="6106" topLine="123" />
@@ -47,7 +47,7 @@
 		<Cursor position="6447" topLine="198" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="33235" topLine="630" />
+		<Cursor position="39844" topLine="796" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="10525" topLine="217" />
@@ -56,10 +56,10 @@
 		<Cursor position="6841" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="8019" topLine="313" />
+		<Cursor position="25465" topLine="765" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="17798" topLine="337" />
+		<Cursor position="15109" topLine="279" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="6690" topLine="77" />
@@ -80,9 +80,9 @@
 		<Cursor position="0" topLine="148" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="1988" topLine="74" />
+		<Cursor position="2965" topLine="137" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="8854" topLine="340" />
+	<File name="../../../../main/bsync/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="33599" topLine="901" />
 	</File>
 </CodeBlocks_layout_file>

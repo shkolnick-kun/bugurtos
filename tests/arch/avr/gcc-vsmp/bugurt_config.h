@@ -117,6 +117,13 @@ typedef unsigned char load_t;
 #define BGRT_CONFIG_TEST  //This is test project
 #define BGRT_CONFIG_USER_IDLE
 
+///*
+extern const struct _bgrt_proc_t * proc_base;
+#define BGRT_PID_T bgrt_cnt_t
+#define BGRT_PID_TO_PROC(p) ( (bgrt_proc_t *)proc_base + p)
+#define BGRT_PROC_TO_PID(p) ( p - (bgrt_proc_t *)proc_base )
+//*/
+
 extern void(*test_kernel_preempt)(void);
 #define BGRT_KERNEL_PREEMPT() test_kernel_preempt()
 

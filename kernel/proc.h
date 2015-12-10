@@ -563,7 +563,7 @@ void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc );
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
-bgrt_st_t bgrt_proc_init_isr(
+bgrt_st_t _bgrt_proc_init(
     bgrt_proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A pointer to a initialized process.*/
     bgrt_code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
     bgrt_code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/

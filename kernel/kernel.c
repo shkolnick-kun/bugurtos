@@ -103,7 +103,7 @@ void bgrt_kernel_init(void)
     //The Kernel initiation!
     for( i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++ )
     {
-        bgrt_proc_init_isr(
+        _bgrt_proc_init(
             bgrt_kernel.idle + i, //A bgrt_kernel.idle[i] process
             bgrt_idle_main, // main
             (bgrt_code_t)0, // none
@@ -127,7 +127,7 @@ void bgrt_kernel_init(void)
     bgrt_kernel.timer_tick = (void(*)(void))0;
     bgrt_spin_free(&bgrt_kernel.timer_lock);
 #else
-    bgrt_proc_init_isr(
+    _bgrt_proc_init(
         &bgrt_kernel.idle, //The bgrt_kernel.idle process.
         bgrt_idle_main, // pmain
         (bgrt_code_t)0, // none
