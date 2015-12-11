@@ -47,7 +47,7 @@
 		<Cursor position="6447" topLine="198" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="39844" topLine="796" />
+		<Cursor position="31060" topLine="621" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="10525" topLine="217" />
@@ -59,7 +59,7 @@
 		<Cursor position="25465" topLine="765" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="15109" topLine="279" />
+		<Cursor position="18398" topLine="340" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="6690" topLine="77" />
@@ -82,7 +82,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="2965" topLine="137" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="0" tabpos="1">
-		<Cursor position="33599" topLine="901" />
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="1">
+		<Cursor position="36442" topLine="65" />
 	</File>
 </CodeBlocks_layout_file>

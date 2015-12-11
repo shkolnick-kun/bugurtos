@@ -5,9 +5,9 @@ bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 bgrt_bool_t test;
 
-void main_bgrt_proc_test( void * arg )
+void main_proc_test( void * arg )
 {
-    bgrt_proc_run( &proc[1] );
+    bgrt_proc_run( PID1 );
 
     test_start();
     // No other processes are running,
@@ -16,14 +16,14 @@ void main_bgrt_proc_test( void * arg )
     // bgrt_proc_run test 1
     proc[2].flags |= BGRT_PROC_STATE_DEAD;
     // Must NOT run the process.
-    test = ( BGRT_ST_ROLL == bgrt_proc_run( &proc[2] ) );
+    test = ( BGRT_ST_ROLL == bgrt_proc_run( PID2 ) );
     test_output( test , 1 );
 
     // bgrt_proc_run test 2
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
     proc[2].flags |= BGRT_PROC_FLG_LOCK;
     // Must run the process
-    test = ( BGRT_ST_OK == bgrt_proc_run( &proc[2] ) );
+    test = ( BGRT_ST_OK == bgrt_proc_run( PID2 ) );
     test_output( test , 2 );
 
     // bgrt_proc_terminate test 3
@@ -33,40 +33,40 @@ void main_bgrt_proc_test( void * arg )
     test_output( test , 3 );
 
     // bgrt_proc_terminate test 4
-    bgrt_proc_run( &proc[3] );
+    bgrt_proc_run( PID3 );
     bgrt_wait_time( 10 );
     test = (bgrt_bool_t)( BGRT_PROC_STATE_END == ( proc[3].flags & BGRT_PROC_STATE_MASK ) );
     test_output( test , 4 );
 
     // bgrt_proc_restart test 5
     // Must NOT restart!
-    test = ( BGRT_ST_ESTAT == bgrt_proc_restart( &proc[2] ) );
+    test = ( BGRT_ST_ESTAT == bgrt_proc_restart( PID2 ) );
     test_output( test , 5 );
 
     // bgrt_proc_restart test 6
     // Must restart!
-    test = ( BGRT_ST_OK == bgrt_proc_restart( &proc[3] ) );
+    test = ( BGRT_ST_OK == bgrt_proc_restart( PID3 ) );
     test_output( test , 6 );
 
     // bgrt_proc_stop test 7
     // Must return 1, process is not running now!
     proc[2].flags &= ~BGRT_PROC_FLG_LOCK;
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
-    test = ( BGRT_ST_OK == bgrt_proc_stop( &proc[2] ) );
+    test = ( BGRT_ST_OK == bgrt_proc_stop( PID2 ) );
     test_output( test , 7 );
 
 
-    bgrt_proc_run( &proc[4] );
+    bgrt_proc_run( PID4 );
 
     // bgrt_proc_free test 8
     // Must NOT stop the process!
     bgrt_wait_time(2); // let proc[4] to call bgrt_proc_free!
-    test = (bgrt_bool_t)BGRT_PROC_RUN_TEST( (&proc[4]) );
+    test = (bgrt_bool_t)BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 8 );
 
     // bgrt_proc_stop test 9
     // Must stop the process!
-    test = ( BGRT_ST_OK == bgrt_proc_stop( &proc[4] ) );
+    test = ( BGRT_ST_OK == bgrt_proc_stop( PID4 ) );
     test_output( test , 9 );
 
     // bgrt_proc_stop test 10
@@ -75,43 +75,43 @@ void main_bgrt_proc_test( void * arg )
     proc[4].flags |= BGRT_PROC_FLG_LOCK;
     proc[4].cnt_lock = (bgrt_cnt_t)1;
 
-    bgrt_proc_run( &proc[4] );
-    test = ( BGRT_ST_ROLL == bgrt_proc_stop( &proc[4] ) );
+    bgrt_proc_run( PID4 );
+    test = ( BGRT_ST_ROLL == bgrt_proc_stop( PID4 ) );
     test = test && !!( proc[4].flags & BGRT_PROC_FLG_PRE_STOP );
     test_output( test , 10 );
 
     // bgrt_proc_free test 11
     // Must stop the process!
     bgrt_wait_time(20); // let proc[4] to call bgrt_proc_free!
-    test = !BGRT_PROC_RUN_TEST( (&proc[4]) );
+    test = !BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 11 );
 
     // bgrt_proc_reset_watchdog test 12
     test = 0;
-    bgrt_proc_run( &proc[5] );
+    bgrt_proc_run( PID5 );
     bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
     test_output( test , 12 );
 
     // bgrt_proc_self_stop test 13
     bgrt_wait_time(10); // let proc[4] to call bgrt_proc_self_stop!
-    test = !BGRT_PROC_RUN_TEST( (&proc[4]) );
+    test = !BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 13 );
 
     // bgrt_proc_yeld test 14
     test = 0;
-    bgrt_proc_run( &proc[5] );
+    bgrt_proc_run( PID5 );
     bgrt_wait_time(10);
     test_output( test , 14 );
 
     // bgrt_proc_reset_watchdog test 15
     test = 0;
     proc[5].flags &= ~BGRT_PROC_FLG_RT;
-    bgrt_proc_run( &proc[5] );
+    bgrt_proc_run( PID5 );
     bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
     test_output( test , 15 );
 
     // bgrt_proc_reset_watchdog test 16
-    bgrt_proc_run( &proc[5] );
+    bgrt_proc_run( PID5 );
     bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
     test_output( test , 16 );
 
@@ -217,14 +217,14 @@ int main(void)
 
     BGRT_SCHED_SYSTICK_HOOK_ADD();
 
-    _bgrt_proc_init( &proc[0], main_bgrt_proc_test,     SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
-    _bgrt_proc_init( &proc[1], main_lb,            SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
-    _bgrt_proc_init( &proc[2], main_with_return,   SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END );
-    _bgrt_proc_init( &proc[3], main_with_return,   SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
-    _bgrt_proc_init( &proc[4], main_fs,            SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
-    _bgrt_proc_init( &proc[5], main_wd_ss,         SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 3,      2, 1 ARG_END );
+    _bgrt_proc_init( PR0, main_proc_test,     SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
+    _bgrt_proc_init( PR1, main_lb,            SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
+    _bgrt_proc_init( PR2, main_with_return,   SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END );
+    _bgrt_proc_init( PR3, main_with_return,   SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
+    _bgrt_proc_init( PR4, main_fs,            SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
+    _bgrt_proc_init( PR5, main_wd_ss,         SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 3,      2, 1 ARG_END );
 
-    _bgrt_proc_run( &proc[0] );
+    _bgrt_proc_run( PR0 );
 
     bgrt_start();
     return 0;

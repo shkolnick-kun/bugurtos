@@ -136,7 +136,7 @@ static bgrt_st_t _cond_signal( cond_t * cond )
         {
             return ret;
         }
-        BGRT_SYNC_WAKE( cond, 0, 0, ret );
+        BGRT_SYNC_WAKE( cond, BGRT_PID_NOTHING, 0, ret );
 
         cond->blocked--;
     }
@@ -154,7 +154,7 @@ bgrt_st_t cond_signal( cond_t * cond )
 
     if( BGRT_ST_OK == clr_own )
     {
-        BGRT_SYNC_SET_OWNER( cond, 0 );
+        BGRT_SYNC_SET_OWNER( cond, BGRT_PID_NOTHING );
     }
 
     return ret;

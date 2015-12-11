@@ -17,7 +17,7 @@ bgrt_flag_t status;
 
 void main_bgrt_proc_test( void * arg )
 {
-    bgrt_proc_run( &proc[1] );
+    bgrt_proc_run( PID1 );
 
     test_start();
 
@@ -33,10 +33,10 @@ void main_bgrt_proc_test( void * arg )
     sig_broadcast( &test_sig );
     test_output( test_var_sig, 2 );
 
-    bgrt_proc_run( &proc[2] );
-    bgrt_proc_run( &proc[3] );
-    bgrt_proc_run( &proc[4] );
-    bgrt_proc_run( &proc[5] );
+    bgrt_proc_run( PID2 );
+    bgrt_proc_run( PID3 );
+    bgrt_proc_run( PID4 );
+    bgrt_proc_run( PID5 );
 
     bgrt_wait_time( 20 );
     // All processes of interest are waiting for signal now!
@@ -111,16 +111,16 @@ int main(void)
 
     BGRT_SCHED_SYSTICK_HOOK_ADD();
 
-    _bgrt_proc_init( &proc[0], main_bgrt_proc_test, SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
-    _bgrt_proc_init( &proc[1], main_lb,        SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
-    _bgrt_proc_init( &proc[2], main_sig,       SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END );
-    _bgrt_proc_init( &proc[3], main_sig,       SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
-    _bgrt_proc_init( &proc[4], main_sig,       SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
-    _bgrt_proc_init( &proc[5], main_sig,       SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 3,      2, 0 ARG_END );
+    _bgrt_proc_init( PR0, main_bgrt_proc_test, SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END );
+    _bgrt_proc_init( PR1, main_lb,        SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END );
+    _bgrt_proc_init( PR2, main_sig,       SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END );
+    _bgrt_proc_init( PR3, main_sig,       SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END );
+    _bgrt_proc_init( PR4, main_sig,       SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END );
+    _bgrt_proc_init( PR5, main_sig,       SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 3,      2, 0 ARG_END );
 
     sig_init_isr( &test_sig );
 
-    _bgrt_proc_run( &proc[0] );
+    _bgrt_proc_run( PR0 );
 
     bgrt_start();
     return 0;

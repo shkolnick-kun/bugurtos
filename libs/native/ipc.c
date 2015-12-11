@@ -119,37 +119,37 @@ bgrt_st_t ipc_send( ipc_t * out, void * msg )
     return ret;
 }
 
-bgrt_st_t ipc_wait( ipc_t * in, bgrt_proc_t ** proc, bgrt_flag_t block )
+bgrt_st_t ipc_wait( ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block )
 {
     bgrt_st_t ret;
 
     bgrt_proc_lock();
 
-    BGRT_SYNC_WAIT(in, proc, block, ret );
+    BGRT_SYNC_WAIT(in, pid, block, ret );
 
     if( BGRT_ST_OK != ret )
     {
         goto end;
     }
 
-    BGRT_SYNC_WAKE(in, *proc, 0, ret );
+    BGRT_SYNC_WAKE(in, *pid, 0, ret );
 
     if( BGRT_ST_OK == ret )
     {
-        BGRT_SYNC_WAIT(in, proc, 1, ret );
+        BGRT_SYNC_WAIT(in, pid, 1, ret );
     }
 end:
     bgrt_proc_free();
     return ret;
 }
 
-bgrt_st_t ipc_reply( ipc_t * in, bgrt_proc_t * proc)
+bgrt_st_t ipc_reply( ipc_t * in, BGRT_PID_T pid)
 {
     bgrt_st_t ret;
 
     bgrt_proc_lock();
 
-    BGRT_SYNC_WAKE(in, proc, 0, ret );
+    BGRT_SYNC_WAKE(in, pid, 0, ret );
 
     bgrt_proc_free();
 

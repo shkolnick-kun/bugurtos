@@ -16,7 +16,7 @@
 	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="7">
 		<Cursor position="10741" topLine="222" />
 	</File>
-	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
+	<File name="../../../../../../../kernel/proc.h" open="1" top="0" tabpos="5">
 		<Cursor position="35471" topLine="636" />
 	</File>
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="2">
@@ -59,6 +59,6 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="1306" topLine="48" />
+		<Cursor position="842" topLine="46" />
 	</File>
 </CodeBlocks_layout_file>

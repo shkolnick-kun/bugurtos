@@ -194,7 +194,7 @@ bgrt_st_t sem_free( sem_t * sem )
     if( ret == BGRT_ST_ROLL )
     {
         bgrt_st_t clr_own;
-        bgrt_proc_t * dummy = (bgrt_proc_t *)0;
+        BGRT_PID_T dummy = BGRT_PID_NOTHING;
 
         clr_own = BGRT_SYNC_OWN( sem, 0 );
 
@@ -204,7 +204,7 @@ bgrt_st_t sem_free( sem_t * sem )
         {
             goto end;
         }
-        BGRT_SYNC_WAKE( sem,  0, 0, ret );// Now we can wake some process.
+        BGRT_SYNC_WAKE( sem,  BGRT_PID_NOTHING, 0, ret );// Now we can wake some process.
 
         if( BGRT_ST_OK == clr_own )
         {

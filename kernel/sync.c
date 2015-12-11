@@ -716,7 +716,7 @@ bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t 
     BGRT_SPIN_LOCK( current );
     if( BGRT_PROC_STATE_TO_RUNNING == BGRT_PROC_GET_STATE( current ) )
     {
-        BGRT_PROC_SET_STATE( current, BGRT_PROC_STATE_RUNNING )
+        BGRT_PROC_SET_STATE( current, BGRT_PROC_STATE_RUNNING );
         BGRT_SPIN_FREE( current );
 
         return BGRT_ST_ETIMEOUT;
