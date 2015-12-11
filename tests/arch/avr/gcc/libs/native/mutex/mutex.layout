@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="18189" topLine="321" />
+		<Cursor position="31060" topLine="621" />
 	</File>
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="17861" topLine="480" />
@@ -20,6 +20,6 @@
 		<Cursor position="1872" topLine="78" />
 	</File>
 	<File name="../../../../../../main/libs/native/mutex/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="1793" topLine="45" />
+		<Cursor position="1745" topLine="41" />
 	</File>
 </CodeBlocks_layout_file>

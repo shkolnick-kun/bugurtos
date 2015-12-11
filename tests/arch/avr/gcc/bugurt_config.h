@@ -87,10 +87,25 @@ typedef unsigned char bgrt_syscall_t;
 //#define BGRT_PID_TO_PROC(p) (((bgrt_proc_t *)proc_base) + p)
 //#define BGRT_PROC_TO_PID(p) ( p - ((bgrt_proc_t *)proc_base) )
 
-#define BGRT_PID_T void *
+#define BGRT_PID_T int
 #define BGRT_PID_TO_PROC(p) ((bgrt_proc_t *)(p))
-#define BGRT_PROC_TO_PID(p) ( (void *)p )
+#define BGRT_PROC_TO_PID(p) ( (int)p )
+#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 //*/
+
+#define PID0 BGRT_PROC_TO_PID(&proc[0])
+#define PID1 BGRT_PROC_TO_PID(&proc[1])
+#define PID2 BGRT_PROC_TO_PID(&proc[2])
+#define PID3 BGRT_PROC_TO_PID(&proc[3])
+#define PID4 BGRT_PROC_TO_PID(&proc[4])
+#define PID5 BGRT_PROC_TO_PID(&proc[5])
+
+#define PR0 (&proc[0])
+#define PR1 (&proc[1])
+#define PR2 (&proc[2])
+#define PR3 (&proc[3])
+#define PR4 (&proc[4])
+#define PR5 (&proc[5])
 
 extern void test_do_nothing(void);
 #define BGRT_CONFIG_SAVE_POWER test_do_nothing

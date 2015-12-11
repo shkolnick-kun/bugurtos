@@ -195,6 +195,7 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 #define BGRT_PID_T bgrt_proc_t *
 #define BGRT_PID_TO_PROC(p) (p)
 #define BGRT_PROC_TO_PID(p) (p)
+#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #endif//BGRT_PID_T
 
 

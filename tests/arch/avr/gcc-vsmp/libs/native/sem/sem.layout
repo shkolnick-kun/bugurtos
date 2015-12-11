@@ -5,12 +5,12 @@
 		<Cursor position="22694" topLine="509" />
 	</File>
 	<File name="../../../../../../../libs/native/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="6576" topLine="75" />
+		<Cursor position="9085" topLine="229" />
 	</File>
 	<File name="../../../../../../../libs/native/sem.h" open="0" top="0" tabpos="1">
 		<Cursor position="8480" topLine="123" />
 	</File>
 	<File name="../../../../../../main/libs/native/sem/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="2848" topLine="89" />
+		<Cursor position="2798" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

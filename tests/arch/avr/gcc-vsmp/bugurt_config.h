@@ -117,12 +117,27 @@ typedef unsigned char load_t;
 #define BGRT_CONFIG_TEST  //This is test project
 #define BGRT_CONFIG_USER_IDLE
 
-///*
+//*
 extern const struct _bgrt_proc_t * proc_base;
 #define BGRT_PID_T bgrt_cnt_t
-#define BGRT_PID_TO_PROC(p) ( (bgrt_proc_t *)proc_base + p)
-#define BGRT_PROC_TO_PID(p) ( p - (bgrt_proc_t *)proc_base )
+#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
+#define BGRT_PID_TO_PROC(p) ((BGRT_PID_NOTHING!=p)?((bgrt_proc_t *)proc_base + (p-1)):((bgrt_proc_t *)0))
+#define BGRT_PROC_TO_PID(p) ((p)?( 1 + (bgrt_cnt_t)(p - (bgrt_proc_t *)proc_base) ):(BGRT_PID_NOTHING))
 //*/
+
+#define PID0 BGRT_PROC_TO_PID(&proc[0])
+#define PID1 BGRT_PROC_TO_PID(&proc[1])
+#define PID2 BGRT_PROC_TO_PID(&proc[2])
+#define PID3 BGRT_PROC_TO_PID(&proc[3])
+#define PID4 BGRT_PROC_TO_PID(&proc[4])
+#define PID5 BGRT_PROC_TO_PID(&proc[5])
+
+#define PR0 (&proc[0])
+#define PR1 (&proc[1])
+#define PR2 (&proc[2])
+#define PR3 (&proc[3])
+#define PR4 (&proc[4])
+#define PR5 (&proc[5])
 
 extern void(*test_kernel_preempt)(void);
 #define BGRT_KERNEL_PREEMPT() test_kernel_preempt()

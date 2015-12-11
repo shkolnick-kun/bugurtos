@@ -166,7 +166,7 @@ bgrt_st_t ipc_send( ipc_t * out, void * msg );
 адрес которого передается вторым аргументом.
 
 \param in Указатель на конечную точку IPC.
-\param proc Двойной указатель на процесс, от которого ожидается сообщение (если *proc == 0, то принимаются сообщения от любых процессов).
+\param pid Указатель на буфер идентификатора отправителя.
 \param block Флаг блокировки вызывающего процесса, если не 0, то вызывающий процесс блокируется до готовности сообщения.
 \return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
@@ -178,11 +178,11 @@ A buffer must be used to set or get sender process.
 A buffer pointer must be passed as a second parameter.
 
 \param in An IPC endpoint pointer.
-\param proc A double pointer to the process which is supposed to send a message (if *proc == 0 then every message is received).
+\param pid A sender pid buffer pointer.
 \param block A caller block flag. If non zero, then caller is blocked until message is sent.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_wait( ipc_t * in, bgrt_proc_t ** proc, bgrt_flag_t block );
+bgrt_st_t ipc_wait( ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block );
 
 /*!
 \~russian
@@ -191,7 +191,7 @@ bgrt_st_t ipc_wait( ipc_t * in, bgrt_proc_t ** proc, bgrt_flag_t block );
 
 
 \param in Указатель на конечную точку IPC.
-\param proc Указатель на процесс-отправитель.
+\param pid Идентификатор отправителя.
 \return #BGRT_ST_OK в случае успеха, или номер ошибки.
 
 \~english
@@ -199,9 +199,9 @@ bgrt_st_t ipc_wait( ipc_t * in, bgrt_proc_t ** proc, bgrt_flag_t block );
 Unblock a sender process, which message has been received.
 
 \param in An IPC endpoint pointer.
-\param proc A sender process pointer.
+\param pid A sender process ID.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_reply( ipc_t * in, bgrt_proc_t * proc);
+bgrt_st_t ipc_reply( ipc_t * in, BGRT_PID_T pid);
 
 #endif // _IPC_H_

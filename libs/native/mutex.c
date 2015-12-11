@@ -130,7 +130,7 @@ bgrt_st_t mutex_free( mutex_t * mutex )
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
-    BGRT_SYNC_WAKE( mutex,  0, 1, ret );    // Now we can wake some process.
+    BGRT_SYNC_WAKE( mutex,  BGRT_PID_NOTHING, 1, ret );    // Now we can wake some process.
     bgrt_proc_free();                       // May stop caller process.
 
     return ret;
