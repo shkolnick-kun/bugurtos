@@ -170,5 +170,5 @@ void bgrt_start(void)
 {
     bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)0;
     bgrt_enable_interrupts();
-    bgrt_idle_main( (void *)0 );
+    BGRT_POST_START( (void *)0 );
 }

@@ -172,4 +172,10 @@ IDLE process can work with timers, fire signals and FREE semaphores, SEND IPC d
 */
 void bgrt_idle_main(void * arg);
 
+#ifndef BGRT_CONFIG_POSTSTART
+#define BGRT_POST_START(a) bgrt_idle_main(a)
+#else
+#define BGRT_POST_START(a) BGRT_CONFIG_POSTSTART(a)
+#endif //BGRT_CONFIG_POSTSTART
+
 #endif // _BGRT_KERNEL_H_
