@@ -37,6 +37,8 @@
 #define CRIT_SEC_ENTER      BGRT_CRIT_SEC_ENTER
 #define CRIT_SEC_EXIT       BGRT_CRIT_SEC_ENXIT
 
+#define status_t            bgrt_st_t
+
 //Sync primitives
 #include "ipc.h"
 #include "sem.h"
