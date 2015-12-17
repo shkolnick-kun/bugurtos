@@ -4,6 +4,9 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
 		<Cursor position="7985" topLine="150" />
 	</File>
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="8086" topLine="135" />
+	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="20759" topLine="492" />
 	</File>
@@ -17,7 +20,10 @@
 		<Cursor position="12487" topLine="276" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="25671" topLine="153" />
+		<Cursor position="17388" topLine="251" />
+	</File>
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="11526" topLine="554" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3456" topLine="202" />

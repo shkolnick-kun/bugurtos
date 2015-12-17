@@ -4,6 +4,30 @@
 	<File name="../../../../../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="1">
 		<Cursor position="9478" topLine="62" />
 	</File>
+	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="13419" topLine="66" />
+	</File>
+	<File name="../../../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="23683" topLine="513" />
+	</File>
+	<File name="../../../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="16412" topLine="335" />
+	</File>
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="13744" topLine="311" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="20821" topLine="397" />
+	</File>
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="100" />
+	</File>
+	<File name="../../../../../../../libs/native/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="9041" topLine="232" />
+	</File>
 	<File name="../../../test_func.h" open="0" top="0" tabpos="0">
 		<Cursor position="21" topLine="0" />
 	</File>

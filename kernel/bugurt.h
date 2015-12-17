@@ -142,9 +142,15 @@ typedef void (* bgrt_code_t)(void *);
 #include "kernel.h"
 #include "sync.h"
 #include "timer.h"
-#include "syscall.h"
 
 #include <bugurt_port.h>
+
+//User may write his own system call dispatcher
+#ifndef BGRT_CONFIG_USER_SYSCALL
+#include "syscall.h" //Default system call dispatcher
+#else
+#include <user_syscall.h>
+#endif//BGRT_CONFIG_USER_SYSCALL
 
 #define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
 #define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */

@@ -356,28 +356,4 @@ Finds the most loaded CPU core on the system and transfers one process from it t
 */
 void bgrt_sched_lazy_global_load_balancer(void);
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-
-/*****************************************************************************************/
-/*                               System call handlers !!!                                */
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Обработчик вызова #BGRT_SYSCALL_SCHED_PROC_YELD.
-
-Передает управление следующему процессу.
-
-\param arg не используется.
-
-\~english
-\brief
-A #BGRT_SYSCALL_SCHED_PROC_YELD handler.
-
-Transfers control to another process.
-
-\param arg Not used.
-*/
-void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg );
-/*****************************************************************************************/
-
 #endif // _BGRT_SCHED_H_
