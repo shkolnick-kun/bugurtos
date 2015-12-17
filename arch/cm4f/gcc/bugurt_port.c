@@ -211,7 +211,7 @@ void bgrt_start(void)
                           "cpsie i \n\t"
                           "isb     \n\t"
                           );
-    bgrt_idle_main((void *)0);
+    BGRT_POST_START((void *)0);
 }
 //====================================================================================
 __attribute__ (( naked )) void BGRT_SYSTEM_TIMER_ISR(void)

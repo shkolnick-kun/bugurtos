@@ -169,7 +169,7 @@ void bgrt_start(void)
                           "cpsie i \n\t"
                           "isb \n\t"
                           );
-    bgrt_idle_main((void *)0);
+    BGRT_POST_START((void *)0);
 }
 //====================================================================================
 volatile unsigned char systimer_flag = 0;

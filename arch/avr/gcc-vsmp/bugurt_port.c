@@ -332,5 +332,5 @@ void bgrt_start(void)
     vsmp_systimer_hook = vsmp_systimer_hook_bugurt;
     sei();
     bgrt_enable_interrupts();
-    bgrt_idle_main( (void *)0 );
+    BGRT_POST_START( (void *)0 );
 }

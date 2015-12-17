@@ -2,16 +2,19 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="7985" topLine="150" />
+		<Cursor position="7985" topLine="306" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="8086" topLine="135" />
+		<Cursor position="18763" topLine="566" />
+	</File>
+	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
+		<Cursor position="7089" topLine="156" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="20759" topLine="492" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="9128" topLine="664" />
+		<Cursor position="9128" topLine="843" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="20230" topLine="598" />
@@ -24,6 +27,9 @@
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="11526" topLine="554" />
+	</File>
+	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
+		<Cursor position="8754" topLine="179" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3456" topLine="202" />
