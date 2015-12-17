@@ -206,17 +206,6 @@ bgrt_st_t _bgrt_proc_init(
 
     return BGRT_ST_OK;
 }
-/**********************************************************************************************
-                                       BGRT_SYSCALL_PROC_RUN
-**********************************************************************************************/
-
-bgrt_st_t bgrt_proc_run( BGRT_PID_T pid )
-{
-    volatile bgrt_proc_runtime_arg_t scarg;
-    scarg.pid = pid;
-    bgrt_syscall( BGRT_SYSCALL_PROC_RUN, (void *)&scarg );
-    return scarg.ret;
-}
 //========================================================================================
 // Run a process? used in ISRs and in #BGRT_SYSCALL_PROC_RUN
 bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc)
@@ -239,21 +228,6 @@ bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc)
 end:
     BGRT_SPIN_FREE( proc );
     return ret;
-}
-//========================================================================================
-void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg )
-{
-    arg->ret = _bgrt_proc_run( BGRT_PID_TO_PROC( arg->pid ) );
-}
-/**********************************************************************************************
-                                       BGRT_SYSCALL_PROC_RESTART
-**********************************************************************************************/
-bgrt_st_t bgrt_proc_restart( BGRT_PID_T pid )
-{
-    volatile bgrt_proc_runtime_arg_t scarg;
-    scarg.pid = pid;
-    bgrt_syscall( BGRT_SYSCALL_PROC_RESTART, (void *)&scarg );
-    return scarg.ret;
 }
 //========================================================================================
 // Restart a process from some ISR.
@@ -289,21 +263,6 @@ end:
     return ret;
 }
 //========================================================================================
-void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg )
-{
-    arg->ret = _bgrt_proc_restart( BGRT_PID_TO_PROC( arg->pid ) );
-}
-/**********************************************************************************************
-                                        BGRT_SYSCALL_PROC_STOP
-**********************************************************************************************/
-bgrt_st_t bgrt_proc_stop( BGRT_PID_T pid )
-{
-    volatile bgrt_proc_runtime_arg_t scarg;
-    scarg.pid = pid;
-    bgrt_syscall( BGRT_SYSCALL_PROC_STOP, (void *)&scarg);
-    return scarg.ret;
-}
-//========================================================================================
 // Stop a process from ISR
 bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
 {
@@ -331,18 +290,6 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
     return ret;
 }
 //========================================================================================
-void bgrt_scall_proc_stop( bgrt_proc_runtime_arg_t * arg )
-{
-    arg->ret = _bgrt_proc_stop( BGRT_PID_TO_PROC( arg->pid ) );
-}
-/**********************************************************************************************
-                                       BGRT_SYSCALL_PROC_LOCK
-**********************************************************************************************/
-void bgrt_proc_lock( void )
-{
-    bgrt_syscall( BGRT_SYSCALL_PROC_LOCK, (void *)0 );
-}
-//========================================================================================
 void _bgrt_proc_lock( void )
 {
     bgrt_proc_t * proc;
@@ -354,18 +301,6 @@ void _bgrt_proc_lock( void )
     proc->cnt_lock++;
 
     BGRT_SPIN_FREE( proc );
-}
-//========================================================================================
-void bgrt_scall_proc_lock( void * arg )
-{
-    _bgrt_proc_lock();
-}
-/**********************************************************************************************
-                                       BGRT_SYSCALL_PROC_FREE
-**********************************************************************************************/
-void bgrt_proc_free( void )
-{
-    bgrt_syscall( BGRT_SYSCALL_PROC_FREE, (void *)0 );
 }
 //========================================================================================
 // #BGRT_PROC_FLG_PRE_STOP processing with mask clearing.
@@ -399,18 +334,6 @@ void _bgrt_proc_free( void )
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void bgrt_scall_proc_free( void * arg )
-{
-    _bgrt_proc_free();
-}
-/**********************************************************************************************
-                                    BGRT_SYSCALL_PROC_SELF_STOP
-**********************************************************************************************/
-void bgrt_proc_self_stop(void)
-{
-    bgrt_syscall( BGRT_SYSCALL_PROC_SELF_STOP, (void *)1 );
-}
-//========================================================================================
 void _bgrt_proc_self_stop(void)
 {
     bgrt_proc_t * proc;
@@ -421,19 +344,6 @@ void _bgrt_proc_self_stop(void)
     _bgrt_proc_stop_ensure( proc );
 
     BGRT_SPIN_FREE( proc );
-}
-//========================================================================================
-void bgrt_scall_proc_self_stop( void * arg )
-{
-    _bgrt_proc_self_stop();
-}
-/**********************************************************************************************
-                                    BGRT_SYSCALL_PROC_TERMINATE
-**********************************************************************************************/
-// Terminate a process after pmain return.
-void bgrt_proc_terminate( void )
-{
-    bgrt_syscall( BGRT_SYSCALL_PROC_TERMINATE, (void *)0 );
 }
 //========================================================================================
 void _bgrt_proc_terminate( void )
@@ -460,18 +370,6 @@ void _bgrt_proc_terminate( void )
     BGRT_SPIN_FREE( proc );
 }
 //========================================================================================
-void bgrt_scall_proc_terminate( void * arg )
-{
-    _bgrt_proc_terminate();
-}
-/**********************************************************************************************
-                                       BGRT_SYSCALL_PROC_RESET_WATCHDOG
-**********************************************************************************************/
-void bgrt_proc_reset_watchdog(void)
-{
-    bgrt_syscall( BGRT_SYSCALL_PROC_RESET_WATCHDOG, (void *)0 );
-}
-//========================================================================================
 void _bgrt_proc_reset_watchdog( void )
 {
     bgrt_proc_t * proc;
@@ -485,22 +383,6 @@ void _bgrt_proc_reset_watchdog( void )
     }
 
     BGRT_SPIN_FREE( proc );
-}
-//========================================================================================
-void bgrt_scall_proc_reset_watchdog( void * arg )
-{
-    _bgrt_proc_reset_watchdog();
-}
-/**********************************************************************************************
-                               BGRT_SYSCALL_PROC_GET_PRIO
-**********************************************************************************************/
-bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid )
-{
-    bgrt_proc_get_prio_arg_t scarg;
-    scarg.ret = BGRT_PROC_PRIO_LOWEST + 1; //Not possible!
-    scarg.pid = pid;
-    bgrt_syscall( BGRT_SYSCALL_PROC_GET_PRIO, (void *)&scarg );
-    return scarg.ret;
 }
 //========================================================================================
 bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc )
@@ -517,23 +399,4 @@ bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc )
     BGRT_SPIN_FREE( proc );
 
     return ret;
-}
-//========================================================================================
-void bgrt_scall_proc_get_prio( bgrt_proc_get_prio_arg_t * arg )
-{
-    arg->ret = _bgrt_proc_get_prio( BGRT_PID_TO_PROC( arg->pid ) );
-}
-/**********************************************************************************************
-                               BGRT_SYSCALL_PROC_GET_ID
-**********************************************************************************************/
-BGRT_PID_T bgrt_proc_get_id(void)
-{
-    BGRT_PID_T ret = (BGRT_PID_T)0;
-    bgrt_syscall( BGRT_SYSCALL_PROC_GET_ID, (void *)&ret );
-    return ret;
-}
-//========================================================================================
-void bgrt_scall_proc_get_id( BGRT_PID_T * arg )
-{
-    *arg = BGRT_PROC_TO_PID( bgrt_curr_proc() );
 }

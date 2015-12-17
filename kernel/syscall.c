@@ -135,9 +135,335 @@ void bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
     }
 }
 
+
+
 /**********************************************************************************************
                                   System call handlers !!!
 ***********************************************************************************************
+                                   BGRT_SYSCALL_PROC_RUN
+**********************************************************************************************/
+bgrt_st_t bgrt_proc_run( BGRT_PID_T pid )
+{
+    volatile bgrt_proc_runtime_arg_t scarg;
+    scarg.pid = pid;
+    bgrt_syscall( BGRT_SYSCALL_PROC_RUN, (void *)&scarg );
+    return scarg.ret;
+}
+//=============================================================================================
+void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg )
+{
+    arg->ret = _bgrt_proc_run( BGRT_PID_TO_PROC( arg->pid ) );
+}
+/**********************************************************************************************
+                                  BGRT_SYSCALL_PROC_RESTART
+**********************************************************************************************/
+bgrt_st_t bgrt_proc_restart( BGRT_PID_T pid )
+{
+    volatile bgrt_proc_runtime_arg_t scarg;
+    scarg.pid = pid;
+    bgrt_syscall( BGRT_SYSCALL_PROC_RESTART, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
+void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg )
+{
+    arg->ret = _bgrt_proc_restart( BGRT_PID_TO_PROC( arg->pid ) );
+}
+/**********************************************************************************************
+                                   BGRT_SYSCALL_PROC_STOP
+**********************************************************************************************/
+bgrt_st_t bgrt_proc_stop( BGRT_PID_T pid )
+{
+    volatile bgrt_proc_runtime_arg_t scarg;
+    scarg.pid = pid;
+    bgrt_syscall( BGRT_SYSCALL_PROC_STOP, (void *)&scarg);
+    return scarg.ret;
+}
+//========================================================================================
+void bgrt_scall_proc_stop( bgrt_proc_runtime_arg_t * arg )
+{
+    arg->ret = _bgrt_proc_stop( BGRT_PID_TO_PROC( arg->pid ) );
+}
+/**********************************************************************************************
+                                 BGRT_SYSCALL_PROC_SELF_STOP
+**********************************************************************************************/
+void bgrt_proc_self_stop(void)
+{
+    bgrt_syscall( BGRT_SYSCALL_PROC_SELF_STOP, (void *)1 );
+}
+//========================================================================================
+void bgrt_scall_proc_self_stop( void * arg )
+{
+    _bgrt_proc_self_stop();
+}
+/**********************************************************************************************
+                                 BGRT_SYSCALL_PROC_TERMINATE
+**********************************************************************************************/
+// Terminate a process after pmain return.
+void bgrt_proc_terminate( void )
+{
+    bgrt_syscall( BGRT_SYSCALL_PROC_TERMINATE, (void *)0 );
+}
+//========================================================================================
+void bgrt_scall_proc_terminate( void * arg )
+{
+    _bgrt_proc_terminate();
+}
+/**********************************************************************************************
+                                   BGRT_SYSCALL_PROC_LOCK
+**********************************************************************************************/
+void bgrt_proc_lock( void )
+{
+    bgrt_syscall( BGRT_SYSCALL_PROC_LOCK, (void *)0 );
+}
+//========================================================================================
+void bgrt_scall_proc_lock( void * arg )
+{
+    _bgrt_proc_lock();
+}
+/**********************************************************************************************
+                                   BGRT_SYSCALL_PROC_FREE
+**********************************************************************************************/
+void bgrt_proc_free( void )
+{
+    bgrt_syscall( BGRT_SYSCALL_PROC_FREE, (void *)0 );
+}
+//========================================================================================
+void bgrt_scall_proc_free( void * arg )
+{
+    _bgrt_proc_free();
+}
+/**********************************************************************************************
+                             BGRT_SYSCALL_PROC_RESET_WATCHDOG
+**********************************************************************************************/
+void bgrt_proc_reset_watchdog(void)
+{
+    bgrt_syscall( BGRT_SYSCALL_PROC_RESET_WATCHDOG, (void *)0 );
+}
+//========================================================================================
+void bgrt_scall_proc_reset_watchdog( void * arg )
+{
+    _bgrt_proc_reset_watchdog();
+}
+/**********************************************************************************************
+                                 BGRT_SYSCALL_PROC_SET_PRIO
+**********************************************************************************************/
+void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio )
+{
+    volatile bgrt_proc_set_prio_arg_t arg;
+    arg.pid = pid;
+    arg.prio = prio;
+    bgrt_syscall( BGRT_SYSCALL_PROC_SET_PRIO, (void *)&arg );
+}
+//========================================================================================
+void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg )
+{
+    _bgrt_proc_set_prio( BGRT_PID_TO_PROC( arg->pid ), arg->prio );
+}
+/**********************************************************************************************
+                                BGRT_SYSCALL_PROC_GET_PRIO
+**********************************************************************************************/
+bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid )
+{
+    bgrt_proc_get_prio_arg_t scarg;
+    scarg.ret = BGRT_PROC_PRIO_LOWEST + 1; //Not possible!
+    scarg.pid = pid;
+    bgrt_syscall( BGRT_SYSCALL_PROC_GET_PRIO, (void *)&scarg );
+    return scarg.ret;
+}
+//========================================================================================
+void bgrt_scall_proc_get_prio( bgrt_proc_get_prio_arg_t * arg )
+{
+    arg->ret = _bgrt_proc_get_prio( BGRT_PID_TO_PROC( arg->pid ) );
+}
+/**********************************************************************************************
+                                BGRT_SYSCALL_PROC_GET_ID
+**********************************************************************************************/
+BGRT_PID_T bgrt_proc_get_id(void)
+{
+    BGRT_PID_T ret = (BGRT_PID_T)0;
+    bgrt_syscall( BGRT_SYSCALL_PROC_GET_ID, (void *)&ret );
+    return ret;
+}
+//========================================================================================
+void bgrt_scall_proc_get_id( BGRT_PID_T * arg )
+{
+    *arg = BGRT_PROC_TO_PID( bgrt_curr_proc() );
+}
+/**********************************************************************************************
+                                 BGRT_SYSCALL_PROC_YELD
+**********************************************************************************************/
+bgrt_bool_t bgrt_sched_proc_yeld(void)
+{
+    volatile bgrt_bool_t ret;
+    bgrt_syscall( BGRT_SYSCALL_SCHED_PROC_YELD, (void *)&ret );
+    return ret;
+}
+//========================================================================================
+void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg )
+{
+    *arg = _bgrt_sched_proc_yeld();
+}
+/**********************************************************************************************
+                                BGRT_SYSCALL_SYNC_SET_OWNER
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid )
+{
+    volatile bgrt_sync_owner_t scarg;
+    scarg.sync = sync;
+    scarg.pid = pid;
+    scarg.status = BGRT_ST_ROLL;
+    bgrt_syscall( BGRT_SYSCALL_SYNC_SET_OWNER, (void *)&scarg );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_set_owner( bgrt_sync_owner_t * arg )
+{
+    arg->status = _bgrt_sync_set_owner( arg->sync, BGRT_PID_TO_PROC( arg->pid ) );
+}
+/**********************************************************************************************
+                               BGRT_SYSCALL_SYNC_GET_OWNER
+**********************************************************************************************/
+BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync )
+{
+    volatile bgrt_sync_owner_t scarg;
+    scarg.sync = sync;
+    scarg.pid = 0;
+    scarg.status = BGRT_ST_ROLL;
+    bgrt_syscall( BGRT_SYSCALL_SYNC_GET_OWNER, (void *)&scarg );
+    return scarg.pid;
+}
+//========================================================================================
+void bgrt_scall_sync_get_owner( bgrt_sync_owner_t * arg )
+{
+    arg->pid = BGRT_PROC_TO_PID( _bgrt_sync_get_owner( arg->sync ) );
+    arg->status = BGRT_ST_OK;
+}
+/**********************************************************************************************
+                                  BGRT_SYSCALL_SYNC_OWN
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
+{
+    bgrt_sync_own_t scarg;
+    scarg.status = BGRT_ST_EOWN;
+    scarg.sync = sync;
+    scarg.touch = touch;
+    bgrt_syscall( BGRT_SYSCALL_SYNC_OWN, (void *)&scarg );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_own( bgrt_sync_own_t * arg )
+{
+    arg->status = _bgrt_sync_own( arg->sync, arg->touch );
+}
+/**********************************************************************************************
+                                 BGRT_SYSCALL_SYNC_TOUCH
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync )
+{
+    bgrt_sync_touch_t scarg;
+    scarg.status = BGRT_ST_ENULL;
+    scarg.sync = sync;
+    bgrt_syscall( BGRT_SYSCALL_SYNC_TOUCH, (void *)&scarg );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg )
+{
+    arg->status = _bgrt_sync_touch( arg->sync );
+}
+/**********************************************************************************************
+                                 BGRT_SYSCALL_SYNC_SLEEP
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync )
+{
+    volatile bgrt_sync_sleep_t scarg;
+    scarg.status = BGRT_ST_ROLL;
+    scarg.sync = sync;
+    do
+    {
+        bgrt_syscall( BGRT_SYSCALL_SYNC_SLEEP, (void *)&scarg );
+    }
+    while( scarg.status >= BGRT_ST_ROLL );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_sleep( bgrt_sync_sleep_t * arg )
+{
+    arg->status = _bgrt_sync_sleep( arg->sync );
+}
+/**********************************************************************************************
+                                    BGRT_SYSCALL_SYNC_WAKE
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown )
+{
+    volatile bgrt_sync_wake_t scarg;
+    scarg.status = BGRT_ST_ROLL;
+    scarg.sync = sync;
+    scarg.pid = pid;
+    scarg.chown = chown;
+    do
+    {
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );
+    }
+    while( scarg.status >= BGRT_ST_ROLL );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_wake( bgrt_sync_wake_t * arg )
+{
+    arg->status = _bgrt_sync_wake( arg->sync , BGRT_PID_TO_PROC( arg->pid ), arg->chown );
+}
+/**********************************************************************************************
+                                    BGRT_SYSCALL_SYNC_WAIT
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block )
+{
+    volatile bgrt_sync_wait_t scarg;
+    scarg.status = BGRT_ST_ROLL;
+    scarg.sync = sync;
+    scarg.pid = pid;
+    scarg.block = block;
+    do
+    {
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );
+    }
+    while( scarg.status >= BGRT_ST_ROLL );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_wait( bgrt_sync_wait_t * arg )
+{
+    if( !arg->pid )
+    {
+        arg->status = BGRT_ST_ENULL;
+    }
+    else
+    {
+        bgrt_proc_t * proc;
+
+        proc = BGRT_PID_TO_PROC( *arg->pid );
+        arg->status = _bgrt_sync_wait( arg->sync, &proc, arg->block );
+        *arg->pid = BGRT_PROC_TO_PID( proc );
+    }
+}
+/**********************************************************************************************
+                               BGRT_SYSCALL_SYNC_PROC_TIMEOUT
+**********************************************************************************************/
+bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid )
+{
+    volatile bgrt_sync_proc_timeout_t scarg;
+    scarg.pid = pid;
+    scarg.status = BGRT_ST_ROLL;
+    bgrt_syscall( BGRT_SYSCALL_SYNC_PROC_TIMEOUT, (void *)&scarg );
+    return scarg.status;
+}
+//========================================================================================
+void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg )
+{
+    arg->status = _bgrt_sync_proc_timeout( BGRT_PID_TO_PROC( arg->pid ) );
+}
+/**********************************************************************************************
                                        BGRT_SYSCALL_USER
 **********************************************************************************************/
 typedef union

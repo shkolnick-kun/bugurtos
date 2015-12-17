@@ -438,15 +438,6 @@ void bgrt_sched_reschedule(void)
     BGRT_SPIN_FREE( current_proc );
     _sched_switch_current( sched, current_proc );
 }
-/**********************************************************************************************
-                                      BGRT_SYSCALL_PROC_YELD
-**********************************************************************************************/
-bgrt_bool_t bgrt_sched_proc_yeld(void)
-{
-    volatile bgrt_bool_t ret;
-    bgrt_syscall( BGRT_SYSCALL_SCHED_PROC_YELD, (void *)&ret );
-    return ret;
-}
 //========================================================================================
 bgrt_bool_t _bgrt_sched_proc_yeld( void )
 {
@@ -533,12 +524,6 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
 
     return save_power;
 }
-//========================================================================================
-void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg )
-{
-    *arg = _bgrt_sched_proc_yeld();
-}
-
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
 /************************************
   "Lazy" load balancers.

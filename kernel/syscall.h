@@ -136,6 +136,550 @@ void bgrt_do_syscall(
 /*****************************************************************************************/
 /*                               System call handlers !!!                                */
 /*****************************************************************************************/
+/*                                   Process control                                     */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системных вызовов #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
+
+\~english
+\brief
+An argument for system calls #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
+*/
+typedef struct{
+    BGRT_PID_T pid;      /*!< \~russian Идентификатор процесса. \~english A process ID. */
+    bgrt_st_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+}bgrt_proc_runtime_arg_t;
+
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_RUN.
+
+Пытается запустить процесс, вызывая #_bgrt_proc_run.
+
+\param arg указатель на структуру #bgrt_proc_runtime_arg_t.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_RUN handler.
+
+This function tries to launch a process by #_bgrt_proc_run call.
+
+\param arg A #bgrt_proc_runtime_arg_t pointer.
+*/
+void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_RESTART.
+
+Пытается перезапустить процесс, вызывая #_bgrt_proc_restart.
+
+\param arg указатель на структуру #bgrt_proc_runtime_arg_t.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_RESTART handler.
+
+This function tries to restart a process by #_bgrt_proc_restart call.
+
+\param arg A #bgrt_proc_runtime_arg_t pointer.
+*/
+void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg );
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_STOP.
+
+Пытается остановить процесс, вызывая #_bgrt_proc_stop.
+
+\param arg указатель на структуру #bgrt_proc_runtime_arg_t.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_STOP handler.
+
+This function tries to stop a process by #_bgrt_proc_stop call.
+
+\param arg A #bgrt_proc_runtime_arg_t pointer.
+*/
+void bgrt_scall_proc_stop( bgrt_proc_runtime_arg_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_SELF_STOP.
+
+Останавливает вызывающий процесс.
+
+\param arg не используется.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_SELF_STOP handler.
+
+This function stops calling process.
+
+\param arg Not used.
+*/
+void bgrt_scall_proc_self_stop( void * arg );
+
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_TERMINATE.
+
+Завершает выполнение процесса после выхода из pmain. Вызывает #_bgrt_proc_terminate.
+
+\param arg указатель на процесс.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_TERMINATE handler.
+
+This function terminates calling process after pmain return by #_bgrt_proc_terminate call.
+
+\param arg A pointer to a process.
+*/
+void bgrt_scall_proc_terminate( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_LOCK.
+
+Устанавливает флаг #BGRT_PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_LOCK handler.
+
+Sets #BGRT_PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
+*/
+void bgrt_scall_proc_lock( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_FREE.
+
+Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #BGRT_PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #BGRT_PROC_FLG_PRE_STOP.
+Вызывает #_bgrt_proc_free.
+
+\param arg указатель на маску обнуления флагов процесса.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_FREE handler.
+
+This function decreases proc->lres counter, clears #BGRT_PROC_FLG_LOCK if needed and, process #BGRT_PROC_FLG_PRE_STOP of the calling process and clears masked flags of a calling process.
+It calls #_bgrt_proc_free.
+
+\param arg A pointer to a flag mask.
+*/
+void bgrt_scall_proc_free( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_RESET_WATCHDOG.
+
+Вызывает #_bgrt_proc_reset_watchdog.
+
+\param arg не используется.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_RESET_WATCHDOG handler.
+
+This function calls #_bgrt_proc_reset_watchdog.
+
+\param arg Not used.
+*/
+void bgrt_scall_proc_reset_watchdog( void * arg );
+/*****************************************************************************************/
+typedef struct{
+    BGRT_PID_T pid;          /*!< \~russian Идентификатор процесса. \~english A process ID. */
+    bgrt_prio_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
+}bgrt_proc_get_prio_arg_t;   /*!< \~russian Аргумент #bgrt_scall_proc_get_prio. \~english An arg for #bgrt_scall_proc_get_prio.*/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_GET_PRIO.
+
+Вызывает #_bgrt_proc_get_prio.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_GET_PRIO handler.
+
+This function calls #_bgrt_proc_get_prio.
+*/
+void bgrt_scall_proc_get_prio( bgrt_proc_get_prio_arg_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_GET_ID.
+
+Вызывает #bgrt_curr_proc.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_GET_ID handler.
+
+This function calls #bgrt_curr_proc.
+*/
+void bgrt_scall_proc_get_id( BGRT_PID_T * arg );
+/*****************************************************************************************/
+/*                                     Scheduler                                         */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SCHED_PROC_YELD.
+
+Передает управление следующему процессу.
+
+\param arg не используется.
+
+\~english
+\brief
+A #BGRT_SYSCALL_SCHED_PROC_YELD handler.
+
+Transfers control to another process.
+
+\param arg Not used.
+*/
+void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg );
+/*****************************************************************************************/
+/*                                        Sync                                           */
+/*****************************************************************************************/
+#define BGRT_SYNC_INIT(s,p) bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #bgrt_sync_init. \~english \brief Watch #bgrt_sync_init. */
+/*****************************************************************************************/
+#define _BGRT_SYNC_INIT(s,p) _bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #_bgrt_sync_init. \~english \brief Watch #_bgrt_sync_init. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Параметр системного вызова #BGRT_SYSCALL_PROC_SET_PRIO.
+
+\~english
+\brief
+An argument for system call #BGRT_SYSCALL_PROC_SET_PRIO.
+*/
+typedef struct
+{
+    BGRT_PID_T pid;     /*!< \~russian Идентификатор процесса. \~english A process ID. */
+    bgrt_prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
+}
+bgrt_proc_set_prio_arg_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_PROC_SET_PRIO.
+
+Вызывает #_bgrt_proc_set_prio.
+
+\param arg Указатель на переменную типа #bgrt_proc_set_prio_arg_t.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_SET_PRIO handler.
+
+This function calls #_bgrt_proc_set_prio.
+
+\param arg A pointer to #bgrt_proc_set_prio_arg_t object.
+*/
+void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызовов #BGRT_SYSCALL_SYNC_SET_OWNER/#BGRT_SYSCALL_SYNC_GET_OWNER.
+
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_SET_OWNER/#BGRT_SYSCALL_SYNC_GET_OWNER. arg.
+*/
+typedef struct
+{
+    bgrt_sync_t * sync;
+    BGRT_PID_T    pid;
+    bgrt_st_t status;
+}
+bgrt_sync_owner_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_SET_OWNER.
+
+Вызывает #_bgrt_sync_set_owner.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_SET_OWNER handler.
+
+This function calls #_bgrt_sync_set_owner.
+*/
+void bgrt_scall_sync_set_owner( bgrt_sync_owner_t * arg );
+#define BGRT_SYNC_SET_OWNER(s,p) bgrt_sync_set_owner((bgrt_sync_t *)s, (BGRT_PID_T)p) /*!< \~russian \brief Смотри #bgrt_sync_set_owner. \~english \brief Watch #bgrt_sync_set_owner. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_GET_OWNER.
+
+Вызывает #_bgrt_sync_set_owner.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_GET_OWNER handler.
+
+This function calls #_bgrt_sync_set_owner.
+*/
+void bgrt_scall_sync_get_owner( bgrt_sync_owner_t * arg );
+#define BGRT_SYNC_GET_OWNER(s) bgrt_sync_get_owner((bgrt_sync_t *)s) /*!< \~russian \brief Смотри #bgrt_sync_get_owner. \~english \brief Watch #bgrt_sync_get_owner. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #BGRT_SYSCALL_SYNC_OWN.
+
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_OWN arg.
+*/
+typedef struct
+{
+    bgrt_sync_t * sync;
+    bgrt_flag_t touch;
+    bgrt_st_t status;
+}bgrt_sync_own_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_OWN.
+
+Вызывает #_bgrt_sync_own.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_OWN handler.
+
+This function calls #_bgrt_sync_own.
+*/
+void bgrt_scall_sync_own( bgrt_sync_own_t * arg );
+#define BGRT_SYNC_OWN(s,t) bgrt_sync_own( (bgrt_sync_t *)(s), (bgrt_flag_t)(t) ) /*!< \~russian \brief Смотри #bgrt_sync_own. \~english \brief Watch #bgrt_sync_own. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #BGRT_SYSCALL_SYNC_TOUCH.
+
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_TOUCH arg.
+*/
+typedef struct
+{
+    bgrt_sync_t * sync;
+    bgrt_st_t status;
+}bgrt_sync_touch_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_TOUCH.
+
+Вызывает #_bgrt_sync_touch.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_TOUCH handler.
+
+This function calls #_bgrt_sync_touch.
+*/
+void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg );
+#define BGRT_SYNC_TOUCH(s,t) bgrt_sync_touch( (bgrt_sync_t *)(s) )
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
+typedef struct
+{
+    bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
+    bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
+}
+bgrt_sync_sleep_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_SLEEP.
+
+Вызывает #_bgrt_sync_sleep.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_SLEEP handler.
+
+This function calls #_bgrt_sync_sleep.
+*/
+void bgrt_scall_sync_sleep( bgrt_sync_sleep_t * arg );
+#define BGRT_SYNC_SLEEP(s) bgrt_sync_sleep((bgrt_sync_t *)s) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
+typedef struct
+{
+    bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
+    BGRT_PID_T pid; /*!< \~russian Указатель на процесс. \~english A process pointer. */
+    bgrt_flag_t chown;  /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
+    bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
+}
+bgrt_sync_wake_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE.
+
+Вызывает #_bgrt_sync_wake.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_WAKE handler.
+
+This function calls #_bgrt_sync_wake.
+*/
+void bgrt_scall_sync_wake( bgrt_sync_wake_t * arg );
+#define BGRT_SYNC_WAKE(s,p,c,st)                                \
+do                                                              \
+{                                                               \
+    volatile bgrt_sync_wake_t scarg;                            \
+    scarg.status = BGRT_ST_ROLL;                                \
+    scarg.sync = (bgrt_sync_t *)(s);                            \
+    scarg.pid = (BGRT_PID_T)(p);                                \
+    scarg.chown = (bgrt_flag_t)(c);                             \
+    do                                                          \
+    {                                                           \
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg ); \
+    }                                                           \
+    while( scarg.status >= BGRT_ST_ROLL );                      \
+    (st) = scarg.status;                                        \
+}                                                               \
+while(0) /*!< \~russian \brief Смотри #bgrt_sync_wake. \~english \brief Watch #bgrt_sync_wake. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Для внутреннего пользования.
+
+\~english
+\brief
+For internal usage.
+*/
+typedef struct
+{
+    bgrt_sync_t * sync;  /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
+    BGRT_PID_T * pid; /*!< \~russian Указатель на буфер процесса. \~english A process buffer pointer. */
+    bgrt_flag_t block;   /*!< \~russian Флаг блокирования. \~english A block flag. */
+    bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
+}
+bgrt_sync_wait_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAIT.
+
+Вызывает #_bgrt_sync_wait.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_WAIT handler.
+
+This function calls #_bgrt_sync_wait.
+*/
+void bgrt_scall_sync_wait( bgrt_sync_wait_t * arg );
+#define BGRT_SYNC_WAIT(s,p,b,st)                                \
+do                                                              \
+{                                                               \
+    volatile bgrt_sync_wait_t scarg;                            \
+    scarg.status = BGRT_ST_ROLL;                                \
+    scarg.sync = (bgrt_sync_t *)(s);                            \
+    scarg.pid = (BGRT_PID_T *)(p);                              \
+    scarg.block = (bgrt_flag_t)(b);                             \
+    do                                                          \
+    {                                                           \
+        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg ); \
+    }                                                           \
+    while( scarg.status >= BGRT_ST_ROLL );                      \
+    (st) = scarg.status;                                        \
+}                                                               \
+while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE_AND_SLEEP.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_WAKE_AND_SLEEP handler.
+*/
+void bgrt_scall_sync_wake_and_sleep( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE_AND_WAIT.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_WAKE_AND_WAIT handler.
+*/
+void bgrt_scall_sync_wake_and_wait( void * arg );
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #BGRT_SYSCALL_SYNC_PROC_TIMEOUT.
+
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT arg.
+*/
+typedef struct
+{
+    BGRT_PID_T pid;
+    bgrt_st_t status;
+}
+bgrt_sync_proc_timeout_t;
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+Обработчик вызова #BGRT_SYSCALL_SYNC_PROC_TIMEOUT.
+\~english
+\brief
+A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT handler.
+*/
+void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
+/*****************************************************************************************/
+
+
+
 /*!
 \~russian
 \brief
