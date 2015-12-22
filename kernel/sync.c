@@ -314,6 +314,7 @@ bgrt_st_t _bgrt_sync_init( bgrt_sync_t * sync, bgrt_prio_t prio )
     bgrt_xlist_init( (bgrt_xlist_t *)sync );
     sync->owner = (bgrt_proc_t *)0;
     sync->dirty = (bgrt_cnt_t)0;
+    sync->snum  = (bgrt_cnt_t)0;
     sync->pwake = (bgrt_cnt_t)0;
     sync->prio = prio;
     BGRT_SPIN_FREE( sync );
@@ -413,6 +414,7 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
         if( touch && (owner != current) )
         {
             sync->dirty++;
+            sync->snum++; //Increment sleeping process counter. Caller is going to sleep.
             BGRT_SPIN_FREE( sync );
 
             BGRT_SPIN_LOCK( current );
@@ -439,6 +441,7 @@ bgrt_st_t _bgrt_sync_touch( bgrt_sync_t * sync )
 
     BGRT_SPIN_LOCK( sync );
     sync->dirty++;
+    sync->snum++; //Increment sleeping process counter. Caller is going to sleep.
     BGRT_SPIN_FREE( sync );
 
     current = bgrt_curr_proc();
@@ -457,11 +460,19 @@ static void _bgrt_sync_sleep_swap_locks( bgrt_sync_t * sync, bgrt_proc_t * proc 
     BGRT_SPIN_LOCK( proc );
 }
 //========================================================================================
+static void _bgrt_sync_snum_dec( bgrt_sync_t * sync )
+{
+    if( sync->snum )
+    {
+        sync->snum--;// Decrement sleeping proc count.
+    }
+}
+//========================================================================================
 bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
 {
     bgrt_proc_t * proc;
     bgrt_prio_t old_prio, new_prio;
-    bgrt_flag_t sync_clear;
+    bgrt_flag_t sync_clear; //Used as event flag and as temp var;
 
     _bgrt_proc_reset_watchdog();
 
@@ -486,6 +497,9 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
         BGRT_KERNEL_PREEMPT();
 
         BGRT_SPIN_LOCK( sync );
+
+        _bgrt_sync_snum_dec(sync); //One sleeping proc less!
+
         if( sync->pwake )
         {
             _bgrt_sync_do_pending_wake( sync );
@@ -496,6 +510,8 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
     }
     case BGRT_PROC_STATE_TO_RUNNING:
     {
+        //sync->snum decremented in _bgrt_sync_proc_timeout !!!
+        //no need to BGRT_SPIN_LOCK( sync ) !!!
         BGRT_SPIN_FREE( proc );
 
         return BGRT_ST_ETIMEOUT;
@@ -505,13 +521,14 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
         _bgrt_sync_sleep_swap_locks( sync, proc );
         //The end of priority inheritance transaction or bgrt_sync_own transaction
         //No zero check needed, as a process state is BGRT_PROC_STATE_PI_RUNNING.
-        sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty-- );
+        sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty-- ); //Event!
         break;
     }
-    default:
+    case BGRT_PROC_STATE_RUNNING: default:
     {
         _bgrt_sync_sleep_swap_locks( sync, proc );
-        sync_clear = (bgrt_flag_t)0;
+        sync->snum++;  //Increment sleeping process counter. Caller is going to sleep.
+        sync_clear = (bgrt_flag_t)0; //No event!
         break;
     }
     }
@@ -519,6 +536,9 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync )
     if( sync->owner == proc )
     {
         BGRT_SPIN_FREE( proc );
+
+        _bgrt_sync_snum_dec( sync ); //One sleeping process less!
+
         BGRT_SPIN_FREE( sync );
 
         return BGRT_ST_EOWN;
@@ -684,10 +704,18 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
     {
         if( sync->dirty )
         {
-            sync->pwake++;
+            if( sync->pwake < sync->snum )
+            {
+                sync->pwake++;
+                status = BGRT_ST_OK;
+            }
+            else
+            {
+                status = BGRT_ST_EEMPTY; //We can,t wake more processes.
+            }
             BGRT_SPIN_FREE( sync );
 
-            return BGRT_ST_OK;
+            return status;
         }
     }
     // Nonzero proc argument???
@@ -809,6 +837,14 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 
         return BGRT_ST_ESYNC;  /// Not covered !!!
     }
+    if( sync->pwake >= sync->snum )
+    {
+        //The process is going to be woken up.
+        BGRT_SPIN_FREE( proc );
+        BGRT_SPIN_FREE( sync );
+
+        return BGRT_ST_OK;   /// Not covered !!!
+    }
 
     switch( BGRT_PROC_GET_STATE( proc ) )
     {
@@ -816,6 +852,8 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
     {
         //Undo bgrt_sync_sleep
         bgrt_prio_t old_prio;
+
+        _bgrt_sync_snum_dec( sync ); //One sleeping proc less
 
         old_prio = BGRT_SYNC_PRIO( sync );
 

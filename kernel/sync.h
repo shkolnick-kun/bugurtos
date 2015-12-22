@@ -112,6 +112,7 @@ struct _bgrt_sync_t
     bgrt_xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_proc_t * owner;/*!< \~russian Указатель на процесc-хозяин. \~english A pointer to a process, that holds a sync. */
     bgrt_cnt_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritance transaction counter. */
+    bgrt_cnt_t snum; /*!< \~russian Счетчик спящих процессов. \~english Sleeping process counter. */
     bgrt_cnt_t pwake; /*!< \~russian Счетчик отложенных пробуждений. \~english Pending wakeup counter. */
     bgrt_prio_t prio; /*!< \~russian Приоритет. \~english Priority. */
 #ifdef BGRT_CONFIG_MP
