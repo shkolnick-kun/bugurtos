@@ -330,6 +330,7 @@ void main_0( void * arg )
     //cleanup
     bgrt_sync_set_owner( &bgrt_sync_1, BGRT_PID_NOTHING );
     bgrt_sync_1.dirty = 0;
+    bgrt_sync_1.snum  = 0;
 
     //64 bgrt_sync_touch
     status[0] = bgrt_sync_touch( (bgrt_sync_t *)0 );
@@ -362,6 +363,7 @@ void main_0( void * arg )
     /// bgrt_sync_touch covered!!!
     //cleanup
     bgrt_sync_1.dirty = 0;
+    bgrt_sync_1.snum  = 0;
     //68 bgrt_sync_sleep
     test = ( BGRT_ST_ENULL == bgrt_sync_sleep( (bgrt_sync_t *)0 ) );
     test_output( test, test_num++ );
@@ -435,7 +437,7 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     //84 bgrt_sync_sleep bgrt_sync_wake
-    test = ( status[3] );
+    test = ( BGRT_ST_EEMPTY == status[3] );
     test_output( test, test_num++ );
     //85 bgrt_sync_sleep
     test = ( BGRT_ST_OK == status[2] );
@@ -933,8 +935,8 @@ void main_2( void * arg )
     bgrt_sync_touch( &bgrt_sync_1 );
     status[2] = BGRT_ST_ESTAT;
     status[1] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 ); /// staus[1] is used!!!
-    bgrt_sync_wake( &bgrt_sync_1, 0, 0 );
-    status[3] = (2 == bgrt_sync_1.pwake);        /// staus[3] is used!!!
+    status[3] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 ); /// staus[3] is used!!!
+    //status[3] = (2 == bgrt_sync_1.pwake);        /// staus[3] is used!!!
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1 );
     bgrt_proc_self_stop();

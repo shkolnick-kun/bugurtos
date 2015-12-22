@@ -14,16 +14,16 @@
 		<Cursor position="20759" topLine="492" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="9128" topLine="843" />
+		<Cursor position="19208" topLine="366" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="20230" topLine="598" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="12487" topLine="276" />
+		<Cursor position="17322" topLine="731" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="17388" topLine="251" />
+		<Cursor position="18644" topLine="390" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="11526" topLine="554" />
@@ -35,6 +35,6 @@
 		<Cursor position="3456" topLine="202" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="30577" topLine="828" />
+		<Cursor position="30653" topLine="827" />
 	</File>
 </CodeBlocks_layout_file>
