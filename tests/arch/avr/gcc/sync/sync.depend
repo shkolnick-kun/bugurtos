@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port.c
+1450335151 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port.c
 	<bugurt.h>
 
 1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port.h
 
-1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+1450333199 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
 	<bugurt_config.h>
 	"index.h"
 	"item.h"
@@ -17,8 +17,9 @@
 	"kernel.h"
 	"sync.h"
 	"timer.h"
-	"syscall.h"
 	<bugurt_port.h>
+	"syscall.h"
+	<user_syscall.h>
 
 1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
 
@@ -32,17 +33,17 @@
 
 1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
 
-1449824077 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+1450330676 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
 
-1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
+1450330794 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
 
-1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
+1450335440 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
 
-1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+1450790940 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
 
 1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
 
-1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+1450331583 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
 
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc/bugurt_port_asm.S
 	<avr/io.h>
@@ -68,16 +69,16 @@
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
 	"bugurt.h"
 
-1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.c
+1450329681 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.c
 	"bugurt.h"
 
-1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
+1450329780 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1450806348 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
-1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
+1450331807 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
 	"bugurt.h"
 
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.c
@@ -89,7 +90,7 @@
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc/test_func.c
 	<test_func.h>
 
-1449741640 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
+1450797350 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 
 1449826226 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc/bugurt_config.h

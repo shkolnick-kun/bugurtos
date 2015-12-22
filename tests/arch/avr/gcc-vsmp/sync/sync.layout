@@ -20,7 +20,7 @@
 		<Cursor position="20230" topLine="598" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="17322" topLine="731" />
+		<Cursor position="6562" topLine="131" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="18644" topLine="390" />
@@ -35,6 +35,6 @@
 		<Cursor position="3456" topLine="202" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="30653" topLine="827" />
+		<Cursor position="30653" topLine="830" />
 	</File>
 </CodeBlocks_layout_file>
