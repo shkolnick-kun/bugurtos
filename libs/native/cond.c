@@ -103,7 +103,7 @@ bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
 
     bgrt_proc_lock(); //Don't stop caller until wakeup!
 
-    cond->blocked++; //Guarded by mutex
+    BGRT_SYNC_TOUCH( cond );
 
     ret = mutex_free( mutex );
 
@@ -113,7 +113,7 @@ bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
     }
     else
     {
-        ret = BGRT_SYNC_SLEEP( cond );
+        ret = BGRT_SYNC_SLEEP( cond, 1 );
         bgrt_proc_free(); //Now may stop!
 
         mutex_lock( mutex );
@@ -126,57 +126,32 @@ static bgrt_st_t _cond_signal( cond_t * cond )
 {
     bgrt_st_t ret = BGRT_ST_EEMPTY;
 
-    if( cond->blocked )
-    {
-        bgrt_proc_t * dummy = (bgrt_proc_t *)0;
-
-        BGRT_SYNC_WAIT( cond, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
-
-        if( BGRT_ST_OK != ret )
-        {
-            return ret;
-        }
-        BGRT_SYNC_WAKE( cond, BGRT_PID_NOTHING, 0, ret );
-
-        cond->blocked--;
-    }
+    BGRT_SYNC_WAKE( cond, BGRT_PID_NOTHING, 0, ret );
 
     return ret;
 }
 
 bgrt_st_t cond_signal( cond_t * cond )
 {
-    bgrt_st_t ret, clr_own;
-
-    clr_own = BGRT_SYNC_OWN( cond, 0 );
+    bgrt_st_t ret;
 
     ret = _cond_signal( cond );
-
-    if( BGRT_ST_OK == clr_own )
-    {
-        BGRT_SYNC_SET_OWNER( cond, BGRT_PID_NOTHING );
-    }
 
     return ret;
 }
 
 bgrt_st_t cond_broadcast( cond_t * cond )
 {
+    bgrt_cnt_t cwake = (bgrt_cnt_t)0;
     bgrt_st_t ret = BGRT_ST_ROLL;
-    bgrt_st_t clr_own;
 
-    clr_own = BGRT_SYNC_OWN( cond, 0 );
-
-    do
+    for( ret = BGRT_ST_OK; BGRT_ST_OK == ret; ret = _cond_signal( cond ) )
     {
-        ret = _cond_signal( cond );
+        cwake++;
     }
-    while( BGRT_ST_OK == ret );
-
-    if( BGRT_ST_OK == clr_own )
+    if( cwake && (BGRT_ST_EEMPTY == ret) )
     {
-        BGRT_SYNC_SET_OWNER( cond, 0 );
+        ret = BGRT_ST_OK;
     }
-
     return ret;
 }

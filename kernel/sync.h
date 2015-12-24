@@ -243,9 +243,10 @@ Sleep to wait for synchronization.
 Blocks caller process.
 
 \param sync A pointer to the object of interest.
+\param touch A touch flag, must be 1 if we've touched a sync before call.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync );
+bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch );
 /*!
 \~russian
 \brief
@@ -393,7 +394,7 @@ Watch #bgrt_sync_sleep.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync );
+bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch );
 /*!
 \~russian
 \brief

@@ -88,7 +88,6 @@ bgrt_st_t sem_init_isr( sem_t * sem, bgrt_cnt_t count )
     BGRT_SPIN_INIT( sem );
     BGRT_SPIN_LOCK( sem );
     sem->counter = count;
-    sem->blocked = (bgrt_cnt_t)0;
     BGRT_SPIN_FREE( sem );
     return BGRT_ST_OK;
 }
@@ -147,16 +146,16 @@ bgrt_st_t sem_lock( sem_t * sem )
     }
     else
     {
-        sem->blocked++;
+        _bgrt_sync_touch( (bgrt_sync_t *)sem );
         ret = BGRT_ST_ROLL;
     }
 
     BGRT_SPIN_FREE( sem );
     bgrt_enable_interrupts();
 
-    if( ret == BGRT_ST_ROLL )
+    if( BGRT_ST_ROLL == ret )
     {
-        ret = BGRT_SYNC_SLEEP( sem );
+        ret = BGRT_SYNC_SLEEP( sem, 1 );
     }
 
     bgrt_proc_free();
@@ -174,44 +173,19 @@ bgrt_st_t sem_free( sem_t * sem )
 
     bgrt_proc_lock();
 
-    bgrt_disable_interrupts();
-    BGRT_SPIN_LOCK( sem );
+    BGRT_SYNC_WAKE( sem,  BGRT_PID_NOTHING, 0, ret );// Now we can try to wake some process.
 
-    if( sem->blocked )
+    if( BGRT_ST_EEMPTY == ret )
     {
-        sem->blocked--;
-        ret = BGRT_ST_ROLL;
-    }
-    else
-    {
+        bgrt_disable_interrupts();
+        BGRT_SPIN_LOCK( sem );
+
         sem->counter++;
         ret = BGRT_ST_OK;
+
+        BGRT_SPIN_FREE( sem );
+        bgrt_enable_interrupts();
     }
-
-    BGRT_SPIN_FREE( sem );
-    bgrt_enable_interrupts();
-
-    if( ret == BGRT_ST_ROLL )
-    {
-        bgrt_st_t clr_own;
-        BGRT_PID_T dummy = BGRT_PID_NOTHING;
-
-        clr_own = BGRT_SYNC_OWN( sem, 0 );
-
-        BGRT_SYNC_WAIT( sem, &dummy, 1, ret );// If wait list is empty (race condition), then caller will block.
-
-        if( BGRT_ST_OK != ret )
-        {
-            goto end;
-        }
-        BGRT_SYNC_WAKE( sem,  BGRT_PID_NOTHING, 0, ret );// Now we can wake some process.
-
-        if( BGRT_ST_OK == clr_own )
-        {
-            BGRT_SYNC_SET_OWNER( sem, 0 );
-        }
-    }
-end:
     bgrt_proc_free();
     return ret;
 }
@@ -226,31 +200,22 @@ bgrt_st_t sem_free_isr( sem_t * sem )
     }
 
     BGRT_SPIN_LOCK( sem );
-
+    //Check owner
     if( ((bgrt_sync_t *)sem)->owner )
     {
-        BGRT_SPIN_FREE( sem );
-        return BGRT_ST_EOWN;
-    }
-
-    if( sem->blocked )
-    {
-        sem->blocked--;
-        ret = BGRT_ST_ROLL;
+        ret = BGRT_ST_EOWN;
     }
     else
     {
-        sem->counter++;
-        ret = BGRT_ST_OK;
+        // Now we can wake some process. )
+        ret = _bgrt_sync_wake( (bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0 );
+        if( BGRT_ST_EEMPTY == ret )
+        {
+            sem->counter++;
+            ret = BGRT_ST_OK;
+        }
     }
-
     BGRT_SPIN_FREE( sem );
 
-    BGRT_KERNEL_PREEMPT();
-
-    if( ret == BGRT_ST_ROLL )
-    {
-        ret = _bgrt_sync_wake( (bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0 );// Now we can wake some process.
-    }
     return ret;
 }

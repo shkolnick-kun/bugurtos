@@ -114,7 +114,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SYSCALL_SYNC_WAIT                      (BGRT_SYSCALL_SYNC_WAKE + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Подождать блокировки процесса на объекте типа #bgrt_sync_t. \~english \brief Wait for process to block on #bgrt_sync_t object*/
 #define BGRT_SYSCALL_SYNC_PROC_TIMEOUT              (BGRT_SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
 
-#define BGRT_SYSCALL_USER                                (BGRT_SYSCALL_SYNC_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
+#define BGRT_SYSCALL_USER                           (BGRT_SYSCALL_SYNC_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 /*!
 \~russian
 \brief
@@ -457,7 +457,7 @@ typedef struct
     bgrt_sync_t * sync;
     bgrt_flag_t touch;
     bgrt_st_t status;
-}bgrt_sync_own_t;
+}bgrt_sync_own_sleep_t;
 /*****************************************************************************************/
 /*!
 \~russian
@@ -471,7 +471,7 @@ A #BGRT_SYSCALL_SYNC_OWN handler.
 
 This function calls #_bgrt_sync_own.
 */
-void bgrt_scall_sync_own( bgrt_sync_own_t * arg );
+void bgrt_scall_sync_own( bgrt_sync_own_sleep_t * arg );
 #define BGRT_SYNC_OWN(s,t) bgrt_sync_own( (bgrt_sync_t *)(s), (bgrt_flag_t)(t) ) /*!< \~russian \brief Смотри #bgrt_sync_own. \~english \brief Watch #bgrt_sync_own. */
 /*****************************************************************************************/
 /*!
@@ -502,23 +502,7 @@ A #BGRT_SYSCALL_SYNC_TOUCH handler.
 This function calls #_bgrt_sync_touch.
 */
 void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg );
-#define BGRT_SYNC_TOUCH(s,t) bgrt_sync_touch( (bgrt_sync_t *)(s) )
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Для внутреннего пользования.
-
-\~english
-\brief
-For internal usage.
-*/
-typedef struct
-{
-    bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
-    bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
-}
-bgrt_sync_sleep_t;
+#define BGRT_SYNC_TOUCH(s) bgrt_sync_touch( (bgrt_sync_t *)(s) )
 /*****************************************************************************************/
 /*!
 \~russian
@@ -532,8 +516,8 @@ A #BGRT_SYSCALL_SYNC_SLEEP handler.
 
 This function calls #_bgrt_sync_sleep.
 */
-void bgrt_scall_sync_sleep( bgrt_sync_sleep_t * arg );
-#define BGRT_SYNC_SLEEP(s) bgrt_sync_sleep((bgrt_sync_t *)s) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
+void bgrt_scall_sync_sleep( bgrt_sync_own_sleep_t * arg );
+#define BGRT_SYNC_SLEEP(s,t) bgrt_sync_sleep((bgrt_sync_t *)(s), (bgrt_flag_t)(t)) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
 /*****************************************************************************************/
 /*!
 \~russian

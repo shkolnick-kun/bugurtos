@@ -105,7 +105,6 @@ Other process can launch one or all processes blocked on conditional variable.
 struct _cond_t
 {
     bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-    bgrt_cnt_t blocked; /*!< \~russian Счетчик ожидающих процессов. \~english A list of blocked processes. */
 };
 /*!
 \~russian

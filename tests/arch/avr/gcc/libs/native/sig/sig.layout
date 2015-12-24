@@ -14,43 +14,43 @@
 		<Cursor position="6682" topLine="77" />
 	</File>
 	<File name="../../../../../../../kernel/proc.c" open="0" top="0" tabpos="7">
-		<Cursor position="10741" topLine="222" />
+		<Cursor position="12521" topLine="295" />
 	</File>
-	<File name="../../../../../../../kernel/proc.h" open="1" top="0" tabpos="5">
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
 		<Cursor position="35471" topLine="636" />
 	</File>
-	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="2">
-		<Cursor position="26310" topLine="804" />
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="7">
+		<Cursor position="22384" topLine="744" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="9">
-		<Cursor position="18948" topLine="360" />
+		<Cursor position="18806" topLine="360" />
 	</File>
-	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="1">
-		<Cursor position="7607" topLine="116" />
+	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="6">
+		<Cursor position="20034" topLine="398" />
 	</File>
-	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="6">
-		<Cursor position="7755" topLine="82" />
+	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="3">
+		<Cursor position="25987" topLine="536" />
 	</File>
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6857" topLine="93" />
 	</File>
-	<File name="../../../../../../../libs/native/cond.c" open="0" top="0" tabpos="1">
-		<Cursor position="7452" topLine="137" />
+	<File name="../../../../../../../libs/native/cond.c" open="0" top="0" tabpos="2">
+		<Cursor position="6542" topLine="76" />
 	</File>
 	<File name="../../../../../../../libs/native/cond.h" open="0" top="0" tabpos="1">
-		<Cursor position="10471" topLine="183" />
+		<Cursor position="7349" topLine="87" />
 	</File>
 	<File name="../../../../../../../libs/native/mutex.c" open="0" top="0" tabpos="10">
-		<Cursor position="6902" topLine="101" />
+		<Cursor position="7050" topLine="104" />
 	</File>
 	<File name="../../../../../../../libs/native/mutex.h" open="0" top="0" tabpos="4">
-		<Cursor position="10731" topLine="176" />
+		<Cursor position="10731" topLine="87" />
 	</File>
 	<File name="../../../../../../../libs/native/sig.c" open="0" top="0" tabpos="5">
-		<Cursor position="7197" topLine="61" />
+		<Cursor position="7098" topLine="46" />
 	</File>
 	<File name="../../../../../../../libs/native/sig.h" open="0" top="0" tabpos="2">
-		<Cursor position="9504" topLine="173" />
+		<Cursor position="9504" topLine="84" />
 	</File>
 	<File name="../../../test_func.c" open="0" top="0" tabpos="2">
 		<Cursor position="2661" topLine="103" />
@@ -58,7 +58,7 @@
 	<File name="../../../test_func.h" open="0" top="0" tabpos="4">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="842" topLine="46" />
+	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="4">
+		<Cursor position="1039" topLine="17" />
 	</File>
 </CodeBlocks_layout_file>

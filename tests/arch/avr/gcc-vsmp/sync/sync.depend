@@ -141,11 +141,11 @@
 
 1450335440 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
 
-1450790940 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+1450956463 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
 
 1449750701 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
 
-1450331583 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+1450953599 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
 
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/avr/gcc-vsmp/vsmp.c
 	<bugurt.h>
@@ -180,10 +180,10 @@
 1450329780 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1450805506 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1450960342 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
-1450331807 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
+1450956484 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
 	"bugurt.h"
 
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.c
@@ -195,7 +195,7 @@
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
 	<test_func.h>
 
-1450797350 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
+1450959004 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 
 1449830318 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/bugurt_config.h

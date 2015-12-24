@@ -104,7 +104,7 @@ bgrt_st_t ipc_send( ipc_t * out, void * msg )
 
     bgrt_proc_lock();
 
-    ret = BGRT_SYNC_SLEEP( out );
+    ret = BGRT_SYNC_SLEEP( out, 0 );
 
     if( BGRT_ST_OK != ret )
     {
@@ -113,7 +113,7 @@ bgrt_st_t ipc_send( ipc_t * out, void * msg )
     }
 
     out->msg = msg;
-    ret = BGRT_SYNC_SLEEP( out );
+    ret = BGRT_SYNC_SLEEP( out, 0 );
 
     bgrt_proc_free();
     return ret;
