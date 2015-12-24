@@ -344,7 +344,7 @@ void bgrt_scall_sync_get_owner( bgrt_sync_owner_t * arg )
 **********************************************************************************************/
 bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
 {
-    bgrt_sync_own_t scarg;
+    bgrt_sync_own_sleep_t scarg;
     scarg.status = BGRT_ST_EOWN;
     scarg.sync = sync;
     scarg.touch = touch;
@@ -352,7 +352,7 @@ bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
     return scarg.status;
 }
 //========================================================================================
-void bgrt_scall_sync_own( bgrt_sync_own_t * arg )
+void bgrt_scall_sync_own( bgrt_sync_own_sleep_t * arg )
 {
     arg->status = _bgrt_sync_own( arg->sync, arg->touch );
 }
@@ -375,11 +375,12 @@ void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg )
 /**********************************************************************************************
                                  BGRT_SYSCALL_SYNC_SLEEP
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync )
+bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch )
 {
-    volatile bgrt_sync_sleep_t scarg;
+    volatile bgrt_sync_own_sleep_t scarg;
     scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
+    scarg.touch = touch;
     do
     {
         bgrt_syscall( BGRT_SYSCALL_SYNC_SLEEP, (void *)&scarg );
@@ -388,9 +389,9 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync )
     return scarg.status;
 }
 //========================================================================================
-void bgrt_scall_sync_sleep( bgrt_sync_sleep_t * arg )
+void bgrt_scall_sync_sleep( bgrt_sync_own_sleep_t * arg )
 {
-    arg->status = _bgrt_sync_sleep( arg->sync );
+    arg->status = _bgrt_sync_sleep( arg->sync, &arg->touch );
 }
 /**********************************************************************************************
                                     BGRT_SYSCALL_SYNC_WAKE

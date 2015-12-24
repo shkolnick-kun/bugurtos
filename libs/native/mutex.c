@@ -100,7 +100,7 @@ bgrt_st_t mutex_try_lock( mutex_t * mutex )
 
     ret = BGRT_SYNC_OWN( mutex, 0 );
 
-    if( ret == BGRT_ST_OK )
+    if( BGRT_ST_OK == ret )
     {
         bgrt_proc_lock(); //Now process must not stop!
     }
@@ -118,9 +118,9 @@ bgrt_st_t mutex_lock( mutex_t * mutex )
 
     ret = BGRT_SYNC_OWN( mutex, 1 ); //Try to lock mutex
 
-    if( ret == BGRT_ST_ROLL )
+    if( BGRT_ST_ROLL == ret )
     {
-        ret = BGRT_SYNC_SLEEP( mutex );
+        ret = BGRT_SYNC_SLEEP( mutex, 1 );
     }
 
     return ret;

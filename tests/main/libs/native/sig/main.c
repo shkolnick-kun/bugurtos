@@ -55,7 +55,7 @@ void main_bgrt_proc_test( void * arg )
     test_var_sig = 0;
     test_hook = test_inc;
     status = sig_broadcast( &test_sig );
-    test_output( BGRT_ST_EEMPTY == status, 7);
+    test_output( BGRT_ST_OK == status, 7);
 
     bgrt_wait_time( 20 );
     test_output( (4 == test_var_sig), 8 );

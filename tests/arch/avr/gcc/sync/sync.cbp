@@ -27,6 +27,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Os" />
 			<Add option="-pedantic" />
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
