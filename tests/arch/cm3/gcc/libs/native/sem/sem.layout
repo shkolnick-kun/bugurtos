@@ -16,9 +16,6 @@
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="13744" topLine="311" />
 	</File>
-	<File name="../../../../../../../kernel/syscall.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
 	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="20821" topLine="397" />
 	</File>
@@ -32,6 +29,6 @@
 		<Cursor position="21" topLine="0" />
 	</File>
 	<File name="../../../../../../main/libs/native/sem/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2252" topLine="60" />
+		<Cursor position="2357" topLine="60" />
 	</File>
 </CodeBlocks_layout_file>

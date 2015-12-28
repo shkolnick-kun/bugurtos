@@ -2,19 +2,19 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="1">
-		<Cursor position="5996" topLine="133" />
+		<Cursor position="9165" topLine="205" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="16405" topLine="420" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="1">
-		<Cursor position="6808" topLine="86" />
+		<Cursor position="6700" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6635" topLine="71" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
-		<Cursor position="6754" topLine="74" />
+		<Cursor position="6850" topLine="82" />
 	</File>
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="0">
 		<Cursor position="6810" topLine="86" />
@@ -32,7 +32,7 @@
 		<Cursor position="16848" topLine="353" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
-		<Cursor position="8689" topLine="163" />
+		<Cursor position="6821" topLine="106" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="32167" topLine="777" />
@@ -44,7 +44,7 @@
 		<Cursor position="11697" topLine="114" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
-		<Cursor position="6931" topLine="93" />
+		<Cursor position="6591" topLine="93" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6424" topLine="63" />
@@ -56,6 +56,6 @@
 		<Cursor position="498" topLine="4" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="907" topLine="0" />
+		<Cursor position="974" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
