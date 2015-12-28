@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="6486" topLine="125" />
+		<Cursor position="6741" topLine="125" />
 	</File>
 	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="7757" topLine="129" />
@@ -34,13 +34,10 @@
 	<File name="../../../../../../../kernel/syscall.h" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../../../kernel/timer.c" open="1" top="0" tabpos="2">
-		<Cursor position="6481" topLine="85" />
-	</File>
-	<File name="../../../../../../../kernel/xlist.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="2">
+		<Cursor position="7207" topLine="92" />
 	</File>
 	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="1971" topLine="70" />
+		<Cursor position="2067" topLine="70" />
 	</File>
 </CodeBlocks_layout_file>

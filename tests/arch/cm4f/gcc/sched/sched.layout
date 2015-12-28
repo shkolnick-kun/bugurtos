@@ -5,7 +5,7 @@
 		<Cursor position="6785" topLine="154" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
-		<Cursor position="6659" topLine="78" />
+		<Cursor position="6733" topLine="78" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6321" topLine="67" />
@@ -20,7 +20,7 @@
 		<Cursor position="7719" topLine="116" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="2">
-		<Cursor position="6727" topLine="85" />
+		<Cursor position="7207" topLine="92" />
 	</File>
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -32,6 +32,6 @@
 		<Cursor position="771" topLine="15" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="692" topLine="48" />
+		<Cursor position="974" topLine="16" />
 	</File>
 </CodeBlocks_layout_file>
