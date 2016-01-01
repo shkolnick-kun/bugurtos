@@ -199,11 +199,11 @@ Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 \~russian
 \brief Макрос-обертка.
 
-Обертка функции #resched.
+Обертка функции #bgrt_resched.
 \~english
 \brief Wrapper macro.
 
-A wrapper for #resched function.
+A wrapper for #bgrt_resched function.
 */
 
 #ifdef BGRT_CONFIG_MP

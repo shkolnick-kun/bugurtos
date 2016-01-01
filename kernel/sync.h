@@ -182,7 +182,7 @@ BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync );
 Назначить хозяина объекта типа #bgrt_sync_t.
 
 \param sync Указатель на объект типа #bgrt_sync_t.
-\param proc Указатель на новый процесс-хозяин объекта типа #bgrt_sync_t.
+\param pid Уникальный идентификатор нового процесса-хозяин объекта типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
@@ -190,7 +190,7 @@ BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync );
 Set #bgrt_sync_t object owner.
 
 \param sync A pointer to the object of interest.
-\param proc A pointer to new #bgrt_sync_t object owner.
+\param pid A unique ID of new #bgrt_sync_t object owner.
 \return #BGRT_ST_OK on sucess, or error code.
 */
 bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
@@ -200,6 +200,7 @@ bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
 Завладеть объектом типа #bgrt_sync_t.
 
 \param sync Указатель на объект типа #bgrt_sync_t.
+\param touch Если не 0, - пометить sync, как "грязный" случае неудачи.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
@@ -207,6 +208,7 @@ bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
 Own #bgrt_sync_t object.
 
 \param sync A pointer to the object of interest.
+\param touch If not 0 rhen mark sync as dirty on fail.
 \return #BGRT_ST_OK if on success, or error code.
 */
 bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
@@ -234,6 +236,7 @@ bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync );
 Блокирует вызывающий процесс.
 
 \param sync Указатель на объект типа #bgrt_sync_t.
+\param touch Если не 0, то sync был помечен, как "грязный".
 \return #BGRT_ST_OK в случае успеха, иначе - код ошибки.
 
 \~english
@@ -255,7 +258,7 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch );
 Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
 
 \param sync Указатель на объект типа #bgrt_sync_t.
-\param proc Двойной указатель на процесс, который надо подождать, если *proc==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
+\param pid Указатель на изенитификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
 \return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
@@ -266,7 +269,7 @@ Sleep to wait for synchronization.
 Wait until target process is blocked on target #bgrt_sync_t object.
 
 \param sync A #bgrt_sync_t object pointer.
-\param pid A double pointer to a process, that is supposed to block. If *pid is zero, then caller may wait for first process to block on #bgrt_sync_t object.
+\param pid A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
 \param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
 \return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, #BGRT_ST_ROLL if caller must wait for target process to block, or error code.
 */

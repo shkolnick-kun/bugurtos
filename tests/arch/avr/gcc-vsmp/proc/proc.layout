@@ -19,9 +19,6 @@
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="22937" topLine="507" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
-		<Cursor position="0" topLine="0" />
-	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="7522" topLine="107" />
 	</File>
