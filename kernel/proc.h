@@ -159,7 +159,7 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 
 \note Может проверять идентификатор процесса на допустимость.
 
-\param Уникальный идентификатор процесса.
+\param p Уникальный идентификатор процесса.
 \return Указатель на объект типа #bgrt_proc_t, или нулевой указатель.
 
 \def BGRT_PROC_TO_PID
@@ -167,8 +167,11 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 
 \note Может проверять допустимость значения указателя.
 
-\param Указатель на объект типа #bgrt_proc_t.
+\param p Указатель на объект типа #bgrt_proc_t.
 \return Уникальный идентификатор процесса.
+
+\def BGRT_PID_NOTHING
+\brief Пустой идентификатор процесса.
 
 \~english
 
@@ -180,7 +183,7 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 
 \note This macro may check the process ID for validity.
 
-\param A process ID.
+\param p A process ID.
 \return The #bgrt_proc_t pointer or a zero pointer.
 
 \def BGRT_PROC_TO_PID
@@ -188,8 +191,11 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 
 \note This macro may check the #bgrt_proc_t pointer for validity.
 
-\param A #bgrt_proc_t pointer.
+\param p A #bgrt_proc_t pointer.
 \return The process ID.
+
+\def BGRT_PID_NOTHING
+\brief An empty process ID.
 */
 #ifndef BGRT_PID_T
 #define BGRT_PID_T bgrt_proc_t *
@@ -268,7 +274,16 @@ struct _bgrt_proc_t
 This flag enables real time process scheduling policy.
 */
 #define BGRT_PROC_FLG_RT         ((bgrt_flag_t)0x80)
+/*!
+\~russian
+\brief Флаг карусельной многозадачности.
 
+Если выставлен этот влаг, то используется карусельная многозадачность, если нет - ФИФО.
+\~english
+\brief A round-robbin flag.
+
+If this flag is set, then round robbin scheduling is used, else FIFO a process is scheduled in fifo manner.
+*/
 #define BGRT_PROC_FLG_RR   ((bgrt_flag_t)0x40)
 /*!
 \~russian
@@ -880,7 +895,7 @@ bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
 
 \warning Для внутреннего использования.
 
-\param pid - Идентификатор процесса.
+\param proc - Указатель на процесс.
 \return - Значение приоритета процесса.
 
 \~english
@@ -888,7 +903,7 @@ bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
 
 \warning For internal usage.
 
-\param pid - A process ID.
+\param proc - A process pointer.
 \return - A process priority value.
 */
 bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc );

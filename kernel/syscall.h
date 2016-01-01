@@ -129,8 +129,8 @@ System call processing routine.
 This function calls system call handlers and passes arguments to them.
 */
 void bgrt_do_syscall(
-                bgrt_syscall_t syscall_num,  /*!< \~russian \brief Номер системного вызова. \~english \brief System call number.*/
-                void * syscall_arg      /*!< \~russian \brief Aргумент системного вызова. \~english \brief System call argument.*/
+                bgrt_syscall_t syscall_num,  /*!< \~russian Номер системного вызова. \~english System call number.*/
+                void * syscall_arg      /*!< \~russian Aргумент системного вызова. \~english System call argument.*/
                 );
 
 /*****************************************************************************************/
@@ -256,7 +256,7 @@ void bgrt_scall_proc_terminate( void * arg );
 \brief
 A #BGRT_SYSCALL_PROC_LOCK handler.
 
-Sets #BGRT_PROC_FLG_NONSTOP for caller process, increases proc->lres counter.
+Sets #BGRT_PROC_FLG_LOCK for caller process, increases proc->lres counter.
 */
 void bgrt_scall_proc_lock( void * arg );
 /*****************************************************************************************/
@@ -300,6 +300,15 @@ This function calls #_bgrt_proc_reset_watchdog.
 */
 void bgrt_scall_proc_reset_watchdog( void * arg );
 /*****************************************************************************************/
+/*!
+\~russian
+\brief
+Аргумент вызова #BGRT_SYSCALL_PROC_GET_PRIO.
+
+\~english
+\brief
+A #BGRT_SYSCALL_PROC_GET_PRIO argument.
+*/
 typedef struct{
     BGRT_PID_T pid;          /*!< \~russian Идентификатор процесса. \~english A process ID. */
     bgrt_prio_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
@@ -614,26 +623,6 @@ do                                                              \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE_AND_SLEEP.
-\~english
-\brief
-A #BGRT_SYSCALL_SYNC_WAKE_AND_SLEEP handler.
-*/
-void bgrt_scall_sync_wake_and_sleep( void * arg );
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Обработчик вызова #BGRT_SYSCALL_SYNC_WAKE_AND_WAIT.
-\~english
-\brief
-A #BGRT_SYSCALL_SYNC_WAKE_AND_WAIT handler.
-*/
-void bgrt_scall_sync_wake_and_wait( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian

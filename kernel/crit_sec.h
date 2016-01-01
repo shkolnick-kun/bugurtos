@@ -114,7 +114,8 @@ Critical sections may be nested, in this case interrupts get enabled on exit fro
 A critical section start.
 \warning Must be used on a start of a code block!
 \warning All local variables must be declared before #BGRT_CRIT_SEC_ENTER, and all executable code must be below it.
-
+*/
+/*!
 \def BGRT_CRIT_SEC_EXIT()
 \~russian
 \brief Макрос-обертка.
@@ -171,23 +172,15 @@ void _bgrt_crit_sec_exit(bgrt_cpuid_t core);
 /*!
 \~russian
 \brief Вход в критическую секцию.
-
-Вход в критическую секцию.
 \~english
 \brief A critical section start.
-
-A critical section start.
 */
 void bgrt_crit_sec_enter(void);
 /*!
 \~russian
 \brief Выход из критической секции.
-
-Вход в критическую секцию.
 \~english
 \brief A critical section end.
-
-A critical section end.
 */
 void bgrt_crit_sec_exit(void);
 #endif // BGRT_CONFIG_MP

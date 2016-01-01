@@ -158,7 +158,7 @@ To deal with common resources, events and time user needs some synchronization p
 BuguRTOS-0.8.x kernel provides following primitives:
  1. software timers for time management;
  2. critical sections for fast data access control;
- 3. basic synchronization primitive (sync_t) which can be used to construct conventional ones such as mutex, semaphore etc.
+ 3. basic synchronization primitive (bgrt_sync_t) which can be used to construct conventional ones such as mutex, semaphore etc.
 
 Software timers and critical sections are supposed to be used directly.
 
