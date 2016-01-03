@@ -269,13 +269,13 @@ and enabled on last critical section exit.
 A program is supposed to exit critical sections **as fast as possible**.
 
 #####Basic synchronization primitive.
-BuguRTOS kernel provides **sync_t** primitive for library usage.
+BuguRTOS kernel provides **bgrt_sync_t** primitive for library usage.
 It is documented in BuguRTOS API reference manual, check releases on the project page.
-Also you can see **native** lib for examples of **sync_t** usage.
+Also you can see **native** lib for examples of **bgrt_sync_t** usage.
 
 ####Generic lib synchronization primitives.
 There are some primitives, implemented in **native** lib.
-All these primitives use **sync_t** primitive, provided by BuguRTOS kernel.
+All these primitives use **bgrt_sync_t** primitive, provided by BuguRTOS kernel.
 
 #####Mutexes.
 Mutex is mutual exclusion primitive.
@@ -322,7 +322,7 @@ status = sem_lock( &some_sem );    /*This function locks semaphore, caller is bl
 status = sem_free( &some_sem );    /*This function frees semaphore, if there are blocked processes,
                                    then most prioritized of them gets resumed.*/
 
-/*Semaphore in BuguRTOS may have an owner process, as sync_t is used as sem_t parent type.*/
+/*Semaphore in BuguRTOS may have an owner process, as bgrt_sync_t is used as sem_t parent type.*/
 SYNC_SET_OWNER( &some_sem, &some_proc ); /*This macro assigns an owner*/
 SYNC_CLEAR_OWNER( &some_sem );           /*This macro clears an owner*/
 ```
@@ -363,7 +363,7 @@ status = mutex_lock( &some_mutex );            /*Mutex must be locked.*/
 status = cond_broadcast( &some_cond );         /*Wake up all waiting processes.*/
 status = mutex_free( &some_mutex );            /*Must free the mutex*/
 
-/*Conditional in BuguRTOS may have an owner process, as sync_t is used as cond_t parent type.*/
+/*Conditional in BuguRTOS may have an owner process, as bgrt_sync_t is used as cond_t parent type.*/
 SYNC_SET_OWNER( &some_cond, &some_proc ); /*This macro assigns an owner*/
 SYNC_CLEAR_OWNER( &some_cond );           /*This macro clears an owner*/
 ```
