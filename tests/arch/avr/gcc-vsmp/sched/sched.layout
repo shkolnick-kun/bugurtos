@@ -7,7 +7,7 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="6229" topLine="70" />
 	</File>
-	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="4">
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="7">
 		<Cursor position="7531" topLine="124" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
@@ -67,11 +67,11 @@
 	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
 		<Cursor position="19590" topLine="609" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
 		<Cursor position="18569" topLine="389" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="1" tabpos="2">
-		<Cursor position="18394" topLine="354" />
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
+		<Cursor position="18394" topLine="240" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="3">
 		<Cursor position="15960" topLine="372" />
@@ -88,7 +88,7 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="7">
 		<Cursor position="7895" topLine="149" />
 	</File>
-	<File name="../test_func.c" open="0" top="0" tabpos="1">
+	<File name="../test_func.c" open="1" top="0" tabpos="1">
 		<Cursor position="3197" topLine="205" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">

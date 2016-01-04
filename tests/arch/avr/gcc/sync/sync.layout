@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="126" />
+	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="9692" topLine="189" />
 	</File>
@@ -56,7 +59,7 @@
 		<Cursor position="6841" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="24521" topLine="117" />
+		<Cursor position="20084" topLine="528" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="18398" topLine="340" />
@@ -80,9 +83,9 @@
 		<Cursor position="0" topLine="148" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
-		<Cursor position="2965" topLine="137" />
+		<Cursor position="1896" topLine="70" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="30653" topLine="816" />
+	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="15119" topLine="587" />
 	</File>
 </CodeBlocks_layout_file>
