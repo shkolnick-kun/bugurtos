@@ -120,7 +120,7 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
     return ret;
 }
 //========================================================================================
-//Fing most loaded bgrt_ls_t object in an array
+//Find most loaded bgrt_ls_t object in an array
 WEAK bgrt_cpuid_t bgrt_sched_highest_load_core( bgrt_ls_t * stat )
 {
     load_t max_load;

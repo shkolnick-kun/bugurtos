@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 \~russian
 BuguRTOS - ядро операционной системы реального времени. Написано анонимусом ДЛЯ УДОВОЛЬСТВИЯ.
-\warning Распространяется под измененной лицензией GPLv3, смотрите exception.txt.
+\warning Распространяется под изменённой лицензией GPLv3, смотрите exception.txt.
 
 \~english
 The BuguRTOS is a RTOS bgrt_kernel. It is written by anonymous JUST FOR FUN.
@@ -164,9 +164,9 @@ typedef void (* bgrt_code_t)(void *);
 /*!
 \def BGRT_SPIN_INIT(arg)
 \~russian
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Обертка инициализации спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
+Обёртка инициализации спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
 \~english
 \brief Wrapper macro.
 
@@ -175,9 +175,9 @@ Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
 /*!
 \def BGRT_SPIN_LOCK(arg)
 \~russian
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Обертка захвата спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
+Обёртка захвата спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
 \~english
 \brief Wrapper macro.
 
@@ -186,9 +186,9 @@ Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 /*!
 \def BGRT_SPIN_FREE(arg)
 \~russian
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Обертка освобождения спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
+Обёртка освобождения спин-блокировки arg->lock, на однопроцессорной системе - пустой макрос.
 \~english
 \brief Wrapper macro.
 
@@ -197,9 +197,9 @@ Lock wrapper for arg->lock spinlock. Empty macro in single core system.
 /*!
 \def BGRT_RESCHED_PROC(arg)
 \~russian
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Обертка функции #bgrt_resched.
+Обёртка функции #bgrt_resched.
 \~english
 \brief Wrapper macro.
 
@@ -310,7 +310,7 @@ extern bgrt_cpuid_t bgrt_current_cpu(void);
 /*!
 \~russian
 \brief
-Инициализция статистики
+Инициализация статистики
 
 Инициализирует структуру bgrt_ls_t, в которой хранится статистика.
 
@@ -400,9 +400,9 @@ extern void bgrt_stat_merge(bgrt_ls_t * src_stat, bgrt_ls_t * dst_stat);
 /*!
 \~russian
 \brief
-Расчет нагрузки.
+Расчёт нагрузки.
 
-Расчет нагрузки на одном процессорном ядре.
+Расчёт нагрузки на одном процессорном ядре.
 
 \warning Для внутреннего использования.
 
@@ -469,7 +469,7 @@ extern void bgrt_resched(void);
 \brief
 Запрет прерываний.
 
-Запрет прерфваний на текущем процессорном ядре.
+Запрет прерываний на текущем процессорном ядре.
 \~english
 \brief
 Interrupt disable.
@@ -574,7 +574,7 @@ extern void bgrt_start(void);
 Соответственно, если мы хотим выполнить какие либо операции над процессами, мьютексами, семафорами, сигналами,
 то нам нужно "попросить" Ядро сделать эту работу.
 
-Именно для этого существует функция bgrt_syscall, которая передает управление Ядру для выполнения требуемой работы.
+Именно для этого существует функция bgrt_syscall, которая передаёт управление Ядру для выполнения требуемой работы.
 
 \warning Для внутреннего использования.
 

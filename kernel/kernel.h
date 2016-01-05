@@ -131,7 +131,7 @@ extern bgrt_kernel_t bgrt_kernel;
 /*!
 \~russian
 \brief
-Инициализация Ядра.
+Инициализация ядра.
 
 Готовит ядро к запуску.
 

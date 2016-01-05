@@ -90,24 +90,24 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \~russian
 
 \def BGRT_PROC_LRES_INIT(a)
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
 Инициирует поле proc->lres процесса.
 
 \param a указатель на процесс.
 
 \def BGRT_PROC_LRES_INC(a,b)
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Инкремент счетчика proc->lres.
+Инкремент счётчика proc->lres.
 
 \param a указатель на процесс.
 \param b приоритет объекта типа #bgrt_sync_t.
 
 \def BGRT_PROC_LRES_DEC(a,b)
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Декремент счетчика proc->lres.
+Декремент счётчика proc->lres.
 
 \param a указатель на процесс.
 \param b приоритет объекта типа #bgrt_sync_t.
@@ -237,11 +237,11 @@ struct _bgrt_proc_t
     bgrt_pitem_t parent;     /*!<\~russian Родитель - #bgrt_pitem_t. \~english A parent is #bgrt_pitem_t.*/
     bgrt_flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
     bgrt_prio_t base_prio;     /*!<\~russian  Базовый приоритет. \~english A base process priority.*/
-    bgrt_pcounter_t lres;     /*!<\~russian  Счетчик захваченных ресурсов. \~english A locked resource counter.*/
+    bgrt_pcounter_t lres;     /*!<\~russian  Счётчик захваченных ресурсов. \~english A locked resource counter.*/
     bgrt_tmr_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     bgrt_tmr_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     struct _bgrt_sync_t * sync;
-    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счетчик уровней вложенности #bgrt_proc_lock. \~english A counter of #bgrt_proc_lock nesting.*/
+    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #bgrt_proc_lock. \~english A counter of #bgrt_proc_lock nesting.*/
 #ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
     bgrt_cpuid_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
@@ -267,7 +267,7 @@ struct _bgrt_proc_t
 \~russian
 \brief Флаг реального времени.
 
-Для этого процесса используется политика планирования жесткого реального времени.
+Для этого процесса используется политика планирования жёсткого реального времени.
 \~english
 \brief A real time flag.
 
@@ -278,11 +278,11 @@ This flag enables real time process scheduling policy.
 \~russian
 \brief Флаг карусельной многозадачности.
 
-Если выставлен этот влаг, то используется карусельная многозадачность, если нет - ФИФО.
+Если выставлен этот флаг, то используется карусельная многозадачность, если нет - ФИФО.
 \~english
-\brief A round-robbin flag.
+\brief A round-robin flag.
 
-If this flag is set, then round robbin scheduling is used, else FIFO a process is scheduled in fifo manner.
+If this flag is set, then round-robin scheduling is used, else FIFO a process is scheduled in fifo manner.
 */
 #define BGRT_PROC_FLG_RR   ((bgrt_flag_t)0x40)
 /*!
@@ -293,14 +293,14 @@ If this flag is set, then round robbin scheduling is used, else FIFO a process i
 \~english
 \brief A process stop lock flag.
 
-A process can not be stoped at the moment.
+A process can not be stopped at this moment.
 */
 #define BGRT_PROC_FLG_LOCK      ((bgrt_flag_t)0x20)
 /*!
 \~russian
 \brief Флаг запроса останова.
 
-Произошел запрос на останов процесса. Процесс будет остановлен при первой же возможности.
+Произошёл запрос на останов процесса. Процесс будет остановлен при первой же возможности.
 \~english
 \brief A process stop preparation flag.
 
@@ -479,12 +479,12 @@ A process should not have locked resources at a moment of a flag stop.
 #define BGRT_PROC_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
 
 // Методы
-// Упраление счетчиком захваченных ресурсов, для внутреннего использования
+// Управление счётчиком захваченных ресурсов, для внутреннего использования
 /*!
 \~russian
 \brief Управление приоритетом процесса.
 
-Инкрементирует счетчик proc->lres, устанавливает флаг #BGRT_PROC_FLG_LOCK.
+Инкрементирует счётчик proc->lres, устанавливает флаг #BGRT_PROC_FLG_LOCK.
 
 \warning Для внутреннего использования.
 
@@ -506,7 +506,7 @@ void _bgrt_proc_lres_inc( bgrt_proc_t * proc ,bgrt_prio_t prio );
 \~russian
 \brief Управление приоритетом процесса.
 
-Декрементирует счетчик proc->lres, сбрасывает флаг #BGRT_PROC_FLG_LOCK при необходимости.
+Декрементирует счётчик proc->lres, сбрасывает флаг #BGRT_PROC_FLG_LOCK при необходимости.
 
 \warning Для внутреннего использования.
 
@@ -634,7 +634,7 @@ void _bgrt_proc_terminate( void );
 \~russian
 \brief Запуск процесса.
 
-Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
+Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, ещё не завершил работу, не был "убит"), и производит перепланировку.
 \param pid - Идентификатор процесса.
 \return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
@@ -670,7 +670,7 @@ bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc);
 \brief Перезапуск процесса.
 
 Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #bgrt_proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
-\param pid - Идентификатор процусса.
+\param pid - Идентификатор процесса.
 \return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
@@ -696,7 +696,7 @@ bgrt_st_t bgrt_proc_restart(BGRT_PID_T pid);
 This function reinitializes a process and schedules it if possible.
 
 \param proc - A pointer to a process to launch.
-\return BGRT_ST_OK - if a process has been scheduled, erroro code in other cases.
+\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
 bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc);
 /*!
