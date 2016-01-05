@@ -135,7 +135,7 @@
 
 1451651899 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
 
-1451654301 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+1451969774 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
 
 1450330794 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
 
@@ -177,10 +177,10 @@
 1450329681 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.c
 	"bugurt.h"
 
-1450329780 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
+1451967735 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
 	"bugurt.h"
 
-1451915769 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+1451979981 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
 	"bugurt.h"
 
 1450956484 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
@@ -195,7 +195,7 @@
 1449750701 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/test_func.c
 	<test_func.h>
 
-1451909321 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
+1451981607 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/bsync/main.c
 	<test_func.h>
 
 1449830318 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/avr/gcc-vsmp/bugurt_config.h

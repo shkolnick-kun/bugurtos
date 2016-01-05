@@ -140,8 +140,8 @@ A decrement of proc->lres.
 */
 
 #define BGRT_PROC_LRES_INIT(a) bgrt_pcounter_init( &((a)->lres) )
-#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), b )
-#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), b )
+#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), (bgrt_prio_t)b )
+#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), (bgrt_prio_t)b )
 
 //Процесс
 typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc_t; \~english See #_bgrt_proc_t; */

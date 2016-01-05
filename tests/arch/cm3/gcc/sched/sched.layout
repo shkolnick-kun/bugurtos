@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="6741" topLine="140" />
+		<Cursor position="6209" topLine="140" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="2">
 		<Cursor position="6733" topLine="86" />
@@ -17,7 +17,7 @@
 		<Cursor position="12033" topLine="267" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
-		<Cursor position="6506" topLine="92" />
+		<Cursor position="6591" topLine="92" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="87" />
@@ -29,6 +29,6 @@
 		<Cursor position="654" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="911" topLine="0" />
+		<Cursor position="883" topLine="19" />
 	</File>
 </CodeBlocks_layout_file>

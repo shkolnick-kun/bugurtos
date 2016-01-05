@@ -5,7 +5,7 @@
 		<Cursor position="6785" topLine="154" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
-		<Cursor position="6733" topLine="78" />
+		<Cursor position="6733" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6321" topLine="67" />
@@ -32,6 +32,6 @@
 		<Cursor position="771" topLine="15" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="974" topLine="16" />
+		<Cursor position="883" topLine="19" />
 	</File>
 </CodeBlocks_layout_file>
