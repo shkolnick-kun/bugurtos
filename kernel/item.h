@@ -110,7 +110,7 @@ struct _bgrt_item_t
 
    \~english
    Static item initiation.
-   \warning For internel usage.
+   \warning For internal usage.
    \param a An #bgrt_item_t variable name.
 */
 #define BGRT_ITEM_T_INIT(a) { (bgrt_item_t *)&a, (bgrt_item_t *)&a }

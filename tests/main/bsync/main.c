@@ -1041,9 +1041,9 @@ void main_2( void * arg )
     // 82,83,84,85,86
     bgrt_sync_touch( &bgrt_sync_1 );
     status[2] = BGRT_ST_ESTAT;
-    status[1] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 ); /// staus[1] is used!!!
-    status[3] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 ); /// staus[3] is used!!!
-    //status[3] = (2 == bgrt_sync_1.pwake);        /// staus[3] is used!!!
+    status[1] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 ); /// status[1] is used!!!
+    status[3] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 ); /// status[3] is used!!!
+    //status[3] = (2 == bgrt_sync_1.pwake);        /// status[3] is used!!!
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
     bgrt_proc_self_stop();
@@ -1089,7 +1089,7 @@ void main_2( void * arg )
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
     //bgrt_proc_self_stop();
 
-    ///Aditional tests
+    ///Additional tests
     //183, 184
     bgrt_sync_touch( &bgrt_sync_1 );
     bgrt_wait_time(10);
@@ -1142,9 +1142,9 @@ int main(void)
 {
     /**************************************************
     *          For test purposes only!!!              *
-    *  It is strongly recomended to initiate hardware *
-    *         AFTER bgrt_init() call!!!             *
-    **************************************************/
+    *  It is strongly recommended to initiate hardware *
+    *         AFTER bgrt_init() call!!!                *
+    ***************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.

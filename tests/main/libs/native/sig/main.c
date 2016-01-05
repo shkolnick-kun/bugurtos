@@ -100,7 +100,7 @@ int main(void)
     /***************************************************
     *          For test purposes only!!!               *
     *  It is strongly recommended to initiate hardware *
-    *         AFTER bgrt_init() call!!!              *
+    *         AFTER bgrt_init() call!!!                *
     ***************************************************/
     /*
      * This function disables interrupts

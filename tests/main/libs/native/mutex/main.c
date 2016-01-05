@@ -86,11 +86,11 @@ void bgrt_idle_main( void * arg )
 
 int main(void)
 {
-    /**************************************************
-    *          For test purposes only!!!              *
-    *  It is strongly recomended to initiate hardware *
-    *         AFTER bgrt_init() call!!!             *
-    **************************************************/
+    /***************************************************
+    *          For test purposes only!!!               *
+    *  It is strongly recommended to initiate hardware *
+    *         AFTER bgrt_init() call!!!                *
+    ***************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.

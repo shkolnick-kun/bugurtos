@@ -141,7 +141,7 @@ exit_nested: \
 // Подстановка вектора для шаблона обработчика прерывания
 #define BUGURT_VECTOR_STR(v) BUGURT_ARG_TO_STR( vector = (v) )
 
-// Шаблон обертки обработчика прерывания для внутреннего пользования
+// Шаблон обёртки обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
 _Pragma( BUGURT_VECTOR_STR(v) ) \
 __interrupt void BUGURT_CONCAT(vector_wrapper_,v)(void) \

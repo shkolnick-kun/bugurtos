@@ -177,7 +177,7 @@ bgrt_st_t mutex_try_lock( mutex_t * mutex );
 \brief
 Lock a mutex.
 
-If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freeed.
+If a mutex is free then caller process locks it and continues, else caller process stops and waits until mutex gets freed.
 
 \param mutex A mutex pointer.
 \return #BGRT_ST_OK on success, or error number.

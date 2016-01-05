@@ -216,7 +216,7 @@ BuguRTOS has preemptive scheduler, so most prioritized processes are executed fi
 If there are two or more processes of the same priority, they are executed in **fifo** manner, so first started process gets executed first.
 
 Every process has its own timer, which counts process execution time. A process may be preempted by a scheduler
-on every system timer tick (**round robbin** scheduling policy), or only when its timer expires (clean **fifo**
+on every system timer tick (**round-robin** scheduling policy), or only when its timer expires (clean **fifo**
 scheduling policy).
 
 In **real time** processes timer is used as watchdog, so when watchdog expires scheduler stops such process
@@ -290,8 +290,8 @@ status_t status;
 
 mutex_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
                                        one must use mutex_init_isr in critical sections etc.*/
-status = mutex_try_lock( &some_mutex );/*This funtion tries to lock mutex, caller is not blocked.*/
-status = mutex_lock( &some_mutex );    /*This funtion locks mutex, caller is blocked
+status = mutex_try_lock( &some_mutex );/*This function tries to lock mutex, caller is not blocked.*/
+status = mutex_lock( &some_mutex );    /*This function locks mutex, caller is blocked
                                        until mutex is free.*/
 status = mutex_free( &some_mutex );    /*This function frees mutex, if there are blocked processes,
                                        then mutex is passed to most prioritized of them.*/

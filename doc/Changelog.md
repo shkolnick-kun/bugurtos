@@ -1,6 +1,6 @@
 # Changelog #
   * 0.9.9
-    * Tests and arch filesystem structure made standartized;
+    * Tests and arch filesystem structure made standardized;
     * Added BUGURT_INTERRUPT macros to Cortex<sup>TM</sup>-Mx ports;
     * Added docs to main tree;
     * Name space changes:
@@ -9,19 +9,19 @@
       * Cleaned up namespace;
     * Enabled user code execution after bgrt_start (by not calling of bgrt_idle_main in bgrt_start) as config option;
     * System call dispatcher changes:
-      * Made system call dispatcher replacable;
+      * Made system call dispatcher replaceable;
       * Made system call handlers typed;
       * Fixed user system call arg type (union instead of struct);
     * Process control changes:
       * Added BGRT_PID_T for process identification in process context, bgrt_proc_t pointers are used in kernel context;
       * Added BGRT_PID_TO_PROC, BGRT_PROC_TO_PID, BGRT_PID_NOTHING macros;
       * Added BGRT_SYSCALL_PROC_GET_PRIO, BGRT_SYSCALL_PROC_GET_ID syscalls and correspondent caller functions;
-    * Sunchronization control changes:
+    * Synchronization control changes:
       * Deleted SYSCALL_WAKE_AND_SLEEP SYSCALL_WAKE_AND_WAIT syscalls;
       * Added BGRT_SYSCALL_SYNC_GET_OWNER syscall;
       * Added snum (number of sleeping processes) field to bgrt_sync_t;
       * Revised asynchronous wakeup protocol (various changes and fixes);
-      * Revised sunchronization API due to previous changes;
+      * Revised synchronization API due to previous changes;
     * Native lib changes:
       * Added native.h to native lib;
       * Upgraded native lib;

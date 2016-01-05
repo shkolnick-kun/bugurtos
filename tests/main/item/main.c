@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Incliude BuguRTOS headers.
+// Include BuguRTOS headers.
 #include <bugurt.h>
 
 void print_ok(void)

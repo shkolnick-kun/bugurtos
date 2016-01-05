@@ -80,13 +80,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _BGRT_PCOUNTER_H_
 /*!
 \file
-\brief \~russian Заголовок счетчиков захваченных ресурсов. \~english A locked resource counter header.
+\brief \~russian Заголовок счётчиков захваченных ресурсов. \~english A locked resource counter header.
 */
 typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_bgrt_pcounter_t; \~english See #_bgrt_pcounter_t; */
 /*!
 \~russian
 \brief
-Счетчик захваченных ресурсов.
+Счётчик захваченных ресурсов.
 
 Используется для хранения информации о наследуемых приоритетах.
 
@@ -94,22 +94,22 @@ typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_b
 \brief
 A locked resource counter.
 
-#bgrt_pcounter_t objects are used to store information about iherited priorities.
+#bgrt_pcounter_t objects are used to store information about inherited priorities.
 */
 struct _bgrt_pcounter_t
 {
-    bgrt_cnt_t counter[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив счетчиков. \~english A counter array. */
+    bgrt_cnt_t counter[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив счётчиков. \~english A counter array. */
     bgrt_index_t index; /*!< \~russian Индекс для ускорения поиска. \~english An index to speedup search. */
 };
 
 /*!
 \~russian
 \brief
-Инициализация счетчика.
+Инициализация счётчика.
 
 \warning Для внутреннего использования.
 
-\param pcounter Указатель на счетчик.
+\param pcounter Указатель на счётчик.
 
 \~english
 \brief
@@ -124,11 +124,11 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter);
 /*!
 \~russian
 \brief
-Инкремент счетчика.
+Инкремент счётчика.
 
 \warning Для внутреннего использования.
 
-\param pcounter Указатель на счетчик.
+\param pcounter Указатель на счётчик.
 \param prio Приоритет.
 
 \~english
@@ -144,11 +144,11 @@ void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio);
 /*!
 \~russian
 \brief
-Декремент счетчика.
+Декремент счётчика.
 
 \warning Для внутреннего использования.
 
-\param pcounter Указатель на счетчик.
+\param pcounter Указатель на счётчик.
 \param prio Приоритет.
 
 \~english
@@ -164,11 +164,11 @@ bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio);
 /*!
 \~russian
 \brief
-Увеличение счетчика на произвольное количество единиц.
+Увеличение счётчика на произвольное количество единиц.
 
 \warning Для внутреннего использования.
 
-\param pcounter Указатель на счетчик.
+\param pcounter Указатель на счётчик.
 \param prio Приоритет.
 \param count Количество единиц.
 
@@ -186,14 +186,14 @@ void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t
 /*!
 \~russian
 \brief
-Уменьшение счетчика на произвольное количество единиц.
+Уменьшение счётчика на произвольное количество единиц.
 
 \warning Для внутреннего использования.
 
-\param pcounter Указатель на счетчик.
+\param pcounter Указатель на счётчик.
 \param prio Приоритет.
 \param count Количество единиц.
-\return 0 - если соответствующая часть счетчика обнулилась, не 0 - в других случаях.
+\return 0 - если соответствующая часть счётчика обнулилась, не 0 - в других случаях.
 
 \~english
 \brief

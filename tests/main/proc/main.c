@@ -134,7 +134,7 @@ void main_wd_ss( void * arg )
     bgrt_proc_reset_watchdog();
     bgrt_wait_time(1);
     bgrt_proc_reset_watchdog();
-    test = 1; // If wathdog has been reset then test must pass.
+    test = 1; // If watchdog has been reset then test must pass.
     bgrt_proc_self_stop();
 
     bgrt_wait_time(1);
@@ -145,7 +145,7 @@ void main_wd_ss( void * arg )
     bgrt_sched_proc_yeld();
     bgrt_wait_time(1);
     bgrt_sched_proc_yeld();
-    test = 1; // If wathdog has been reset then test must pass.
+    test = 1; // If watchdog has been reset then test must pass.
     bgrt_proc_self_stop();
 
     // bgrt_proc_reset_watchdog test 14
@@ -203,11 +203,11 @@ void bgrt_idle_main( void * arg )
 
 int main(void)
 {
-    /**************************************************
-    *          For test purposes only!!!              *
-    *  It is strongly recomended to initiate hardware *
-    *         AFTER bgrt_init() call!!!             *
-    **************************************************/
+    /***************************************************
+    *          For test purposes only!!!               *
+    *  It is strongly recommended to initiate hardware *
+    *         AFTER bgrt_init() call!!!                *
+    ***************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.

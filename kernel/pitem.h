@@ -99,7 +99,7 @@ A prioritized list item.
 struct _bgrt_pitem_t
 {
     bgrt_item_t parent; /*!< \~russian Родитель - #bgrt_item_t. \~english A parent - #bgrt_item_t. */
-    bgrt_xlist_t * list; /*!< \~russian Указатель на спиок в который будем вставлять. \~english A pointer to an #bgrt_xlist_t object.*/
+    bgrt_xlist_t * list; /*!< \~russian Указатель на список в который будем вставлять. \~english A pointer to an #bgrt_xlist_t object.*/
     bgrt_prio_t prio; /*!< \~russian Приоритет. \~english A priority. */
 };
 
