@@ -205,21 +205,21 @@ void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
 void bgrt_sched_proc_stop(bgrt_proc_t * proc)
 {
 #ifdef BGRT_CONFIG_MP
-    bgrt_lock_t * bgrt_xlist_lock;
-    bgrt_xlist_lock = &((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id)->lock;
+    bgrt_lock_t * xlist_lock;
+    xlist_lock = &((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id)->lock;
 
     bgrt_spin_lock( &bgrt_kernel.stat_lock );
     bgrt_stat_dec( proc, (bgrt_ls_t *)bgrt_kernel.stat + proc->core_id );
     bgrt_spin_free( &bgrt_kernel.stat_lock );
 
-    bgrt_spin_lock( bgrt_xlist_lock );
+    bgrt_spin_lock( xlist_lock );
 #endif // BGRT_CONFIG_MP
 
     proc->flags &= BGRT_PROC_STATE_CLEAR_MASK;
     bgrt_pitem_cut( (bgrt_pitem_t *)proc );
 
 #ifdef BGRT_CONFIG_MP
-    bgrt_spin_free( bgrt_xlist_lock );
+    bgrt_spin_free( xlist_lock );
 #endif // BGRT_CONFIG_MP
     BGRT_RESCHED_PROC( proc );
 }

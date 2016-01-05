@@ -7,8 +7,8 @@
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="6229" topLine="70" />
 	</File>
-	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="1" top="0" tabpos="7">
-		<Cursor position="7531" topLine="124" />
+	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="7">
+		<Cursor position="7863" topLine="124" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
 		<Cursor position="6621" topLine="65" />
@@ -52,25 +52,25 @@
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="5">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="5">
 		<Cursor position="10430" topLine="204" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="39821" topLine="822" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="1">
-		<Cursor position="9601" topLine="181" />
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="5">
+		<Cursor position="10274" topLine="197" />
 	</File>
-	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="11868" topLine="230" />
+	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="4">
+		<Cursor position="10536" topLine="194" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="19590" topLine="609" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
 		<Cursor position="18569" topLine="389" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
 		<Cursor position="18394" topLine="240" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="3">
@@ -88,7 +88,7 @@
 	<File name="../../../../../kernel/xlist.h" open="0" top="0" tabpos="7">
 		<Cursor position="7895" topLine="149" />
 	</File>
-	<File name="../test_func.c" open="1" top="0" tabpos="1">
+	<File name="../test_func.c" open="0" top="0" tabpos="1">
 		<Cursor position="3197" topLine="205" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
