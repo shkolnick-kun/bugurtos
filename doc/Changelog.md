@@ -22,9 +22,11 @@
       * Added snum (number of sleeping processes) field to bgrt_sync_t;
       * Revised asynchronous wakeup protocol (various changes and fixes);
       * Revised synchronization API due to previous changes;
+      * Fixed priority inversion (#14);
+      * Upgraded tests.
     * Native lib changes:
       * Added native.h to native lib;
-      * Upgraded native lib;
+      * Upgraded native lib.
   * 0.6.6, 0.7.3
     * Ported Cortex<sup>TM</sup>-Mx tests to [libopencm3](https://github.com/libopencm3/libopencm3).
     * Backported vsmp from 0.8.4
