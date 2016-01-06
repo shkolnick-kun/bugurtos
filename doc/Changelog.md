@@ -16,6 +16,7 @@
       * Added BGRT_PID_T for process identification in process context, bgrt_proc_t pointers are used in kernel context;
       * Added BGRT_PID_TO_PROC, BGRT_PROC_TO_PID, BGRT_PID_NOTHING macros;
       * Added BGRT_SYSCALL_PROC_GET_PRIO, BGRT_SYSCALL_PROC_GET_ID syscalls and correspondent caller functions;
+      * Removed dead some code;
     * Synchronization control changes:
       * Deleted SYSCALL_WAKE_AND_SLEEP SYSCALL_WAKE_AND_WAIT syscalls;
       * Added BGRT_SYSCALL_SYNC_GET_OWNER syscall;

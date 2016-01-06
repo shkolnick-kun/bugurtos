@@ -23,12 +23,12 @@ proprietary software development.
 * Branches supported:
   * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
   * 0.7.x ([Priority Inheritance Protocol](http://en.wikipedia.org/wiki/Priority_inheritance) used) high level features and API are frozen;
-  * 0.8.x (combines both protocols) is under active development.
+  * 0.9.x (combines both protocols) is under active development.
 
 * Current versions are
   * 0.6.6;
   * 0.7.3;
-  * 0.8.4.
+  * 0.9.9.
 
 * Platforms supported:
   * AVR (GNU-toolchain);
@@ -51,6 +51,7 @@ proprietary software development.
 * PROFIT!!!
 
 # News #
+* **January 6th 2016: BuguRTOS updated** version 0.9.9 is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)!
 * **July 3rd 2015: BuguRTOS updated** versions 0.6.6, 0.7.3, 0.8.4 are out,  are out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)!
 * **May 12th 2015: BuguRTOS-0.8.3** is out, see [Changelog](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/Changelog.md)! Added more argument checks, fixed several issues, ported tests to [libopencm3](https://github.com/libopencm3/libopencm3).
 * **May 12th 2015:** Added [third party code](https://github.com/shkolnick-kun/bugurtos/tree/archives) to project repository.
