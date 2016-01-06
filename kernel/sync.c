@@ -292,7 +292,6 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
     case BGRT_PROC_STATE_END:
     case BGRT_PROC_STATE_WD_STOPED:
     case BGRT_PROC_STATE_DEAD:
-
     {
         _bgrt_pctrl_proc_stoped( proc );
     }
@@ -424,7 +423,6 @@ bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
     BGRT_SPIN_LOCK( sync );
     _bgrt_sync_assign_owner( sync, proc );
 
-
     return BGRT_ST_OK;
 }
 //========================================================================================
@@ -444,12 +442,10 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
 {
     bgrt_proc_t * owner;
 
-
     if(!sync)
     {
         return BGRT_ST_ENULL;
     }
-
     BGRT_SPIN_LOCK( sync );
 
     owner = sync->owner;
@@ -476,7 +472,6 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
         {
             BGRT_SPIN_FREE( sync );
         }
-
         return BGRT_ST_ROLL;
     }
 }
@@ -602,7 +597,6 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
     case BGRT_PROC_STATE_RUNNING:
     default:
     {
-
         _bgrt_sync_sleep_swap_locks( sync, proc );
         if( sync->owner == proc )
         {
@@ -618,8 +612,8 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
             _bgrt_sync_proc_stop( proc, BGRT_PROC_STATE_SYNC_SLEEP );
             sync->snum++;  //Increment sleeping process counter. Caller is going to sleep.
             sync_clear = (bgrt_flag_t)0; //No event!
+            break;
         }
-        break;
     }
     }
 
@@ -974,7 +968,6 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
         {
             BGRT_SPIN_FREE( sync );
         }
-
         return BGRT_ST_OK;
     }
 

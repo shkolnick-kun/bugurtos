@@ -8,7 +8,7 @@
 		<Cursor position="7757" topLine="129" />
 	</File>
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="1">
-		<Cursor position="6733" topLine="86" />
+		<Cursor position="6808" topLine="86" />
 	</File>
 	<File name="../../../../../../../kernel/proc.c" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
@@ -19,10 +19,10 @@
 	<File name="../../../../../../../kernel/sched.c" open="1" top="0" tabpos="0">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../../../kernel/sched.h" open="1" top="0" tabpos="0">
+	<File name="../../../../../../../kernel/sched.h" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../../../kernel/sync.c" open="1" top="0" tabpos="0">
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="27939" topLine="695" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
@@ -32,9 +32,9 @@
 		<Cursor position="16973" topLine="326" />
 	</File>
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="2">
-		<Cursor position="6506" topLine="92" />
+		<Cursor position="6591" topLine="92" />
 	</File>
-	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="2067" topLine="70" />
+	<File name="../../../../../../main/libs/native/sig/main.c" open="1" top="1" tabpos="2">
+		<Cursor position="2067" topLine="89" />
 	</File>
 </CodeBlocks_layout_file>
