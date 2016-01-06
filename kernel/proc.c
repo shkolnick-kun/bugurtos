@@ -355,7 +355,7 @@ void _bgrt_proc_terminate( void )
 
     _bgrt_proc_stop_ensure( proc );
     // Flags processing!
-    // A process is not allowed to return from pmain не wuth resources locked!
+    // A process is not allowed to return from pmain while being locked!
     if( proc->flags & BGRT_PROC_FLG_LOCK_MASK )
     {
         proc->flags |= BGRT_PROC_STATE_DEAD;
