@@ -95,9 +95,9 @@ A scheduler header.
 /*!
 \def BGRT_SCHED_INIT()
 \~russian
-\brief Макрос-обертка.
+\brief Макрос-обёртка.
 
-Обертка инициализации переменной sched в функциях #bgrt_sched_schedule и #bgrt_sched_reschedule.
+Обёртка инициализации переменной sched в функциях #bgrt_sched_schedule и #bgrt_sched_reschedule.
 \~english
 \brief Wrapper macro.
 
@@ -131,7 +131,7 @@ struct _bgrt_sched_t
     bgrt_xlist_t * ready;            /*!< \~russian Указатель на список готовых к выполнению процессов. \~english A pointer to a ready process list. */
     bgrt_xlist_t * expired;          /*!< \~russian Указатель на список процессов, исчерпавших свой квант времени. \~english A pointer to an expired process list. */
     bgrt_xlist_t plst[2];            /*!< \~russian Сами списки процессов. \~english A storage for a ready and for an expired process lists. */
-    bgrt_cnt_t nested_crit_sec;    /*!< \~russian Счетчик вложенности критических секций. \~english A critical section nesting count. */
+    bgrt_cnt_t nested_crit_sec;    /*!< \~russian Счётчик вложенности критических секций. \~english A critical section nesting count. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;                /*!< \~russian Спин-блокировка планировщика. \~english A scheduler spin-lock. */
 #endif // BGRT_CONFIG_MP
@@ -213,7 +213,7 @@ void bgrt_sched_proc_stop( bgrt_proc_t * proc );
 \~russian
 \brief Передача управления следующему процессу (для внутреннего использования).
 
-Передает управление следующему процессу, если такой процесс есть.
+Передаёт управление следующему процессу, если такой процесс есть.
 
 \warning Для внутреннего использования.
 
@@ -233,7 +233,7 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void );
 \~russian
 \brief Передача управления следующему процессу.
 
-Передает управление следующему процессу, если такой процесс есть.
+Передаёт управление следующему процессу, если такой процесс есть.
 
 \return 0 если нет других выполняющихся процессов, не 0 - если есть.
 

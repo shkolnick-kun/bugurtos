@@ -17,7 +17,7 @@ void main_with_return( void * arg )
     bgrt_proc_run( PID2 );
 
     bgrt_wait_time(100);
-    // Start load balancing test on multicore system (chnges affinity of running processes).
+    // Start load balancing test on multicore system (changes affinity of running processes).
     BGRT_SCHED_LB_TEST_START();
 
     bgrt_wait_time(100);
@@ -49,11 +49,11 @@ void bgrt_idle_main( void * arg )
 }
 int main(void)
 {
-    /**************************************************
-    *          For test purposes only!!!              *
-    *  It is strongly recomended to initiate hardware *
-    *         AFTER bgrt_init() call!!!             *
-    **************************************************/
+    /***************************************************
+    *          For test purposes only!!!               *
+    *  It is strongly recommended to initiate hardware *
+    *         AFTER bgrt_init() call!!!                *
+    ***************************************************/
     /*
      * This function disables interrupts
      * and initiates hardware.

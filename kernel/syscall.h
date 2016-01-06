@@ -120,7 +120,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 Обработка системного вызова.
 
-Запускает обработчик системного вызова и передает ему аргумент.
+Запускает обработчик системного вызова и передаёт ему аргумент.
 
 \~english
 \brief
@@ -130,7 +130,7 @@ This function calls system call handlers and passes arguments to them.
 */
 void bgrt_do_syscall(
                 bgrt_syscall_t syscall_num,  /*!< \~russian Номер системного вызова. \~english System call number.*/
-                void * syscall_arg      /*!< \~russian Aргумент системного вызова. \~english System call argument.*/
+                void * syscall_arg      /*!< \~russian Аргумент системного вызова. \~english System call argument.*/
                 );
 
 /*****************************************************************************************/
@@ -265,7 +265,7 @@ void bgrt_scall_proc_lock( void * arg );
 \brief
 Обработчик вызова #BGRT_SYSCALL_PROC_FREE.
 
-Уменьшает счетчик proc->lres, при необходимости обнуляет флаг #BGRT_PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #BGRT_PROC_FLG_PRE_STOP.
+Уменьшает счётчик proc->lres, при необходимости обнуляет флаг #BGRT_PROC_FLG_LOCK, пытается остановить вызывающий процесс по флагу #BGRT_PROC_FLG_PRE_STOP.
 Вызывает #_bgrt_proc_free.
 
 \param arg указатель на маску обнуления флагов процесса.
@@ -350,7 +350,7 @@ void bgrt_scall_proc_get_id( BGRT_PID_T * arg );
 \brief
 Обработчик вызова #BGRT_SYSCALL_SCHED_PROC_YELD.
 
-Передает управление следующему процессу.
+Передаёт управление следующему процессу.
 
 \param arg не используется.
 

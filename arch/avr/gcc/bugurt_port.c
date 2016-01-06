@@ -103,7 +103,7 @@ unsigned char bgrt_kernel_state = KRN_FLG_RESCHED;
 //Временное хранилище для указателей стеков процессов.
 bgrt_stack_t * saved_sp;
 #ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-// Счетчик уровней вложенности прерываний
+// Счётчик уровней вложенности прерываний
 bgrt_cnt_t nested_interrupts = (bgrt_cnt_t)0;
 #endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
 // Функция перепланировки

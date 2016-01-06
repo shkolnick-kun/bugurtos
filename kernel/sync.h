@@ -91,7 +91,7 @@ typedef struct _bgrt_sync_t bgrt_sync_t; /*!< \~russian Смотри #_bgrt_sync
 Базовый примитив синхронизации.
 
 Базовый тип, отвечающий за блокирующую синхронизацию процессов.
-Путем "обертывания" данного типа можно получить привычные примитивы синхронизации
+Путем "обёртывания" данного типа можно получить привычные примитивы синхронизации
 (мьютексы, семафоры, условные переменные, FIFO-буферы, блокирующий IPC, и т.д.).
 
 Поддерживает протокол наследования приоритетов (Basic Priority Inheritance).
@@ -111,9 +111,9 @@ struct _bgrt_sync_t
 {
     bgrt_xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_proc_t * owner;/*!< \~russian Указатель на процесc-хозяин. \~english A pointer to a process, that holds a sync. */
-    bgrt_cnt_t dirty; /*!< \~russian Счетчик незавершенных транзакций наследования приоритетов. \~english Dirty priority inheritance transaction counter. */
-    bgrt_cnt_t snum; /*!< \~russian Счетчик спящих процессов. \~english Sleeping process counter. */
-    bgrt_cnt_t pwake; /*!< \~russian Счетчик отложенных пробуждений. \~english Pending wakeup counter. */
+    bgrt_cnt_t dirty; /*!< \~russian Счётчик незавершённых транзакций наследования приоритетов. \~english Dirty priority inheritance transaction counter. */
+    bgrt_cnt_t snum; /*!< \~russian Счётчик спящих процессов. \~english Sleeping process counter. */
+    bgrt_cnt_t pwake; /*!< \~russian Счётчик отложенных пробуждений. \~english Pending wakeup counter. */
     bgrt_prio_t prio; /*!< \~russian Приоритет. \~english Priority. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
@@ -191,7 +191,7 @@ Set #bgrt_sync_t object owner.
 
 \param sync A pointer to the object of interest.
 \param pid A unique ID of new #bgrt_sync_t object owner.
-\return #BGRT_ST_OK on sucess, or error code.
+\return #BGRT_ST_OK on success, or error code.
 */
 bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
 /*!
@@ -208,7 +208,7 @@ bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
 Own #bgrt_sync_t object.
 
 \param sync A pointer to the object of interest.
-\param touch If not 0 rhen mark sync as dirty on fail.
+\param touch If not 0 then mark sync as dirty on fail.
 \return #BGRT_ST_OK if on success, or error code.
 */
 bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
@@ -258,7 +258,7 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch );
 Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
 
 \param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Указатель на изенитификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
+\param pid Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
 \return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
 
