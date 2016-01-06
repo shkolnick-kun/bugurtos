@@ -545,38 +545,6 @@ Stops a process for sure.
 */
 void _bgrt_proc_stop_ensure( bgrt_proc_t * proc );
 /*!
-\~russian
-\brief "Низкоуровневый" останов процесса с установкой флагов.
-
-\warning Для внутреннего использования.
-
-\~english
-\brief A low level process stop with flags set routine.
-
-\warning For internal usage.
-*/
-void _bgrt_proc_stop_flags_set( bgrt_proc_t * proc, bgrt_flag_t mask );
-/*!
-\~russian
-\brief Управление приоритетом процесса.
-
-Используется совместно с опцией BGRT_CONFIG_USE_HIGHEST_LOCKER. Процесс должен быть остановлен на момент вызова.
-\param proc - Указатель на процесс.
-
-\warning Для внутреннего использования.
-
-\~english
-\brief A stopped process priority control routine.
-
-Used with BGRT_CONFIG_USE_HIGHEST_LOCKER option. A process must be stopped before call of the routine.
-
-\warning For internal usage.
-
-\param proc - A pointer to a process.
-*/
-void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc );
-
-/*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
 bgrt_st_t _bgrt_proc_init(

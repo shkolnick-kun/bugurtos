@@ -87,38 +87,6 @@ void _bgrt_proc_stop_ensure( bgrt_proc_t * proc )
         bgrt_sched_proc_stop( proc );
     }
 }
-//========================================================================================
-void _bgrt_proc_stop_flags_set( bgrt_proc_t * proc, bgrt_flag_t mask )
-{
-    // Was a process stopped some where else?
-    if( BGRT_PROC_RUN_TEST( proc ) )
-    {
-        // No, stop it now.
-        bgrt_sched_proc_stop( proc );
-        proc->flags |= mask;
-    }
-    else
-    {
-        // Yes, no need for actual stop, set BGRT_PROC_FLG_PRE_STOP flag.
-        proc->flags |= (bgrt_flag_t)(mask|BGRT_PROC_FLG_PRE_STOP);
-    }
-}
-//========================================================================================
-// Change a process priority according to its #lres data field.
-void _bgrt_proc_prio_control_stoped( bgrt_proc_t * proc )
-{
-    if( (bgrt_index_t)0 != proc->lres.index )
-    {
-
-        bgrt_prio_t locker_prio;
-        locker_prio = bgrt_index_search( proc->lres.index );
-        ((bgrt_pitem_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
-    }
-    else
-    {
-        ((bgrt_pitem_t *)proc)->prio = proc->base_prio;
-    }
-}
 /**********************************************************************************************
                                     Process control !!!
 **********************************************************************************************/
