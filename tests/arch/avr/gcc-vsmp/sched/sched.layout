@@ -52,8 +52,8 @@
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="5">
-		<Cursor position="10430" topLine="204" />
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="5">
+		<Cursor position="10430" topLine="341" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="39821" topLine="822" />
@@ -64,8 +64,8 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="4">
 		<Cursor position="10536" topLine="194" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="19590" topLine="609" />
+	<File name="../../../../../kernel/sync.c" open="1" top="1" tabpos="0">
+		<Cursor position="19590" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
 		<Cursor position="18569" topLine="389" />

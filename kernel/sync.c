@@ -247,7 +247,6 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
                 // Start priority inheritance transaction.
                 sync->dirty++;
                 //To avoid prio inversion!!!
-                //No _bgrt_pctrl_proc_stoped call here!!!
                 _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_PI_READY );
             }
             else
