@@ -2,7 +2,8 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="item/item.cbp" />
-		<Project filename="xlist/xlist.cbp" active="1" />
+		<Project filename="xlist/xlist.cbp" />
 		<Project filename="pitem/pitem.cbp" />
+		<Project filename="lock-free-fifo/lock-free-fifo.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
