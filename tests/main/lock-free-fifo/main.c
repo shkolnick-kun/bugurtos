@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef int lf_st_t;
+#define LF_ST_OK (0)
+#define LF_ST_EAGAIN (1)
+//===============================================================================
 typedef struct _lf_item lf_item; //Lockfree list item;
 
 struct _lf_item
@@ -20,7 +24,7 @@ struct _lf_item
 #endif
 
 void lf_item_init( lf_item * item );
-void lf_item_put( lf_item * item, lf_item * fifo ); //Put an item to lock-free fifo (can used by multiple threads)
+lf_st_t lf_item_put( lf_item * item, lf_item * fifo ); //Put an item to lock-free fifo (can used by multiple threads)
 lf_item * lf_item_get( lf_item * fifo ); //Get an item from lock-free fifo (MUST used by SINGLE thread only!!!)
 //===============================================================================
 void lf_item_init( lf_item * item )
@@ -30,19 +34,39 @@ void lf_item_init( lf_item * item )
     item->valid = 0xABCD;
 }
 //Put an item to lock-free fifo (can used by multiple threads)
-void lf_item_put( lf_item * item, lf_item * fifo )
+lf_st_t lf_item_put( lf_item * item, lf_item * fifo )
 {
-    do
+    while(1)
     {
-        ///step 1
-        item->prev = fifo->prev;//Only this thread writes item->prev;
-        ///step 2
+        ///step 1a
+        //Many threads may call to lf_item_put( item, some_fifo)
+        if( LF_CAS( item->prev, item, fifo->prev) )
+        {
+            ///step 2
+            // //Many threads may call to lf_item_put( some_item, fifo)
+            if( LF_CAS( fifo->prev, item->prev, item) )
+            {
+                break;//May goto step 3a
+            }
+            else
+            {
+                //Undo item->prev = fifo->prev before next ettempt
+                ///step 1b
+                LF_CAS( item->prev, item->prev, item);
+                LF_YELD();
+                continue;
+            }
+        }
+        else
+        {
+            //Some other thread has called lf_item_put( item, some_fifo)
+            return LF_ST_EAGAIN;
+        }
     }
-    while( !LF_CAS( fifo->prev, item->prev, item) );//Many threads may try to write fifo->prev
     /// step 3a
     //OK! We are in the fifo;
     //Now we must handle item->prev->next ASAP!
-    //Onle two threads may write to item->prev->next, they are
+    //Only two threads may write to item->prev->next, they are:
     //this thread and the thread, that called lf_item_put(fifo->prev);
     //So if lf_item_put(fifo->prev) finished, then item->prev->next == fifo
     if( !LF_CAS( item->prev->next, fifo, item) )
@@ -63,6 +87,7 @@ void lf_item_put( lf_item * item, lf_item * fifo )
     //so try to do item->next = fifo
     ///step 4
     LF_CAS( item->next, item, fifo);
+    return LF_ST_OK;
 }
 //Get an item from lock-free fifo (MUST used by SINGLE thread only!!!)
 /// WARNING: ONLY ONE THREAD IS ALLOWED CALL THIS FUNCTION!!!
@@ -102,6 +127,7 @@ lf_item * lf_item_get( lf_item * fifo )
             {
                 LF_YELD();
             }
+            //Only two threads may change head->next, so no more delays
         }
         //Here we can modify fifo->next, and head->next
         fifo->next = head->next;
