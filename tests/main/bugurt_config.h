@@ -95,6 +95,8 @@ typedef unsigned int bgrt_aff_t;
 
 typedef unsigned long load_t;
 
+typedef unsigned long bgrt_st_t;
+
 typedef unsigned long bgrt_cnt_t;
 
 typedef unsigned long bgrt_tmr_t;

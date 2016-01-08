@@ -19,7 +19,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option='-I &quot;${PROJECT_DIR}/../../../kernel&quot;' />
-			<Add option='-include &quot;${PROJECT_DIR}/../noarch_config.h&quot;' />
+			<Add option='-I &quot;${PROJECT_DIR}/../&quot;' />
 		</Compiler>
 		<Unit filename="../../../kernel/item.c">
 			<Option compilerVar="CC" />
@@ -27,7 +27,6 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../noarch_config.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

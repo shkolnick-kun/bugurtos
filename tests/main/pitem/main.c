@@ -23,14 +23,14 @@ void print_fail(void)
 
 int main()
 {
-    bgrt_pitem_t item = INIT_P_ITEM_T(item,3);
+    bgrt_pitem_t item = BGRT_PITEM_T_INIT(item,3);
     bgrt_pitem_t my_item[6];
     bgrt_prio_t my_prio[] = { 0,1,1,2,2,2 };
     bgrt_xlist_t list;
     int i, test;
 
 
-    printf("Test 1: INIT_P_ITEM_T macro: ");
+    printf("Test 1: BGRT_PITEM_T_INIT macro: ");
     print_test_res(
                    ( item.prio != (bgrt_prio_t)3 )
                    ||( item.list != (bgrt_xlist_t *)0 )

@@ -19,12 +19,8 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option='-I &quot;${PROJECT_DIR}/../../../kernel&quot;' />
-			<Add option='-include &quot;${PROJECT_DIR}/../noarch_config.h&quot;' />
+			<Add option='-I &quot;${PROJECT_DIR}/../&quot;' />
 		</Compiler>
-		<Unit filename="../../../include/bugurt.h" />
-		<Unit filename="../../../include/item.h" />
-		<Unit filename="../../../include/pitem.h" />
-		<Unit filename="../../../include/xlist.h" />
 		<Unit filename="../../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -52,8 +52,8 @@ lf_st_t lf_item_put( lf_item * item, lf_item * fifo )
             {
                 //Undo item->prev = fifo->prev before next ettempt
                 ///step 1b
+                ///WARNING: No LF_YELD here, as lf_item_put must be called from REAL IRSs!!!
                 LF_CAS( item->prev, item->prev, item);
-                LF_YELD();
                 continue;
             }
         }
@@ -76,10 +76,7 @@ lf_st_t lf_item_put( lf_item * item, lf_item * fifo )
         if( !LF_CAS( item->prev->next, item->prev, item) )
         {
             //Other item->prev->next values are not valid!!!
-            while(1)
-            {
-                LF_YELD();//Panic here.
-            }
+            while(1);
         }
     }
     //The last, but not the least: we must handle item->next.
@@ -149,6 +146,8 @@ int main()
 
     lf_item * tst_ret;
 
+    (void)tst_ret;//Disable warning!
+
     for( i = 0; i < 10; i++ )
     {
         lf_item_init( tst_item + i );
@@ -164,7 +163,6 @@ int main()
     tst_ret = lf_item_get( &tst_fifo );
     tst_ret = lf_item_get( &tst_fifo );
     tst_ret = lf_item_get( &tst_fifo );
-
 
     printf("Hello world!\n");
     return 0;
