@@ -43,7 +43,7 @@ lf_st_t lf_item_put( lf_item * item, lf_item * fifo )
         if( LF_CAS( item->prev, item, fifo->prev) )
         {
             ///step 2
-            // //Many threads may call to lf_item_put( some_item, fifo)
+            //Many threads may call to lf_item_put( some_item, fifo)
             if( LF_CAS( fifo->prev, item->prev, item) )
             {
                 break;//May goto step 3a
@@ -139,8 +139,33 @@ lf_item * lf_item_get( lf_item * fifo )
     }
 }
 
+
+lf_item tst_item[10];
+lf_item tst_fifo;
+
 int main()
 {
+    int i;
+
+    lf_item * tst_ret;
+
+    for( i = 0; i < 10; i++ )
+    {
+        lf_item_init( tst_item + i );
+    }
+
+    lf_item_init( &tst_fifo );
+
+    lf_item_put( tst_item    , &tst_fifo );
+    lf_item_put( tst_item + 1, &tst_fifo );
+    lf_item_put( tst_item + 2, &tst_fifo );
+
+    tst_ret = lf_item_get( &tst_fifo );
+    tst_ret = lf_item_get( &tst_fifo );
+    tst_ret = lf_item_get( &tst_fifo );
+    tst_ret = lf_item_get( &tst_fifo );
+
+
     printf("Hello world!\n");
     return 0;
 }
