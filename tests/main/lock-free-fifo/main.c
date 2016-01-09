@@ -113,31 +113,25 @@ void lf_item_init( lf_item_t * item )
     item->valid = 0xABCD;
 }
 //Put an item to lock-free fifo (can used by multiple threads)
-///NOTE: THIS FUNCTION IS THREAD SAFE!!!
-///NOTE: THIS FUNCTION IS LOCK   FREE!!!
-///NOTE: THIS FUNCTION CAN BE USED IN REAL ISR!!!
 lf_st_t lf_item_put( lf_item_t * item, lf_item_t * fifo )
 {
     //One itteration per interrupt on single processor.
     while(1)
     {
-        ///step 1
         //Many threads may call to lf_item_put( item, some_fifo)
         if( LF_CAS( item->prev, item, fifo->prev) )
         {
-            ///step 2
-            LF_CAS( item->next, item, fifo);
-            ///step 3
-            //Many threads may call to lf_item_put( some_item, fifo)
+            //Item is locked, it's not in the fifo,, so may do this:
+            item->next = fifo;
+            //Many threads may call to lf_item_put( some_item, fifo) or lf_item_get( fifo)
             if( LF_CAS( fifo->prev, item->prev, item) )
             {
-                break;//May goto step 3a
+                break;//May do the rest.
             }
             else
             {
-                //Undo steps 2 and 1 on fail
-                //Undos are done in reverse order!!!
-                LF_CAS( item->next, item->next, item);
+                item->next = item;
+                //Unlock item;
                 LF_CAS( item->prev, item->prev, item);
                 continue;
             }
@@ -151,55 +145,74 @@ lf_st_t lf_item_put( lf_item_t * item, lf_item_t * fifo )
     //The last but not the list
     //If item is not going to be geted, do...
     LF_CAS( item->prev->next, fifo, item);
-
     return LF_ST_OK;
 }
 //Get an item from lock-free fifo (MUST used by SINGLE thread only!!!)
-/// WARNING: THIS FUNCTION IS NOT THREAD SAFE!!!
-/// WARNING: THIS FUNCTION IS NOT LOCK FREE!!!
-/// NOTE:    BUT IT'S FASTER THAN THREAD SAFE AND LOCKFREE!!!
+//NOTE: This function is thread safe, but not interrupt safe!
 lf_item_t * lf_item_get( lf_item_t * fifo )
 {
     //Check if fifo is empty
     //Some thread may write fifo->prev at the same time, so...
-    if( LF_CAS( fifo->prev, fifo, fifo) )
+    while(1)
     {
-        return (lf_item_t *)0;
-    }
-    else
-    {
-        lf_item_t * head;
-        //Ok, it's not empty, let's cut its head!
-        //If other thread called lf_item_put( fifo->prev ),
-        //then we must wait for step 3 to complite
-        while( LF_CAS( fifo->next, fifo, fifo) )
+        if( LF_CAS( fifo->prev, fifo, fifo) )
         {
-            LF_YELD();
-        }
-        //Get the head;
-        head = fifo->next;
-        //head->prev won't be used until next lf_item_put, so...
-        head->prev = head;
-        //Check if there is only one item, and try to cut it with atomic operation.
-        if( LF_CAS( fifo->prev, head, fifo) )
-        {
-            //There was only one item in the fifo
-            fifo->next = fifo;
+            //Empty fifo
+            return (lf_item_t *)0;
         }
         else
         {
-            // wait for step 3b to complete.
-            while( LF_CAS( head->next, fifo, fifo) )
+            lf_item_t * head;
+            head = fifo->prev;
+            if( fifo->next != head )
             {
-                LF_YELD();
+                //Multiple items
+                while(1)
+                {
+                    head = fifo->next;
+                    if( LF_CAS( head->next->prev, head, fifo) )
+                    {
+                        //Succefully cut the head, finish the job;
+                        fifo->next = head->next;
+                        //LF_CAS( fifo->next, head, head->next);
+                        break;
+                    }
+                    else
+                    {
+                        //We have interrupted lf_item_put( head, fifo ) call, we must wait;
+                        //for fifo->next->next chain to form, then cut the head!
+                        LF_YELD();
+                        continue;
+                    }
+                }
             }
-            //OK! All links have formed
-            head->next->prev = fifo;
-            fifo->next = head->next;
+            else
+            {
+                //Single item check 2
+                if( LF_CAS( fifo->prev, head, fifo) )
+                {
+                    //Successfully cut the only item
+                    while( LF_CAS( fifo->next, fifo, fifo) )
+                    {
+                        //We have interrupted lf_item_put( head, fifo ) call, we must wait;
+                        LF_YELD();
+                    }
+                    //Now we can chenge fifo->next pointer.
+                    LF_CAS( fifo->next, head, fifo);
+                }
+                else
+                {
+                    //Another thread have called lf_item_put( some_item, fifo ) or lf_item_get( fifo )
+                    LF_YELD();
+                    continue;
+                }
+
+            }
+            //Now we can handle head->next
+            head->next = head;
+            LF_CAS( head->prev, head->prev, head );//Unlock the head.
+            return head;
         }
-        //Now we can handle head->next
-        head->next = head;
-        return head;
     }
 }
 
