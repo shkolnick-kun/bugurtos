@@ -164,29 +164,7 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
         {
             lf_item_t * head;
             head = fifo->prev;
-            if( fifo->next != head )
-            {
-                //Multiple items
-                while(1)
-                {
-                    head = fifo->next;
-                    if( LF_CAS( head->next->prev, head, fifo) )
-                    {
-                        //Succefully cut the head, finish the job;
-                        fifo->next = head->next;
-                        //LF_CAS( fifo->next, head, head->next);
-                        break;
-                    }
-                    else
-                    {
-                        //We have interrupted lf_item_put( head, fifo ) call, we must wait;
-                        //for fifo->next->next chain to form, then cut the head!
-                        LF_YELD();
-                        continue;
-                    }
-                }
-            }
-            else
+            if( LF_CAS( fifo->next, head, head)  )
             {
                 //Single item check 2
                 if( LF_CAS( fifo->prev, head, fifo) )
@@ -207,6 +185,28 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
                     continue;
                 }
 
+            }
+            else
+            {
+                //Multiple items
+                while(1)
+                {
+                    head = fifo->next;
+                    if( LF_CAS( head->next->prev, head, fifo) )
+                    {
+                        //Succefully cut the head, finish the job;
+                        fifo->next = head->next;
+                        //LF_CAS( fifo->next, head, head->next);
+                        break;
+                    }
+                    else
+                    {
+                        //We have interrupted lf_item_put( head, fifo ) call, we must wait;
+                        //for fifo->next->next chain to form, then cut the head!
+                        LF_YELD();
+                        continue;
+                    }
+                }
             }
             //Now we can handle head->next
             head->next = head;
