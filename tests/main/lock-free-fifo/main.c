@@ -275,8 +275,7 @@ lf_st_t lf_item_get( lf_item_t ** item, lf_item_t * fifo )
                     if( LF_CAS( head->next->prev, head, fifo) )
                     {
                         //Succefully cut the head, finish the job;
-                        fifo->next = head->next;
-                        //LF_CAS( fifo->next, head, head->next);
+                        LF_CAS( fifo->next, head, head->next);
                         break;
                     }
                     else
