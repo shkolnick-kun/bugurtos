@@ -79,16 +79,19 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include <stdio.h>
 #include <stdlib.h>
-
+//===============================================================================
 typedef int lf_st_t;
-#define LF_ST_OK (0)
-#define LF_ST_EAGAIN (1)
+
+#define LF_ST_OK     ((lf_st_t)0)
+#define LF_ST_EAGAIN ((lf_st_t)1)
+#define LF_ST_EDLOCK ((lf_st_t)2)
+#define LF_ST_EEMPTY ((lf_st_t)3)
+
 //===============================================================================
 typedef struct _lf_item_t lf_item_t; //Lockfree list item;
 
 struct _lf_item_t
 {
-    volatile int valid;
     lf_item_t * prev;
     lf_item_t * next;
 };
@@ -102,17 +105,85 @@ struct _lf_item_t
 #define LF_YELD() do{}while(0)
 #endif
 
+//Dead lock control
+#ifndef LF_DLCT_INIT
+#define LF_DLCT_INIT() do{}while(0)
+#endif
+
+#ifndef LF_DLCT_FAIL
+#define LF_DLCT_FAIL() (0)
+#endif
+//Методы
+/*!
+\~russian
+\brief
+Инициализация объекта типа #lf_item_t.
+
+\warning Для внутреннего использования.
+
+\param item Указатель на объект #lf_item_t.
+
+\~english
+\brief
+An #lf_item_t object initiation.
+
+\warning Internal usage function.
+
+\param item An #lf_item_t pointer.
+*/
 void lf_item_init( lf_item_t * item );
-lf_st_t lf_item_put( lf_item_t * item, lf_item_t * fifo ); //Put an item to lock-free fifo (can used by multiple threads)
-lf_item_t * lf_item_get( lf_item_t * fifo ); //Get an item from lock-free fifo (MUST used by SINGLE thread only!!!)
+//Методы
+/*!
+\~russian
+\brief
+Вставка элемента в fifo
+
+\note Эта функция потокобезопасна
+\note Этю функцию можно вызывать из прерываний
+
+\param item Указатель на элемент для вставки.
+\param fifo Указатель на FIFO.
+\return LF_ST_OK или код ошибки.
+\~english
+\brief
+Put an item to a fifo.
+
+\note Thread safe.
+\note Interrupt safe.
+
+\param item An item pointer.
+\param fifo A FIFO pointer.
+\return LF_ST_OK or error code.
+*/
+lf_st_t lf_item_put( lf_item_t *  item, lf_item_t * fifo );
+/*!
+\~russian
+\brief
+Извлечение элемента из FIFO.
+
+\warning Эта функция может "зависнуть" при использовании в прерываниях и в системах с вытесняющей многозадачностью.
+
+\param item Указатель буфер для указателя на извлеченный элемент.
+\param fifo Указатель на FIFO.
+\return LF_ST_OK или код ошибки.
+\~english
+\brief
+Extract an item from a FIFO.
+
+\warning This function may deadlock if used in interrupt or in a preemptive multitasking system.
+
+\param item An item buffer pointer.
+\param fifo A FIFO pointer.
+\return LF_ST_OK or error code.
+*/
+lf_st_t lf_item_get( lf_item_t ** item, lf_item_t * fifo ); //Get an item from lock-free fifo (MUST used by SINGLE thread only!!!)
 //===============================================================================
 void lf_item_init( lf_item_t * item )
 {
     item->prev = item;
     item->next = item;
-    item->valid = 0xABCD;
 }
-//Put an item to lock-free fifo (can used by multiple threads)
+//===============================================================================
 lf_st_t lf_item_put( lf_item_t * item, lf_item_t * fifo )
 {
     //One itteration per interrupt on single processor.
@@ -147,9 +218,8 @@ lf_st_t lf_item_put( lf_item_t * item, lf_item_t * fifo )
     LF_CAS( item->prev->next, fifo, item);
     return LF_ST_OK;
 }
-//Get an item from lock-free fifo (MUST used by SINGLE thread only!!!)
-//NOTE: This function is thread safe, but not interrupt safe!
-lf_item_t * lf_item_get( lf_item_t * fifo )
+//===============================================================================
+lf_st_t lf_item_get( lf_item_t ** item, lf_item_t * fifo )
 {
     //Check if fifo is empty
     //Some thread may write fifo->prev at the same time, so...
@@ -158,7 +228,8 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
         if( LF_CAS( fifo->prev, fifo, fifo) )
         {
             //Empty fifo
-            return (lf_item_t *)0;
+            *item = (lf_item_t *)0;
+            return LF_ST_EEMPTY;
         }
         else
         {
@@ -169,10 +240,18 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
                 //Single item check 2
                 if( LF_CAS( fifo->prev, head, fifo) )
                 {
+                    LF_DLCT_INIT();
                     //Successfully cut the only item
                     while( LF_CAS( fifo->next, fifo, fifo) )
                     {
-                        //We have interrupted lf_item_put( head, fifo ) call, we must wait;
+                        //We have interrupted or working concurrent with
+                        //lf_item_put( head, fifo ) call, we must wait;
+                        if( LF_DLCT_FAIL() )
+                        {
+                            //Dead lock detected
+                            *item = (lf_item_t *)0;
+                            return LF_ST_EDLOCK;
+                        }
                         LF_YELD();
                     }
                     //Now we can chenge fifo->next pointer.
@@ -188,6 +267,7 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
             }
             else
             {
+                LF_DLCT_INIT();
                 //Multiple items
                 while(1)
                 {
@@ -203,6 +283,12 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
                     {
                         //We have interrupted lf_item_put( head, fifo ) call, we must wait;
                         //for fifo->next->next chain to form, then cut the head!
+                        if( LF_DLCT_FAIL() )
+                        {
+                            //Dead lock detected
+                            *item = (lf_item_t *)0;
+                            return LF_ST_EDLOCK;
+                        }
                         LF_YELD();
                         continue;
                     }
@@ -211,12 +297,13 @@ lf_item_t * lf_item_get( lf_item_t * fifo )
             //Now we can handle head->next
             head->next = head;
             LF_CAS( head->prev, head->prev, head );//Unlock the head.
-            return head;
+
+            *item = head;
+            return LF_ST_OK;
         }
     }
 }
-
-
+//===============================================================================
 lf_item_t tst_item[10];
 lf_item_t tst_fifo;
 
@@ -225,8 +312,11 @@ int main()
     int i;
 
     lf_item_t * tst_ret;
+    lf_st_t     tst_stat;
 
-    (void)tst_ret;//Disable warning!
+    //Disable warning!
+    (void)tst_ret;
+    (void)tst_stat;
 
     for( i = 0; i < 10; i++ )
     {
@@ -235,15 +325,16 @@ int main()
 
     lf_item_init( &tst_fifo );
 
-    lf_item_put( tst_item    , &tst_fifo );
-    lf_item_put( tst_item + 1, &tst_fifo );
-    lf_item_put( tst_item + 2, &tst_fifo );
+    tst_stat = lf_item_put( tst_item    , &tst_fifo );
+    tst_stat = lf_item_put( tst_item + 1, &tst_fifo );
+    tst_stat = lf_item_put( tst_item + 2, &tst_fifo );
 
-    tst_ret = lf_item_get( &tst_fifo );
-    tst_ret = lf_item_get( &tst_fifo );
-    tst_ret = lf_item_get( &tst_fifo );
-    tst_ret = lf_item_get( &tst_fifo );
+    tst_stat = lf_item_get( &tst_ret, &tst_fifo );
+    tst_stat = lf_item_get( &tst_ret, &tst_fifo );
+    tst_stat = lf_item_get( &tst_ret, &tst_fifo );
+    tst_stat = lf_item_get( &tst_ret, &tst_fifo );
 
     printf("Hello world!\n");
     return 0;
 }
+
