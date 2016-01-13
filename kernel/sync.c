@@ -260,7 +260,7 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
         else
         {
             // Finish process wakeup
-            _bgrt_pctrl_proc_run( proc, BGRT_PROC_STATE_SYNC_READY );
+            _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_SYNC_READY );
         }
 
         BGRT_SPIN_FREE( proc );

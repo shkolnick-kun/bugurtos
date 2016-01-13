@@ -80,31 +80,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 bgrt_prio_t bgrt_index_search(bgrt_index_t index)
 {
     bgrt_prio_t prio = (bgrt_prio_t)0;
-#ifdef BGRT_CONFIG_USE_O1_SEARCH
-    /*
-        Binary search.
-        Takes O(LOG2(BGRT_BITS_IN_INDEX_T)) time always, as BGRT_BITS_IN_INDEX_T is fixed, then it's O(1).
-        */
-    bgrt_index_t upper = ~(bgrt_index_t)0, lower = ~(bgrt_index_t)0, middle;
-    bgrt_prio_t step = (bgrt_prio_t)BGRT_BITS_IN_INDEX_T;
-    while( step )
-    {
-        step>>=1; // Bisection
-        middle = lower>>step;
-        if( index & upper & middle )
-        {
-            lower = middle;
-        }
-        else
-        {
-            upper = ~middle;
-            prio += step;
-        }
-    }
-#else
+#ifndef BGRT_CONFIG_USER_SEARCH
     /*
     Linear search.
-    Time limitation is O(BGRT_BITS_IN_INDEX_T), which is also O(1).
+    Time limitation is O(BGRT_BITS_IN_INDEX_T), which is O(1).
     */
     bgrt_index_t mask = (bgrt_index_t)1;
     while( mask )
@@ -113,6 +92,8 @@ bgrt_prio_t bgrt_index_search(bgrt_index_t index)
         prio++;
         mask<<=1;
     }
+#else
+    BGRT_CONFIG_USER_SEARCH(prio); //User defined search procedure
 #endif
     return prio;
 }

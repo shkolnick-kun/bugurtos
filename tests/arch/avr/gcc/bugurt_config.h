@@ -54,6 +54,7 @@ typedef unsigned char bgrt_st_t;
 // may be available, so bgrt_cnt_t can be
 // unsigned char or unsigned short.
 // Unsigned short is enough.
+#define BGRT_CONFIG_CNT_MAX (255)
 typedef unsigned short bgrt_cnt_t;
 
 // You can specify any volatile unsigned type here.
@@ -69,7 +70,6 @@ typedef unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
-#define BGRT_CONFIG_USE_O1_SEARCH
 #define BGRT_CONFIG_HARD_RT
 #define BGRT_CONFIG_USER_IDLE
 #define BGRT_CONFIG_PREEMPTIVE_KERNEL

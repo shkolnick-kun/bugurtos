@@ -88,7 +88,15 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 // Increment
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
-    pcounter->counter[prio]++;
+
+    if( BGRT_CONFIG_CNT_MAX > pcounter->counter[prio] )
+    {
+        pcounter->counter[prio]++;
+    }
+    else
+    {
+        while(1);//Panic!!!
+    }
     pcounter->index |= ((bgrt_index_t)1)<<prio;
 }
 // Decrement
@@ -98,37 +106,52 @@ bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 
     mask = ((bgrt_index_t)1)<<prio;
 
-    if(pcounter->counter[prio])
+    if( pcounter->counter[prio] )
     {
         pcounter->counter[prio]--;
+    }
+    else
+    {
+        while(1);//Panic!!!
     }
 
     if(pcounter->counter[prio] == (bgrt_cnt_t)0)
     {
         pcounter->index &= ~mask;
     }
-
     return pcounter->index & mask;
 }
 // Multiple increment
 void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
     pcounter->index |= ((bgrt_index_t)1)<<prio;
-    pcounter->counter[prio] += count;
+
+    if( BGRT_CONFIG_CNT_MAX - pcounter->counter[prio] > count )
+    {
+        pcounter->counter[prio] += count;
+    }
+    else
+    {
+        while(1);//Panic
+    }
 }
 // Multiple decrement
 bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
     bgrt_index_t mask;
     mask = ((bgrt_index_t)1)<<prio;
-    if( pcounter->counter[prio] <= count )
+    if( pcounter->counter[prio] < count )
     {
-        pcounter->index &= ~mask;
-        pcounter->counter[prio] = (bgrt_cnt_t)0;
+        while(1);//Panic
     }
     else
     {
         pcounter->counter[prio] -= count;
+    }
+
+    if( (bgrt_cnt_t)0 == pcounter->counter[prio] )
+    {
+        pcounter->index &= ~mask;
     }
     return pcounter->index & mask;
 }

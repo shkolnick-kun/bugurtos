@@ -54,6 +54,7 @@ typedef unsigned char bgrt_st_t;
 // may be available, so bgrt_cnt_t can be
 // unsigned char or unsigned short.
 // Unsigned short is enough.
+#define BGRT_CONFIG_CNT_MAX (0xff)
 typedef unsigned short bgrt_cnt_t;
 
 // You can specify any volatile unsigned type here.

@@ -158,7 +158,7 @@ void main_0( void * arg )
     test = ( 4 == proc[1].base_prio );
     test_output( test, test_num++ );
     // 20 _bgrt_proc_prio_propagate bgrt_proc_set_prio
-    test = ( 4 == proc[1].parent.prio);
+    test = ( 0 == proc[1].parent.prio);
     test_output( test, test_num++ );
     // 21 _bgrt_proc_prio_propagate bgrt_proc_set_prio
     test = ( BGRT_ST_OK == status[1] );
@@ -170,6 +170,7 @@ void main_0( void * arg )
     //cleanup
     BGRT_PROC_LRES_DEC( (PR2), BGRT_SYNC_PRIO(&bgrt_sync_1) );
     bgrt_sync_1.owner = (bgrt_proc_t *)0;
+    BGRT_PROC_LRES_DEC( (PR1), 0 );
     // 23 bgrt_sync_set_owner
     status[0] = bgrt_sync_set_owner( (bgrt_sync_t *)0, BGRT_PID_NOTHING );
     test = (BGRT_ST_ENULL == status[0]);
@@ -936,6 +937,8 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     ///bgrt_sync_sleep
+    //PR2 called bgrt_sync_touch, don't panic!!!
+    BGRT_PROC_LRES_INC(PR0,0); //Yes, this is a dirty hack!
     status[0] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
     bgrt_wait_time(5);
     //195 bgrt_sync_proc_timeout
@@ -947,7 +950,6 @@ void main_0( void * arg )
     //197 bgrt_sync_proc_timeout
     test = ( BGRT_ST_OK == status[2] );
     test_output( test, test_num++ );
-
 
     tests_end();
 }
