@@ -82,6 +82,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок счётчиков захваченных ресурсов. \~english A locked resource counter header.
 */
+bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val );
+bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val );
+bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b );
+bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b );
+
+#define BGRT_CNT_INC( cnt ) (cnt = bgrt_cnt_inc( cnt ))
+#define BGRT_CNT_DEC( cnt ) (cnt = bgrt_cnt_dec( cnt ))
+#define BGRT_CNT_ADD( cnt, delta ) (cnt = bgrt_cnt_add( cnt, delta ))
+#define BGRT_CNT_SUB( cnt, delta ) (cnt = bgrt_cnt_sub( cnt, delta ))
+
+
+
 typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_bgrt_pcounter_t; \~english See #_bgrt_pcounter_t; */
 /*!
 \~russian

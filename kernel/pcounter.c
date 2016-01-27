@@ -77,6 +77,71 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
+
+bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val )
+{
+    if( BGRT_CONFIG_CNT_MAX > val )
+    {
+        return val + (bgrt_cnt_t)1;
+    }
+    else
+    {
+#ifdef BGRT_CONFIG_TEST
+        while(1);//Panic!!!
+#else
+        return BGRT_CONFIG_CNT_MAX;
+#endif
+    }
+}
+
+bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val )
+{
+    if( val )
+    {
+        return val - (bgrt_cnt_t)1;
+    }
+    else
+    {
+#ifdef BGRT_CONFIG_TEST
+        while(1);//Panic!!!
+#else
+        return (bgrt_cnt_t)0;
+#endif
+    }
+}
+
+bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b )
+{
+    if( BGRT_CONFIG_CNT_MAX - a > b )
+    {
+        return a + b;
+    }
+    else
+    {
+#ifdef BGRT_CONFIG_TEST
+        while(1);//Panic!!!
+#else
+        return BGRT_CONFIG_CNT_MAX;
+#endif
+    }
+}
+
+bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b )
+{
+    if( a >= b )
+    {
+        return a - b;
+    }
+    else
+    {
+#ifdef BGRT_CONFIG_TEST
+        while(1);//Panic!!!
+#else
+        return (bgrt_cnt_t)0;
+#endif
+    }
+}
+
 // bgrt_pcounter_t methods
 // Initiation
 void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
@@ -88,15 +153,7 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 // Increment
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
-
-    if( BGRT_CONFIG_CNT_MAX > pcounter->counter[prio] )
-    {
-        pcounter->counter[prio]++;
-    }
-    else
-    {
-        while(1);//Panic!!!
-    }
+    BGRT_CNT_INC( pcounter->counter[prio] );
     pcounter->index |= ((bgrt_index_t)1)<<prio;
 }
 // Decrement
@@ -106,14 +163,7 @@ bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 
     mask = ((bgrt_index_t)1)<<prio;
 
-    if( pcounter->counter[prio] )
-    {
-        pcounter->counter[prio]--;
-    }
-    else
-    {
-        while(1);//Panic!!!
-    }
+    BGRT_CNT_DEC( pcounter->counter[prio] );
 
     if(pcounter->counter[prio] == (bgrt_cnt_t)0)
     {
@@ -126,28 +176,15 @@ void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t
 {
     pcounter->index |= ((bgrt_index_t)1)<<prio;
 
-    if( BGRT_CONFIG_CNT_MAX - pcounter->counter[prio] > count )
-    {
-        pcounter->counter[prio] += count;
-    }
-    else
-    {
-        while(1);//Panic
-    }
+    BGRT_CNT_ADD( pcounter->counter[prio], count );
 }
 // Multiple decrement
 bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
     bgrt_index_t mask;
     mask = ((bgrt_index_t)1)<<prio;
-    if( pcounter->counter[prio] < count )
-    {
-        while(1);//Panic
-    }
-    else
-    {
-        pcounter->counter[prio] -= count;
-    }
+
+    BGRT_CNT_SUB( pcounter->counter[prio], count );
 
     if( (bgrt_cnt_t)0 == pcounter->counter[prio] )
     {

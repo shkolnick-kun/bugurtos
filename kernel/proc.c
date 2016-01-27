@@ -266,7 +266,7 @@ void _bgrt_proc_lock( void )
     BGRT_SPIN_LOCK( proc );
 
     proc->flags |= BGRT_PROC_FLG_LOCK;
-    proc->cnt_lock++;
+    BGRT_CNT_INC( proc->cnt_lock );
 
     BGRT_SPIN_FREE( proc );
 }
@@ -279,10 +279,7 @@ void _bgrt_proc_free( void )
 
     BGRT_SPIN_LOCK( proc );
 
-    if( proc->cnt_lock )
-    {
-        proc->cnt_lock--;
-    }
+    BGRT_CNT_DEC( proc->cnt_lock );
 
     if( ((bgrt_cnt_t)0) == proc->cnt_lock )
     {

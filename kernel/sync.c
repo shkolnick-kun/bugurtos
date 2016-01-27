@@ -245,7 +245,7 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
             if( sync->owner )
             {
                 // Start priority inheritance transaction.
-                sync->dirty++;
+                BGRT_CNT_INC( sync->dirty ) ;
                 //To avoid prio inversion!!!
                 _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_PI_READY );
             }
@@ -462,8 +462,8 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
 
         if( touch && (owner != current) )
         {
-            sync->dirty++;
-            sync->snum++; //Increment sleeping process counter. Caller is going to sleep.
+            BGRT_CNT_INC( sync->dirty ) ;
+            BGRT_CNT_INC( sync->snum ); //Increment sleeping process counter. Caller is going to sleep.
             BGRT_SPIN_FREE( sync );
 
             _bgrt_sync_touch_prio_up( sync, current );
@@ -486,8 +486,8 @@ bgrt_st_t _bgrt_sync_touch( bgrt_sync_t * sync )
     }
 
     BGRT_SPIN_LOCK( sync );
-    sync->dirty++;
-    sync->snum++; //Increment sleeping process counter. Caller is going to sleep.
+    BGRT_CNT_INC( sync->dirty ) ;
+    BGRT_CNT_INC( sync->snum ); //Increment sleeping process counter. Caller is going to sleep.
     BGRT_SPIN_FREE( sync );
 
     current = bgrt_curr_proc();
@@ -610,7 +610,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
         else
         {
             _bgrt_sync_proc_stop( proc, BGRT_PROC_STATE_SYNC_SLEEP );
-            sync->snum++;  //Increment sleeping process counter. Caller is going to sleep.
+            BGRT_CNT_INC( sync->snum );  //Increment sleeping process counter. Caller is going to sleep.
             sync_clear = (bgrt_flag_t)0; //No event!
             break;
         }
