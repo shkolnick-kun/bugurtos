@@ -573,11 +573,15 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
     {
         //The end of priority inheritance transaction or bgrt_sync_own transaction
         _bgrt_sync_sleep_swap_locks( sync, proc );
-        //No zero check needed, as a process state is BGRT_PROC_STATE_PI_RUNNING.
-        sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty-- ); //Event!
+
+        sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty ); //Event!
+        BGRT_CNT_DEC( sync->dirty );
+
         _bgrt_sync_proc_stop( proc, BGRT_PROC_STATE_SYNC_SLEEP );
+
         BGRT_PROC_LRES_DEC( proc, 0 );
         _bgrt_pctrl_proc_stoped( proc );
+
         if( sync->owner == proc )
         {
             bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
