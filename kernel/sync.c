@@ -504,14 +504,6 @@ static void _bgrt_sync_sleep_swap_locks( bgrt_sync_t * sync, bgrt_proc_t * proc 
     BGRT_SPIN_LOCK( proc );
 }
 //========================================================================================
-static void _bgrt_sync_snum_dec( bgrt_sync_t * sync )
-{
-    if( sync->snum )
-    {
-        sync->snum--;// Decrement sleeping proc count.
-    }
-}
-//========================================================================================
 bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
 {
     bgrt_proc_t * proc;
@@ -551,7 +543,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
         BGRT_KERNEL_PREEMPT();
         BGRT_SPIN_LOCK( sync );
 
-        _bgrt_sync_snum_dec(sync); //One sleeping proc less!
+        BGRT_CNT_DEC( sync->snum ); //One sleeping proc less!
 
         if( sync->pwake )
         {
@@ -588,7 +580,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
 
             BGRT_SPIN_FREE( proc );
 
-            _bgrt_sync_snum_dec( sync ); //One sleeping process less!
+            BGRT_CNT_DEC( sync->snum ); //The process bacame an owner during a prio unheritance transaction!
             BGRT_SPIN_FREE( sync );
 
             return BGRT_ST_EOWN;
@@ -605,8 +597,6 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
         if( sync->owner == proc )
         {
             BGRT_SPIN_FREE( proc );
-
-            _bgrt_sync_snum_dec( sync ); //One sleeping process less!
             BGRT_SPIN_FREE( sync );
 
             return BGRT_ST_EOWN;
@@ -941,7 +931,7 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
         //Undo bgrt_sync_sleep
         bgrt_prio_t old_prio;
 
-        _bgrt_sync_snum_dec( sync ); //One sleeping proc less
+        BGRT_CNT_DEC( sync->snum ); //One sleeping proc less
 
         old_prio = BGRT_SYNC_PRIO( sync );
 

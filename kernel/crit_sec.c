@@ -90,7 +90,7 @@ bgrt_cpuid_t _bgrt_crit_sec_enter(void)
 
 void _bgrt_crit_sec_exit(bgrt_cpuid_t core)
 {
-    BGRT_CNT_DEC( bgrt_kernel.sched[ret].nested_crit_sec );
+    BGRT_CNT_DEC( bgrt_kernel.sched[core].nested_crit_sec );
     if( bgrt_kernel.sched[core].nested_crit_sec == (bgrt_cnt_t)0 )
     {
         bgrt_enable_interrupts();
