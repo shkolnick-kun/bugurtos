@@ -8,7 +8,7 @@
 		<Cursor position="6229" topLine="70" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="7">
-		<Cursor position="7863" topLine="124" />
+		<Cursor position="10679" topLine="205" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="4">
 		<Cursor position="6621" topLine="65" />
@@ -20,7 +20,7 @@
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="7758" topLine="129" />
+		<Cursor position="7754" topLine="129" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="4">
 		<Cursor position="94" topLine="1" />
@@ -47,24 +47,24 @@
 		<Cursor position="94" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="1">
-		<Cursor position="94" topLine="0" />
+		<Cursor position="6402" topLine="82" />
 	</File>
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="5">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="5">
 		<Cursor position="10430" topLine="341" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
-		<Cursor position="39821" topLine="822" />
+		<Cursor position="23028" topLine="429" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="5">
-		<Cursor position="10274" topLine="197" />
+		<Cursor position="16245" topLine="396" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="4">
 		<Cursor position="10536" topLine="194" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="1" tabpos="0">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
 		<Cursor position="19590" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="2">
@@ -92,7 +92,7 @@
 		<Cursor position="3197" topLine="205" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="4">
-		<Cursor position="27" topLine="0" />
+		<Cursor position="12" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="139" topLine="0" />

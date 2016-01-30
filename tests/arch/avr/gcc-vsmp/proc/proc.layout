@@ -14,7 +14,7 @@
 		<Cursor position="0" topLine="96" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="13432" topLine="107" />
+		<Cursor position="13432" topLine="272" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="22937" topLine="507" />
@@ -26,6 +26,6 @@
 		<Cursor position="3386" topLine="192" />
 	</File>
 	<File name="../../../../main/proc/main.c" open="0" top="0" tabpos="2">
-		<Cursor position="4139" topLine="141" />
+		<Cursor position="2331" topLine="66" />
 	</File>
 </CodeBlocks_layout_file>

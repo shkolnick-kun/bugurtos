@@ -55,7 +55,8 @@ void main_proc_test( void * arg )
     test = ( BGRT_ST_OK == bgrt_proc_stop( PID2 ) );
     test_output( test , 7 );
 
-
+    proc[4].flags |= BGRT_PROC_FLG_LOCK;
+    proc[4].cnt_lock = (bgrt_cnt_t)1;
     bgrt_proc_run( PID4 );
 
     // bgrt_proc_free test 8

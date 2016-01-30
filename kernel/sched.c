@@ -180,11 +180,31 @@ static bgrt_sched_t * sched_stat_update_run( bgrt_proc_t * proc )
     return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
 }
 
+static void sched_stat_update_stop( bgrt_proc_t * proc )
+{
+    bgrt_spin_lock( &bgrt_kernel.stat_lock );
+    bgrt_stat_dec( proc, (bgrt_ls_t *)bgrt_kernel.stat + proc->core_id );
+    bgrt_spin_free( &bgrt_kernel.stat_lock );
+}
+
+static bgrt_sched_t * sched_stat_update_migrate( bgrt_proc_t * proc )
+{
+    bgrt_spin_lock( &bgrt_kernel.stat_lock );
+    bgrt_stat_dec( proc, (bgrt_ls_t *)bgrt_kernel.stat + proc->core_id );
+    proc->core_id = bgrt_sched_load_balancer( proc, (bgrt_ls_t *)bgrt_kernel.stat );
+    bgrt_stat_inc( proc, (bgrt_ls_t *)bgrt_kernel.stat+proc->core_id );
+    bgrt_spin_free( &bgrt_kernel.stat_lock );
+
+    return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+}
+
 #define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
+#define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
 
 #else  //BGRT_CONFIG_MP
 
 #define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
+#define BGRT_SCHED_STAT_UPDATE_STOP(a) do{}while(0)
 
 #endif //BGRT_CONFIG_MP
 void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
@@ -206,12 +226,10 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc)
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * xlist_lock;
+
+    sched_stat_update_stop( proc );
+
     xlist_lock = &((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id)->lock;
-
-    bgrt_spin_lock( &bgrt_kernel.stat_lock );
-    bgrt_stat_dec( proc, (bgrt_ls_t *)bgrt_kernel.stat + proc->core_id );
-    bgrt_spin_free( &bgrt_kernel.stat_lock );
-
     bgrt_spin_lock( xlist_lock );
 #endif // BGRT_CONFIG_MP
 
@@ -251,8 +269,7 @@ static void _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * current_p
 
     BGRT_SPIN_LOCK( current_proc );
     /***************************************************************************
-    If a process was in READY state then it will go to RUNNING state,
-    and if it was in W_READY state? then it will go to W_RUNNING state!!!
+        Switch a process state from *_READY to *_RUNNING
     ***************************************************************************/
     current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
     current_proc->flags |= BGRT_PROC_STATE_RUNNING;
@@ -263,6 +280,31 @@ static void _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * current_p
     }
     BGRT_SPIN_FREE( current_proc );
 }
+
+#ifdef BGRT_CONFIG_MP
+static void sched_proc_insert_expired( bgrt_proc_t * proc, bgrt_sched_t * sched )
+{
+    BGRT_SPIN_LOCK( sched );
+    bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired );
+    BGRT_SPIN_FREE( sched );
+}
+#define BGRT_SCHED_PROC_INSERT_EXPIRED sched_proc_insert_expired
+#else //BGRT_CONFIG_MP
+#define BGRT_SCHED_PROC_INSERT_EXPIRED(proc,sched) bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired )
+#endif//BGRT_CONFIG_MP
+
+#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
+#define BGRT_PROC_NEW_SCHED sched_stat_update_migrate //A process will migrate
+#else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
+#define BGRT_PROC_NEW_SCHED(proc) sched               //A process will stay on the same scheduler
+#endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
+
+#ifdef BGRT_CONFIG_HARD_RT  //Hard real time, the process may be "killed" or "wd stoped"
+#define BGRT_PROC_NEW_STATE(flags) ((flags & BGRT_PROC_FLG_LOCK_MASK)?(BGRT_PROC_STATE_DEAD):(BGRT_PROC_STATE_WD_STOPED))
+#else //BGRT_CONFIG_HARD_RT // Soft real time, just stop the process!
+#define BGRT_PROC_NEW_STATE(flags) (BGRT_PROC_STATE_WD_STOPED)
+#endif//BGRT_CONFIG_HARD_RT
+
 /******************************************************************************************
 If we have some CPU core and corresponding bgrt_sched_t object,
 then "sched->current_proc", "sched->ready", "sched->expired fields"
@@ -286,9 +328,10 @@ void bgrt_sched_schedule(void)
     if( (bgrt_xlist_t *)((bgrt_pitem_t *)current_proc)->list == sched->ready )
     {
         /***************************************************************************
-        Switch a process state from RUNNING/W_RUNNING to STOPED/W_MUT!
+        Switch a process state from *_RUNNING to *_READY
         ***************************************************************************/
         current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
+        current_proc->flags |= BGRT_PROC_STATE_READY;
 
         if( current_proc->flags & BGRT_PROC_FLG_RR )
         {
@@ -301,10 +344,6 @@ void bgrt_sched_schedule(void)
         if( current_proc->timer > (bgrt_tmr_t)1 )
         {
             current_proc->timer--;// No! Decrement a process timer!
-            /**********************************************************************
-            Switch a process state to READY/PI_READY/BGRT_SYNC_READY.
-            **********************************************************************/
-            current_proc->flags |= BGRT_PROC_STATE_READY;
         }
         else
         {
@@ -313,15 +352,7 @@ void bgrt_sched_schedule(void)
             BGRT_SPIN_LOCK( sched );
             bgrt_pitem_fast_cut( (bgrt_pitem_t *)current_proc );
             BGRT_SPIN_FREE( sched );
-#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-            /***********************************************************************
-            The bgrt_kernel.stat_lock is locked here if BGRT_CONFIG_USE_ALB config option defined.
-            We must free bgrt_kernel.stat_lock in both "if" statement branches!!!
-            ***********************************************************************/
-            bgrt_spin_lock( &bgrt_kernel.stat_lock );
-            // Update load stats after a process was cut!
-            bgrt_stat_dec( current_proc, (bgrt_ls_t *)bgrt_kernel.stat + current_proc->core_id );
-#endif // BGRT_CONFIG_USE_ALB
+
             // What process is it?
             flags = current_proc->flags;
             if(
@@ -332,81 +363,20 @@ void bgrt_sched_schedule(void)
 
             )
             {
-                //A process is not RT, or it didn't release some resources, transfer it to expired list and reset its timer.
-#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-                bgrt_sched_t * new_sched;
-                // Load balancing
-                current_proc->core_id = bgrt_sched_load_balancer( current_proc, (bgrt_ls_t *)bgrt_kernel.stat );
-                // A new sched pointer
-                new_sched = (bgrt_sched_t *)bgrt_kernel.sched + current_proc->core_id;
-                // Update load stats before insert a process to expired list!
-                bgrt_stat_inc( current_proc, (bgrt_ls_t *)bgrt_kernel.stat + current_proc->core_id );
-                /******************************************************
-                We need to free bgrt_kernel.stat_lock in that branch
-                only when BGRT_CONFIG_USE_ALB option defined.
-                ******************************************************/
-                bgrt_spin_free( &bgrt_kernel.stat_lock );
-
-                // Insert a process to expired list.
-                BGRT_SPIN_LOCK( new_sched );
-                bgrt_pitem_insert( (bgrt_pitem_t *)current_proc, new_sched->expired );
-                BGRT_SPIN_FREE( new_sched );
-#else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-                // Just insert a process to expired list.
-                BGRT_SPIN_LOCK( sched );
-                bgrt_pitem_insert( (bgrt_pitem_t *)current_proc, sched->expired );
-                BGRT_SPIN_FREE( sched );
-
-#endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-                current_proc->timer = current_proc->time_quant; // Сбросили таймер!
-                /**********************************************************************
-                Switch a process state to READY/PI_READY/BGRT_SYNC_READY.
-                **********************************************************************/
-                current_proc->flags |= BGRT_PROC_STATE_READY;
+                //Clear the process timer
+                current_proc->timer = current_proc->time_quant;
+                //A process is not RT, or it was locked in soft real time configuration,
+                //transfer it to expired list and reset its timer.
+                BGRT_SCHED_PROC_INSERT_EXPIRED( current_proc, BGRT_PROC_NEW_SCHED( current_proc ) );
             }
             else
             {
                 // A process is RT and it does not nave locked resources, stop it on watchdog!
-#ifdef BGRT_CONFIG_MP
-#ifndef BGRT_CONFIG_USE_ALB
-                // Update load stats after a process was cut from ready list
-                /*********************************************************
-                If BGRT_CONFIG_USE_ALB option is not defined,
-                then bgrt_kernel.stat_lock is locked only in that
-                "if" statement branch.
-                *********************************************************/
-                bgrt_spin_lock( &bgrt_kernel.stat_lock );
-                bgrt_stat_dec( current_proc, (bgrt_ls_t *)bgrt_kernel.stat + current_proc->core_id );
-#endif // nBGRT_CONFIG_USE_ALB
-                /*********************************************************
-                We must free bgrt_kernel.stat_lock now. No exceptions!!!
-                *********************************************************/
-                bgrt_spin_free( &bgrt_kernel.stat_lock );
-#endif // BGRT_CONFIG_MP
-                ((bgrt_pitem_t *)current_proc)->list = (void *)0;// Просто вырезали из списка, как в bgrt_pitem_cut
-                flags &= BGRT_PROC_STATE_CLEAR_MASK;
-#ifdef BGRT_CONFIG_HARD_RT
-                /**********************************************************************
-                If process have some locked resources, then it goes to DEAD state,
-                or it goes to WD_STOPED state.
-                **********************************************************************/
-                if( (bgrt_flag_t)0 == (flags & BGRT_PROC_FLG_LOCK_MASK) )
-                {
-                    flags |= BGRT_PROC_STATE_WD_STOPED;
-                }
-                else
-                {
-                    // Go to DEAD state.
-                    flags |= BGRT_PROC_STATE_DEAD;
-                }
-#else // BGRT_CONFIG_HARD_RT
-                /**********************************************************************
-                In that branch of #ifdef BGRT_CONFIG_HARD_RT, we have a RT process, which
-                does not have locked resources.
-                **********************************************************************/
-                flags |= BGRT_PROC_STATE_WD_STOPED;
-#endif // BGRT_CONFIG_HARD_RT
-                current_proc->flags = flags;
+                BGRT_SCHED_STAT_UPDATE_STOP( current_proc );
+                //Finish process cut
+                ((bgrt_pitem_t *)current_proc)->list = (void *)0;
+                //Update process state
+                BGRT_PROC_SET_STATE( current_proc, BGRT_PROC_NEW_STATE(flags) );
             }
         }
     }
@@ -431,6 +401,9 @@ void bgrt_sched_reschedule(void)
 
     if( BGRT_PROC_STATE_RUNNING == ( current_proc->flags & BGRT_PROC_STATE_RUN_MASK ) )
     {
+        /***************************************************************************
+        Switch a process state from *_RUNNING to *_READY
+        ***************************************************************************/
         current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
         current_proc->flags |= BGRT_PROC_STATE_READY;
     }
@@ -439,6 +412,11 @@ void bgrt_sched_reschedule(void)
     _sched_switch_current( sched, current_proc );
 }
 //========================================================================================
+#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
+#define BGRT_PROC_YELD_SCHED_UPDATE(proc) (sched = sched_stat_update_run(proc)) //A process will migrate
+#else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
+#define BGRT_PROC_YELD_SCHED_UPDATE(proc) do{}while(0)            //A process will stay on the same scheduler
+#endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 bgrt_bool_t _bgrt_sched_proc_yeld( void )
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;
@@ -478,7 +456,6 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
         }
         else
         {
-#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
             BGRT_SPIN_LOCK( sched );
             proc_map = sched->expired->index;
             BGRT_SPIN_FREE( sched );
@@ -490,29 +467,12 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
             BGRT_SPIN_FREE( sched );
 
             BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_READY );
+            //Update sched if needed!
+            BGRT_PROC_YELD_SCHED_UPDATE(proc);
+            //Insert to expired listss
+            BGRT_SCHED_PROC_INSERT_EXPIRED( proc, sched );
 
-            sched = sched_stat_update_run( proc );
-
-            BGRT_SPIN_LOCK( sched );
-            bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired );
-            BGRT_SPIN_FREE( sched );
-#else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-            BGRT_SPIN_LOCK( sched );
-
-            bgrt_pitem_cut( (bgrt_pitem_t *)proc );
-            proc_map = sched->expired->index;
-
-            BGRT_SPIN_FREE( sched );
-
-            BGRT_SPIN_LOCK( sched );
-
-            bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired );
-            proc_map |= sched->ready->index;
-
-            BGRT_SPIN_FREE( sched );
-#endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
             save_power = (bgrt_bool_t)!proc_map;
-
         }
 
     }
@@ -558,33 +518,23 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 
     bgrt_disable_interrupts();
     BGRT_SPIN_LOCK( proc );
-    // Check if a process is still running.
+
     if( BGRT_PROC_RUN_TEST( proc ) )
     {
+        // If the process is still running...
         // Stop it;
+        sched = ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+
         BGRT_SPIN_LOCK( sched );
         bgrt_pitem_fast_cut( (bgrt_pitem_t *)proc );
         BGRT_SPIN_FREE( sched );
 
-        bgrt_resched(object_core); // Resched object core...
+        bgrt_resched(proc->core_id); // Resched object core...
 
-        // Process load stats...
-        bgrt_spin_lock( &bgrt_kernel.stat_lock );
+        // Migrate it
+        sched = sched_stat_update_migrate( proc );
 
-        bgrt_stat_dec( proc, (bgrt_ls_t *)bgrt_kernel.stat + object_core );
-
-        object_core = bgrt_sched_load_balancer( proc, (bgrt_ls_t *)bgrt_kernel.stat );// New core for target process...
-        sched = (bgrt_sched_t *)bgrt_kernel.sched + object_core;//New scheduler object...
-        bgrt_stat_inc( proc, (bgrt_ls_t *)bgrt_kernel.stat + object_core );
-
-        bgrt_spin_free( &bgrt_kernel.stat_lock );
-
-        // Transfer a process to new core...
-        proc->core_id = object_core;
-
-        BGRT_SPIN_LOCK( sched );
-        bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired );
-        BGRT_SPIN_FREE( sched );
+        BGRT_SCHED_PROC_INSERT_EXPIRED( proc, sched );
     }
     BGRT_SPIN_FREE( proc );
     bgrt_enable_interrupts();
