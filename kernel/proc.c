@@ -80,11 +80,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************
                               Internal Usage functions!!!
 *****************************************************************************************/
-void _bgrt_proc_stop_ensure( bgrt_proc_t * proc )
+void _bgrt_proc_stop_ensure( bgrt_proc_t * proc, bgrt_flag_t state )
 {
     if( BGRT_PROC_RUN_TEST( proc ) )
     {
-        bgrt_sched_proc_stop( proc );
+        bgrt_sched_proc_stop( proc, state );
     }
 }
 /**********************************************************************************************
@@ -250,7 +250,7 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
     }
     else
     {
-        _bgrt_proc_stop_ensure( proc );
+        _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
         ret = BGRT_ST_OK;;
     }
 
@@ -292,7 +292,7 @@ void _bgrt_proc_free( void )
     */
     if(  BGRT_PROC_PRE_STOP_TEST(proc)  )
     {
-        _bgrt_proc_stop_ensure( proc );
+        _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
         proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;
     }
 
@@ -306,7 +306,7 @@ void _bgrt_proc_self_stop(void)
 
     BGRT_SPIN_LOCK( proc );
 
-    _bgrt_proc_stop_ensure( proc );
+    _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
 
     BGRT_SPIN_FREE( proc );
 }
@@ -318,7 +318,7 @@ void _bgrt_proc_terminate( void )
 
     BGRT_SPIN_LOCK( proc );
 
-    _bgrt_proc_stop_ensure( proc );
+    _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
     // Flags processing!
     // A process is not allowed to return from pmain while being locked!
     if( proc->flags & BGRT_PROC_FLG_LOCK_MASK )

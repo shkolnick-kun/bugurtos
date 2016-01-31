@@ -222,7 +222,7 @@ void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
 }
 //========================================================================================
 // Cut a process from ready or expired list, update load information.
-void bgrt_sched_proc_stop(bgrt_proc_t * proc)
+void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state )
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * xlist_lock;
@@ -233,7 +233,7 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc)
     bgrt_spin_lock( xlist_lock );
 #endif // BGRT_CONFIG_MP
 
-    proc->flags &= BGRT_PROC_STATE_CLEAR_MASK;
+    BGRT_PROC_SET_STATE( proc, state );
     bgrt_pitem_cut( (bgrt_pitem_t *)proc );
 
 #ifdef BGRT_CONFIG_MP
@@ -460,7 +460,7 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
             proc_map = sched->expired->index;
             BGRT_SPIN_FREE( sched );
 
-            bgrt_sched_proc_stop(proc);
+            bgrt_sched_proc_stop( proc, BGRT_PROC_STATE_STOPED );
 
             BGRT_SPIN_LOCK( sched );
             proc_map |= sched->ready->index;

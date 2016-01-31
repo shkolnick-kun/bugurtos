@@ -543,7 +543,7 @@ Stops a process for sure.
 
 \param proc - A pointer to a process.
 */
-void _bgrt_proc_stop_ensure( bgrt_proc_t * proc );
+void _bgrt_proc_stop_ensure( bgrt_proc_t * proc, bgrt_flag_t state );
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */

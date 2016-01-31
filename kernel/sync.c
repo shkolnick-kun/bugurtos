@@ -109,20 +109,20 @@ static void _bgrt_pctrl_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
 //========================================================================================
 static void _bgrt_pctrl_proc_running( bgrt_proc_t * proc, bgrt_flag_t state )
 {
-    _bgrt_proc_stop_ensure( proc );
+    _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
     _bgrt_pctrl_proc_run( proc, state );
 }
-//========================================================================================
-static void _bgrt_sync_proc_stop( bgrt_proc_t * proc, bgrt_flag_t mask )
-{
-    // Was a process stopped some where else?
-    if( BGRT_PROC_RUN_TEST( proc ) )
-    {
-        // No, stop it now.
-        bgrt_sched_proc_stop( proc );
-        proc->flags |= mask;
-    }
-}
+////========================================================================================
+//static void _bgrt_sync_proc_stop( bgrt_proc_t * proc, bgrt_flag_t mask )
+//{
+//    // Was a process stopped some where else?
+//    if( BGRT_PROC_RUN_TEST( proc ) )
+//    {
+//        // No, stop it now.
+//        bgrt_sched_proc_stop( proc, BGRT_PROC_STATE_STOPED );
+//        proc->flags |= mask;
+//    }
+//}
 //========================================================================================
 bgrt_prio_t _bgrt_sync_prio( bgrt_sync_t * sync )
 {
@@ -430,7 +430,7 @@ static void _bgrt_sync_touch_prio_up( bgrt_sync_t * sync, bgrt_proc_t * proc )
 {
     BGRT_SPIN_LOCK( proc );
 
-    _bgrt_proc_stop_ensure( proc );
+    _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
     proc->sync = sync;
     _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_RUNNING );
 
@@ -569,7 +569,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
         sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty ); //Event!
         BGRT_CNT_DEC( sync->dirty );
 
-        _bgrt_sync_proc_stop( proc, BGRT_PROC_STATE_SYNC_SLEEP );
+        _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_SYNC_SLEEP );
 
         BGRT_PROC_LRES_DEC( proc, 0 );
         _bgrt_pctrl_proc_stoped( proc );
@@ -603,7 +603,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
         }
         else
         {
-            _bgrt_sync_proc_stop( proc, BGRT_PROC_STATE_SYNC_SLEEP );
+            _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_SYNC_SLEEP );
             BGRT_CNT_INC( sync->snum );  //Increment sleeping process counter. Caller is going to sleep.
             sync_clear = (bgrt_flag_t)0; //No event!
             break;
@@ -658,7 +658,7 @@ static void _bgrt_sync_owner_block( bgrt_proc_t * owner )
     BGRT_SPIN_LOCK( owner );
 
     owner->sync = (bgrt_sync_t *)0;
-    _bgrt_sync_proc_stop( owner, BGRT_PROC_STATE_SYNC_SLEEP );
+    _bgrt_proc_stop_ensure( owner, BGRT_PROC_STATE_SYNC_SLEEP );
 
     BGRT_SPIN_FREE( owner );
 }
@@ -726,7 +726,7 @@ bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t 
     if( status == BGRT_ST_ROLL )
     {
         BGRT_SPIN_LOCK( owner );
-        _bgrt_sync_proc_stop( owner, BGRT_PROC_STATE_SYNC_WAIT );
+        _bgrt_proc_stop_ensure( owner, BGRT_PROC_STATE_SYNC_WAIT );
         BGRT_SPIN_FREE( owner );
     }
 
@@ -807,7 +807,7 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
     {
         BGRT_SPIN_LOCK( owner );
 
-        bgrt_sched_proc_stop( owner );
+        bgrt_sched_proc_stop( owner, BGRT_PROC_STATE_STOPED );
         BGRT_PROC_LRES_DEC( owner, BGRT_SYNC_PRIO( sync ) );// No prio control now!
 
         BGRT_SPIN_FREE( owner );

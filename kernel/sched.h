@@ -206,7 +206,7 @@ void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state );
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
-void bgrt_sched_proc_stop( bgrt_proc_t * proc );
+void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state );
 
 
 /*!

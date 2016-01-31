@@ -19,7 +19,7 @@
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
 		<Cursor position="35471" topLine="636" />
 	</File>
-	<File name="../../../../../../../kernel/sync.c" open="1" top="1" tabpos="0">
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="30081" topLine="897" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="9">
