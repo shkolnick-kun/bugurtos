@@ -39,6 +39,7 @@ typedef unsigned char bgrt_flag_t;
 typedef unsigned char bgrt_st_t;
 
 typedef unsigned long bgrt_cnt_t;
+#define BGRT_CONFIG_CNT_MAX 0xffffffff
 
 typedef volatile unsigned long bgrt_tmr_t;
 
