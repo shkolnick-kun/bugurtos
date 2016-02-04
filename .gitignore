@@ -19,5 +19,6 @@
 *.out
 *.app
 *.elf
+*.axf
 *.hex
 *.bin
