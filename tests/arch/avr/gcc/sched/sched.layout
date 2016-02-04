@@ -40,7 +40,7 @@
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="5">
 		<Cursor position="9551" topLine="145" />
 	</File>
-	<File name="../../../../../kernel/pcounter.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="3">
 		<Cursor position="6892" topLine="98" />
 	</File>
 	<File name="../../../../../kernel/pcounter.h" open="0" top="0" tabpos="6">
@@ -52,19 +52,19 @@
 	<File name="../../../../../kernel/pitem.h" open="0" top="0" tabpos="8">
 		<Cursor position="9318" topLine="178" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
 		<Cursor position="6484" topLine="80" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="3">
 		<Cursor position="7415" topLine="395" />
 	</File>
-	<File name="../../../../../kernel/sched.c" open="1" top="1" tabpos="4">
+	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="4">
 		<Cursor position="9773" topLine="184" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="5">
 		<Cursor position="10263" topLine="190" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="1">
 		<Cursor position="19578" topLine="166" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
