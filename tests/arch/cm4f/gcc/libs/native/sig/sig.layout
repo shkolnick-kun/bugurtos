@@ -7,10 +7,10 @@
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6700" topLine="86" />
 	</File>
-	<File name="../../../../../../../kernel/timer.c" open="1" top="0" tabpos="5">
+	<File name="../../../../../../../kernel/timer.c" open="1" top="0" tabpos="1">
 		<Cursor position="6506" topLine="92" />
 	</File>
-	<File name="../../../../../../main/libs/native/sig/main.c" open="1" top="1" tabpos="7">
+	<File name="../../../../../../main/libs/native/sig/main.c" open="1" top="0" tabpos="2">
 		<Cursor position="2067" topLine="96" />
 	</File>
 </CodeBlocks_layout_file>
