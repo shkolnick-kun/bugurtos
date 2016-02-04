@@ -1,0 +1,19 @@
+# Desktop enviroment #
+*.directory
+*~
+
+# Compiled Objects #
+*.o
+*.obj
+
+# Compiled Static libraries #
+*.a
+*.lib
+
+# Executables #
+*.exe
+*.out
+*.app
+*.elf
+*.hex
+*.bin
