@@ -112,17 +112,6 @@ static void _bgrt_pctrl_proc_running( bgrt_proc_t * proc, bgrt_flag_t state )
     _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
     _bgrt_pctrl_proc_run( proc, state );
 }
-////========================================================================================
-//static void _bgrt_sync_proc_stop( bgrt_proc_t * proc, bgrt_flag_t mask )
-//{
-//    // Was a process stopped some where else?
-//    if( BGRT_PROC_RUN_TEST( proc ) )
-//    {
-//        // No, stop it now.
-//        bgrt_sched_proc_stop( proc, BGRT_PROC_STATE_STOPED );
-//        proc->flags |= mask;
-//    }
-//}
 //========================================================================================
 bgrt_prio_t _bgrt_sync_prio( bgrt_sync_t * sync )
 {
@@ -185,11 +174,11 @@ static void _bgrt_sync_do_pending_wake( bgrt_sync_t * sync )
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
-#define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc, bgrt_code_t hook, void * hook_arg
-#define BGRT_PCTRL_PROP_HOOK() hook(hook_arg)
+#   define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc, bgrt_code_t hook, void * hook_arg
+#   define BGRT_PCTRL_PROP_HOOK() hook(hook_arg)
 #else // BGRT_CONFIG_MP
-#define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc
-#define BGRT_PCTRL_PROP_HOOK()
+#   define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc
+#   define BGRT_PCTRL_PROP_HOOK()
 #endif // BGRT_CONFIG_MP
 static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
 {
@@ -305,9 +294,9 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
-#define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate( p, (bgrt_code_t)bgrt_spin_free, (void *)&p->lock )
+#   define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate( p, (bgrt_code_t)bgrt_spin_free, (void *)&p->lock )
 #else // BGRT_CONFIG_MP
-#define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate( p )
+#   define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate( p )
 #endif // BGRT_CONFIG_MP
 void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
 {
@@ -328,9 +317,9 @@ static void bgrt_sync_prio_prop_hook( bgrt_sync_t * sync )
     BGRT_SPIN_FREE( (sync->owner) );
     BGRT_SPIN_FREE( sync );
 }
-#define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate( p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m )
+#   define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate( p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m )
 #else // BGRT_CONFIG_MP
-#define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate( p )
+#   define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate( p )
 #endif // BGRT_CONFIG_MP
 //========================================================================================
 bgrt_st_t bgrt_sync_init( bgrt_sync_t * sync, bgrt_prio_t prio )

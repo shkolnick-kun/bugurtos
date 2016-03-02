@@ -78,6 +78,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+static void bgrt_cnt_panic(void)
+{
+    while(1);
+}
+
+#ifdef BGRT_CONFIG_TEST
+#   define BGRT_CNT_PANIC() bgrt_cnt_panic()
+#else  //BGRT_CONFIG_TEST
+#   ifdef BGRT_CONFIG_PANIC
+#       define BGRT_CNT_PANIC() BGRT_CONFIG_PANIC()
+#   else
+#       define BGRT_CNT_PANIC()
+#   endif //BGRT_CONFIG_PANIC
+#endif //BGRT_CONFIG_TEST
+
 bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val )
 {
     if( BGRT_CONFIG_CNT_MAX > val )
@@ -86,11 +101,8 @@ bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val )
     }
     else
     {
-#ifdef BGRT_CONFIG_TEST
-        while(1);//Panic!!!
-#else
+        BGRT_CNT_PANIC();
         return BGRT_CONFIG_CNT_MAX;
-#endif
     }
 }
 
@@ -102,11 +114,8 @@ bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val )
     }
     else
     {
-#ifdef BGRT_CONFIG_TEST
-        while(1);//Panic!!!
-#else
+        BGRT_CNT_PANIC();
         return (bgrt_cnt_t)0;
-#endif
     }
 }
 
@@ -118,11 +127,8 @@ bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b )
     }
     else
     {
-#ifdef BGRT_CONFIG_TEST
-        while(1);//Panic!!!
-#else
+        BGRT_CNT_PANIC();
         return BGRT_CONFIG_CNT_MAX;
-#endif
     }
 }
 
@@ -134,11 +140,8 @@ bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b )
     }
     else
     {
-#ifdef BGRT_CONFIG_TEST
-        while(1);//Panic!!!
-#else
+        BGRT_CNT_PANIC();
         return (bgrt_cnt_t)0;
-#endif
     }
 }
 

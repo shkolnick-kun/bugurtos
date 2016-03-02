@@ -104,9 +104,9 @@ A scheduler header.
 Initialization wrapper for sched variable in #bgrt_sched_schedule and #bgrt_sched_reschedule functions.
 */
 #ifdef BGRT_CONFIG_MP
-#define BGRT_SCHED_INIT() (((bgrt_sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
+#   define BGRT_SCHED_INIT() (((bgrt_sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
 #else // BGRT_CONFIG_MP
-#define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.sched)
+#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.sched)
 #endif // BGRT_CONFIG_MP
 
 // Планировщик
@@ -356,4 +356,5 @@ Finds the most loaded CPU core on the system and transfers one process from it t
 */
 void bgrt_sched_lazy_global_load_balancer(void);
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
+
 #endif // _BGRT_SCHED_H_

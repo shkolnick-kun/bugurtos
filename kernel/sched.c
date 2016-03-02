@@ -169,7 +169,6 @@ void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle)
 //========================================================================================
 // Insert a process to ready list and update load information.
 #ifdef BGRT_CONFIG_MP
-
 static bgrt_sched_t * sched_stat_update_run( bgrt_proc_t * proc )
 {
     bgrt_spin_lock( &bgrt_kernel.stat_lock );
@@ -179,14 +178,12 @@ static bgrt_sched_t * sched_stat_update_run( bgrt_proc_t * proc )
 
     return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
 }
-
 static void sched_stat_update_stop( bgrt_proc_t * proc )
 {
     bgrt_spin_lock( &bgrt_kernel.stat_lock );
     bgrt_stat_dec( proc, (bgrt_ls_t *)bgrt_kernel.stat + proc->core_id );
     bgrt_spin_free( &bgrt_kernel.stat_lock );
 }
-
 static bgrt_sched_t * sched_stat_update_migrate( bgrt_proc_t * proc )
 {
     bgrt_spin_lock( &bgrt_kernel.stat_lock );
@@ -197,15 +194,11 @@ static bgrt_sched_t * sched_stat_update_migrate( bgrt_proc_t * proc )
 
     return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
 }
-
-#define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
-#define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
-
+#   define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
+#   define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
 #else  //BGRT_CONFIG_MP
-
-#define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
-#define BGRT_SCHED_STAT_UPDATE_STOP(a) do{}while(0)
-
+#   define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
+#   define BGRT_SCHED_STAT_UPDATE_STOP(a) do{}while(0)
 #endif //BGRT_CONFIG_MP
 void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
 {
@@ -288,21 +281,21 @@ static void sched_proc_insert_expired( bgrt_proc_t * proc, bgrt_sched_t * sched 
     bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired );
     BGRT_SPIN_FREE( sched );
 }
-#define BGRT_SCHED_PROC_INSERT_EXPIRED sched_proc_insert_expired
+#   define BGRT_SCHED_PROC_INSERT_EXPIRED sched_proc_insert_expired
 #else //BGRT_CONFIG_MP
-#define BGRT_SCHED_PROC_INSERT_EXPIRED(proc,sched) bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired )
+#   define BGRT_SCHED_PROC_INSERT_EXPIRED(proc,sched) bgrt_pitem_insert( (bgrt_pitem_t *)proc, sched->expired )
 #endif//BGRT_CONFIG_MP
 
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-#define BGRT_PROC_NEW_SCHED sched_stat_update_migrate //A process will migrate
+#   define BGRT_PROC_NEW_SCHED sched_stat_update_migrate //A process will migrate
 #else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-#define BGRT_PROC_NEW_SCHED(proc) sched               //A process will stay on the same scheduler
+#   define BGRT_PROC_NEW_SCHED(proc) sched               //A process will stay on the same scheduler
 #endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 
 #ifdef BGRT_CONFIG_HARD_RT  //Hard real time, the process may be "killed" or "wd stoped"
-#define BGRT_PROC_NEW_STATE(flags) ((flags & BGRT_PROC_FLG_LOCK_MASK)?(BGRT_PROC_STATE_DEAD):(BGRT_PROC_STATE_WD_STOPED))
+#   define BGRT_PROC_NEW_STATE(flags) ((flags & BGRT_PROC_FLG_LOCK_MASK)?(BGRT_PROC_STATE_DEAD):(BGRT_PROC_STATE_WD_STOPED))
 #else //BGRT_CONFIG_HARD_RT // Soft real time, just stop the process!
-#define BGRT_PROC_NEW_STATE(flags) (BGRT_PROC_STATE_WD_STOPED)
+#   define BGRT_PROC_NEW_STATE(flags) (BGRT_PROC_STATE_WD_STOPED)
 #endif//BGRT_CONFIG_HARD_RT
 
 /******************************************************************************************
@@ -413,9 +406,9 @@ void bgrt_sched_reschedule(void)
 }
 //========================================================================================
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-#define BGRT_PROC_YELD_SCHED_UPDATE(proc) (sched = sched_stat_update_run(proc)) //A process will migrate
+#   define BGRT_PROC_YELD_SCHED_UPDATE(proc) (sched = sched_stat_update_run(proc)) //A process will migrate
 #else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-#define BGRT_PROC_YELD_SCHED_UPDATE(proc) do{}while(0)            //A process will stay on the same scheduler
+#   define BGRT_PROC_YELD_SCHED_UPDATE(proc) do{}while(0)            //A process will stay on the same scheduler
 #endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 bgrt_bool_t _bgrt_sched_proc_yeld( void )
 {

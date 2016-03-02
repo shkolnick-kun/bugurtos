@@ -84,11 +84,11 @@ WEAK void bgrt_idle_main(void * arg)
 {
     while(1)
     {
-#ifdef BGRT_CONFIG_SAVE_POWER
+#   ifdef BGRT_CONFIG_SAVE_POWER
         if( bgrt_sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER();
-#else // BGRT_CONFIG_SAVE_POWER
+#   else // BGRT_CONFIG_SAVE_POWER
         bgrt_sched_proc_yeld();
-#endif // BGRT_CONFIG_SAVE_POWER
+#   endif // BGRT_CONFIG_SAVE_POWER
     }
 }
 #endif // BGRT_CONFIG_USER_IDLE

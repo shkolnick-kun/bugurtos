@@ -131,10 +131,10 @@ A critical section end.
 */
 #ifdef BGRT_CONFIG_MP
 
-#define BGRT_CRIT_SEC_ENTER() bgrt_cpuid_t current_core; \
+#   define BGRT_CRIT_SEC_ENTER() bgrt_cpuid_t current_core; \
                          current_core = _bgrt_crit_sec_enter()
 
-#define BGRT_CRIT_SEC_EXIT() _bgrt_crit_sec_exit( current_core )
+#   define BGRT_CRIT_SEC_EXIT() _bgrt_crit_sec_exit( current_core )
 
 /*!
 \~russian
@@ -165,10 +165,8 @@ bgrt_cpuid_t _bgrt_crit_sec_enter(void);
 */
 void _bgrt_crit_sec_exit(bgrt_cpuid_t core);
 #else
-
-#define BGRT_CRIT_SEC_ENTER() bgrt_crit_sec_enter()
-#define BGRT_CRIT_SEC_EXIT() bgrt_crit_sec_exit()
-
+#   define BGRT_CRIT_SEC_ENTER() bgrt_crit_sec_enter()
+#   define BGRT_CRIT_SEC_EXIT() bgrt_crit_sec_exit()
 /*!
 \~russian
 \brief Вход в критическую секцию.
