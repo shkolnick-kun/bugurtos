@@ -98,8 +98,8 @@ void bgrt_kernel_init(void)
 #ifdef BGRT_CONFIG_MP
     bgrt_cpuid_t i;
 
-    bgrt_spin_init( &bgrt_kernel.stat_lock );
-    bgrt_spin_lock( &bgrt_kernel.stat_lock );
+    BGRT_SPIN_INIT( &bgrt_kernel.stat );
+    BGRT_SPIN_LOCK( &bgrt_kernel.stat );
     //The Kernel initiation!
     for( i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++ )
     {
@@ -116,16 +116,10 @@ void bgrt_kernel_init(void)
             ((bgrt_aff_t)1)<<i // Disable to other cores!
         );
         bgrt_kernel.idle[i].core_id = i;
-        bgrt_stat_init( (bgrt_ls_t *)bgrt_kernel.stat + i );
+        bgrt_stat_init( (bgrt_ls_t *)bgrt_kernel.stat.val + i );
         bgrt_sched_init( (bgrt_sched_t *)bgrt_kernel.sched + i, (bgrt_proc_t *)bgrt_kernel.idle + i );
     }
-    bgrt_spin_free( &bgrt_kernel.stat_lock );
-
-    bgrt_spin_init(&bgrt_kernel.timer_lock);
-    bgrt_spin_lock(&bgrt_kernel.timer_lock);
-    bgrt_kernel.timer = (bgrt_tmr_t)0;
-    bgrt_kernel.timer_tick = (void(*)(void))0;
-    bgrt_spin_free(&bgrt_kernel.timer_lock);
+    BGRT_SPIN_FREE( &bgrt_kernel.stat );
 #else
     _bgrt_proc_init(
         &bgrt_kernel.idle, //The bgrt_kernel.idle process.
@@ -138,8 +132,11 @@ void bgrt_kernel_init(void)
         (bgrt_tmr_t)1,//Smallest time slice
         (bgrt_bool_t)0// Idle is not RT
     );
-    bgrt_sched_init( (bgrt_sched_t *)&bgrt_kernel.sched, (bgrt_proc_t *)&bgrt_kernel.idle );
-    bgrt_kernel.timer = (bgrt_tmr_t)0;
-    bgrt_kernel.timer_tick = (void(*)(void))0;
 #endif // BGRT_CONFIG_MP
+
+    BGRT_SPIN_INIT( &bgrt_kernel.timer );
+    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+    bgrt_kernel.timer.val = (bgrt_tmr_t)0;
+    bgrt_kernel.timer.tick = (void(*)(void))0;
+    BGRT_SPIN_FREE( &bgrt_kernel.timer );
 }

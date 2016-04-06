@@ -4,7 +4,7 @@
 	<File name="../../../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
 		<Cursor position="6209" topLine="140" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="1" top="1" tabpos="3">
+	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="1">
 		<Cursor position="6733" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">

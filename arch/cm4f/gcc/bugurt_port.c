@@ -221,8 +221,8 @@ __attribute__ (( naked )) void BGRT_SYSTEM_TIMER_ISR(void)
 
     bgrt_disable_interrupts();
 
-    bgrt_kernel.timer++;
-    if( bgrt_kernel.timer_tick != (void (*)(void))0 ) bgrt_kernel.timer_tick();
+    bgrt_kernel.timer.val++;
+    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
 
     BGRT_KERNEL_PREEMPT(); ///BGRT_KERNEL_PREEMPT
 

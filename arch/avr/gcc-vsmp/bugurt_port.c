@@ -183,10 +183,10 @@ vinterrupt_t systimer_tick_vector;
 vinterrupt_t systimer_vectors[BGRT_MAX_CPU];
 void _systimer_tick_isr(void)
 {
-    BGRT_SPIN_LOCK_KERNEL_TIMER();
-    bgrt_kernel.timer++;
-    if( bgrt_kernel.timer_tick != (void (*)(void))0 ) bgrt_kernel.timer_tick();
-    BGRT_SPIN_FREE_KERNEL_TIMER();
+    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+    bgrt_kernel.timer.val++;
+    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
+    BGRT_SPIN_FREE( &bgrt_kernel.timer );
 
     systimer_vectors_fire();
 }

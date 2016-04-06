@@ -207,9 +207,9 @@ A wrapper for #bgrt_resched function.
 */
 
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_SPIN_INIT(arg) bgrt_spin_init( &arg->lock )
-#   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock( &arg->lock )
-#   define BGRT_SPIN_FREE(arg) bgrt_spin_free( &arg->lock )
+#   define BGRT_SPIN_INIT(arg) bgrt_spin_init( &((arg)->lock) )
+#   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock( &((arg)->lock) )
+#   define BGRT_SPIN_FREE(arg) bgrt_spin_free( &((arg)->lock) )
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched( proc->core_id )
 #else //BGRT_CONFIG_MP
 #   define BGRT_SPIN_INIT(arg)

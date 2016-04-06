@@ -127,14 +127,6 @@ Wrapper macro.
 
 A wrapper for kernel timer spin-free, on single core system - empty macro.
 */
-#ifdef BGRT_CONFIG_MP
-#   define BGRT_SPIN_LOCK_KERNEL_TIMER() bgrt_spin_lock( &bgrt_kernel.timer_lock )
-#   define BGRT_SPIN_FREE_KERNEL_TIMER() bgrt_spin_free( &bgrt_kernel.timer_lock )
-#else // BGRT_CONFIG_MP
-#   define BGRT_SPIN_LOCK_KERNEL_TIMER()
-#   define BGRT_SPIN_FREE_KERNEL_TIMER()
-#endif // BGRT_CONFIG_MP
-
 // Работа с программными таймерами
 /*!
 \brief

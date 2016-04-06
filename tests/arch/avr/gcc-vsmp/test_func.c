@@ -46,7 +46,7 @@ void sched_lb_test_start(void)
 void sched_systick_hook_add(void)
 {
     cli();
-    bgrt_kernel.timer_tick = load_bar_graph;
+    bgrt_kernel.timer.tick = load_bar_graph;
     sei();
 }
 
@@ -142,7 +142,7 @@ void load_bar_graph(void)
     PORTB |= 0x3f;
     PORTC |= 0x1f;
     PORTD |= 0x80;
-    switch(bgrt_kernel.stat[0])
+    switch(bgrt_kernel.stat.val[0])
     {
 
         case 1:
@@ -160,7 +160,7 @@ void load_bar_graph(void)
         default:
             break;
     }
-    switch(bgrt_kernel.stat[1])
+    switch(bgrt_kernel.stat.val[1])
     {
         case 1:
             PORTC &= ~0x10;

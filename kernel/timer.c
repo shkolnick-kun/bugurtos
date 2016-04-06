@@ -81,11 +81,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void _bgrt_clear_timer(bgrt_tmr_t * t)
 {
     BGRT_CRIT_SEC_ENTER();
-    BGRT_SPIN_LOCK_KERNEL_TIMER();
+    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
 
-    *t = bgrt_kernel.timer;
+    *t = bgrt_kernel.timer.val;
 
-    BGRT_SPIN_FREE_KERNEL_TIMER();
+    BGRT_SPIN_FREE( &bgrt_kernel.timer );
     BGRT_CRIT_SEC_EXIT();
 }
 //===========================================================================
@@ -93,11 +93,11 @@ bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t)
 {
     bgrt_tmr_t ret;
     BGRT_CRIT_SEC_ENTER();
-    BGRT_SPIN_LOCK_KERNEL_TIMER();
+    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
 
-    ret = (bgrt_tmr_t)bgrt_kernel.timer - (bgrt_tmr_t)t;
+    ret = (bgrt_tmr_t)bgrt_kernel.timer.val - (bgrt_tmr_t)t;
 
-    BGRT_SPIN_FREE_KERNEL_TIMER();
+    BGRT_SPIN_FREE( &bgrt_kernel.timer );
     BGRT_CRIT_SEC_EXIT();
 
     return ret;

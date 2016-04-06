@@ -53,13 +53,13 @@
 		<Cursor position="20817" topLine="865" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="18860" topLine="530" />
+		<Cursor position="21311" topLine="530" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="16439" topLine="332" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="13939" topLine="42" />
+		<Cursor position="13939" topLine="429" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="18398" topLine="397" />

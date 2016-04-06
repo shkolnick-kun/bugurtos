@@ -13,7 +13,7 @@ extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 #define BGRT_SCHED_ARG_END
 #define BGRT_SCHED_LB_TEST_START()
 
-#define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer_tick = systick_hook)
+#define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer.tick = systick_hook)
 
 #define BGRT_SCHED_FIX_PROC_2() sched_fix_bgrt_proc_2()
 

@@ -102,7 +102,7 @@ typedef unsigned char load_t;
 #define BGRT_CONFIG_HARD_RT
 
 //#define BGRT_CONFIG_LB_SCHEME 0 // No load balancing during runtime
-//#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
+#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
 //#define BGRT_CONFIG_LB_SCHEME 2 // Lazy local load balancing
 //#define BGRT_CONFIG_LB_SCHEME 3 // Lazy global load balancing
 

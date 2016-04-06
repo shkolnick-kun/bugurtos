@@ -177,8 +177,8 @@ void BGRT_SYSTEM_TIMER_ISR(void)
 {
     bgrt_disable_interrupts();
 
-    bgrt_kernel.timer++;
-    if( bgrt_kernel.timer_tick != (void (*)(void))0 ) bgrt_kernel.timer_tick();
+    bgrt_kernel.timer.val++;
+    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
 
     systimer_flag = 1;
     BUGURT_SYS_ICSR |= BUGURT_PENDSV_SET;
