@@ -19,7 +19,7 @@ void print_fail(void)
         return 0; \
     } \
     else \
-        print_ok(); \
+        print_ok()
 
 int main()
 {

@@ -76,123 +76,150 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef _VINT_H_
+#define _VINT_H_
 
 /*!
 \file
+\brief \~russian Заголовок виртуальных прерываний. \~english A virtual interrupt header.
+*/
+//Виртуальное прерывание
+typedef struct _bgrt_vint_t bgrt_vint_t;
+//Свойства
+/*!
 \~russian
 \brief
-Заголовок программных таймеров.
-
-Программные таймеры используются для синхронизации процессов по времени.
-
-\warning Программные таймеры нельзя использовать для точного измерения интервалов времени!
+Виртуальное прерывание.
 
 \~english
 \brief
-A software timer headers.
-
-Software timers used for time-process synchronization.
-
-\warning Software timers can not be used for precision time interval measurement!
+A virtual interrupt.
 */
-
-typedef struct _bgrt_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер (используется для посчета времени Ядром). \~english The system timer (used by the kernel to count ticks). */
-struct _bgrt_ktimer_t
+struct _bgrt_vint_t
 {
-        void (*tick)(void);           /*!< \~russian Хук. \~english A hook pointer. */
-        bgrt_tmr_t val;               /*!< \~russian Значение. \~english A value. */
-#ifdef BGRT_CONFIG_MP
-        bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
-#endif // BGRT_CONFIG_MP
+    bgrt_pitem_t parent; /*!< \~russian Родитель - #bgrt_item_t. \~english A parent - #bgrt_item_t. */
+    bgrt_code_t  func;   /*!< \~russian Указатель на обработчик. \~english A virtual ISR pointer.*/
+    void * arg;          /*!< \~russian Аргумент обработчика. \~english A virtual ISR arg. */
 };
-// Работа с программными таймерами
+
+//Виртуальный контроллер прерываний
+typedef struct _bgrt_vic_t bgrt_vic_t;
+//Свойства
 /*!
-\brief
-\~russian
-Сброс программного таймера.
-
-\param t Имя переменной таймера.
-
-\~english
-Reset software timer.
-
-\param t A timer variable name.
-*/
-#define BGRT_CLEAR_TIMER(t) _bgrt_clear_timer( (bgrt_tmr_t *)&t)
-
-/*!
-
 \~russian
 \brief
-Получить значение программного таймера, для внутреннего использования.
-
-\param t Значение таймера.
+Виртуальный контроллер прерываний.
 
 \~english
 \brief
-Get software timer value.
-
-\param t Software timer value.
+A virtual interrupt controller.
 */
-#define BGRT_TIMER(t) (bgrt_tmr_t)_bgrt_timer( (bgrt_tmr_t)t )
+struct _bgrt_vic_t
+{
+    bgrt_xlist_t list; /*!< \~russian Родитель - #bgrt_xlist_t. \~english A parent - #bgrt_xlist_t. */
+    bgrt_prio_t  prio; /*!< \~russian Текущий приоритет. \~english Current priority. */
+};
 
+//Методы
 /*!
 \~russian
 \brief
-Подождать заданный интервал времени.
-
-Просто ждёт в цикле пока пройдёт время time.
-
-\param time Время ожидания.
-
-\~english
-\brief
-Wait for certain time.
-
-Caller process spins in a loop for a time.
-
-\param time Wait time.
-*/
-void bgrt_wait_time( bgrt_tmr_t time );
-// Для внутреннего пользования
-
-/*!
-\~russian
-\brief
-Сброс программного таймера.
+Инициализация объект а типа #bgrt_vint_t.
 
 \warning Для внутреннего использования.
 
-\param t Указатель на таймер.
+\param vint Указатель на объект #bgrt_vint_t.
+\param prio Приоритет элемента.
+\param func Указатель на обработчик.
+\param arg  Указатель на аргумент.
 
 \~english
 \brief
-Clear software timer.
+A #bgrt_vint_t object initiation.
 
 \warning For internal usage.
 
-\param t A pointer to a timer.
+\param vint A #bgrt_vint_t pointer.
+\param prio A priority.
+\param func An ISR pointer.
+\param arg  An ISR arg pointer.
 */
-void _bgrt_clear_timer(bgrt_tmr_t * t);
+void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg );
+/*!
+\~russian
+\brief
+Поставить объет типа #bgrt_vint_t на обработку из обработтчика прерывания.
+
+\warning Для внутреннего использования.
+
+\param vint Указатель на объект #bgrt_vint_t.
+\param vic  Указатель на виртуальный контроллер прерываний.
+
+\~english
+\brief
+Insert #bgrt_vint_t object to #bgrt_vic_t container for processing (for ISR usage).
+
+\warning For internal usage.
+
+\param pitem A #bgrt_vint_t pointer.
+\param vic A pointer to destination #bgrt_vic_t object.
+*/
+bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic );
+/*!
+\~russian
+\brief
+Поставить объет типа #bgrt_vint_t на обработку.
+
+\warning Для внутреннего использования.
+
+\param vint Указатель на объект #bgrt_vint_t.
+\param vic  Указатель на виртуальный контроллер прерываний.
+
+\~english
+\brief
+Insert #bgrt_vint_t object to #bgrt_xlist_t container for processing.
+
+\warning For internal usage.
+
+\param pitem A #bgrt_vint_t pointer.
+\param vic A pointer to destination #bgrt_vic_t object.
+*/
+bgrt_st_t bgrt_vint_push( bgrt_vint_t * vint, bgrt_vic_t * vic );
+/*!
+\~russian
+\brief
+Инициализация виртуального контроллера прерываний.
+
+\warning Для внутреннего использования.
+
+\param vic  Указатель на виртуальный контроллер прерываний.
+
+\~english
+\brief
+Virtual interrupt controller initialization.
+
+\warning For internal usage.
+
+\param vic A pointer to a #bgrt_vic_t object.
+*/
+void bgrt_vic_init( bgrt_vic_t * vic );
 
 /*!
 \~russian
 \brief
-Получить значение программного таймера.
+Обработка виртуальных прерываний.
 
 \warning Для внутреннего использования.
 
-\param t Значение таймера.
+\param vic  Указатель на виртуальный контроллер прерываний.
 
 \~english
 \brief
-Get software timer value.
+Virtual interrupt processing.
 
 \warning For internal usage.
 
-\param t A timer value.
+\param vic A pointer to a #bgrt_vic_t object.
 */
-bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t);
-#endif // _TIMER_H_
+void bgrt_vic_do_work( bgrt_vic_t * vic );
+#endif // _VINT_H_

@@ -76,123 +76,102 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#include "bugurt.h"
 
-/*!
-\file
-\~russian
-\brief
-Заголовок программных таймеров.
-
-Программные таймеры используются для синхронизации процессов по времени.
-
-\warning Программные таймеры нельзя использовать для точного измерения интервалов времени!
-
-\~english
-\brief
-A software timer headers.
-
-Software timers used for time-process synchronization.
-
-\warning Software timers can not be used for precision time interval measurement!
-*/
-
-typedef struct _bgrt_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер (используется для посчета времени Ядром). \~english The system timer (used by the kernel to count ticks). */
-struct _bgrt_ktimer_t
+void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg )
 {
-        void (*tick)(void);           /*!< \~russian Хук. \~english A hook pointer. */
-        bgrt_tmr_t val;               /*!< \~russian Значение. \~english A value. */
-#ifdef BGRT_CONFIG_MP
-        bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
-#endif // BGRT_CONFIG_MP
-};
-// Работа с программными таймерами
-/*!
-\brief
-\~russian
-Сброс программного таймера.
+    bgrt_pitem_init( (bgrt_pitem_t *)vint, prio );
+    vint->func = func;
+    vint->arg = arg;
+}
 
-\param t Имя переменной таймера.
+bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic )
+{
+    if( ((bgrt_pitem_t *)vint)->list )
+    {
+        return BGRT_ST_ESCHED;
+    }
+    else
+    {
+        bgrt_pitem_insert( (bgrt_pitem_t *)vint, (bgrt_xlist_t *)vic );
+        return BGRT_ST_OK;
+    }
+}
 
-\~english
-Reset software timer.
+bgrt_st_t bgrt_vint_push( bgrt_vint_t * vint, bgrt_vic_t * vic )
+{
+    bgrt_st_t ret;
+    //Everything is done on local CPU core, just disable interrupts.
+    bgrt_disable_interrupts();
+    //Insert
+    ret = bgrt_vint_push_isr( vint, vic );
+    //May enable interrupts
+    bgrt_enable_interrupts();
+    return ret;
+}
 
-\param t A timer variable name.
-*/
-#define BGRT_CLEAR_TIMER(t) _bgrt_clear_timer( (bgrt_tmr_t *)&t)
+static bgrt_vint_t * bgrt_vint_pop( bgrt_vic_t * vic )
+{
+    bgrt_pitem_t * ret;
+    //Everything is done on local CPU core, just disable interrupts.
+    bgrt_disable_interrupts();
+    //Het list head
+    ret = (bgrt_pitem_t *)bgrt_xlist_head( (bgrt_xlist_t *)vic );
+    //Is there any work?
+    if( ret )
+    {
+        //Cut it.
+        bgrt_pitem_cut( ret );
+    }
+    //May enable interrupts
+    bgrt_enable_interrupts();
+    //We must return virtual interrupt
+    return (bgrt_vint_t *)ret;
+}
 
-/*!
-
-\~russian
-\brief
-Получить значение программного таймера, для внутреннего использования.
-
-\param t Значение таймера.
-
-\~english
-\brief
-Get software timer value.
-
-\param t Software timer value.
-*/
-#define BGRT_TIMER(t) (bgrt_tmr_t)_bgrt_timer( (bgrt_tmr_t)t )
-
-/*!
-\~russian
-\brief
-Подождать заданный интервал времени.
-
-Просто ждёт в цикле пока пройдёт время time.
-
-\param time Время ожидания.
-
-\~english
-\brief
-Wait for certain time.
-
-Caller process spins in a loop for a time.
-
-\param time Wait time.
-*/
-void bgrt_wait_time( bgrt_tmr_t time );
-// Для внутреннего пользования
-
-/*!
-\~russian
-\brief
-Сброс программного таймера.
-
-\warning Для внутреннего использования.
-
-\param t Указатель на таймер.
-
-\~english
-\brief
-Clear software timer.
-
-\warning For internal usage.
-
-\param t A pointer to a timer.
-*/
-void _bgrt_clear_timer(bgrt_tmr_t * t);
-
-/*!
-\~russian
-\brief
-Получить значение программного таймера.
-
-\warning Для внутреннего использования.
-
-\param t Значение таймера.
-
-\~english
-\brief
-Get software timer value.
-
-\warning For internal usage.
-
-\param t A timer value.
-*/
-bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t);
-#endif // _TIMER_H_
+void bgrt_vic_do_work( bgrt_vic_t * vic )
+{
+    //Remember last priority
+    bgrt_prio_t lprio;
+    lprio = vic->prio;
+    //Do some pending work...
+    while(1)
+    {
+        bgrt_vint_t * work;
+        work = bgrt_vint_pop( vic );
+        //Is there any work?
+        if( work )
+        {
+            //work_prio is useed twice, so remember it.
+            bgrt_prio_t work_prio;
+            work_prio = ((bgrt_pitem_t *)work)->prio;
+            //Do only higher priority work...
+            if( work_prio < lprio )
+            {
+                //func is used twice, so...
+                bgrt_code_t func;
+                func = work->func;
+                //Is it valid?
+                if( func )
+                {
+                    //Remember current priority
+                    vic->prio = work_prio;
+                    // Do work.
+                    func( work->arg );
+                }
+            }
+            else
+            {
+                //Nothing to do, exit.
+                break;
+            }
+        }
+        else
+        {
+            //Nothing to do, exit.
+            break;
+        }
+    }
+    //Remind last priority
+    vic->prio = lprio;
+}

@@ -4,13 +4,13 @@
 	<File name="../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6094" topLine="62" />
 	</File>
-	<File name="../../../kernel/pitem.c" open="0" top="0" tabpos="1">
+	<File name="../../../kernel/pitem.c" open="1" top="0" tabpos="1">
 		<Cursor position="6094" topLine="139" />
 	</File>
 	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6094" topLine="67" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="2">
-		<Cursor position="377" topLine="97" />
+		<Cursor position="65" topLine="1" />
 	</File>
 </CodeBlocks_layout_file>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="item/item.cbp" active="1" />
+		<Project filename="item/item.cbp" />
 		<Project filename="xlist/xlist.cbp" />
 		<Project filename="pitem/pitem.cbp" />
+		<Project filename="vint/vint.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

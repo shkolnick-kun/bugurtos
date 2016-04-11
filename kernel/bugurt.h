@@ -128,29 +128,37 @@ typedef void (* bgrt_code_t)(void *);
 //======================================================
 //                     ИНКЛЮДЫ
 //======================================================
-
+//BuguRTOS config (must be included first)
 #include <bugurt_config.h>
 
+//Basic types
 #include "index.h"
 #include "item.h"
 #include "xlist.h"
 #include "pitem.h"
 #include "pcounter.h"
+
+//Kernel services (use basic types)
 #include "crit_sec.h"
+#include "timer.h"
 #include "proc.h"
 #include "sched.h"
-#include "kernel.h"
 #include "sync.h"
-#include "timer.h"
-
-#include <bugurt_port.h>
-
 //User may write his own system call dispatcher
 #ifndef BGRT_CONFIG_USER_SYSCALL
 #   include "syscall.h" //Default system call dispatcher
 #else
 #   include <user_syscall.h>
 #endif//BGRT_CONFIG_USER_SYSCALL
+
+//Virtual interrupts
+#include "vint.h"
+
+//Kernel (use kernel services)
+#include "kernel.h"
+
+//Platform dependent things (must be included last)
+#include <bugurt_port.h>
 
 #define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
 #define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
@@ -159,7 +167,9 @@ typedef void (* bgrt_code_t)(void *);
 #define BGRT_ST_ESYNC       ((bgrt_st_t)4) /*!< \~russian \brief Не тот объект типа #bgrt_sync_t. \~english \brief Wrong #bgrt_sync_t object. */
 #define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5) /*!< \~russian \brief Иcтек таймаут #bgrt_sync_t. \~english \brief Timeout expired. */
 #define BGRT_ST_ESTAT       ((bgrt_st_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
-#define BGRT_ST_ROLL        ((bgrt_st_t)7) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+#define BGRT_ST_ESCHED      ((bgrt_st_t)7) /*!< \~russian \brief Уже запланировано. \~english \brief Allready sheduled. */
+#define BGRT_ST_ROLL        ((bgrt_st_t)8) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+
 
 /*!
 \def BGRT_SPIN_INIT(arg)

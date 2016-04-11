@@ -249,6 +249,14 @@ bgrt_bool_t bgrt_sched_proc_yeld( void );
 
 
 #ifdef BGRT_CONFIG_MP
+//CPU load information
+typedef struct _bgrt_kstat_t bgrt_kstat_t; /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
+struct _bgrt_kstat_t
+{
+    bgrt_ls_t val[BGRT_MAX_CPU];  /*!< \~russian Значения. \~english A values. */
+    bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
+};
+
 // Балансировщик нагрузки
 /*!
 \~russian

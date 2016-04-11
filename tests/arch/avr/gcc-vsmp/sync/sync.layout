@@ -22,6 +22,9 @@
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="22326" topLine="512" />
 	</File>
+	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="242" />
+	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="6199" topLine="971" />
 	</File>

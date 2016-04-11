@@ -82,25 +82,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок Ядра. \~english A kernel header.
 */
-typedef struct _bgrt_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер. \~english The system timer. */
-struct _bgrt_ktimer_t
-{
-        void (*tick)(void);           /*!< \~russian Хук. \~english A hook pointer. */
-        bgrt_tmr_t val;               /*!< \~russian Значение. \~english A value. */
-#ifdef BGRT_CONFIG_MP
-        bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
-#endif // BGRT_CONFIG_MP
-};
-
-#ifdef BGRT_CONFIG_MP
-typedef struct _bgrt_kstat_t bgrt_kstat_t; /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
-struct _bgrt_kstat_t
-{
-    bgrt_ls_t val[BGRT_MAX_CPU];  /*!< \~russian Значения. \~english A values. */
-    bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
-};
-#endif // BGRT_CONFIG_MP
-
 //Ядро
 typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
 /*!
