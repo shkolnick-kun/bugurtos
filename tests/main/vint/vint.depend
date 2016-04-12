@@ -1,0 +1,60 @@
+# depslib dependency file v1.0
+1456905793 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+	"bugurt.h"
+
+1460441261 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+	<bugurt_config.h>
+	"index.h"
+	"item.h"
+	"xlist.h"
+	"pitem.h"
+	"pcounter.h"
+	"crit_sec.h"
+	"timer.h"
+	"proc.h"
+	"sched.h"
+	"sync.h"
+	"syscall.h"
+	<user_syscall.h>
+	"vint.h"
+	"kernel.h"
+	<bugurt_port.h>
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
+
+1460200997 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
+
+1460441276 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+
+1460200806 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+
+1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+
+1460375181 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.h
+
+1460200936 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
+
+1456905793 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+	"bugurt.h"
+
+1460273436 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
+	"bugurt.h"
+
+1460439770 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.c
+	"bugurt.h"
+
+1456905793 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
+	"bugurt.h"
+

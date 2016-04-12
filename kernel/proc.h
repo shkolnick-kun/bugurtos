@@ -476,7 +476,7 @@ A process should not have locked resources at a moment of a flag stop.
 \~english
 \brief Lowest priority level.
 */
-#define BGRT_PROC_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
+#define BGRT_PROC_PRIO_LOWEST (BGRT_PRIO_LOWEST)
 
 // Методы
 // Управление счётчиком захваченных ресурсов, для внутреннего использования

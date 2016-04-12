@@ -170,6 +170,14 @@ typedef void (* bgrt_code_t)(void *);
 #define BGRT_ST_ESCHED      ((bgrt_st_t)7) /*!< \~russian \brief Уже запланировано. \~english \brief Allready sheduled. */
 #define BGRT_ST_ROLL        ((bgrt_st_t)8) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
+/*!
+\~russian
+\brief Низший приоритет.
+
+\~english
+\brief Lowest priority level.
+*/
+#define BGRT_PRIO_LOWEST ((bgrt_prio_t)BGRT_BITS_IN_INDEX_T - (bgrt_prio_t)1)
 
 /*!
 \def BGRT_SPIN_INIT(arg)

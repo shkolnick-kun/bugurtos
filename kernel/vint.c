@@ -85,6 +85,12 @@ void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, voi
     vint->arg = arg;
 }
 
+void bgrt_vic_init( bgrt_vic_t * vic )
+{
+    bgrt_xlist_init( (bgrt_xlist_t *)vic );
+    vic->prio = BGRT_PRIO_LOWEST + 1 ;//Must be LOWER, than lowest valid priority
+}
+
 bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic )
 {
     if( ((bgrt_pitem_t *)vint)->list )
