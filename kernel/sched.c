@@ -237,6 +237,8 @@ void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state )
 //========================================================================================
 static bgrt_st_t _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * current_proc )
 {
+    bgrt_st_t ret;
+
     BGRT_SPIN_LOCK( current_proc );
     // Context save hook
     if( current_proc->sv_hook )
@@ -249,11 +251,16 @@ static bgrt_st_t _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * curr
     // If ready list is empty, then swap ready and expired lists
     if( sched->ready->index == (bgrt_index_t)0 )
     {
-        // The Kernel may panic here !!!
         bgrt_xlist_t * buf;
         buf = sched->ready;
         sched->ready = sched->expired;
         sched->expired = buf;
+
+        ret = BGRT_ST_ESCHED;
+    }
+    else
+    {
+        ret = BGRT_ST_OK;
     }
     //Ready list is supposed to have some process now...
     if( sched->ready->index == (bgrt_index_t)0 )
@@ -282,7 +289,7 @@ static bgrt_st_t _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * curr
         }
         BGRT_SPIN_FREE( current_proc );
 
-        return BGRT_ST_OK;
+        return ret;
     }
 
 }
@@ -321,7 +328,7 @@ So there are some limitations on "bgrt_sched_schedule" and "bgrt_sched_reschedul
 1) These functions must be executed in atomic manner.
 ******************************************************************************************/
 // Scheduling function, must be called when the system timer fires.
-static bgrt_st_t _bgrt_sched_schedule( bgrt_sched_t * sched )
+bgrt_st_t _bgrt_sched_schedule( bgrt_sched_t * sched )
 {
     bgrt_proc_t * current_proc;
 
@@ -394,14 +401,14 @@ static bgrt_st_t _bgrt_sched_schedule( bgrt_sched_t * sched )
 }
 void bgrt_sched_schedule(void)
 {
-    if( BGRT_ST_OK != _bgrt_sched_schedule( BGRT_SCHED_INIT() ) )
+    if( BGRT_ST_EEMPTY == _bgrt_sched_schedule( BGRT_SCHED_INIT() ) )
     {
         while(1); //Panic on fail
     }
 }
 //========================================================================================
 // Resched function, called from resched ISR.
-static bgrt_st_t _bgrt_sched_reschedule( bgrt_sched_t * sched )
+bgrt_st_t _bgrt_sched_reschedule( bgrt_sched_t * sched )
 {
     bgrt_proc_t * current_proc;
     // We don't need to lock sched->lock as sched->current_proc changed on local core!
@@ -424,7 +431,7 @@ static bgrt_st_t _bgrt_sched_reschedule( bgrt_sched_t * sched )
 
 void bgrt_sched_reschedule(void)
 {
-    if( BGRT_ST_OK != _bgrt_sched_reschedule( BGRT_SCHED_INIT() ) )
+    if( BGRT_ST_EEMPTY == _bgrt_sched_reschedule( BGRT_SCHED_INIT() ) )
     {
         while(1); //Panic on fail
     }

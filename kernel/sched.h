@@ -179,6 +179,7 @@ This function switches processes in system timer interrupt handler.
 \warning For internal usage.
 */
 void bgrt_sched_schedule(void);
+bgrt_st_t _bgrt_sched_schedule(bgrt_sched_t * sched);
 /*!
 
 \~russian
@@ -198,6 +199,7 @@ This function switches processes if needed.
 \warning For internal usage.
 */
 void bgrt_sched_reschedule(void);
+bgrt_st_t _bgrt_sched_reschedule(bgrt_sched_t * sched);
 
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.

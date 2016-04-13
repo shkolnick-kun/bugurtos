@@ -626,9 +626,12 @@ extern void bgrt_switch_to_proc(void);
 \brief
 Получить указатель на номер системного вызова для текущего процесса.
 
+\warning Функция всегда должна возвращать валидный указатель.
 \~english
 \brief
 Get current process system call number pointer.
+
+\warning Must return a valid pointer!
 */
 extern bgrt_syscall_t * bgrt_get_scnum(void);
 /*!

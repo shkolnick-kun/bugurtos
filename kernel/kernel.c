@@ -80,22 +80,51 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 static void do_int_scall( bgrt_kblock_t * kblock )
 {
+    bgrt_syscall_t * scnum;
+    //Get system call number storage
+    scnum = bgrt_get_scnum();
+    //Do system call
+    if( BGRT_ST_ROLL != bgrt_do_syscall( *scnum, bgrt_get_scarg() ) )
+    {
+        //Clear system call number ()
+        *scnum = (bgrt_syscall_t)0;
+    }
+}
 
+static void do_scheduler_work( bgrt_kblock_t * kblock, bgrt_st_t (* work)(bgrt_sched_t *) )
+{
+    if( BGRT_ST_OK != work( &kblock->sched ) )
+    {
+        bgrt_vint_push( &kblock->int_idle, &kblock->vic );
+    }
+    else
+    {
+        if( *bgrt_get_scnum() )
+        {
+            bgrt_vint_push( &kblock->int_scall, &kblock->vic );
+        }
+    }
 }
 
 static void do_int_sched( bgrt_kblock_t * kblock )
 {
-
+    do_scheduler_work( kblock, _bgrt_sched_schedule );
 }
 
 static void do_int_resched( bgrt_kblock_t * kblock )
 {
-
+    do_scheduler_work( kblock, _bgrt_sched_reschedule );
 }
 
 static void do_int_idle( bgrt_kblock_t * kblock )
 {
-
+    //TODO add lazy global load balancing
+#ifndef BGRT_CONFIG_USE_ALB
+    bgrt_sched_lazy_local_load_balancer();
+#endif
+#ifdef BGRT_CONFIG_SAVE_POWER
+    BGRT_CONFIG_SAVE_POWER();
+#endif
 }
 
 void bgrt_kblock_init( bgrt_kblock_t * kblock )
