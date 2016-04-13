@@ -82,6 +82,61 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок Ядра. \~english A kernel header.
 */
+
+typedef struct _bgrt_kblock_t bgrt_kblock_t; /*!< \~russian Смотри #_bgrt_kblock_t; \~english See #_bgrt_kblock_t; */
+/*!
+\~russian
+\brief
+Блок ядра BuguRTOS.
+
+Отвечает за обработку вритуальных прерываний, обработку системных вызовов, работу планировщика на отдельном процессорном ядре.
+
+\~english
+\brief
+A BuguRTOS kernel block structure.
+
+A kernel block is responsible for virtual interrupt processing, system call processing and process sheduling jn certain CPU core.
+*/
+struct _bgrt_kblock_t
+{
+    bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
+    bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
+    bgrt_vint_t int_scall;            /*!< \~russian Диспетчер системных вызовов. \~english A system call dispatcher. */
+    bgrt_vint_t int_shed;             /*!< \~russian Прерывание системмного таймера. \~english System timer interrupt. */
+    bgrt_vint_t int_resched;          /*!< \~russian Перепланировка. \~english Reschedule interrupt. */
+    bgrt_vint_t int_idle;             /*!< \~russian Прерывание холостого хода. \~english The IDLE interrupt. */
+};
+
+/*!
+\~russian
+\brief
+Инициализация объекта типа #bgrt_kblock_t.
+
+\param kblock Указатель на объект типа #bgrt_kblock_t.
+
+\~english
+\brief
+A #bgrt_kblock_t object initialization.
+
+\param kblock A #bgrt_kblock_t object pointer.
+*/
+void bgrt_kblock_init( bgrt_kblock_t * kblock );
+
+/*!
+\~russian
+\brief
+Главная функция потока Ядра.
+
+\param kblock Указатель на объект типа #bgrt_kblock_t.
+
+\~english
+\brief
+A kernel thread main function.
+
+\param kblock A #bgrt_kblock_t object pointer.
+*/
+void bgrt_kblock_main( bgrt_kblock_t * kblock );
+
 //Ядро
 typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
 /*!

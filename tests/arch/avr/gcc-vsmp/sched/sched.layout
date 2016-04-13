@@ -70,10 +70,10 @@
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="4">
 		<Cursor position="18569" topLine="389" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
 		<Cursor position="18394" topLine="240" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="3">
+	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="3">
 		<Cursor position="15960" topLine="372" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="4">

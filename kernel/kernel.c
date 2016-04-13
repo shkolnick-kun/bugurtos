@@ -77,6 +77,36 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
+
+static void do_int_scall( bgrt_kblock_t * kblock )
+{
+
+}
+
+static void do_int_sched( bgrt_kblock_t * kblock )
+{
+
+}
+
+static void do_int_resched( bgrt_kblock_t * kblock )
+{
+
+}
+
+static void do_int_idle( bgrt_kblock_t * kblock )
+{
+
+}
+
+void bgrt_kblock_init( bgrt_kblock_t * kblock )
+{
+
+}
+void bgrt_kblock_main( bgrt_kblock_t * kblock )
+{
+
+}
+
 bgrt_kernel_t bgrt_kernel;// The kernel, it is the one!
 
 #ifndef BGRT_CONFIG_USER_IDLE

@@ -32,10 +32,10 @@
 		<Cursor position="18165" topLine="380" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="8922" topLine="129" />
+		<Cursor position="22448" topLine="475" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="11526" topLine="554" />
+		<Cursor position="14552" topLine="175" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="8754" topLine="179" />
