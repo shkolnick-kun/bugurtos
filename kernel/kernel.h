@@ -102,9 +102,8 @@ struct _bgrt_kblock_t
     bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
     bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
     bgrt_vint_t int_scall;            /*!< \~russian Диспетчер системных вызовов. \~english A system call dispatcher. */
-    bgrt_vint_t int_shed;             /*!< \~russian Прерывание системмного таймера. \~english System timer interrupt. */
-    bgrt_vint_t int_resched;          /*!< \~russian Перепланировка. \~english Reschedule interrupt. */
-    bgrt_vint_t int_idle;             /*!< \~russian Прерывание холостого хода. \~english The IDLE interrupt. */
+    bgrt_vint_t int_sched;            /*!< \~russian Прерывание планировщика. \~english A scheduler interrupt. */
+    bgrt_bool_t tmr_flg;              /*!< \~russian Флаг рерывания системмного таймера. \~english System timer interrupt flag. */
 };
 
 /*!

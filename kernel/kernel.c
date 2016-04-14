@@ -78,6 +78,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+#ifdef BGRT_CONFIG_SAVE_POWER
+#   define BGRT_SAFE_POWER() BGRT_CONFIG_SAVE_POWER()
+#else // BGRT_CONFIG_SAVE_POWER
+#   define BGRT_SAFE_POWER() do{}while(0)
+#endif// BGRT_CONFIG_SAVE_POWER
+
 static void do_int_scall( bgrt_kblock_t * kblock )
 {
     bgrt_syscall_t * scnum;
@@ -91,11 +97,35 @@ static void do_int_scall( bgrt_kblock_t * kblock )
     }
 }
 
-static void do_scheduler_work( bgrt_kblock_t * kblock, bgrt_st_t (* work)(bgrt_sched_t *) )
+static void do_int_sched( bgrt_kblock_t * kblock )
 {
-    if( BGRT_ST_OK != work( &kblock->sched ) )
+    if( kblock->tmr_flg )
     {
-        bgrt_vint_push( &kblock->int_idle, &kblock->vic );
+        kblock->tmr_flg = (bgrt_bool_t)0;
+        bgrt_sched_schedule_prologue( &kblock->sched );
+    }
+    else
+    {
+        bgrt_sched_reschedule_prologue( &kblock->sched );
+    }
+
+    if( BGRT_ST_OK != bgrt_sched_epilogue( &kblock->sched ) )
+    {
+        //Do IDLE work if needed
+#if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
+#   ifdef BGRT_CONFIG_USE_GLOBAL_LB
+        bgrt_sched_lazy_global_load_balancer();
+#   else//BGRT_CONFIG_USE_GLOBAL_LB
+        bgrt_sched_lazy_local_load_balancer();
+#   endif
+#endif//BGRT_CONFIG_MP
+        if( BGRT_ST_OK != bgrt_sched_epilogue( &kblock->sched ) )
+        {
+            //A scheduler is empty, must do reshed
+            bgrt_vint_push( &kblock->int_sched, &kblock->vic );
+            //May safe power
+            BGRT_SAFE_POWER();
+        }
     }
     else
     {
@@ -106,34 +136,25 @@ static void do_scheduler_work( bgrt_kblock_t * kblock, bgrt_st_t (* work)(bgrt_s
     }
 }
 
-static void do_int_sched( bgrt_kblock_t * kblock )
-{
-    do_scheduler_work( kblock, _bgrt_sched_schedule );
-}
-
-static void do_int_resched( bgrt_kblock_t * kblock )
-{
-    do_scheduler_work( kblock, _bgrt_sched_reschedule );
-}
-
-static void do_int_idle( bgrt_kblock_t * kblock )
-{
-    //TODO add lazy global load balancing
-#ifndef BGRT_CONFIG_USE_ALB
-    bgrt_sched_lazy_local_load_balancer();
-#endif
-#ifdef BGRT_CONFIG_SAVE_POWER
-    BGRT_CONFIG_SAVE_POWER();
-#endif
-}
+extern void _bgrt_sched_init( bgrt_sched_t * sched );
 
 void bgrt_kblock_init( bgrt_kblock_t * kblock )
 {
-
+    bgrt_vic_init( &kblock->vic );
+    ///!!!!!!!!!!!!!!!!!!!!
+    _bgrt_sched_init( &kblock->sched ); ///TODO: replace _bgrt_sched_init with bgrt_sched_init!!!
+    ///!!!!!!!!!!!!!!!!!!!!
+    bgrt_vint_init( &kblock->int_scall, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_scall, (void *)kblock );
+    bgrt_vint_init( &kblock->int_sched, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_sched, (void *)kblock );
+    kblock->tmr_flg = (bgrt_bool_t)0;
 }
 void bgrt_kblock_main( bgrt_kblock_t * kblock )
 {
-
+    while(1)
+    {
+        bgrt_vic_do_work( &kblock->vic );
+        bgrt_switch_to_proc();
+    }
 }
 
 bgrt_kernel_t bgrt_kernel;// The kernel, it is the one!
