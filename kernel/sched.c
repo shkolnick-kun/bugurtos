@@ -167,9 +167,9 @@ void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle)
 #endif // BGRT_CONFIG_MP
 }
 
-///TODO: replace _bgrt_sched_init with bgrt_sched_init!!!
+///TODO: Rename new_bgrt_sched_init to bgrt_sched_init!!!
 
-void _bgrt_sched_init(bgrt_sched_t * sched)
+void new_bgrt_sched_init(bgrt_sched_t * sched)
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * sched_lock;

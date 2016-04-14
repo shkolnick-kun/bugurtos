@@ -137,7 +137,12 @@ A kernel thread main function.
 void bgrt_kblock_main( bgrt_kblock_t * kblock );
 
 //Ядро
+///TODO: Remove old kernel!!!
+#ifndef BGRT_CONFIG_NEW_KERNEL
 typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
+#else //BGRT_CONFIG_NEW_KERNEL
+typedef struct _new_bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
+#endif//BGRT_CONFIG_NEW_KERNEL
 /*!
 \~russian
 \brief
@@ -164,6 +169,34 @@ struct _bgrt_kernel_t
 #endif // BGRT_CONFIG_MP
     bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
 };
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//Ядро
+
+/*!
+\~russian
+\brief
+Ядро BuguRTOS.
+
+В ядре хранится информация о запущенных процессах, процессе(ах) холостого хода.
+
+\~english
+\brief
+A BuguRTOS kernel structure.
+
+The kernel stores information about launched processes, system time and other important information.
+
+*/
+struct _new_bgrt_kernel_t
+{
+#ifdef BGRT_CONFIG_MP
+    bgrt_kblock_t kblock[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
+    bgrt_kstat_t stat;                /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
+#else
+    bgrt_kblock_t kblock;               /*!< \~russian Планировщик. \~english The scheduler. */
+#endif // BGRT_CONFIG_MP
+    bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
+};
+///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 /*!
 \~russian
 \brief

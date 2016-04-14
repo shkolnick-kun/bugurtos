@@ -113,11 +113,11 @@ static void do_int_sched( bgrt_kblock_t * kblock )
     {
         //Do IDLE work if needed
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
-#   ifdef BGRT_CONFIG_USE_GLOBAL_LB
+#   ifdef BGRT_CONFIG_USE_LGLB
         bgrt_sched_lazy_global_load_balancer();
-#   else//BGRT_CONFIG_USE_GLOBAL_LB
+#   else//BGRT_CONFIG_USE_LGLB
         bgrt_sched_lazy_local_load_balancer();
-#   endif
+#   endif//BGRT_CONFIG_USE_LGLB
 #endif//BGRT_CONFIG_MP
         if( BGRT_ST_OK != bgrt_sched_epilogue( &kblock->sched ) )
         {
@@ -136,18 +136,19 @@ static void do_int_sched( bgrt_kblock_t * kblock )
     }
 }
 
-extern void _bgrt_sched_init( bgrt_sched_t * sched );
+extern void new_bgrt_sched_init( bgrt_sched_t * sched );
 
 void bgrt_kblock_init( bgrt_kblock_t * kblock )
 {
     bgrt_vic_init( &kblock->vic );
     ///!!!!!!!!!!!!!!!!!!!!
-    _bgrt_sched_init( &kblock->sched ); ///TODO: replace _bgrt_sched_init with bgrt_sched_init!!!
+    new_bgrt_sched_init( &kblock->sched ); ///TODO: replace new_bgrt_sched_init with bgrt_sched_init!!!
     ///!!!!!!!!!!!!!!!!!!!!
     bgrt_vint_init( &kblock->int_scall, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_scall, (void *)kblock );
     bgrt_vint_init( &kblock->int_sched, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_sched, (void *)kblock );
     kblock->tmr_flg = (bgrt_bool_t)0;
 }
+
 void bgrt_kblock_main( bgrt_kblock_t * kblock )
 {
     while(1)
@@ -172,10 +173,11 @@ WEAK void bgrt_idle_main(void * arg)
     }
 }
 #endif // BGRT_CONFIG_USER_IDLE
-
+///TODO:Remove old kernel.
+#ifndef BGRT_CONFIG_NEW_KERNEL
 void bgrt_kernel_init(void)
 {
-#ifdef BGRT_CONFIG_MP
+#   ifdef BGRT_CONFIG_MP
     bgrt_cpuid_t i;
 
     BGRT_SPIN_INIT( &bgrt_kernel.stat );
@@ -200,7 +202,7 @@ void bgrt_kernel_init(void)
         bgrt_sched_init( (bgrt_sched_t *)bgrt_kernel.sched + i, (bgrt_proc_t *)bgrt_kernel.idle + i );
     }
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
-#else
+#   else
     _bgrt_proc_init(
         &bgrt_kernel.idle, //The bgrt_kernel.idle process.
         bgrt_idle_main, // pmain
@@ -212,11 +214,40 @@ void bgrt_kernel_init(void)
         (bgrt_tmr_t)1,//Smallest time slice
         (bgrt_bool_t)0// Idle is not RT
     );
-#endif // BGRT_CONFIG_MP
-
+    sched_init( (sched_t *)&kernel.sched, (proc_t *)&kernel.idle );
+#   endif // BGRT_CONFIG_MP
     BGRT_SPIN_INIT( &bgrt_kernel.timer );
     BGRT_SPIN_LOCK( &bgrt_kernel.timer );
     bgrt_kernel.timer.val = (bgrt_tmr_t)0;
     bgrt_kernel.timer.tick = (void(*)(void))0;
     BGRT_SPIN_FREE( &bgrt_kernel.timer );
 }
+#else //BGRT_CONFIG_NEW_KERNEL
+void bgrt_kernel_init(void)
+{
+#   ifdef BGRT_CONFIG_MP
+    bgrt_cpuid_t i;
+
+    BGRT_SPIN_INIT( &bgrt_kernel.stat );
+    BGRT_SPIN_LOCK( &bgrt_kernel.stat );
+    //The Kernel initiation!
+    for( i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++ )
+    {
+        bgrt_stat_init( (bgrt_ls_t *)bgrt_kernel.stat.val + i );
+    }
+    BGRT_SPIN_FREE( &bgrt_kernel.stat );
+
+    for( i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++ )
+    {
+        bgrt_kblock_init( (bgrt_kblock_t *)bgrt_kernel.kblock + i );
+    }
+#   else
+    bgrt_kblock_init( (bgrt_kblock_t *)&bgrt_kernel.kblock );
+#   endif // BGRT_CONFIG_MP
+    BGRT_SPIN_INIT( &bgrt_kernel.timer );
+    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+    bgrt_kernel.timer.val = (bgrt_tmr_t)0;
+    bgrt_kernel.timer.tick = (void(*)(void))0;
+    BGRT_SPIN_FREE( &bgrt_kernel.timer );
+}
+#endif//BGRT_CONFIG_NEW_KERNEL
