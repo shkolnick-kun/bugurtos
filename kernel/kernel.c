@@ -141,9 +141,7 @@ extern void new_bgrt_sched_init( bgrt_sched_t * sched );
 void bgrt_kblock_init( bgrt_kblock_t * kblock )
 {
     bgrt_vic_init( &kblock->vic );
-    ///!!!!!!!!!!!!!!!!!!!!
-    new_bgrt_sched_init( &kblock->sched ); ///TODO: replace new_bgrt_sched_init with bgrt_sched_init!!!
-    ///!!!!!!!!!!!!!!!!!!!!
+    bgrt_sched_init( &kblock->sched );
     bgrt_vint_init( &kblock->int_scall, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_scall, (void *)kblock );
     bgrt_vint_init( &kblock->int_sched, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_sched, (void *)kblock );
     kblock->tmr_flg = (bgrt_bool_t)0;
@@ -160,69 +158,6 @@ void bgrt_kblock_main( bgrt_kblock_t * kblock )
 
 bgrt_kernel_t bgrt_kernel;// The kernel, it is the one!
 
-#ifndef BGRT_CONFIG_USER_IDLE
-WEAK void bgrt_idle_main(void * arg)
-{
-    while(1)
-    {
-#   ifdef BGRT_CONFIG_SAVE_POWER
-        if( bgrt_sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER();
-#   else // BGRT_CONFIG_SAVE_POWER
-        bgrt_sched_proc_yeld();
-#   endif // BGRT_CONFIG_SAVE_POWER
-    }
-}
-#endif // BGRT_CONFIG_USER_IDLE
-///TODO:Remove old kernel.
-#ifndef BGRT_CONFIG_NEW_KERNEL
-void bgrt_kernel_init(void)
-{
-#   ifdef BGRT_CONFIG_MP
-    bgrt_cpuid_t i;
-
-    BGRT_SPIN_INIT( &bgrt_kernel.stat );
-    BGRT_SPIN_LOCK( &bgrt_kernel.stat );
-    //The Kernel initiation!
-    for( i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++ )
-    {
-        _bgrt_proc_init(
-            bgrt_kernel.idle + i, //A bgrt_kernel.idle[i] process
-            bgrt_idle_main, // main
-            (bgrt_code_t)0, // none
-            (bgrt_code_t)0, // none
-            (void *)0, // null
-            0,         // null, will be replaced with kernel stack pointer.
-            BGRT_PROC_PRIO_LOWEST,// idle has lowest priority
-            (bgrt_tmr_t)1,// Smallest time slice
-            (bgrt_bool_t)0,// idle is not RT
-            ((bgrt_aff_t)1)<<i // Disable to other cores!
-        );
-        bgrt_kernel.idle[i].core_id = i;
-        bgrt_stat_init( (bgrt_ls_t *)bgrt_kernel.stat.val + i );
-        bgrt_sched_init( (bgrt_sched_t *)bgrt_kernel.sched + i, (bgrt_proc_t *)bgrt_kernel.idle + i );
-    }
-    BGRT_SPIN_FREE( &bgrt_kernel.stat );
-#   else
-    _bgrt_proc_init(
-        &bgrt_kernel.idle, //The bgrt_kernel.idle process.
-        bgrt_idle_main, // pmain
-        (bgrt_code_t)0, // none
-        (bgrt_code_t)0, // none
-        (void *)0, // null
-        0,         // null, will be replaced with kernel stack pointer.
-        BGRT_PROC_PRIO_LOWEST, // idle has lowest priority
-        (bgrt_tmr_t)1,//Smallest time slice
-        (bgrt_bool_t)0// Idle is not RT
-    );
-    sched_init( (sched_t *)&kernel.sched, (proc_t *)&kernel.idle );
-#   endif // BGRT_CONFIG_MP
-    BGRT_SPIN_INIT( &bgrt_kernel.timer );
-    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
-    bgrt_kernel.timer.val = (bgrt_tmr_t)0;
-    bgrt_kernel.timer.tick = (void(*)(void))0;
-    BGRT_SPIN_FREE( &bgrt_kernel.timer );
-}
-#else //BGRT_CONFIG_NEW_KERNEL
 void bgrt_kernel_init(void)
 {
 #   ifdef BGRT_CONFIG_MP
@@ -250,4 +185,3 @@ void bgrt_kernel_init(void)
     bgrt_kernel.timer.tick = (void(*)(void))0;
     BGRT_SPIN_FREE( &bgrt_kernel.timer );
 }
-#endif//BGRT_CONFIG_NEW_KERNEL

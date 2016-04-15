@@ -571,11 +571,7 @@ do                                                              \
     scarg.sync = (bgrt_sync_t *)(s);                            \
     scarg.pid = (BGRT_PID_T)(p);                                \
     scarg.chown = (bgrt_flag_t)(c);                             \
-    do                                                          \
-    {                                                           \
-        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg ); \
-    }                                                           \
-    while( scarg.status >= BGRT_ST_ROLL );                      \
+    bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );     \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wake. \~english \brief Watch #bgrt_sync_wake. */
@@ -619,11 +615,7 @@ do                                                              \
     scarg.sync = (bgrt_sync_t *)(s);                            \
     scarg.pid = (BGRT_PID_T *)(p);                              \
     scarg.block = (bgrt_flag_t)(b);                             \
-    do                                                          \
-    {                                                           \
-        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg ); \
-    }                                                           \
-    while( scarg.status >= BGRT_ST_ROLL );                      \
+    bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );     \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */

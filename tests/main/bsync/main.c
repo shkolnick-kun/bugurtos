@@ -248,7 +248,7 @@ void main_0( void * arg )
 
     // 42 bgrt_sync_own
     status[0] = bgrt_sync_own( &bgrt_sync_1, (bgrt_flag_t)0 );
-    test = (BGRT_ST_ROLL == status[0]);
+    test = (BGRT_ST_EOWN == status[0]);
     test_output( test, test_num++ );
     // 43 bgrt_sync_own
     test = ( (PR0) == bgrt_sync_1.owner );
@@ -285,7 +285,7 @@ void main_0( void * arg )
 
     // 50 bgrt_sync_own
     status[0] = bgrt_sync_own( &bgrt_sync_1, (bgrt_flag_t)1 );
-    test = (BGRT_ST_ROLL == status[0]);
+    test = (BGRT_ST_EOWN == status[0]);
     test = test && ( 0 == bgrt_sync_1.dirty );
     test_output( test, test_num++ );
     // 51 bgrt_sync_own
@@ -305,7 +305,7 @@ void main_0( void * arg )
     // 54 bgrt_sync_own
     bgrt_sync_set_owner( &bgrt_sync_1, PID1 );
     status[0] = bgrt_sync_own( &bgrt_sync_1, (bgrt_flag_t)0 );
-    test = (BGRT_ST_ROLL == status[0]);
+    test = (BGRT_ST_EOWN == status[0]);
     test_output( test, test_num++ );
     // 55 bgrt_sync_own
     test = ( (PR1) == bgrt_sync_1.owner );
@@ -326,7 +326,7 @@ void main_0( void * arg )
 
     // 59 bgrt_sync_own
     status[0] = bgrt_sync_own( &bgrt_sync_1, (bgrt_flag_t)1 );
-    test = (BGRT_ST_ROLL == status[0]);
+    test = (BGRT_ST_EOWN == status[0]);
     test_output( test, test_num++ );
     // 60 bgrt_sync_own
     test = ( (PR1) == bgrt_sync_1.owner );
@@ -558,9 +558,10 @@ void main_0( void * arg )
     //106 bgrt_sync_wake
     bgrt_sync_set_owner( &bgrt_sync_1, PID1 );
     bgrt_proc_run( PID2 );
-    bgrt_wait_time(5);
+    bgrt_wait_time(10);
     test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((PR1)) );
     test_output( test, test_num++ );
+
     //107 bgrt_sync_wake
     test = ( (bgrt_sync_t *)0 == proc[1].sync );
     test_output( test, test_num++ );
@@ -649,7 +650,7 @@ void main_0( void * arg )
     bgrt_enable_interrupts();
 
     status[0] = bgrt_sync_proc_timeout( PID2 );
-    test = ( BGRT_ST_ROLL == status[0] );
+    test = ( BGRT_ST_EAGAIN == status[0] );
     test_output( test, test_num++ );
     //cleanup
     bgrt_disable_interrupts();

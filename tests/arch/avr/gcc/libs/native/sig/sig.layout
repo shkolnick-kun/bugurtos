@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="6">
+	<File name="../../../../../../../arch/avr/gcc/bugurt_port.c" open="1" top="0" tabpos="6">
 		<Cursor position="8389" topLine="147" />
 	</File>
 	<File name="../../../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
@@ -20,16 +20,16 @@
 		<Cursor position="35471" topLine="636" />
 	</File>
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="30081" topLine="897" />
+		<Cursor position="17695" topLine="438" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="9">
 		<Cursor position="18806" topLine="360" />
 	</File>
 	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="6">
-		<Cursor position="20034" topLine="398" />
+		<Cursor position="18093" topLine="354" />
 	</File>
 	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="3">
-		<Cursor position="25987" topLine="536" />
+		<Cursor position="23846" topLine="474" />
 	</File>
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="6857" topLine="93" />
@@ -40,7 +40,7 @@
 	<File name="../../../../../../../libs/native/cond.h" open="0" top="0" tabpos="1">
 		<Cursor position="7349" topLine="87" />
 	</File>
-	<File name="../../../../../../../libs/native/mutex.c" open="0" top="0" tabpos="10">
+	<File name="../../../../../../../libs/native/mutex.c" open="1" top="0" tabpos="10">
 		<Cursor position="7050" topLine="104" />
 	</File>
 	<File name="../../../../../../../libs/native/mutex.h" open="0" top="0" tabpos="4">

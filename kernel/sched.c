@@ -145,31 +145,7 @@ WEAK bgrt_cpuid_t bgrt_sched_highest_load_core( bgrt_ls_t * stat )
 #endif // BGRT_CONFIG_MP
 //========================================================================================
 // Initiate a scheduler object.
-void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle)
-{
-#ifdef BGRT_CONFIG_MP
-    bgrt_lock_t * sched_lock;
-    sched_lock = &sched->lock;
-    bgrt_spin_init( sched_lock );
-    bgrt_spin_lock( sched_lock );
-#endif // BGRT_CONFIG_MP
-    sched->ready = (bgrt_xlist_t *)sched->plst;
-    bgrt_xlist_init( sched->ready );
-    sched->expired = (bgrt_xlist_t *)sched->plst + 1;
-    bgrt_xlist_init( sched->expired );
-    bgrt_pitem_insert( (bgrt_pitem_t *)idle, sched->ready );
-    idle->flags |= BGRT_PROC_STATE_RUNNING;
-    sched->current_proc = idle;
-    sched->nested_crit_sec = (bgrt_cnt_t)0;
-#ifdef BGRT_CONFIG_MP
-    bgrt_spin_free( sched_lock );
-    bgrt_stat_inc( idle, (bgrt_ls_t *)bgrt_kernel.stat.val + idle->core_id );
-#endif // BGRT_CONFIG_MP
-}
-
-///TODO: Rename new_bgrt_sched_init to bgrt_sched_init!!!
-
-void new_bgrt_sched_init(bgrt_sched_t * sched)
+void bgrt_sched_init(bgrt_sched_t * sched)
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * sched_lock;
@@ -219,7 +195,7 @@ static bgrt_sched_t * sched_stat_update_migrate( bgrt_proc_t * proc )
 #   define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
 #else  //BGRT_CONFIG_MP
-#   define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
+#   define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.kblock.sched)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) do{}while(0)
 #endif //BGRT_CONFIG_MP
 void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
@@ -543,10 +519,6 @@ was not defined.
 
 May be used in combinations...
 ************************************/
-
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-///TODO: erase bgrt_disable_interrupts and bgrt_enable_interrupts!!!
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 {
     bgrt_sched_t * sched;
@@ -555,22 +527,18 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 
     //Is there any process in expired list?
     //If "Yes" then will transfer it.
-    bgrt_disable_interrupts();
 
     BGRT_SPIN_LOCK( sched );
 
     if( (bgrt_index_t)0 == sched->expired->index )
     {
         BGRT_SPIN_FREE( sched );
-        bgrt_enable_interrupts();
         return;
     }
     proc = (bgrt_proc_t *)bgrt_xlist_head( sched->expired ); // Target process.
 
     BGRT_SPIN_FREE( sched );
-    bgrt_enable_interrupts();
 
-    bgrt_disable_interrupts();
     BGRT_SPIN_LOCK( proc );
 
     if( BGRT_PROC_RUN_TEST( proc ) )
@@ -591,7 +559,6 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
         BGRT_SCHED_PROC_INSERT_EXPIRED( proc, sched );
     }
     BGRT_SPIN_FREE( proc );
-    bgrt_enable_interrupts();
 }
 //========================================================================================
 // Global
@@ -599,13 +566,11 @@ void bgrt_sched_lazy_global_load_balancer(void)
 {
     bgrt_cpuid_t object_core;
     // Find highest load core
-    bgrt_disable_interrupts();
     BGRT_SPIN_LOCK( &bgrt_kernel.stat );
 
     object_core = bgrt_sched_highest_load_core( (bgrt_ls_t *)bgrt_kernel.stat.val );
 
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
-    bgrt_enable_interrupts();
     // Transfer load...
     _bgrt_sched_lazy_load_balancer( object_core );
 }

@@ -82,67 +82,25 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
+#define BGRT_KBLOCK bgrt_kernel.kblock
+#define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
+
 // Пролог обработчика прерывания
 ///                         АХТУНГ !!!
 /// Используется переменная saved_sp для временного хранения
 /// указателя стека прерываемого процесса, если так не делать,
 /// компилятор будет стирать r16, r17 до сохранения контекста.
-#ifndef BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Пролог обработчика прерывания
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
-    bgrt_kernel.sched.current_proc->spointer = saved_sp;\
-    bugurt_set_stack_pointer( bgrt_kernel.idle.spointer )
-// Выход из обработчика прерывания, восстановление контекста текущего процесса
-#define BUGURT_ISR_EXIT() \
-    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
-    __asm__ __volatile__("reti"::)
+    *current_sp = saved_sp
 
 // Эпилог обработчика прерывания
 #define BUGURT_ISR_END() \
-    bugurt_check_resched();\
-    BUGURT_ISR_EXIT()
-
-#else // BGRT_CONFIG_PREEMPTIVE_KERNEL
-
-// Пролог обработчика прерывания
-#define BUGURT_ISR_START() \
-    saved_sp = bugurt_save_context();\
-    if( nested_interrupts ) goto  skip_stack_switch;\
-    bgrt_kernel.sched.current_proc->spointer = saved_sp;\
-    BGRT_STOP_SCHEDULER();\
-    bugurt_set_stack_pointer( bgrt_kernel.idle.spointer );\
-skip_stack_switch:\
-    nested_interrupts++
-
-
-// Выход из обработчика прерывания
-#define BUGURT_ISR_EXIT() \
-    BGRT_KERNEL_PREEMPT();\
-    nested_interrupts--;\
-    if( nested_interrupts )goto exit_nested;\
-    BGRT_START_SCHEDULER();\
-    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
-    __asm__ __volatile__("reti"::); \
-exit_nested: \
-    bugurt_pop_context();\
+    bgrt_set_curr_sp();\
+    bugurt_restore_context( *current_sp );\
     __asm__ __volatile__("reti"::)
-
-// Эпилог обработчика прерывания, отличается от BUGURT_ISR_EXIT вызовом bugurt_check_resched
-#define BUGURT_ISR_END() \
-    BGRT_KERNEL_PREEMPT();\
-    nested_interrupts--;\
-    if( nested_interrupts )goto exit_nested;\
-    bugurt_check_resched();\
-    BGRT_START_SCHEDULER();\
-    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
-    __asm__ __volatile__("reti"::); \
-exit_nested: \
-    bugurt_pop_context();\
-    __asm__ __volatile__("reti"::)
-
-#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BUGURT_ISR(v,f) \
@@ -174,11 +132,10 @@ void BUGURT_CONCAT(v,_func)(void)
 unsigned char bgrt_kernel_state;
 //Временное хранилище для указателей стеков процессов.
 bgrt_stack_t * saved_sp;
-#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-bgrt_cnt_t nested_interrupts;
-#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
+bgrt_stack_t * kernel_sp;
+bgrt_stack_t ** current_sp;
 
-void bugurt_check_resched( void );
+void bgrt_set_curr_sp(void);
 
 extern bgrt_stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( bgrt_stack_t * new_sp );

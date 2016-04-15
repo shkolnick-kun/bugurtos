@@ -104,9 +104,9 @@ A scheduler header.
 Initialization wrapper for sched variable in #bgrt_sched_schedule and #bgrt_sched_reschedule functions.
 */
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() (((bgrt_sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
+#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock[bgrt_current_cpu()].sched)
 #else // BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.sched)
+#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock.sched)
 #endif // BGRT_CONFIG_MP
 
 // Планировщик
@@ -158,9 +158,8 @@ This function prepares a scheduler object for work.
 \warning For internal usage.
 
 \param sched - A scheduler pointer.
-\param idle - An IDLE process pointer.
 */
-void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle);
+void bgrt_sched_init(bgrt_sched_t * sched);
 /*!
 \~russian
 \brief

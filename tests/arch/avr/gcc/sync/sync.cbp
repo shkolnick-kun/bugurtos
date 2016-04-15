@@ -102,6 +102,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/timer.h" />
+		<Unit filename="../../../../../kernel/vint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/vint.h" />
 		<Unit filename="../../../../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -12,10 +12,10 @@
 
 // Syscall table is allocated in FLASH
 #include <avr/pgmspace.h>
-#define BGRT_SCL_TBL(a) const PROGMEM bgrt_code_t a
-#define BGRT_SCL_TBL_READ(a) (bgrt_code_t)pgm_read_word(&a)
+#define BGRT_SCL_TBL(a) const PROGMEM bgrt_scsr_t a
+#define BGRT_SCL_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 // Another option is to allocate it in RAM
-//#define BGRT_SCL_TBL(a) const bgrt_code_t a
+//#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 //#define BGRT_SCL_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
@@ -70,6 +70,9 @@ typedef unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
+
+#define BGRT_CONFIG_NEW_KERNEL
+
 #define BGRT_CONFIG_HARD_RT
 #define BGRT_CONFIG_USER_IDLE
 #define BGRT_CONFIG_PREEMPTIVE_KERNEL

@@ -118,7 +118,7 @@ bgrt_st_t mutex_lock( mutex_t * mutex )
 
     ret = BGRT_SYNC_OWN( mutex, 1 ); //Try to lock mutex
 
-    if( BGRT_ST_ROLL == ret )
+    if( BGRT_ST_EOWN == ret )
     {
         ret = BGRT_SYNC_SLEEP( mutex, 1 );
     }
@@ -128,7 +128,7 @@ bgrt_st_t mutex_lock( mutex_t * mutex )
 
 bgrt_st_t mutex_free( mutex_t * mutex )
 {
-    bgrt_st_t ret = BGRT_ST_ROLL;
+    bgrt_st_t ret = BGRT_ST_ESTAT;
 
     BGRT_SYNC_WAKE( mutex,  BGRT_PID_NOTHING, 1, ret );    // Now we can wake some process.
     bgrt_proc_free();                       // May stop caller process.

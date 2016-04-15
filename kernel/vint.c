@@ -95,7 +95,7 @@ bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic )
 {
     if( ((bgrt_pitem_t *)vint)->list )
     {
-        return BGRT_ST_ESCHED;
+        return BGRT_ST_EAGAIN;
     }
     else
     {

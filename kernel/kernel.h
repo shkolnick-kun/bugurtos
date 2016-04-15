@@ -135,14 +135,8 @@ A kernel thread main function.
 \param kblock A #bgrt_kblock_t object pointer.
 */
 void bgrt_kblock_main( bgrt_kblock_t * kblock );
-
 //Ядро
-///TODO: Remove old kernel!!!
-#ifndef BGRT_CONFIG_NEW_KERNEL
 typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
-#else //BGRT_CONFIG_NEW_KERNEL
-typedef struct _new_bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
-#endif//BGRT_CONFIG_NEW_KERNEL
 /*!
 \~russian
 \brief
@@ -155,38 +149,8 @@ typedef struct _new_bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_b
 A BuguRTOS kernel structure.
 
 The kernel stores information about launched processes, system time and other important information.
-
 */
 struct _bgrt_kernel_t
-{
-#ifdef BGRT_CONFIG_MP
-    bgrt_sched_t sched[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
-    bgrt_proc_t idle[BGRT_MAX_CPU];   /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
-    bgrt_kstat_t stat;                /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
-#else
-    bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english The scheduler. */
-    bgrt_proc_t idle;                 /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
-#endif // BGRT_CONFIG_MP
-    bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
-};
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//Ядро
-
-/*!
-\~russian
-\brief
-Ядро BuguRTOS.
-
-В ядре хранится информация о запущенных процессах, процессе(ах) холостого хода.
-
-\~english
-\brief
-A BuguRTOS kernel structure.
-
-The kernel stores information about launched processes, system time and other important information.
-
-*/
-struct _new_bgrt_kernel_t
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_kblock_t kblock[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
@@ -196,7 +160,6 @@ struct _new_bgrt_kernel_t
 #endif // BGRT_CONFIG_MP
     bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
 };
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 /*!
 \~russian
 \brief
@@ -230,36 +193,4 @@ This function prepares the kernel to work.
 \warning Internal usage function.
 */
 void bgrt_kernel_init(void);
-
-/*!
-\~russian
-\brief
-Главная функция процесса холостого хода.
-
-Можно использовать встроенную функцию, а можно определить ее самому.
-Из #bgrt_idle_main можно работать с программными таймерами, подавать сигналы, ОСВОБОЖДАТЬ семафоры.
-
-\warning Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семафоры и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил!
-
-\param arg Указатель на аргумент.
-
-\~english
-\brief
-An IDLE process main function.
-
-You can use built-in function, or you can write your own.
-IDLE process can work with timers, fire signals and FREE semaphores, SEND IPC data!
-
-\warning An bgrt_idle_main should NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
-
-\param arg An argument pointer.
-*/
-void bgrt_idle_main(void * arg);
-
-#ifndef BGRT_CONFIG_POSTSTART
-#   define BGRT_POST_START(a) bgrt_idle_main(a)
-#else
-#   define BGRT_POST_START(a) BGRT_CONFIG_POSTSTART(a)
-#endif //BGRT_CONFIG_POSTSTART
-
 #endif // _BGRT_KERNEL_H_

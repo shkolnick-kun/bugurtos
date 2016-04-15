@@ -167,8 +167,8 @@ typedef void (* bgrt_code_t)(void *);
 #define BGRT_ST_ESYNC       ((bgrt_st_t)4) /*!< \~russian \brief Не тот объект типа #bgrt_sync_t. \~english \brief Wrong #bgrt_sync_t object. */
 #define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5) /*!< \~russian \brief Иcтек таймаут #bgrt_sync_t. \~english \brief Timeout expired. */
 #define BGRT_ST_ESTAT       ((bgrt_st_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
-#define BGRT_ST_ESCHED      ((bgrt_st_t)7) /*!< \~russian \brief Уже запланировано. \~english \brief Allready sheduled. */
-#define BGRT_ST_SCALL       ((bgrt_st_t)8) /*!< \~russian \brief Уже запланировано. \~english \brief Allready sheduled. */
+#define BGRT_ST_EAGAIN      ((bgrt_st_t)7) /*!< \~russian \brief Попробуйте еще раз. \~english \brief Try again. */
+#define BGRT_ST_SCALL       ((bgrt_st_t)8) /*!< \~russian \brief Неправильный системный вызов. \~english \brief Wrong system call. */
 #define BGRT_ST_ROLL        ((bgrt_st_t)9) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 
 /*!

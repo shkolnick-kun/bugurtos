@@ -16,7 +16,7 @@ void main_proc_test( void * arg )
     // bgrt_proc_run test 1
     proc[2].flags |= BGRT_PROC_STATE_DEAD;
     // Must NOT run the process.
-    test = ( BGRT_ST_ROLL == bgrt_proc_run( PID2 ) );
+    test = ( BGRT_ST_EAGAIN == bgrt_proc_run( PID2 ) );
     test_output( test , 1 );
 
     // bgrt_proc_run test 2
@@ -77,7 +77,7 @@ void main_proc_test( void * arg )
     proc[4].cnt_lock = (bgrt_cnt_t)1;
 
     bgrt_proc_run( PID4 );
-    test = ( BGRT_ST_ROLL == bgrt_proc_stop( PID4 ) );
+    test = ( BGRT_ST_EAGAIN == bgrt_proc_stop( PID4 ) );
     test = test && !!( proc[4].flags & BGRT_PROC_FLG_PRE_STOP );
     test_output( test , 10 );
 

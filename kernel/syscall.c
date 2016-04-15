@@ -384,7 +384,7 @@ bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync )
 bgrt_st_t bgrt_scall_sync_touch( bgrt_sync_touch_t * arg )
 {
     arg->status = _bgrt_sync_touch( arg->sync );
-    return arg->status;
+    return BGRT_ST_OK;
 }
 /**********************************************************************************************
                                  BGRT_SYSCALL_SYNC_SLEEP
@@ -395,11 +395,7 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch )
     scarg.status = BGRT_ST_ROLL;
     scarg.sync = sync;
     scarg.touch = touch;
-    do
-    {
-        bgrt_syscall( BGRT_SYSCALL_SYNC_SLEEP, (void *)&scarg );
-    }
-    while( scarg.status >= BGRT_ST_ROLL );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_SLEEP, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -418,11 +414,7 @@ bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown 
     scarg.sync = sync;
     scarg.pid = pid;
     scarg.chown = chown;
-    do
-    {
-        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );
-    }
-    while( scarg.status >= BGRT_ST_ROLL );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================
@@ -441,11 +433,7 @@ bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t bloc
     scarg.sync = sync;
     scarg.pid = pid;
     scarg.block = block;
-    do
-    {
-        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );
-    }
-    while( scarg.status >= BGRT_ST_ROLL );
+    bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );
     return scarg.status;
 }
 //========================================================================================

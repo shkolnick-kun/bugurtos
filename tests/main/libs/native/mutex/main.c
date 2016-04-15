@@ -31,7 +31,7 @@ void main_with_return( void * arg )
     test_output( ( proc[0].parent.prio == 1 ), 7 );
     //mutex_try_lock test 8
     // must not lock
-    test_output( (BGRT_ST_ROLL == mutex_try_lock( &test_mutex )), 8 );
+    test_output( (BGRT_ST_EOWN == mutex_try_lock( &test_mutex )), 8 );
     //mutex_try_lock test 9
     mutex_free( &test_mutex );
     bgrt_wait_time( 2 );
