@@ -12,12 +12,12 @@
 				<Option type="1" />
 				<Option compiler="avrgcc" />
 				<Compiler>
-					<Add option="-Os" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Os" />
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option="-ffunction-sections" />
@@ -41,10 +41,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../arch/avr/gcc-vsmp/bugurt_port.h" />
-		<Unit filename="../../../../../arch/avr/gcc-vsmp/vsmp.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../arch/avr/gcc-vsmp/vsmp.h" />
 		<Unit filename="../../../../../arch/avr/gcc/bugurt_port_asm.S" />
 		<Unit filename="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
@@ -94,6 +90,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/timer.h" />
+		<Unit filename="../../../../../kernel/vint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/vint.h" />
 		<Unit filename="../../../../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>

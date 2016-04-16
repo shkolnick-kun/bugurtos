@@ -113,11 +113,9 @@ static void do_int_sched( bgrt_kblock_t * kblock )
     {
         //Do IDLE work if needed
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
-#   ifdef BGRT_CONFIG_USE_LGLB
+#   ifdef BGRT_CONFIG_USE_LLB
         bgrt_sched_lazy_global_load_balancer();
-#   else//BGRT_CONFIG_USE_LGLB
-        bgrt_sched_lazy_local_load_balancer();
-#   endif//BGRT_CONFIG_USE_LGLB
+#   endif//BGRT_CONFIG_USE_LLB
 #endif//BGRT_CONFIG_MP
         if( BGRT_ST_OK != bgrt_sched_epilogue( &kblock->sched ) )
         {
@@ -145,6 +143,8 @@ void bgrt_kblock_init( bgrt_kblock_t * kblock )
     bgrt_vint_init( &kblock->int_scall, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_scall, (void *)kblock );
     bgrt_vint_init( &kblock->int_sched, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_sched, (void *)kblock );
     kblock->tmr_flg = (bgrt_bool_t)0;
+
+    bgrt_vint_push_isr( &kblock->int_sched, &kblock->vic );
 }
 
 void bgrt_kblock_main( bgrt_kblock_t * kblock )

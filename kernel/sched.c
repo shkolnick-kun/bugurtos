@@ -174,7 +174,7 @@ static bgrt_sched_t * sched_stat_update_run( bgrt_proc_t * proc )
     bgrt_stat_inc( proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id );
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
 
-    return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched);
 }
 static void sched_stat_update_stop( bgrt_proc_t * proc )
 {
@@ -190,7 +190,7 @@ static bgrt_sched_t * sched_stat_update_migrate( bgrt_proc_t * proc )
     bgrt_stat_inc( proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id );
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
 
-    return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched);
 }
 #   define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
@@ -220,7 +220,7 @@ void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state )
 
     sched_stat_update_stop( proc );
 
-    xlist_lock = &((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id)->lock;
+    xlist_lock = &bgrt_kernel.kblock[proc->core_id].sched.lock;
     bgrt_spin_lock( xlist_lock );
 #endif // BGRT_CONFIG_MP
 
@@ -523,7 +523,7 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 {
     bgrt_sched_t * sched;
     bgrt_proc_t * proc;
-    sched = (bgrt_sched_t *)bgrt_kernel.sched + object_core;
+    sched = (bgrt_sched_t *)&bgrt_kernel.kblock[object_core].sched;
 
     //Is there any process in expired list?
     //If "Yes" then will transfer it.
@@ -545,7 +545,7 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
     {
         // If the process is still running...
         // Stop it;
-        sched = ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+        sched = (bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched;
 
         BGRT_SPIN_LOCK( sched );
         bgrt_pitem_fast_cut( (bgrt_pitem_t *)proc );

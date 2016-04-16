@@ -84,7 +84,7 @@ bgrt_cpuid_t _bgrt_crit_sec_enter(void)
     bgrt_cpuid_t ret;
     bgrt_disable_interrupts();
     ret = bgrt_current_cpu();
-    BGRT_CNT_INC( bgrt_kernel.sched[ret].nested_crit_sec );
+    BGRT_CNT_INC( bgrt_kernel.kblock[ret].sched.nested_crit_sec );
     return ret;
 }
 

@@ -126,9 +126,6 @@ void BUGURT_CONCAT(v,_func)(void);\
 _BUGURT_ISR(v,BUGURT_CONCAT(v,_func)) \
 void BUGURT_CONCAT(v,_func)(void)
 
-// Флаги состояния ядра
-#define KRN_FLG_RESCHED ((unsigned char)1)
-
 unsigned char bgrt_kernel_state;
 //Временное хранилище для указателей стеков процессов.
 bgrt_stack_t * saved_sp;
