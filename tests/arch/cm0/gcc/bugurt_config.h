@@ -7,7 +7,7 @@
 
 #ifndef __ASSEMBLER__
 
-#define BGRT_SCL_TBL(a) const bgrt_code_t a
+#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 #define BGRT_SCL_TBL_READ(a) a
 
 #ifndef NOP
@@ -49,7 +49,7 @@ typedef unsigned char bgrt_bool_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char bgrt_syscall_t;
+typedef volatile unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
@@ -71,7 +71,7 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_CONFIG_FSYSTICK_HZ 		( 1000ul )
 
 #define BGRT_CONFIG_PRIO_BITS       2  // Used upper priority bits
-#define BGRT_CONFIG_SYSCALL_PRIO 	3 // SysCall priority
+//#define BGRT_CONFIG_SYSCALL_PRIO 	3 // SysCall priority
 #define BGRT_CONFIG_SCHED_PRIO 		3 // Scheduler priority
 
 #define BGRT_PROC_STACK_SIZE 128

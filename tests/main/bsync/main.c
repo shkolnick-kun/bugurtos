@@ -561,10 +561,11 @@ void main_0( void * arg )
     bgrt_wait_time(10);
     test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((PR1)) );
     test_output( test, test_num++ );
-
     //107 bgrt_sync_wake
     test = ( (bgrt_sync_t *)0 == proc[1].sync );
     test_output( test, test_num++ );
+
+    bgrt_proc_run( PID2 );
     //108 bgrt_sync_wake
     bgrt_wait_time(20);
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((PR1)) );
@@ -1061,7 +1062,7 @@ void main_2( void * arg )
     //106,107,108,109,110
     bgrt_sync_touch( &bgrt_sync_1 );
     bgrt_proc_run( PID1 );
-    bgrt_wait_time(10);
+    bgrt_proc_self_stop();
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
     bgrt_proc_self_stop();
 
