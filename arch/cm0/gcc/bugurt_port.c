@@ -231,7 +231,7 @@ void bgrt_switch_to_proc(void)
 __attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
 {
     BUGURT_CONTEXT_STORE();
-    saved_sp = bugurt_read_psp();\
+    saved_sp = bugurt_read_psp();
     *current_sp = saved_sp;
 
     bgrt_set_curr_sp();
