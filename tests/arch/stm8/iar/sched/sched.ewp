@@ -1605,6 +1605,12 @@
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\timer.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\xlist.c</name>
     </file>
     <file>
@@ -1619,12 +1625,6 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\test_func.h</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.h</name>
   </file>
 </project>
 
