@@ -583,7 +583,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$TOOLKIT_DIR$\config\lnkstm8s105c6.icf</state>
+          <state>$TOOLKIT_DIR$\config\lnkstm8s208mb.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1619,6 +1619,12 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\test_func.h</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.h</name>
   </file>
 </project>
 

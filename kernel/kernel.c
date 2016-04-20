@@ -96,6 +96,14 @@ static void do_int_scall( bgrt_kblock_t * kblock )
         *scnum = (bgrt_syscall_t)0;
     }
 }
+//Check for pending system call and push it
+static void push_pend_scall( bgrt_kblock_t * kblock )
+{
+    if( *bgrt_get_scnum() )
+    {
+        bgrt_vint_push( &kblock->int_scall, &kblock->vic );
+    }
+}
 
 static void do_int_sched( bgrt_kblock_t * kblock )
 {
@@ -124,13 +132,14 @@ static void do_int_sched( bgrt_kblock_t * kblock )
             //May safe power
             BGRT_SAFE_POWER();
         }
+        else
+        {
+            push_pend_scall( kblock );
+        }
     }
     else
     {
-        if( *bgrt_get_scnum() )
-        {
-            bgrt_vint_push( &kblock->int_scall, &kblock->vic );
-        }
+        push_pend_scall( kblock );
     }
 }
 

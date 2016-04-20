@@ -2,12 +2,12 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2204066625</fileChecksum>
+  <fileChecksum>1148914480</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
       <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\kernel.pbi</file>
       <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</file>
       <file>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</file>
@@ -16,14 +16,6 @@
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\crit_sec.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\index.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\index.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\test_func.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\xlist.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\syscall.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\proc.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\sched.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\item.o</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\item.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\item.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\kernel.c</file>
@@ -34,6 +26,24 @@
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\pitem.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\proc.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\proc.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\sched.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\proc.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\pitem.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\pcounter.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\iostm8s208mb.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\crit_sec.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\kernel.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\pcounter.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\pitem.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\index.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\item.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\index.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\crit_sec.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.pbi</file>
+      <file>$PROJ_DIR$\..\bugurt_config.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\sched.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\sched.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\kernel\sync.c</file>
@@ -47,53 +57,74 @@
       <file>$PROJ_DIR$\..\..\..\..\main\proc\main.c</file>
       <file>$PROJ_DIR$\..\test_func.c</file>
       <file>$PROJ_DIR$\..\test_func.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\proc.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\syscall.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\xlist.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\timer.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\test_func.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\sched.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\item.o</file>
       <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\test_func.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\sync.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\sync.o</file>
       <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\xlist.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\timer.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\xlist.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\syscall.pbi</file>
       <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\proc.pbd</file>
       <file>$PROJ_DIR$\Debug\Exe\sched.out</file>
-      <file>$PROJ_DIR$\Debug\Obj\kernel.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sched.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\proc.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\pitem.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\pcounter.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\iostm8s208mb.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\crit_sec.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\kernel.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\pcounter.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\pitem.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\index.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\item.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\index.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\crit_sec.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.pbi</file>
-      <file>$PROJ_DIR$\..\bugurt_config.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\proc.pbd</file>
+      <file>$PROJ_DIR$\Debug\List\crit_sec.lst</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\kernel\vint.h</file>
+      <file>$PROJ_DIR$\Debug\List\bugurt_proc_stack_init.lst</file>
+      <file>$PROJ_DIR$\Debug\List\pcounter.lst</file>
+      <file>$PROJ_DIR$\Debug\List\bugurt_port_asm.lst</file>
+      <file>$TOOLKIT_DIR$\inc\vregs.inc</file>
+      <file>$PROJ_DIR$\Debug\List\kernel.lst</file>
+      <file>$PROJ_DIR$\Debug\List\bugurt_port.lst</file>
+      <file>$PROJ_DIR$\Debug\List\sched.lst</file>
+      <file>$PROJ_DIR$\Debug\List\index.lst</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8mmn.a</file>
+      <file>$PROJ_DIR$\Debug\List\item.lst</file>
+      <file>$PROJ_DIR$\Debug\List\sync.lst</file>
+      <file>$PROJ_DIR$\Debug\List\sched.map</file>
+      <file>$PROJ_DIR$\Debug\List\proc.lst</file>
+      <file>$PROJ_DIR$\Debug\Obj\vint.pbi</file>
+      <file>$PROJ_DIR$\Debug\List\main.lst</file>
+      <file>$PROJ_DIR$\Debug\List\syscall.lst</file>
+      <file>$PROJ_DIR$\Debug\List\timer.lst</file>
+      <file>$PROJ_DIR$\Debug\List\test_func.lst</file>
+      <file>$PROJ_DIR$\Debug\List\pitem.lst</file>
+      <file>$TOOLKIT_DIR$\lib\dbgstm8mmd.a</file>
+      <file>$PROJ_DIR$\Debug\List\xlist.lst</file>
+      <file>$PROJ_DIR$\Debug\Obj\vint.o</file>
+      <file>$TOOLKIT_DIR$\config\lnkstm8s208mb.icf</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\kernel\vint.c</file>
+      <file>$PROJ_DIR$\Debug\List\vint.lst</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</name>
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 58</file>
+          <file> 78 26</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 69</file>
+          <file> 36</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -102,26 +133,36 @@
       <outputs>
         <tool>
           <name>ASTM8</name>
-          <file> 1</file>
+          <file> 51 75</file>
         </tool>
       </outputs>
+      <inputs>
+        <tool>
+          <name>ASTM8</name>
+          <file> 76</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</name>
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 63</file>
+          <file> 73 30</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 68</file>
+          <file> 35</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -130,17 +171,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 59</file>
+          <file> 71 25</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 67</file>
+          <file> 34</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -149,45 +194,44 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 64</file>
+          <file> 80 31</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 66</file>
+          <file> 33</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
-    </file>
-    <file>
-      <name>[ROOT_NODE]</name>
-      <outputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 51</file>
-        </tool>
-      </outputs>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\item.c</name>
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 17</file>
+          <file> 82 59</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 65</file>
+          <file> 32</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -196,17 +240,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 60</file>
+          <file> 77 27</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 52</file>
+          <file> 1</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -215,17 +263,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 61</file>
+          <file> 74 28</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 56</file>
+          <file> 23</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -234,17 +286,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 62</file>
+          <file> 91 29</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 55</file>
+          <file> 22</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -253,36 +309,53 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 15</file>
+          <file> 85 52</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 54</file>
+          <file> 21</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 69 84</file>
+        </tool>
+      </outputs>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\sched.c</name>
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 16</file>
+          <file> 79 58</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 53</file>
+          <file> 20</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -291,17 +364,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 44</file>
+          <file> 83 63</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 43</file>
+          <file> 62</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -310,17 +387,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 14</file>
+          <file> 88 53</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 48</file>
+          <file> 67</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -329,17 +410,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 12</file>
+          <file> 89 55</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 47</file>
+          <file> 65</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -348,17 +433,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 13</file>
+          <file> 93 54</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 46</file>
+          <file> 66</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -367,17 +456,21 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 11</file>
+          <file> 87 56</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 41</file>
+          <file> 60</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 50 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 40 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 50 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>
@@ -386,17 +479,36 @@
       <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 10</file>
+          <file> 90 57</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 42</file>
+          <file> 61</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 50 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
           <name>BICOMP</name>
-          <file> 40 5 70 57 49 45 9 19 37 25 23 7 27 29 21 31 35 33 0</file>
+          <file> 50 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\sched.out</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 84</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 95 26 51 30 25 31 59 27 56 28 29 52 58 63 53 57 55 94 54 81 92</file>
         </tool>
       </inputs>
     </file>
@@ -405,7 +517,30 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 69 68 67 66 65 52 41 56 55 54 53 43 48 42 47 46</file>
+          <file> 36 35 34 33 32 1 60 23 22 21 20 62 67 61 65 86 66</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\kernel\vint.c</name>
+      <outputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 97 94</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 86</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 5 37 24 68 64 9 11 47 17 15 7 45 19 39 41 43 72 13 0</file>
         </tool>
       </inputs>
     </file>

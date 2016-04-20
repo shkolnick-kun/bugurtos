@@ -84,59 +84,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
-#ifndef BGRT_CONFIG_PREEMPTIVE_KERNEL
+#define BGRT_KBLOCK bgrt_kernel.kblock
+#define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
 // Пролог обработчика прерывания
-#define BUGURT_ISR_START() \
-    bgrt_kernel.sched.current_proc->spointer = bugurt_save_context();\
-    bugurt_set_stack_pointer( bgrt_kernel.idle.spointer )
-
-// Выход из обработчика прерывания, восстановление контекста текущего процесса
-#define BUGURT_ISR_EXIT() \
-    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer )
-
-// Эпилог обработчика прерывания
-#define BUGURT_ISR_END() \
-    bugurt_check_resched();\
-    BUGURT_ISR_EXIT()
-
-#else // BGRT_CONFIG_PREEMPTIVE_KERNEL
-
-// Пролог обработчика прерывания
-/// NOTE: No BGRT_KERNEL_PREEMPT() call on the end of prologue to avoid ISR reentrance!
 #define BUGURT_ISR_START() \
     saved_sp = bugurt_save_context();\
-    if( nested_interrupts ) goto  skip_stack_switch;\
-    bgrt_kernel.sched.current_proc->spointer = saved_sp;\
-    BGRT_STOP_SCHEDULER();\
-    bugurt_set_stack_pointer( bgrt_kernel.idle.spointer );\
-skip_stack_switch:\
-    nested_interrupts++
-
-// Выход из обработчика прерывания, восстановление контекста текущего процесса
-#define BUGURT_ISR_EXIT() \
-    BGRT_KERNEL_PREEMPT();\
-    nested_interrupts--;\
-    if( nested_interrupts )goto exit_nested;\
-    BGRT_START_SCHEDULER();\
-    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
-    return;\
-exit_nested: \
-    bugurt_pop_context()
+    *current_sp = saved_sp
 
 // Эпилог обработчика прерывания
 #define BUGURT_ISR_END() \
-    BGRT_KERNEL_PREEMPT();\
-    nested_interrupts--;\
-    if( nested_interrupts )goto exit_nested;\
-    bugurt_check_resched();\
-    BGRT_START_SCHEDULER();\
-    bugurt_restore_context( bgrt_kernel.sched.current_proc->spointer );\
-    return;\
-exit_nested: \
-    bugurt_pop_context()
-
-#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
+    bgrt_set_curr_sp();\
+    bugurt_restore_context( *current_sp )
 
 // Подстановка вектора для шаблона обработчика прерывания
 #define BUGURT_VECTOR_STR(v) BUGURT_ARG_TO_STR( vector = (v) )
@@ -168,12 +127,10 @@ void BUGURT_CONCAT(vector_func_,v)(void)
 // Флаги состояния ядра
 #define KRN_FLG_RESCHED ((unsigned char)1)
 
-extern unsigned char bgrt_kernel_state;
 extern bgrt_stack_t * saved_sp;
-#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-extern bgrt_cnt_t nested_interrupts;
-#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
-void bugurt_check_resched( void );
+extern bgrt_stack_t * kernel_sp;
+extern bgrt_stack_t ** current_sp;
+extern void bgrt_set_curr_sp(void);
 
 extern bgrt_stack_t * bugurt_save_context( void );
 extern void bugurt_restore_context( bgrt_stack_t * new_sp );

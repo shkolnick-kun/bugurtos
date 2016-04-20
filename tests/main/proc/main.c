@@ -164,7 +164,7 @@ void main_fs( void * arg )
 {
     // For bgrt_proc_free tests 8 and 11
     bgrt_proc_free();
-    bgrt_wait_time(10);
+    bgrt_wait_time(20);
     bgrt_proc_free();
     while(1)
     {
