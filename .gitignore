@@ -13,6 +13,15 @@
 # Linker outputs
 *.map
 *.lss
+*.lst
+
+#IDE files
+*.pbd
+*.cseg
+*.CSEG
+*.xrf
+*.XRF
+*.html
 
 # Executables #
 *.exe

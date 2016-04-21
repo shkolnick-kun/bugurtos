@@ -1,6 +1,6 @@
 
-<ApplicationBuild Header="Sched_test" Extern=".\Sched_test.rapp" Path=".\Sched_test.rapp" OutputFile=".\bin\Sched_test.aof" sate="64" >
-	<Group Header="kernel" Marker="-1" OutputFile="" sate="0" >
+<ApplicationBuild Header="Sched_test" Extern=".\Sched_test.rapp" Path=".\Sched_test.rapp" OutputFile=".\bin\Sched_test.aof" sate="96" >
+	<Group Header="kernel" Marker="-1" OutputFile="" sate="2" >
 		<NodeC Path="..\..\..\..\..\kernel\crit_sec.c" Header="crit_sec.c" Marker="-1" OutputFile=".\bin\crit_sec.obj" sate="0" />
 		<NodeC Path="..\..\..\..\..\kernel\index.c" Header="index.c" Marker="-1" OutputFile=".\bin\index.obj" sate="0" />
 		<NodeC Path="..\..\..\..\..\kernel\item.c" Header="item.c" Marker="-1" OutputFile=".\bin\item.obj" sate="0" />
@@ -26,38 +26,40 @@
 		<NodeH Path="..\..\..\..\..\kernel\syscall.h" Header="syscall.h" Marker="-1" OutputFile="" sate="0" />
 		<NodeH Path="..\..\..\..\..\kernel\timer.h" Header="timer.h" Marker="-1" OutputFile="" sate="0" />
 		<NodeH Path="..\..\..\..\..\kernel\xlist.h" Header="xlist.h" Marker="-1" OutputFile="" sate="0" />
-			
+		<NodeC Path="..\..\..\..\..\kernel\vint.c" Header="vint.c" Marker="-1" OutputFile=".\bin\vint.obj" sate="0" />
+		<NodeH Path="..\..\..\..\..\kernel\vint.h" Header="vint.h" Marker="-1" OutputFile="" sate="0" />
+						
 	</Group>
 	<Group Header="arch" Marker="-1" OutputFile="" sate="0" >
 		<NodeH Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Header="bugurt_port.h" Marker="-1" OutputFile="" sate="0" />
 		<NodeC Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Header="bugurt_proc_stack_init.c" Marker="-1" OutputFile=".\bin\bugurt_proc_stack_init.obj" sate="0" />
 		<NodeC Path="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.c" Header="bugurt_port.c" Marker="-1" OutputFile=".\bin\bugurt_port.obj" sate="0" />
-			
+						
 	</Group>
-	<Group Header="source" Marker="-1" OutputFile="" sate="64" >
+	<Group Header="source" Marker="-1" OutputFile="" sate="0" >
 		<NodeC Path="..\..\..\..\main\sched\main.c" Header="main.c" Marker="-1" OutputFile=".\bin\main.obj" sate="0" />
 		<NodeC Path="..\test_func.c" Header="test_func.c" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" />
 		<NodeH Path="..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
-			
+						
 	</Group>
 	<Options>
 		<Config Header="Standard" >
 			<Set Header="ApplicationBuild" >
 				<Section Header="General" >
 					<Property Header="TargetFamily" Value="ST7" />
-									
+																		
 				</Section>
 				<Section Header="Directories" >
 					<Property Header="OutDir" Value="$(ApplicationDir)\bin" Removable="1" />
 					<Property Header="ListDir" Value="$(ApplicationDir)\bin" Removable="1" />
-									
+																		
 				</Section>
-							
+														
 			</Set>
 			<Set Header="Target" >
 				<Section Header="ProcessorST7" >
 					<Property Header="Processor" Value="STM8S208MB" Removable="1" />
-									
+																		
 				</Section>
 				<Section Header="ToolSetST7" >
 					<Property Header="BuildToolSetST7" Value="ST7\RaisonanceTools.config" Removable="1" />
@@ -69,22 +71,22 @@
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
 					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\&quot;)" Removable="1" />
-							
+																
 				</Section>
 				<Section Header="Model" >
 					<Property Header="GlobalMemory" Value="DGC(DATA)" Removable="1" />
-									
+																		
 				</Section>
 				<Section Header="OPTIM" >
 					<Property Header="SPEEDSIZE" Value="SIZE" Removable="1" />
 					<Property Header="OTLEVEL" Value="0" Removable="1" />
-									
+																		
 				</Section>
 				<Section Header="CodeGen" >
 					<Property Header="SMALLOBJECT" Value="" Removable="1" />
-									
+																		
 				</Section>
-					
+												
 			</Set>
 			<Set Header="RLST7" >
 				<Section Header="Output" >

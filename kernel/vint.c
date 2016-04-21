@@ -78,6 +78,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+#ifndef BGRT_VINT_CS_START
+#   define BGRT_VINT_CS_START() bgrt_disable_interrupts()
+#endif //BGRT_VINT_CS_START
+
+#ifndef BGRT_VINT_CS_END
+#   define BGRT_VINT_CS_END() bgrt_enable_interrupts()
+#endif //BGRT_VINT_CS_END
+
 void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg )
 {
     bgrt_pitem_init( (bgrt_pitem_t *)vint, prio );
@@ -95,7 +103,7 @@ bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic )
 {
     if( ((bgrt_pitem_t *)vint)->list )
     {
-        return BGRT_ST_ESCHED;
+        return BGRT_ST_EAGAIN;
     }
     else
     {
@@ -108,11 +116,11 @@ bgrt_st_t bgrt_vint_push( bgrt_vint_t * vint, bgrt_vic_t * vic )
 {
     bgrt_st_t ret;
     //Everything is done on local CPU core, just disable interrupts.
-    bgrt_disable_interrupts();
+    BGRT_VINT_CS_START();
     //Insert
     ret = bgrt_vint_push_isr( vint, vic );
     //May enable interrupts
-    bgrt_enable_interrupts();
+    BGRT_VINT_CS_END();
     return ret;
 }
 
@@ -120,7 +128,7 @@ static bgrt_vint_t * bgrt_vint_pop( bgrt_vic_t * vic )
 {
     bgrt_pitem_t * ret;
     //Everything is done on local CPU core, just disable interrupts.
-    bgrt_disable_interrupts();
+    BGRT_VINT_CS_START();
     //Het list head
     ret = (bgrt_pitem_t *)bgrt_xlist_head( (bgrt_xlist_t *)vic );
     //Is there any work?
@@ -130,7 +138,7 @@ static bgrt_vint_t * bgrt_vint_pop( bgrt_vic_t * vic )
         bgrt_pitem_cut( ret );
     }
     //May enable interrupts
-    bgrt_enable_interrupts();
+    BGRT_VINT_CS_END();
     //We must return virtual interrupt
     return (bgrt_vint_t *)ret;
 }

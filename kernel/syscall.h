@@ -115,6 +115,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SYSCALL_SYNC_PROC_TIMEOUT              (BGRT_SYSCALL_SYNC_WAIT + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Разбудить процесс по таймауту. \~english \brief Wake a process on timeout. */
 
 #define BGRT_SYSCALL_USER                           (BGRT_SYSCALL_SYNC_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
+
+typedef bgrt_st_t (* bgrt_scsr_t)(void *); /*!< \~russian \brief Обработчик системного вызова. \~english \brief System call srvice routine pointer. */
+
+#define BGRT_SC_TBL_ENTRY(f) ((bgrt_scsr_t)f)
 /*!
 \~russian
 \brief
@@ -128,7 +132,7 @@ System call processing routine.
 
 This function calls system call handlers and passes arguments to them.
 */
-void bgrt_do_syscall(
+bgrt_st_t bgrt_do_syscall(
                 bgrt_syscall_t syscall_num,  /*!< \~russian Номер системного вызова. \~english System call number.*/
                 void * syscall_arg      /*!< \~russian Аргумент системного вызова. \~english System call argument.*/
                 );
@@ -169,7 +173,7 @@ This function tries to launch a process by #_bgrt_proc_run call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
-void bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg );
+bgrt_st_t bgrt_scall_proc_run( bgrt_proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
@@ -187,7 +191,7 @@ This function tries to restart a process by #_bgrt_proc_restart call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
-void bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg );
+bgrt_st_t bgrt_scall_proc_restart( bgrt_proc_runtime_arg_t * arg );
 /*!
 \~russian
 \brief
@@ -205,7 +209,7 @@ This function tries to stop a process by #_bgrt_proc_stop call.
 
 \param arg A #bgrt_proc_runtime_arg_t pointer.
 */
-void bgrt_scall_proc_stop( bgrt_proc_runtime_arg_t * arg );
+bgrt_st_t bgrt_scall_proc_stop( bgrt_proc_runtime_arg_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -224,7 +228,7 @@ This function stops calling process.
 
 \param arg Not used.
 */
-void bgrt_scall_proc_self_stop( void * arg );
+bgrt_st_t bgrt_scall_proc_self_stop( void * arg );
 
 /*!
 \~russian
@@ -243,7 +247,7 @@ This function terminates calling process after pmain return by #_bgrt_proc_termi
 
 \param arg A pointer to a process.
 */
-void bgrt_scall_proc_terminate( void * arg );
+bgrt_st_t bgrt_scall_proc_terminate( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -258,7 +262,7 @@ A #BGRT_SYSCALL_PROC_LOCK handler.
 
 Sets #BGRT_PROC_FLG_LOCK for caller process, increases proc->lres counter.
 */
-void bgrt_scall_proc_lock( void * arg );
+bgrt_st_t bgrt_scall_proc_lock( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -279,7 +283,7 @@ It calls #_bgrt_proc_free.
 
 \param arg A pointer to a flag mask.
 */
-void bgrt_scall_proc_free( void * arg );
+bgrt_st_t bgrt_scall_proc_free( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -298,7 +302,7 @@ This function calls #_bgrt_proc_reset_watchdog.
 
 \param arg Not used.
 */
-void bgrt_scall_proc_reset_watchdog( void * arg );
+bgrt_st_t bgrt_scall_proc_reset_watchdog( void * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -326,7 +330,7 @@ A #BGRT_SYSCALL_PROC_GET_PRIO handler.
 
 This function calls #_bgrt_proc_get_prio.
 */
-void bgrt_scall_proc_get_prio( bgrt_proc_get_prio_arg_t * arg );
+bgrt_st_t bgrt_scall_proc_get_prio( bgrt_proc_get_prio_arg_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -341,7 +345,7 @@ A #BGRT_SYSCALL_PROC_GET_ID handler.
 
 This function calls #bgrt_curr_proc.
 */
-void bgrt_scall_proc_get_id( BGRT_PID_T * arg );
+bgrt_st_t bgrt_scall_proc_get_id( BGRT_PID_T * arg );
 /*****************************************************************************************/
 /*                                     Scheduler                                         */
 /*****************************************************************************************/
@@ -362,7 +366,7 @@ Transfers control to another process.
 
 \param arg Not used.
 */
-void bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg );
+bgrt_st_t bgrt_scall_sched_proc_yeld( bgrt_bool_t * arg );
 /*****************************************************************************************/
 /*                                        Sync                                           */
 /*****************************************************************************************/
@@ -403,7 +407,7 @@ This function calls #_bgrt_proc_set_prio.
 
 \param arg A pointer to #bgrt_proc_set_prio_arg_t object.
 */
-void bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg );
+bgrt_st_t bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg );
 /*****************************************************************************************/
 /*!
 \~russian
@@ -434,7 +438,7 @@ A #BGRT_SYSCALL_SYNC_SET_OWNER handler.
 
 This function calls #_bgrt_sync_set_owner.
 */
-void bgrt_scall_sync_set_owner( bgrt_sync_owner_t * arg );
+bgrt_st_t bgrt_scall_sync_set_owner( bgrt_sync_owner_t * arg );
 #define BGRT_SYNC_SET_OWNER(s,p) bgrt_sync_set_owner((bgrt_sync_t *)s, (BGRT_PID_T)p) /*!< \~russian \brief Смотри #bgrt_sync_set_owner. \~english \brief Watch #bgrt_sync_set_owner. */
 /*****************************************************************************************/
 /*!
@@ -449,7 +453,7 @@ A #BGRT_SYSCALL_SYNC_GET_OWNER handler.
 
 This function calls #_bgrt_sync_set_owner.
 */
-void bgrt_scall_sync_get_owner( bgrt_sync_owner_t * arg );
+bgrt_st_t bgrt_scall_sync_get_owner( bgrt_sync_owner_t * arg );
 #define BGRT_SYNC_GET_OWNER(s) bgrt_sync_get_owner((bgrt_sync_t *)s) /*!< \~russian \brief Смотри #bgrt_sync_get_owner. \~english \brief Watch #bgrt_sync_get_owner. */
 /*****************************************************************************************/
 /*!
@@ -480,7 +484,7 @@ A #BGRT_SYSCALL_SYNC_OWN handler.
 
 This function calls #_bgrt_sync_own.
 */
-void bgrt_scall_sync_own( bgrt_sync_own_sleep_t * arg );
+bgrt_st_t bgrt_scall_sync_own( bgrt_sync_own_sleep_t * arg );
 #define BGRT_SYNC_OWN(s,t) bgrt_sync_own( (bgrt_sync_t *)(s), (bgrt_flag_t)(t) ) /*!< \~russian \brief Смотри #bgrt_sync_own. \~english \brief Watch #bgrt_sync_own. */
 /*****************************************************************************************/
 /*!
@@ -510,7 +514,7 @@ A #BGRT_SYSCALL_SYNC_TOUCH handler.
 
 This function calls #_bgrt_sync_touch.
 */
-void bgrt_scall_sync_touch( bgrt_sync_touch_t * arg );
+bgrt_st_t bgrt_scall_sync_touch( bgrt_sync_touch_t * arg );
 #define BGRT_SYNC_TOUCH(s) bgrt_sync_touch( (bgrt_sync_t *)(s) )
 /*****************************************************************************************/
 /*!
@@ -525,7 +529,7 @@ A #BGRT_SYSCALL_SYNC_SLEEP handler.
 
 This function calls #_bgrt_sync_sleep.
 */
-void bgrt_scall_sync_sleep( bgrt_sync_own_sleep_t * arg );
+bgrt_st_t bgrt_scall_sync_sleep( bgrt_sync_own_sleep_t * arg );
 #define BGRT_SYNC_SLEEP(s,t) bgrt_sync_sleep((bgrt_sync_t *)(s), (bgrt_flag_t)(t)) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
 /*****************************************************************************************/
 /*!
@@ -558,7 +562,7 @@ A #BGRT_SYSCALL_SYNC_WAKE handler.
 
 This function calls #_bgrt_sync_wake.
 */
-void bgrt_scall_sync_wake( bgrt_sync_wake_t * arg );
+bgrt_st_t bgrt_scall_sync_wake( bgrt_sync_wake_t * arg );
 #define BGRT_SYNC_WAKE(s,p,c,st)                                \
 do                                                              \
 {                                                               \
@@ -567,11 +571,7 @@ do                                                              \
     scarg.sync = (bgrt_sync_t *)(s);                            \
     scarg.pid = (BGRT_PID_T)(p);                                \
     scarg.chown = (bgrt_flag_t)(c);                             \
-    do                                                          \
-    {                                                           \
-        bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg ); \
-    }                                                           \
-    while( scarg.status >= BGRT_ST_ROLL );                      \
+    bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );     \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wake. \~english \brief Watch #bgrt_sync_wake. */
@@ -606,7 +606,7 @@ A #BGRT_SYSCALL_SYNC_WAIT handler.
 
 This function calls #_bgrt_sync_wait.
 */
-void bgrt_scall_sync_wait( bgrt_sync_wait_t * arg );
+bgrt_st_t bgrt_scall_sync_wait( bgrt_sync_wait_t * arg );
 #define BGRT_SYNC_WAIT(s,p,b,st)                                \
 do                                                              \
 {                                                               \
@@ -615,11 +615,7 @@ do                                                              \
     scarg.sync = (bgrt_sync_t *)(s);                            \
     scarg.pid = (BGRT_PID_T *)(p);                              \
     scarg.block = (bgrt_flag_t)(b);                             \
-    do                                                          \
-    {                                                           \
-        bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg ); \
-    }                                                           \
-    while( scarg.status >= BGRT_ST_ROLL );                      \
+    bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );     \
     (st) = scarg.status;                                        \
 }                                                               \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */
@@ -648,7 +644,7 @@ bgrt_sync_proc_timeout_t;
 \brief
 A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT handler.
 */
-void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
+bgrt_st_t bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 /*****************************************************************************************/
 
 
@@ -661,5 +657,5 @@ void bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 \brief
 A #BGRT_SYSCALL_USER handler.
 */
-void bgrt_scall_user(void * arg);
+bgrt_st_t bgrt_scall_user(void * arg);
 #endif // _SYSCALL_H_

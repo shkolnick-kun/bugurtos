@@ -2,12 +2,21 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="8371" topLine="195" />
+		<Cursor position="5358" topLine="103" />
+	</File>
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
+		<Cursor position="9781" topLine="156" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="21394" topLine="384" />
 	</File>
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="20424" topLine="407" />
+	</File>
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="26392" topLine="536" />
+	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="34343" topLine="939" />
+		<Cursor position="40229" topLine="1126" />
 	</File>
 </CodeBlocks_layout_file>

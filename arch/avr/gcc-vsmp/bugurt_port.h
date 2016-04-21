@@ -79,24 +79,30 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BUGURT_PORT_H_
 #define _BUGURT_PORT_H_
 
-#include "vsmp.h"
+#define BUGURT_CONCAT(a,b) a##b
 
-vinterrupt_t resched_vectors[BGRT_MAX_CPU];
-void resched_isr(void);
-void resched_vectors_init(void);
+#define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
+#define BGRT_CURR_PROC bgrt_kernel.kblock[current_vm].sched.current_proc
 
-vinterrupt_t systimer_vectors[BGRT_MAX_CPU];
-void systimer_tick_isr(void);
-void systimer_sched_isr(void);
-void systimer_vectors_init(void);
-void systimer_vectors_fire(void);
-void vsmp_systimer_hook_bugurt(void);
+// Пролог обработчика прерывания
+#define BUGURT_ISR_START() \
+    saved_sp = bugurt_save_context();\
+    *current_sp = saved_sp
 
-vinterrupt_t syscall_vectors[BGRT_MAX_CPU];
-bgrt_syscall_t syscall_num[BGRT_MAX_CPU];
-void * syscall_arg[BGRT_MAX_CPU];
-void syscall_isr(void);
-void syscall_vectors_init(void);
+// Эпилог обработчика прерывания
+#define BUGURT_ISR_END() \
+    bgrt_set_curr_sp();\
+    bugurt_restore_context( *current_sp );\
+    __asm__ __volatile__("reti"::)
 
+extern volatile bgrt_cpuid_t current_vm;
+
+void bgrt_set_curr_sp(void);
+
+extern bgrt_stack_t * bugurt_save_context( void );
+extern void bugurt_restore_context( bgrt_stack_t * new_sp );
+extern void bugurt_pop_context( void );
+extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
+extern bgrt_stack_t * bugurt_reverse_byte_order ( bgrt_stack_t * arg );
 
 #endif // _BUGURT_PORT_H_

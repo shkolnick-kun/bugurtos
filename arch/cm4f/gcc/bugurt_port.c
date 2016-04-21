@@ -78,9 +78,9 @@
 #error "BGRT_CONFIG_SCHED_PRIO must be greater or equal to BGRT_CONFIG_CRITSEC_PRIO !!!"
 #endif //BGRT_CONFIG_SCHED_PRIO
 //====================================================================================
-volatile bgrt_stack_t bugurt_idle_stack[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+volatile bgrt_stack_t bugurt_kernel_stack[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //====================================================================================
-#define BUGURT_SCHED_ENTER() \
+#define BUGURT_CONTEXT_STORE() \
 	__asm__ __volatile__ ( 							 \
 				"mrs r0, psp                    \n\t"\
 				"tst r14, #0x10                 \n\t"\
@@ -92,7 +92,7 @@ volatile bgrt_stack_t bugurt_idle_stack[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				"isb        					\n\t"\
 				::: )
 //====================================================================================
-#define BUGURT_SCHED_EXIT() \
+#define BUGURT_CONTEXT_LOAD() \
 	__asm__ __volatile__ (						 	 \
 				"mrs r0, psp                    \n\t"\
 				"ldmfd r0!, {r4-r11,lr}			\n\t"\
@@ -145,11 +145,6 @@ bgrt_stack_t * bgrt_proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, v
     return sstart;
 }
 //====================================================================================
-void bgrt_resched(void)
-{
-    BUGURT_SYS_ICSR |= BUGURT_PENDSV_SET;
-}
-//====================================================================================
 void bgrt_disable_interrupts(void)
 {
     __asm__ __volatile__ (
@@ -176,9 +171,47 @@ void bgrt_enable_interrupts(void)
                           );
 }
 //====================================================================================
+static bgrt_stack_t * saved_sp;
+static bgrt_stack_t * kernel_sp;
+static bgrt_stack_t ** current_sp = &kernel_sp;
+//====================================================================================
+static bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
+//====================================================================================
+static void bgrt_set_curr_sp(void)
+{
+    if( BGRT_KBLOCK.vic.list.index )
+    {
+        kernel_mode = 1;
+    }
+
+    if( kernel_mode )
+    {
+        current_sp = &kernel_sp;
+    }
+    else
+    {
+        current_sp = &BGRT_CURR_PROC->spointer;
+    }
+}
+//====================================================================================
 bgrt_proc_t * bgrt_curr_proc(void)
 {
-    return bgrt_kernel.sched.current_proc;
+    return BGRT_CURR_PROC;
+}
+//====================================================================================
+bgrt_syscall_t * bgrt_get_scnum(void)
+{
+    return &BGRT_CURR_PROC->scnum;//Pointer!!!
+}
+//====================================================================================
+void * bgrt_get_scarg(void)
+{
+    return BGRT_CURR_PROC->scarg; //Value!!!
+}
+//====================================================================================
+void bgrt_resched( void )
+{
+    bgrt_vint_push( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 }
 //====================================================================================
 void bgrt_init(void)
@@ -187,14 +220,10 @@ void bgrt_init(void)
                           "dsb     \n\t"
                           "cpsid i \n\t"
                           );
-    BUGURT_SYS_CPACR |= BUGURT_FPU_ENABLE;
-
     bgrt_kernel_init();
-    bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)1;// Только после инициализации Ядра!!!
     // Устанавливаем начальное значение PSP, для процесса idle;
-    bugurt_write_psp( (volatile bgrt_stack_t *)&bugurt_idle_stack[32] ); //  !!! Внимательно смотрим на границы!!!
+    bugurt_write_psp( (volatile bgrt_stack_t *)&bugurt_kernel_stack[32] ); //  !!! Внимательно смотрим на границы!!!
     // Устанавливаем приоритеты обработчиков прерываний;
-    BUGURT_SYS_SHPR2 |= (BGRT_CONFIG_SYSCALL_PRIO<< ( 8 - BGRT_CONFIG_PRIO_BITS )) << 24; // SVC
     BUGURT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << ( 8 - BGRT_CONFIG_PRIO_BITS )) << 16; // PendSV
     BUGURT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << ( 8 - BGRT_CONFIG_PRIO_BITS )) << 24; // SysTick
     // Настраиваем системный таймер и приоритет его прерывания
@@ -205,70 +234,58 @@ void bgrt_init(void)
 //====================================================================================
 void bgrt_start(void)
 {
-    bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)0;
     __asm__ __volatile__ (
                           "dsb     \n\t"
                           "cpsie i \n\t"
                           "isb     \n\t"
                           );
-    BGRT_POST_START((void *)0);
+    bgrt_kblock_main( &BGRT_KBLOCK );
 }
 //====================================================================================
-__attribute__ (( naked )) void BGRT_SYSTEM_TIMER_ISR(void)
+void BGRT_SYSTEM_TIMER_ISR(void)
 {
-    BUGURT_SCHED_ENTER();
-    bgrt_kernel.sched.current_proc->spointer = bugurt_read_psp();
-
-    bgrt_disable_interrupts();
+    BUGURT_ISR_START();
 
     bgrt_kernel.timer.val++;
     if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
 
-    BGRT_KERNEL_PREEMPT(); ///BGRT_KERNEL_PREEMPT
+    BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
+    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 
-    bgrt_sched_schedule();
-
-    bgrt_enable_interrupts();
-
-    bugurt_write_psp( bgrt_kernel.sched.current_proc->spointer );
-    BUGURT_SCHED_EXIT();
+    BUGURT_ISR_END();
 }
-//====================================================================================
-__attribute__ (( naked )) void BGRT_RESCHED_ISR(void)
-{
-    BUGURT_SCHED_ENTER();
-    bgrt_kernel.sched.current_proc->spointer = bugurt_read_psp();
-
-    bgrt_disable_interrupts();
-
-    bgrt_sched_reschedule();
-    BUGURT_SYS_ICSR |= BUGURT_PENDSV_CLR; // Fix for a hardware race condition.
-
-    bgrt_enable_interrupts();
-
-    bugurt_write_psp( bgrt_kernel.sched.current_proc->spointer );
-    BUGURT_SCHED_EXIT();
-}
-//====================================================================================
-//In single processor system call reentrancy is not necessary.
-bgrt_syscall_t syscall_num = (bgrt_syscall_t)0;
-void * syscall_arg = (void *)0;
 //====================================================================================
 void bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
-    bgrt_disable_interrupts();
-    syscall_num = num;
-    syscall_arg = arg;
-    __asm__ __volatile__ (
-                          "dsb   \n\t"
-                          "svc 0 \n\t"
-                          );
-    bgrt_enable_interrupts();
+    BUGURT_ISR_START();
+
+    BGRT_CURR_PROC->scnum = num;
+    BGRT_CURR_PROC->scarg = arg;
+
+    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+
+    BUGURT_ISR_END();
 }
 //====================================================================================
-void BGRT_SYSCALL_ISR(void)
+void bgrt_switch_to_proc(void)
 {
-    // Обрабатываем системный вызов
-    bgrt_do_syscall(syscall_num, syscall_arg);
-    syscall_num = 0; // Готово.
+    BUGURT_ISR_START();
+
+    kernel_mode = (bgrt_bool_t)0;
+
+    BUGURT_ISR_END();
+}
+//====================================================================================
+__attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
+{
+    BUGURT_CONTEXT_STORE();
+    saved_sp = bugurt_read_psp();
+    *current_sp = saved_sp;
+
+    bgrt_set_curr_sp();
+
+    BUGURT_SYS_ICSR |= BUGURT_PENDSV_CLR; // Fix for a hardware race condition.
+
+    bugurt_write_psp( *current_sp );
+    BUGURT_CONTEXT_LOAD();
 }

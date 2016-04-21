@@ -5,7 +5,7 @@
 ///               Don't edit this part of the file!!!
 ///==================================================================
 
-#define BGRT_SCL_TBL(a) const bgrt_code_t a
+#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 #define BGRT_SCL_TBL_READ(a) a
 
 #define WEAK __weak
@@ -56,7 +56,7 @@ typedef unsigned char bgrt_bool_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char bgrt_syscall_t;
+typedef volatile unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================

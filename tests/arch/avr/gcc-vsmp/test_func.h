@@ -11,22 +11,9 @@ extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 #else
     #define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x3
 #endif
-//======================================================================
-#if (BGRT_CONFIG_LB_SCHEME == 2)
-    #define BGRT_SCHED_LOCAL_LOAD_BALANCER() bgrt_sched_lazy_local_load_balancer()
-#else  //BGRT_CONFIG_LB_SCHEME == 2
-    #define BGRT_SCHED_LOCAL_LOAD_BALANCER()
-#endif //BGRT_CONFIG_LB_SCHEME == 2
-//======================================================================
-#if (BGRT_CONFIG_LB_SCHEME == 2)
-    #define BGRT_SCHED_IDLE_LOAD_BALANCER() bgrt_sched_lazy_local_load_balancer()
-#else  //BGRT_CONFIG_LB_SCHEME == 2
-#if (BGRT_CONFIG_LB_SCHEME == 3)
-    #define BGRT_SCHED_IDLE_LOAD_BALANCER() bgrt_sched_lazy_global_load_balancer()
-#else  //BGRT_CONFIG_LB_SCHEME == 3
-    #define BGRT_SCHED_IDLE_LOAD_BALANCER()
-#endif //BGRT_CONFIG_LB_SCHEME == 3
-#endif //BGRT_CONFIG_LB_SCHEME == 2
+
+#define BGRT_SCHED_LOCAL_LOAD_BALANCER()
+#define BGRT_SCHED_IDLE_LOAD_BALANCER()
 //======================================================================
 
 #define BGRT_SCHED_LB_TEST_START() sched_lb_test_start()

@@ -255,6 +255,9 @@ struct _bgrt_proc_t
 
     bgrt_stack_t * sstart;   /*!<\~russian  Указатель на дно стека экземпляра процесса. \~english A process stack bottom pointer.*/
     bgrt_stack_t * spointer; /*!<\~russian Указатель на вершину стека экземпляра процесса. \~english A process stack top pointer.*/
+
+    void *         scarg;    /*!<\~russian Указатель на аргумент системного вызова. \~english A system call pointer.*/
+    bgrt_syscall_t scnum;    /*!<\~russian Номер системного вызова. \~english A system call number.*/
 };
 /*
 Порядок захвата блокировок:

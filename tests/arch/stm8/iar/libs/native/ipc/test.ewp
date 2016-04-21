@@ -121,6 +121,10 @@
         <wantNonLocal>1</wantNonLocal>
         <debug>1</debug>
         <option>
+          <name>PreInclude</name>
+          <state></state>
+        </option>
+        <option>
           <name>IccRequirePrototypes</name>
           <state>0</state>
         </option>
@@ -1600,6 +1604,12 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.c</name>

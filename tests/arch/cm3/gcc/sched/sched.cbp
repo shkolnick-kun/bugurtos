@@ -59,6 +59,7 @@
 		<Unit filename="../../../../../arch/cm3/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../../../../arch/cm3/gcc/bugurt_port.h" />
 		<Unit filename="../../../../../kernel/bugurt.h" />
 		<Unit filename="../../../../../kernel/crit_sec.c">
 			<Option compilerVar="CC" />
@@ -104,6 +105,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/timer.h" />
+		<Unit filename="../../../../../kernel/vint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../../../kernel/vint.h" />
 		<Unit filename="../../../../../kernel/xlist.c">
 			<Option compilerVar="CC" />
 		</Unit>

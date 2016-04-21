@@ -78,27 +78,59 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include <bugurt.h>
 #include <util/delay.h>
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#define _bugurt_isr_prologue() \
-    bgrt_proc_t * cp; \
-    cp = bgrt_curr_proc(); \
-    cli(); \
-    cp->spointer = vm_state[current_vm].sp; \
-    sei()
 
-#define _bugurt_isr_epilogue() \
-    cp = bgrt_curr_proc(); \
-    cli(); \
-    vm_state[current_vm].sp = cp->spointer; \
-    sei()
-///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+bgrt_stack_t * saved_sp;
+bgrt_stack_t * kernel_sp[BGRT_MAX_CPU];
+bgrt_bool_t kernel_mode[BGRT_MAX_CPU];
+bgrt_stack_t kernel_stack[BGRT_MAX_CPU -1][VM_STACK_SIZE];
+
+//VM variables
+volatile bgrt_cpuid_t current_vm = 0;
+bgrt_bool_t vm_int_enabled[BGRT_MAX_CPU];
+
+bgrt_stack_t ** current_sp = &kernel_sp[0];
+
+bgrt_cpuid_t bgrt_current_cpu(void)
+{
+    bgrt_cpuid_t ret;
+    cli();
+    ret = current_vm;
+    sei();
+    return ret;
+}
+
 bgrt_proc_t * bgrt_curr_proc(void)
 {
     bgrt_proc_t * ret;
     cli();
-    ret = bgrt_kernel.sched[current_vm].current_proc;
+    ret = BGRT_CURR_PROC;
     sei();
     return ret;
+}
+
+bgrt_syscall_t * bgrt_get_scnum(void)
+{
+    bgrt_syscall_t * ret;
+    cli();
+    ret = &BGRT_CURR_PROC->scnum;//Pointer!!!
+    sei();
+    return ret;
+}
+
+void * bgrt_get_scarg(void)
+{
+    void * ret;
+    cli();
+    ret = BGRT_CURR_PROC->scarg; //Value!!!
+    sei();
+    return ret;
+}
+
+void bgrt_resched( bgrt_cpuid_t core )
+{
+    cli();
+    bgrt_vint_push_isr( &bgrt_kernel.kblock[core].int_sched, &bgrt_kernel.kblock[core].vic );
+    sei();
 }
 
 void bgrt_spin_init( bgrt_lock_t * lock )
@@ -121,7 +153,8 @@ void bgrt_spin_lock( bgrt_lock_t * lock )
             i = 0;
         }
         sei();
-    }while(i);
+    }
+    while(i);
     _delay_us(1100);// delay, all other vms must spin for a while
 }
 void bgrt_spin_free(bgrt_lock_t * lock)
@@ -152,185 +185,151 @@ load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat)
 {
     return (load_t)*stat;
 }
-void bgrt_resched(bgrt_cpuid_t core_id)
+/******************************************************************************************************/
+void bgrt_set_curr_sp(void)
+{
+    if( vm_int_enabled[current_vm] && BGRT_KBLOCK.vic.list.index )
+    {
+        kernel_mode[current_vm] = 1;
+    }
+
+    if( kernel_mode[current_vm] )
+    {
+        current_sp = &kernel_sp[current_vm];
+    }
+    else
+    {
+        current_sp = &BGRT_CURR_PROC->spointer;
+    }
+}
+
+// Код ядра
+__attribute__ (( naked )) void bgrt_switch_to_kernel(void);
+void bgrt_switch_to_kernel(void)
+{
+    BUGURT_ISR_START();
+    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+    BUGURT_ISR_END();
+}
+
+void bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
     cli();
-    vsmp_vinterrupt_isr( core_id, ( vinterrupt_t * )resched_vectors + core_id );
+    BGRT_CURR_PROC->scnum = num;
+    BGRT_CURR_PROC->scarg = arg;
+    vm_int_enabled[current_vm]=1;
+    bgrt_switch_to_kernel();
+}
+
+void bgrt_disable_interrupts(void)
+{
+    cli();
+    vm_int_enabled[current_vm]=0;
     sei();
 }
 
-/******************************************************************************************************/
-// Код ядра
-vinterrupt_t resched_vectors[BGRT_MAX_CPU];
+bgrt_vint_t int_systick;
 
-void resched_isr(void)
-{
-    _bugurt_isr_prologue();
-
-    bgrt_sched_reschedule();
-
-    _bugurt_isr_epilogue();
-}
-void resched_vectors_init(void)
+static void do_int_systick(void * arg)
 {
     bgrt_cpuid_t i;
-    for(i = 0; i < BGRT_MAX_CPU; i++)
-    {
-        vsmp_vinterrupt_init( ( vinterrupt_t * )resched_vectors + i, resched_isr );
-    }
-}
-vinterrupt_t systimer_tick_vector;
-vinterrupt_t systimer_vectors[BGRT_MAX_CPU];
-void _systimer_tick_isr(void)
-{
+    (void)arg;
+
     BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+
     bgrt_kernel.timer.val++;
     if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
+
     BGRT_SPIN_FREE( &bgrt_kernel.timer );
 
-    systimer_vectors_fire();
-}
-
-void systimer_tick_isr(void)
-{
-    _bugurt_isr_prologue();
-
-    _systimer_tick_isr();
-
-    _bugurt_isr_epilogue();
-}
-
-void systimer_sched_isr(void)
-{
-    _bugurt_isr_prologue();
-
-    bgrt_sched_schedule();
-
-    _bugurt_isr_epilogue();
-}
-
-void systimer_vectors_init(void)
-{
-    bgrt_cpuid_t i;
-    vsmp_vinterrupt_init( &systimer_tick_vector, systimer_tick_isr ); // Zero core is "mater", it handles bgrt_kernel.timer
-    for(i = 0; i < BGRT_MAX_CPU; i++)
+    cli();
+    for( i = 0; i < BGRT_MAX_CPU; i++ )
     {
-        vsmp_vinterrupt_init( (vinterrupt_t *)systimer_vectors + i, systimer_sched_isr ); // Other cores are slaves they just schedule.
+        bgrt_kernel.kblock[i].tmr_flg = (bgrt_bool_t)1;
+        bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
     }
+    sei();
 }
 
-void systimer_vectors_fire(void)
+__attribute__ (( naked )) void bgrt_enable_interrupts(void);
+void bgrt_enable_interrupts(void)
 {
-    bgrt_cpuid_t i;
-    for(i = 0; i < BGRT_MAX_CPU; i++)
-    {
-        cli();
-        vsmp_vinterrupt_isr( i, (vinterrupt_t *)systimer_vectors + i );
-        sei();
-    }
+    cli();
+    BUGURT_ISR_START();
+
+    vm_int_enabled[current_vm]=1;
+    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+
+    BUGURT_ISR_END();
 }
 
+__attribute__ (( naked )) void bgrt_switch_to_proc(void)
+{
+    cli();
+    BUGURT_ISR_START();
+    if( vm_int_enabled[current_vm] )
+    {
+        kernel_mode[current_vm] = (bgrt_bool_t)0;
+    }
+    BUGURT_ISR_END();
+}
 
 bgrt_cnt_t systimer_hook_counter = 0;
-void vsmp_systimer_hook_bugurt(void)
+
+__attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
+void BGRT_SYSTEM_TIMER_ISR(void)
 {
-    if(!current_vm)
+    BUGURT_ISR_START();
+
+    current_vm++;
+    if(current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
+
+    systimer_hook_counter++;
+    if( systimer_hook_counter >= BGRT_CONFIG_SYSTIMER_HOOK_THR )
     {
-        systimer_hook_counter++;
-        if( systimer_hook_counter >= BGRT_CONFIG_SYSTIMER_HOOK_THR )
-        {
-            systimer_hook_counter = (bgrt_cnt_t)0;
-            cli();
-            vsmp_vinterrupt_isr(0,&systimer_tick_vector);
-            sei();
-        }
-
+        systimer_hook_counter = (bgrt_cnt_t)0;
+        bgrt_vint_push_isr( &int_systick, &BGRT_KBLOCK.vic );
     }
-}
 
-vinterrupt_t syscall_vectors[BGRT_MAX_CPU];
-bgrt_syscall_t syscall_num[BGRT_MAX_CPU];
-void * syscall_arg[BGRT_MAX_CPU];
-
-// Local variable is used compiler generated prologue and epilogue needed
-void _syscall_isr(void)
-{
-    bgrt_cpuid_t core;
-    core = bgrt_current_cpu();
-    bgrt_do_syscall( syscall_num[core], syscall_arg[core] );
-    syscall_num[core] = 0;//Готово
-}
-//__attribute__ (( naked )) void syscall_isr(void)
-void syscall_isr(void)
-{
-    _bugurt_isr_prologue();
-
-    _syscall_isr();
-
-    _bugurt_isr_epilogue();
-}
-
-
-void syscall_vectors_init(void)
-{
-    bgrt_cpuid_t i;
-    for(i = 0; i < BGRT_MAX_CPU; i++)
-    {
-        vsmp_vinterrupt_init( ( vinterrupt_t * )syscall_vectors + i, syscall_isr );
-        syscall_num[i] = (bgrt_syscall_t)0;
-        syscall_arg[i] = (void *)0;
-    }
-}
-
-void bgrt_syscall( unsigned char num, void * arg )
-{
-    bgrt_cpuid_t core;
-    bgrt_item_t * vector;
-
-    bgrt_disable_interrupts();
-
-    cli();
-    core = current_vm;
-    sei();
-
-    syscall_num[core] = (bgrt_syscall_t)num;
-    syscall_arg[core] = (void *)arg;
-    vector = (bgrt_item_t *)( &syscall_vectors[core] );
-
-    cli();
-    vm_state[current_vm].int_enabled = (bgrt_bool_t)1; // Virtual interrupts MUST be enabled !!!
-    // System call is not an ordinary interrupt!!!
-    // It MUST be serviced FIRST!!!
-    if( vm_state[current_vm].int_fifo )
-    {
-        bgrt_item_insert( (bgrt_item_t *)vector, ((bgrt_item_t *)vm_state[current_vm].int_fifo)->next );
-    }
-    vm_state[current_vm].int_fifo = (bgrt_item_t *)vector;
-    _vsmp_vinterrupt();
+    BUGURT_ISR_END();
 }
 /***************************************************************************************************************/
 // Функции общего пользования
 
+static void kernel_panic(void)
+{
+    while(1);
+}
+
 void bgrt_init(void)
 {
     bgrt_cpuid_t i;
-    bgrt_disable_interrupts();
-    resched_vectors_init();
-    systimer_vectors_init();
-    syscall_vectors_init();
-    bgrt_kernel_init();
-    bgrt_kernel.sched[bgrt_current_cpu()].nested_crit_sec = (bgrt_cnt_t)1;
+    cli();
+    vm_int_enabled[0]=0;
+    kernel_mode[0] = 1;
     for(i = 1; i < BGRT_MAX_CPU; i++)
     {
-        bgrt_kernel.idle[i].pmain = vsmp_idle_main;
+        vm_int_enabled[i]=0;
+        kernel_mode[i] = 1;
+        kernel_sp[i] = bgrt_proc_stack_init(
+                           &kernel_stack[i-1][VM_STACK_SIZE - 1],
+                           (bgrt_code_t)bgrt_kblock_main,
+                           (void *)&bgrt_kernel.kblock[i],
+                           (void(*)(void))kernel_panic
+                       );
     }
+    bgrt_vint_init( &int_systick, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_systick, (void *)0 );
+    bgrt_kernel_init();
+    sei();
 }
 void bgrt_start(void)
 {
-    bgrt_kernel.sched[bgrt_current_cpu()].nested_crit_sec = (bgrt_cnt_t)0;
+    bgrt_cpuid_t i;
     cli();
-    vsmp_systimer_hook = vsmp_systimer_hook_bugurt;
+    for(i = 0; i < BGRT_MAX_CPU; i++)
+    {
+        vm_int_enabled[i]=1;
+    }
     sei();
-    bgrt_enable_interrupts();
-    BGRT_POST_START( (void *)0 );
+    bgrt_kblock_main( &bgrt_kernel.kblock[0] );
 }

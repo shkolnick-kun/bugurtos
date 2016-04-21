@@ -82,6 +82,59 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок Ядра. \~english A kernel header.
 */
+
+typedef struct _bgrt_kblock_t bgrt_kblock_t; /*!< \~russian Смотри #_bgrt_kblock_t; \~english See #_bgrt_kblock_t; */
+/*!
+\~russian
+\brief
+Блок ядра BuguRTOS.
+
+Отвечает за обработку вритуальных прерываний, обработку системных вызовов, работу планировщика на отдельном процессорном ядре.
+
+\~english
+\brief
+A BuguRTOS kernel block structure.
+
+A kernel block is responsible for virtual interrupt processing, system call processing and process sheduling jn certain CPU core.
+*/
+struct _bgrt_kblock_t
+{
+    bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
+    bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
+    bgrt_vint_t int_scall;            /*!< \~russian Диспетчер системных вызовов. \~english A system call dispatcher. */
+    bgrt_vint_t int_sched;            /*!< \~russian Прерывание планировщика. \~english A scheduler interrupt. */
+    bgrt_bool_t tmr_flg;              /*!< \~russian Флаг рерывания системмного таймера. \~english System timer interrupt flag. */
+};
+
+/*!
+\~russian
+\brief
+Инициализация объекта типа #bgrt_kblock_t.
+
+\param kblock Указатель на объект типа #bgrt_kblock_t.
+
+\~english
+\brief
+A #bgrt_kblock_t object initialization.
+
+\param kblock A #bgrt_kblock_t object pointer.
+*/
+void bgrt_kblock_init( bgrt_kblock_t * kblock );
+
+/*!
+\~russian
+\brief
+Главная функция потока Ядра.
+
+\param kblock Указатель на объект типа #bgrt_kblock_t.
+
+\~english
+\brief
+A kernel thread main function.
+
+\param kblock A #bgrt_kblock_t object pointer.
+*/
+void bgrt_kblock_main( bgrt_kblock_t * kblock );
 //Ядро
 typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
 /*!
@@ -96,17 +149,14 @@ typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_
 A BuguRTOS kernel structure.
 
 The kernel stores information about launched processes, system time and other important information.
-
 */
 struct _bgrt_kernel_t
 {
 #ifdef BGRT_CONFIG_MP
-    bgrt_sched_t sched[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
-    bgrt_proc_t idle[BGRT_MAX_CPU];   /*!< \~russian Процессы холостого хода. \~english A separate IDLE process for every CPU core. */
+    bgrt_kblock_t kblock[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
     bgrt_kstat_t stat;                /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
 #else
-    bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english The scheduler. */
-    bgrt_proc_t idle;                 /*!< \~russian Процесс холостого хода. \~english The IDLE process. */
+    bgrt_kblock_t kblock;               /*!< \~russian Планировщик. \~english The scheduler. */
 #endif // BGRT_CONFIG_MP
     bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
 };
@@ -143,36 +193,4 @@ This function prepares the kernel to work.
 \warning Internal usage function.
 */
 void bgrt_kernel_init(void);
-
-/*!
-\~russian
-\brief
-Главная функция процесса холостого хода.
-
-Можно использовать встроенную функцию, а можно определить ее самому.
-Из #bgrt_idle_main можно работать с программными таймерами, подавать сигналы, ОСВОБОЖДАТЬ семафоры.
-
-\warning Ни в коем случае нельзя делать return, останавливать процесс idle, захватывать семафоры и мьютексы из idle!!! Кто будет это все делать, того ждут Страшный суд, АдЪ и ПогибельЪ. Я предупредил!
-
-\param arg Указатель на аргумент.
-
-\~english
-\brief
-An IDLE process main function.
-
-You can use built-in function, or you can write your own.
-IDLE process can work with timers, fire signals and FREE semaphores, SEND IPC data!
-
-\warning An bgrt_idle_main should NOT return, lock mutexes or semaphores, wait for IPC or signals!!!
-
-\param arg An argument pointer.
-*/
-void bgrt_idle_main(void * arg);
-
-#ifndef BGRT_CONFIG_POSTSTART
-#   define BGRT_POST_START(a) bgrt_idle_main(a)
-#else
-#   define BGRT_POST_START(a) BGRT_CONFIG_POSTSTART(a)
-#endif //BGRT_CONFIG_POSTSTART
-
 #endif // _BGRT_KERNEL_H_

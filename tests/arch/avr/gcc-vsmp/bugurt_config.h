@@ -15,17 +15,20 @@
 
 /// Syscall table is allocated in FLASH.
 #include <avr/pgmspace.h>
-#define BGRT_SCL_TBL(a) const PROGMEM bgrt_code_t a
-#define BGRT_SCL_TBL_READ(a) (bgrt_code_t)pgm_read_word(&a)
+#define BGRT_SCL_TBL(a) const PROGMEM bgrt_scsr_t a
+#define BGRT_SCL_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 
 /// Another option is to allocate it in RAM.
-//#define BGRT_SCL_TBL(a) const bgrt_code_t a
+//#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 //#define BGRT_SCL_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
 #define WEAK __attribute__(( __weak__ ))
 
 #define NOP() __asm__ __volatile__("nop"::)
+
+#define BGRT_VINT_CS_START() cli()
+#define BGRT_VINT_CS_END() sei()
 
 typedef unsigned char bgrt_stack_t;
 
@@ -66,7 +69,7 @@ typedef unsigned char bgrt_bool_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char bgrt_syscall_t;
+typedef volatile unsigned char bgrt_syscall_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
@@ -102,14 +105,17 @@ typedef unsigned char load_t;
 #define BGRT_CONFIG_HARD_RT
 
 //#define BGRT_CONFIG_LB_SCHEME 0 // No load balancing during runtime
-#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
-//#define BGRT_CONFIG_LB_SCHEME 2 // Lazy local load balancing
-//#define BGRT_CONFIG_LB_SCHEME 3 // Lazy global load balancing
+//#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
+#define BGRT_CONFIG_LB_SCHEME 2 // Lazy load balancing
 
 #if (BGRT_CONFIG_LB_SCHEME == 1)
 // Use "Active Load Balancing",
 // bgrt_sched_schedule() function is responsible for load balancing.
 #define BGRT_CONFIG_USE_ALB
+#endif
+
+#if (BGRT_CONFIG_LB_SCHEME == 2)
+#define BGRT_CONFIG_USE_LLB
 #endif
 
 ///=================================================================
@@ -147,6 +153,8 @@ extern void(*test_kernel_preempt)(void);
 #define BGRT_MAX_CPU (2)
 
 // Real system timer interrupt vector.
+#define BGRT_START_TIMER() (TIMSK2 |= 0x02)
+#define BGRT_STOP_TIMER() (TIMSK2 &= ~0x02)
 #define BGRT_SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 
 // System timer virtual interrupt counter threshold.
@@ -154,7 +162,7 @@ extern void(*test_kernel_preempt)(void);
 
 // Virtual machine main stack size.
 // Main stacks are used by idle processes.
-#define VM_STACK_SIZE (128)
+#define VM_STACK_SIZE (160)
 
 //Virtual machine interrupt stack size.
 #define VM_INT_STACK_SIZE (160)
