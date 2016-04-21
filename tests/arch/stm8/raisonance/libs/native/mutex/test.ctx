@@ -13,7 +13,7 @@
 																		
 				</Def>
 				<Rows>
-					<Row Name="syscall_num" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="syscall_num" />
+					<Row Name="syscall_num" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
 					<Row Name="syscall_arg" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
 					<Row Name="proc[0].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[0].flags" />
 					<Row Name="proc[1].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[1].flags" />
@@ -27,7 +27,7 @@
 			</Report>
 										
 		</SpyWatch>
-		<CodeView TopRow="33413" Focus="4294967295" >
+		<CodeView TopRow="33981" Focus="4294967295" >
 			<CodeReport>
 				<0>126</0>
 				<1>139</1>
@@ -56,14 +56,16 @@
 							
 			</Def>
 			<Rows>
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:56" File="MAIN.C" Path="C:\Temp\BuguRTOS-0.8.1-rc0\bugurtos\tests\MAIN\LIBS\GENERIC\MUTEX\MAIN.C" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:56" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.1.0.0\tests\main\libs\native\mutex\main.c" />
 							
 			</Rows>
 					
 		</Report>
 			
 	</Flags>
-	<Views/>
+	<Views>
+		<View File="..\..\..\..\..\..\main\libs\native\mutex\main.c" Line="55" Index="0" focus="1" />
+	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
 		<BookMark File="" Line="0" />

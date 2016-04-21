@@ -17,6 +17,11 @@
 
 #IDE files
 *.pbd
+*.cseg
+*.CSEG
+*.xrf
+*.XRF
+*.html
 
 # Executables #
 *.exe

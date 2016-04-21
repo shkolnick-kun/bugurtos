@@ -124,9 +124,6 @@ void BUGURT_CONCAT(vector_func_,v)(void);\
 _BUGURT_ISR(v,BUGURT_CONCAT(vector_func_,v)) \
 void BUGURT_CONCAT(vector_func_,v)(void)
 
-// Флаги состояния ядра
-#define KRN_FLG_RESCHED ((unsigned char)1)
-
 extern bgrt_stack_t * saved_sp;
 extern bgrt_stack_t * kernel_sp;
 extern bgrt_stack_t ** current_sp;
