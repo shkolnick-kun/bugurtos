@@ -80,7 +80,7 @@
   * 0.6.5
     * Fixed wrong [proc\_flag\_stop](https://github.com/shkolnick-kun/bugurtos/issues/3) behavior.
   * 0.8.0
-    * New branch added, see [differences](https://github.com/shkolnick-kun/bugurtos/blob/master/doc/NewBranchDifferences.md) with 0.6.x and 0.7.x branches.
+    * New branch added, see [differences](./NewBranchDifferences.md) with 0.6.x and 0.7.x branches.
   * 0.7.1
     * Several priority inheritance protocol bugs fixed.
   * 0.7.0
