@@ -119,7 +119,7 @@ bgrt_stack_t * bgrt_proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, v
     *(--sstart) = (bgrt_stack_t)0x01;			// r1
     *(--sstart) = (bgrt_stack_t)arg;				// r0 !!! arg !!!
     // регистры, сохраняемые программно
-    *(--sstart) = (bgrt_stack_t)0xFFFFFFFD;		// lr Во всех процессах, кроме idle будет использоваться psp
+    *(--sstart) = (bgrt_stack_t)0xFFFFFFFD;		// lr Во всех процессах будет использоваться psp
     *(--sstart) = (bgrt_stack_t)0x11;			// r11
     *(--sstart) = (bgrt_stack_t)0x10;			// r10
     *(--sstart) = (bgrt_stack_t)0x09;			// r9
@@ -207,7 +207,7 @@ void bgrt_init(void)
                           "cpsid i \n\t"
                           );
     bgrt_kernel_init();
-    // Устанавливаем начальное значение PSP, для процесса idle;
+    // Устанавливаем начальное значение PSP, для потока Ядра;
     bugurt_write_psp( (volatile bgrt_stack_t *)&bugurt_kernel_stack[16] ); //  !!! Внимательно смотрим на границы!!!
     // Устанавливаем приоритеты обработчиков прерываний;
     BUGURT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << ( 8 - BGRT_CONFIG_PRIO_BITS )) << 16; // PendSV

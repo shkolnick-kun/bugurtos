@@ -106,7 +106,7 @@ bgrt_stack_t * bgrt_proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, v
     *(--sstart) = (bgrt_stack_t)0x01;			// r1
     *(--sstart) = (bgrt_stack_t)arg;				// r0 !!! arg !!!
     // регистры, сохраняемые программно
-    *(--sstart) = (bgrt_stack_t)0xFFFFFFFD;		// lr Во всех процессах, кроме idle будет использоваться psp
+    *(--sstart) = (bgrt_stack_t)0xFFFFFFFD;		// lr Во всех процессах будет использоваться psp
     *(--sstart) = (bgrt_stack_t)0x11;			// r11
     *(--sstart) = (bgrt_stack_t)0x10;			// r10
     *(--sstart) = (bgrt_stack_t)0x09;			// r9

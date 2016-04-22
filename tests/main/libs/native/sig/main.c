@@ -85,16 +85,6 @@ void main_lb( void * arg )
     }
 }
 
-void bgrt_idle_main( void * arg )
-{
-    while(1)
-    {
-        bgrt_wait_time(10);
-        // Run local/global load balancer on multicore system with local/global lazy load balancing.
-        BGRT_SCHED_IDLE_LOAD_BALANCER();
-    }
-}
-
 int main(void)
 {
     /***************************************************

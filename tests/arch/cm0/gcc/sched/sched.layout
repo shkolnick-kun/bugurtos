@@ -7,23 +7,23 @@
 	<File name="../../../../../arch/cm0/gcc/bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="181" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="16405" topLine="420" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="12">
-		<Cursor position="6858" topLine="86" />
+		<Cursor position="6972" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6635" topLine="71" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="8">
-		<Cursor position="8197" topLine="141" />
+		<Cursor position="9321" topLine="167" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
-		<Cursor position="6474" topLine="92" />
+		<Cursor position="6708" topLine="92" />
 	</File>
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="0">
-		<Cursor position="6189" topLine="81" />
+		<Cursor position="8090" topLine="112" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="13569" topLine="314" />
@@ -38,15 +38,15 @@
 		<Cursor position="16848" topLine="353" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="10">
-		<Cursor position="20475" topLine="550" />
+		<Cursor position="8175" topLine="139" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="32167" topLine="777" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="5">
+	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="5">
 		<Cursor position="18447" topLine="347" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="6">
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="6">
 		<Cursor position="11918" topLine="98" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
@@ -62,6 +62,6 @@
 		<Cursor position="498" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="11">
-		<Cursor position="884" topLine="16" />
+		<Cursor position="884" topLine="12" />
 	</File>
 </CodeBlocks_layout_file>
