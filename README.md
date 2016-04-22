@@ -41,7 +41,7 @@ proprietary software development.
 
 # Todo #
 * Cleanup the code.
-* Run regression tetsts.
+* Run regression tests.
 * Update documentation.
 * Spell check.
 * Release BuguRTOS-1.0.0.
