@@ -19,7 +19,7 @@ and some people think that OS is a software library, that enables execution of "
 
 BuguRTOS now is such a library. In fact BuguRTOS is a set of source and header files, written in C and assembler,
 that you can use in your project of
-[Giant](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html) [Anthropomorphic](http://www.youtube.com/watch?v=UPh7uFMLmSw) [Robot](http://player.vimeo.com/video/75781782?title=0&byline=0&portrait=0&autoplay=1) firmware.
+[Giant](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html) [Anthropomorphic](http://www.youtube.com/watch?v=UPh7uFMLmSw) [Combat](https://www.youtube.com/watch?v=NDsVhpA24n4) [Robot](http://player.vimeo.com/video/75781782?title=0&byline=0&portrait=0&autoplay=1) firmware.
 
 ###Why should I need this?
 If you like to blink a LED on you Arduino<sup>TM</sup>, then you definitely **DON'T NEED AN OS!**
@@ -54,11 +54,9 @@ you can see the list of different RTOS.
     #include<native.h> //Native API include
     /*Project includes, defines, declarations etc.*/
 
-    void idle_main(void * arg )
-    {
-    	/*You may write your idle_main or use builtin.*/
-    	while(1);
-    }
+    /*
+    Some other code here.
+    */
     int main(void)
     {
     	init_bugurt();
@@ -273,7 +271,7 @@ BuguRTOS kernel provides **bgrt_sync_t** primitive for library usage.
 It is documented in BuguRTOS API reference manual, check releases on the project page.
 Also you can see **native** lib for examples of **bgrt_sync_t** usage.
 
-####Generic lib synchronization primitives.
+####Native lib synchronization primitives.
 There are some primitives, implemented in **native** lib.
 All these primitives use **bgrt_sync_t** primitive, provided by BuguRTOS kernel.
 
