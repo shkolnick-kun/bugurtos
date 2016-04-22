@@ -168,7 +168,11 @@ bgrt_st_t _bgrt_proc_init(
     proc->rs_hook = rs_hook;
     proc->arg = arg;
     proc->sstart = sstart;
+
     if( sstart )proc->spointer = bgrt_proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))bgrt_proc_terminate);
+
+    proc->scnum = (bgrt_syscall_t)0;
+    proc->scarg = (void *)0;
 
     BGRT_SPIN_FREE( proc );
 
@@ -189,7 +193,7 @@ bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc)
 
     if( BGRT_PROC_STATE_STOPED != BGRT_PROC_GET_STATE( proc ) )
     {
-        ret = BGRT_ST_ROLL;
+        ret = BGRT_ST_EAGAIN;
         goto end;
     }
     bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
@@ -234,7 +238,7 @@ end:
 // Stop a process from ISR
 bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
 {
-    bgrt_st_t ret = BGRT_ST_ROLL;
+    bgrt_st_t ret = BGRT_ST_EAGAIN;
 
     if( !proc )
     {

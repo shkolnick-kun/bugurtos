@@ -5,13 +5,19 @@
 		<Cursor position="7985" topLine="306" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="18763" topLine="566" />
+		<Cursor position="9913" topLine="155" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6471" topLine="76" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="7089" topLine="156" />
+	</File>
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="6294" topLine="132" />
+	</File>
+	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="7547" topLine="84" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="6418" topLine="72" />
@@ -20,10 +26,10 @@
 		<Cursor position="19208" topLine="366" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="22326" topLine="512" />
+		<Cursor position="9010" topLine="566" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="242" />
+		<Cursor position="12117" topLine="347" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="6199" topLine="971" />
@@ -32,10 +38,10 @@
 		<Cursor position="18165" topLine="380" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="8922" topLine="129" />
+		<Cursor position="22448" topLine="475" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="11526" topLine="554" />
+		<Cursor position="14552" topLine="175" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="8754" topLine="179" />
@@ -44,6 +50,6 @@
 		<Cursor position="3646" topLine="208" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="32517" topLine="884" />
+		<Cursor position="16" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

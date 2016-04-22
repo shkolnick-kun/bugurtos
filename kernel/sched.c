@@ -145,7 +145,7 @@ WEAK bgrt_cpuid_t bgrt_sched_highest_load_core( bgrt_ls_t * stat )
 #endif // BGRT_CONFIG_MP
 //========================================================================================
 // Initiate a scheduler object.
-void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle)
+void bgrt_sched_init(bgrt_sched_t * sched)
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * sched_lock;
@@ -157,15 +157,13 @@ void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle)
     bgrt_xlist_init( sched->ready );
     sched->expired = (bgrt_xlist_t *)sched->plst + 1;
     bgrt_xlist_init( sched->expired );
-    bgrt_pitem_insert( (bgrt_pitem_t *)idle, sched->ready );
-    idle->flags |= BGRT_PROC_STATE_RUNNING;
-    sched->current_proc = idle;
+    sched->current_proc = (bgrt_proc_t *)0;
     sched->nested_crit_sec = (bgrt_cnt_t)0;
 #ifdef BGRT_CONFIG_MP
     bgrt_spin_free( sched_lock );
-    bgrt_stat_inc( idle, (bgrt_ls_t *)bgrt_kernel.stat.val + idle->core_id );
 #endif // BGRT_CONFIG_MP
 }
+
 //========================================================================================
 // Insert a process to ready list and update load information.
 #ifdef BGRT_CONFIG_MP
@@ -176,7 +174,7 @@ static bgrt_sched_t * sched_stat_update_run( bgrt_proc_t * proc )
     bgrt_stat_inc( proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id );
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
 
-    return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched);
 }
 static void sched_stat_update_stop( bgrt_proc_t * proc )
 {
@@ -192,12 +190,12 @@ static bgrt_sched_t * sched_stat_update_migrate( bgrt_proc_t * proc )
     bgrt_stat_inc( proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id );
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
 
-    return ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched);
 }
 #   define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
 #else  //BGRT_CONFIG_MP
-#   define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.sched)
+#   define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.kblock.sched)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) do{}while(0)
 #endif //BGRT_CONFIG_MP
 void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
@@ -222,7 +220,7 @@ void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state )
 
     sched_stat_update_stop( proc );
 
-    xlist_lock = &((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id)->lock;
+    xlist_lock = &bgrt_kernel.kblock[proc->core_id].sched.lock;
     bgrt_spin_lock( xlist_lock );
 #endif // BGRT_CONFIG_MP
 
@@ -235,29 +233,33 @@ void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state )
     BGRT_RESCHED_PROC( proc );
 }
 //========================================================================================
-static bgrt_st_t _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * current_proc )
+bgrt_st_t bgrt_sched_epilogue( bgrt_sched_t * sched )
 {
-    BGRT_SPIN_LOCK( current_proc );
+    bgrt_proc_t * current_proc;
+    current_proc = sched->current_proc;
     // Context save hook
-    if( current_proc->sv_hook )
+    if( current_proc )
     {
-        current_proc->sv_hook( current_proc->arg );
+        BGRT_SPIN_LOCK( current_proc );
+        if( current_proc->sv_hook )
+        {
+            current_proc->sv_hook( current_proc->arg );
+        }
+        BGRT_SPIN_FREE( current_proc );
     }
-    BGRT_SPIN_FREE( current_proc );
 
     BGRT_SPIN_LOCK( sched );
-    // If ready list is empty, then swap ready and expired lists
+
     if( sched->ready->index == (bgrt_index_t)0 )
     {
-        // The Kernel may panic here !!!
+        // If ready list is empty, then swap ready and expired lists
         bgrt_xlist_t * buf;
         buf = sched->ready;
         sched->ready = sched->expired;
         sched->expired = buf;
-    }
-    //Ready list is supposed to have some process now...
-    if( sched->ready->index == (bgrt_index_t)0 )
-    {
+        // Clear current proc
+        sched->current_proc = (bgrt_proc_t *)0;
+
         BGRT_SPIN_FREE( sched );
 
         return BGRT_ST_EEMPTY; //Give an error code
@@ -284,7 +286,6 @@ static bgrt_st_t _sched_switch_current( bgrt_sched_t * sched, bgrt_proc_t * curr
 
         return BGRT_ST_OK;
     }
-
 }
 
 #ifdef BGRT_CONFIG_MP
@@ -321,12 +322,17 @@ So there are some limitations on "bgrt_sched_schedule" and "bgrt_sched_reschedul
 1) These functions must be executed in atomic manner.
 ******************************************************************************************/
 // Scheduling function, must be called when the system timer fires.
-static bgrt_st_t _bgrt_sched_schedule( bgrt_sched_t * sched )
+void bgrt_sched_schedule_prologue( bgrt_sched_t * sched )
 {
     bgrt_proc_t * current_proc;
 
     // As sched->current_proc is changed on local core, we don't need to spin-lock sched->lock!
     current_proc = sched->current_proc;
+    //This is IDLE situation, do nothing.
+    if( !current_proc )
+    {
+        return;
+    }
     // We must spin-lock a process!
     BGRT_SPIN_LOCK( current_proc );
     // Is current process in ready list?
@@ -387,47 +393,49 @@ static bgrt_st_t _bgrt_sched_schedule( bgrt_sched_t * sched )
     }
     //Free current_proc spin-lock!
     BGRT_SPIN_FREE( current_proc );
-
-    BGRT_KERNEL_PREEMPT(); // BGRT_KERNEL_PREEMPT
-
-    return _sched_switch_current( sched, current_proc );
 }
 void bgrt_sched_schedule(void)
 {
-    if( BGRT_ST_OK != _bgrt_sched_schedule( BGRT_SCHED_INIT() ) )
-    {
-        while(1); //Panic on fail
-    }
+    bgrt_sched_t * sched;
+    sched = BGRT_SCHED_INIT();
+
+    bgrt_sched_schedule_prologue( sched );
+
+    while( BGRT_ST_OK != bgrt_sched_epilogue( sched ) );
 }
 //========================================================================================
 // Resched function, called from resched ISR.
-static bgrt_st_t _bgrt_sched_reschedule( bgrt_sched_t * sched )
+void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched )
 {
     bgrt_proc_t * current_proc;
     // We don't need to lock sched->lock as sched->current_proc changed on local core!
     current_proc = sched->current_proc;
-    // Need to spin-lock a current proc!
-    BGRT_SPIN_LOCK( current_proc );
-
-    if( BGRT_PROC_STATE_RUNNING == ( current_proc->flags & BGRT_PROC_STATE_RUN_MASK ) )
+    if( current_proc )
     {
-        /***************************************************************************
-        Switch a process state from *_RUNNING to *_READY
-        ***************************************************************************/
-        current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
-        current_proc->flags |= BGRT_PROC_STATE_READY;
-    }
+    // Need to spin-lock a current proc!
+        BGRT_SPIN_LOCK( current_proc );
 
-    BGRT_SPIN_FREE( current_proc );
-    return _sched_switch_current( sched, current_proc );
+        if( BGRT_PROC_STATE_RUNNING == ( current_proc->flags & BGRT_PROC_STATE_RUN_MASK ) )
+        {
+            /***************************************************************************
+            Switch a process state from *_RUNNING to *_READY
+            ***************************************************************************/
+            current_proc->flags &= BGRT_PROC_STATE_CLEAR_RUN_MASK;
+            current_proc->flags |= BGRT_PROC_STATE_READY;
+        }
+
+        BGRT_SPIN_FREE( current_proc );
+    }
 }
 
 void bgrt_sched_reschedule(void)
 {
-    if( BGRT_ST_OK != _bgrt_sched_reschedule( BGRT_SCHED_INIT() ) )
-    {
-        while(1); //Panic on fail
-    }
+    bgrt_sched_t * sched;
+    sched = BGRT_SCHED_INIT();
+
+    bgrt_sched_reschedule_prologue( sched );
+
+    while( BGRT_ST_OK != bgrt_sched_epilogue( sched ) );
 }
 //========================================================================================
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
@@ -515,33 +523,29 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 {
     bgrt_sched_t * sched;
     bgrt_proc_t * proc;
-    sched = (bgrt_sched_t *)bgrt_kernel.sched + object_core;
+    sched = (bgrt_sched_t *)&bgrt_kernel.kblock[object_core].sched;
 
     //Is there any process in expired list?
     //If "Yes" then will transfer it.
-    bgrt_disable_interrupts();
 
     BGRT_SPIN_LOCK( sched );
 
     if( (bgrt_index_t)0 == sched->expired->index )
     {
         BGRT_SPIN_FREE( sched );
-        bgrt_enable_interrupts();
         return;
     }
     proc = (bgrt_proc_t *)bgrt_xlist_head( sched->expired ); // Target process.
 
     BGRT_SPIN_FREE( sched );
-    bgrt_enable_interrupts();
 
-    bgrt_disable_interrupts();
     BGRT_SPIN_LOCK( proc );
 
     if( BGRT_PROC_RUN_TEST( proc ) )
     {
         // If the process is still running...
         // Stop it;
-        sched = ((bgrt_sched_t *)bgrt_kernel.sched + proc->core_id);
+        sched = (bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched;
 
         BGRT_SPIN_LOCK( sched );
         bgrt_pitem_fast_cut( (bgrt_pitem_t *)proc );
@@ -555,7 +559,6 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
         BGRT_SCHED_PROC_INSERT_EXPIRED( proc, sched );
     }
     BGRT_SPIN_FREE( proc );
-    bgrt_enable_interrupts();
 }
 //========================================================================================
 // Global
@@ -563,13 +566,11 @@ void bgrt_sched_lazy_global_load_balancer(void)
 {
     bgrt_cpuid_t object_core;
     // Find highest load core
-    bgrt_disable_interrupts();
     BGRT_SPIN_LOCK( &bgrt_kernel.stat );
 
     object_core = bgrt_sched_highest_load_core( (bgrt_ls_t *)bgrt_kernel.stat.val );
 
     BGRT_SPIN_FREE( &bgrt_kernel.stat );
-    bgrt_enable_interrupts();
     // Transfer load...
     _bgrt_sched_lazy_load_balancer( object_core );
 }

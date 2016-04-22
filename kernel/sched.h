@@ -104,9 +104,9 @@ A scheduler header.
 Initialization wrapper for sched variable in #bgrt_sched_schedule and #bgrt_sched_reschedule functions.
 */
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() (((bgrt_sched_t *)bgrt_kernel.sched) + bgrt_current_cpu())
+#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock[bgrt_current_cpu()].sched)
 #else // BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.sched)
+#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock.sched)
 #endif // BGRT_CONFIG_MP
 
 // Планировщик
@@ -158,9 +158,8 @@ This function prepares a scheduler object for work.
 \warning For internal usage.
 
 \param sched - A scheduler pointer.
-\param idle - An IDLE process pointer.
 */
-void bgrt_sched_init(bgrt_sched_t * sched, bgrt_proc_t * idle);
+void bgrt_sched_init(bgrt_sched_t * sched);
 /*!
 \~russian
 \brief
@@ -179,6 +178,9 @@ This function switches processes in system timer interrupt handler.
 \warning For internal usage.
 */
 void bgrt_sched_schedule(void);
+
+void bgrt_sched_schedule_prologue( bgrt_sched_t * sched );
+
 /*!
 
 \~russian
@@ -198,6 +200,9 @@ This function switches processes if needed.
 \warning For internal usage.
 */
 void bgrt_sched_reschedule(void);
+
+void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched );
+bgrt_st_t bgrt_sched_epilogue( bgrt_sched_t * sched );
 
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.

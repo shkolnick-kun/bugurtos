@@ -92,79 +92,95 @@ void bgrt_enable_interrupts(void)
 
 bgrt_proc_t * bgrt_curr_proc(void)
 {
-    return bgrt_kernel.sched.current_proc;
+    return BGRT_CURR_PROC;
+}
+
+bgrt_syscall_t * bgrt_get_scnum(void)
+{
+    return &BGRT_CURR_PROC->scnum;//Pointer!!!
+}
+
+void * bgrt_get_scarg(void)
+{
+    return BGRT_CURR_PROC->scarg; //Value!!!
+}
+
+
+
+void bgrt_resched( void )
+{
+    bgrt_vint_push( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 }
 
 /******************************************************************************************************/
 // Код ядра
-
-// Состояние ядра, выполняем перепланировку
-unsigned char bgrt_kernel_state = KRN_FLG_RESCHED;
 //Временное хранилище для указателей стеков процессов.
 bgrt_stack_t * saved_sp;
-#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-// Счётчик уровней вложенности прерываний
-bgrt_cnt_t nested_interrupts = (bgrt_cnt_t)0;
-#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
-// Функция перепланировки
-void bgrt_resched( void )
+bgrt_stack_t * kernel_sp;
+bgrt_stack_t ** current_sp = &kernel_sp;
+
+bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
+
+#define BUGURT_GOTO_KERNEL()  \
+    kernel_mode = (bgrt_bool_t)1;\
+    current_sp = &kernel_sp; \
+    bugurt_restore_context( kernel_sp ); \
+    __asm__ __volatile__("reti"::)
+
+__attribute__ (( naked )) void bgrt_switch_to_kernel(void);
+void bgrt_switch_to_kernel(void)
 {
-    bgrt_kernel_state |= KRN_FLG_RESCHED;
+    BUGURT_ISR_START();
+
+    // Обрабатываем системный вызов
+    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+
+    BUGURT_GOTO_KERNEL();
 }
-/*
-  Перепланировка при необходимости,
-в случае использования системных вызовов
-на основе программного прерывания -
-- проверка на гонки с прерыванием системного вызова.
-*/
-void bugurt_check_resched( void )
+
+void bgrt_syscall( unsigned char num, void * arg )
 {
-    if( bgrt_kernel_state & KRN_FLG_RESCHED )
+    cli();
+    BGRT_CURR_PROC->scnum = num;
+    BGRT_CURR_PROC->scarg = arg;
+    bgrt_switch_to_kernel();
+}
+
+void bgrt_set_curr_sp(void)
+{
+    if( kernel_mode || BGRT_KBLOCK.vic.list.index )
     {
-        bgrt_kernel_state &= ~KRN_FLG_RESCHED;
-        bgrt_sched_reschedule();
+        current_sp = &kernel_sp;
+        kernel_mode = 1;
+    }
+    else
+    {
+        current_sp = &BGRT_CURR_PROC->spointer;
     }
 }
 
+__attribute__ (( naked )) void bgrt_switch_to_proc(void)
+{
+    cli();
+    BUGURT_ISR_START();
+    kernel_mode = (bgrt_bool_t)0;
+    BUGURT_ISR_END();
+}
 
 __attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
     BUGURT_ISR_START();
-    BGRT_KERNEL_PREEMPT(); /// BGRT_KERNEL_PREEMPT()
 
     bgrt_kernel.timer.val++;
     if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
 
-    BGRT_KERNEL_PREEMPT(); /// BGRT_KERNEL_PREEMPT()
-    bgrt_sched_schedule();
+    BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
+    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 
-    BUGURT_ISR_END();
+    BUGURT_GOTO_KERNEL();
 }
 
-//In single processor system call reentrancy is not necessary.
-bgrt_syscall_t syscall_num = (bgrt_syscall_t)0;
-void * syscall_arg = (void *)0;
-
-__attribute__ (( naked )) void _syscall(void);
-void _syscall(void)
-{
-    BUGURT_ISR_START();
-
-    // Обрабатываем системный вызов
-    bgrt_do_syscall(syscall_num, syscall_arg);
-    syscall_num = 0;//Готово
-
-    BUGURT_ISR_END(); //Выходим и разрешаем прерывания!
-}
-///Если не используется программное прерывание - прямая передача управления
-void bgrt_syscall( unsigned char num, void * arg )
-{
-    cli();
-    syscall_num = num;
-    syscall_arg = arg;
-    _syscall();
-}
 /***************************************************************************************************************/
 // Функции общего пользования
 
@@ -172,12 +188,10 @@ void bgrt_init(void)
 {
     cli();
     bgrt_kernel_init();
-    bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)1;// Только после инициализации Ядра!!!
 }
 void bgrt_start(void)
 {
     BGRT_START_SCHEDULER();
-    bgrt_kernel.sched.nested_crit_sec = (bgrt_cnt_t)0;
     sei();
-    BGRT_POST_START( (void *)0 );
+    bgrt_kblock_main( &BGRT_KBLOCK );
 }

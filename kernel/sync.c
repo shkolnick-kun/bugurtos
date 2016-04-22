@@ -461,7 +461,7 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
         {
             BGRT_SPIN_FREE( sync );
         }
-        return BGRT_ST_ROLL;
+        return BGRT_ST_EOWN;
     }
 }
 //========================================================================================
@@ -961,7 +961,7 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
         BGRT_SPIN_FREE( proc );
         BGRT_SPIN_FREE( sync );
 
-        return BGRT_ST_ROLL;
+        return BGRT_ST_EAGAIN;
     }
     default:
     {

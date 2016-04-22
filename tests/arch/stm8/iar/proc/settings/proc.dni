@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-1475205416
+Checksum=2115327188
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -41,7 +41,11 @@ SumSortOrder=0
 [Breakpoints]
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\test_func.c}.65.5@1" 1 0 0 0 "" 0 ""
 Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\test_func.c}.53.9@1" 1 0 0 0 "" 0 ""
-Count=2
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\main\proc\main.c}.76.5@1" 1 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\main\proc\main.c}.60.5@1" 1 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\main\proc\main.c}.80.5@1" 1 0 0 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\main\proc\main.c}.70.5@1" 1 0 0 0 "" 0 ""
+Count=6
 [Interrupts]
 Enabled=1
 Irq0=_ 0 1000 0 10000 1 0 0 100 0 1 "TIM4_OVR_UIF 0x8064  25  TIM4_IER.UIE  TIM4_SR.UIF  ITC_SPR6.VECT23SPR"

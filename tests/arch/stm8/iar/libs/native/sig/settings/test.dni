@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-654917958
+Checksum=-1404568901
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -39,9 +39,9 @@ ShowTimeLog=1
 ShowTimeSum=1
 SumSortOrder=0
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c}.59.5@1" 1 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\test_func.c}.53.9@1" 1 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\test_func.c}.65.5@1" 1 0 0 0 "" 0 ""
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\test_func.c}.53.9@1" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\test_func.c}.65.5@1" 1 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c}.63.5@1" 1 0 0 0 "" 0 ""
 Count=3
 [Interrupts]
 Enabled=1

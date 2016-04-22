@@ -4,8 +4,7 @@ void(*test_kernel_preempt)(void) = test_do_nothing;
 
 void init_hardware(void)
 {
-    vsmp_init();
-
+    cli();
     TCCR2A = 0x02;//
     TCCR2B = 0x05;// prescaler=128
     OCR2A  = 124;
@@ -19,8 +18,6 @@ void init_hardware(void)
     PORTC = 0x00;
     DDRD = 0xFE;
     PORTD = 0x00;
-
-    vsmp_run();
 }
 
 void sched_fix_bgrt_proc_2(void)
@@ -136,45 +133,60 @@ void blink_6(void)
     sei();
 }
 
+bgrt_tmr_t blink_tmr = 0;
+
 void load_bar_graph(void)
 {
+    if( blink_tmr < 2 )
+    {
+        blink_tmr++;
+        PORTB &= ~0x3f;
+        PORTC &= ~0x1f;
+        PORTD &= ~0x80;
+        return;
+    }
+    else
+    {
+        blink_tmr = 1;
+    }
     cli();
     PORTB |= 0x3f;
     PORTC |= 0x1f;
     PORTD |= 0x80;
     switch(bgrt_kernel.stat.val[0])
     {
-
-        case 1:
-            PORTB &= ~0x10;
-        case 2:
-            PORTB &= ~0x08;
-        case 3:
-            PORTB &= ~0x04;
-        case 4:
-            PORTB &= ~0x02;
-        case 5:
-            PORTB &= ~0x01;
-        case 6:
-            PORTD &= ~0x80;
         default:
+        case 0:
+            PORTB &= ~0x10;
+        case 1:
+            PORTB &= ~0x08;
+        case 2:
+            PORTB &= ~0x04;
+        case 3:
+            PORTB &= ~0x02;
+        case 4:
+            PORTB &= ~0x01;
+        case 5:
+            PORTD &= ~0x80;
+        case 6:
             break;
     }
     switch(bgrt_kernel.stat.val[1])
     {
-        case 1:
-            PORTC &= ~0x10;
-        case 2:
-            PORTC &= ~0x08;
-        case 3:
-            PORTC &= ~0x04;
-        case 4:
-            PORTC &= ~0x02;
-        case 5:
-            PORTC &= ~0x01;
-        case 6:
-            PORTB &= ~0x20;
         default:
+        case 0:
+            PORTC &= ~0x10;
+        case 1:
+            PORTC &= ~0x08;
+        case 2:
+            PORTC &= ~0x04;
+        case 3:
+            PORTC &= ~0x02;
+        case 4:
+            PORTC &= ~0x01;
+        case 5:
+            PORTB &= ~0x20;
+        case 6:
             break;
     }
     sei();

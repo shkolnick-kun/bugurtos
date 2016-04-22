@@ -18,9 +18,9 @@ void init_hardware(void)
     TIMSK2 = 0x00; // scheduler not started
     TIFR2  = 0x00;
 
-    EICRA = 0x0A; //falling edge
-    EIMSK = 0x03; //resched generates int1, mask 0x02
-    EIFR  |= 0x03;
+    //EICRA = 0x0A; //falling edge
+    //EIMSK = 0x03; //resched generates int1, mask 0x02
+    //EIFR  |= 0x03;
 
     DDRB = 0x3F;
     PORTB = 0x00;
@@ -89,7 +89,7 @@ void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
         cli();
         while(1)
         {
-            _delay_ms(500);
+            _delay_ms(1000);
             blink_num( test_num );
         }
     }
@@ -126,24 +126,24 @@ void test_inc(void)
 
 void show_nested_int(void)
 {
-#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-    PORTC |= 0x1f;
-    switch(nested_interrupts)
-    {
-        case 0:
-            PORTC &= ~0x10;
-        case 1:
-            PORTC &= ~0x08;
-        case 2:
-            PORTC &= ~0x04;
-        case 3:
-            PORTC &= ~0x02;
-        case 4:
-            PORTC &= ~0x01;
-        default:
-            break;
-    }
-#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
+//#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
+//    PORTC |= 0x1f;
+//    switch(nested_interrupts)
+//    {
+//        case 0:
+//            PORTC &= ~0x10;
+//        case 1:
+//            PORTC &= ~0x08;
+//        case 2:
+//            PORTC &= ~0x04;
+//        case 3:
+//            PORTC &= ~0x02;
+//        case 4:
+//            PORTC &= ~0x01;
+//        default:
+//            break;
+//    }
+//#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
 }
 void systick_hook(void)
 {
@@ -151,10 +151,10 @@ void systick_hook(void)
     PORTD ^= 0x04;
 }
 
-BUGURT_INTERRUPT( INT0_vect )
-{
-    show_nested_int();
-}
+//BUGURT_INTERRUPT( INT0_vect )
+//{
+//    show_nested_int();
+//}
 
 void test_do_nothing(void)
 {

@@ -7,7 +7,7 @@
 
 #ifndef __ASSEMBLER__
 
-#define BGRT_SCL_TBL(a) const bgrt_code_t a
+#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 #define BGRT_SCL_TBL_READ(a) a
 
 #ifndef NOP
@@ -48,7 +48,7 @@ typedef unsigned char bgrt_bool_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char bgrt_syscall_t;
+typedef volatile unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
@@ -62,9 +62,8 @@ typedef unsigned char bgrt_syscall_t;
 #define STM32F4
 #include <libopencmsis/core_cm3.h>
 // These macros needed to interface cstartup code.
-#define BGRT_SYSTEM_TIMER_ISR 	sys_tick_handler
-#define BGRT_RESCHED_ISR			pend_sv_handler
-#define BGRT_SYSCALL_ISR			sv_call_handler
+#define BGRT_SYSTEM_TIMER_ISR 	    sys_tick_handler
+#define BGRT_SYSCALL_ISR			pend_sv_handler
 
 #define BGRT_CONFIG_FCPU_HZ 			( 168000000ul )
 #define BGRT_CONFIG_FSYSTICK_HZ 		( 1000ul )
