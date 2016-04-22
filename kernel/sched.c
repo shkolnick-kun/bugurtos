@@ -394,15 +394,6 @@ void bgrt_sched_schedule_prologue( bgrt_sched_t * sched )
     //Free current_proc spin-lock!
     BGRT_SPIN_FREE( current_proc );
 }
-void bgrt_sched_schedule(void)
-{
-    bgrt_sched_t * sched;
-    sched = BGRT_SCHED_INIT();
-
-    bgrt_sched_schedule_prologue( sched );
-
-    while( BGRT_ST_OK != bgrt_sched_epilogue( sched ) );
-}
 //========================================================================================
 // Resched function, called from resched ISR.
 void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched )
@@ -426,16 +417,6 @@ void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched )
 
         BGRT_SPIN_FREE( current_proc );
     }
-}
-
-void bgrt_sched_reschedule(void)
-{
-    bgrt_sched_t * sched;
-    sched = BGRT_SCHED_INIT();
-
-    bgrt_sched_reschedule_prologue( sched );
-
-    while( BGRT_ST_OK != bgrt_sched_epilogue( sched ) );
 }
 //========================================================================================
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)

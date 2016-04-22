@@ -536,6 +536,7 @@ void _bgrt_proc_lres_dec( bgrt_proc_t * proc ,bgrt_prio_t prio );
 \warning Для внутреннего использования.
 
 \param proc - Указатель на процесс.
+\param state - Новое состояние процесса.
 
 \~english
 \brief Stops a process.
@@ -545,6 +546,7 @@ Stops a process for sure.
 \warning For internal usage.
 
 \param proc - A pointer to a process.
+\param state - A new process state.
 */
 void _bgrt_proc_stop_ensure( bgrt_proc_t * proc, bgrt_flag_t state );
 /*!

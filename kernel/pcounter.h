@@ -82,17 +82,96 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок счётчиков захваченных ресурсов. \~english A locked resource counter header.
 */
+
+/*!
+\~russian
+\brief
+Инкремент счётчика.
+
+\warning Для внутреннего использования.
+
+\param val Текущее значение счетчика.
+\return Новое значение счетчика.
+
+\~english
+\brief
+Increment counter.
+
+\warning Internal usage function.
+
+\param val Current counter value.
+\param New counter value.
+*/
 bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val );
+/*!
+\~russian
+\brief
+Декремент счётчика.
+
+\warning Для внутреннего использования.
+
+\param val Текущее значение счетчика.
+\return Новое значение счетчика.
+
+\~english
+\brief
+Decrement counter.
+
+\warning Internal usage function.
+
+\param val Current counter value.
+\param New counter value.
+*/
 bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val );
+/*!
+\~russian
+\brief
+Добавление к значению счётчика.
+
+\warning Для внутреннего использования.
+
+\param a Текущее значение счетчика.
+\param b Изменение.
+\return Новое значение счетчика.
+
+\~english
+\brief
+Addition to counter value.
+
+\warning Internal usage function.
+
+\param a Current counter value.
+\param b Change of value.
+\param New counter value.
+*/
 bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b );
+/*!
+\~russian
+\brief
+Вычитание из значения счётчика.
+
+\warning Для внутреннего использования.
+
+\param a Текущее значение счетчика.
+\param b Изменение.
+\return Новое значение счетчика.
+
+\~english
+\brief
+Substraction from counter value.
+
+\warning Internal usage function.
+
+\param a Current counter value.
+\param b Change of value.
+\param New counter value.
+*/
 bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b );
 
-#define BGRT_CNT_INC( cnt ) (cnt = bgrt_cnt_inc( cnt ))
-#define BGRT_CNT_DEC( cnt ) (cnt = bgrt_cnt_dec( cnt ))
-#define BGRT_CNT_ADD( cnt, delta ) (cnt = bgrt_cnt_add( cnt, delta ))
-#define BGRT_CNT_SUB( cnt, delta ) (cnt = bgrt_cnt_sub( cnt, delta ))
-
-
+#define BGRT_CNT_INC( cnt ) (cnt = bgrt_cnt_inc( cnt )) /*!< \~russian Обертка над #bgrt_cnt_inc; \~english A wrappet for #bgrt_cnt_inc; */
+#define BGRT_CNT_DEC( cnt ) (cnt = bgrt_cnt_dec( cnt )) /*!< \~russian Обертка над #bgrt_cnt_dec; \~english A wrappet for #bgrt_cnt_dec; */
+#define BGRT_CNT_ADD( cnt, delta ) (cnt = bgrt_cnt_add( cnt, delta )) /*!< \~russian Обертка над #bgrt_cnt_add; \~english A wrappet for #bgrt_cnt_add; */
+#define BGRT_CNT_SUB( cnt, delta ) (cnt = bgrt_cnt_sub( cnt, delta )) /*!< \~russian Обертка над #bgrt_cnt_sub; \~english A wrappet for #bgrt_cnt_sub; */
 
 typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_bgrt_pcounter_t; \~english See #_bgrt_pcounter_t; */
 /*!

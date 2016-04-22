@@ -97,11 +97,11 @@ A scheduler header.
 \~russian
 \brief Макрос-обёртка.
 
-Обёртка инициализации переменной sched в функциях #bgrt_sched_schedule и #bgrt_sched_reschedule.
+Обёртка инициализации переменной sched в функции #_bgrt_sched_proc_yeld.
 \~english
 \brief Wrapper macro.
 
-Initialization wrapper for sched variable in #bgrt_sched_schedule and #bgrt_sched_reschedule functions.
+Initialization wrapper for sched variable in #_bgrt_sched_proc_yeld.
 */
 #ifdef BGRT_CONFIG_MP
 #   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock[bgrt_current_cpu()].sched)
@@ -148,7 +148,6 @@ struct _bgrt_sched_t
 \warning Для внутреннего использования.
 
 \param sched - Указатель на планировщик.
-\param idle - Указатель на процесс холостого хода.
 
 \~english
 \brief A scheduler initiation routine.
@@ -163,45 +162,67 @@ void bgrt_sched_init(bgrt_sched_t * sched);
 /*!
 \~russian
 \brief
-Функция планирования.
+Пролог функции планирования по таймеру.
 
-Переключает процессы в обработчике прерывания системного таймера.
+Нужна для переключения процессов в обработчике прерывания системного таймера.
 
 \warning Для внутреннего использования.
+\param sched - Указатель на планировщик.
 
 \~english
 \brief
-A scheduler routine.
+A system timer sheduler prologue.
 
 This function switches processes in system timer interrupt handler.
 
 \warning For internal usage.
+\param sched - A scheduler pointer.
 */
-void bgrt_sched_schedule(void);
-
 void bgrt_sched_schedule_prologue( bgrt_sched_t * sched );
-
 /*!
-
 \~russian
 \brief
-Функция перепланирования.
+Пролог перепланирования.
 
-Переключает процессы в случае необходимости.
+Нужна для переключения процессов в случае необходимости.
 
 \warning Для внутреннего использования.
+\param sched - Указатель на планировщик.
 
 \~english
 \brief
-Rescheduler routine.
+Rescheduler routine prologue.
 
-This function switches processes if needed.
+This function is needed to switch processes if needed.
 
 \warning For internal usage.
+\param sched A scheduler pointer.
 */
-void bgrt_sched_reschedule(void);
-
 void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched );
+
+/*!
+\~russian
+\brief
+Эпилог функций планирования.
+
+Выбирает новый готовый процесс для запуска, если он есть.
+Если нет готовых прицессов - переключает очереди процессов ready и expired.
+
+\warning Для внутреннего использования.
+\param sched - Указатель на планировщик.
+\return #BGRT_ST_OK - если есть новый процесс, #BGRT_ST_EEMPTY - если нет готовых процессов.
+
+\~english
+\brief
+Scheduler epiologue routine.
+
+If there is some ready process, then this function shedules next process to run.
+In other case it switches ready and expired process lists.
+
+\warning For internal usage.
+\param sched A scheduler pointer.
+\return #BGRT_ST_OK is new ready process scheduled, #BGRT_ST_EEMPTY if there were no ready processes.
+*/
 bgrt_st_t bgrt_sched_epilogue( bgrt_sched_t * sched );
 
 /*!

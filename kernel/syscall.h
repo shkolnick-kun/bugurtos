@@ -515,7 +515,7 @@ A #BGRT_SYSCALL_SYNC_TOUCH handler.
 This function calls #_bgrt_sync_touch.
 */
 bgrt_st_t bgrt_scall_sync_touch( bgrt_sync_touch_t * arg );
-#define BGRT_SYNC_TOUCH(s) bgrt_sync_touch( (bgrt_sync_t *)(s) )
+#define BGRT_SYNC_TOUCH(s) bgrt_sync_touch( (bgrt_sync_t *)(s) ) /*!< \~russian \brief Смотри #bgrt_sync_touch. \~english \brief Watch #bgrt_sync_touch. */
 /*****************************************************************************************/
 /*!
 \~russian
