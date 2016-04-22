@@ -148,10 +148,13 @@ void bgrt_syscall( unsigned char num, void * arg )
 
 void bgrt_set_curr_sp(void)
 {
-    if( kernel_mode || BGRT_KBLOCK.vic.list.index )
+    if( BGRT_KBLOCK.vic.list.index )
+    {
+        kernel_mode = 1;
+    }
+    if( kernel_mode )
     {
         current_sp = &kernel_sp;
-        kernel_mode = 1;
     }
     else
     {
