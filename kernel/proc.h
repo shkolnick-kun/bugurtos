@@ -471,16 +471,6 @@ A process should not have locked resources at a moment of a flag stop.
 
 */
 #define BGRT_PROC_SET_STATE(a,b) ( (a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b )
-
-/*!
-\~russian
-\brief Низший приоритет.
-
-\~english
-\brief Lowest priority level.
-*/
-#define BGRT_PROC_PRIO_LOWEST (BGRT_PRIO_LOWEST)
-
 // Методы
 // Управление счётчиком захваченных ресурсов, для внутреннего использования
 /*!

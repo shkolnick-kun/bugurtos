@@ -135,7 +135,7 @@ void main_0( void * arg )
     test = ( 1 == bgrt_sync_1.dirty );
     test_output( test, test_num++ );
     // 18 _bgrt_proc_prio_propagate bgrt_proc_set_prio
-    test = ( 1 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[2].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 19 _bgrt_proc_prio_propagate bgrt_proc_set_prio
@@ -164,7 +164,7 @@ void main_0( void * arg )
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
     // 22 _bgrt_proc_prio_propagate bgrt_proc_set_prio
-    test = ( 1 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[2].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     /// _bgrt_proc_prio_propagate covered!!!
     //cleanup
@@ -184,7 +184,7 @@ void main_0( void * arg )
     test = ( (PR1) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 26 bgrt_sync_set_owner
-    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 27 bgrt_sync_set_owner
@@ -195,7 +195,7 @@ void main_0( void * arg )
     test = ( (PR1) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 29 bgrt_sync_set_owner
-    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 30 bgrt_sync_set_owner
@@ -206,10 +206,10 @@ void main_0( void * arg )
     test = ( (PR2) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 32 bgrt_sync_set_owner
-    test = ( 1 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[2].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 33 bgrt_sync_set_owner
-    test = ( 0 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[1].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
     // 34 bgrt_sync_set_owner
@@ -220,7 +220,7 @@ void main_0( void * arg )
     test = ( ((bgrt_proc_t *)0) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 36 bgrt_sync_set_owner
-    test = ( 0 == proc[2].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[2].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     /// bgrt_sync_set_owner covered !!!
     // 37 bgrt_sync_own
@@ -236,7 +236,7 @@ void main_0( void * arg )
     test = ( (PR0) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 40 bgrt_sync_own
-    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 41 bgrt_sync_own
     bgrt_disable_interrupts();
@@ -254,7 +254,7 @@ void main_0( void * arg )
     test = ( (PR0) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 44 bgrt_sync_own
-    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 45 bgrt_sync_own
     bgrt_disable_interrupts();
@@ -273,7 +273,7 @@ void main_0( void * arg )
     test = ( (PR0) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 48 bgrt_sync_own
-    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 49 bgrt_sync_own
     bgrt_disable_interrupts();
@@ -292,7 +292,7 @@ void main_0( void * arg )
     test = ( (PR0) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 52 bgrt_sync_own
-    test = ( 1 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[0].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 53 bgrt_sync_own
     bgrt_disable_interrupts();
@@ -311,10 +311,10 @@ void main_0( void * arg )
     test = ( (PR1) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 56 bgrt_sync_own
-    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 57 bgrt_sync_own
-    test = ( 0 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[0].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 58 bgrt_sync_own
     bgrt_disable_interrupts();
@@ -332,10 +332,10 @@ void main_0( void * arg )
     test = ( (PR1) == bgrt_sync_1.owner );
     test_output( test, test_num++ );
     // 61 bgrt_sync_own
-    test = ( 1 == proc[1].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 1 == proc[1].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 62 bgrt_sync_own
-    test = ( 0 == proc[0].lres.counter[BGRT_PROC_PRIO_LOWEST] );
+    test = ( 0 == proc[0].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     // 63 bgrt_sync_own
     bgrt_disable_interrupts();

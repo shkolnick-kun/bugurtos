@@ -92,23 +92,6 @@ A scheduler header.
 
 \warning All functions in this file are internal usage functions!!!
 */
-/*!
-\def BGRT_SCHED_INIT()
-\~russian
-\brief Макрос-обёртка.
-
-Обёртка инициализации переменной sched в функции #_bgrt_sched_proc_yeld.
-\~english
-\brief Wrapper macro.
-
-Initialization wrapper for sched variable in #_bgrt_sched_proc_yeld.
-*/
-#ifdef BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock[bgrt_current_cpu()].sched)
-#else // BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock.sched)
-#endif // BGRT_CONFIG_MP
-
 // Планировщик
 typedef struct _bgrt_sched_t bgrt_sched_t; /*!< \~russian Смотри #_bgrt_sched_t; \~english See #_bgrt_sched_t; */
 // Свойства

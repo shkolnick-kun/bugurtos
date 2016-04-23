@@ -95,7 +95,7 @@ bgrt_st_t sig_init_isr( sig_t * sig )
     }
     cond_init_isr( (cond_t *)sig );
     BGRT_KERNEL_PREEMPT();
-    mutex_init_isr( &sig->wait, BGRT_PROC_PRIO_LOWEST );
+    mutex_init_isr( &sig->wait, BGRT_PRIO_LOWEST );
     return BGRT_ST_OK;
 }
 

@@ -273,7 +273,7 @@ bgrt_st_t bgrt_scall_proc_set_prio( bgrt_proc_set_prio_arg_t * arg )
 bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid )
 {
     bgrt_proc_get_prio_arg_t scarg;
-    scarg.ret = BGRT_PROC_PRIO_LOWEST + 1; //Not possible!
+    scarg.ret = BGRT_PRIO_LOWEST + 1; //Not possible!
     scarg.pid = pid;
     bgrt_syscall( BGRT_SYSCALL_PROC_GET_PRIO, (void *)&scarg );
     return scarg.ret;
