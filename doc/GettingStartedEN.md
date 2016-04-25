@@ -82,7 +82,7 @@ If you need to do some complex work, then you should use virtual interrupt for s
 
 ####WARNING!!!
 Since BuguRTOS-1.0.0 no context switch is done on ISR enter! 
-This may leed to stack overflow on some arrchitectures!!!
+This may lead to stack overflow on some architectures!!!
 
 Example:
 ```C
@@ -93,7 +93,7 @@ BGRT_INTERRUPT(SOME_INTERRUPT)
 ```
 ###Virtual interrupts.
 The BuguRTOS kernel have an interrupt virtualization layer. Virtual interrupts are declared using **bgrt_vint_t** type.
-Virtual interrupts have a software priority which is used when they are sheduled for execution.
+Virtual interrupts have a software priority which is used when they are scheduled for execution.
 Also one virtual ISR may be used to process different interrupt sources. In such case one may use an argument pointer to process different data sets with one ISR.
 
 Example:
@@ -476,7 +476,7 @@ status = ipc_wait( &some_ep, &wait_for, BLOCK_CALLER);
 
 /*
 Send a message.
-A sender will bw blocked until reply.
+A sender will be blocked until reply.
 */
 status = ipc_send( &some_ep, &some_msg );
 

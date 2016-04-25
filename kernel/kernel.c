@@ -127,7 +127,7 @@ static void do_int_sched( bgrt_kblock_t * kblock )
 #endif//BGRT_CONFIG_MP
         if( BGRT_ST_OK != bgrt_sched_epilogue( &kblock->sched ) )
         {
-            //A scheduler is empty, must do reshed
+            //A scheduler is empty, must do resched
             bgrt_vint_push( &kblock->int_sched, &kblock->vic );
             //May safe power
             BGRT_SAFE_POWER();

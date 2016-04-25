@@ -569,7 +569,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
 
             BGRT_SPIN_FREE( proc );
 
-            BGRT_CNT_DEC( sync->snum ); //The process bacame an owner during a prio unheritance transaction!
+            BGRT_CNT_DEC( sync->snum ); //The process become an owner during a prio inheritance transaction!
             BGRT_SPIN_FREE( sync );
 
             return BGRT_ST_EOWN;

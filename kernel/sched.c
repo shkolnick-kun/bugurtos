@@ -483,7 +483,7 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
             BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_READY );
             //Update sched if needed!
             BGRT_PROC_YELD_SCHED_UPDATE(proc);
-            //Insert to expired listss
+            //Insert to expired lists
             BGRT_SCHED_PROC_INSERT_EXPIRED( proc, sched );
 
             save_power = (bgrt_bool_t)!proc_map;

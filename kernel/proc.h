@@ -570,7 +570,7 @@ bgrt_st_t _bgrt_proc_init(
     bgrt_tmr_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
     bgrt_bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
 #ifdef BGRT_CONFIG_MP
-    ,bgrt_aff_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
+    ,bgrt_aff_t affinity/*!< \~russian Аффинность. \~english A process affinity.*/
 #endif // BGRT_CONFIG_MP
 );
 /*!
@@ -587,7 +587,7 @@ bgrt_st_t bgrt_proc_init(
     bgrt_tmr_t time_quant, /*!< \~russian Квант времени. \~english A process time slice.*/
     bgrt_bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
 #ifdef BGRT_CONFIG_MP
-    ,bgrt_aff_t affinity/*!< \~russian Афинность. \~english A process affinity.*/
+    ,bgrt_aff_t affinity/*!< \~russian Аффинность. \~english A process affinity.*/
 #endif // BGRT_CONFIG_MP
 );
 /*!
@@ -631,7 +631,7 @@ bgrt_st_t bgrt_proc_run(BGRT_PID_T pid);
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
 
-Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, еще не завершил работу, не был "убит"), и производит перепланировку.
+Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, ещё не завершил работу, не был "убит"), и производит перепланировку.
 \param proc - Указатель на запускаемый процесс.
 \return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 

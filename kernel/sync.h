@@ -91,7 +91,7 @@ typedef struct _bgrt_sync_t bgrt_sync_t; /*!< \~russian Смотри #_bgrt_sync
 Базовый примитив синхронизации.
 
 Базовый тип, отвечающий за блокирующую синхронизацию процессов.
-Путем "обёртывания" данного типа можно получить привычные примитивы синхронизации
+Путём "обёртывания" данного типа можно получить привычные примитивы синхронизации
 (мьютексы, семафоры, условные переменные, FIFO-буферы, блокирующий IPC, и т.д.).
 
 Поддерживает протокол наследования приоритетов (Basic Priority Inheritance).
@@ -110,7 +110,7 @@ Basic priority inheritance protocol is supported.
 struct _bgrt_sync_t
 {
     bgrt_xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
-    bgrt_proc_t * owner;/*!< \~russian Указатель на процесc-хозяин. \~english A pointer to a process, that holds a sync. */
+    bgrt_proc_t * owner;/*!< \~russian Указатель на процесс-хозяин. \~english A pointer to a process, that holds a sync. */
     bgrt_cnt_t dirty; /*!< \~russian Счётчик незавершённых транзакций наследования приоритетов. \~english Dirty priority inheritance transaction counter. */
     bgrt_cnt_t snum; /*!< \~russian Счётчик спящих процессов. \~english Sleeping process counter. */
     bgrt_cnt_t pwake; /*!< \~russian Счётчик отложенных пробуждений. \~english Pending wakeup counter. */

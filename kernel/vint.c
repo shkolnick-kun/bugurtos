@@ -129,7 +129,7 @@ static bgrt_vint_t * bgrt_vint_pop( bgrt_vic_t * vic )
     bgrt_pitem_t * ret;
     //Everything is done on local CPU core, just disable interrupts.
     BGRT_VINT_CS_START();
-    //Het list head
+    //Get list head
     ret = (bgrt_pitem_t *)bgrt_xlist_head( (bgrt_xlist_t *)vic );
     //Is there any work?
     if( ret )
@@ -156,7 +156,7 @@ void bgrt_vic_do_work( bgrt_vic_t * vic )
         //Is there any work?
         if( work )
         {
-            //work_prio is useed twice, so remember it.
+            //work_prio is used twice, so remember it.
             bgrt_prio_t work_prio;
             work_prio = ((bgrt_pitem_t *)work)->prio;
             //Do only higher priority work...

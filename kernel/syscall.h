@@ -108,7 +108,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SYSCALL_SYNC_SET_OWNER                 (BGRT_SYSCALL_SCHED_PROC_YELD + (bgrt_syscall_t)(1))            /*!< \~russian \brief Установить нового хозяина объекта типа #bgrt_sync_t. \~english \brief Set new #bgrt_sync_t object owner. */
 #define BGRT_SYSCALL_SYNC_GET_OWNER                 (BGRT_SYSCALL_SYNC_SET_OWNER + (bgrt_syscall_t)(1))             /*!< \~russian \brief Узнать принадлежность объекта типа #bgrt_sync_t. \~english \brief Get #bgrt_sync_t object owner. */
 #define BGRT_SYSCALL_SYNC_OWN                       (BGRT_SYSCALL_SYNC_GET_OWNER + (bgrt_syscall_t)(1))             /*!< \~russian \brief Завладеть объектом типа #bgrt_sync_t. \~english \brief Own #bgrt_sync_t object. */
-#define BGRT_SYSCALL_SYNC_TOUCH                     (BGRT_SYSCALL_SYNC_OWN + (bgrt_syscall_t)(1))                   /*!< \~russian \brief заблокировать пробуждение процессов. \~english \brief Block process wake*/
+#define BGRT_SYSCALL_SYNC_TOUCH                     (BGRT_SYSCALL_SYNC_OWN + (bgrt_syscall_t)(1))                   /*!< \~russian \brief Заблокировать пробуждение процессов. \~english \brief Block process wake*/
 #define BGRT_SYSCALL_SYNC_SLEEP                     (BGRT_SYSCALL_SYNC_TOUCH + (bgrt_syscall_t)(1))                 /*!< \~russian \brief Заблокировать процесс в ожидании синхронизации. \~english \brief Block process for synchronization. */
 #define BGRT_SYSCALL_SYNC_WAKE                      (BGRT_SYSCALL_SYNC_SLEEP + (bgrt_syscall_t)(1))                 /*!< \~russian \brief Запустить процесс, ожидающий синхронизации. \~english \brief Run a process waiting for synchronization. */
 #define BGRT_SYSCALL_SYNC_WAIT                      (BGRT_SYSCALL_SYNC_WAKE + (bgrt_syscall_t)(1))                  /*!< \~russian \brief Подождать блокировки процесса на объекте типа #bgrt_sync_t. \~english \brief Wait for process to block on #bgrt_sync_t object*/
@@ -254,7 +254,7 @@ bgrt_st_t bgrt_scall_proc_terminate( void * arg );
 \brief
 Обработчик вызова #BGRT_SYSCALL_PROC_LOCK.
 
-Устанавливает флаг #BGRT_PROC_FLG_LOCK для вызывающего процесса, увеличивает счетчик proc->lres.
+Устанавливает флаг #BGRT_PROC_FLG_LOCK для вызывающего процесса, увеличивает счётчик proc->lres.
 
 \~english
 \brief

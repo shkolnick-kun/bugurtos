@@ -148,7 +148,7 @@ void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, voi
 /*!
 \~russian
 \brief
-Поставить объет типа #bgrt_vint_t на обработку из обработтчика прерывания.
+Поставить объект типа #bgrt_vint_t на обработку из обработчика прерывания.
 
 \warning Для внутреннего использования.
 
@@ -168,7 +168,7 @@ bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic );
 /*!
 \~russian
 \brief
-Поставить объет типа #bgrt_vint_t на обработку.
+Поставить объект типа #bgrt_vint_t на обработку.
 
 \warning Для внутреннего использования.
 
