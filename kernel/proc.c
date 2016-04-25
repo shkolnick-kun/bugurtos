@@ -171,8 +171,7 @@ bgrt_st_t _bgrt_proc_init(
 
     if( sstart )proc->spointer = bgrt_proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))bgrt_proc_terminate);
 
-    proc->scnum = (bgrt_syscall_t)0;
-    proc->scarg = (void *)0;
+    BGRT_USPD_INIT(proc);
 
     BGRT_SPIN_FREE( proc );
 

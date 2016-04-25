@@ -108,24 +108,6 @@ bgrt_proc_t * bgrt_curr_proc(void)
     return ret;
 }
 
-bgrt_syscall_t * bgrt_get_scnum(void)
-{
-    bgrt_syscall_t * ret;
-    cli();
-    ret = &BGRT_CURR_PROC->scnum;//Pointer!!!
-    sei();
-    return ret;
-}
-
-void * bgrt_get_scarg(void)
-{
-    void * ret;
-    cli();
-    ret = BGRT_CURR_PROC->scarg; //Value!!!
-    sei();
-    return ret;
-}
-
 void bgrt_resched( bgrt_cpuid_t core )
 {
     cli();
@@ -214,9 +196,11 @@ void bgrt_switch_to_kernel(void)
 
 void bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
+    BGRT_USPD_T udata;
+    udata = BGRT_GET_USPD();
     cli();
-    BGRT_CURR_PROC->scnum = num;
-    BGRT_CURR_PROC->scarg = arg;
+    udata->scnum = num;
+    udata->scarg = arg;
     vm_int_enabled[current_vm]=1;
     bgrt_switch_to_kernel();
 }

@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="7985" topLine="306" />
+		<Cursor position="8545" topLine="114" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="9913" topLine="155" />
@@ -14,16 +14,16 @@
 		<Cursor position="7089" topLine="156" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6294" topLine="132" />
+		<Cursor position="6364" topLine="78" />
 	</File>
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="7547" topLine="84" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="6418" topLine="72" />
+		<Cursor position="9165" topLine="151" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
-		<Cursor position="19208" topLine="366" />
+		<Cursor position="10663" topLine="207" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
 		<Cursor position="9010" topLine="566" />

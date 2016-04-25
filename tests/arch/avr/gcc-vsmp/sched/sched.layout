@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="5">
+	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.c" open="1" top="0" tabpos="5">
 		<Cursor position="8869" topLine="206" />
 	</File>
 	<File name="../../../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="6">
@@ -34,7 +34,7 @@
 	<File name="../../../../../kernel/item.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="4">
 		<Cursor position="6465" topLine="77" />
 	</File>
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="2">
@@ -49,10 +49,10 @@
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="6">
 		<Cursor position="6498" topLine="85" />
 	</File>
-	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="3">
+	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="3">
 		<Cursor position="9809" topLine="185" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="6">
+	<File name="../../../../../kernel/proc.h" open="1" top="0" tabpos="6">
 		<Cursor position="25866" topLine="119" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="4">

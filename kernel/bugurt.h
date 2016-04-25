@@ -621,27 +621,4 @@ extern void bgrt_syscall( bgrt_syscall_t num, void * arg );
 Kernel to process context switch.
 */
 extern void bgrt_switch_to_proc(void);
-/*!
-\~russian
-\brief
-Получить указатель на номер системного вызова для текущего процесса.
-
-\warning Функция всегда должна возвращать валидный указатель.
-\~english
-\brief
-Get current process system call number pointer.
-
-\warning Must return a valid pointer!
-*/
-extern bgrt_syscall_t * bgrt_get_scnum(void);
-/*!
-\~russian
-\brief
-Получить указатель на аргумент системного вызова текущего процесса.
-
-\~english
-\brief
-Get current process system call argument pointer.
-*/
-extern void * bgrt_get_scarg(void);
 #endif //_BUGURT_H_

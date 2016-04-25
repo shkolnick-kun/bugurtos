@@ -29,7 +29,7 @@
 		<Cursor position="6098" topLine="67" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
-		<Cursor position="6747" topLine="92" />
+		<Cursor position="6616" topLine="92" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6947" topLine="87" />
@@ -41,6 +41,6 @@
 		<Cursor position="14" topLine="0" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="936" topLine="41" />
+		<Cursor position="884" topLine="20" />
 	</File>
 </CodeBlocks_layout_file>

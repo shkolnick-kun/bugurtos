@@ -204,7 +204,25 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 #define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #endif//BGRT_PID_T
 
+struct _bgrt_uspd_t
+{
+    void *         scarg;    /*!<\~russian Указатель на аргумент системного вызова. \~english A system call pointer.*/
+    bgrt_syscall_t scnum;    /*!<\~russian Номер системного вызова. \~english A system call number.*/
+};                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
+//Default implementation
+#ifndef BGRT_USPD_T
 
+#define BGRT_USPD_PROC_T struct _bgrt_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+#define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+
+#define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
+#define BGRT_USPD_INIT(proc) \
+    do{\
+        proc->udata.scarg = (void *)0;\
+        proc->udata.scnum = (bgrt_syscall_t)0;\
+    }while(0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
+
+#endif
 // Свойства
 /*!
 \~russian
@@ -244,20 +262,19 @@ struct _bgrt_proc_t
     bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #bgrt_proc_lock. \~english A counter of #bgrt_proc_lock nesting.*/
 #ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
-    bgrt_cpuid_t core_id;      /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
-    bgrt_aff_t affinity;    /*!<\~russian  Аффинность (индекс процессоров, на котором может исполняться процесс). \~english An Affinity of a process.*/
-    bgrt_lock_t lock;            /*!<\~russian  Спин блокировка процесса. \~english  A process spin-lock.*/
+    bgrt_cpuid_t core_id;    /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
+    bgrt_aff_t affinity;     /*!<\~russian  Аффинность (индекс процессоров, на котором может исполняться процесс). \~english An Affinity of a process.*/
+    bgrt_lock_t lock;        /*!<\~russian  Спин блокировка процесса. \~english  A process spin-lock.*/
 #endif
     bgrt_code_t pmain;       /*!<\~russian  Главная функция процесса. \~english A pointer to a process "main" routine.*/
     bgrt_code_t sv_hook;     /*!<\~russian  Хук, исполняется планировщиком после сохранения контекста процесса. \~english A context save hook, it is run after saving a process context.*/
     bgrt_code_t rs_hook;     /*!<\~russian  Хук, исполняется планировщиком перед восстановлением контекста процесса. \~english  A context restore hook, it is run before restoring a process context.*/
-    void * arg;         /*!<\~russian  Аргумент для pmain, sv_hook, rs_hook, может хранить ссылку на локальные данные конкретного экземпляра процесса. \~english An argument for pmain, sv_hook, rs_hook, may be used to store process local data.*/
+    void * arg;              /*!<\~russian  Аргумент для pmain, sv_hook, rs_hook, может хранить ссылку на локальные данные конкретного экземпляра процесса. \~english An argument for pmain, sv_hook, rs_hook, may be used to store process local data.*/
 
     bgrt_stack_t * sstart;   /*!<\~russian  Указатель на дно стека экземпляра процесса. \~english A process stack bottom pointer.*/
     bgrt_stack_t * spointer; /*!<\~russian Указатель на вершину стека экземпляра процесса. \~english A process stack top pointer.*/
 
-    void *         scarg;    /*!<\~russian Указатель на аргумент системного вызова. \~english A system call pointer.*/
-    bgrt_syscall_t scnum;    /*!<\~russian Номер системного вызова. \~english A system call number.*/
+    BGRT_USPD_PROC_T udata;  /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
 };
 /*
 Порядок захвата блокировок:

@@ -86,20 +86,20 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 static void do_int_scall( bgrt_kblock_t * kblock )
 {
-    bgrt_syscall_t * scnum;
+    BGRT_USPD_T uspd;
     //Get system call number storage
-    scnum = bgrt_get_scnum();
+    uspd = BGRT_GET_USPD();
     //Do system call
-    if( BGRT_ST_ROLL != bgrt_do_syscall( *scnum, bgrt_get_scarg() ) )
+    if( BGRT_ST_ROLL != bgrt_do_syscall( uspd->scnum, uspd->scarg ) )
     {
         //Clear system call number ()
-        *scnum = (bgrt_syscall_t)0;
+        uspd->scnum = (bgrt_syscall_t)0;
     }
 }
 //Check for pending system call and push it
 static void push_pend_scall( bgrt_kblock_t * kblock )
 {
-    if( *bgrt_get_scnum() )
+    if( BGRT_GET_USPD()->scnum )
     {
         bgrt_vint_push( &kblock->int_scall, &kblock->vic );
     }

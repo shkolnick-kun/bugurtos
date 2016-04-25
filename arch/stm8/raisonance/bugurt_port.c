@@ -84,16 +84,6 @@ bgrt_proc_t * bgrt_curr_proc(void)
     return BGRT_CURR_PROC;
 }
 
-bgrt_syscall_t * bgrt_get_scnum(void)
-{
-    return &BGRT_CURR_PROC->scnum;//Pointer!!!
-}
-
-void * bgrt_get_scarg(void)
-{
-    return BGRT_CURR_PROC->scarg; //Value!!!
-}
-
 void bgrt_resched( void )
 {
     bgrt_vint_push( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
@@ -143,9 +133,13 @@ void system_timer_isr(void) interrupt BGRT_SYSTEM_TIMER_VECTOR
 
 void bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
+    BGRT_USPD_T udata;
     bgrt_disable_interrupts();
-    BGRT_CURR_PROC->scnum = num;
-    BGRT_CURR_PROC->scarg = arg;
+
+    udata = BGRT_GET_USPD();
+    udata->scnum = num;
+    udata->scarg = arg;
+
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
     _trap_();
     bgrt_enable_interrupts();
