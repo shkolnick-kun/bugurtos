@@ -108,7 +108,9 @@ void do_my_vint(void * arg)
 int main(void)
 {
     /*On init phase do:*/
-    bgrt_vint_init( &my_vint, MY_VINT_PRIORITY, (bgrt_code_t)do_my_vint, (void *)some_arg );/*On interrupt firing do_my_vint(some_arg) will be called.*/
+    
+    /*On interrupt firing do_my_vint(some_arg) will be called.*/
+    bgrt_vint_init( &my_vint, MY_VINT_PRIORITY, (bgrt_code_t)do_my_vint, (void *)some_arg );
     /*Some other init code ...*/
 }
 
