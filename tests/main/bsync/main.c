@@ -457,7 +457,7 @@ void main_0( void * arg )
     //82 bgrt_sync_sleep bgrt_sync_wake
     bgrt_sync_set_owner( &bgrt_sync_1, BGRT_PID_NOTHING );
     status[0] = bgrt_sync_wake( &bgrt_sync_1, 0, 0 );
-    bgrt_wait_time(5);
+    bgrt_wait_time(10);
     test = (BGRT_ST_OK == status[0]);
     test_output( test, test_num++ );
     //83 bgrt_sync_sleep bgrt_sync_wake

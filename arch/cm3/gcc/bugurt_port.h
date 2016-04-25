@@ -25,4 +25,18 @@ void v(void) \
     BUGURT_ISR_END();\
 }
 
+/*
+Объявление обработчика прерывания.
+
+Обработка прерываний происходит в контексте main,
+он же контекст процесса холостого хода.
+
+Не очень быстро,
+зато память экономится.
+*/
+#define BUGURT_INTERRUPT(v) \
+void BUGURT_CONCAT(v,_func)(void);\
+_BUGURT_ISR(v,BUGURT_CONCAT(v,_func)) \
+void BUGURT_CONCAT(v,_func)(void)
+
 #endif //_BUGURT_PORT_H_

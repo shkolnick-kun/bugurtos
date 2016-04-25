@@ -75,7 +75,61 @@ you can see the list of different RTOS.
 First of all, multitasking OS is scheduler and other basic process (task,thread etc.) control services.
 All this stuff will be described below.
 
-###Process.
+##Interrupts.
+If you want to use BuguRTOS api inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_INTERRUPT** macro.
+This macro gives a proper wrapper for user ISR. Real ISR should be as small as possible and use as little resources as possible.
+If you need to do some complex work, then you should use virtual interrupt for such work.
+
+####WARNING!!!
+Since BuguRTOS-1.0.0 no context switch is done on ISR enter! 
+This may leed to stack overflow on some arrchitectures!!!
+
+Example:
+```C
+BGRT_INTERRUPT(SOME_INTERRUPT)
+{
+    /*Do something.*/
+}
+```
+###Virtual interrupts.
+The BuguRTOS kernel have an interrupt virtualization layer. Virtual interrupts are declared using **bgrt_vint_t** type.
+Virtual interrupts have a software priority which is used when they are sheduled for execution.
+Also one virtual ISR may be used to process different interrupt sources. In such case one may use an argument pointer to process different data sets with one ISR.
+
+Example:
+```C
+bgrt_vint_t my_vint;
+
+void do_my_vint(void * arg)
+{
+    /*Do some complex work.*/
+}
+
+int main(void)
+{
+    /*On init phase do:*/
+    bgrt_vint_init( &my_vint, MY_VINT_PRIORITY, (bgrt_code_t)do_my_vint, (void *)some_arg );/*On interrupt firing do_my_vint(some_arg) will be called.*/
+    /*Some other init code ...*/
+}
+
+BGRT_INTERRUPT(SOME_INTERRUPT)
+{
+    /*Do something.*/
+    
+    /*
+    Now fire a virtual interrupt for some complex work.
+    */
+    
+    /*   
+    BGRT_KBLOCK is wrapper macro for kernel block (a control structure 
+    which is responsible kernel services on certain CPU).
+    
+    BGRT_KBLOCK.vic is virtual interrupt controller.
+    */
+    bgrt_vint_push_isr( &my_vint, &BGRT_KBLOCK.vic );
+}
+```
+###Processes.
 In different OSes it may be called process, task, thread etc., but the main pint is
 **independent CPU instruction execution flow**.
 
