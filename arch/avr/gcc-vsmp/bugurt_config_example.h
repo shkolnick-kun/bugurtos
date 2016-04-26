@@ -15,17 +15,20 @@
 
 /// Syscall table is allocated in FLASH.
 #include <avr/pgmspace.h>
-#define BGRT_SCL_TBL(a) const PROGMEM bgrt_code_t a
-#define BGRT_SCL_TBL_READ(a) (bgrt_code_t)pgm_read_word(&a)
+#define BGRT_SCL_TBL(a) const PROGMEM bgrt_scsr_t a
+#define BGRT_SCL_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 
 /// Another option is to allocate it in RAM.
-//#define BGRT_SCL_TBL(a) const bgrt_code_t a
+//#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 //#define BGRT_SCL_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
 #define WEAK __attribute__(( __weak__ ))
 
 #define NOP() __asm__ __volatile__("nop"::)
+
+#define BGRT_VINT_CS_START() cli()
+#define BGRT_VINT_CS_END() sei()
 
 typedef unsigned char bgrt_stack_t;
 
@@ -54,6 +57,7 @@ typedef unsigned char bgrt_st_t;
 // may be available, so bgrt_cnt_t can be
 // unsigned char or unsigned short.
 // Unsigned short is enough.
+#define BGRT_CONFIG_CNT_MAX (0xff)
 typedef unsigned short bgrt_cnt_t;
 
 // You can specify any volatile unsigned type here.
@@ -65,7 +69,7 @@ typedef unsigned char bgrt_bool_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char bgrt_syscall_t;
+typedef volatile unsigned char bgrt_syscall_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
@@ -101,14 +105,17 @@ typedef unsigned char load_t;
 #define BGRT_CONFIG_HARD_RT
 
 //#define BGRT_CONFIG_LB_SCHEME 0 // No load balancing during runtime
-#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
-//#define BGRT_CONFIG_LB_SCHEME 2 // Lazy local load balancing
-//#define BGRT_CONFIG_LB_SCHEME 3 // Lazy global load balancing
+//#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
+#define BGRT_CONFIG_LB_SCHEME 2 // Lazy load balancing
 
 #if (BGRT_CONFIG_LB_SCHEME == 1)
 // Use "Active Load Balancing",
 // bgrt_sched_schedule() function is responsible for load balancing.
 #define BGRT_CONFIG_USE_ALB
+#endif
+
+#if (BGRT_CONFIG_LB_SCHEME == 2)
+#define BGRT_CONFIG_USE_LLB
 #endif
 
 ///=================================================================
@@ -117,6 +124,28 @@ typedef unsigned char load_t;
 #define BGRT_CONFIG_TEST  //This is test project
 #define BGRT_CONFIG_USER_IDLE
 
+//*
+extern const struct _bgrt_proc_t * proc_base;
+#define BGRT_PID_T bgrt_cnt_t
+#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
+#define BGRT_PID_TO_PROC(p) ((BGRT_PID_NOTHING!=p)?((bgrt_proc_t *)proc_base + (p-1)):((bgrt_proc_t *)0))
+#define BGRT_PROC_TO_PID(p) ((p)?( 1 + (bgrt_cnt_t)(p - (bgrt_proc_t *)proc_base) ):(BGRT_PID_NOTHING))
+//*/
+
+#define PID0 BGRT_PROC_TO_PID(&proc[0])
+#define PID1 BGRT_PROC_TO_PID(&proc[1])
+#define PID2 BGRT_PROC_TO_PID(&proc[2])
+#define PID3 BGRT_PROC_TO_PID(&proc[3])
+#define PID4 BGRT_PROC_TO_PID(&proc[4])
+#define PID5 BGRT_PROC_TO_PID(&proc[5])
+
+#define PR0 (&proc[0])
+#define PR1 (&proc[1])
+#define PR2 (&proc[2])
+#define PR3 (&proc[3])
+#define PR4 (&proc[4])
+#define PR5 (&proc[5])
+
 extern void(*test_kernel_preempt)(void);
 #define BGRT_KERNEL_PREEMPT() test_kernel_preempt()
 
@@ -124,6 +153,8 @@ extern void(*test_kernel_preempt)(void);
 #define BGRT_MAX_CPU (2)
 
 // Real system timer interrupt vector.
+#define BGRT_START_TIMER() (TIMSK2 |= 0x02)
+#define BGRT_STOP_TIMER() (TIMSK2 &= ~0x02)
 #define BGRT_SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 
 // System timer virtual interrupt counter threshold.
@@ -131,7 +162,7 @@ extern void(*test_kernel_preempt)(void);
 
 // Virtual machine main stack size.
 // Main stacks are used by idle processes.
-#define VM_STACK_SIZE (128)
+#define VM_STACK_SIZE (160)
 
 //Virtual machine interrupt stack size.
 #define VM_INT_STACK_SIZE (160)

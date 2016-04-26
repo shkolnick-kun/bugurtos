@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="0">
+		<Cursor position="155" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="155" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
+		<Cursor position="155" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="154" topLine="0" />
+	</File>
+	<File name="../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/iar/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/iar/bugurt_port.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/iar/bugurt_port_asm.S" open="0" top="0" tabpos="0">
+		<Cursor position="159" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/iar/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/raisonance/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/raisonance/bugurt_port.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../arch/stm8/raisonance/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/kernel.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/kernel.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/proc.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="154" topLine="0" />
+	</File>
+	<File name="../../../kernel/sched.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/sched.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/syscall.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/timer.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/timer.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/cond.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/cond.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/ipc.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/ipc.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/mutex.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/sem.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/sem.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/sig.c" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/sig.h" open="0" top="0" tabpos="0">
+		<Cursor position="153" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

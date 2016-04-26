@@ -7,7 +7,7 @@
 
 #include <intrins.h>
 
-#define BGRT_SCL_TBL(a) bgrt_code_t code a
+#define BGRT_SCL_TBL(a) bgrt_scsr_t code a
 #define BGRT_SCL_TBL_READ(a) a
 
 #define WEAK
@@ -40,6 +40,7 @@ typedef unsigned char bgrt_st_t;
 // may be available, so bgrt_cnt_t can be
 // unsigned char or unsigned short.
 // Unsigned short is enough.
+#define BGRT_CONFIG_CNT_MAX (0xffff)
 typedef unsigned short bgrt_cnt_t;
 
 // You can specify any unsigned type here.
@@ -51,7 +52,7 @@ typedef unsigned char bgrt_bool_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char bgrt_syscall_t;
+typedef volatile unsigned char bgrt_syscall_t;
 //=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 //=================================================================
@@ -74,6 +75,20 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_PROC_STACK_SIZE 128
 
 #define LOWEST (BGRT_BITS_IN_INDEX_T - 1)
+
+#define PID0 BGRT_PROC_TO_PID(&proc[0])
+#define PID1 BGRT_PROC_TO_PID(&proc[1])
+#define PID2 BGRT_PROC_TO_PID(&proc[2])
+#define PID3 BGRT_PROC_TO_PID(&proc[3])
+#define PID4 BGRT_PROC_TO_PID(&proc[4])
+#define PID5 BGRT_PROC_TO_PID(&proc[5])
+
+#define PR0 (&proc[0])
+#define PR1 (&proc[1])
+#define PR2 (&proc[2])
+#define PR3 (&proc[3])
+#define PR4 (&proc[4])
+#define PR5 (&proc[5])
 
 #define SVH0 (bgrt_code_t)0
 #define RSH0 (bgrt_code_t)0

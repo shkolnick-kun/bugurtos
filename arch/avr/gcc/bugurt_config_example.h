@@ -12,10 +12,10 @@
 
 // Syscall table is allocated in FLASH
 #include <avr/pgmspace.h>
-#define BGRT_SCL_TBL(a) const PROGMEM bgrt_code_t a
-#define BGRT_SCL_TBL_READ(a) (bgrt_code_t)pgm_read_word(&a)
+#define BGRT_SCL_TBL(a) const PROGMEM bgrt_scsr_t a
+#define BGRT_SCL_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 // Another option is to allocate it in RAM
-//#define BGRT_SCL_TBL(a) const bgrt_code_t a
+//#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
 //#define BGRT_SCL_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
@@ -54,6 +54,7 @@ typedef unsigned char bgrt_st_t;
 // may be available, so bgrt_cnt_t can be
 // unsigned char or unsigned short.
 // Unsigned short is enough.
+#define BGRT_CONFIG_CNT_MAX (255)
 typedef unsigned short bgrt_cnt_t;
 
 // You can specify any volatile unsigned type here.
@@ -69,7 +70,9 @@ typedef unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
-#define BGRT_CONFIG_USE_O1_SEARCH
+
+#define BGRT_CONFIG_NEW_KERNEL
+
 #define BGRT_CONFIG_HARD_RT
 #define BGRT_CONFIG_USER_IDLE
 #define BGRT_CONFIG_PREEMPTIVE_KERNEL
@@ -80,6 +83,32 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define BGRT_START_SCHEDULER() (TIMSK2 |= 0x02)
 #define BGRT_STOP_SCHEDULER() (TIMSK2 &= ~0x02)
+
+///*
+//extern const struct _bgrt_proc_t * proc_base;
+//#define BGRT_PID_T void *
+//#define BGRT_PID_TO_PROC(p) (((bgrt_proc_t *)proc_base) + p)
+//#define BGRT_PROC_TO_PID(p) ( p - ((bgrt_proc_t *)proc_base) )
+
+#define BGRT_PID_T int
+#define BGRT_PID_TO_PROC(p) ((bgrt_proc_t *)(p))
+#define BGRT_PROC_TO_PID(p) ( (int)p )
+#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
+//*/
+
+#define PID0 BGRT_PROC_TO_PID(&proc[0])
+#define PID1 BGRT_PROC_TO_PID(&proc[1])
+#define PID2 BGRT_PROC_TO_PID(&proc[2])
+#define PID3 BGRT_PROC_TO_PID(&proc[3])
+#define PID4 BGRT_PROC_TO_PID(&proc[4])
+#define PID5 BGRT_PROC_TO_PID(&proc[5])
+
+#define PR0 (&proc[0])
+#define PR1 (&proc[1])
+#define PR2 (&proc[2])
+#define PR3 (&proc[3])
+#define PR4 (&proc[4])
+#define PR5 (&proc[5])
 
 extern void test_do_nothing(void);
 #define BGRT_CONFIG_SAVE_POWER test_do_nothing
