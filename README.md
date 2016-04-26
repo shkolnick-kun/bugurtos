@@ -41,12 +41,7 @@ proprietary software development.
 Getting started guide is [here](./doc/GettingStartedEN.md).
 
 # Todo #
-* Cleanup the code.
-* Run regression tests.
-* Update documentation.
-* Spell check.
-* Release BuguRTOS-1.0.0.
-* Write libs for 0.9.x branch.
+* Write libs for 1.0.x branch.
 * Write more ports.
 * Fix bugs.
 * ??????
