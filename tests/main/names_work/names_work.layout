@@ -70,8 +70,8 @@
 	<File name="../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/pcounter.h" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/pcounter.h" open="1" top="1" tabpos="0">
+		<Cursor position="8091" topLine="274" />
 	</File>
 	<File name="../../../kernel/proc.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
@@ -102,6 +102,9 @@
 	</File>
 	<File name="../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../kernel/vint.h" open="0" top="0" tabpos="0">
+		<Cursor position="9182" topLine="198" />
 	</File>
 	<File name="../../../libs/native/cond.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />

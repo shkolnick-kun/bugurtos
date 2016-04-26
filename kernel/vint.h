@@ -161,7 +161,7 @@ Insert #bgrt_vint_t object to #bgrt_vic_t container for processing (for ISR usag
 
 \warning For internal usage.
 
-\param pitem A #bgrt_vint_t pointer.
+\param vint A #bgrt_vint_t pointer.
 \param vic A pointer to destination #bgrt_vic_t object.
 */
 bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic );
@@ -181,7 +181,7 @@ Insert #bgrt_vint_t object to #bgrt_xlist_t container for processing.
 
 \warning For internal usage.
 
-\param pitem A #bgrt_vint_t pointer.
+\param vint A #bgrt_vint_t pointer.
 \param vic A pointer to destination #bgrt_vic_t object.
 */
 bgrt_st_t bgrt_vint_push( bgrt_vint_t * vint, bgrt_vic_t * vic );

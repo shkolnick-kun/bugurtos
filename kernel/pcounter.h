@@ -100,7 +100,7 @@ Increment counter.
 \warning Internal usage function.
 
 \param val Current counter value.
-\param New counter value.
+\return New counter value.
 */
 bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val );
 /*!
@@ -120,7 +120,7 @@ Decrement counter.
 \warning Internal usage function.
 
 \param val Current counter value.
-\param New counter value.
+\return New counter value.
 */
 bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val );
 /*!
@@ -142,7 +142,7 @@ Addition to counter value.
 
 \param a Current counter value.
 \param b Change of value.
-\param New counter value.
+\return New counter value.
 */
 bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b );
 /*!
@@ -164,7 +164,7 @@ Subtraction from counter value.
 
 \param a Current counter value.
 \param b Change of value.
-\param New counter value.
+\return New counter value.
 */
 bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b );
 
