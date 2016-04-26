@@ -89,13 +89,13 @@ typedef struct _bgrt_kblock_t bgrt_kblock_t; /*!< \~russian Смотри #_bgrt_
 \brief
 Блок ядра BuguRTOS.
 
-Отвечает за обработку вритуальных прерываний, обработку системных вызовов, работу планировщика на отдельном процессорном ядре.
+Отвечает за обработку виртуальных прерываний, обработку системных вызовов, работу планировщика на отдельном процессорном ядре.
 
 \~english
 \brief
 A BuguRTOS kernel block structure.
 
-A kernel block is responsible for virtual interrupt processing, system call processing and process sheduling jn certain CPU core.
+A kernel block is responsible for virtual interrupt processing, system call processing and process scheduling in certain CPU core.
 */
 struct _bgrt_kblock_t
 {
@@ -103,7 +103,7 @@ struct _bgrt_kblock_t
     bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
     bgrt_vint_t int_scall;            /*!< \~russian Диспетчер системных вызовов. \~english A system call dispatcher. */
     bgrt_vint_t int_sched;            /*!< \~russian Прерывание планировщика. \~english A scheduler interrupt. */
-    bgrt_bool_t tmr_flg;              /*!< \~russian Флаг рерывания системмного таймера. \~english System timer interrupt flag. */
+    bgrt_bool_t tmr_flg;              /*!< \~russian Флаг прерывания системного таймера. \~english System timer interrupt flag. */
 };
 
 /*!

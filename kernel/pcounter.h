@@ -90,8 +90,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 \warning Для внутреннего использования.
 
-\param val Текущее значение счетчика.
-\return Новое значение счетчика.
+\param val Текущее значение счётчика.
+\return Новое значение счётчика.
 
 \~english
 \brief
@@ -110,8 +110,8 @@ bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val );
 
 \warning Для внутреннего использования.
 
-\param val Текущее значение счетчика.
-\return Новое значение счетчика.
+\param val Текущее значение счётчика.
+\return Новое значение счётчика.
 
 \~english
 \brief
@@ -130,9 +130,9 @@ bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val );
 
 \warning Для внутреннего использования.
 
-\param a Текущее значение счетчика.
+\param a Текущее значение счётчика.
 \param b Изменение.
-\return Новое значение счетчика.
+\return Новое значение счётчика.
 
 \~english
 \brief
@@ -152,13 +152,13 @@ bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b );
 
 \warning Для внутреннего использования.
 
-\param a Текущее значение счетчика.
+\param a Текущее значение счётчика.
 \param b Изменение.
-\return Новое значение счетчика.
+\return Новое значение счётчика.
 
 \~english
 \brief
-Substraction from counter value.
+Subtraction from counter value.
 
 \warning Internal usage function.
 

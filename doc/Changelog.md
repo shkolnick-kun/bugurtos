@@ -1,11 +1,11 @@
 # Changelog #
   * 1.0.0RC
     * Deleted IDLE process and user code execution after start (Oh boy! How do I add CMSIS-RTOS API after this???).
-    * Added interrupt vitrualization layer.
+    * Added interrupt virtualization layer.
     * Added kernel thread for system calls and virtual interrupts processing.
     * Added userspace process data for future use in b4-microkernel.
     * Reworked scheduler code to simplify it and to use it in virtual interrupts.
-    * Reworked sysem call dispatcher code.
+    * Reworked system call dispatcher code.
     * Reworked cyclic system calls to use kernel thread virtual interrupt processing loop instead of user space loops.
     * Modified low level arch-dependent code for new kernel.
   * 0.9.9

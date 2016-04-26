@@ -154,7 +154,7 @@ void bgrt_sched_init(bgrt_sched_t * sched);
 
 \~english
 \brief
-A system timer sheduler prologue.
+A system timer scheduler prologue.
 
 This function switches processes in system timer interrupt handler.
 
@@ -189,7 +189,7 @@ void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched );
 Эпилог функций планирования.
 
 Выбирает новый готовый процесс для запуска, если он есть.
-Если нет готовых прицессов - переключает очереди процессов ready и expired.
+Если нет готовых процессов - переключает очереди процессов ready и expired.
 
 \warning Для внутреннего использования.
 \param sched - Указатель на планировщик.
@@ -197,9 +197,9 @@ void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched );
 
 \~english
 \brief
-Scheduler epiologue routine.
+Scheduler epilogue routine.
 
-If there is some ready process, then this function shedules next process to run.
+If there is some ready process, then this function schedules next process to run.
 In other case it switches ready and expired process lists.
 
 \warning For internal usage.

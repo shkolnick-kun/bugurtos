@@ -98,7 +98,7 @@ Software timers used for time-process synchronization.
 \warning Software timers can not be used for precision time interval measurement!
 */
 
-typedef struct _bgrt_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер (используется для посчета времени Ядром). \~english The system timer (used by the kernel to count ticks). */
+typedef struct _bgrt_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер (используется для подсчёта времени Ядром). \~english The system timer (used by the kernel to count ticks). */
 struct _bgrt_ktimer_t
 {
         void (*tick)(void);           /*!< \~russian Хук. \~english A hook pointer. */
