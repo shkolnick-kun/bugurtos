@@ -1,5 +1,5 @@
 # Changelog #
-  * 1.0.0RC
+  * 1.0.0
     * Deleted IDLE process and user code execution after start (Oh boy! How do I add CMSIS-RTOS API after this???).
     * Added interrupt virtualization layer.
     * Added kernel thread for system calls and virtual interrupts processing.
