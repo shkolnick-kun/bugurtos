@@ -48,7 +48,7 @@ Getting started guide is [here](./doc/GettingStartedEN.md).
 * PROFIT!!!
 
 # News #
-* **April 26th 2016: BuguRTOS updated** version 1.0.0 is out, see [Changelog](./doc/Changelog.md)!
+* **April 26th 2016: BuguRTOS updated** version 1.0.0 is out, see [Changelog](./doc/Changelog.md), semantic versioning is used now!
 * **January 6th 2016: BuguRTOS updated** version 0.9.9 is out, see [Changelog](./doc/Changelog.md)!
 * **July 3rd 2015: BuguRTOS updated** versions 0.6.6, 0.7.3, 0.8.4 are out,  are out, see [Changelog](./doc/Changelog.md)!
 * **May 12th 2015: BuguRTOS-0.8.3** is out, see [Changelog](./doc/Changelog.md)! Added more argument checks, fixed several issues, ported tests to [libopencm3](https://github.com/libopencm3/libopencm3).
