@@ -657,5 +657,5 @@ bgrt_st_t bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg );
 \brief
 A #BGRT_SYSCALL_USER handler.
 */
-bgrt_st_t bgrt_scall_user(void * arg);
+bgrt_st_t bgrt_scall_user(void (*arg)(void));
 #endif // _SYSCALL_H_

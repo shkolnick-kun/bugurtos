@@ -473,18 +473,8 @@ bgrt_st_t bgrt_scall_sync_proc_timeout( bgrt_sync_proc_timeout_t * arg )
 /**********************************************************************************************
                                        BGRT_SYSCALL_USER
 **********************************************************************************************/
-typedef union
+bgrt_st_t bgrt_scall_user(void (*arg)(void))
 {
-    bgrt_code_t func;
-    void * arg;
-}
-bgrt_scall_user_t;
-
-bgrt_st_t bgrt_scall_user(void * arg)
-{
-    bgrt_scall_user_t user;
-    user.func = (bgrt_code_t)0;
-    user.arg = arg;
-    user.func(arg);
+    arg();
     return BGRT_ST_OK;
 }

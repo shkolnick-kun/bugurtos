@@ -70,7 +70,7 @@
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="3">
 		<Cursor position="15814" topLine="298" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="3">
 		<Cursor position="8062" topLine="118" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="4">

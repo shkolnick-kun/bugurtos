@@ -19,7 +19,7 @@
 	<File name="../../../kernel/vint.c" open="0" top="0" tabpos="3">
 		<Cursor position="153" topLine="1" />
 	</File>
-	<File name="../../../kernel/vint.h" open="0" top="0" tabpos="2">
+	<File name="../../../kernel/vint.h" open="1" top="0" tabpos="1">
 		<Cursor position="153" topLine="1" />
 	</File>
 	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">

@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+		<Cursor position="6084" topLine="65" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="155" topLine="0" />
@@ -70,7 +70,7 @@
 	<File name="../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/pcounter.h" open="1" top="1" tabpos="0">
+	<File name="../../../kernel/pcounter.h" open="1" top="0" tabpos="1">
 		<Cursor position="8091" topLine="274" />
 	</File>
 	<File name="../../../kernel/proc.c" open="0" top="0" tabpos="0">
@@ -91,11 +91,11 @@
 	<File name="../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/syscall.c" open="1" top="1" tabpos="3">
+		<Cursor position="22533" topLine="453" />
 	</File>
-	<File name="../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/syscall.h" open="1" top="0" tabpos="2">
+		<Cursor position="30168" topLine="634" />
 	</File>
 	<File name="../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
