@@ -94,21 +94,21 @@ void bgrt_pitem_insert( bgrt_pitem_t * pitem, bgrt_xlist_t * xlist )
     prio = pitem->prio;
     mask = ((bgrt_index_t)1)<<prio;
     head = (bgrt_item_t **)xlist + prio;
-    // Пуста ли часть списка с таким приоритетом
+    // Check for empty sublist
     if( ( xlist->index )& mask)
     {
-        //Не пуста вставляем туда gitem
+        //Not empty, insert to existing sublist
         bgrt_item_insert( (bgrt_item_t *)pitem, *head );
     }
     else
     {
-        // Пуста, gitem будет головой
+        //Empty, create sublist
         *head = (bgrt_item_t *)pitem;
         xlist->index |= mask;
     }
     pitem->list = xlist;
 }
-// Быстрая вырезка из списка
+// Fast cut
 void bgrt_pitem_fast_cut( bgrt_pitem_t * pitem )
 {
     bgrt_prio_t prio;
@@ -116,27 +116,27 @@ void bgrt_pitem_fast_cut( bgrt_pitem_t * pitem )
 
     prio = pitem->prio;
     xlist = (bgrt_xlist_t *)pitem->list;
-    //Является ли элемент единственным в своей части списка?
+    //Check for single element sublist
     if( ((bgrt_item_t *)pitem)->next == (bgrt_item_t *)pitem )
     {
-        // Да, является!
+        // Seingle element, delete sublist!
         xlist->item[prio] = (bgrt_item_t *)0;
         xlist->index &= ~(((bgrt_index_t)1)<<prio);
     }
     else
     {
-        // Нет, не является!
-        // Является ли элемент головой своей части списка?
+        // Multi element!
+        // Check for sublist head.
         if( xlist->item[(bgrt_prio_t)prio] == (bgrt_item_t *)pitem )
         {
-            // Является, список надо переключить
+            //This is head, need to switch the list
             bgrt_xlist_switch( xlist, prio );
         }
-        // Собственно - вырезаем элемент
+        // May cut a pitem
         bgrt_item_cut( (bgrt_item_t *)pitem );
     }
 }
-// Вырезка из списка
+// Cut pitem from xlist
 void bgrt_pitem_cut(bgrt_pitem_t * pitem)
 {
     bgrt_pitem_fast_cut( pitem );
@@ -146,20 +146,20 @@ void bgrt_pitem_cut(bgrt_pitem_t * pitem)
 bgrt_pitem_t * bgrt_pitem_xlist_chain( bgrt_xlist_t * src )
 {
     bgrt_pitem_t * ret;  // return value
-    ret = (bgrt_pitem_t *)bgrt_xlist_head( src );     // will return former xlist head
+    ret = (bgrt_pitem_t *)bgrt_xlist_head( src ); // will return former xlist head
     if(ret)
     {
         bgrt_index_t mask,   // index mask to check for items in xlist
-                index;  // buffer for xlist index
+                     index;  // buffer for xlist index
         bgrt_prio_t  prio;   // current working priority
         bgrt_item_t * tail;  // current list tail;
 
 
-        tail = ((bgrt_item_t *)ret)->prev;           // current list tail initial value
+        tail = ((bgrt_item_t *)ret)->prev;      // current list tail initial value
         prio = ret->prio;                       // initial working prio
-        src->item[prio++] = (bgrt_item_t *)0;        // cut all items from current xlist part
+        src->item[prio++] = (bgrt_item_t *)0;   // cut all items from current xlist part
         index = src->index;                     // remember xlist index to improve performance
-        mask = ((bgrt_index_t)1) << prio;            // initial mask value
+        mask = ((bgrt_index_t)1) << prio;       // initial mask value
         // cut all items from xlist and form an ordinary list of them
         while(mask)
         {
@@ -169,7 +169,7 @@ bgrt_pitem_t * bgrt_pitem_xlist_chain( bgrt_xlist_t * src )
                 bgrt_item_t * xhead;
                 bgrt_item_t * buf;
                 xhead = src->item[prio];                    // current xlist head;
-                src->item[prio] = (bgrt_item_t *)0;              // cut all items from current xlist part
+                src->item[prio] = (bgrt_item_t *)0;         // cut all items from current xlist part
                 // chain former xlist head to a list tail
                 tail->next = xhead;
                 buf = xhead->prev;
@@ -184,5 +184,5 @@ bgrt_pitem_t * bgrt_pitem_xlist_chain( bgrt_xlist_t * src )
         tail->next = (bgrt_item_t *)ret;
         src->index = (bgrt_index_t)0;        // xlist is empty.
     }
-    return ret;                     // return list head;
+    return ret; // return list head;
 }

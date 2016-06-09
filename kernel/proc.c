@@ -246,7 +246,7 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
 
     BGRT_SPIN_LOCK( proc );
     //Check flags
-    //When BGRT_PROC_FLG_MUTEX or BGRT_PROC_FLG_SEM or both are set we must process BGRT_PROC_FLG_PRE_STOP on common resource release.
+    //When the process in wait state or locked, we must stop it later, so set BGRT_PROC_FLG_PRE_STOP flag.
     if( proc->flags & (BGRT_PROC_FLG_LOCK_MASK|BGRT_PROC_FLG_PRE_STOP|BGRT_PROC_STATE_WAIT_MASK) )
     {
         proc->flags |= BGRT_PROC_FLG_PRE_STOP;

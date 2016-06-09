@@ -89,7 +89,7 @@ static void bgrt_cnt_panic(void)
 #   ifdef BGRT_CONFIG_PANIC
 #       define BGRT_CNT_PANIC() BGRT_CONFIG_PANIC()
 #   else
-#       define BGRT_CNT_PANIC()
+#       define BGRT_CNT_PANIC() do{}while(0)
 #   endif //BGRT_CONFIG_PANIC
 #endif //BGRT_CONFIG_TEST
 

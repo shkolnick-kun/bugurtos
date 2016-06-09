@@ -178,7 +178,7 @@ static void _bgrt_sync_do_pending_wake( bgrt_sync_t * sync )
 #   define BGRT_PCTRL_PROP_HOOK() hook(hook_arg)
 #else // BGRT_CONFIG_MP
 #   define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc
-#   define BGRT_PCTRL_PROP_HOOK()
+#   define BGRT_PCTRL_PROP_HOOK() do{}while(0)
 #endif // BGRT_CONFIG_MP
 static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
 {

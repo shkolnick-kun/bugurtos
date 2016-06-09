@@ -169,7 +169,7 @@ bgrt_kernel_t bgrt_kernel;// The kernel, it is the one!
 
 void bgrt_kernel_init(void)
 {
-#   ifdef BGRT_CONFIG_MP
+#ifdef BGRT_CONFIG_MP
     bgrt_cpuid_t i;
 
     BGRT_SPIN_INIT( &bgrt_kernel.stat );
@@ -185,9 +185,9 @@ void bgrt_kernel_init(void)
     {
         bgrt_kblock_init( (bgrt_kblock_t *)bgrt_kernel.kblock + i );
     }
-#   else
+#else
     bgrt_kblock_init( (bgrt_kblock_t *)&bgrt_kernel.kblock );
-#   endif // BGRT_CONFIG_MP
+#endif // BGRT_CONFIG_MP
     BGRT_SPIN_INIT( &bgrt_kernel.timer );
     BGRT_SPIN_LOCK( &bgrt_kernel.timer );
     bgrt_kernel.timer.val = (bgrt_tmr_t)0;

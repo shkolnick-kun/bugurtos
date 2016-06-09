@@ -231,9 +231,9 @@ A wrapper for #bgrt_resched function.
 #   define BGRT_SPIN_FREE(arg) bgrt_spin_free( &((arg)->lock) )
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched( proc->core_id )
 #else //BGRT_CONFIG_MP
-#   define BGRT_SPIN_INIT(arg)
-#   define BGRT_SPIN_LOCK(arg)
-#   define BGRT_SPIN_FREE(arg)
+#   define BGRT_SPIN_INIT(arg) do{}while(0)
+#   define BGRT_SPIN_LOCK(arg) do{}while(0)
+#   define BGRT_SPIN_FREE(arg) do{}while(0)
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched()
 #endif //BGRT_CONFIG_MP
 //======================================================
