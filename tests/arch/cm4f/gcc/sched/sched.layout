@@ -13,6 +13,9 @@
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6699" topLine="88" />
 	</File>
+	<File name="../../../../../kernel/item.c" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6321" topLine="67" />
 	</File>

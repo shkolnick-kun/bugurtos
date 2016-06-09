@@ -4,6 +4,9 @@
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="7755" topLine="117" />
 	</File>
+	<File name="../../../../../kernel/item.c" open="0" top="0" tabpos="0">
+		<Cursor position="6583" topLine="0" />
+	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="7064" topLine="106" />
 	</File>

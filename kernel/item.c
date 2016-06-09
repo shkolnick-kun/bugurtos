@@ -76,7 +76,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include "bugurt.h"
+#include "item.h"
 // bgrt_item_t methods.
 // Initiation
 void bgrt_item_init(bgrt_item_t *item)
@@ -98,7 +98,7 @@ void bgrt_item_insert(bgrt_item_t *item, bgrt_item_t *head)
     tail->next = item;
 }
 //Cut an item
-void bgrt_item_cut( bgrt_item_t *item )
+void bgrt_item_cut(bgrt_item_t *item)
 {
     bgrt_item_t * prev;
     bgrt_item_t * next;
