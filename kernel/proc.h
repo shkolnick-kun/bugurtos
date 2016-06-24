@@ -208,6 +208,7 @@ struct _bgrt_uspd_t
 {
     void *         scarg;    /*!<\~russian Указатель на аргумент системного вызова. \~english A system call pointer.*/
     bgrt_syscall_t scnum;    /*!<\~russian Номер системного вызова. \~english A system call number.*/
+    bgrt_st_t      scret;    /*!<\~russian Результат системного вызова. \~english A system call result.*/
 };                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
 //Default implementation
 #ifndef BGRT_USPD_T

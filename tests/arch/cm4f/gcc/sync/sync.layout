@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="4704" topLine="95" />
+	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="11779" topLine="375" />
 	</File>

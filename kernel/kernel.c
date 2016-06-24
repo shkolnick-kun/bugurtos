@@ -90,16 +90,12 @@ static void do_int_scall( bgrt_kblock_t * kblock )
     //Get system call number storage
     uspd = BGRT_GET_USPD();
     //Do system call
-    if( BGRT_ST_ROLL != bgrt_do_syscall( uspd->scnum, uspd->scarg ) )
-    {
-        //Clear system call number ()
-        uspd->scnum = (bgrt_syscall_t)0;
-    }
+    uspd->scret = bgrt_do_syscall( uspd->scnum, uspd->scarg );
 }
 //Check for pending system call and push it
 static void push_pend_scall( bgrt_kblock_t * kblock )
 {
-    if( BGRT_GET_USPD()->scnum )
+    if( BGRT_ST_ROLL == BGRT_GET_USPD()->scret )
     {
         bgrt_vint_push( &kblock->int_scall, &kblock->vic );
     }

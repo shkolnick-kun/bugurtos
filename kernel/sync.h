@@ -260,7 +260,7 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch );
 \param sync Указатель на объект типа #bgrt_sync_t.
 \param pid Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
+\return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, иначе - код ошибки.
 
 \~english
 \brief
@@ -271,7 +271,7 @@ Wait until target process is blocked on target #bgrt_sync_t object.
 \param sync A #bgrt_sync_t object pointer.
 \param pid A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
 \param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
-\return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, #BGRT_ST_ROLL if caller must wait for target process to block, or error code.
+\return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, or error code.
 */
 bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block );
 /*!
@@ -305,14 +305,14 @@ bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown 
 "Разбудить", процесс по таймауту.
 
 \param pid Указатель на процесс, который надо подождать, если *pid==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
-\return #BGRT_ST_OK в случае, если дождался разбудил целевой процесс, #BGRT_ST_ROLL, если нужна следующая итерация, иначе - код ошибки.
+\return #BGRT_ST_OK в случае, если дождался разбудил целевой процесс, #BGRT_ST_EAGAIN, если нужна следующая итерация, иначе - код ошибки.
 
 \~english
 \brief
 Wake a process on timeout.
 
 \param pid A pointer to a process, that is supposed to wake up.
-\return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_ROLL if caller must do next iteration, or error code.
+\return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_EAGAIN if caller must do next iteration, or error code.
 */
 bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid );
 

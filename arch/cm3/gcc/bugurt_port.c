@@ -231,7 +231,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
     BUGURT_ISR_END();
 }
 //====================================================================================
-void bgrt_syscall( bgrt_syscall_t num, void * arg )
+bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
     BGRT_USPD_T udata;
 
@@ -244,6 +244,8 @@ void bgrt_syscall( bgrt_syscall_t num, void * arg )
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
 
     BUGURT_ISR_END();
+
+    return udata->scret;
 }
 //====================================================================================
 void bgrt_switch_to_proc(void)

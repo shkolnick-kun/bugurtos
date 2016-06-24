@@ -125,7 +125,7 @@ void bgrt_switch_to_proc(void)
     bgrt_enable_interrupts();
 }
 
-void bgrt_syscall( bgrt_syscall_t num, void * arg )
+bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
     BGRT_USPD_T udata;
     bgrt_disable_interrupts();
@@ -137,6 +137,8 @@ void bgrt_syscall( bgrt_syscall_t num, void * arg )
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
     __trap();
     bgrt_enable_interrupts();
+
+    return udata->scret;
 }
 
 #pragma vector = 1 // trap instruction vector!

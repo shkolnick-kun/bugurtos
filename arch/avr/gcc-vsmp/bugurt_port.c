@@ -194,7 +194,7 @@ void bgrt_switch_to_kernel(void)
     BUGURT_ISR_END();
 }
 
-void bgrt_syscall( bgrt_syscall_t num, void * arg )
+bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
 {
     BGRT_USPD_T udata;
     udata = BGRT_GET_USPD();
@@ -203,6 +203,7 @@ void bgrt_syscall( bgrt_syscall_t num, void * arg )
     udata->scarg = arg;
     vm_int_enabled[current_vm]=1;
     bgrt_switch_to_kernel();
+    return udata->scret;
 }
 
 void bgrt_disable_interrupts(void)

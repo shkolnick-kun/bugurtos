@@ -126,7 +126,7 @@ void bgrt_switch_to_kernel(void)
     BUGURT_GOTO_KERNEL();
 }
 
-void bgrt_syscall( unsigned char num, void * arg )
+bgrt_st_t bgrt_syscall( unsigned char num, void * arg )
 {
     BGRT_USPD_T udata;
     cli();
@@ -134,6 +134,7 @@ void bgrt_syscall( unsigned char num, void * arg )
     udata->scnum = num;
     udata->scarg = arg;
     bgrt_switch_to_kernel();
+    return udata->scret;
 }
 
 void bgrt_set_curr_sp(void)

@@ -609,7 +609,7 @@ The Kernel does all of this job.
 \param num a number of a system call (what is going to be done).
 \param arg a system call argument (a pointer to an object to be processed).
 */
-extern void bgrt_syscall( bgrt_syscall_t num, void * arg );
+extern bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg );
 
 /*!
 \~russian

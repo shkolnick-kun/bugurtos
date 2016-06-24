@@ -153,7 +153,6 @@ An argument for system calls #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART,
 */
 typedef struct{
     BGRT_PID_T pid;      /*!< \~russian Идентификатор процесса. \~english A process ID. */
-    bgrt_st_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
 }bgrt_proc_runtime_arg_t;
 
 /*!
@@ -422,7 +421,6 @@ typedef struct
 {
     bgrt_sync_t * sync;
     BGRT_PID_T    pid;
-    bgrt_st_t status;
 }
 bgrt_sync_owner_t;
 /*****************************************************************************************/
@@ -469,7 +467,6 @@ typedef struct
 {
     bgrt_sync_t * sync;
     bgrt_flag_t touch;
-    bgrt_st_t status;
 }bgrt_sync_own_sleep_t;
 /*****************************************************************************************/
 /*!
@@ -499,7 +496,6 @@ A #BGRT_SYSCALL_SYNC_TOUCH arg.
 typedef struct
 {
     bgrt_sync_t * sync;
-    bgrt_st_t status;
 }bgrt_sync_touch_t;
 /*****************************************************************************************/
 /*!
@@ -546,7 +542,6 @@ typedef struct
     bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
     BGRT_PID_T pid; /*!< \~russian Указатель на процесс. \~english A process pointer. */
     bgrt_flag_t chown;  /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
-    bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
 bgrt_sync_wake_t;
 /*****************************************************************************************/
@@ -563,17 +558,15 @@ A #BGRT_SYSCALL_SYNC_WAKE handler.
 This function calls #_bgrt_sync_wake.
 */
 bgrt_st_t bgrt_scall_sync_wake( bgrt_sync_wake_t * arg );
-#define BGRT_SYNC_WAKE(s,p,c,st)                                \
-do                                                              \
-{                                                               \
-    volatile bgrt_sync_wake_t scarg;                            \
-    scarg.status = BGRT_ST_ROLL;                                \
-    scarg.sync = (bgrt_sync_t *)(s);                            \
-    scarg.pid = (BGRT_PID_T)(p);                                \
-    scarg.chown = (bgrt_flag_t)(c);                             \
-    bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg );     \
-    (st) = scarg.status;                                        \
-}                                                               \
+#define BGRT_SYNC_WAKE(s,p,c,st)                                   \
+do                                                                 \
+{                                                                  \
+    volatile bgrt_sync_wake_t scarg;                               \
+    scarg.sync = (bgrt_sync_t *)(s);                               \
+    scarg.pid = (BGRT_PID_T)(p);                                   \
+    scarg.chown = (bgrt_flag_t)(c);                                \
+    (st) = bgrt_syscall( BGRT_SYSCALL_SYNC_WAKE, (void *)&scarg ); \
+}                                                                  \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wake. \~english \brief Watch #bgrt_sync_wake. */
 /*****************************************************************************************/
 /*!
@@ -590,7 +583,6 @@ typedef struct
     bgrt_sync_t * sync;  /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
     BGRT_PID_T * pid; /*!< \~russian Указатель на буфер процесса. \~english A process buffer pointer. */
     bgrt_flag_t block;   /*!< \~russian Флаг блокирования. \~english A block flag. */
-    bgrt_st_t status; /*!< \~russian Результат выполнения. \~english Execution status. */
 }
 bgrt_sync_wait_t;
 /*****************************************************************************************/
@@ -607,17 +599,15 @@ A #BGRT_SYSCALL_SYNC_WAIT handler.
 This function calls #_bgrt_sync_wait.
 */
 bgrt_st_t bgrt_scall_sync_wait( bgrt_sync_wait_t * arg );
-#define BGRT_SYNC_WAIT(s,p,b,st)                                \
-do                                                              \
-{                                                               \
-    volatile bgrt_sync_wait_t scarg;                            \
-    scarg.status = BGRT_ST_ROLL;                                \
-    scarg.sync = (bgrt_sync_t *)(s);                            \
-    scarg.pid = (BGRT_PID_T *)(p);                              \
-    scarg.block = (bgrt_flag_t)(b);                             \
-    bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg );     \
-    (st) = scarg.status;                                        \
-}                                                               \
+#define BGRT_SYNC_WAIT(s,p,b,st)                                   \
+do                                                                 \
+{                                                                  \
+    volatile bgrt_sync_wait_t scarg;                               \
+    scarg.sync = (bgrt_sync_t *)(s);                               \
+    scarg.pid = (BGRT_PID_T *)(p);                                 \
+    scarg.block = (bgrt_flag_t)(b);                                \
+    (st) = bgrt_syscall( BGRT_SYSCALL_SYNC_WAIT, (void *)&scarg ); \
+}                                                                  \
 while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */
 /*****************************************************************************************/
 /*!
@@ -632,7 +622,6 @@ A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT arg.
 typedef struct
 {
     BGRT_PID_T pid;
-    bgrt_st_t status;
 }
 bgrt_sync_proc_timeout_t;
 /*****************************************************************************************/
