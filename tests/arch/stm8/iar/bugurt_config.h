@@ -60,10 +60,7 @@ typedef volatile unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
-#define BGRT_CONFIG_USE_O1_SEARCH
-#define BGRT_CONFIG_USE_HIGHEST_LOCKER
 #define BGRT_CONFIG_HARD_RT
-#define BGRT_CONFIG_PREEMPTIVE_KERNEL
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
@@ -117,10 +114,6 @@ typedef volatile unsigned char bgrt_syscall_t;
 ///==================================================================
 
 extern void kernel_preemt_hook(void);
-#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-#define BGRT_KERNEL_PREEMPT() bgrt_enable_interrupts(); bgrt_disable_interrupts(); kernel_preemt_hook()
-#else // BGRT_CONFIG_PREEMPTIVE_KERNEL
 #define BGRT_KERNEL_PREEMPT() kernel_preemt_hook()
-#endif // BGRT_CONFIG_PREEMPTIVE_KERNEL
 
 #endif //_BGRT_CONFIG_H_

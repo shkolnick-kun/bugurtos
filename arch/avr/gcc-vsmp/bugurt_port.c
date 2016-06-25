@@ -90,7 +90,7 @@ bgrt_bool_t vm_int_enabled[BGRT_MAX_CPU];
 
 bgrt_stack_t ** current_sp = &kernel_sp[0];
 
-bgrt_cpuid_t bgrt_current_cpu(void)
+bgrt_cpuid_t bgrt_curr_cpu(void)
 {
     bgrt_cpuid_t ret;
     cli();

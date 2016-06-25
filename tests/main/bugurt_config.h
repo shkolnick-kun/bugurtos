@@ -116,7 +116,6 @@ typedef struct _load_stat
 #define WEAK __attribute__((__weak__))
 
 // defines
-#define BGRT_CONFIG_USE_O1_SEARCH
 #define BGRT_CONFIG_USE_HIGHEST_LOCKER
 #define BGRT_CONFIG_MP
 #define BGRT_MAX_CPU (4)

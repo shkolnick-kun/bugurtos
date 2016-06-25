@@ -230,11 +230,17 @@ A wrapper for #bgrt_resched function.
 #   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock( &((arg)->lock) )
 #   define BGRT_SPIN_FREE(arg) bgrt_spin_free( &((arg)->lock) )
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched( proc->core_id )
+#   ifndef BGRT_KERNEL_PREEMPT
+#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work( &bgrt_kernel.kblock[bgrt_curr_cpu()].vic );
+#   endif
 #else //BGRT_CONFIG_MP
 #   define BGRT_SPIN_INIT(arg) do{}while(0)
 #   define BGRT_SPIN_LOCK(arg) do{}while(0)
 #   define BGRT_SPIN_FREE(arg) do{}while(0)
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched()
+#   ifndef BGRT_KERNEL_PREEMPT
+#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work( &bgrt_kernel.kblock.vic );
+#   endif
 #endif //BGRT_CONFIG_MP
 //======================================================
 //   Внешние функции, определяемые пользователем
@@ -318,7 +324,7 @@ This function returns an id of a processor core on which it is run.
 
 \warning Internal usage function.
 */
-extern bgrt_cpuid_t bgrt_current_cpu(void);
+extern bgrt_cpuid_t bgrt_curr_cpu(void);
 
 // Доступ к объектам типа bgrt_ls_t должен быть атомарным!!!
 // A bgrt_ls_t access must be atomic!!!

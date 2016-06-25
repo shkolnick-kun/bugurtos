@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="1" top="1" tabpos="2">
-		<Cursor position="7564" topLine="163" />
+	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="1" top="0" tabpos="2">
+		<Cursor position="7564" topLine="0" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="3">
-		<Cursor position="7051" topLine="89" />
+		<Cursor position="6287" topLine="72" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="5">
 		<Cursor position="164" topLine="1" />
@@ -13,8 +13,8 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="5">
 		<Cursor position="6497" topLine="86" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="4">
-		<Cursor position="9476" topLine="160" />
+	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="1">
+		<Cursor position="23341" topLine="599" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="4">
 		<Cursor position="6877" topLine="88" />
@@ -64,8 +64,8 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="5">
 		<Cursor position="9143" topLine="149" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="6">
-		<Cursor position="29850" topLine="828" />
+	<File name="../../../../../kernel/sync.c" open="1" top="1" tabpos="3">
+		<Cursor position="25547" topLine="753" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="5">
 		<Cursor position="16336" topLine="298" />
@@ -83,7 +83,7 @@
 		<Cursor position="8960" topLine="174" />
 	</File>
 	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="7">
-		<Cursor position="6802" topLine="96" />
+		<Cursor position="6802" topLine="136" />
 	</File>
 	<File name="../../../../../kernel/vint.h" open="0" top="0" tabpos="0">
 		<Cursor position="8670" topLine="153" />

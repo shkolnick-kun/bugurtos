@@ -283,7 +283,7 @@ void bgrt_enable_interrupts(void)
     else sei();
 }
 
-bgrt_cpuid_t bgrt_current_cpu(void)
+bgrt_cpuid_t bgrt_curr_cpu(void)
 {
     bgrt_cpuid_t ret;
     cli();

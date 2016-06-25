@@ -93,13 +93,6 @@ typedef unsigned char load_t;
 ///=================================================================
 ///     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
-
-// Use constant time index search.
-#define BGRT_CONFIG_USE_O1_SEARCH
-
-// Use "Highest locker" protocol for mutex handling.
-#define BGRT_CONFIG_USE_HIGHEST_LOCKER
-
 // Use "Hard real time" scheduling. RT processes a stopped
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define BGRT_CONFIG_HARD_RT
@@ -122,8 +115,6 @@ typedef unsigned char load_t;
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
 #define BGRT_CONFIG_TEST  //This is test project
-#define BGRT_CONFIG_USER_IDLE
-
 //*
 extern const struct _bgrt_proc_t * proc_base;
 #define BGRT_PID_T bgrt_cnt_t

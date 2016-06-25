@@ -70,12 +70,7 @@ typedef unsigned char bgrt_syscall_t;
 ///=================================================================
 //     BuguRTOS behavior compilation flags, edit carefully!!!
 ///=================================================================
-
-#define BGRT_CONFIG_NEW_KERNEL
-
 #define BGRT_CONFIG_HARD_RT
-#define BGRT_CONFIG_USER_IDLE
-#define BGRT_CONFIG_PREEMPTIVE_KERNEL
 ///=================================================================
 ///     Project specific stuff, you are welcome to edit it!!!
 ///=================================================================
@@ -114,12 +109,7 @@ extern void test_do_nothing(void);
 #define BGRT_CONFIG_SAVE_POWER test_do_nothing
 
 extern void(*test_kernel_preempt)(void);
-#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
-#define BGRT_KERNEL_PREEMPT() sei(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); NOP(); cli(); test_kernel_preempt()
-#else // BGRT_CONFIG_PREEMPTIVE_KERNEL
 #define BGRT_KERNEL_PREEMPT() test_kernel_preempt()
-#endif //BGRT_CONFIG_PREEMPTIVE_KERNEL
-
 
 #define BGRT_PROC_STACK_SIZE 128
 

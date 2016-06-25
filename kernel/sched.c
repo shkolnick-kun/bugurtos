@@ -420,7 +420,7 @@ void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched )
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock[bgrt_current_cpu()].sched)
+#   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock[bgrt_curr_cpu()].sched)
 #else // BGRT_CONFIG_MP
 #   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock.sched)
 #endif // BGRT_CONFIG_MP
@@ -566,6 +566,6 @@ void bgrt_sched_lazy_global_load_balancer(void)
 // Local
 void bgrt_sched_lazy_local_load_balancer(void)
 {
-    _bgrt_sched_lazy_load_balancer( bgrt_current_cpu() );
+    _bgrt_sched_lazy_load_balancer( bgrt_curr_cpu() );
 }
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
