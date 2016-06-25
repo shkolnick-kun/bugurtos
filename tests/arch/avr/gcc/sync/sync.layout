@@ -8,7 +8,7 @@
 		<Cursor position="9692" topLine="189" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="11751" topLine="152" />
+		<Cursor position="9197" topLine="152" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6097" topLine="55" />
@@ -86,6 +86,6 @@
 		<Cursor position="1896" topLine="70" />
 	</File>
 	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="34449" topLine="1145" />
+		<Cursor position="1067" topLine="42" />
 	</File>
 </CodeBlocks_layout_file>

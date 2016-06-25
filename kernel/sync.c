@@ -757,6 +757,14 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
     }
     else
     {
+        if( proc )
+        {
+            //We can,t wake the specified process, as sync is not owned.
+            BGRT_SPIN_FREE( sync );
+
+            return BGRT_ST_EOWN;
+        }
+
         if( sync->dirty )
         {
             if( sync->pwake < sync->snum )

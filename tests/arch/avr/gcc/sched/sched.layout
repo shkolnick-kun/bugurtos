@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="2">
 		<Cursor position="7564" topLine="0" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="3">
@@ -34,7 +34,7 @@
 	<File name="../../../../../kernel/item.h" open="0" top="0" tabpos="4">
 		<Cursor position="7281" topLine="96" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="1">
 		<Cursor position="7857" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="4">
@@ -64,8 +64,8 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="5">
 		<Cursor position="9143" topLine="149" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="1" tabpos="3">
-		<Cursor position="25547" topLine="753" />
+	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="3">
+		<Cursor position="28370" topLine="883" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="5">
 		<Cursor position="16336" topLine="298" />
@@ -95,10 +95,10 @@
 		<Cursor position="8240" topLine="85" />
 	</File>
 	<File name="../test_func.c" open="0" top="0" tabpos="2">
-		<Cursor position="76" topLine="0" />
+		<Cursor position="2054" topLine="81" />
 	</File>
 	<File name="../test_func.h" open="0" top="0" tabpos="1">
-		<Cursor position="14" topLine="0" />
+		<Cursor position="827" topLine="21" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="1609" topLine="18" />
