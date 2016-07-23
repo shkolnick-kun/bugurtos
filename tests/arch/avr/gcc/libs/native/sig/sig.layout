@@ -7,8 +7,8 @@
 	<File name="../../../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="8331" topLine="101" />
 	</File>
-	<File name="../../../../../../../kernel/bugurt.h" open="1" top="1" tabpos="0">
-		<Cursor position="9285" topLine="605" />
+	<File name="../../../../../../../kernel/bugurt.h" open="1" top="0" tabpos="0">
+		<Cursor position="9285" topLine="181" />
 	</File>
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6682" topLine="77" />

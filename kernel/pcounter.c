@@ -78,11 +78,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-#ifdef BGRT_CONFIG_TEST
 static void bgrt_cnt_panic(void)
 {
     while(1);
 }
+
+#ifdef BGRT_CONFIG_TEST
 #   define BGRT_CNT_PANIC() bgrt_cnt_panic()
 #else  //BGRT_CONFIG_TEST
 #   ifdef BGRT_CONFIG_PANIC

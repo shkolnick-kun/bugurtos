@@ -139,7 +139,7 @@ A decrement of proc->lres.
 
 */
 
-#define BGRT_PROC_LRES_INIT(a)  bgrt_pcounter_init( &((a)->lres) )
+#define BGRT_PROC_LRES_INIT(a) bgrt_pcounter_init( &((a)->lres) )
 #define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), (bgrt_prio_t)b )
 #define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), (bgrt_prio_t)b )
 
@@ -198,10 +198,10 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 \brief An empty process ID.
 */
 #ifndef BGRT_PID_T
-#   define BGRT_PID_T bgrt_proc_t *
-#   define BGRT_PID_TO_PROC(p) (p)
-#   define BGRT_PROC_TO_PID(p) (p)
-#   define BGRT_PID_NOTHING ((BGRT_PID_T)0)
+#define BGRT_PID_T bgrt_proc_t *
+#define BGRT_PID_TO_PROC(p) (p)
+#define BGRT_PROC_TO_PID(p) (p)
+#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #endif//BGRT_PID_T
 
 struct _bgrt_uspd_t
@@ -212,14 +212,17 @@ struct _bgrt_uspd_t
 };                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
 //Default implementation
 #ifndef BGRT_USPD_T
-#   define BGRT_USPD_PROC_T struct _bgrt_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
-#   define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
-#   define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
-#   define BGRT_USPD_INIT(proc) \
-        do{\
-            proc->udata.scarg = (void *)0;\
-            proc->udata.scnum = (bgrt_syscall_t)0;\
-        }while(0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
+
+#define BGRT_USPD_PROC_T struct _bgrt_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+#define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+
+#define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
+#define BGRT_USPD_INIT(proc) \
+    do{\
+        proc->udata.scarg = (void *)0;\
+        proc->udata.scnum = (bgrt_syscall_t)0;\
+    }while(0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
+
 #endif
 // Свойства
 /*!

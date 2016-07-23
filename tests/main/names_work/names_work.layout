@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../arch/avr/gcc-vsmp/bugurt_config_example.h" open="0" top="0" tabpos="3">
+	<File name="../../../arch/avr/gcc-vsmp/bugurt_config_example.h" open="1" top="0" tabpos="3">
 		<Cursor position="3753" topLine="105" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
@@ -20,7 +20,7 @@
 		<Cursor position="155" topLine="0" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
-		<Cursor position="6244" topLine="72" />
+		<Cursor position="155" topLine="0" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="154" topLine="0" />
@@ -74,19 +74,13 @@
 		<Cursor position="153" topLine="0" />
 	</File>
 	<File name="../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="8065" topLine="136" />
+		<Cursor position="12001" topLine="229" />
 	</File>
 	<File name="../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6299" topLine="60" />
 	</File>
 	<File name="../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
-	</File>
-	<File name="../../../kernel/default/syscall.h" open="1" top="1" tabpos="0">
-		<Cursor position="6393" topLine="243" />
-	</File>
-	<File name="../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="3">
-		<Cursor position="17572" topLine="0" />
 	</File>
 	<File name="../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="74" />
@@ -121,11 +115,11 @@
 	<File name="../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="2">
-		<Cursor position="6959" topLine="97" />
+	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="3">
+		<Cursor position="21846" topLine="436" />
 	</File>
-	<File name="../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="23348" topLine="0" />
+	<File name="../../../kernel/syscall.h" open="0" top="0" tabpos="2">
+		<Cursor position="29528" topLine="632" />
 	</File>
 	<File name="../../../kernel/timer.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
@@ -166,10 +160,10 @@
 	<File name="../../../libs/native/sig.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../arch/avr/gcc-vsmp/bugurt_config.h" open="0" top="0" tabpos="4">
+	<File name="../../arch/avr/gcc-vsmp/bugurt_config.h" open="1" top="0" tabpos="4">
 		<Cursor position="3753" topLine="105" />
 	</File>
-	<File name="../../arch/avr/gcc/bugurt_config.h" open="0" top="0" tabpos="2">
+	<File name="../../arch/avr/gcc/bugurt_config.h" open="1" top="1" tabpos="2">
 		<Cursor position="2441" topLine="61" />
 	</File>
 	<File name="../../arch/avr/gcc/test_func.c" open="0" top="0" tabpos="0">
@@ -184,7 +178,7 @@
 	<File name="../../arch/cm4f/gcc/bugurt_config.h" open="0" top="0" tabpos="0">
 		<Cursor position="1811" topLine="43" />
 	</File>
-	<File name="../../arch/stm8/iar/bugurt_config.h" open="0" top="0" tabpos="1">
+	<File name="../../arch/stm8/iar/bugurt_config.h" open="1" top="0" tabpos="1">
 		<Cursor position="2186" topLine="92" />
 	</File>
 	<File name="../../arch/stm8/raisonance/bugurt_config.h" open="0" top="0" tabpos="0">
