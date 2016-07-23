@@ -79,7 +79,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BUGURT_PORT_H_
 #define _BUGURT_PORT_H_
 
-// Конкатенация строк
 #define BUGURT_CONCAT(a,b) a##b
 
 #define BGRT_KBLOCK bgrt_kernel.kblock

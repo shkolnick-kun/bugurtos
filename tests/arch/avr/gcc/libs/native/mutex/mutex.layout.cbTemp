@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../../../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
+		<Cursor position="6682" topLine="98" />
+	</File>
+	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
+		<Cursor position="31060" topLine="621" />
+	</File>
+	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
+		<Cursor position="17861" topLine="480" />
+	</File>
+	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
+		<Cursor position="11694" topLine="202" />
+	</File>
+	<File name="../../../../../../../libs/native/mutex.c" open="0" top="0" tabpos="0">
+		<Cursor position="6540" topLine="86" />
+	</File>
+	<File name="../../../../../../../libs/native/mutex.h" open="0" top="0" tabpos="1">
+		<Cursor position="6083" topLine="61" />
+	</File>
+	<File name="../../../test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="1872" topLine="78" />
+	</File>
+	<File name="../../../../../../main/libs/native/mutex/main.c" open="0" top="0" tabpos="1">
+		<Cursor position="1868" topLine="26" />
+	</File>
+</CodeBlocks_layout_file>

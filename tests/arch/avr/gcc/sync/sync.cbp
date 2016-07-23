@@ -38,6 +38,7 @@
 			<Add directory="../../../../../kernel" />
 			<Add directory="../../../../../arch/avr/gcc" />
 			<Add directory="../../gcc" />
+			<Add directory="../../../../../kernel/default" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega328p" />

@@ -22,7 +22,6 @@
 *.xrf
 *.XRF
 *.html
-*.cbTemp
 
 # Executables #
 *.exe
