@@ -110,11 +110,12 @@ On the other hand all BuguRTOS source files include this file.
 #define BGRT_CONCAT(a,b) a##b
 #define BGRT_CONCAT2(a,b) BGRT_CONCAT(a,b)
 #define BGRT_CONCAT3(a,b) BGRT_CONCAT2(a,b)
-
-//======================================================
-//                ОПРЕДЕЛЕНИЯ ТИПОВ
-//                     TYPEDEFS
-//======================================================
+/*
+======================================================
+                ОПРЕДЕЛЕНИЯ ТИПОВ
+                     TYPEDEFS
+======================================================
+*/
 /*!
 \~russian
 \brief
@@ -129,85 +130,33 @@ Executable code.
 A pointer to a void function, that takes void pointer as argument.
 */
 typedef void (* bgrt_code_t)(void *);
-
+/*
 //======================================================
 //                     ИНКЛЮДЫ
 //======================================================
 //BuguRTOS config (must be included first)
+*/
 #include <bugurt_config.h>
 
-//Basic types
+/*Basic types*/
 #include "index.h"
 #include "item.h"
 #include "pcounter.h"
 #include "xlist.h"
-#include "pitem.h" //Depends on xlist.h
+#include "pitem.h" /*Depends on xlist.h*/
 
-//Kernel services (use basic types)
+/*Kernel services (use basic types)*/
 #include "crit_sec.h"
 #include "proc.h"
 #include "sched.h"
 #include "sync.h"
-
-//System call API.
-
-#define BGRT_SC_ID(syscall) BGRT_CONCAT(BGRT_SC_ENUM_, syscall) /*!< \~russian \brief Получить идентификатор системного вызова по названию. \~english \brief Get system call id. */
-
-typedef enum
-{
-    BGRT_SC_ENUM_NULL,
-#   define BGRT_SC_TBL_ENTRY(syscall) BGRT_SC_ID(syscall),
-#   include <syscall_table.h>
-#   undef  BGRT_SC_TBL_ENTRY
-    BGRT_SC_ENUM_END
-} bgrt_sc_enum;
-
-#define BGRT_SC_ENUM_SIZE (BGRT_SCENUM_END - 2)
-
-#define BGRT_SC_SR_NAME(syscall) BGRT_CONCAT2(BGRT_SC_, BGRT_CONCAT(syscall, _SR)) /*!< \~russian \brief Имя обработчика системного вызова.         \~english \brief System call srvice routine name. */
-#define BGRT_SC_SR(syscall) static bgrt_st_t BGRT_SC_SR_NAME(syscall)              /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call srvice routine. */
-typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                         /*!< \~russian \brief Указатель на обработчик системного вызова. \~english \brief System call srvice routine pointer. */
-
-//User may write his own system calls
-#ifdef BGRT_CONFIG_CUSTOM_SYSCALL
-#   include <syscall.h>
-#else
-#   include <default/syscall.h> //Default system call dispatcher
-#endif//BGRT_CONFIG_USER_SYSCALL
-
-/*!
-\~russian
-\brief
-Обработка системного вызова.
-
-Запускает обработчик системного вызова и передаёт ему аргумент.
-
-\param syscall_num Номер системного вызова.
-\param syscall_arg Аргумент системного вызова.
-\return Результат выполнения системного вызова.
-
-\~english
-\brief
-System call processing routine.
-
-This function calls system call handlers and passes arguments to them.
-
-\param syscall_num System call number.
-\param syscall_arg System call argument.
-\return System call execution status.
-*/
-bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg);
-
-//Software timers
+#include "syscall.h"
 #include "timer.h"
-
-//Virtual interrupts
 #include "vint.h"
-
-//Kernel (kernel services, must be included after syscall.h and vint.h)
+/*Kernel (kernel services, must be included after syscall.h and vint.h)*/
 #include "kernel.h"
 
-//Platform dependent things (must be included last)
+/*Platform dependent things (must be included last)*/
 #include <bugurt_port.h>
 
 #define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */

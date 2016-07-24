@@ -76,59 +76,98 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#include "bugurt.h"
+#ifndef _SYSCALL_H_
+#define _SYSCALL_H_
+/*!
+\file
+\brief \~russian Заголовок системных вызовов.
+
+\warning Все содержимое файла для внутреннего использования!
+
+\~english System call header.
+
+\warning This file content is internal usage!
+*/
+#define BGRT_SC_ID(syscall) BGRT_CONCAT(BGRT_SC_ENUM_, syscall) /*!< \~russian \brief Получить идентификатор системного вызова по названию. \~english \brief Get system call id. */
+
+typedef enum
+{
+    BGRT_SC_ENUM_NULL,
+#   define BGRT_SC_TBL_ENTRY(syscall) BGRT_SC_ID(syscall),
+#   include <syscall_table.h>
+#   undef  BGRT_SC_TBL_ENTRY
+    BGRT_SC_ENUM_END
+} bgrt_sc_enum;
+
+#define BGRT_SC_ENUM_SIZE (BGRT_SCENUM_END - 2)
+
+#define BGRT_SC_SR_NAME(syscall) BGRT_CONCAT2(BGRT_SC_, BGRT_CONCAT(syscall, _SR)) /*!< \~russian \brief Имя обработчика системного вызова.         \~english \brief System call srvice routine name. */
+#define BGRT_SC_SR(syscall) static bgrt_st_t BGRT_SC_SR_NAME(syscall)              /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call srvice routine. */
+typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                         /*!< \~russian \brief Указатель на обработчик системного вызова. \~english \brief System call srvice routine pointer. */
+
+#include <stdarg.h>
+//A wrapper for va_list, used to transfer a pointer to bgrt_syscall
+typedef struct
+{
+    va_list list;
+}bgrt_va_wrapper_t; /*!< \~russian \brief Обертка для va_list.         \~english \brief va_list wrapper. */
 
 //User may write his own system calls
 #ifdef BGRT_CONFIG_CUSTOM_SYSCALL
-#   include <syscall_routines.h>
+#   include <syscall_api.h>
 #else
-#   include <default/syscall_routines.h> //Default system call handlers
+#   include <default/syscall_api.h> //Default system call dispatcher
 #endif//BGRT_CONFIG_USER_SYSCALL
+/*!
+\~russian
+\brief
+Обработка системного вызова.
 
-static bgrt_st_t do_nothing_sr( void * arg )
-{
-    (void)arg;
-    return BGRT_ST_SCALL;
-}
+Запускает обработчик системного вызова и передаёт ему аргумент.
 
-BGRT_SCL_TBL( syscall_handler[] ) =
-{
-#   define BGRT_SC_TBL_ENTRY(syscall) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
-#   include <syscall_table.h>
-#   undef  BGRT_SC_TBL_ENTRY
-    do_nothing_sr
-};
+\param syscall_num Номер системного вызова.
+\param syscall_arg Аргумент системного вызова.
+\return Результат выполнения системного вызова.
 
-#ifdef BGRT_CONFIG_SYSCALL_CHECK
-#   define BGRT_SYSCALL_CHECK BGRT_CONFIG_SYSCALL_CHECK
-#else  //BGRT_CONFIG_SYSCALL_CHECK
-    //Default syscall sanity check macro
-#   define BGRT_SYSCALL_CHECK(n,a) (( (bgrt_syscall_t)BGRT_SC_ENUM_NULL == n )||( (bgrt_syscall_t)BGRT_SC_ENUM_END <= n ))
-#endif //BGRT_CONFIG_SYSCALL_CHECK
+\~english
+\brief
+System call processing routine.
 
-bgrt_st_t bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
-{
-    //Sanity check
-    if( BGRT_SYSCALL_CHECK(syscall_num, syscall_arg) )
-    {
-        //Fail
-        return BGRT_ST_SCALL;
-    }
-    else
-    {
-        //Syscall processing
-        return (BGRT_SCL_TBL_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
-    }
-}
-//Variadic version of bgrt_syscall
-bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... )
-{
-    bgrt_va_wrapper_t varg;
-    bgrt_st_t ret;
+This function calls system call handlers and passes arguments to them.
 
-    va_start(varg.list, num);
-    ret = bgrt_syscall(num, (void *)&varg);
-    va_end(varg.list);
+\param syscall_num System call number.
+\param syscall_arg System call argument.
+\return System call execution status.
+*/
+bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg);
 
-    return ret;
-}
+/*!
+\~russian
+\brief
+Системный вызов.
+
+Код Ядра всегда выполняется в контексте Ядра. Это нужно для экономии памяти в стеках процессов.
+Соответственно, если мы хотим выполнить какие либо операции над процессами, мьютексами, семафорами, сигналами,
+то нам нужно "попросить" Ядро сделать эту работу.
+
+Именно для этого существует функция bgrt_syscall, которая передаёт управление Ядру для выполнения требуемой работы.
+
+\warning Для внутреннего использования.
+
+\param num номер системного вызова (что именно надо выполнить).
+\~english
+\brief
+A system call.
+
+This function switches a processor core from a process context to the kernel context.
+The kernel code is always run in the kernel context. This is done to save memory in process stacks.
+A system calls are done on every operations with processes, mutexes, semaphores and signals.
+The Kernel does all of this job.
+
+\warning Internal usage function.
+
+\param num a number of a system call (what is going to be done).
+*/
+bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... );
+
+#endif // _SYSCALL_H_

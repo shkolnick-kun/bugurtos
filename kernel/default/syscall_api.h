@@ -76,9 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SYSCALL_H_
-#define _SYSCALL_H_
-
+#ifndef _SYSCALL_API_H_
+#define _SYSCALL_API_H_
 /*!
 \file
 \brief \~russian Заголовок системных вызовов.
@@ -265,4 +264,4 @@ typedef struct
     BGRT_PID_T pid;
 }
 bgrt_sync_proc_timeout_t;
-#endif // _SYSCALL_H_
+#endif // _SYSCALL_API_H_

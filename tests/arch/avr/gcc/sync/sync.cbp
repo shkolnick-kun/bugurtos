@@ -63,6 +63,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/crit_sec.h" />
+		<Unit filename="../../../../../kernel/default/syscall_api.h" />
+		<Unit filename="../../../../../kernel/default/syscall_routines.h" />
+		<Unit filename="../../../../../kernel/default/syscall_table.h" />
 		<Unit filename="../../../../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>
