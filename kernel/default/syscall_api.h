@@ -93,16 +93,97 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************/
 /*!
 \~russian
-\brief
-Параметр системных вызовов #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
+\brief Запуск процесса.
+
+Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, ещё не завершил работу, не был "убит"), и производит перепланировку.
+\param pid - Идентификатор процесса.
+\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
-\brief
-An argument for system calls #BGRT_SYSCALL_PROC_RUN, #BGRT_SYSCALL_PROC_RESTART, #BGRT_SYSCALL_PROC_STOP.
+\brief A process launch routine.
+
+This function schedules a process if possible.
+
+\param pid - A process ID.
+\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-typedef struct{
-    BGRT_PID_T pid;      /*!< \~russian Идентификатор процесса. \~english A process ID. */
-}bgrt_proc_runtime_arg_t;
+#define BGRT_PROC_RUN(pid) BGRT_SYSCALL_N(PROC_RUN, (void *)pid )
+
+/*!
+\~russian
+\brief Перезапуск процесса.
+
+Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #bgrt_proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
+\param pid - Идентификатор процесса.
+\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
+
+\~english
+\brief A process restart routine.
+
+This function reinitializes a process and schedules it if possible.
+
+\param pid - A process ID.
+\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
+*/
+#define BGRT_PROC_RESTART(pid) BGRT_SYSCALL_N(PROC_RESTART, (void *)pid )
+/*!
+\~russian
+\brief Останов процесса.
+
+Вырезает процесс из списка готовых к выполнению и производит перепланировку.
+\param pid - Идентификатор процесса.
+\return BGRT_ST_OK - если процесс был вырезан из списка готовых к выполнению, либо код ошибки.
+
+\~english
+\brief A process stop routine.
+
+This function stops a process if possible.
+\param pid - A process ID.
+\return BGRT_ST_OK - if a process has been stopped, error code in other cases.
+*/
+#define BGRT_PROC_STOP(pid) BGRT_SYSCALL_N(PROC_STOP, (void *)pid )
+/*!
+\~russian
+\brief Самоостанов процесса.
+
+Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
+
+\~english
+\brief A process self stop routine.
+
+This function stops caller process.
+*/
+void bgrt_proc_self_stop(void);
+/*!
+\~russian
+\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
+
+\~english
+\brief Set #BGRT_PROC_FLG_LOCK for caller process.
+*/
+void bgrt_proc_lock(void);
+/*!
+\~russian
+\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
+
+\~english
+\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
+*/
+void bgrt_proc_free(void);
+/*!
+\~russian
+\brief Сброс watchdog для процесса реального времени.
+
+Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
+Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
+
+\~english
+\brief A watchdog reset routine for real time processes.
+
+If a caller process is real time, then this function resets its timer.
+If a real time process failed to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
+*/
+void bgrt_proc_reset_watchdog(void);
 /*****************************************************************************************/
 /*!
 \~russian
@@ -119,10 +200,6 @@ typedef struct{
 }bgrt_proc_get_prio_arg_t;   /*!< \~russian Аргумент #bgrt_scall_proc_get_prio. \~english An arg for #bgrt_scall_proc_get_prio.*/
 /*****************************************************************************************/
 /*                                        Sync                                           */
-/*****************************************************************************************/
-#define BGRT_SYNC_INIT(s,p) bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #bgrt_sync_init. \~english \brief Watch #bgrt_sync_init. */
-/*****************************************************************************************/
-#define _BGRT_SYNC_INIT(s,p) _bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #_bgrt_sync_init. \~english \brief Watch #_bgrt_sync_init. */
 /*****************************************************************************************/
 /*!
 \~russian

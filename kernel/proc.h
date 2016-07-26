@@ -374,12 +374,12 @@ Used clear execution three LSBs state bits in proc->flags.
 \~russian
 \brief Маска проверки состояния процесса.
 
-Используется функциями #bgrt_proc_restart и #_bgrt_proc_restart, для проверки возможности перезапуска.
+Используется функцией #_bgrt_proc_restart, для проверки возможности перезапуска.
 
 \~english
 \brief A process execution state check mask.
 
-Used by #bgrt_proc_restart and #_bgrt_proc_restart to check for restart possibility.
+Used by #_bgrt_proc_restart to check for restart possibility.
 */
 #define BGRT_PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
 
@@ -610,23 +610,6 @@ void bgrt_proc_terminate( void );
 void _bgrt_proc_terminate( void );
 /*!
 \~russian
-\brief Запуск процесса.
-
-Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, ещё не завершил работу, не был "убит"), и производит перепланировку.
-\param pid - Идентификатор процесса.
-\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
-
-\~english
-\brief A process launch routine.
-
-This function schedules a process if possible.
-
-\param pid - A process ID.
-\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
-*/
-bgrt_st_t bgrt_proc_run(BGRT_PID_T pid);
-/*!
-\~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
 
 Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, ещё не завершил работу, не был "убит"), и производит перепланировку.
@@ -642,24 +625,6 @@ This function schedules a process if possible.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
 bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc);
-
-/*!
-\~russian
-\brief Перезапуск процесса.
-
-Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #bgrt_proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
-\param pid - Идентификатор процесса.
-\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
-
-\~english
-\brief A process restart routine.
-
-This function reinitializes a process and schedules it if possible.
-
-\param pid - A process ID.
-\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
-*/
-bgrt_st_t bgrt_proc_restart(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
@@ -677,22 +642,6 @@ This function reinitializes a process and schedules it if possible.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
 bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc);
-/*!
-\~russian
-\brief Останов процесса.
-
-Вырезает процесс из списка готовых к выполнению и производит перепланировку.
-\param pid - Идентификатор процесса.
-\return BGRT_ST_OK - если процесс был вырезан из списка готовых к выполнению, либо код ошибки.
-
-\~english
-\brief A process stop routine.
-
-This function stops a process if possible.
-\param pid - A process ID.
-\return BGRT_ST_OK - if a process has been stopped, error code in other cases.
-*/
-bgrt_st_t bgrt_proc_stop(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
@@ -715,18 +664,6 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc);
 
 Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
 
-\~english
-\brief A process self stop routine.
-
-This function stops caller process.
-*/
-void bgrt_proc_self_stop(void);
-/*!
-\~russian
-\brief Самоостанов процесса.
-
-Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
-
 \warning Для внутреннего использования.
 
 \~english
@@ -738,21 +675,6 @@ This function stops caller process.
 
 */
 void _bgrt_proc_self_stop(void);
-
-/*!
-\~russian
-\brief Сброс watchdog для процесса реального времени.
-
-Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
-Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
-
-\~english
-\brief A watchdog reset routine for real time processes.
-
-If a caller process is real time, then this function resets its timer.
-If a real time process failed to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
-*/
-void bgrt_proc_reset_watchdog(void);
 /*!
 \~russian
 \brief Сброс watchdog для процесса реального времени из обработчика прерывания.
@@ -776,14 +698,6 @@ void _bgrt_proc_reset_watchdog(void);
 \~russian
 \brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
 
-\~english
-\brief Set #BGRT_PROC_FLG_LOCK for caller process.
-*/
-void bgrt_proc_lock(void);
-/*!
-\~russian
-\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
-
 \warning Для внутреннего использования.
 
 \~english
@@ -792,14 +706,6 @@ void bgrt_proc_lock(void);
 \warning For internal usage.
 */
 void _bgrt_proc_lock(void);
-/*!
-\~russian
-\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
-
-\~english
-\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
-*/
-void bgrt_proc_free(void);
 /*!
 \~russian
 \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.

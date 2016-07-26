@@ -5,16 +5,16 @@ bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 void main_with_return( void * arg )
 {
-    bgrt_proc_run( PID1 );
-    bgrt_proc_run( PID2 );
-    bgrt_proc_run( PID3 );
-    bgrt_proc_run( PID4 );
-    bgrt_proc_run( PID5 );
+    BGRT_PROC_RUN( PID1 );
+    BGRT_PROC_RUN( PID2 );
+    BGRT_PROC_RUN( PID3 );
+    BGRT_PROC_RUN( PID4 );
+    BGRT_PROC_RUN( PID5 );
 
     bgrt_wait_time(100);
     // Reset proc[2] BGRT_PROC_FLG_RT and BGRT_PROC_STATE_WD_STOP before second run.
     BGRT_SCHED_FIX_PROC_2();
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
 
     bgrt_wait_time(100);
     // Start load balancing test on multicore system (changes affinity of running processes).

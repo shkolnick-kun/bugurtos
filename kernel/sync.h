@@ -146,6 +146,7 @@ bgrt_st_t bgrt_sync_init(
     bgrt_sync_t * sync, /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A sync pointer. */
     bgrt_prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
+#define BGRT_SYNC_INIT(s,p) bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #bgrt_sync_init. \~english \brief Watch #bgrt_sync_init. */
 /*!
 \~russian
 \brief
@@ -160,6 +161,7 @@ bgrt_st_t _bgrt_sync_init(
     bgrt_sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
     bgrt_prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
+#define _BGRT_SYNC_INIT(s,p) _bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #_bgrt_sync_init. \~english \brief Watch #_bgrt_sync_init. */
 /*!
 \~russian
 \brief

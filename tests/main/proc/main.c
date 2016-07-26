@@ -7,23 +7,23 @@ bgrt_bool_t test;
 
 void main_proc_test( void * arg )
 {
-    bgrt_proc_run( PID1 );
+    BGRT_PROC_RUN( PID1 );
 
     test_start();
     // No other processes are running,
     // so it's not necessary to disable interrupts or to bgrt_spin_lock something.
 
-    // bgrt_proc_run test 1
+    // BGRT_PROC_RUN test 1
     proc[2].flags |= BGRT_PROC_STATE_DEAD;
     // Must NOT run the process.
-    test = ( BGRT_ST_EAGAIN == bgrt_proc_run( PID2 ) );
+    test = ( BGRT_ST_EAGAIN == BGRT_PROC_RUN( PID2 ) );
     test_output( test , 1 );
 
-    // bgrt_proc_run test 2
+    // BGRT_PROC_RUN test 2
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
     proc[2].flags |= BGRT_PROC_FLG_LOCK;
     // Must run the process
-    test = ( BGRT_ST_OK == bgrt_proc_run( PID2 ) );
+    test = ( BGRT_ST_OK == BGRT_PROC_RUN( PID2 ) );
     test_output( test , 2 );
 
     // bgrt_proc_terminate test 3
@@ -33,31 +33,31 @@ void main_proc_test( void * arg )
     test_output( test , 3 );
 
     // bgrt_proc_terminate test 4
-    bgrt_proc_run( PID3 );
+    BGRT_PROC_RUN( PID3 );
     bgrt_wait_time( 10 );
     test = (bgrt_bool_t)( BGRT_PROC_STATE_END == ( proc[3].flags & BGRT_PROC_STATE_MASK ) );
     test_output( test , 4 );
 
-    // bgrt_proc_restart test 5
+    // BGRT_PROC_RESTART test 5
     // Must NOT restart!
-    test = ( BGRT_ST_ESTAT == bgrt_proc_restart( PID2 ) );
+    test = ( BGRT_ST_ESTAT == BGRT_PROC_RESTART( PID2 ) );
     test_output( test , 5 );
 
-    // bgrt_proc_restart test 6
+    // BGRT_PROC_RESTART test 6
     // Must restart!
-    test = ( BGRT_ST_OK == bgrt_proc_restart( PID3 ) );
+    test = ( BGRT_ST_OK == BGRT_PROC_RESTART( PID3 ) );
     test_output( test , 6 );
 
-    // bgrt_proc_stop test 7
+    // BGRT_PROC_STOP test 7
     // Must return 1, process is not running now!
     proc[2].flags &= ~BGRT_PROC_FLG_LOCK;
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
-    test = ( BGRT_ST_OK == bgrt_proc_stop( PID2 ) );
+    test = ( BGRT_ST_OK == BGRT_PROC_STOP( PID2 ) );
     test_output( test , 7 );
 
     proc[4].flags |= BGRT_PROC_FLG_LOCK;
     proc[4].cnt_lock = (bgrt_cnt_t)1;
-    bgrt_proc_run( PID4 );
+    BGRT_PROC_RUN( PID4 );
 
     // bgrt_proc_free test 8
     // Must NOT stop the process!
@@ -65,19 +65,19 @@ void main_proc_test( void * arg )
     test = (bgrt_bool_t)BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 8 );
 
-    // bgrt_proc_stop test 9
+    // BGRT_PROC_STOP test 9
     // Must stop the process!
-    test = ( BGRT_ST_OK == bgrt_proc_stop( PID4 ) );
+    test = ( BGRT_ST_OK == BGRT_PROC_STOP( PID4 ) );
     test_output( test , 9 );
 
-    // bgrt_proc_stop test 10
+    // BGRT_PROC_STOP test 10
     // Must NOT stop the process!
     // proc[4] is stopped, we can work with it,s properties!
     proc[4].flags |= BGRT_PROC_FLG_LOCK;
     proc[4].cnt_lock = (bgrt_cnt_t)1;
 
-    bgrt_proc_run( PID4 );
-    test = ( BGRT_ST_EAGAIN == bgrt_proc_stop( PID4 ) );
+    BGRT_PROC_RUN( PID4 );
+    test = ( BGRT_ST_EAGAIN == BGRT_PROC_STOP( PID4 ) );
     test = test && !!( proc[4].flags & BGRT_PROC_FLG_PRE_STOP );
     test_output( test , 10 );
 
@@ -89,7 +89,7 @@ void main_proc_test( void * arg )
 
     // bgrt_proc_reset_watchdog test 12
     test = 0;
-    bgrt_proc_run( PID5 );
+    BGRT_PROC_RUN( PID5 );
     bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
     test_output( test , 12 );
 
@@ -100,19 +100,19 @@ void main_proc_test( void * arg )
 
     // bgrt_proc_yeld test 14
     test = 0;
-    bgrt_proc_run( PID5 );
+    BGRT_PROC_RUN( PID5 );
     bgrt_wait_time(10);
     test_output( test , 14 );
 
     // bgrt_proc_reset_watchdog test 15
     test = 0;
     proc[5].flags &= ~BGRT_PROC_FLG_RT;
-    bgrt_proc_run( PID5 );
+    BGRT_PROC_RUN( PID5 );
     bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
     test_output( test , 15 );
 
     // bgrt_proc_reset_watchdog test 16
-    bgrt_proc_run( PID5 );
+    BGRT_PROC_RUN( PID5 );
     bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
     test_output( test , 16 );
 

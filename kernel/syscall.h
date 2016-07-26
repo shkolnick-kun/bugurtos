@@ -157,7 +157,7 @@ A system call macro, see #bgrt_syscall.
 \param sc_name A system call name.
 \param arg A system call argument pointer.
 */
-#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg );
+#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg )
 
 /*!
 \~russian
@@ -175,7 +175,7 @@ A system call macro, see #bgrt_syscall_var.
 
 \param sc_name A system call name.
 */
-#define BGRT_SYSCALL_NVAR(sc_name, ...) bgrt_syscall_var( BGRT_SC_ID(sc_name), __VA_ARGS__ );
+#define BGRT_SYSCALL_NVAR(sc_name, ...) bgrt_syscall_var( BGRT_SC_ID(sc_name), __VA_ARGS__ )
 
 /*!
 \~russian

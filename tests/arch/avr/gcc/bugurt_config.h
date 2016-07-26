@@ -85,9 +85,9 @@ typedef unsigned char bgrt_syscall_t;
 //#define BGRT_PID_TO_PROC(p) (((bgrt_proc_t *)proc_base) + p)
 //#define BGRT_PROC_TO_PID(p) ( p - ((bgrt_proc_t *)proc_base) )
 
-#define BGRT_PID_T int
+#define BGRT_PID_T void *
 #define BGRT_PID_TO_PROC(p) ((bgrt_proc_t *)(p))
-#define BGRT_PROC_TO_PID(p) ( (int)p )
+#define BGRT_PROC_TO_PID(p) ( (void *)p )
 #define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 //*/
 

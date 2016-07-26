@@ -85,44 +85,43 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 ***********************************************************************************************
                                        PROC_RUN
 **********************************************************************************************/
-bgrt_st_t bgrt_proc_run( BGRT_PID_T pid )
-{
-    volatile bgrt_proc_runtime_arg_t scarg;
-    scarg.pid = pid;
-    return BGRT_SYSCALL_N(PROC_RUN, (void *)&scarg );
-}
+//bgrt_st_t bgrt_proc_run( BGRT_PID_T pid )
+//{
+//    volatile BGRT_PID_T scpid = pid;
+//    return BGRT_SYSCALL_N(PROC_RUN, (void *)&scpid );
+//}
 //=============================================================================================
-BGRT_SC_SR(PROC_RUN)( bgrt_proc_runtime_arg_t * arg )
+BGRT_SC_SR(PROC_RUN)( void * arg )
 {
-    return _bgrt_proc_run( BGRT_PID_TO_PROC( arg->pid ) );
+    return _bgrt_proc_run( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
 }
 /**********************************************************************************************
                                        PROC_RESTART
 **********************************************************************************************/
-bgrt_st_t bgrt_proc_restart( BGRT_PID_T pid )
-{
-    volatile bgrt_proc_runtime_arg_t scarg;
-    scarg.pid = pid;
-    return BGRT_SYSCALL_N(PROC_RESTART, (void *)&scarg );
-}
+//bgrt_st_t bgrt_proc_restart( BGRT_PID_T pid )
+//{
+//    volatile bgrt_proc_runtime_arg_t scarg;
+//    scarg.pid = pid;
+//    return BGRT_SYSCALL_N(PROC_RESTART, (void *)&scarg );
+//}
 //========================================================================================
-BGRT_SC_SR(PROC_RESTART)( bgrt_proc_runtime_arg_t * arg )
+BGRT_SC_SR(PROC_RESTART)( void * arg )
 {
-    return _bgrt_proc_restart( BGRT_PID_TO_PROC( arg->pid ) );
+    return _bgrt_proc_restart( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
 }
 /**********************************************************************************************
                                          PROC_STOP
 **********************************************************************************************/
-bgrt_st_t bgrt_proc_stop( BGRT_PID_T pid )
-{
-    volatile bgrt_proc_runtime_arg_t scarg;
-    scarg.pid = pid;
-    return BGRT_SYSCALL_N(PROC_STOP, (void *)&scarg);
-}
+//bgrt_st_t bgrt_proc_stop( BGRT_PID_T pid )
+//{
+//    volatile bgrt_proc_runtime_arg_t scarg;
+//    scarg.pid = pid;
+//    return BGRT_SYSCALL_N(PROC_STOP, (void *)&scarg);
+//}
 //========================================================================================
-BGRT_SC_SR(PROC_STOP)( bgrt_proc_runtime_arg_t * arg )
+BGRT_SC_SR(PROC_STOP)( void * arg )
 {
-    return _bgrt_proc_stop( BGRT_PID_TO_PROC( arg->pid ) );
+    return _bgrt_proc_stop( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
 }
 /**********************************************************************************************
                                        PROC_SELF_STOP
@@ -134,13 +133,14 @@ void bgrt_proc_self_stop(void)
 //========================================================================================
 BGRT_SC_SR(PROC_SELF_STOP)( void * arg )
 {
+    (void)arg;
     _bgrt_proc_self_stop();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
                                          PROC_LOCK
 **********************************************************************************************/
-void bgrt_proc_lock( void )
+void bgrt_proc_lock(void)
 {
     BGRT_SYSCALL_N(PROC_LOCK, (void *)0 );
 }
