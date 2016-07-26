@@ -724,24 +724,6 @@ void _bgrt_proc_free(void);
 
 Устанавливает приоритет процесса, находящегося в любом состоянии.
 
-\param pid - Идентификатор процесса.
-\param prio - Новое значение приоритета.
-
-\~english
-\brief Set a priority of a process.
-
-It sets a process priority. A process current state doesn't matter.
-
-\param pid - A process ID.
-\param prio - New process priority value.
-*/
-void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio );
-/*!
-\~russian
-\brief Управление приоритетом процесса.
-
-Устанавливает приоритет процесса, находящегося в любом состоянии.
-
 \warning Для внутреннего использования.
 
 \param proc - Указатель на процесс.
@@ -758,21 +740,6 @@ It sets a process priority. A process current state doesn't matter.
 \param prio - New process priority value.
 */
 void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
-
-/*!
-\~russian
-\brief Получить приоритет процесса.
-
-\param pid - Идентификатор процесса.
-\return - Значение приоритета процесса.
-
-\~english
-\brief Get a priority of a process.
-
-\param pid - A process ID.
-\return - A process priority value.
-*/
-bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
 /*!
 \~russian
 \brief Получить приоритет процесса.

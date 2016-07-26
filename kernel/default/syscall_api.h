@@ -188,34 +188,53 @@ void bgrt_proc_reset_watchdog(void);
 /*!
 \~russian
 \brief
-Аргумент вызова #BGRT_SYSCALL_PROC_GET_PRIO.
+Параметр системного вызова #BGRT_SYSCALL_PROC_SET_PRIO/#BGRT_SYSCALL_PROC_GET_PRIO.
 
 \~english
 \brief
-A #BGRT_SYSCALL_PROC_GET_PRIO argument.
-*/
-typedef struct{
-    BGRT_PID_T pid;          /*!< \~russian Идентификатор процесса. \~english A process ID. */
-    bgrt_prio_t ret;         /*!< \~russian Результат выполнения системного вызова. \~english A result storage. */
-}bgrt_proc_get_prio_arg_t;   /*!< \~russian Аргумент #bgrt_scall_proc_get_prio. \~english An arg for #bgrt_scall_proc_get_prio.*/
-/*****************************************************************************************/
-/*                                        Sync                                           */
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системного вызова #BGRT_SYSCALL_PROC_SET_PRIO.
-
-\~english
-\brief
-An argument for system call #BGRT_SYSCALL_PROC_SET_PRIO.
+An argument for system call #BGRT_SYSCALL_PROC_SET_PRIO/#BGRT_SYSCALL_PROC_GET_PRIO.
 */
 typedef struct
 {
     BGRT_PID_T pid;     /*!< \~russian Идентификатор процесса. \~english A process ID. */
     bgrt_prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
 }
-bgrt_proc_set_prio_arg_t;
+bgrt_proc_prio_arg_t;
+
+/*!
+\~russian
+\brief Получить приоритет процесса.
+
+\param pid - Идентификатор процесса.
+\return - Значение приоритета процесса.
+
+\~english
+\brief Get a priority of a process.
+
+\param pid - A process ID.
+\return - A process priority value.
+*/
+bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
+/*!
+\~russian
+\brief Управление приоритетом процесса.
+
+Устанавливает приоритет процесса, находящегося в любом состоянии.
+
+\param pid - Идентификатор процесса.
+\param prio - Новое значение приоритета.
+
+\~english
+\brief Set a priority of a process.
+
+It sets a process priority. A process current state doesn't matter.
+
+\param pid - A process ID.
+\param prio - New process priority value.
+*/
+void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio );
+/*****************************************************************************************/
+/*                                        Sync                                           */
 /*****************************************************************************************/
 /*!
 \~russian
