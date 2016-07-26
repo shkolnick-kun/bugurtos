@@ -99,10 +99,8 @@ typedef enum
     BGRT_SC_ENUM_END
 } bgrt_sc_enum;
 
-#define BGRT_SC_ENUM_SIZE (BGRT_SCENUM_END - 2)
-
 #define BGRT_SC_SR_NAME(syscall) BGRT_CONCAT2(BGRT_SC_, BGRT_CONCAT(syscall, _SR)) /*!< \~russian \brief Имя обработчика системного вызова.         \~english \brief System call srvice routine name. */
-#define BGRT_SC_SR(syscall) static bgrt_st_t BGRT_SC_SR_NAME(syscall)              /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call srvice routine. */
+#define BGRT_SC_SR(syscall) bgrt_st_t BGRT_SC_SR_NAME(syscall)                     /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call srvice routine. */
 typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                         /*!< \~russian \brief Указатель на обработчик системного вызова. \~english \brief System call srvice routine pointer. */
 
 #include <stdarg.h>
@@ -140,6 +138,44 @@ This function calls system call handlers and passes arguments to them.
 \return System call execution status.
 */
 bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg);
+
+/*!
+\~russian
+\brief
+Системный вызов в виде макроса, см. #bgrt_syscall.
+
+\warning Для внутреннего использования.
+
+\param sc_name имя системного вызова (что именно надо выполнить).
+\param arg Указатель на аргумент.
+\~english
+\brief
+A system call macro, see #bgrt_syscall.
+
+\warning For internal usage.
+
+\param sc_name A system call name.
+\param arg A system call argument pointer.
+*/
+#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg );
+
+/*!
+\~russian
+\brief
+Системный вызов в виде макроса, см. #bgrt_syscall_var.
+
+\warning Для внутреннего использования.
+
+\param sc_name имя системного вызова (что именно надо выполнить).
+\~english
+\brief
+A system call macro, see #bgrt_syscall_var.
+
+\warning For internal usage.
+
+\param sc_name A system call name.
+*/
+#define BGRT_SYSCALL_NVAR(sc_name, ...) bgrt_syscall_var( BGRT_SC_ID(sc_name), __VA_ARGS__ );
 
 /*!
 \~russian

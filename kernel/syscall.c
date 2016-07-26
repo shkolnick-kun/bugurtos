@@ -85,10 +85,42 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #   include <default/syscall_routines.h> //Default system call handlers
 #endif//BGRT_CONFIG_USER_SYSCALL
 
+/**********************************************************************************************
+                                      MANDATORY THINGS!!!
+**********************************************************************************************/
 static bgrt_st_t do_nothing_sr( void * arg )
 {
     (void)arg;
     return BGRT_ST_SCALL;
+}
+/**********************************************************************************************
+                                       PROC_TERMINATE
+**********************************************************************************************/
+// Terminate a process after pmain return.
+void bgrt_proc_terminate( void )
+{
+    BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0 );
+}
+//========================================================================================
+BGRT_SC_SR(PROC_TERMINATE)( void * arg )
+{
+    _bgrt_proc_terminate();
+    return BGRT_ST_OK;
+}
+/**********************************************************************************************
+                                         PROC_YELD
+**********************************************************************************************/
+bgrt_bool_t bgrt_sched_proc_yeld(void)
+{
+    volatile bgrt_bool_t ret;
+    BGRT_SYSCALL_N(SCHED_PROC_YELD, (void *)&ret );
+    return ret;
+}
+//========================================================================================
+BGRT_SC_SR(SCHED_PROC_YELD)( bgrt_bool_t * arg )
+{
+    *arg = _bgrt_sched_proc_yeld();
+    return BGRT_ST_OK;
 }
 
 BGRT_SCL_TBL( syscall_handler[] ) =
