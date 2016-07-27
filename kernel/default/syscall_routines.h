@@ -144,9 +144,9 @@ BGRT_SC_SR(PROC_RESET_WATCHDOG,  void * arg)
 **********************************************************************************************/
 BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va )
 {
-    bgrt_prio_t * prio;
-    prio = (bgrt_prio_t *)va_arg(va->list, void *);
-    *prio = _bgrt_proc_get_prio(BGRT_PID_TO_PROC((BGRT_PID_T)va_arg(va->list, void *)));
+    bgrt_prio_t * prio_ptr;
+    prio_ptr = (bgrt_prio_t *)va_arg(va->list, void *);
+    *prio_ptr = _bgrt_proc_get_prio(BGRT_PID_TO_PROC((BGRT_PID_T)va_arg(va->list, void *)));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -162,13 +162,6 @@ BGRT_SC_SR(PROC_SET_PRIO,  bgrt_va_wr_t * va)
 /**********************************************************************************************
                                         PROC_GET_ID
 **********************************************************************************************/
-//BGRT_PID_T bgrt_proc_get_id(void)
-//{
-//    BGRT_PID_T ret = (BGRT_PID_T)0;
-//    BGRT_SYSCALL_N(PROC_GET_ID, (void *)&ret );
-//    return ret;
-//}
-//========================================================================================
 BGRT_SC_SR(PROC_GET_ID,  void * arg)
 {
     *(BGRT_PID_T *)arg = BGRT_PROC_TO_PID( bgrt_curr_proc() );
@@ -313,9 +306,12 @@ BGRT_SC_SR(SYNC_PROC_TIMEOUT,  bgrt_sync_proc_timeout_t * arg )
 /**********************************************************************************************
                                             USER
 **********************************************************************************************/
-BGRT_SC_SR(USER, void (*arg)(void))
+typedef bgrt_st_t (*bgrt_user_func_t)(bgrt_va_wr_t*);
+
+BGRT_SC_SR(USER, bgrt_va_wr_t* va)
 {
-    arg();
-    return BGRT_ST_OK;
+    bgrt_user_func_t func;
+    func = (bgrt_user_func_t)va_arg(va->list, void (*)(void *));
+    return (*func)(va);
 }
 #endif //_BGRT_SCR_H_
