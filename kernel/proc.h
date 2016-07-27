@@ -257,7 +257,7 @@ struct _bgrt_proc_t
     bgrt_tmr_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     bgrt_tmr_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     struct _bgrt_sync_t * sync;
-    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #bgrt_proc_lock. \~english A counter of #bgrt_proc_lock nesting.*/
+    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #BGRT_PROC_LOCK. \~english A counter of #BGRT_PROC_LOCK nesting.*/
 #ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
     bgrt_cpuid_t core_id;    /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
@@ -758,18 +758,4 @@ void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
 \return - A process priority value.
 */
 bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc );
-
-/*!
-\~russian
-\brief Получить идентификатор текущего процесса.
-
-\return Идентификатор процесса.
-
-\~english
-\brief Get a current process ID.
-
-\return A current process ID.
-*/
-BGRT_PID_T bgrt_proc_get_id(void);
-
 #endif // _BGRT_PROC_H_

@@ -85,33 +85,28 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 ***********************************************************************************************
                                        PROC_RUN
 **********************************************************************************************/
-BGRT_SC_SR(PROC_RUN)(void * arg)
+BGRT_SC_SR(PROC_RUN, void * arg)
 {
     return _bgrt_proc_run( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
 }
 /**********************************************************************************************
                                        PROC_RESTART
 **********************************************************************************************/
-BGRT_SC_SR(PROC_RESTART)(void * arg)
+BGRT_SC_SR(PROC_RESTART, void * arg)
 {
     return _bgrt_proc_restart( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
 }
 /**********************************************************************************************
                                          PROC_STOP
 **********************************************************************************************/
-BGRT_SC_SR(PROC_STOP)(void * arg)
+BGRT_SC_SR(PROC_STOP, void * arg)
 {
     return _bgrt_proc_stop( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
 }
 /**********************************************************************************************
                                        PROC_SELF_STOP
 **********************************************************************************************/
-void bgrt_proc_self_stop(void)
-{
-    BGRT_SYSCALL_N(PROC_SELF_STOP, (void *)1 );
-}
-//========================================================================================
-BGRT_SC_SR(PROC_SELF_STOP)(void * arg)
+BGRT_SC_SR(PROC_SELF_STOP, void * arg)
 {
     (void)arg;
     _bgrt_proc_self_stop();
@@ -120,12 +115,7 @@ BGRT_SC_SR(PROC_SELF_STOP)(void * arg)
 /**********************************************************************************************
                                          PROC_LOCK
 **********************************************************************************************/
-void bgrt_proc_lock(void)
-{
-    BGRT_SYSCALL_N(PROC_LOCK, (void *)0 );
-}
-//========================================================================================
-BGRT_SC_SR(PROC_LOCK)(void * arg)
+BGRT_SC_SR(PROC_LOCK, void * arg)
 {
     (void)arg;
     _bgrt_proc_lock();
@@ -134,12 +124,7 @@ BGRT_SC_SR(PROC_LOCK)(void * arg)
 /**********************************************************************************************
                                          PROC_FREE
 **********************************************************************************************/
-void bgrt_proc_free( void )
-{
-    BGRT_SYSCALL_N(PROC_FREE, (void *)0 );
-}
-//========================================================================================
-BGRT_SC_SR(PROC_FREE)( void * arg )
+BGRT_SC_SR(PROC_FREE,  void * arg)
 {
     (void)arg;
     _bgrt_proc_free();
@@ -148,67 +133,45 @@ BGRT_SC_SR(PROC_FREE)( void * arg )
 /**********************************************************************************************
                                     PROC_RESET_WATCHDOG
 **********************************************************************************************/
-void bgrt_proc_reset_watchdog(void)
-{
-    BGRT_SYSCALL_N(PROC_RESET_WATCHDOG, (void *)0 );
-}
-//========================================================================================
-BGRT_SC_SR(PROC_RESET_WATCHDOG)( void * arg )
+BGRT_SC_SR(PROC_RESET_WATCHDOG,  void * arg)
 {
     (void)arg;
     _bgrt_proc_reset_watchdog();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
-                                       PROC_SET_PRIO
+                                       PROC_GET_PRIO
 **********************************************************************************************/
-void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio )
+BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va )
 {
-    volatile bgrt_proc_prio_arg_t arg;
-
-    arg.pid = pid;
-    arg.prio = prio;
-
-    BGRT_SYSCALL_NVAR(PROC_SET_PRIO, (void *)&arg );
-}
-//========================================================================================
-BGRT_SC_SR(PROC_SET_PRIO)( bgrt_proc_prio_arg_t * arg )
-{
-    _bgrt_proc_set_prio( BGRT_PID_TO_PROC( arg->pid ), arg->prio );
+    bgrt_prio_t * prio;
+    prio = (bgrt_prio_t *)va_arg(va->list, void *);
+    *prio = _bgrt_proc_get_prio(BGRT_PID_TO_PROC((BGRT_PID_T)va_arg(va->list, void *)));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
-                                       PROC_GET_PRIO
+                                       PROC_SET_PRIO
 **********************************************************************************************/
-bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid )
+BGRT_SC_SR(PROC_SET_PRIO,  bgrt_va_wr_t * va)
 {
-    volatile bgrt_proc_prio_arg_t arg;
-
-    arg.prio = BGRT_PRIO_LOWEST + 1; //Not possible!
-    arg.pid = pid;
-
-    BGRT_SYSCALL_N(PROC_GET_PRIO, (void *)&arg );
-    return arg.prio;
-}
-//========================================================================================
-BGRT_SC_SR(PROC_GET_PRIO)( bgrt_proc_prio_arg_t * arg )
-{
-    arg->prio = _bgrt_proc_get_prio( BGRT_PID_TO_PROC( arg->pid ) );
+    BGRT_PID_T pid;
+    pid = (BGRT_PID_T)va_arg(va->list, void *);
+    _bgrt_proc_set_prio(BGRT_PID_TO_PROC(pid), (bgrt_prio_t)va_arg(va->list, int));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
                                         PROC_GET_ID
 **********************************************************************************************/
-BGRT_PID_T bgrt_proc_get_id(void)
-{
-    BGRT_PID_T ret = (BGRT_PID_T)0;
-    BGRT_SYSCALL_N(PROC_GET_ID, (void *)&ret );
-    return ret;
-}
+//BGRT_PID_T bgrt_proc_get_id(void)
+//{
+//    BGRT_PID_T ret = (BGRT_PID_T)0;
+//    BGRT_SYSCALL_N(PROC_GET_ID, (void *)&ret );
+//    return ret;
+//}
 //========================================================================================
-BGRT_SC_SR(PROC_GET_ID)( BGRT_PID_T * arg )
+BGRT_SC_SR(PROC_GET_ID,  void * arg)
 {
-    *arg = BGRT_PROC_TO_PID( bgrt_curr_proc() );
+    *(BGRT_PID_T *)arg = BGRT_PROC_TO_PID( bgrt_curr_proc() );
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -222,7 +185,7 @@ bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid )
     return BGRT_SYSCALL_N(SYNC_SET_OWNER, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_SET_OWNER)( bgrt_sync_owner_t * arg )
+BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_sync_owner_t * arg )
 {
     return _bgrt_sync_set_owner( arg->sync, BGRT_PID_TO_PROC( arg->pid ) );
 }
@@ -238,7 +201,7 @@ BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync )
     return scarg.pid;
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_GET_OWNER)( bgrt_sync_owner_t * arg )
+BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_sync_owner_t * arg )
 {
     arg->pid = BGRT_PROC_TO_PID( _bgrt_sync_get_owner( arg->sync ) );
     return BGRT_ST_OK;
@@ -254,7 +217,7 @@ bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
     return BGRT_SYSCALL_N(SYNC_OWN, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_OWN)( bgrt_sync_own_sleep_t * arg )
+BGRT_SC_SR(SYNC_OWN,  bgrt_sync_own_sleep_t * arg )
 {
     return _bgrt_sync_own( arg->sync, arg->touch );
 }
@@ -268,7 +231,7 @@ bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync )
     return BGRT_SYSCALL_N(SYNC_TOUCH, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_TOUCH)( bgrt_sync_touch_t * arg )
+BGRT_SC_SR(SYNC_TOUCH,  bgrt_sync_touch_t * arg )
 {
     return _bgrt_sync_touch( arg->sync );
 }
@@ -283,7 +246,7 @@ bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch )
     return BGRT_SYSCALL_N(SYNC_SLEEP, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_SLEEP)( bgrt_sync_own_sleep_t * arg )
+BGRT_SC_SR(SYNC_SLEEP,  bgrt_sync_own_sleep_t * arg )
 {
     return _bgrt_sync_sleep( arg->sync, &arg->touch );
 }
@@ -299,7 +262,7 @@ bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown 
     return BGRT_SYSCALL_N(SYNC_WAKE, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_WAKE)( bgrt_sync_wake_t * arg )
+BGRT_SC_SR(SYNC_WAKE,  bgrt_sync_wake_t * arg )
 {
     return _bgrt_sync_wake( arg->sync , BGRT_PID_TO_PROC( arg->pid ), arg->chown );
 }
@@ -315,7 +278,7 @@ bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t bloc
     return BGRT_SYSCALL_N(SYNC_WAIT, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_WAIT)( bgrt_sync_wait_t * arg )
+BGRT_SC_SR(SYNC_WAIT,  bgrt_sync_wait_t * arg )
 {
     if( !arg->pid )
     {
@@ -343,14 +306,14 @@ bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid )
     return BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)&scarg );
 }
 //========================================================================================
-BGRT_SC_SR(SYNC_PROC_TIMEOUT)( bgrt_sync_proc_timeout_t * arg )
+BGRT_SC_SR(SYNC_PROC_TIMEOUT,  bgrt_sync_proc_timeout_t * arg )
 {
     return _bgrt_sync_proc_timeout( BGRT_PID_TO_PROC( arg->pid ) );
 }
 /**********************************************************************************************
                                             USER
 **********************************************************************************************/
-BGRT_SC_SR(USER)(void (*arg)(void))
+BGRT_SC_SR(USER, void (*arg)(void))
 {
     arg();
     return BGRT_ST_OK;

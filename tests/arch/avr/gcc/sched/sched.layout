@@ -28,7 +28,7 @@
 	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="0" tabpos="4">
 		<Cursor position="10583" topLine="177" />
 	</File>
-	<File name="../../../../../kernel/default/syscall_table.h" open="1" top="0" tabpos="0">
+	<File name="../../../../../kernel/default/syscall_table.h" open="1" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="10">
@@ -82,7 +82,7 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="7555" topLine="141" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="1">
+	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="2">
 		<Cursor position="7651" topLine="97" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="1">

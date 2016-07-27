@@ -59,9 +59,9 @@ void main_proc_test( void * arg )
     proc[4].cnt_lock = (bgrt_cnt_t)1;
     BGRT_PROC_RUN( PID4 );
 
-    // bgrt_proc_free test 8
+    // BGRT_PROC_FREE test 8
     // Must NOT stop the process!
-    bgrt_wait_time(2); // let proc[4] to call bgrt_proc_free!
+    bgrt_wait_time(2); // let proc[4] to call BGRT_PROC_FREE!
     test = (bgrt_bool_t)BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 8 );
 
@@ -81,20 +81,20 @@ void main_proc_test( void * arg )
     test = test && !!( proc[4].flags & BGRT_PROC_FLG_PRE_STOP );
     test_output( test , 10 );
 
-    // bgrt_proc_free test 11
+    // BGRT_PROC_FREE test 11
     // Must stop the process!
-    bgrt_wait_time(20); // let proc[4] to call bgrt_proc_free!
+    bgrt_wait_time(20); // let proc[4] to call BGRT_PROC_FREE!
     test = !BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 11 );
 
-    // bgrt_proc_reset_watchdog test 12
+    // BGRT_PROC_RESET_WATCHDOG test 12
     test = 0;
     BGRT_PROC_RUN( PID5 );
-    bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
+    bgrt_wait_time(10); // let proc[5] test BGRT_PROC_RESET_WATCHDOG!
     test_output( test , 12 );
 
-    // bgrt_proc_self_stop test 13
-    bgrt_wait_time(10); // let proc[4] to call bgrt_proc_self_stop!
+    // BGRT_PROC_SELF_STOP test 13
+    bgrt_wait_time(10); // let proc[4] to call BGRT_PROC_SELF_STOP!
     test = !BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 13 );
 
@@ -104,16 +104,16 @@ void main_proc_test( void * arg )
     bgrt_wait_time(10);
     test_output( test , 14 );
 
-    // bgrt_proc_reset_watchdog test 15
+    // BGRT_PROC_RESET_WATCHDOG test 15
     test = 0;
     proc[5].flags &= ~BGRT_PROC_FLG_RT;
     BGRT_PROC_RUN( PID5 );
-    bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
+    bgrt_wait_time(10); // let proc[5] test BGRT_PROC_RESET_WATCHDOG!
     test_output( test , 15 );
 
-    // bgrt_proc_reset_watchdog test 16
+    // BGRT_PROC_RESET_WATCHDOG test 16
     BGRT_PROC_RUN( PID5 );
-    bgrt_wait_time(10); // let proc[5] test bgrt_proc_reset_watchdog!
+    bgrt_wait_time(10); // let proc[5] test BGRT_PROC_RESET_WATCHDOG!
     test_output( test , 16 );
 
     tests_end();
@@ -126,17 +126,17 @@ void main_with_return( void * arg )
 
 void main_wd_ss( void * arg )
 {
-    // bgrt_proc_reset_watchdog test 12
+    // BGRT_PROC_RESET_WATCHDOG test 12
     bgrt_wait_time(1);
-    bgrt_proc_reset_watchdog();
+    BGRT_PROC_RESET_WATCHDOG();
     bgrt_wait_time(1);
-    bgrt_proc_reset_watchdog();
+    BGRT_PROC_RESET_WATCHDOG();
     bgrt_wait_time(1);
-    bgrt_proc_reset_watchdog();
+    BGRT_PROC_RESET_WATCHDOG();
     bgrt_wait_time(1);
-    bgrt_proc_reset_watchdog();
+    BGRT_PROC_RESET_WATCHDOG();
     test = 1; // If watchdog has been reset then test must pass.
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     bgrt_wait_time(1);
     bgrt_sched_proc_yeld();
@@ -147,13 +147,13 @@ void main_wd_ss( void * arg )
     bgrt_wait_time(1);
     bgrt_sched_proc_yeld();
     test = 1; // If watchdog has been reset then test must pass.
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
-    // bgrt_proc_reset_watchdog test 14
+    // BGRT_PROC_RESET_WATCHDOG test 14
     bgrt_wait_time(1);
-    bgrt_proc_reset_watchdog();
+    BGRT_PROC_RESET_WATCHDOG();
     test = (proc[5].timer != proc[5].time_quant);
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     bgrt_wait_time(1);
     bgrt_sched_proc_yeld();
@@ -162,10 +162,10 @@ void main_wd_ss( void * arg )
 
 void main_fs( void * arg )
 {
-    // For bgrt_proc_free tests 8 and 11
-    bgrt_proc_free();
+    // For BGRT_PROC_FREE tests 8 and 11
+    BGRT_PROC_FREE();
     bgrt_wait_time(20);
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
     while(1)
     {
         //Panic !!1

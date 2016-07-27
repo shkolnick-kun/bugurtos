@@ -153,7 +153,7 @@ This function stops a process if possible.
 
 This function stops caller process.
 */
-void bgrt_proc_self_stop(void);
+#define BGRT_PROC_SELF_STOP() BGRT_SYSCALL_N(PROC_SELF_STOP, (void *)0 )
 /*!
 \~russian
 \brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
@@ -161,7 +161,7 @@ void bgrt_proc_self_stop(void);
 \~english
 \brief Set #BGRT_PROC_FLG_LOCK for caller process.
 */
-void bgrt_proc_lock(void);
+#define BGRT_PROC_LOCK() BGRT_SYSCALL_N(PROC_LOCK, (void *)0 )
 /*!
 \~russian
 \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
@@ -169,7 +169,7 @@ void bgrt_proc_lock(void);
 \~english
 \brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
 */
-void bgrt_proc_free(void);
+#define BGRT_PROC_FREE() BGRT_SYSCALL_N(PROC_FREE, (void *)0 )
 /*!
 \~russian
 \brief Сброс watchdog для процесса реального времени.
@@ -183,24 +183,8 @@ void bgrt_proc_free(void);
 If a caller process is real time, then this function resets its timer.
 If a real time process failed to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
-void bgrt_proc_reset_watchdog(void);
+#define BGRT_PROC_RESET_WATCHDOG() BGRT_SYSCALL_N(PROC_RESET_WATCHDOG, (void *)0 )
 /*****************************************************************************************/
-/*!
-\~russian
-\brief
-Параметр системного вызова #BGRT_SYSCALL_PROC_SET_PRIO/#BGRT_SYSCALL_PROC_GET_PRIO.
-
-\~english
-\brief
-An argument for system call #BGRT_SYSCALL_PROC_SET_PRIO/#BGRT_SYSCALL_PROC_GET_PRIO.
-*/
-typedef struct
-{
-    BGRT_PID_T pid;     /*!< \~russian Идентификатор процесса. \~english A process ID. */
-    bgrt_prio_t prio;   /*!< \~russian Приоритет. \~english Priority. */
-}
-bgrt_proc_prio_arg_t;
-
 /*!
 \~russian
 \brief Получить приоритет процесса.
@@ -214,7 +198,7 @@ bgrt_proc_prio_arg_t;
 \param pid - A process ID.
 \return - A process priority value.
 */
-bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
+#define BGRT_PROC_GET_PRIO(pid,var_ptr) (*(var_ptr) = BGRT_PRIO_LOWEST+1, BGRT_SYSCALL_NVAR(PROC_GET_PRIO, (void *)(var_ptr), (void *)(pid)))
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -232,7 +216,19 @@ It sets a process priority. A process current state doesn't matter.
 \param pid - A process ID.
 \param prio - New process priority value.
 */
-void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio );
+#define BGRT_PROC_SET_PRIO(pid,val) BGRT_SYSCALL_NVAR(PROC_SET_PRIO, (void *)(pid), (int)(val))
+/*!
+\~russian
+\brief Получить идентификатор текущего процесса.
+
+\return Идентификатор процесса.
+
+\~english
+\brief Get a current process ID.
+
+\return A current process ID.
+*/
+#define BGRT_PROC_GET_ID(pid,var_ptr) (*(var_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_N(PROC_GET_ID, (void *)(var_ptr))
 /*****************************************************************************************/
 /*                                        Sync                                           */
 /*****************************************************************************************/

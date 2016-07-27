@@ -58,87 +58,87 @@ void sync_timeout_hook_2(void)
 void main_0( void * arg )
 {
     test_start();
-    // 1 _bgrt_proc_prio_propagate bgrt_proc_set_prio
-    bgrt_proc_set_prio( PID1, 5 );
+    // 1 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
+    BGRT_PROC_SET_PRIO( PID1, 5 );
     test = ( 5 == proc[1].base_prio );
     test_output( test, test_num++ );
-    // 2 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 2 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 5 == proc[1].parent.prio);
     test_output( test, test_num++ );
 
-    //3 _bgrt_proc_prio_propagate bgrt_proc_set_prio
-    bgrt_proc_set_prio( PID0, 6 );
+    //3 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
+    BGRT_PROC_SET_PRIO( PID0, 6 );
     test = ( 6 == proc[0].base_prio);
     test_output( test, test_num++ );
-    // 4 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 4 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 6 == proc[0].parent.prio );
     test_output( test, test_num++ );
 
-    // 5 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 5 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     status[1] = BGRT_ST_ESTAT;
     BGRT_PROC_SET_STATE( (PR1), BGRT_PROC_STATE_SYNC_WAIT );
-    bgrt_proc_set_prio( PID1, 4 );
+    BGRT_PROC_SET_PRIO( PID1, 4 );
     bgrt_wait_time(5);
     test = ( 4 == proc[1].base_prio );
     test_output( test, test_num++ );
-    // 6 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 6 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 4 == proc[1].parent.prio);
     test_output( test, test_num++ );
-    // 7 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 7 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
 
-    // 8 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 8 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     status[1] = BGRT_ST_ESTAT;
     BGRT_PROC_SET_STATE( (PR1), BGRT_PROC_STATE_SYNC_SLEEP );
-    bgrt_proc_set_prio( PID1, 5 );
+    BGRT_PROC_SET_PRIO( PID1, 5 );
     bgrt_wait_time(5);
     test = ( 5 == proc[1].base_prio );
     test_output( test, test_num++ );
-    // 9 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 9 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 5 == proc[1].parent.prio);
     test_output( test, test_num++ );
-    // 10 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 10 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
 
-    // 11 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 11 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     BGRT_PROC_SET_STATE( (PR1), BGRT_PROC_STATE_SYNC_SLEEP );
     bgrt_pitem_insert( (bgrt_pitem_t *)(PR1), (bgrt_xlist_t *)(&bgrt_sync_1) );
     proc[1].sync = &bgrt_sync_1;
-    bgrt_proc_set_prio( PID1, 4 );
+    BGRT_PROC_SET_PRIO( PID1, 4 );
     bgrt_wait_time(5);
     test = ( 4 == proc[1].base_prio );
     test_output( test, test_num++ );
-    // 12 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 12 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 4 == proc[1].parent.prio);
     test_output( test, test_num++ );
-    // 13 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 13 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((PR1)) );
     test_output( test, test_num++ );
 
-    // 14 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 14 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     status[1] = BGRT_ST_ESTAT;
     bgrt_sync_1.owner = PR2;
     BGRT_PROC_LRES_INC( (PR2), BGRT_SYNC_PRIO(&bgrt_sync_1) );
-    bgrt_proc_set_prio( PID1, 5 );
+    BGRT_PROC_SET_PRIO( PID1, 5 );
     bgrt_wait_time(5);
     test = ( 5 == proc[1].base_prio );
     test_output( test, test_num++ );
-    // 15 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 15 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 0 == proc[1].parent.prio);
     test_output( test, test_num++ );
-    // 16 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 16 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
-    // 17 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 17 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 1 == bgrt_sync_1.dirty );
     test_output( test, test_num++ );
-    // 18 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 18 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 1 == proc[2].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
 
-    // 19 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 19 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     status[1] = BGRT_ST_ESTAT;
 
     BGRT_PROC_SET_STATE( (PR1), BGRT_PROC_STATE_SYNC_SLEEP );
@@ -153,17 +153,17 @@ void main_0( void * arg )
 
     kernel_preemt_hook_add( prio_propagate_hook_0 );
 
-    bgrt_proc_set_prio( PID1, 4 );
+    BGRT_PROC_SET_PRIO( PID1, 4 );
     bgrt_wait_time(5);
     test = ( 4 == proc[1].base_prio );
     test_output( test, test_num++ );
-    // 20 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 20 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 0 == proc[1].parent.prio);
     test_output( test, test_num++ );
-    // 21 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 21 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( BGRT_ST_OK == status[1] );
     test_output( test, test_num++ );
-    // 22 _bgrt_proc_prio_propagate bgrt_proc_set_prio
+    // 22 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     test = ( 1 == proc[2].lres.counter[BGRT_PRIO_LOWEST] );
     test_output( test, test_num++ );
     /// _bgrt_proc_prio_propagate covered!!!
@@ -352,7 +352,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     /// bgrt_sync_own covered!!!
     //cleanup
-    bgrt_proc_set_prio( PID0, 6 );
+    BGRT_PROC_SET_PRIO( PID0, 6 );
     bgrt_sync_set_owner( &bgrt_sync_1, BGRT_PID_NOTHING );
     bgrt_sync_1.dirty = 0;
     bgrt_sync_1.snum  = 0;
@@ -388,7 +388,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
     /// bgrt_sync_touch covered!!!
     //cleanup
-    bgrt_proc_set_prio( PID0, LOWEST );
+    BGRT_PROC_SET_PRIO( PID0, LOWEST );
     bgrt_sync_1.dirty = 0;
     bgrt_sync_1.snum  = 0;
     //68 bgrt_sync_sleep
@@ -408,7 +408,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     //72 bgrt_sync_sleep
-    bgrt_proc_set_prio( PID1, LOWEST );
+    BGRT_PROC_SET_PRIO( PID1, LOWEST );
     bgrt_sync_set_owner( &bgrt_sync_1, PID1 );
     BGRT_PROC_RUN( PID2 );
     bgrt_wait_time(5);
@@ -419,7 +419,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     //74 bgrt_sync_sleep
-    bgrt_proc_set_prio( PID2, 5 );
+    BGRT_PROC_SET_PRIO( PID2, 5 );
     bgrt_wait_time(5);
     test = ( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((PR2)) );
     test_output( test, test_num++ );
@@ -441,7 +441,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     //79 bgrt_sync_sleep bgrt_sync_wait
-    bgrt_proc_set_prio( PID2, LOWEST );
+    BGRT_PROC_SET_PRIO( PID2, LOWEST );
     BGRT_PROC_RUN( PID1 );
     BGRT_PROC_RUN( PID2 );
     bgrt_wait_time(5);
@@ -473,7 +473,7 @@ void main_0( void * arg )
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((PR2)) );
     test_output( test, test_num++ );
     //cleanup
-    bgrt_proc_set_prio( PID2, 4 );
+    BGRT_PROC_SET_PRIO( PID2, 4 );
     //87 bgrt_sync_sleep
     bgrt_sync_own( &bgrt_sync_1, (bgrt_flag_t)0 );
     test = ( BGRT_ST_EOWN == bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 ) );
@@ -583,7 +583,7 @@ void main_0( void * arg )
     bgrt_wait_time(5);
     status[6] = BGRT_ST_ESTAT;
     kernel_preemt_hook_add( prio_propagate_hook_1 );
-    bgrt_proc_set_prio( PID2, 4 );
+    BGRT_PROC_SET_PRIO( PID2, 4 );
     bgrt_wait_time(5);
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((PR2)) );
     test_output( test, test_num++ );
@@ -600,7 +600,7 @@ void main_0( void * arg )
     bgrt_wait_time(5);
     status[6] = BGRT_ST_ESTAT;
     kernel_preemt_hook_add( prio_propagate_hook_2 );
-    bgrt_proc_set_prio( PID2, 4 );
+    BGRT_PROC_SET_PRIO( PID2, 4 );
     bgrt_wait_time(5);
     test = ( BGRT_PROC_STATE_STOPED == BGRT_PROC_GET_STATE((PR2)) );
     test_output( test, test_num++ );
@@ -719,7 +719,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 138 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID5, 0 );
+    BGRT_PROC_SET_PRIO( PID5, 0 );
     bgrt_wait_time(5);
     test = ( 0 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -737,7 +737,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 143 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID5, 1 );
+    BGRT_PROC_SET_PRIO( PID5, 1 );
     bgrt_wait_time(5);
     test = ( 1 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -755,7 +755,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 148 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID2, 0 );
+    BGRT_PROC_SET_PRIO( PID2, 0 );
     bgrt_wait_time(5);
     test = ( 1 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -773,7 +773,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 153 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID2, 1 );
+    BGRT_PROC_SET_PRIO( PID2, 1 );
     bgrt_wait_time(5);
     test = ( 1 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -791,7 +791,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 158 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID2, 4 );
+    BGRT_PROC_SET_PRIO( PID2, 4 );
     bgrt_wait_time(5);
     test = ( 1 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -809,7 +809,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 163 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID4, 4 );
+    BGRT_PROC_SET_PRIO( PID4, 4 );
     bgrt_wait_time(5);
     test = ( 1 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -827,7 +827,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 168 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID4, 2 );
+    BGRT_PROC_SET_PRIO( PID4, 2 );
     bgrt_wait_time(5);
     test = ( 1 == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -845,7 +845,7 @@ void main_0( void * arg )
     test_output( test, test_num++ );
 
     // 173 priority inheritance/ceiling
-    bgrt_proc_set_prio( PID5, LOWEST );
+    BGRT_PROC_SET_PRIO( PID5, LOWEST );
     bgrt_wait_time(5);
     test = ( LOWEST == proc[5].parent.prio);
     test_output( test, test_num++ );
@@ -973,7 +973,7 @@ void main_1( void * arg )
     //BGRT_SPIN_FREE( (PR1) );
     bgrt_enable_interrupts();
     status[1] = (BGRT_PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     // 8,9,10
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (PR1) );
@@ -981,7 +981,7 @@ void main_1( void * arg )
     //BGRT_SPIN_FREE( (PR1) );
     bgrt_enable_interrupts();
     status[1] = (BGRT_PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     // 14,15,16,17,18
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (PR1) );
@@ -989,7 +989,7 @@ void main_1( void * arg )
     //BGRT_SPIN_FREE( (PR1) );
     bgrt_enable_interrupts();
     status[1] = (BGRT_PROC_STATE_PI_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     // 19,20,21,22,23
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (PR1) );
@@ -997,12 +997,12 @@ void main_1( void * arg )
     //BGRT_SPIN_FREE( (PR1) );
     bgrt_enable_interrupts();
     status[1] = (BGRT_PROC_STATE_SYNC_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //79,80,81,82
     status[1] = BGRT_ST_ESTAT;
     status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //91,92,93,94,95
     bgrt_proc_buff = BGRT_PID_NOTHING;
@@ -1010,30 +1010,30 @@ void main_1( void * arg )
     status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_wake( &bgrt_sync_1, (BGRT_PID_T)bgrt_proc_buff, 0);
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //96,97
     bgrt_proc_buff = BGRT_PID_NOTHING;
     status[1] = BGRT_ST_ESTAT;
     status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //98,99,100
     status[1] = BGRT_ST_ESTAT;
     status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //106,107,108,109,110
     status[1] = BGRT_ST_ESTAT;
     status[1] = bgrt_sync_wake( &bgrt_sync_1, 0, 0);
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //124,125,126,127
     bgrt_proc_buff = BGRT_PID_NOTHING;
     status[1] = BGRT_ST_ESTAT;
     status[1] = bgrt_sync_wait( &bgrt_sync_1, (BGRT_PID_T *)&bgrt_proc_buff, 1 );
     bgrt_sync_wake( &bgrt_sync_1, bgrt_proc_buff, 0);
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 }
 
 void main_2( void * arg )
@@ -1041,11 +1041,11 @@ void main_2( void * arg )
     //69,70,71
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     //72,73,74,75,76,77,78
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     //79,80,81,82
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
@@ -1057,48 +1057,48 @@ void main_2( void * arg )
     //status[3] = (2 == bgrt_sync_1.pwake);        /// status[3] is used!!!
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //91,92,93,94,95
     bgrt_sync_touch( &bgrt_sync_1 );
     BGRT_PROC_RUN( PID1 );
     bgrt_wait_time(10);
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //106,107,108,109,110
     bgrt_sync_touch( &bgrt_sync_1 );
     BGRT_PROC_RUN( PID1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //111,112,113
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //114,115,116
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //117,118,119
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //122,123
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     //124,125,126,127
     bgrt_sync_touch( &bgrt_sync_1 );
     BGRT_PROC_RUN( PID1 );
     bgrt_wait_time(10);
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 
     // priority inheritance/ceiling
     bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    //bgrt_proc_self_stop();
+    //BGRT_PROC_SELF_STOP();
 
     ///Additional tests
     //183, 184
@@ -1106,38 +1106,38 @@ void main_2( void * arg )
     bgrt_wait_time(10);
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)1 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     //185,186,187,188
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
     //189,190,191,192,193,194
     status[2] = BGRT_ST_ESTAT;
     // bgrt_sync_1 must be dirty on sync_timeout_hook_1 call
     bgrt_sync_touch( &bgrt_sync_1 );
     status[2] = bgrt_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 }
 
 void main_3( void * arg )
 {
     // priority inheritance/ceiling
     bgrt_sync_sleep( &bgrt_sync_2, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 }
 
 void main_4( void * arg )
 {
     // priority inheritance/ceiling
     bgrt_sync_sleep( &bgrt_sync_3, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 }
 
 void main_5( void * arg )
 {
     // priority inheritance/ceiling
     bgrt_sync_sleep( &bgrt_sync_2, (bgrt_flag_t)0 );
-    bgrt_proc_self_stop();
+    BGRT_PROC_SELF_STOP();
 }
 
 int main(void)

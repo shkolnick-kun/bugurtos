@@ -78,6 +78,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+//System call SR declaratins
+#define BGRT_SC_TBL_ENTRY(syscall,...) BGRT_SC_SR(syscall, __VA_ARGS__);
+#include <syscall_table.h>
+#undef  BGRT_SC_TBL_ENTRY
+
 //User may write his own system calls
 #ifdef BGRT_CONFIG_CUSTOM_SYSCALL
 #   include <syscall_routines.h>
@@ -102,7 +107,7 @@ void bgrt_proc_terminate( void )
     BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0 );
 }
 //========================================================================================
-BGRT_SC_SR(PROC_TERMINATE)( void * arg )
+BGRT_SC_SR(PROC_TERMINATE, void * arg )
 {
     _bgrt_proc_terminate();
     return BGRT_ST_OK;
@@ -117,15 +122,15 @@ bgrt_bool_t bgrt_sched_proc_yeld(void)
     return ret;
 }
 //========================================================================================
-BGRT_SC_SR(SCHED_PROC_YELD)( bgrt_bool_t * arg )
+BGRT_SC_SR(SCHED_PROC_YELD, void * arg)
 {
-    *arg = _bgrt_sched_proc_yeld();
+    *(bgrt_bool_t *)arg = _bgrt_sched_proc_yeld();
     return BGRT_ST_OK;
 }
 
 BGRT_SCL_TBL( syscall_handler[] ) =
 {
-#   define BGRT_SC_TBL_ENTRY(syscall) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
+#   define BGRT_SC_TBL_ENTRY(syscall,...) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
 #   include <syscall_table.h>
 #   undef  BGRT_SC_TBL_ENTRY
     do_nothing_sr
@@ -155,7 +160,7 @@ bgrt_st_t bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
 //Variadic version of bgrt_syscall
 bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... )
 {
-    bgrt_va_wrapper_t varg;
+    bgrt_va_wr_t varg;
     bgrt_st_t ret;
 
     va_start(varg.list, num);

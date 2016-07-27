@@ -70,8 +70,8 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="13501" topLine="240" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="1">
-		<Cursor position="15960" topLine="372" />
+	<File name="../../../../../kernel/syscall.h" open="1" top="0" tabpos="1">
+		<Cursor position="11205" topLine="184" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
 		<Cursor position="6524" topLine="77" />
