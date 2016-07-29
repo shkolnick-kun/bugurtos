@@ -146,8 +146,10 @@ BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va )
 {
     bgrt_prio_t * prio_ptr;
     BGRT_PID_T pid;
+
     prio_ptr = (bgrt_prio_t *)va_arg(va->list, void *);
     pid = (BGRT_PID_T)va_arg(va->list, void *);
+
     *prio_ptr = _bgrt_proc_get_prio(BGRT_PID_TO_PROC(pid));
     return BGRT_ST_OK;
 }
@@ -157,7 +159,9 @@ BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va )
 BGRT_SC_SR(PROC_SET_PRIO,  bgrt_va_wr_t * va)
 {
     BGRT_PID_T pid;
+
     pid = (BGRT_PID_T)va_arg(va->list, void *);
+
     _bgrt_proc_set_prio(BGRT_PID_TO_PROC(pid), (bgrt_prio_t)va_arg(va->list, int));
     return BGRT_ST_OK;
 }
@@ -175,9 +179,11 @@ BGRT_SC_SR(PROC_GET_ID,  void * arg)
 BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va)
 {
     bgrt_sync_t * sync;
-    BGRT_PID_T pid;
+    BGRT_PID_T pid; //BGRT_PID_TO_PROC macro must get only the value!!!
+
     sync = (bgrt_sync_t *)va_arg(va->list, void *);
     pid = (BGRT_PID_T)va_arg(va->list, void *);
+
     return _bgrt_sync_set_owner(sync, BGRT_PID_TO_PROC(pid));
 }
 /**********************************************************************************************
