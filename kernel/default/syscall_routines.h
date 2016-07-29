@@ -215,49 +215,63 @@ BGRT_SC_SR(SYNC_TOUCH,  void * arg )
 /**********************************************************************************************
                                          SYNC_SLEEP
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch )
+BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va )
 {
-    volatile bgrt_sync_own_sleep_t scarg;
-    scarg.sync = sync;
-    scarg.touch = touch;
-    return BGRT_SYSCALL_N(SYNC_SLEEP, (void *)&scarg );
-}
-//========================================================================================
-BGRT_SC_SR(SYNC_SLEEP,  bgrt_sync_own_sleep_t * arg )
-{
-    return _bgrt_sync_sleep( arg->sync, &arg->touch );
+    va_list param;
+    bgrt_sync_t * sync;
+    bgrt_flag_t * touch;
+
+    va_copy(param, va->list);
+    sync  = (bgrt_sync_t *)va_arg(param, void *);
+    touch = (bgrt_flag_t *)va_arg(param, void *);
+    va_end(param);
+
+    return _bgrt_sync_sleep(sync, touch);
 }
 /**********************************************************************************************
                                         SYNC_WAKE
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown )
+BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va)
 {
-    volatile bgrt_sync_wake_t scarg;
-    scarg.sync = sync;
-    scarg.pid = pid;
-    scarg.chown = chown;
-    return BGRT_SYSCALL_N(SYNC_WAKE, (void *)&scarg );
-}
-//========================================================================================
-BGRT_SC_SR(SYNC_WAKE,  bgrt_sync_wake_t * arg )
-{
-    return _bgrt_sync_wake( arg->sync , BGRT_PID_TO_PROC( arg->pid ), arg->chown );
+    va_list param;
+    bgrt_sync_t * sync;
+    BGRT_PID_T pid;
+    bgrt_flag_t chown;
+
+    va_copy(param, va->list);
+    sync  = (bgrt_sync_t *)va_arg(param, void *);
+    pid   = (BGRT_PID_T   )va_arg(param, void *);
+    chown = (bgrt_flag_t  )va_arg(param, int   );
+    va_end(param);
+
+    return _bgrt_sync_wake(sync, BGRT_PID_TO_PROC(pid), chown);
 }
 /**********************************************************************************************
                                         SYNC_WAIT
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block )
-{
-    volatile bgrt_sync_wait_t scarg;
-    scarg.sync = sync;
-    scarg.pid = pid;
-    scarg.block = block;
-    return BGRT_SYSCALL_N(SYNC_WAIT, (void *)&scarg );
-}
+//bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block )
+//{
+//    volatile bgrt_sync_wait_t scarg;
+//    scarg.sync = sync;
+//    scarg.pid = pid;
+//    scarg.block = block;
+//    return BGRT_SYSCALL_N(SYNC_WAIT, (void *)&scarg );
+//}
 //========================================================================================
-BGRT_SC_SR(SYNC_WAIT,  bgrt_sync_wait_t * arg )
+BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
 {
-    if( !arg->pid )
+    va_list       param;
+    bgrt_sync_t  *sync;
+    BGRT_PID_T   *pid;
+    bgrt_flag_t   block;
+
+    va_copy(param, va->list);
+    sync  = (bgrt_sync_t *)va_arg(param, void *);
+    pid   = (BGRT_PID_T  *)va_arg(param, void *);
+    block = (bgrt_flag_t  )va_arg(param, int   );
+    va_end(param);
+
+    if( !pid )
     {
         return BGRT_ST_ENULL;
     }
@@ -266,9 +280,9 @@ BGRT_SC_SR(SYNC_WAIT,  bgrt_sync_wait_t * arg )
         bgrt_proc_t * proc;
         bgrt_st_t ret;
 
-        proc = BGRT_PID_TO_PROC( *arg->pid );
-        ret  = _bgrt_sync_wait( arg->sync, &proc, arg->block );
-        *arg->pid = BGRT_PROC_TO_PID( proc );
+        proc = BGRT_PID_TO_PROC( *pid );
+        ret  = _bgrt_sync_wait( sync, &proc, block );
+        *pid = BGRT_PROC_TO_PID( proc );
 
         return ret;
     }

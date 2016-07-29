@@ -5,13 +5,22 @@
 		<Cursor position="8545" topLine="114" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="9913" topLine="155" />
+		<Cursor position="7918" topLine="128" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6471" topLine="76" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="7089" topLine="156" />
+	</File>
+	<File name="../../../../../kernel/default/syscall_api.h" open="1" top="1" tabpos="2">
+		<Cursor position="19415" topLine="373" />
+	</File>
+	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="0" tabpos="3">
+		<Cursor position="13399" topLine="257" />
+	</File>
+	<File name="../../../../../kernel/default/syscall_table.h" open="1" top="0" tabpos="4">
+		<Cursor position="10407" topLine="73" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="6364" topLine="78" />
@@ -35,13 +44,13 @@
 		<Cursor position="6199" topLine="971" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="18165" topLine="380" />
+		<Cursor position="11971" topLine="229" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="22448" topLine="475" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="6718" topLine="0" />
+		<Cursor position="11179" topLine="180" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="8754" topLine="179" />
@@ -49,7 +58,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3646" topLine="208" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="16" topLine="0" />
+	<File name="../../../../main/bsync/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="36214" topLine="981" />
 	</File>
 </CodeBlocks_layout_file>

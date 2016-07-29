@@ -219,13 +219,13 @@ bgrt_st_t _bgrt_sync_touch( bgrt_sync_t * sync );
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_wake.
+Смотри #BGRT_SYNC_WAKE.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #bgrt_sync_wake.
+Watch #BGRT_SYNC_WAKE.
 
 \warning For internal usage.
 */
@@ -233,13 +233,13 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_sleep.
+Смотри #BGRT_SYNC_SLEEP.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #bgrt_sync_sleep.
+Watch #BGRT_SYNC_SLEEP.
 
 \warning For internal usage.
 */
@@ -247,12 +247,12 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch );
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_wait.
+Смотри #BGRT_SYNC_WAIT.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #bgrt_sync_wait.
+Watch #BGRT_SYNC_WAIT.
 
 \warning For internal usage.
 */

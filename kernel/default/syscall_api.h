@@ -284,7 +284,6 @@ Own #bgrt_sync_t object.
 \return #BGRT_ST_OK if on success, or error code.
 */
 #define BGRT_SYNC_OWN(sync_ptr, touch) BGRT_SYSCALL_NVAR(SYNC_OWN, (void *)(sync_ptr), (int)(touch))
-//bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
 /*!
 \~russian
 \brief
@@ -301,6 +300,7 @@ Touch #bgrt_sync_t object.
 \return #BGRT_ST_OK if on success, or error code.
 */
 #define BGRT_SYNC_TOUCH(sync) BGRT_SYSCALL_N(SYNC_TOUCH, (void *)(sync))
+/*****************************************************************************************/
 /*!
 \~russian
 \brief
@@ -322,31 +322,8 @@ Blocks caller process.
 \param touch A touch flag, must be 1 if we've touched a sync before call.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch );
-/*!
-\~russian
-\brief
-"Ожидать", блокировки процесса.
-
-Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
-\param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, иначе - код ошибки.
-
-\~english
-\brief
-Sleep to wait for synchronization.
-
-Wait until target process is blocked on target #bgrt_sync_t object.
-
-\param sync A #bgrt_sync_t object pointer.
-\param pid A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
-\param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
-\return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, or error code.
-*/
-bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block );
+#define BGRT_SYNC_SLEEP(sync_ptr,touch_ptr) BGRT_SYSCALL_NVAR(SYNC_SLEEP, (void *)(sync_ptr), (void *)(touch_ptr))
+/*****************************************************************************************/
 /*!
 \~russian
 \brief
@@ -371,7 +348,35 @@ Unblock some waiting process. A process should be blocked on target #bgrt_sync_t
 \param chown A change owner flag. If non 0, then ownership is given to wake up process.
 \return #BGRT_ST_OK on process wakeup, or error code.
 */
-bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown );
+//bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown );
+#define BGRT_SYNC_WAKE(sync_ptr, pid, chown) BGRT_SYSCALL_NVAR(SYNC_WAKE, (void *)(sync_ptr), (void *)(pid), (int)(chown))
+/*****************************************************************************************/
+/*!
+\~russian
+\brief
+"Ожидать", блокировки процесса.
+
+Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
+
+\param sync Указатель на объект типа #bgrt_sync_t.
+\param pid Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
+\param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
+\return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, иначе - код ошибки.
+
+\~english
+\brief
+Sleep to wait for synchronization.
+
+Wait until target process is blocked on target #bgrt_sync_t object.
+
+\param sync A #bgrt_sync_t object pointer.
+\param pid A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
+\param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
+\return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, or error code.
+*/
+//bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block );
+#define BGRT_SYNC_WAIT(sync_ptr, pid_ptr, block) BGRT_SYSCALL_NVAR(SYNC_WAIT, (void *)(sync_ptr), (void *)(pid_ptr), (int)(block))
+/*****************************************************************************************/
 /*!
 \~russian
 \brief
@@ -390,91 +395,4 @@ Wake a process on timeout.
 //bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid );
 #define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid )
 /*****************************************************************************************/
-/*!
-\~russian
-\brief
-Аргумент вызова #BGRT_SYSCALL_SYNC_OWN.
-
-\~english
-\brief
-A #BGRT_SYSCALL_SYNC_OWN arg.
-*/
-typedef struct
-{
-    bgrt_sync_t * sync;
-    bgrt_flag_t touch;
-}bgrt_sync_own_sleep_t;
-/*****************************************************************************************/
-#define BGRT_SYNC_SLEEP(s,t) bgrt_sync_sleep((bgrt_sync_t *)(s), (bgrt_flag_t)(t)) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Для внутреннего пользования.
-
-\~english
-\brief
-For internal usage.
-*/
-typedef struct
-{
-    bgrt_sync_t * sync; /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
-    BGRT_PID_T pid; /*!< \~russian Указатель на процесс. \~english A process pointer. */
-    bgrt_flag_t chown;  /*!< \~russian Флаг смены хозяина. \~english A change owner flag. */
-}
-bgrt_sync_wake_t;
-/*****************************************************************************************/
-#define BGRT_SYNC_WAKE(s,p,c,st)                                   \
-do                                                                 \
-{                                                                  \
-    volatile bgrt_sync_wake_t scarg;                               \
-    scarg.sync = (bgrt_sync_t *)(s);                               \
-    scarg.pid = (BGRT_PID_T)(p);                                   \
-    scarg.chown = (bgrt_flag_t)(c);                                \
-    (st) = BGRT_SYSCALL_N(SYNC_WAKE, (void *)&scarg );  \
-}                                                                  \
-while(0) /*!< \~russian \brief Смотри #bgrt_sync_wake. \~english \brief Watch #bgrt_sync_wake. */
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Для внутреннего пользования.
-
-\~english
-\brief
-For internal usage.
-*/
-typedef struct
-{
-    bgrt_sync_t * sync;  /*!< \~russian Указатель на объект типа #bgrt_sync_t. \~english A #bgrt_sync_t object pointer. */
-    BGRT_PID_T * pid; /*!< \~russian Указатель на буфер процесса. \~english A process buffer pointer. */
-    bgrt_flag_t block;   /*!< \~russian Флаг блокирования. \~english A block flag. */
-}
-bgrt_sync_wait_t;
-/*****************************************************************************************/
-#define BGRT_SYNC_WAIT(s,p,b,st)                                   \
-do                                                                 \
-{                                                                  \
-    volatile bgrt_sync_wait_t scarg;                               \
-    scarg.sync = (bgrt_sync_t *)(s);                               \
-    scarg.pid = (BGRT_PID_T *)(p);                                 \
-    scarg.block = (bgrt_flag_t)(b);                                \
-    (st) = BGRT_SYSCALL_N(SYNC_WAIT, (void *)&scarg ); \
-}                                                                  \
-while(0) /*!< \~russian \brief Смотри #bgrt_sync_wait. \~english \brief Watch #bgrt_sync_wait. */
-/*****************************************************************************************/
-/*!
-\~russian
-\brief
-Аргумент вызова #BGRT_SYSCALL_SYNC_PROC_TIMEOUT.
-
-\~english
-\brief
-A #BGRT_SYSCALL_SYNC_PROC_TIMEOUT arg.
-*/
-typedef struct
-{
-    BGRT_PID_T pid;
-}
-bgrt_sync_proc_timeout_t;
 #endif // _SYSCALL_API_H_

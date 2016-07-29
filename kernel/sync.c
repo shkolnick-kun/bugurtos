@@ -618,7 +618,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
         new_prio = BGRT_SYNC_PRIO( sync );
         if( (old_prio != new_prio) || sync_clear )
         {
-            // When owner in BGRT_PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called bgrt_sync_wait.
+            // When owner in BGRT_PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called BGRT_SYNC_WAIT.
             BGRT_SPIN_LOCK( proc );
             BGRT_PROC_LRES_DEC( proc, old_prio );
             BGRT_PROC_LRES_INC( proc, new_prio );
@@ -925,7 +925,7 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
     {
     case BGRT_PROC_STATE_SYNC_SLEEP:
     {
-        //Undo bgrt_sync_sleep
+        //Undo BGRT_SYNC_SLEEP
         bgrt_prio_t old_prio;
 
         BGRT_CNT_DEC( sync->snum ); //One sleeping proc less

@@ -109,13 +109,6 @@ typedef struct
 {
     va_list list;
 }bgrt_va_wr_t; /*!< \~russian \brief Обертка для va_list.         \~english \brief va_list wrapper. */
-
-//User may write his own system calls
-#ifdef BGRT_CONFIG_CUSTOM_SYSCALL
-#   include <syscall_api.h>
-#else
-#   include <default/syscall_api.h> //Default system call dispatcher
-#endif//BGRT_CONFIG_USER_SYSCALL
 /*!
 \~russian
 \brief
@@ -205,5 +198,12 @@ The Kernel does all of this job.
 \param num a number of a system call (what is going to be done).
 */
 bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... );
+
+//User may write his own system calls
+#ifdef BGRT_CONFIG_CUSTOM_SYSCALL
+#   include <syscall_api.h>
+#else
+#   include <default/syscall_api.h> //Default system call dispatcher
+#endif//BGRT_CONFIG_USER_SYSCALL
 
 #endif // _SYSCALL_H_
