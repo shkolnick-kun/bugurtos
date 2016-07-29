@@ -145,8 +145,10 @@ BGRT_SC_SR(PROC_RESET_WATCHDOG,  void * arg)
 BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va )
 {
     bgrt_prio_t * prio_ptr;
+    BGRT_PID_T pid;
     prio_ptr = (bgrt_prio_t *)va_arg(va->list, void *);
-    *prio_ptr = _bgrt_proc_get_prio(BGRT_PID_TO_PROC((BGRT_PID_T)va_arg(va->list, void *)));
+    pid = (BGRT_PID_T)va_arg(va->list, void *);
+    *prio_ptr = _bgrt_proc_get_prio(BGRT_PID_TO_PROC(pid));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -170,33 +172,18 @@ BGRT_SC_SR(PROC_GET_ID,  void * arg)
 /**********************************************************************************************
                                       SYNC_SET_OWNER
 **********************************************************************************************/
-//bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid )
-//{
-//    volatile bgrt_sync_owner_t scarg;
-//    scarg.sync = sync;
-//    scarg.pid = pid;
-//    return BGRT_SYSCALL_N(SYNC_SET_OWNER, (void *)&scarg );
-//}
-//========================================================================================
-BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va )
+BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va)
 {
     bgrt_sync_t * sync;
+    BGRT_PID_T pid;
     sync = (bgrt_sync_t *)va_arg(va->list, void *);
-    return _bgrt_sync_set_owner(sync, BGRT_PID_TO_PROC((BGRT_PID_T)va_arg(va->list, void *)));
+    pid = (BGRT_PID_T)va_arg(va->list, void *);
+    return _bgrt_sync_set_owner(sync, BGRT_PID_TO_PROC(pid));
 }
 /**********************************************************************************************
                                        SYNC_GET_OWNER
 **********************************************************************************************/
-//BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync )
-//{
-//    volatile bgrt_sync_owner_t scarg;
-//    scarg.sync = sync;
-//    scarg.pid = 0;
-//    BGRT_SYSCALL_N(SYNC_GET_OWNER, (void *)&scarg );
-//    return scarg.pid;
-//}
-//========================================================================================
-BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_va_wr_t * va )
+BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_va_wr_t * va)
 {
     BGRT_PID_T * pid;
     pid = (BGRT_PID_T *)va_arg(va->list, void *);
@@ -206,17 +193,11 @@ BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_va_wr_t * va )
 /**********************************************************************************************
                                           SYNC_OWN
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
+BGRT_SC_SR(SYNC_OWN,  bgrt_va_wr_t * va)
 {
-    bgrt_sync_own_sleep_t scarg;
-    scarg.sync = sync;
-    scarg.touch = touch;
-    return BGRT_SYSCALL_N(SYNC_OWN, (void *)&scarg );
-}
-//========================================================================================
-BGRT_SC_SR(SYNC_OWN,  bgrt_sync_own_sleep_t * arg )
-{
-    return _bgrt_sync_own( arg->sync, arg->touch );
+    bgrt_sync_t * sync;
+    sync = (bgrt_sync_t *)va_arg(va->list, void *);
+    return _bgrt_sync_own(sync, (bgrt_flag_t)va_arg(va->list, int));
 }
 /**********************************************************************************************
                                         SYNC_TOUCH

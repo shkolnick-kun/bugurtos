@@ -552,7 +552,7 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
     }
     case BGRT_PROC_STATE_PI_RUNNING:
     {
-        //The end of priority inheritance transaction or bgrt_sync_own transaction
+        //The end of priority inheritance transaction or BGRT_SYNC_OWN transaction
         _bgrt_sync_sleep_swap_locks( sync, proc );
 
         sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty ); //Event!

@@ -153,10 +153,10 @@ extern void(*test_kernel_preempt)(void);
 
 // Virtual machine main stack size.
 // Main stacks are used by idle processes.
-#define VM_STACK_SIZE (160)
+#define VM_STACK_SIZE (256)
 
 //Virtual machine interrupt stack size.
-#define VM_INT_STACK_SIZE (160)
+//#define VM_INT_STACK_SIZE (160)
 
 #define BGRT_PROC_STACK_SIZE 128
 

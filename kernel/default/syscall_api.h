@@ -107,7 +107,7 @@ This function schedules a process if possible.
 \param pid - A process ID.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-#define BGRT_PROC_RUN(pid) BGRT_SYSCALL_N(PROC_RUN, (void *)pid )
+#define BGRT_PROC_RUN(pid) BGRT_SYSCALL_N(PROC_RUN, (void *)(pid))
 
 /*!
 \~russian
@@ -125,7 +125,7 @@ This function reinitializes a process and schedules it if possible.
 \param pid - A process ID.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-#define BGRT_PROC_RESTART(pid) BGRT_SYSCALL_N(PROC_RESTART, (void *)pid )
+#define BGRT_PROC_RESTART(pid) BGRT_SYSCALL_N(PROC_RESTART, (void *)(pid))
 /*!
 \~russian
 \brief Останов процесса.
@@ -141,7 +141,7 @@ This function stops a process if possible.
 \param pid - A process ID.
 \return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-#define BGRT_PROC_STOP(pid) BGRT_SYSCALL_N(PROC_STOP, (void *)pid )
+#define BGRT_PROC_STOP(pid) BGRT_SYSCALL_N(PROC_STOP, (void *)(pid))
 /*!
 \~russian
 \brief Самоостанов процесса.
@@ -153,7 +153,7 @@ This function stops a process if possible.
 
 This function stops caller process.
 */
-#define BGRT_PROC_SELF_STOP() BGRT_SYSCALL_N(PROC_SELF_STOP, (void *)0 )
+#define BGRT_PROC_SELF_STOP() BGRT_SYSCALL_N(PROC_SELF_STOP, (void *)0)
 /*!
 \~russian
 \brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
@@ -161,7 +161,7 @@ This function stops caller process.
 \~english
 \brief Set #BGRT_PROC_FLG_LOCK for caller process.
 */
-#define BGRT_PROC_LOCK() BGRT_SYSCALL_N(PROC_LOCK, (void *)0 )
+#define BGRT_PROC_LOCK() BGRT_SYSCALL_N(PROC_LOCK, (void *)0)
 /*!
 \~russian
 \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
@@ -169,7 +169,7 @@ This function stops caller process.
 \~english
 \brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
 */
-#define BGRT_PROC_FREE() BGRT_SYSCALL_N(PROC_FREE, (void *)0 )
+#define BGRT_PROC_FREE() BGRT_SYSCALL_N(PROC_FREE, (void *)0)
 /*!
 \~russian
 \brief Сброс watchdog для процесса реального времени.
@@ -183,7 +183,7 @@ This function stops caller process.
 If a caller process is real time, then this function resets its timer.
 If a real time process failed to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
 */
-#define BGRT_PROC_RESET_WATCHDOG() BGRT_SYSCALL_N(PROC_RESET_WATCHDOG, (void *)0 )
+#define BGRT_PROC_RESET_WATCHDOG() BGRT_SYSCALL_N(PROC_RESET_WATCHDOG, (void *)0)
 /*****************************************************************************************/
 /*!
 \~russian
@@ -249,8 +249,7 @@ Set #bgrt_sync_t object owner.
 \param pid A unique ID of new #bgrt_sync_t object owner.
 \return #BGRT_ST_OK on success, or error code.
 */
-//bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
-#define BGRT_SYNC_SET_OWNER(sync_ptr,pid) BGRT_SYSCALL_NVAR(SYNC_SET_OWNER, (void *)(sync_ptr), (void *)(pid))
+#define BGRT_SYNC_SET_OWNER(sync_ptr, pid) BGRT_SYSCALL_NVAR(SYNC_SET_OWNER, (void *)(sync_ptr), (void *)(pid))
 /*!
 \~russian
 \brief
@@ -266,8 +265,7 @@ Get current #bgrt_sync_t object owner.
 \param sync A pointer to the object of interest.
 \return A pointer to #bgrt_sync_t object owner.
 */
-//BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync );
-#define BGRT_SYNC_GET_OWNER(sync_ptr,var_ptr) (*(var_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_NVAR(SYNC_GET_OWNER, (void *)(var_ptr), (void *)(sync_ptr)))
+#define BGRT_SYNC_GET_OWNER(sync_ptr, var_ptr) (*(var_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_NVAR(SYNC_GET_OWNER, (void *)(var_ptr), (void *)(sync_ptr)))
 /*!
 \~russian
 \brief
@@ -285,7 +283,8 @@ Own #bgrt_sync_t object.
 \param touch If not 0 then mark sync as dirty on fail.
 \return #BGRT_ST_OK if on success, or error code.
 */
-bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
+#define BGRT_SYNC_OWN(sync_ptr, touch) BGRT_SYSCALL_NVAR(SYNC_OWN, (void *)(sync_ptr), (int)(touch))
+//bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
 /*!
 \~russian
 \brief
@@ -301,7 +300,7 @@ Touch #bgrt_sync_t object.
 \param sync A pointer to the object of interest.
 \return #BGRT_ST_OK if on success, or error code.
 */
-#define BGRT_SYNC_TOUCH(sync) BGRT_SYSCALL_N(SYNC_TOUCH, (void *)sync)
+#define BGRT_SYNC_TOUCH(sync) BGRT_SYSCALL_N(SYNC_TOUCH, (void *)(sync))
 /*!
 \~russian
 \brief
@@ -405,8 +404,6 @@ typedef struct
     bgrt_sync_t * sync;
     bgrt_flag_t touch;
 }bgrt_sync_own_sleep_t;
-/*****************************************************************************************/
-#define BGRT_SYNC_OWN(s,t) bgrt_sync_own( (bgrt_sync_t *)(s), (bgrt_flag_t)(t) ) /*!< \~russian \brief Смотри #bgrt_sync_own. \~english \brief Watch #bgrt_sync_own. */
 /*****************************************************************************************/
 #define BGRT_SYNC_SLEEP(s,t) bgrt_sync_sleep((bgrt_sync_t *)(s), (bgrt_flag_t)(t)) /*!< \~russian \brief Смотри #bgrt_sync_sleep. \~english \brief Watch #bgrt_sync_sleep. */
 /*****************************************************************************************/

@@ -191,13 +191,13 @@ bgrt_proc_t * _bgrt_sync_get_owner( bgrt_sync_t * sync );
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_own.
+Смотри #BGRT_SYNC_OWN.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #bgrt_sync_own.
+Watch #BGRT_SYNC_OWN.
 
 \warning For internal usage.
 */
