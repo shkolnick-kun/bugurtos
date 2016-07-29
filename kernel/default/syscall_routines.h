@@ -170,33 +170,37 @@ BGRT_SC_SR(PROC_GET_ID,  void * arg)
 /**********************************************************************************************
                                       SYNC_SET_OWNER
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid )
-{
-    volatile bgrt_sync_owner_t scarg;
-    scarg.sync = sync;
-    scarg.pid = pid;
-    return BGRT_SYSCALL_N(SYNC_SET_OWNER, (void *)&scarg );
-}
+//bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid )
+//{
+//    volatile bgrt_sync_owner_t scarg;
+//    scarg.sync = sync;
+//    scarg.pid = pid;
+//    return BGRT_SYSCALL_N(SYNC_SET_OWNER, (void *)&scarg );
+//}
 //========================================================================================
-BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_sync_owner_t * arg )
+BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va )
 {
-    return _bgrt_sync_set_owner( arg->sync, BGRT_PID_TO_PROC( arg->pid ) );
+    bgrt_sync_t * sync;
+    sync = (bgrt_sync_t *)va_arg(va->list, void *);
+    return _bgrt_sync_set_owner(sync, BGRT_PID_TO_PROC((BGRT_PID_T)va_arg(va->list, void *)));
 }
 /**********************************************************************************************
                                        SYNC_GET_OWNER
 **********************************************************************************************/
-BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync )
-{
-    volatile bgrt_sync_owner_t scarg;
-    scarg.sync = sync;
-    scarg.pid = 0;
-    BGRT_SYSCALL_N(SYNC_GET_OWNER, (void *)&scarg );
-    return scarg.pid;
-}
+//BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync )
+//{
+//    volatile bgrt_sync_owner_t scarg;
+//    scarg.sync = sync;
+//    scarg.pid = 0;
+//    BGRT_SYSCALL_N(SYNC_GET_OWNER, (void *)&scarg );
+//    return scarg.pid;
+//}
 //========================================================================================
-BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_sync_owner_t * arg )
+BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_va_wr_t * va )
 {
-    arg->pid = BGRT_PROC_TO_PID( _bgrt_sync_get_owner( arg->sync ) );
+    BGRT_PID_T * pid;
+    pid = (BGRT_PID_T *)va_arg(va->list, void *);
+    *pid = BGRT_PROC_TO_PID( _bgrt_sync_get_owner((bgrt_sync_t *)va_arg(va->list, void *)));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -217,16 +221,9 @@ BGRT_SC_SR(SYNC_OWN,  bgrt_sync_own_sleep_t * arg )
 /**********************************************************************************************
                                         SYNC_TOUCH
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync )
+BGRT_SC_SR(SYNC_TOUCH,  void * arg )
 {
-    bgrt_sync_touch_t scarg;
-    scarg.sync = sync;
-    return BGRT_SYSCALL_N(SYNC_TOUCH, (void *)&scarg );
-}
-//========================================================================================
-BGRT_SC_SR(SYNC_TOUCH,  bgrt_sync_touch_t * arg )
-{
-    return _bgrt_sync_touch( arg->sync );
+    return _bgrt_sync_touch((bgrt_sync_t *)arg);
 }
 /**********************************************************************************************
                                          SYNC_SLEEP
@@ -292,16 +289,16 @@ BGRT_SC_SR(SYNC_WAIT,  bgrt_sync_wait_t * arg )
 /**********************************************************************************************
                                       SYNC_PROC_TIMEOUT
 **********************************************************************************************/
-bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid )
-{
-    volatile bgrt_sync_proc_timeout_t scarg;
-    scarg.pid = pid;
-    return BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)&scarg );
-}
+//bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid )
+//{
+//    volatile bgrt_sync_proc_timeout_t scarg;
+//    scarg.pid = pid;
+//    return BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)&scarg );
+//}
 //========================================================================================
-BGRT_SC_SR(SYNC_PROC_TIMEOUT,  bgrt_sync_proc_timeout_t * arg )
+BGRT_SC_SR(SYNC_PROC_TIMEOUT, void * arg)
 {
-    return _bgrt_sync_proc_timeout( BGRT_PID_TO_PROC( arg->pid ) );
+    return _bgrt_sync_proc_timeout( BGRT_PID_TO_PROC((BGRT_PID_T)arg) );
 }
 /**********************************************************************************************
                                             USER

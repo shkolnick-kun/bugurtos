@@ -165,168 +165,12 @@ bgrt_st_t _bgrt_sync_init(
 /*!
 \~russian
 \brief
-Получить хозяина примитива.
-
-\param sync Указатель на интересующий объект типа #bgrt_sync_t.
-\return Указатель на процесс-хозяин объекта типа #bgrt_sync_t.
-
-\~english
-\brief
-Get current #bgrt_sync_t object owner.
-
-\param sync A pointer to the object of interest.
-\return A pointer to #bgrt_sync_t object owner.
-*/
-BGRT_PID_T bgrt_sync_get_owner( bgrt_sync_t * sync );
-/*!
-\~russian
-\brief
-Назначить хозяина объекта типа #bgrt_sync_t.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Уникальный идентификатор нового процесса-хозяин объекта типа #bgrt_sync_t.
-\return #BGRT_ST_OK в случае успеха, либо код ошибки.
-
-\~english
-\brief
-Set #bgrt_sync_t object owner.
-
-\param sync A pointer to the object of interest.
-\param pid A unique ID of new #bgrt_sync_t object owner.
-\return #BGRT_ST_OK on success, or error code.
-*/
-bgrt_st_t bgrt_sync_set_owner( bgrt_sync_t * sync, BGRT_PID_T pid );
-/*!
-\~russian
-\brief
-Завладеть объектом типа #bgrt_sync_t.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param touch Если не 0, - пометить sync, как "грязный" случае неудачи.
-\return #BGRT_ST_OK в случае успеха, либо код ошибки.
-
-\~english
-\brief
-Own #bgrt_sync_t object.
-
-\param sync A pointer to the object of interest.
-\param touch If not 0 then mark sync as dirty on fail.
-\return #BGRT_ST_OK if on success, or error code.
-*/
-bgrt_st_t bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
-/*!
-\~russian
-\brief
-Пометить объект #bgrt_sync_t, как грязный.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\return #BGRT_ST_OK в случае успеха, либо код ошибки.
-
-\~english
-\brief
-Touch #bgrt_sync_t object.
-
-\param sync A pointer to the object of interest.
-\return #BGRT_ST_OK if on success, or error code.
-*/
-bgrt_st_t bgrt_sync_touch( bgrt_sync_t * sync );
-/*!
-\~russian
-\brief
-"Уснуть" в ожидании синхронизации #bgrt_sync_t.
-
-Блокирует вызывающий процесс.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param touch Если не 0, то sync был помечен, как "грязный".
-\return #BGRT_ST_OK в случае успеха, иначе - код ошибки.
-
-\~english
-\brief
-Sleep to wait for synchronization.
-
-Blocks caller process.
-
-\param sync A pointer to the object of interest.
-\param touch A touch flag, must be 1 if we've touched a sync before call.
-\return #BGRT_ST_OK on success, or error number.
-*/
-bgrt_st_t bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t touch );
-/*!
-\~russian
-\brief
-"Ожидать", блокировки процесса.
-
-Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
-\param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
-\return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, иначе - код ошибки.
-
-\~english
-\brief
-Sleep to wait for synchronization.
-
-Wait until target process is blocked on target #bgrt_sync_t object.
-
-\param sync A #bgrt_sync_t object pointer.
-\param pid A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
-\param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
-\return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, or error code.
-*/
-bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block );
-/*!
-\~russian
-\brief
-"Разбудить" ожидающий процесс.
-
-Запускает ожидающий процесс. Может запустить "голову" списка ожидающих процессов,
-или какой-то конкретный процесс, в случае, если он заблокирован на целевом примитиве синхронизации.
-
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Указатель на процесс, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
-\param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
-\return #BGRT_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
-
-\~english
-\brief
-Sleep to wait for synchronization.
-
-Unblock some waiting process. A process should be blocked on target #bgrt_sync_t object.
-
-\param sync A #bgrt_sync_t object pointer.
-\param pid A pointer to a process, that is supposed to wake up. If 0, then try to wake up wait list head.
-\param chown A change owner flag. If non 0, then ownership is given to wake up process.
-\return #BGRT_ST_OK on process wakeup, or error code.
-*/
-bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown );
-/*!
-\~russian
-\brief
-"Разбудить", процесс по таймауту.
-
-\param pid Указатель на процесс, который надо подождать, если *pid==0, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
-\return #BGRT_ST_OK в случае, если дождался разбудил целевой процесс, #BGRT_ST_EAGAIN, если нужна следующая итерация, иначе - код ошибки.
-
-\~english
-\brief
-Wake a process on timeout.
-
-\param pid A pointer to a process, that is supposed to wake up.
-\return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_EAGAIN if caller must do next iteration, or error code.
-*/
-bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid );
-
-/*!
-\~russian
-\brief
-Смотри #bgrt_sync_set_owner.
+Смотри #BGRT_SYNC_SET_OWNER.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #bgrt_sync_set_owner.
+Watch #BGRT_SYNC_SET_OWNER.
 
 \warning For internal usage.
 */
@@ -361,13 +205,13 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch );
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_touch.
+Смотри #BGRT_SYNC_TOUCH.
 
 \warning Для внутреннего использования.
 
 \~english
 \brief
-Watch #bgrt_sync_touch.
+Watch #BGRT_SYNC_TOUCH.
 
 \warning For internal usage.
 */
@@ -416,12 +260,12 @@ bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t 
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_proc_timeout.
+Смотри #BGRT_SYNC_PROC_TIMEOUT.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #bgrt_sync_proc_timeout.
+Watch #BGRT_SYNC_PROC_TIMEOUT.
 
 \warning For internal usage.
 */
