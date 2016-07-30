@@ -45,6 +45,7 @@
 			<Add directory="../../../../../../../../thirdparty/libopencm3/include" />
 			<Add directory="../../../../../../../libs/native" />
 			<Add directory="../../../../../../../arch/cm4f/gcc" />
+			<Add directory="../../../../../../../kernel/default" />
 		</Compiler>
 		<Linker>
 			<Add option="-mthumb" />
@@ -68,6 +69,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../kernel/crit_sec.h" />
+		<Unit filename="../../../../../../../kernel/default/syscall_api.h" />
+		<Unit filename="../../../../../../../kernel/default/syscall_routines.h" />
+		<Unit filename="../../../../../../../kernel/default/syscall_table.h" />
 		<Unit filename="../../../../../../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>
