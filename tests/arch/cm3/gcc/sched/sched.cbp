@@ -41,6 +41,7 @@
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../../thirdparty/libopencm3/include" />
 			<Add directory="../../../../../arch/cm3/gcc" />
+			<Add directory="../../../../../kernel/default" />
 		</Compiler>
 		<Linker>
 			<Add option="-nostdlib" />
@@ -65,6 +66,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/crit_sec.h" />
+		<Unit filename="../../../../../kernel/default/syscall_api.h" />
+		<Unit filename="../../../../../kernel/default/syscall_routines.h" />
+		<Unit filename="../../../../../kernel/default/syscall_table.h" />
 		<Unit filename="../../../../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>
