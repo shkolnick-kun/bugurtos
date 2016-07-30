@@ -21,16 +21,16 @@ void main_bgrt_proc_test( void * arg )
     BGRT_PID_T wait_for = BGRT_PID_NOTHING;
     ipc_msg_t * in;
 
-    bgrt_proc_run( PID1 );
+    BGRT_PROC_RUN( PID1 );
 
     test_start();
     BGRT_SYNC_SET_OWNER( &test_ep, PID0 );
 
     test_output( BGRT_ST_EEMPTY == ipc_wait( &test_ep, &wait_for, 0), 1 );
     //priority inheritance tests
-    bgrt_proc_run( PID3 );
+    BGRT_PROC_RUN( PID3 );
     test_output( proc[0].parent.prio == 1, 2 );
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     test_output( proc[0].parent.prio == 0, 3 );
     // ipc_send tests
     test_output( BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE( (&proc[2]) ), 4 );

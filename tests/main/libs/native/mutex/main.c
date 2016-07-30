@@ -8,19 +8,21 @@ mutex_t test_mutex;
 
 void main_with_return( void * arg )
 {
-    bgrt_proc_run( PID1 );
+    BGRT_PID_T pid_buf;
+    BGRT_PROC_RUN( PID1 );
 
     test_start();
 
     //mutex_try_lock test 1
     test_output( (BGRT_ST_OK == mutex_try_lock( &test_mutex )), 1 );
     // mutex_try_lock test 2
-    test_output( ( PID0 == BGRT_SYNC_GET_OWNER( &test_mutex )), 2 );
+    BGRT_SYNC_GET_OWNER( &test_mutex, &pid_buf );
+    test_output( ( PID0 == pid_buf), 2 );
     // mutex_try_lock test 3
     test_output( ( proc[0].parent.prio == 3 ), 3 );
     //mutex_try_lock test 3
     //mutex_lock test 4
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     bgrt_wait_time( 2 );
     test_output( ((BGRT_PROC_STATE_SYNC_SLEEP) == (proc[2].flags & (BGRT_PROC_STATE_MASK) ) ), 4 );
     //mutex_lock test 7
@@ -37,21 +39,24 @@ void main_with_return( void * arg )
     bgrt_wait_time( 2 );
     test_output( ( proc[0].parent.prio == 4 ), 9 );
     //mutex_free test 10
-    test_output( ( PID2 == BGRT_SYNC_GET_OWNER( &test_mutex )), 10 );
+    BGRT_SYNC_GET_OWNER( &test_mutex, &pid_buf );
+    test_output( (PID2 == pid_buf), 10 );
     //mutex_free test 11
     // proc[2] must free mutexaphore and self stop
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     bgrt_wait_time( 2 );
-    test_output (( BGRT_PID_NOTHING == BGRT_SYNC_GET_OWNER( &test_mutex )), 11 );
+    BGRT_SYNC_GET_OWNER( &test_mutex, &pid_buf );
+    test_output ((BGRT_PID_NOTHING == pid_buf), 11 );
     // mutex_lock test 12
     // proc[2] must lock a test_mutex and self ctop
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     bgrt_wait_time( 2 );
-    test_output( ( PID2 == BGRT_SYNC_GET_OWNER( &test_mutex )), 12 );
+    BGRT_SYNC_GET_OWNER( &test_mutex, &pid_buf );
+    test_output( (PID2 == pid_buf), 12 );
     //mutex_lock test 13
     test_output( (proc[2].flags & BGRT_PROC_STATE_MASK) != BGRT_PROC_STATE_SYNC_SLEEP, 13 );
 
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
 
     tests_end();
 }
@@ -69,9 +74,9 @@ void main_mutex( void * arg )
     while(1)
     {
         mutex_lock( &test_mutex );
-        bgrt_proc_self_stop();
+        BGRT_PROC_SELF_STOP();
         mutex_free( &test_mutex );
-        bgrt_proc_self_stop();
+        BGRT_PROC_SELF_STOP();
     }
 }
 

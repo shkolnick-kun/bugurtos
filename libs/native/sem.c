@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 bgrt_st_t sem_init_isr( sem_t * sem, bgrt_cnt_t count )
 {
-    if(!sem)
+    if (!sem)
     {
         return BGRT_ST_ENULL;
     }
@@ -101,64 +101,65 @@ bgrt_st_t sem_init( sem_t * sem, bgrt_cnt_t count )
     return ret;
 }
 
-bgrt_st_t sem_try_lock( sem_t * sem )
+bgrt_st_t sem_try_lock(sem_t * sem)
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
-    if( !sem )
+    if (!sem)
     {
         return BGRT_ST_ENULL;
     }
 
     bgrt_disable_interrupts();
-    BGRT_SPIN_LOCK( sem );
+    BGRT_SPIN_LOCK(sem);
 
-    if( sem->counter )
+    if (sem->counter)
     {
         sem->counter--;
         ret = BGRT_ST_OK;
     }
 
-    BGRT_SPIN_FREE( sem );
+    BGRT_SPIN_FREE(sem);
     bgrt_enable_interrupts();
 
     return ret;
 }
 
-bgrt_st_t sem_lock( sem_t * sem )
+bgrt_st_t sem_lock(sem_t * sem)
 {
     bgrt_st_t ret;
 
-    if( !sem )
+    if (!sem)
     {
         return BGRT_ST_ENULL;
     }
 
-    bgrt_proc_lock();
+    BGRT_PROC_LOCK();
 
     bgrt_disable_interrupts();
-    BGRT_SPIN_LOCK( sem );
+    BGRT_SPIN_LOCK(sem);
 
-    if( sem->counter )
+    if (sem->counter)
     {
         sem->counter--;
         ret = BGRT_ST_OK;
     }
     else
     {
-        _bgrt_sync_touch( (bgrt_sync_t *)sem );
+        _bgrt_sync_touch((bgrt_sync_t *)sem);
         ret = BGRT_ST_ROLL;
     }
 
-    BGRT_SPIN_FREE( sem );
+    BGRT_SPIN_FREE(sem);
     bgrt_enable_interrupts();
 
-    if( BGRT_ST_ROLL == ret )
+    if (BGRT_ST_ROLL == ret)
     {
-        ret = BGRT_SYNC_SLEEP( sem, 1 );
+        bgrt_flag_t touch = 1;
+        ret = BGRT_SYNC_SLEEP(sem, &touch);
     }
 
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
     return ret;
 }
 
@@ -166,16 +167,16 @@ bgrt_st_t sem_free( sem_t * sem )
 {
     bgrt_st_t ret;
 
-    if( !sem )
+    if (!sem)
     {
         return BGRT_ST_ENULL;
     }
 
-    bgrt_proc_lock();
+    BGRT_PROC_LOCK();
 
-    BGRT_SYNC_WAKE( sem,  BGRT_PID_NOTHING, 0, ret );// Now we can try to wake some process.
+    ret = BGRT_SYNC_WAKE(sem,  BGRT_PID_NOTHING, 0);// Now we can try to wake some process.
 
-    if( BGRT_ST_EEMPTY == ret )
+    if (BGRT_ST_EEMPTY == ret)
     {
         bgrt_disable_interrupts();
         BGRT_SPIN_LOCK( sem );
@@ -186,7 +187,7 @@ bgrt_st_t sem_free( sem_t * sem )
         BGRT_SPIN_FREE( sem );
         bgrt_enable_interrupts();
     }
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
     return ret;
 }
 
@@ -194,28 +195,28 @@ bgrt_st_t sem_free_isr( sem_t * sem )
 {
     bgrt_st_t ret;
 
-    if( !sem )
+    if (!sem)
     {
         return BGRT_ST_ENULL;
     }
 
     BGRT_SPIN_LOCK( sem );
     //Check owner
-    if( ((bgrt_sync_t *)sem)->owner )
+    if (((bgrt_sync_t *)sem)->owner)
     {
         ret = BGRT_ST_EOWN;
     }
     else
     {
         // Now we can wake some process. )
-        ret = _bgrt_sync_wake( (bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0 );
-        if( BGRT_ST_EEMPTY == ret )
+        ret = _bgrt_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
+        if (BGRT_ST_EEMPTY == ret)
         {
             sem->counter++;
             ret = BGRT_ST_OK;
         }
     }
-    BGRT_SPIN_FREE( sem );
+    BGRT_SPIN_FREE(sem);
 
     return ret;
 }

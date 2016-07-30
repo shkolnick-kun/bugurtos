@@ -78,60 +78,61 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "mutex.h"
 
-bgrt_st_t mutex_init_isr( mutex_t * mutex, bgrt_prio_t prio )
+bgrt_st_t mutex_init_isr(mutex_t * mutex, bgrt_prio_t prio)
 {
-    return _BGRT_SYNC_INIT( mutex, prio );
+    return _BGRT_SYNC_INIT(mutex, prio);
 }
 
-bgrt_st_t mutex_init( mutex_t * mutex, bgrt_prio_t prio )
+bgrt_st_t mutex_init(mutex_t * mutex, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = mutex_init_isr( mutex, prio );
+    ret = mutex_init_isr(mutex, prio);
     bgrt_enable_interrupts();
     return ret;
 }
 
-bgrt_st_t mutex_try_lock( mutex_t * mutex )
+bgrt_st_t mutex_try_lock(mutex_t * mutex)
 {
     bgrt_st_t ret;
 
-    bgrt_proc_lock();
+    BGRT_PROC_LOCK();
 
-    ret = BGRT_SYNC_OWN( mutex, 0 );
+    ret = BGRT_SYNC_OWN(mutex, 0);
 
-    if( BGRT_ST_OK == ret )
+    if (BGRT_ST_OK == ret)
     {
-        bgrt_proc_lock(); //Now process must not stop!
+        BGRT_PROC_LOCK(); //Now process must not stop!
     }
 
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
 
     return ret;
 }
 
-bgrt_st_t mutex_lock( mutex_t * mutex )
+bgrt_st_t mutex_lock(mutex_t * mutex)
 {
     bgrt_st_t ret;
 
-    bgrt_proc_lock(); //Now process must not stop!
+    BGRT_PROC_LOCK(); //Now process must not stop!
 
-    ret = BGRT_SYNC_OWN( mutex, 1 ); //Try to lock mutex
+    ret = BGRT_SYNC_OWN(mutex, 1); //Try to lock mutex
 
-    if( BGRT_ST_EOWN == ret )
+    if (BGRT_ST_EOWN == ret)
     {
-        ret = BGRT_SYNC_SLEEP( mutex, 1 );
+        bgrt_flag_t touch = 1;
+        ret = BGRT_SYNC_SLEEP(mutex, &touch);
     }
 
     return ret;
 }
 
-bgrt_st_t mutex_free( mutex_t * mutex )
+bgrt_st_t mutex_free(mutex_t * mutex)
 {
-    bgrt_st_t ret = BGRT_ST_ESTAT;
+    bgrt_st_t ret;
 
-    BGRT_SYNC_WAKE( mutex,  BGRT_PID_NOTHING, 1, ret );    // Now we can wake some process.
-    bgrt_proc_free();                       // May stop caller process.
+    ret = BGRT_SYNC_WAKE(mutex,  BGRT_PID_NOTHING, 1);    // Now we can wake some process.
+    BGRT_PROC_FREE();                       // May stop caller process.
 
     return ret;
 }

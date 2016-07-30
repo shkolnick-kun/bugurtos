@@ -170,7 +170,10 @@ BGRT_SC_SR(PROC_SET_PRIO,  bgrt_va_wr_t * va)
 **********************************************************************************************/
 BGRT_SC_SR(PROC_GET_ID,  void * arg)
 {
-    *(BGRT_PID_T *)arg = BGRT_PROC_TO_PID( bgrt_curr_proc() );
+    bgrt_proc_t * curr_proc;
+    /*Do NOT optimize this as BGRT_PROC_TO_PID may call bgrt_curr_proc more than one time!!!*/
+    curr_proc = bgrt_curr_proc();
+    *(BGRT_PID_T *)arg = BGRT_PROC_TO_PID( curr_proc );
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -192,8 +195,12 @@ BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va)
 BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_va_wr_t * va)
 {
     BGRT_PID_T * pid;
+    bgrt_proc_t * proc;
+
     pid = (BGRT_PID_T *)va_arg(va->list, void *);
-    *pid = BGRT_PROC_TO_PID( _bgrt_sync_get_owner((bgrt_sync_t *)va_arg(va->list, void *)));
+    /*Do NOT optimize this as BGRT_PROC_TO_PID may call va_arg more than one time!!!*/
+    proc = _bgrt_sync_get_owner((bgrt_sync_t *)va_arg(va->list, void *));
+    *pid = BGRT_PROC_TO_PID(proc);
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -279,7 +286,7 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
     {
         bgrt_proc_t * proc;
         bgrt_st_t ret;
-
+        /*Do NOT optimize this as BGRT_PROC_TO_PID may call va_arg more than one time!!!*/
         proc = BGRT_PID_TO_PROC( *pid );
         ret  = _bgrt_sync_wait( sync, &proc, block );
         *pid = BGRT_PROC_TO_PID( proc );

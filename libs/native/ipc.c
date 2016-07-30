@@ -78,80 +78,81 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "ipc.h"
 
-bgrt_st_t ipc_init_isr( ipc_t * endpoint )
+bgrt_st_t ipc_init_isr(ipc_t * endpoint)
 {
     if(!endpoint)
     {
         return BGRT_ST_ENULL;
     }
-    _BGRT_SYNC_INIT( endpoint, BGRT_PRIO_LOWEST );
+    _BGRT_SYNC_INIT(endpoint, BGRT_PRIO_LOWEST);
     endpoint->msg = (void *)0;
     return BGRT_ST_OK;
 }
 
-bgrt_st_t ipc_init( ipc_t * endpoint )
+bgrt_st_t ipc_init(ipc_t * endpoint)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = ipc_init_isr( endpoint );
+    ret = ipc_init_isr(endpoint);
     bgrt_enable_interrupts();
     return ret;
 }
 
-bgrt_st_t ipc_send( ipc_t * out, void * msg )
+bgrt_st_t ipc_send(ipc_t * out, void * msg)
 {
     bgrt_st_t ret;
+    bgrt_flag_t touch = 0;
 
-    bgrt_proc_lock();
+    BGRT_PROC_LOCK();
 
-    ret = BGRT_SYNC_SLEEP( out, 0 );
+    ret = BGRT_SYNC_SLEEP (out, &touch);
 
-    if( BGRT_ST_OK != ret )
+    if (BGRT_ST_OK != ret)
     {
-        bgrt_proc_free();
+        BGRT_PROC_FREE();
         return ret;
     }
 
     out->msg = msg;
-    ret = BGRT_SYNC_SLEEP( out, 0 );
+    ret = BGRT_SYNC_SLEEP(out, &touch);
 
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
     return ret;
 }
 
-bgrt_st_t ipc_wait( ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block )
+bgrt_st_t ipc_wait(ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block)
 {
     bgrt_st_t ret;
 
-    bgrt_proc_lock();
+    BGRT_PROC_LOCK();
 
-    BGRT_SYNC_WAIT(in, pid, block, ret );
+    ret = BGRT_SYNC_WAIT(in, pid, block);
 
-    if( BGRT_ST_OK != ret )
+    if (BGRT_ST_OK != ret)
     {
         goto end;
     }
 
-    BGRT_SYNC_WAKE(in, *pid, 0, ret );
+    ret = BGRT_SYNC_WAKE(in, *pid, 0);
 
-    if( BGRT_ST_OK == ret )
+    if (BGRT_ST_OK == ret)
     {
-        BGRT_SYNC_WAIT(in, pid, 1, ret );
+        ret = BGRT_SYNC_WAIT(in, pid, 1);
     }
 end:
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
     return ret;
 }
 
-bgrt_st_t ipc_reply( ipc_t * in, BGRT_PID_T pid)
+bgrt_st_t ipc_reply(ipc_t * in, BGRT_PID_T pid)
 {
     bgrt_st_t ret;
 
-    bgrt_proc_lock();
+    BGRT_PROC_LOCK();
 
-    BGRT_SYNC_WAKE(in, pid, 0, ret );
+    ret = BGRT_SYNC_WAKE(in, pid, 0);
 
-    bgrt_proc_free();
+    BGRT_PROC_FREE();
 
     return ret;
 }

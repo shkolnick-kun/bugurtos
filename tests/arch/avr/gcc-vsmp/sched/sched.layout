@@ -13,7 +13,7 @@
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="4">
 		<Cursor position="7068" topLine="107" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/bugurt.h" open="1" top="0" tabpos="2">
 		<Cursor position="7800" topLine="124" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="2">
@@ -61,11 +61,11 @@
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="5">
 		<Cursor position="11983" topLine="248" />
 	</File>
-	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="7">
+	<File name="../../../../../kernel/sync.c" open="1" top="0" tabpos="4">
 		<Cursor position="22015" topLine="595" />
 	</File>
-	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="4">
-		<Cursor position="18569" topLine="389" />
+	<File name="../../../../../kernel/sync.h" open="1" top="0" tabpos="3">
+		<Cursor position="12384" topLine="248" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="8931" topLine="142" />

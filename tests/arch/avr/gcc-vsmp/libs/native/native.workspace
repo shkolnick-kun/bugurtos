@@ -2,8 +2,8 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="sig/sig.cbp" />
-		<Project filename="ipc/ipc.cbp" active="1" />
+		<Project filename="ipc/ipc.cbp" />
 		<Project filename="sem/sem.cbp" />
-		<Project filename="mutex/mutex.cbp" />
+		<Project filename="mutex/mutex.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

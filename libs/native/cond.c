@@ -78,43 +78,45 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "cond.h"
 
-bgrt_st_t cond_init_isr( cond_t * cond )
+bgrt_st_t cond_init_isr(cond_t * cond)
 {
-    return _BGRT_SYNC_INIT( cond, BGRT_PRIO_LOWEST );
+    return _BGRT_SYNC_INIT(cond, BGRT_PRIO_LOWEST);
 }
 
-bgrt_st_t cond_init( cond_t * cond )
+bgrt_st_t cond_init(cond_t * cond)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = cond_init_isr( cond );
+    ret = cond_init_isr(cond);
     bgrt_enable_interrupts();
     return ret;
 }
 
-bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
+bgrt_st_t cond_wait(cond_t * cond, mutex_t * mutex)
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
-    if( (!mutex) || (!cond) )
+    if ((!mutex) || (!cond))
     {
         return BGRT_ST_ENULL;
     }
 
-    bgrt_proc_lock(); //Don't stop caller until wakeup!
+    BGRT_PROC_LOCK(); //Don't stop caller until wakeup!
 
-    BGRT_SYNC_TOUCH( cond );
+    BGRT_SYNC_TOUCH(cond);
 
-    ret = mutex_free( mutex );
+    ret = mutex_free(mutex);
 
-    if( BGRT_ST_EOWN == ret )
+    if (BGRT_ST_EOWN == ret)
     {
-        bgrt_proc_free(); //May stop as error occurred!
+        BGRT_PROC_FREE(); //May stop as error occurred!
     }
     else
     {
-        ret = BGRT_SYNC_SLEEP( cond, 1 );
-        bgrt_proc_free(); //Now may stop!
+        bgrt_flag_t touch = 1;
+
+        ret = BGRT_SYNC_SLEEP(cond, &touch);
+        BGRT_PROC_FREE(); //Now may stop!
 
         mutex_lock( mutex );
     }
@@ -122,34 +124,30 @@ bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex )
     return ret;
 }
 
-static bgrt_st_t _cond_signal( cond_t * cond )
+static bgrt_st_t _cond_signal(cond_t * cond)
 {
-    bgrt_st_t ret = BGRT_ST_EEMPTY;
-
-    BGRT_SYNC_WAKE( cond, BGRT_PID_NOTHING, 0, ret );
-
-    return ret;
+    return BGRT_SYNC_WAKE(cond, BGRT_PID_NOTHING, 0);
 }
 
-bgrt_st_t cond_signal( cond_t * cond )
+bgrt_st_t cond_signal(cond_t * cond)
 {
     bgrt_st_t ret;
 
-    ret = _cond_signal( cond );
+    ret = _cond_signal(cond);
 
     return ret;
 }
 
-bgrt_st_t cond_broadcast( cond_t * cond )
+bgrt_st_t cond_broadcast(cond_t * cond)
 {
     bgrt_cnt_t cwake = (bgrt_cnt_t)0;
     bgrt_st_t ret = BGRT_ST_ROLL;
 
-    for( ret = BGRT_ST_OK; BGRT_ST_OK == ret; ret = _cond_signal( cond ) )
+    for (ret = BGRT_ST_OK; BGRT_ST_OK == ret; ret = _cond_signal(cond))
     {
         cwake++;
     }
-    if( cwake && (BGRT_ST_EEMPTY == ret) )
+    if (cwake && (BGRT_ST_EEMPTY == ret))
     {
         ret = BGRT_ST_OK;
     }

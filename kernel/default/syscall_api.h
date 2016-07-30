@@ -198,7 +198,7 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 \param pid - A process ID.
 \return - A process priority value.
 */
-#define BGRT_PROC_GET_PRIO(pid,var_ptr) (*(var_ptr) = BGRT_PRIO_LOWEST+1, BGRT_SYSCALL_NVAR(PROC_GET_PRIO, (void *)(var_ptr), (void *)(pid)))
+#define BGRT_PROC_GET_PRIO(pid, pri_ptr) (*(pri_ptr) = BGRT_PRIO_LOWEST+1, BGRT_SYSCALL_NVAR(PROC_GET_PRIO, (void *)(pri_ptr), (void *)(pid)))
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -216,7 +216,7 @@ It sets a process priority. A process current state doesn't matter.
 \param pid - A process ID.
 \param prio - New process priority value.
 */
-#define BGRT_PROC_SET_PRIO(pid,val) BGRT_SYSCALL_NVAR(PROC_SET_PRIO, (void *)(pid), (int)(val))
+#define BGRT_PROC_SET_PRIO(pid, val) BGRT_SYSCALL_NVAR(PROC_SET_PRIO, (void *)(pid), (int)(val))
 /*!
 \~russian
 \brief Получить идентификатор текущего процесса.
@@ -228,7 +228,7 @@ It sets a process priority. A process current state doesn't matter.
 
 \return A current process ID.
 */
-#define BGRT_PROC_GET_ID(var_ptr) (*(var_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_N(PROC_GET_ID, (void *)(var_ptr))
+#define BGRT_PROC_GET_ID(pid_ptr) (*(pid_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_N(PROC_GET_ID, (void *)(pid_ptr))
 /*****************************************************************************************/
 /*                                        Sync                                           */
 /*****************************************************************************************/
@@ -265,7 +265,7 @@ Get current #bgrt_sync_t object owner.
 \param sync A pointer to the object of interest.
 \return A pointer to #bgrt_sync_t object owner.
 */
-#define BGRT_SYNC_GET_OWNER(sync_ptr, var_ptr) (*(var_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_NVAR(SYNC_GET_OWNER, (void *)(var_ptr), (void *)(sync_ptr)))
+#define BGRT_SYNC_GET_OWNER(sync_ptr, pid_ptr) (*(pid_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_NVAR(SYNC_GET_OWNER, (void *)(pid_ptr), (void *)(sync_ptr)))
 /*!
 \~russian
 \brief
@@ -348,7 +348,6 @@ Unblock some waiting process. A process should be blocked on target #bgrt_sync_t
 \param chown A change owner flag. If non 0, then ownership is given to wake up process.
 \return #BGRT_ST_OK on process wakeup, or error code.
 */
-//bgrt_st_t bgrt_sync_wake( bgrt_sync_t * sync, BGRT_PID_T pid, bgrt_flag_t chown );
 #define BGRT_SYNC_WAKE(sync_ptr, pid, chown) BGRT_SYSCALL_NVAR(SYNC_WAKE, (void *)(sync_ptr), (void *)(pid), (int)(chown))
 /*****************************************************************************************/
 /*!
@@ -374,7 +373,6 @@ Wait until target process is blocked on target #bgrt_sync_t object.
 \param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
 \return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, or error code.
 */
-//bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block );
 #define BGRT_SYNC_WAIT(sync_ptr, pid_ptr, block) BGRT_SYSCALL_NVAR(SYNC_WAIT, (void *)(sync_ptr), (void *)(pid_ptr), (int)(block))
 /*****************************************************************************************/
 /*!
@@ -392,7 +390,6 @@ Wake a process on timeout.
 \param pid A pointer to a process, that is supposed to wake up.
 \return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_EAGAIN if caller must do next iteration, or error code.
 */
-//bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid );
 #define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid )
 /*****************************************************************************************/
 #endif // _SYSCALL_API_H_

@@ -17,7 +17,7 @@ bgrt_flag_t status;
 
 void main_bgrt_proc_test( void * arg )
 {
-    bgrt_proc_run( PID1 );
+    BGRT_PROC_RUN( PID1 );
 
     test_start();
 
@@ -33,10 +33,10 @@ void main_bgrt_proc_test( void * arg )
     sig_broadcast( &test_sig );
     test_output( test_var_sig, 2 );
 
-    bgrt_proc_run( PID2 );
-    bgrt_proc_run( PID3 );
-    bgrt_proc_run( PID4 );
-    bgrt_proc_run( PID5 );
+    BGRT_PROC_RUN( PID2 );
+    BGRT_PROC_RUN( PID3 );
+    BGRT_PROC_RUN( PID4 );
+    BGRT_PROC_RUN( PID5 );
 
     bgrt_wait_time( 20 );
     // All processes of interest are waiting for signal now!

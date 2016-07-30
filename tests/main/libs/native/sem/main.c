@@ -8,7 +8,7 @@ sem_t test_sem;
 
 void main_with_return( void * arg )
 {
-    bgrt_proc_run( PID1 );
+    BGRT_PROC_RUN( PID1 );
 
     test_start();
 
@@ -17,7 +17,7 @@ void main_with_return( void * arg )
     //sem_try_lock test 2
     test_output( (0 == test_sem.counter), 2 );
     //sem_lock test 3
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     bgrt_wait_time( 2 );
     test_output( (0 == test_sem.counter), 3 );
 
@@ -40,18 +40,18 @@ void main_with_return( void * arg )
     test_output( ( 0 == test_sem.counter ), 9 );
     //sem_free test 10
     // proc[2] must free semaphore and self stop
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     bgrt_wait_time( 2 );
     test_output( ( 1 == test_sem.counter ), 10 );
     // sem_lock test 11
     // proc[2] must lock a test_sem and self ctop
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
     bgrt_wait_time( 2 );
     test_output( ( 0 == test_sem.counter ), 11 );
     //sem_lock test 11
     test_output( (BGRT_PROC_STATE_SYNC_SLEEP) != (proc[2].flags & BGRT_PROC_STATE_MASK) , 12 );
 
-    bgrt_proc_run( PID2 );
+    BGRT_PROC_RUN( PID2 );
 
     tests_end();
 }
@@ -69,9 +69,9 @@ void main_sem( void * arg )
     while(1)
     {
         sem_lock( &test_sem );
-        bgrt_proc_self_stop();
+        BGRT_PROC_SELF_STOP();
         sem_free( &test_sem );
-        bgrt_proc_self_stop();
+        BGRT_PROC_SELF_STOP();
     }
 }
 
