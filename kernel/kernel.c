@@ -97,7 +97,7 @@ static void push_pend_scall( bgrt_kblock_t * kblock )
 {
     if( BGRT_ST_ROLL == BGRT_GET_USPD()->scret )
     {
-        bgrt_vint_push( &kblock->int_scall, &kblock->vic );
+        do_int_scall(kblock);
     }
 }
 

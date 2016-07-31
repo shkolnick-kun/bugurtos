@@ -22,7 +22,7 @@
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="8048" topLine="120" />
 	</File>
-	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="1" tabpos="6">
+	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="0" tabpos="5">
 		<Cursor position="14005" topLine="11" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="1">
@@ -37,8 +37,8 @@
 	<File name="../../../../../kernel/item.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="2">
-		<Cursor position="6465" topLine="77" />
+	<File name="../../../../../kernel/kernel.c" open="1" top="1" tabpos="6">
+		<Cursor position="8021" topLine="134" />
 	</File>
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="2">
 		<Cursor position="10012" topLine="168" />
