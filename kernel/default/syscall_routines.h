@@ -256,15 +256,6 @@ BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va)
 /**********************************************************************************************
                                         SYNC_WAIT
 **********************************************************************************************/
-//bgrt_st_t bgrt_sync_wait( bgrt_sync_t * sync, BGRT_PID_T * pid, bgrt_flag_t block )
-//{
-//    volatile bgrt_sync_wait_t scarg;
-//    scarg.sync = sync;
-//    scarg.pid = pid;
-//    scarg.block = block;
-//    return BGRT_SYSCALL_N(SYNC_WAIT, (void *)&scarg );
-//}
-//========================================================================================
 BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
 {
     va_list       param;
@@ -278,7 +269,7 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
     block = (bgrt_flag_t  )va_arg(param, int   );
     va_end(param);
 
-    if( !pid )
+    if (!pid)
     {
         return BGRT_ST_ENULL;
     }
@@ -297,16 +288,9 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
 /**********************************************************************************************
                                       SYNC_PROC_TIMEOUT
 **********************************************************************************************/
-//bgrt_st_t bgrt_sync_proc_timeout( BGRT_PID_T pid )
-//{
-//    volatile bgrt_sync_proc_timeout_t scarg;
-//    scarg.pid = pid;
-//    return BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)&scarg );
-//}
-//========================================================================================
 BGRT_SC_SR(SYNC_PROC_TIMEOUT, void * arg)
 {
-    return _bgrt_sync_proc_timeout( BGRT_PID_TO_PROC((BGRT_PID_T)arg) );
+    return _bgrt_sync_proc_timeout(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                             USER
@@ -316,7 +300,7 @@ typedef bgrt_st_t (*bgrt_user_func_t)(bgrt_va_wr_t*);
 BGRT_SC_SR(USER, bgrt_va_wr_t* va)
 {
     bgrt_user_func_t func;
-    func = (bgrt_user_func_t)va_arg(va->list, void (*)(void *));
+    func = (bgrt_user_func_t)va_arg(va->list, void *);
     return (*func)(va);
 }
 #endif //_BGRT_SCR_H_
