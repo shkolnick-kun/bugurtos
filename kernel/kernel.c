@@ -145,8 +145,8 @@ void bgrt_kblock_init( bgrt_kblock_t * kblock )
 {
     bgrt_vic_init( &kblock->vic );
     bgrt_sched_init( &kblock->sched );
-    bgrt_vint_init( &kblock->int_scall, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_scall, (void *)kblock );
-    bgrt_vint_init( &kblock->int_sched, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_sched, (void *)kblock );
+    bgrt_vint_init( &kblock->int_scall, BGRT_PRIO_LOWEST-1, (bgrt_code_t)do_int_scall, (void *)kblock );
+    bgrt_vint_init( &kblock->int_sched, BGRT_PRIO_LOWEST  , (bgrt_code_t)do_int_sched, (void *)kblock );
     kblock->tmr_flg = (bgrt_bool_t)0;
 
     bgrt_vint_push_isr( &kblock->int_sched, &kblock->vic );
