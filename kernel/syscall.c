@@ -140,13 +140,13 @@ BGRT_SCL_TBL( syscall_handler[] ) =
 #   define BGRT_SYSCALL_CHECK BGRT_CONFIG_SYSCALL_CHECK
 #else  //BGRT_CONFIG_SYSCALL_CHECK
     //Default syscall sanity check macro
-#   define BGRT_SYSCALL_CHECK(n,a) (( (bgrt_syscall_t)BGRT_SC_ENUM_NULL == n )||( (bgrt_syscall_t)BGRT_SC_ENUM_END <= n ))
+#   define BGRT_SYSCALL_CHECK(n,a) ((bgrt_syscall_t)BGRT_SC_ENUM_END <= n)
 #endif //BGRT_CONFIG_SYSCALL_CHECK
 
-bgrt_st_t bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
+bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg)
 {
     //Sanity check
-    if( BGRT_SYSCALL_CHECK(syscall_num, syscall_arg) )
+    if (BGRT_SYSCALL_CHECK(syscall_num, syscall_arg))
     {
         //Fail
         return BGRT_ST_SCALL;
@@ -154,11 +154,11 @@ bgrt_st_t bgrt_do_syscall( bgrt_syscall_t syscall_num, void * syscall_arg )
     else
     {
         //Syscall processing
-        return (BGRT_SCL_TBL_READ(syscall_handler[syscall_num - 1]))(syscall_arg);
+        return (BGRT_SCL_TBL_READ(syscall_handler[syscall_num]))(syscall_arg);
     }
 }
 //Variadic version of bgrt_syscall
-bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... )
+bgrt_st_t bgrt_syscall_var(bgrt_syscall_t num, ...)
 {
     bgrt_va_wr_t varg;
     bgrt_st_t ret;

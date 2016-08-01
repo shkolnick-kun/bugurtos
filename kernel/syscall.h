@@ -92,7 +92,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 typedef enum
 {
-    BGRT_SC_ENUM_NULL,
 #   define BGRT_SC_TBL_ENTRY(syscall,...) BGRT_SC_ID(syscall),
 #   include <syscall_table.h>
 #   undef  BGRT_SC_TBL_ENTRY

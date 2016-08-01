@@ -218,7 +218,7 @@ struct _bgrt_uspd_t
 #   define BGRT_USPD_INIT(proc) \
         do{\
             proc->udata.scarg = (void *)0;\
-            proc->udata.scnum = (bgrt_syscall_t)0;\
+            proc->udata.scnum = (bgrt_syscall_t)BGRT_SC_ENUM_END;\
         }while(0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
 #endif
 // Свойства
