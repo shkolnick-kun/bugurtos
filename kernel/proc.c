@@ -169,7 +169,7 @@ bgrt_st_t _bgrt_proc_init(
     proc->arg = arg;
     proc->sstart = sstart;
 
-    if( sstart )proc->spointer = bgrt_proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))bgrt_proc_terminate);
+    if (sstart) proc->spointer = bgrt_proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))bgrt_proc_terminate);
 
     BGRT_USPD_INIT(proc);
 

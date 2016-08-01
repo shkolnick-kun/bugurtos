@@ -14,13 +14,13 @@
 		<Cursor position="7089" topLine="156" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
-		<Cursor position="6364" topLine="78" />
+		<Cursor position="6260" topLine="76" />
 	</File>
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="0">
 		<Cursor position="7547" topLine="84" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="9165" topLine="151" />
+		<Cursor position="5296" topLine="55" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="10663" topLine="207" />
@@ -41,7 +41,7 @@
 		<Cursor position="22448" topLine="475" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="14552" topLine="175" />
+		<Cursor position="14552" topLine="625" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="8754" topLine="179" />
