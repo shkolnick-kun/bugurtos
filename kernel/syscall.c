@@ -79,7 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "bugurt.h"
 
 //System call SR declaratins
-#define BGRT_SC_TBL_ENTRY(syscall,...) BGRT_SC_SR(syscall, __VA_ARGS__);
+#define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_SR(syscall, arg);
 #include <syscall_table.h>
 #undef  BGRT_SC_TBL_ENTRY
 
@@ -130,7 +130,7 @@ BGRT_SC_SR(SCHED_PROC_YELD, void * arg)
 
 BGRT_SCL_TBL( syscall_handler[] ) =
 {
-#   define BGRT_SC_TBL_ENTRY(syscall,...) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
+#   define BGRT_SC_TBL_ENTRY(syscall,arg) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
 #   include <syscall_table.h>
 #   undef  BGRT_SC_TBL_ENTRY
     do_nothing_sr

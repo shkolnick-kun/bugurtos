@@ -92,14 +92,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 typedef enum
 {
-#   define BGRT_SC_TBL_ENTRY(syscall,...) BGRT_SC_ID(syscall),
+#   define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_ID(syscall),
 #   include <syscall_table.h>
 #   undef  BGRT_SC_TBL_ENTRY
     BGRT_SC_ENUM_END
 } bgrt_sc_enum;
 
 #define BGRT_SC_SR_NAME(syscall) BGRT_CONCAT2(BGRT_SC_, BGRT_CONCAT(syscall, _SR)) /*!< \~russian \brief Имя обработчика системного вызова.         \~english \brief System call srvice routine name. */
-#define BGRT_SC_SR(syscall,...) bgrt_st_t BGRT_SC_SR_NAME(syscall)(__VA_ARGS__)    /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call srvice routine. */
+#define BGRT_SC_SR(syscall,arg) bgrt_st_t BGRT_SC_SR_NAME(syscall)(arg)    /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call srvice routine. */
 typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                         /*!< \~russian \brief Указатель на обработчик системного вызова. \~english \brief System call srvice routine pointer. */
 
 #include <stdarg.h>
@@ -150,24 +150,6 @@ A system call macro, see #bgrt_syscall.
 \param arg A system call argument pointer.
 */
 #define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg )
-
-/*!
-\~russian
-\brief
-Системный вызов в виде макроса, см. #bgrt_syscall_var.
-
-\warning Для внутреннего использования.
-
-\param sc_name имя системного вызова (что именно надо выполнить).
-\~english
-\brief
-A system call macro, see #bgrt_syscall_var.
-
-\warning For internal usage.
-
-\param sc_name A system call name.
-*/
-#define BGRT_SYSCALL_NVAR(sc_name,...) bgrt_syscall_var( BGRT_SC_ID(sc_name), __VA_ARGS__ )
 
 /*!
 \~russian
