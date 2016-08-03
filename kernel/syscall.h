@@ -134,26 +134,6 @@ bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg);
 /*!
 \~russian
 \brief
-Системный вызов в виде макроса, см. #bgrt_syscall.
-
-\warning Для внутреннего использования.
-
-\param sc_name имя системного вызова (что именно надо выполнить).
-\param arg Указатель на аргумент.
-\~english
-\brief
-A system call macro, see #bgrt_syscall.
-
-\warning For internal usage.
-
-\param sc_name A system call name.
-\param arg A system call argument pointer.
-*/
-#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg )
-
-/*!
-\~russian
-\brief
 Системный вызов.
 
 Код Ядра всегда выполняется в контексте Ядра. Это нужно для экономии памяти в стеках процессов.
@@ -180,9 +160,47 @@ The Kernel does all of this job.
 */
 bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... );
 
+/*!
+\~russian
+\brief
+Системный вызов в виде макроса, см. #bgrt_syscall.
+
+\warning Для внутреннего использования.
+
+\param sc_name имя системного вызова (что именно надо выполнить).
+\param arg Указатель на аргумент.
+\~english
+\brief
+A system call macro, see #bgrt_syscall.
+
+\warning For internal usage.
+
+\param sc_name A system call name.
+\param arg A system call argument pointer.
+*/
+#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg )
+
+/*!
+\~russian
+\brief
+Системный вызов в виде макроса, см. #bgrt_syscall_var.
+
+\warning Для внутреннего использования.
+
+\param sc_name имя системного вызова (что именно надо выполнить).
+\~english
+\brief
+A system call macro, see #bgrt_syscall_var.
+
+\warning For internal usage.
+
+\param sc_name A system call name.
+*/
+#define BGRT_SYSCALL_NVAR(sc_name,...) bgrt_syscall_var(BGRT_SC_ID(sc_name), __VA_ARGS__)
+
 //User may write his own system calls
 #ifdef BGRT_CONFIG_CUSTOM_SYSCALL
-#   include <syscall_api.h>
+#   include <custom_syscall_api.h>
 #else
 #   include <default/syscall_api.h> //Default system call dispatcher
 #endif//BGRT_CONFIG_USER_SYSCALL

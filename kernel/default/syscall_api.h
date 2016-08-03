@@ -79,25 +79,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _SYSCALL_API_H_
 #define _SYSCALL_API_H_
 /*!
-\~russian
-\brief
-Системный вызов в виде макроса, см. #bgrt_syscall_var.
-
-\warning Для внутреннего использования.
-
-\param sc_name имя системного вызова (что именно надо выполнить).
-\~english
-\brief
-A system call macro, see #bgrt_syscall_var.
-
-\warning For internal usage.
-
-\param sc_name A system call name.
-*/
-#define BGRT_SYSCALL_NVAR(sc_name,...) bgrt_syscall_var(BGRT_SC_ID(sc_name), __VA_ARGS__)
-
-
-/*!
 \file
 \brief \~russian Заголовок системных вызовов.
 

@@ -1,5 +1,5 @@
 [Application]
-ApplicationPath=C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.1.0.0\tests\arch\stm8\raisonance\libs\native\mutex\bin\test.aof
+ApplicationPath=C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\raisonance\libs\native\mutex\bin\test.aof
 Format=AOF
 CodeOffset=0x0
 LoaderTool=ST7

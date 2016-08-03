@@ -14,7 +14,7 @@
 		<Cursor position="7089" topLine="156" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_api.h" open="0" top="0" tabpos="2">
-		<Cursor position="17370" topLine="17" />
+		<Cursor position="6132" topLine="77" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="3">
 		<Cursor position="13399" topLine="257" />
@@ -47,10 +47,10 @@
 		<Cursor position="11971" topLine="229" />
 	</File>
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
-		<Cursor position="22448" topLine="475" />
+		<Cursor position="6171" topLine="122" />
 	</File>
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
-		<Cursor position="6795" topLine="89" />
+		<Cursor position="6676" topLine="90" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="0">
 		<Cursor position="8754" topLine="179" />
@@ -58,7 +58,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3646" topLine="208" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="36214" topLine="981" />
 	</File>
 </CodeBlocks_layout_file>
