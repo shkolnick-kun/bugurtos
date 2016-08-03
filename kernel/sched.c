@@ -426,12 +426,12 @@ void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched )
 #endif // BGRT_CONFIG_MP
 
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-#   define BGRT_PROC_YELD_SCHED_UPDATE(proc) (sched = sched_stat_update_run(proc)) //A process will migrate
+#   define BGRT_PROC_YIELD_SCHED_UPDATE(proc) (sched = sched_stat_update_run(proc)) //A process will migrate
 #else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-#   define BGRT_PROC_YELD_SCHED_UPDATE(proc) do{}while(0)            //A process will stay on the same scheduler
+#   define BGRT_PROC_YIELD_SCHED_UPDATE(proc) do{}while(0)            //A process will stay on the same scheduler
 #endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 
-bgrt_bool_t _bgrt_sched_proc_yeld( void )
+bgrt_bool_t _bgrt_sched_proc_yield( void )
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;
     bgrt_index_t proc_map;
@@ -482,7 +482,7 @@ bgrt_bool_t _bgrt_sched_proc_yeld( void )
 
             BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_READY );
             //Update sched if needed!
-            BGRT_PROC_YELD_SCHED_UPDATE(proc);
+            BGRT_PROC_YIELD_SCHED_UPDATE(proc);
             //Insert to expired lists
             BGRT_SCHED_PROC_INSERT_EXPIRED( proc, sched );
 

@@ -98,7 +98,7 @@ void main_proc_test( void * arg )
     test = !BGRT_PROC_RUN_TEST( (PR4) );
     test_output( test , 13 );
 
-    // bgrt_proc_yeld test 14
+    // bgrt_proc_yield test 14
     test = 0;
     BGRT_PROC_RUN( PID5 );
     bgrt_wait_time(10);
@@ -139,13 +139,13 @@ void main_wd_ss( void * arg )
     BGRT_PROC_SELF_STOP();
 
     bgrt_wait_time(1);
-    bgrt_sched_proc_yeld();
+    bgrt_sched_proc_yield();
     bgrt_wait_time(1);
-    bgrt_sched_proc_yeld();
+    bgrt_sched_proc_yield();
     bgrt_wait_time(1);
-    bgrt_sched_proc_yeld();
+    bgrt_sched_proc_yield();
     bgrt_wait_time(1);
-    bgrt_sched_proc_yeld();
+    bgrt_sched_proc_yield();
     test = 1; // If watchdog has been reset then test must pass.
     BGRT_PROC_SELF_STOP();
 
@@ -156,7 +156,7 @@ void main_wd_ss( void * arg )
     BGRT_PROC_SELF_STOP();
 
     bgrt_wait_time(1);
-    bgrt_sched_proc_yeld();
+    bgrt_sched_proc_yield();
     test = (proc[5].timer == proc[5].time_quant);
 }
 
@@ -174,11 +174,11 @@ void main_fs( void * arg )
 
 #ifdef BGRT_CONFIG_SAVE_POWER
 
-#define IDLE_YELD() if( bgrt_sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER()
+#define IDLE_YIELD() if( bgrt_sched_proc_yield() )BGRT_CONFIG_SAVE_POWER()
 
 #else //BGRT_CONFIG_SAVE_POWER
 
-#define IDLE_YELD() bgrt_sched_proc_yeld()
+#define IDLE_YIELD() bgrt_sched_proc_yield()
 
 #endif//BGRT_CONFIG_SAVE_POWER
 
@@ -188,7 +188,7 @@ void main_lb( void * arg )
     {
         // Run local load balancer on multicore system with local load balancing.
         BGRT_SCHED_LOCAL_LOAD_BALANCER();
-        IDLE_YELD();
+        IDLE_YIELD();
     }
 }
 

@@ -113,18 +113,18 @@ BGRT_SC_SR(PROC_TERMINATE, void * arg )
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
-                                         PROC_YELD
+                                         PROC_YIELD
 **********************************************************************************************/
-bgrt_bool_t bgrt_sched_proc_yeld(void)
+bgrt_bool_t bgrt_sched_proc_yield(void)
 {
     volatile bgrt_bool_t ret;
-    BGRT_SYSCALL_N(SCHED_PROC_YELD, (void *)&ret );
+    BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)&ret );
     return ret;
 }
 //========================================================================================
-BGRT_SC_SR(SCHED_PROC_YELD, void * arg)
+BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
 {
-    *(bgrt_bool_t *)arg = _bgrt_sched_proc_yeld();
+    *(bgrt_bool_t *)arg = _bgrt_sched_proc_yield();
     return BGRT_ST_OK;
 }
 

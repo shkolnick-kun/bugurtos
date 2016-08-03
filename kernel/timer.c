@@ -113,9 +113,9 @@ void bgrt_wait_time(bgrt_tmr_t time)
     {
 #ifndef BGRT_CONFIG_TEST
 #   ifdef BGRT_CONFIG_SAVE_POWER
-        if( bgrt_sched_proc_yeld() )BGRT_CONFIG_SAVE_POWER();
+        if( bgrt_sched_proc_yield() )BGRT_CONFIG_SAVE_POWER();
 #   else // BGRT_CONFIG_SAVE_POWER
-        bgrt_sched_proc_yeld();
+        bgrt_sched_proc_yield();
 #   endif // BGRT_CONFIG_SAVE_POWER
 #endif // BGRT_CONFIG_TEST
         roll = (bgrt_bool_t)( BGRT_TIMER(tmr) < (bgrt_tmr_t)time );

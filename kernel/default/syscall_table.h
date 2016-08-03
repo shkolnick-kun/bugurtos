@@ -88,7 +88,7 @@ BGRT_SC_TBL_ENTRY( PROC_SET_PRIO      , bgrt_va_wr_t* ) /*!< \~russian \brief У
 BGRT_SC_TBL_ENTRY( PROC_GET_PRIO      , bgrt_va_wr_t* ) /*!< \~russian \brief Получить приоритет процесса                                   \~english \brief Get a process priority.                           */
 BGRT_SC_TBL_ENTRY( PROC_GET_ID        , void*         ) /*!< \~russian \brief Установить приоритет процесса                                 \~english \brief Set a process priority.                           */
 
-BGRT_SC_TBL_ENTRY( SCHED_PROC_YELD    , void*         ) /*!< \~russian \brief Передача управления другому процессу.                         \~english \brief Transfer control to another process.              */
+BGRT_SC_TBL_ENTRY( SCHED_PROC_YIELD   , void*         ) /*!< \~russian \brief Передача управления другому процессу.                         \~english \brief Transfer control to another process.              */
 
 BGRT_SC_TBL_ENTRY( SYNC_SET_OWNER     , bgrt_va_wr_t* ) /*!< \~russian \brief Установить нового хозяина объекта типа #bgrt_sync_t.          \~english \brief Set new #bgrt_sync_t object owner.                */
 BGRT_SC_TBL_ENTRY( SYNC_GET_OWNER     , bgrt_va_wr_t* ) /*!< \~russian \brief Узнать принадлежность объекта типа #bgrt_sync_t.              \~english \brief Get #bgrt_sync_t object owner.                    */
