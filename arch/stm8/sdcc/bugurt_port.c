@@ -101,9 +101,9 @@ bgrt_stack_t * bgrt_isr_prologue(void) __naked
     __endasm;
 }
 
-void bgrt_isr_epilogue(bgrt_stack_t * sp) __naked
+void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked
 {
-    (void)sp;
+    (void)newsp;
     __asm
         ldw   X, (0x03, SP) /*Get new SP value   */
         popw  Y             /*pop return address */

@@ -88,7 +88,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
 extern bgrt_stack_t * bgrt_isr_prologue(void) __naked;
-extern void bgrt_isr_epilogue(bgrt_stack_t * sp) __naked;
+extern void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked;
 
 extern bgrt_stack_t * saved_sp;
 extern bgrt_stack_t * kernel_sp;
@@ -119,7 +119,7 @@ BUGURT_INTERRUPT_DECL(v)                 \
     BUGURT_CONCAT(vector_func_,v)();     \
     BUGURT_ISR_END();                    \
 }                                        \
-void BUGURT_CONCAT(vector_func_,v)(void) \
+void BUGURT_CONCAT(vector_func_,v)(void) 
 
 /* Trap handler declaration */
 extern void bgrt_switch_context(void) __trap __naked;
