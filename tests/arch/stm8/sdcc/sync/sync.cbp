@@ -2,21 +2,18 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sched" />
+		<Option title="sync" />
 		<Option pch_mode="2" />
 		<Option compiler="sdcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin\Debug\sched.hex" prefix_auto="1" extension_auto="0" />
+				<Option output="bin\Debug\test.hex" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="sdcc" />
-				<Compiler>
-					<Add option="--debug" />
-				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin\Release\sched.hex" prefix_auto="1" extension_auto="0" />
+				<Option output="bin\Release\test.hex" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj\Release\" />
 				<Option type="1" />
 				<Option compiler="sdcc" />
@@ -24,9 +21,7 @@
 		</Build>
 		<Compiler>
 			<Add option="--out-fmt-ihx" />
-			<Add option="--profile" />
 			<Add option="--verbose" />
-			<Add option="--stack-auto" />
 			<Add option="-lstm8 -mstm8" />
 			<Add directory="..\..\sdcc" />
 			<Add directory="..\..\..\..\..\kernel" />
@@ -102,7 +97,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\test_func.h" />
-		<Unit filename="..\..\..\..\main\sched\main.c">
+		<Unit filename="..\..\..\..\main\bsync\main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\..\..\..\..\thirdparty\libstm8\lib\l\gpio.c">

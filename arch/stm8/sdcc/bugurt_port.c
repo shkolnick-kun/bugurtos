@@ -77,6 +77,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include <bugurt.h>
+void bgrt_disable_interrupts(void)
+{
+    __asm__("sim");
+}
+
+void bgrt_enable_interrupts(void)
+{
+    __asm__("rim");
+}
+
 // Просто функции, специфичные для STM8
 bgrt_proc_t * bgrt_curr_proc(void)
 {
@@ -168,9 +178,8 @@ void bgrt_switch_context(void) __trap __naked
     BUGURT_ISR_END();
 }
 
-void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked
+static void _system_timer_isr(void)
 {
-    BUGURT_ISR_START();
     BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     bgrt_kernel.timer.val++;
@@ -178,7 +187,12 @@ void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked
 
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+}
 
+void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked
+{
+    BUGURT_ISR_START();
+    _system_timer_isr();
     BUGURT_ISR_END();
 }
 

@@ -7,6 +7,7 @@ bgrt_bool_t test;
 
 void main_proc_test( void * arg )
 {
+    (void)arg;
     BGRT_PROC_RUN( PID1 );
 
     test_start();
@@ -121,11 +122,13 @@ void main_proc_test( void * arg )
 
 void main_with_return( void * arg )
 {
+    (void)arg;
     bgrt_wait_time(1);
 }
 
 void main_wd_ss( void * arg )
 {
+    (void)arg;
     // BGRT_PROC_RESET_WATCHDOG test 12
     bgrt_wait_time(1);
     BGRT_PROC_RESET_WATCHDOG();
@@ -162,6 +165,7 @@ void main_wd_ss( void * arg )
 
 void main_fs( void * arg )
 {
+    (void)arg;
     // For BGRT_PROC_FREE tests 8 and 11
     BGRT_PROC_FREE();
     bgrt_wait_time(20);
@@ -184,6 +188,7 @@ void main_fs( void * arg )
 
 void main_lb( void * arg )
 {
+    (void)arg;
     while(1)
     {
         // Run local load balancer on multicore system with local load balancing.

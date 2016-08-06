@@ -28,12 +28,13 @@ void test_do_nothing(void)
 void init_hardware(void)
 {
     bgrt_disable_interrupts();
-    
-    CLK_CKDIVR = 0x00;
-    
+
+    CLK_DIVR = 0x00;
+
+    CLK_PCKENR1 |= CLK_PCKEN1_TIM4;
     TIM4_CR1   = 0x01;
     TIM4_IER   = 0x01;
-    TIM4_SR    = 0x00;
+    TIM4_SR1   = 0x00;
     TIM4_EGR   = 0x00;
     TIM4_CNTR  = 0x00;
     TIM4_PSCR  = 0x07; // 0x07 - 1 мс, 0x05 - 250 мкс
@@ -42,17 +43,18 @@ void init_hardware(void)
     CLK_PCKENR1 |= CLK_PCKEN1_SPI1;
     SPI1_CR1 = 0x04;
     SPI1_CR2 = 0x03;
-    
+
     gpio_mode_setup (GPIOE, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO7);//Green
     gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO7);
     /*Process leds*/
-    gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO0);
-    gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO1);
-    gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO2);
-    gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO3);
-    gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO4);
-    gpio_mode_setup (GPIOC, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO5);
-    GPIOC_ODR &= ~(GPIO0|GPIO1|GPIO2|GPIO3|GPIO4|GPIO5); //Off everything
+    gpio_mode_setup (GPIOA, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO6);
+    gpio_mode_setup (GPIOA, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO7);
+    gpio_mode_setup (GPIOE, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO0);
+    gpio_mode_setup (GPIOE, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO1);
+    gpio_mode_setup (GPIOE, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO2);
+    gpio_mode_setup (GPIOE, GPIO_MODE_OUTPUT, GPIO_CR1_PP, GPIO_CR2_2, GPIO3);
+    GPIOA_ODR &= ~(GPIO7|GPIO6);             //Off everything
+    GPIOC_ODR &= ~(GPIO0|GPIO1|GPIO2|GPIO3); //Off everything
 }
 
 void sched_fix_bgrt_proc_2(void)
@@ -68,14 +70,13 @@ unsigned char test_is_running = 0;
 
 static void blink_digit( bgrt_cnt_t digit )
 {
-    RLED_ON();
-    bgrt_wait_time(200);
-
+    //RLED_ON();
     if(!digit)
     {
     	RLED_ON();
     	bgrt_wait_time(1000);
     	RLED_OFF();
+    	bgrt_wait_time(500);
     	return;
     }
 
@@ -86,13 +87,17 @@ static void blink_digit( bgrt_cnt_t digit )
     	RLED_OFF();
         bgrt_wait_time(200);
     }
+    bgrt_wait_time(500);
 }
 // Can blink numbers from 0 up to 99.
-static void blink_num( bgrt_cnt_t num )
+void blink_num( bgrt_cnt_t num )
 {
+    RLED_ON();
+    bgrt_wait_time(100);
     RLED_OFF();
+    bgrt_wait_time(1000);
+    blink_digit( (num/100)%10 ); // Most significant digit
     blink_digit( (num/10)%10 ); // Most significant digit
-    bgrt_wait_time(300);
     blink_digit( num%10 ); //Least significant digit
 
 }
@@ -104,7 +109,7 @@ void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
         GLED_OFF();
         while(1)
         {
-            bgrt_wait_time(500);
+            bgrt_wait_time(2000);
             blink_num( test_num );
         }
     }
@@ -129,12 +134,12 @@ void tests_end(void)
     }
 }
 
-void blink_1(void) {GPIOC_ODR ^= GPIO0;}
-void blink_2(void) {GPIOC_ODR ^= GPIO1;}
-void blink_3(void) {GPIOC_ODR ^= GPIO2;}
-void blink_4(void) {GPIOC_ODR ^= GPIO3;}
-void blink_5(void) {GPIOC_ODR ^= GPIO4;}
-void blink_6(void) {GPIOC_ODR ^= GPIO5;}
+void blink_1(void) {GPIOA_ODR ^= GPIO6;}
+void blink_2(void) {GPIOA_ODR ^= GPIO7;}
+void blink_3(void) {GPIOE_ODR ^= GPIO0;}
+void blink_4(void) {GPIOE_ODR ^= GPIO1;}
+void blink_5(void) {GPIOE_ODR ^= GPIO2;}
+void blink_6(void) {GPIOE_ODR ^= GPIO3;}
 
 unsigned char test_var_sig;
 void test_clear(void)

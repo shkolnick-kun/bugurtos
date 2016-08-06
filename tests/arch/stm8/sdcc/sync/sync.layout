@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="..\test_func.c" open="0" top="0" tabpos="0">
+		<Cursor position="2037" topLine="69" />
+	</File>
+	<File name="..\test_func.h" open="0" top="0" tabpos="0">
+		<Cursor position="397" topLine="13" />
+	</File>
+	<File name="..\..\..\..\main\bsync\main.c" open="1" top="0" tabpos="1">
+		<Cursor position="25623" topLine="704" />
+	</File>
+</CodeBlocks_layout_file>

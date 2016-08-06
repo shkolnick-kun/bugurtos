@@ -5,6 +5,7 @@ bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 void main_with_return( void * arg )
 {
+    (void)arg;
     BGRT_PROC_RUN( PID1 );
     BGRT_PROC_RUN( PID2 );
     BGRT_PROC_RUN( PID3 );
@@ -12,6 +13,7 @@ void main_with_return( void * arg )
     BGRT_PROC_RUN( PID5 );
 
     bgrt_wait_time(100);
+
     // Reset proc[2] BGRT_PROC_FLG_RT and BGRT_PROC_STATE_WD_STOP before second run.
     BGRT_SCHED_FIX_PROC_2();
     BGRT_PROC_RUN( PID2 );
@@ -24,6 +26,7 @@ void main_with_return( void * arg )
 }
 void main_lb( void * arg )
 {
+    (void)arg;
     while(1)
     {
         bgrt_wait_time(10);
@@ -33,6 +36,7 @@ void main_lb( void * arg )
 }
 void main_no_return( void * arg )
 {
+    (void)arg;
     while(1)
     {
         bgrt_wait_time(10);

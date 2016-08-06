@@ -8,9 +8,7 @@
 #define BGRT_SCL_TBL_READ(a) a
 
 #define WEAK
-#define NOP                     __asm__("nop")
-#define bgrt_disable_interrupts __asm__("sim")
-#define bgrt_enable_interrupts  __asm__("rim")
+#define NOP()                     __asm__("nop")
 
 typedef unsigned char bgrt_stack_t;
 
@@ -63,7 +61,7 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define SPI_TXE_VECTOR INT_SPI1
 #define BGRT_SYSTEM_TIMER_VECTOR INT_TIM4_CHANGE
 
-#define BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
+#define BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR1 = 0x00)
 #define BGRT_STOP_SCHEDULER() (TIM4_IER = 0x00)
 #define BGRT_START_SCHEDULER() (TIM4_IER = 0x01)
 

@@ -64,6 +64,7 @@ static inline bgrt_st_t bgrt_test_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t tou
 
 void main_0( void * arg )
 {
+    (void)arg;
     test_start();
     // 1 _bgrt_proc_prio_propagate BGRT_PROC_SET_PRIO
     BGRT_PROC_SET_PRIO( PID1, 5 );
@@ -716,6 +717,7 @@ void main_0( void * arg )
     // 135 priority inheritance/ceiling
     BGRT_PROC_RUN( PID5 );
     bgrt_wait_time(5);
+
     test = ( 2 == proc[3].parent.prio);
     test_output( test, test_num++ );
     // 136 priority inheritance/ceiling
@@ -973,6 +975,7 @@ void main_0( void * arg )
 void main_1( void * arg )
 {
     bgrt_flag_t state;
+    (void)arg;
     // 5,6,7
     bgrt_disable_interrupts();
     //BGRT_SPIN_LOCK( (PR1) );
@@ -1045,6 +1048,7 @@ void main_1( void * arg )
 
 void main_2( void * arg )
 {
+    (void)arg;
     //69,70,71
     status[2] = BGRT_ST_ESTAT;
     status[2] = bgrt_test_sync_sleep( &bgrt_sync_1, (bgrt_flag_t)0 );
@@ -1128,6 +1132,7 @@ void main_2( void * arg )
 
 void main_3( void * arg )
 {
+    (void)arg;
     // priority inheritance/ceiling
     bgrt_test_sync_sleep( &bgrt_sync_2, (bgrt_flag_t)0 );
     BGRT_PROC_SELF_STOP();
@@ -1135,6 +1140,7 @@ void main_3( void * arg )
 
 void main_4( void * arg )
 {
+    (void)arg;
     // priority inheritance/ceiling
     bgrt_test_sync_sleep( &bgrt_sync_3, (bgrt_flag_t)0 );
     BGRT_PROC_SELF_STOP();
@@ -1142,6 +1148,7 @@ void main_4( void * arg )
 
 void main_5( void * arg )
 {
+    (void)arg;
     // priority inheritance/ceiling
     bgrt_test_sync_sleep( &bgrt_sync_2, (bgrt_flag_t)0 );
     BGRT_PROC_SELF_STOP();

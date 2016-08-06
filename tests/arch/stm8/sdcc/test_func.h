@@ -25,6 +25,8 @@ void test_do_nothing(void);
 void init_hardware(void);
 void sched_fix_bgrt_proc_2(void);
 
+extern void blink_num( bgrt_cnt_t num );
+
 // proc test functions
 void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_mun );
 void test_start(void);
