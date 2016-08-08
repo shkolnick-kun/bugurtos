@@ -73,6 +73,9 @@
 	<File name="../../../arch/stm8/raisonance/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
+	<File name="../../../arch/stm8/sdcc/bugurt_port.c" open="1" top="1" tabpos="0">
+		<Cursor position="6658" topLine="182" />
+	</File>
 	<File name="../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="8065" topLine="136" />
 	</File>
@@ -82,7 +85,7 @@
 	<File name="../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/default/syscall.h" open="1" top="1" tabpos="0">
+	<File name="../../../kernel/default/syscall.h" open="1" top="0" tabpos="0">
 		<Cursor position="6393" topLine="243" />
 	</File>
 	<File name="../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="3">

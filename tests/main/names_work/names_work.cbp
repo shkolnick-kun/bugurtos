@@ -28,6 +28,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../arch/avr/gcc-vsmp/vsmp.h" />
+		<Unit filename="../../../arch/avr/gcc/bugurt_config_example.h" />
 		<Unit filename="../../../arch/avr/gcc/bugurt_config_exapmle.h" />
 		<Unit filename="../../../arch/avr/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
@@ -69,12 +70,21 @@
 		<Unit filename="../../../arch/stm8/raisonance/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_config_example.h" />
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_port.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_port.h" />
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_proc_stack_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../../../kernel/bugurt.h" />
 		<Unit filename="../../../kernel/crit_sec.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../kernel/crit_sec.h" />
 		<Unit filename="../../../kernel/default/syscall.h" />
+		<Unit filename="../../../kernel/default/syscall_api.h" />
 		<Unit filename="../../../kernel/default/syscall_routines.h" />
 		<Unit filename="../../../kernel/default/syscall_table.h" />
 		<Unit filename="../../../kernel/index.c">
@@ -184,6 +194,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../arch/stm8/raisonance/test_func.h" />
+		<Unit filename="../../arch/stm8/sdcc/bugurt_config.h" />
+		<Unit filename="../../arch/stm8/sdcc/sched/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../arch/stm8/sdcc/test_func.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../arch/stm8/sdcc/test_func.h" />
 		<Unit filename="../bsync/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
