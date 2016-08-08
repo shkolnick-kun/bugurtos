@@ -8,6 +8,8 @@ sem_t test_sem;
 
 void main_with_return( void * arg )
 {
+    (void)arg;
+
     BGRT_PROC_RUN( PID1 );
 
     test_start();
@@ -57,6 +59,7 @@ void main_with_return( void * arg )
 }
 void main_lb( void * arg )
 {
+    (void)arg;
     while(1)
     {
         bgrt_wait_time(10);
@@ -66,6 +69,7 @@ void main_lb( void * arg )
 }
 void main_sem( void * arg )
 {
+    (void)arg;
     while(1)
     {
         sem_lock( &test_sem );

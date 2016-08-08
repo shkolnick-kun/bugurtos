@@ -21,6 +21,8 @@ void main_bgrt_proc_test( void * arg )
     BGRT_PID_T wait_for = BGRT_PID_NOTHING;
     ipc_msg_t * in;
 
+    (void)arg;
+
     BGRT_PROC_RUN( PID1 );
 
     test_start();
@@ -62,6 +64,7 @@ void main_bgrt_proc_test( void * arg )
 
 void main_2( void * arg )
 {
+    (void)arg;
     while(1)
     {
         msg_2.send = 2;
@@ -74,6 +77,7 @@ void main_2( void * arg )
 
 void main_3( void * arg )
 {
+    (void)arg;
     while(1)
     {
         msg_3.send = 3;
@@ -86,6 +90,7 @@ void main_3( void * arg )
 
 void main_lb( void * arg )
 {
+    (void)arg;
     while(1)
     {
         bgrt_wait_time(10);

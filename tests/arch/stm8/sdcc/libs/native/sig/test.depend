@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1470482582 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\arch\stm8\sdcc\bugurt_port.c
+1470656892 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\arch\stm8\sdcc\bugurt_port.c
 	<bugurt.h>
 
 1470480602 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\kernel\bugurt.h
@@ -19,7 +19,7 @@
 	"kernel.h"
 	<bugurt_port.h>
 
-1470632998 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\sdcc\bugurt_config.h
+1470657545 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\sdcc\bugurt_config.h
 	<libstm8/stm8l.h>
 
 1470479579 c:\temp\bugurtos-0.8.x-test\thirdparty\libstm8\include\libstm8\stm8l.h
@@ -189,7 +189,7 @@
 1470479518 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\kernel\item.c
 	"item.h"
 
-1470480529 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\kernel\kernel.c
+1470635701 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\kernel\kernel.c
 	"bugurt.h"
 
 1470479518 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\kernel\pcounter.c
@@ -226,15 +226,32 @@
 1470479518 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\kernel\xlist.c
 	"bugurt.h"
 
-1470488801 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\sdcc\test_func.c
+1470479519 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\libs\native\cond.c
+	"cond.h"
+
+1470479519 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\libs\native\cond.h
+	<bugurt.h>
+	"mutex.h"
+
+1470479519 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\libs\native\mutex.h
+	<bugurt.h>
+
+1470479519 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\libs\native\mutex.c
+	"mutex.h"
+
+1470479519 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\libs\native\sig.c
+	"sig.h"
+
+1470479519 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\libs\native\sig.h
+	<bugurt.h>
+	"cond.h"
+
+1470635914 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\sdcc\test_func.c
 	<test_func.h>
 
-1470488040 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\sdcc\test_func.h
+1470635881 c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\sdcc\test_func.h
 	<bugurt.h>
 
 1470479579 source:c:\temp\bugurtos-0.8.x-test\thirdparty\libstm8\lib\l\gpio.c
 	<libstm8/l/gpio.h>
-
-1470489101 source:c:\temp\bugurtos-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\bsync\main.c
-	<test_func.h>
 

@@ -9,6 +9,9 @@ mutex_t test_mutex;
 void main_with_return( void * arg )
 {
     BGRT_PID_T pid_buf;
+
+    (void)arg;
+
     BGRT_PROC_RUN( PID1 );
 
     test_start();
@@ -62,6 +65,7 @@ void main_with_return( void * arg )
 }
 void main_lb( void * arg )
 {
+    (void)arg;
     while(1)
     {
         bgrt_wait_time(10);
@@ -71,6 +75,7 @@ void main_lb( void * arg )
 }
 void main_mutex( void * arg )
 {
+    (void)arg;
     while(1)
     {
         mutex_lock( &test_mutex );

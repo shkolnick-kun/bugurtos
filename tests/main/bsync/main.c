@@ -689,13 +689,13 @@ void main_0( void * arg )
     BGRT_SYNC_SET_OWNER( &bgrt_sync_2, PID2 );
     BGRT_SYNC_SET_OWNER( &bgrt_sync_3, PID3 );
     BGRT_PROC_RUN( PID2 );
-    bgrt_wait_time(5);
+    bgrt_wait_time(10);
     test = ( 4 == proc[1].parent.prio);
     test_output( test, test_num++ );
 
     // 130 priority inheritance/ceiling
     BGRT_PROC_RUN( PID3 );
-    bgrt_wait_time(5);
+    bgrt_wait_time(10);
     test = ( 3 == proc[2].parent.prio);
     test_output( test, test_num++ );
     // 131 priority inheritance/ceiling
@@ -704,7 +704,7 @@ void main_0( void * arg )
 
     // 132 priority inheritance/ceiling
     BGRT_PROC_RUN( PID4 );
-    bgrt_wait_time(5);
+    bgrt_wait_time(10);
     test = ( 2 == proc[3].parent.prio);
     test_output( test, test_num++ );
     // 133 priority inheritance/ceiling

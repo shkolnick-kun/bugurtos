@@ -24,7 +24,6 @@
 		</Build>
 		<Compiler>
 			<Add option="--out-fmt-ihx" />
-			<Add option="--profile" />
 			<Add option="--verbose" />
 			<Add option="--stack-auto" />
 			<Add option="-lstm8 -mstm8" />

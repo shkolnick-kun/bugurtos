@@ -101,10 +101,12 @@ void bgrt_resched( void )
 bgrt_stack_t * bgrt_isr_prologue(void) __naked
 {
     __asm
-        push CC
-        pop  A
-        and  A, #0xbf
-        push A
+//        push CC
+//        pop  A
+//        and  A, #0xbf
+//        push A
+//        pop  CC
+        push #0x28
         pop  CC
         ldw  X, SP
         ret

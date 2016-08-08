@@ -17,6 +17,8 @@ bgrt_flag_t status;
 
 void main_bgrt_proc_test( void * arg )
 {
+    (void)arg;
+
     BGRT_PROC_RUN( PID1 );
 
     test_start();
@@ -65,6 +67,8 @@ void main_bgrt_proc_test( void * arg )
 
 void main_sig( void * arg )
 {
+    (void)arg;
+
     while(1)
     {
         bgrt_flag_t status;
@@ -77,6 +81,8 @@ void main_sig( void * arg )
 
 void main_lb( void * arg )
 {
+    (void)arg;
+
     while(1)
     {
         bgrt_wait_time(10);

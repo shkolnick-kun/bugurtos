@@ -19,12 +19,6 @@ void test_do_nothing(void)
     NOP();
 }
 
-#define RLED_ON()  GPIOC_ODR |= GPIO7;
-#define RLED_OFF() GPIOC_ODR &= ~GPIO7;
-
-#define GLED_ON()  GPIOE_ODR |= GPIO7;
-#define GLED_OFF() GPIOE_ODR &= ~GPIO7;
-
 void init_hardware(void)
 {
     bgrt_disable_interrupts();
@@ -158,10 +152,10 @@ void test_inc(void)
 
 void systick_hook(void)
 {
-    SPI1_DR = 0xff;
-    SPI1_ICR = 0x80;
-    SPI1_SR = 0x00;
-    SPI1_CR1 |= 0x40;
+//    SPI1_DR = 0xff;
+//    SPI1_ICR = 0x80;
+//    SPI1_SR = 0x00;
+//    SPI1_CR1 |= 0x40;
 }
 
 BUGURT_INTERRUPT( SPI_TXE_VECTOR )

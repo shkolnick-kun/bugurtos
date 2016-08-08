@@ -21,7 +21,9 @@
 		</Build>
 		<Compiler>
 			<Add option="--out-fmt-ihx" />
+			<Add option="--opt-code-speed" />
 			<Add option="--verbose" />
+			<Add option="--stack-auto" />
 			<Add option="-lstm8 -mstm8" />
 			<Add directory="..\..\sdcc" />
 			<Add directory="..\..\..\..\..\kernel" />
