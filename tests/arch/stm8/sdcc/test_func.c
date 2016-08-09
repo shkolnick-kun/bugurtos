@@ -31,7 +31,7 @@ void init_hardware(void)
     TIM4_SR1   = 0x00;
     TIM4_EGR   = 0x00;
     TIM4_CNTR  = 0x00;
-    TIM4_PSCR  = 0x07; // 0x07 - 1 ÏÒ, 0x05 - 250 ÏÍÒ
+    TIM4_PSCR  = 0x07; // 0x07 - 1 –º—Å, 0x05 - 250 –º–∫—Å
     TIM4_ARR   = 0x7C;
 
     CLK_PCKENR1 |= CLK_PCKEN1_SPI1;
