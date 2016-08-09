@@ -76,13 +76,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BUGURT_PORT_H_
-#define _BUGURT_PORT_H_
+#ifndef _BGRT_PORT_H_
+#define _BGRT_PORT_H_
 
 // Подстановка_строки
-#define BUGURT_ARG_TO_STR(a) #a
+#define BGRT_ARG_TO_STR(a) #a
 // Конкатенация строк
-#define BUGURT_CONCAT(a,b) a##b
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
@@ -96,34 +95,34 @@ extern bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
 /* ISR start sequence */
-#define BUGURT_ISR_START()          \
+#define BGRT_ISR_START()            \
     saved_sp = bgrt_isr_prologue(); \
     *current_sp = saved_sp
 
 /* ISR end sequence */
-#define BUGURT_ISR_END()              \
+#define BGRT_ISR_END()                \
     bgrt_set_curr_sp();               \
     bgrt_isr_epilogue( *current_sp ); \
     __asm__("iret")
-    
+
 /* ISR declaration */
-#define BUGURT_INTERRUPT_DECL(v) \
-void BUGURT_CONCAT(vector_wrapper_,v)(void) __interrupt(v) __naked
-    
+#define BGRT_ISR_DECL(v)                                         \
+void BGRT_CONCAT(vector_wrapper_,v)(void) __interrupt(v) __naked
+
 /* ISR definition */
-#define BUGURT_INTERRUPT(v)              \
-void BUGURT_CONCAT(vector_func_,v)(void);\
-BUGURT_INTERRUPT_DECL(v)                 \
-{                                        \
-    BUGURT_ISR_START();                  \
-    BUGURT_CONCAT(vector_func_,v)();     \
-    BUGURT_ISR_END();                    \
-}                                        \
-void BUGURT_CONCAT(vector_func_,v)(void) 
+#define BGRT_ISR(v)                     \
+void BGRT_CONCAT(vector_func_,v)(void); \
+BGRT_ISR_DECL(v)                        \
+{                                       \
+    BGRT_ISR_START();                   \
+    BGRT_CONCAT(vector_func_,v)();      \
+    BGRT_ISR_END();                     \
+}                                       \
+void BGRT_CONCAT(vector_func_,v)(void)
 
 /* Trap handler declaration */
 extern void bgrt_switch_context(void) __trap __naked;
 /* System timer ISR declaration */
 extern void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked;
 
-#endif // _BUGURT_PORT_H_
+#endif // _BGRT_PORT_H_

@@ -20,10 +20,10 @@
 		<Cursor position="20201" topLine="395" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="0">
-		<Cursor position="11287" topLine="191" />
+		<Cursor position="15096" topLine="286" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="0">
-		<Cursor position="8947" topLine="73" />
+		<Cursor position="8947" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6534" topLine="74" />

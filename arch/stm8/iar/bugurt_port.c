@@ -144,14 +144,14 @@ bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
 #pragma vector = 1 // trap instruction vector!
 __interrupt  void bgrt_switch_context(void)
 {
-    BUGURT_ISR_START();
-    BUGURT_ISR_END();
+    BGRT_ISR_START();
+    BGRT_ISR_END();
 }
 
 #pragma vector = BGRT_SYSTEM_TIMER_VECTOR
 __interrupt void system_timer_isr(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
     BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     bgrt_kernel.timer.val++;
@@ -160,7 +160,7 @@ __interrupt void system_timer_isr(void)
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 /***************************************************************************************************************/
 // Функции общего пользования

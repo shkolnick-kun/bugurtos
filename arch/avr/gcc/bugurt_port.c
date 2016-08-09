@@ -109,7 +109,7 @@ bgrt_stack_t ** current_sp = &kernel_sp;
 
 bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 
-#define BUGURT_GOTO_KERNEL()  \
+#define BGRT_GOTO_KERNEL()  \
     kernel_mode = (bgrt_bool_t)1;\
     current_sp = &kernel_sp; \
     bugurt_restore_context( kernel_sp ); \
@@ -118,12 +118,12 @@ bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 __attribute__ (( naked )) void bgrt_switch_to_kernel(void);
 void bgrt_switch_to_kernel(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     // Обрабатываем системный вызов
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
 
-    BUGURT_GOTO_KERNEL();
+    BGRT_GOTO_KERNEL();
 }
 
 bgrt_st_t bgrt_syscall( unsigned char num, void * arg )
@@ -156,15 +156,15 @@ void bgrt_set_curr_sp(void)
 __attribute__ (( naked )) void bgrt_switch_to_proc(void)
 {
     cli();
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
     kernel_mode = (bgrt_bool_t)0;
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 
 __attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     bgrt_kernel.timer.val++;
     if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
@@ -172,7 +172,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 
-    BUGURT_GOTO_KERNEL();
+    BGRT_GOTO_KERNEL();
 }
 
 /***************************************************************************************************************/

@@ -155,39 +155,39 @@ void load_bar_graph(void)
     PORTD |= 0x80;
     switch(bgrt_kernel.stat.val[0])
     {
-        default:
-        case 0:
-            PORTB &= ~0x10;
-        case 1:
-            PORTB &= ~0x08;
-        case 2:
-            PORTB &= ~0x04;
-        case 3:
-            PORTB &= ~0x02;
-        case 4:
-            PORTB &= ~0x01;
-        case 5:
-            PORTD &= ~0x80;
-        case 6:
-            break;
+    default:
+    case 0:
+        PORTB &= ~0x10;
+    case 1:
+        PORTB &= ~0x08;
+    case 2:
+        PORTB &= ~0x04;
+    case 3:
+        PORTB &= ~0x02;
+    case 4:
+        PORTB &= ~0x01;
+    case 5:
+        PORTD &= ~0x80;
+    case 6:
+        break;
     }
     switch(bgrt_kernel.stat.val[1])
     {
-        default:
-        case 0:
-            PORTC &= ~0x10;
-        case 1:
-            PORTC &= ~0x08;
-        case 2:
-            PORTC &= ~0x04;
-        case 3:
-            PORTC &= ~0x02;
-        case 4:
-            PORTC &= ~0x01;
-        case 5:
-            PORTB &= ~0x20;
-        case 6:
-            break;
+    default:
+    case 0:
+        PORTC &= ~0x10;
+    case 1:
+        PORTC &= ~0x08;
+    case 2:
+        PORTC &= ~0x04;
+    case 3:
+        PORTC &= ~0x02;
+    case 4:
+        PORTC &= ~0x01;
+    case 5:
+        PORTB &= ~0x20;
+    case 6:
+        break;
     }
     sei();
 }

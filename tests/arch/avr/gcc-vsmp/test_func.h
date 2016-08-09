@@ -7,9 +7,9 @@ extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 #define ARG_END ,(bgrt_aff_t)0x3
 // Scheduler test bgrt_proc_init argument terminator
 #if (BGRT_CONFIG_LB_SCHEME != 0)
-    #define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x2
+#define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x2
 #else
-    #define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x3
+#define BGRT_SCHED_ARG_END ,(bgrt_aff_t)0x3
 #endif
 
 #define BGRT_SCHED_LOCAL_LOAD_BALANCER()

@@ -10,7 +10,7 @@
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="16405" topLine="420" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="2">
 		<Cursor position="6696" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="0">
@@ -19,7 +19,7 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="8">
 		<Cursor position="9321" topLine="167" />
 	</File>
-	<File name="../../../../../kernel/pcounter.c" open="1" top="1" tabpos="1">
+	<File name="../../../../../kernel/pcounter.c" open="1" top="0" tabpos="1">
 		<Cursor position="6941" topLine="109" />
 	</File>
 	<File name="../../../../../kernel/pitem.c" open="0" top="0" tabpos="0">

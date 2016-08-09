@@ -29,7 +29,6 @@
 		</Unit>
 		<Unit filename="../../../arch/avr/gcc-vsmp/vsmp.h" />
 		<Unit filename="../../../arch/avr/gcc/bugurt_config_example.h" />
-		<Unit filename="../../../arch/avr/gcc/bugurt_config_exapmle.h" />
 		<Unit filename="../../../arch/avr/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>

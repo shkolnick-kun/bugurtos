@@ -82,11 +82,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_INT_PTR unsigned short
 
 bgrt_stack_t * bgrt_proc_stack_init(
-                            bgrt_stack_t * bgrt_stack_top,
-                            bgrt_code_t pmain,
-                            void * arg,
-                            void (*return_address)(void)
-                        )
+    bgrt_stack_t * bgrt_stack_top,
+    bgrt_code_t pmain,
+    void * arg,
+    void (*return_address)(void)
+)
 {
     //main arg
     *bgrt_stack_top-- = (bgrt_stack_t)((unsigned short)arg & 0xFF);

@@ -92,36 +92,36 @@ void _bgrt_proc_stop_ensure( bgrt_proc_t * proc, bgrt_flag_t state )
 **********************************************************************************************/
 // Initiation.
 bgrt_st_t bgrt_proc_init(
-                    bgrt_proc_t * proc, //A process pointer
-                    bgrt_code_t pmain,
-                    bgrt_code_t sv_hook,
-                    bgrt_code_t rs_hook,
-                    void * arg,
-                    bgrt_stack_t *sstart,
-                    bgrt_prio_t prio,
-                    bgrt_tmr_t time_quant,
-                    bgrt_bool_t is_rt // Is it RT process
+    bgrt_proc_t * proc, //A process pointer
+    bgrt_code_t pmain,
+    bgrt_code_t sv_hook,
+    bgrt_code_t rs_hook,
+    void * arg,
+    bgrt_stack_t *sstart,
+    bgrt_prio_t prio,
+    bgrt_tmr_t time_quant,
+    bgrt_bool_t is_rt // Is it RT process
 #ifdef BGRT_CONFIG_MP
-                    ,bgrt_aff_t affinity
+    ,bgrt_aff_t affinity
 #endif // BGRT_CONFIG_MP
-                  )
+)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
     ret = _bgrt_proc_init(
-                    proc, //A process pointer
-                    pmain,
-                    sv_hook,
-                    rs_hook,
-                    arg,
-                    sstart,
-                    prio,
-                    time_quant,
-                    is_rt // Is it RT process?
+              proc, //A process pointer
+              pmain,
+              sv_hook,
+              rs_hook,
+              arg,
+              sstart,
+              prio,
+              time_quant,
+              is_rt // Is it RT process?
 #ifdef BGRT_CONFIG_MP
-                    ,affinity
+              ,affinity
 #endif // BGRT_CONFIG_MP
-                  );
+          );
     bgrt_enable_interrupts();
     return ret;
 }

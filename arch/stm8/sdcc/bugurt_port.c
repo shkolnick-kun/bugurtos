@@ -101,10 +101,10 @@ void bgrt_resched( void )
 bgrt_stack_t * bgrt_isr_prologue(void) __naked
 {
     __asm
-        push #0x28
-        pop  CC
-        ldw  X, SP
-        ret
+    push #0x28
+    pop  CC
+    ldw  X, SP
+    ret
     __endasm;
 }
 
@@ -112,11 +112,11 @@ void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked
 {
     (void)newsp;
     __asm
-        ldw   X, (0x03, SP) /*Get new SP value   */
-        popw  Y             /*pop return address */
-        ldw   SP, X         /*Set SP             */
-        pushw Y             /*push return address*/
-        ret                 /*return             */
+    ldw   X, (0x03, SP) /*Get new SP value   */
+    popw  Y             /*pop return address */
+    ldw   SP, X         /*Set SP             */
+    pushw Y             /*push return address*/
+    ret                 /*return             */
     __endasm;
 }
 /******************************************************************************************************/
@@ -171,8 +171,8 @@ void bgrt_switch_to_proc(void)
 
 void bgrt_switch_context(void) __trap __naked
 {
-    BUGURT_ISR_START();
-    BUGURT_ISR_END();
+    BGRT_ISR_START();
+    BGRT_ISR_END();
 }
 
 static void _system_timer_isr(void)
@@ -188,9 +188,9 @@ static void _system_timer_isr(void)
 
 void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
     _system_timer_isr();
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 
 /***************************************************************************************************************/

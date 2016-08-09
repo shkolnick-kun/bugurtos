@@ -189,9 +189,9 @@ void bgrt_set_curr_sp(void)
 __attribute__ (( naked )) void bgrt_switch_to_kernel(void);
 void bgrt_switch_to_kernel(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 
 bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
@@ -240,23 +240,23 @@ __attribute__ (( naked )) void bgrt_enable_interrupts(void);
 void bgrt_enable_interrupts(void)
 {
     cli();
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     vm_int_enabled[current_vm]=1;
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 
 __attribute__ (( naked )) void bgrt_switch_to_proc(void)
 {
     cli();
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
     if( vm_int_enabled[current_vm] )
     {
         kernel_mode[current_vm] = (bgrt_bool_t)0;
     }
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 
 bgrt_cnt_t systimer_hook_counter = 0;
@@ -264,7 +264,7 @@ bgrt_cnt_t systimer_hook_counter = 0;
 __attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     current_vm++;
     if(current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
@@ -276,7 +276,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
         bgrt_vint_push_isr( &int_systick, &BGRT_KBLOCK.vic );
     }
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 /***************************************************************************************************************/
 // Функции общего пользования

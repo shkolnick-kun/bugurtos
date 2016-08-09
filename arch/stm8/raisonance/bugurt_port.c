@@ -119,7 +119,7 @@ void bgrt_set_curr_sp(void)
 }
 void system_timer_isr(void) interrupt BGRT_SYSTEM_TIMER_VECTOR
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
     BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     bgrt_kernel.timer.val++;
@@ -128,7 +128,7 @@ void system_timer_isr(void) interrupt BGRT_SYSTEM_TIMER_VECTOR
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
     bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 
 bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
@@ -157,8 +157,8 @@ void bgrt_switch_to_proc(void)
 
 void bgrt_switch_context(void) trap
 {
-    BUGURT_ISR_START();
-    BUGURT_ISR_END();
+    BGRT_ISR_START();
+    BGRT_ISR_END();
 }
 /***************************************************************************************************************/
 // Функции общего пользования

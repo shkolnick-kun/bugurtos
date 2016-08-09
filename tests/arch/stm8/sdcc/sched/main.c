@@ -6,11 +6,11 @@ typedef uint8_t bgrt_stack_t;
 typedef void (*bgrt_code_t)(void*);
 
 bgrt_stack_t * bgrt_proc_stack_init(
-                            bgrt_stack_t * bgrt_stack_top,
-                            bgrt_code_t pmain,
-                            void * arg,
-                            void (*return_address)(void)
-                        )
+    bgrt_stack_t * bgrt_stack_top,
+    bgrt_code_t pmain,
+    void * arg,
+    void (*return_address)(void)
+)
 {
     //main arg
     *bgrt_stack_top-- = (bgrt_stack_t)((unsigned short)arg & 0xFF);
@@ -41,8 +41,8 @@ bgrt_stack_t * bgrt_proc_stack_init(
 static bgrt_stack_t * bgrt_isr_prologue(void) __naked
 {
     __asm
-        ldw X, SP
-        ret
+    ldw X, SP
+    ret
     __endasm;
 }
 
@@ -50,11 +50,11 @@ static void bgrt_isr_epilogue(bgrt_stack_t * val) __naked
 {
     (void)val;
     __asm
-        ldw   X, (0x03, SP) /*Get new SP value   */
-        popw  Y             /*pop return address */
-        ldw   SP, X         /*Set SP             */
-        pushw Y             /*push return address*/
-        ret                 /*return             */
+    ldw   X, (0x03, SP) /*Get new SP value   */
+    popw  Y             /*pop return address */
+    ldw   SP, X         /*Set SP             */
+    pushw Y             /*push return address*/
+    ret                 /*return             */
     __endasm;
 }
 
@@ -68,9 +68,12 @@ static bgrt_stack_t ** restore_sp = &main_sp;
 static void my_sched(void)
 {
     *restore_sp = save_sp;
-    if (&main_sp == restore_sp){
+    if (&main_sp == restore_sp)
+    {
         restore_sp = &thread_sp;
-    }else{
+    }
+    else
+    {
         restore_sp = &main_sp;
     }
     save_sp = *restore_sp;
@@ -104,7 +107,8 @@ static void thread_end(void)
     }
 }
 
-int main() {
+int main()
+{
     int d;
     // Configure pins
     GPIOE_DDR = 0x80;
@@ -113,9 +117,11 @@ int main() {
 
     thread_sp = bgrt_proc_stack_init(&thread_stack[127], thread, (void *)30000, thread_end);
     // Loop
-    do {
+    do
+    {
         GPIOE_ODR |= 0x80;
         for(d = 0; d < 15000; d++) { }
         __asm__("trap");
-    } while(1);
+    }
+    while(1);
 }

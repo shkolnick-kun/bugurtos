@@ -32,11 +32,11 @@ int main()
 
     printf("Test 1: BGRT_PITEM_T_INIT macro: ");
     print_test_res(
-                   ( item.prio != (bgrt_prio_t)3 )
-                   ||( item.list != (bgrt_xlist_t *)0 )
-                   ||( item.parent.next != (bgrt_item_t *)&item )
-                   ||( item.parent.prev != (bgrt_item_t *)&item )
-                   );
+        ( item.prio != (bgrt_prio_t)3 )
+        ||( item.list != (bgrt_xlist_t *)0 )
+        ||( item.parent.next != (bgrt_item_t *)&item )
+        ||( item.parent.prev != (bgrt_item_t *)&item )
+    );
 
     printf("Test 2: bgrt_pitem_init function: ");
     test = 0;

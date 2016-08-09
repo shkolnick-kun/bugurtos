@@ -45,4 +45,4 @@ void test_inc(void);
 
 void systick_hook(void);
 
-extern BUGURT_INTERRUPT_DECL( SPI_TXE_VECTOR );
+extern BGRT_ISR_DECL(SPI_TXE_VECTOR);

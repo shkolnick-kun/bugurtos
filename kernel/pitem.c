@@ -150,7 +150,7 @@ bgrt_pitem_t * bgrt_pitem_xlist_chain( bgrt_xlist_t * src )
     if(ret)
     {
         bgrt_index_t mask,   // index mask to check for items in xlist
-                     index;  // buffer for xlist index
+        index;  // buffer for xlist index
         bgrt_prio_t  prio;   // current working priority
         bgrt_item_t * tail;  // current list tail;
 

@@ -403,7 +403,7 @@ void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched )
     current_proc = sched->current_proc;
     if( current_proc )
     {
-    // Need to spin-lock a current proc!
+        // Need to spin-lock a current proc!
         BGRT_SPIN_LOCK( current_proc );
 
         if( BGRT_PROC_STATE_RUNNING == ( current_proc->flags & BGRT_PROC_STATE_RUN_MASK ) )

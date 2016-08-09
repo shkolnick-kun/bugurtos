@@ -107,7 +107,7 @@ typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                      
 typedef struct
 {
     va_list list;
-}bgrt_va_wr_t; /*!< \~russian \brief Обертка для va_list.         \~english \brief va_list wrapper. */
+} bgrt_va_wr_t; /*!< \~russian \brief Обертка для va_list.         \~english \brief va_list wrapper. */
 /*!
 \~russian
 \brief

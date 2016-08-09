@@ -67,18 +67,18 @@ static void blink_digit( bgrt_cnt_t digit )
     //RLED_ON();
     if(!digit)
     {
-    	RLED_ON();
-    	bgrt_wait_time(1000);
-    	RLED_OFF();
-    	bgrt_wait_time(500);
-    	return;
+        RLED_ON();
+        bgrt_wait_time(1000);
+        RLED_OFF();
+        bgrt_wait_time(500);
+        return;
     }
 
     while(digit--)
     {
-    	RLED_ON();
-    	bgrt_wait_time(200);
-    	RLED_OFF();
+        RLED_ON();
+        bgrt_wait_time(200);
+        RLED_OFF();
         bgrt_wait_time(200);
     }
     bgrt_wait_time(500);
@@ -121,19 +121,37 @@ void tests_end(void)
     bgrt_wait_time(1000);
     while(1)
     {
-    	GLED_ON();
+        GLED_ON();
         bgrt_wait_time(500);
         GLED_OFF();
         bgrt_wait_time(500);
     }
 }
 
-void blink_1(void) {GPIOA_ODR ^= GPIO6;}
-void blink_2(void) {GPIOA_ODR ^= GPIO7;}
-void blink_3(void) {GPIOE_ODR ^= GPIO0;}
-void blink_4(void) {GPIOE_ODR ^= GPIO1;}
-void blink_5(void) {GPIOE_ODR ^= GPIO2;}
-void blink_6(void) {GPIOE_ODR ^= GPIO3;}
+void blink_1(void)
+{
+    GPIOA_ODR ^= GPIO6;
+}
+void blink_2(void)
+{
+    GPIOA_ODR ^= GPIO7;
+}
+void blink_3(void)
+{
+    GPIOE_ODR ^= GPIO0;
+}
+void blink_4(void)
+{
+    GPIOE_ODR ^= GPIO1;
+}
+void blink_5(void)
+{
+    GPIOE_ODR ^= GPIO2;
+}
+void blink_6(void)
+{
+    GPIOE_ODR ^= GPIO3;
+}
 
 unsigned char test_var_sig;
 void test_clear(void)
@@ -158,7 +176,7 @@ void systick_hook(void)
 //    SPI1_CR1 |= 0x40;
 }
 
-BUGURT_INTERRUPT( SPI_TXE_VECTOR )
+BGRT_ISR( SPI_TXE_VECTOR )
 {
     SPI1_CR1 &= ~0x40;
     SPI1_ICR &= ~0x80;

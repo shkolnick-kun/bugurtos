@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="..\..\..\..\..\arch\stm8\sdcc\bugurt_port.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../arch/stm8/sdcc/bugurt_port.c" open="0" top="0" tabpos="0">
 		<Cursor position="6738" topLine="92" />
 	</File>
-	<File name="..\..\..\..\..\arch\stm8\sdcc\bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../arch/stm8/sdcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="817" topLine="88" />
 	</File>
-	<File name="..\..\..\..\..\kernel\bugurt.h" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="225" />
 	</File>
-	<File name="..\..\..\..\..\kernel\kernel.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="7996" topLine="150" />
 	</File>
-	<File name="..\..\..\..\..\kernel\vint.c" open="0" top="0" tabpos="0">
+	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="0">
 		<Cursor position="642" topLine="98" />
 	</File>
-	<File name="..\bugurt_config.h" open="0" top="0" tabpos="0">
+	<File name="../bugurt_config.h" open="0" top="0" tabpos="0">
 		<Cursor position="2834" topLine="63" />
 	</File>
-	<File name="..\test_func.c" open="0" top="0" tabpos="0">
+	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="2037" topLine="69" />
 	</File>
-	<File name="..\test_func.h" open="0" top="0" tabpos="0">
+	<File name="../test_func.h" open="0" top="0" tabpos="0">
 		<Cursor position="397" topLine="13" />
 	</File>
-	<File name="..\..\..\..\main\bsync\main.c" open="0" top="0" tabpos="0">
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
 		<Cursor position="292" topLine="165" />
 	</File>
 </CodeBlocks_layout_file>

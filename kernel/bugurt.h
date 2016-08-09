@@ -77,8 +77,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#ifndef _BUGURT_H_
-#define _BUGURT_H_
+#ifndef _BGRT_H_
+#define _BGRT_H_
 
 /*!
 \mainpage
@@ -626,4 +626,4 @@ extern bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg );
 Kernel to process context switch.
 */
 extern void bgrt_switch_to_proc(void);
-#endif //_BUGURT_H_
+#endif //_BGRT_H_

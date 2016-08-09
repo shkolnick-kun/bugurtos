@@ -42,12 +42,30 @@ void sched_fix_bgrt_proc_2(void)
     sei();
 }
 
-void blink_1(void) {PORTB ^= 0x10;}
-void blink_2(void) {PORTB ^= 0x08;}
-void blink_3(void) {PORTB ^= 0x04;}
-void blink_4(void) {PORTB ^= 0x02;}
-void blink_5(void) {PORTB ^= 0x01;}
-void blink_6(void) {PORTD ^= 0x80;}
+void blink_1(void)
+{
+    PORTB ^= 0x10;
+}
+void blink_2(void)
+{
+    PORTB ^= 0x08;
+}
+void blink_3(void)
+{
+    PORTB ^= 0x04;
+}
+void blink_4(void)
+{
+    PORTB ^= 0x02;
+}
+void blink_5(void)
+{
+    PORTB ^= 0x01;
+}
+void blink_6(void)
+{
+    PORTD ^= 0x80;
+}
 
 static void blink_digit( bgrt_cnt_t digit )
 {
@@ -151,7 +169,7 @@ void systick_hook(void)
     PORTD ^= 0x04;
 }
 
-//BUGURT_INTERRUPT( INT0_vect )
+//BGRT_ISR( INT0_vect )
 //{
 //    show_nested_int();
 //}

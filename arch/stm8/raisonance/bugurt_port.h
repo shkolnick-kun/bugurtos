@@ -76,25 +76,23 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BUGURT_PORT_H_
-#define _BUGURT_PORT_H_
+#ifndef _BGRT_PORT_H_
+#define _BGRT_PORT_H_
 
 // Подстановка_строки
-#define BUGURT_ARG_TO_STR(a) #a
-// Конкатенация строк
-#define BUGURT_CONCAT(a,b) a##b
+#define BGRT_ARG_TO_STR(a) #a
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
 // Пролог обработчика прерывания
-#define BUGURT_ISR_START() \
-    _bugurt_do_it(); \
+#define BGRT_ISR_START()                    \
+    _bugurt_do_it();                        \
     *current_sp = (bgrt_stack_t *)_getSP_()
 
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
-#define BUGURT_ISR_END() \
-    bgrt_set_curr_sp();\
+#define BGRT_ISR_END()                   \
+    bgrt_set_curr_sp();                  \
     _setSP_( (unsigned int)*current_sp )
 
 /*
@@ -106,15 +104,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 Не очень быстро,
 зато память экономится.
 */
-#define BUGURT_INTERRUPT(v) \
-void BUGURT_CONCAT(vector_func_,v)(void);\
-void BUGURT_CONCAT(vector_wrapper_,v)(void) interrupt v \
-{ \
-    BUGURT_ISR_START();\
-    BUGURT_CONCAT(vector_func_,v)();\
-    BUGURT_ISR_END();\
-} \
-void BUGURT_CONCAT(vector_func_,v)(void)
+#define BGRT_ISR(v)                                   \
+void BGRT_CONCAT(vector_func_,v)(void);               \
+void BGRT_CONCAT(vector_wrapper_,v)(void) interrupt v \
+{                                                     \
+    BGRT_ISR_START();                                 \
+    BGRT_CONCAT(vector_func_,v)();                    \
+    BGRT_ISR_END();                                   \
+}                                                     \
+void BGRT_CONCAT(vector_func_,v)(void)
 
 extern void (*_bugurt_do_it)(void); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
 void _bugurt_do_nothing( void ); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
@@ -124,9 +122,4 @@ extern bgrt_stack_t * kernel_sp;
 extern bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
-//extern bgrt_stack_t * bugurt_save_context( void );
-//extern void bugurt_restore_context( bgrt_stack_t * new_sp );
-//extern void bugurt_pop_context( void );
-//extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
-
-#endif // _BUGURT_PORT_H_
+#endif // _BGRT_PORT_H_
