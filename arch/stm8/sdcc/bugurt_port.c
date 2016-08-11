@@ -101,6 +101,7 @@ void bgrt_resched( void )
 bgrt_stack_t * bgrt_isr_prologue(void) __naked
 {
     __asm
+    sim
     push #0x28
     pop  CC
     ldw  X, SP
