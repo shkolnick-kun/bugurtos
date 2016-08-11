@@ -5,6 +5,7 @@
 		<Option title="names_work" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="kernel/default/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/names_work" prefix_auto="1" extension_auto="1" />
@@ -77,12 +78,13 @@
 		<Unit filename="../../../arch/stm8/sdcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../kernel/bugurt.h" />
+		<Unit filename="../../../kernel/bugurt.h">
+			<Option virtualFolder="kernel/default/" />
+		</Unit>
 		<Unit filename="../../../kernel/crit_sec.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../kernel/crit_sec.h" />
-		<Unit filename="../../../kernel/default/syscall.h" />
 		<Unit filename="../../../kernel/default/syscall_api.h" />
 		<Unit filename="../../../kernel/default/syscall_routines.h" />
 		<Unit filename="../../../kernel/default/syscall_table.h" />

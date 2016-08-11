@@ -85,26 +85,29 @@
 	<File name="../../../arch/stm8/sdcc/bugurt_config_example.h" open="0" top="0" tabpos="0">
 		<Cursor position="2486" topLine="45" />
 	</File>
-	<File name="../../../arch/stm8/sdcc/bugurt_port.c" open="1" top="1" tabpos="0">
+	<File name="../../../arch/stm8/sdcc/bugurt_port.c" open="1" top="0" tabpos="1">
 		<Cursor position="6564" topLine="90" />
 	</File>
 	<File name="../../../arch/stm8/sdcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="6908" topLine="98" />
 	</File>
 	<File name="../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="8065" topLine="136" />
+		<Cursor position="8139" topLine="169" />
 	</File>
 	<File name="../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="6299" topLine="60" />
 	</File>
-	<File name="../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/crit_sec.h" open="1" top="0" tabpos="6">
+		<Cursor position="8055" topLine="121" />
 	</File>
-	<File name="../../../kernel/default/syscall.h" open="1" top="0" tabpos="0">
-		<Cursor position="6393" topLine="243" />
+	<File name="../../../kernel/default/syscall_api.h" open="1" top="1" tabpos="3">
+		<Cursor position="18708" topLine="355" />
 	</File>
 	<File name="../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="3">
 		<Cursor position="15199" topLine="0" />
+	</File>
+	<File name="../../../kernel/default/syscall_table.h" open="1" top="0" tabpos="7">
+		<Cursor position="8451" topLine="63" />
 	</File>
 	<File name="../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="74" />
@@ -112,8 +115,8 @@
 	<File name="../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/kernel.h" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/kernel.h" open="1" top="0" tabpos="4">
+		<Cursor position="9562" topLine="155" />
 	</File>
 	<File name="../../../kernel/pcounter.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
@@ -136,8 +139,8 @@
 	<File name="../../../kernel/sync.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/sync.h" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/sync.h" open="1" top="0" tabpos="2">
+		<Cursor position="10648" topLine="175" />
 	</File>
 	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="2">
 		<Cursor position="6955" topLine="81" />
@@ -171,6 +174,9 @@
 	</File>
 	<File name="../../../libs/native/mutex.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
+	</File>
+	<File name="../../../libs/native/native.h" open="1" top="0" tabpos="5">
+		<Cursor position="4402" topLine="33" />
 	</File>
 	<File name="../../../libs/native/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />

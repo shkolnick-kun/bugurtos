@@ -6,11 +6,11 @@
 /*!
 \file
 \~russian
-\brief Прослойка совместимости с версией 0.8.4.
+\brief Прослойка совместимости с версией 2.0.x.
 
 В этом файле определены имена функций, макросов и типов данных, а так же включены другие заголовки.
 \~english
-\brief Native lib v0.8.4 compatibility layer.
+\brief Native lib v2.0.x compatibility layer.
 
 In this file there are definitions of functions, macros and data types. Also this file includes other native lib headers.
 */
@@ -48,7 +48,7 @@ In this file there are definitions of functions, macros and data types. Also thi
 #define wait_time           bgrt_wait_time               /*!< \~russian \brief ПРограммная задержка. \~english \brief A software delay. */
 
 #define CRIT_SEC_ENTER      BGRT_CRIT_SEC_ENTER          /*!< \~russian \brief Начало критической секции. \~english \brief A criyical section start. */
-#define CRIT_SEC_EXIT       BGRT_CRIT_SEC_ENXIT          /*!< \~russian \brief Конец критической секции. \~english \brief A critical section end. */
+#define CRIT_SEC_EXIT       BGRT_CRIT_SEC_EXIT           /*!< \~russian \brief Конец критической секции. \~english \brief A critical section end. */
 
 #define status_t            bgrt_st_t                    /*!< \~russian \brief Тип возвращаемых статусов. \~english \brief An execution status type. */
 

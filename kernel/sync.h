@@ -178,12 +178,12 @@ bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc );
 /*!
 \~russian
 \brief
-Смотри #bgrt_sync_get_owner.
+Смотри #BGRT_SYNC_GET_OWNER.
 
 \warning Для внутреннего использования.
 \~english
 \brief
-Watch #bgrt_sync_get_owner.
+See #BGRT_SYNC_GET_OWNER.
 
 \warning For internal usage.
 */

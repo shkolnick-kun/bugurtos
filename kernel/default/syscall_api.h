@@ -190,13 +190,15 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 \brief Получить приоритет процесса.
 
 \param pid - Идентификатор процесса.
-\return - Значение приоритета процесса.
+\param pri_ptr - Указатель на буфер для чтения приоритета.
+\return - Результат выполнения системного вызова.
 
 \~english
 \brief Get a priority of a process.
 
 \param pid - A process ID.
-\return - A process priority value.
+\param pri_ptr - A priority read buffer pointer
+\return - A system call result.
 */
 #define BGRT_PROC_GET_PRIO(pid, pri_ptr) (*(pri_ptr) = BGRT_PRIO_LOWEST+1, BGRT_SYSCALL_NVAR(PROC_GET_PRIO, (void *)(pri_ptr), (void *)(pid)))
 /*!
@@ -207,7 +209,7 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 
 \param pid - Идентификатор процесса.
 \param prio - Новое значение приоритета.
-
+\return - Результат выполнения системного вызова.
 \~english
 \brief Set a priority of a process.
 
@@ -215,18 +217,21 @@ It sets a process priority. A process current state doesn't matter.
 
 \param pid - A process ID.
 \param prio - New process priority value.
+\return - A system call result.
 */
-#define BGRT_PROC_SET_PRIO(pid, val) BGRT_SYSCALL_NVAR(PROC_SET_PRIO, (void *)(pid), (int)(val))
+#define BGRT_PROC_SET_PRIO(pid, prio) BGRT_SYSCALL_NVAR(PROC_SET_PRIO, (void *)(pid), (int)(prio))
 /*!
 \~russian
 \brief Получить идентификатор текущего процесса.
 
-\return Идентификатор процесса.
+\param pid_ptr - Указатель на буфер чтения идентификатора процесса.
+\return - Результат выполнения системного вызова.
 
 \~english
 \brief Get a current process ID.
 
-\return A current process ID.
+\param pid_ptr - A process ID read buffer pointer.
+\return - A system call result.
 */
 #define BGRT_PROC_GET_ID(pid_ptr) (*(pid_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_N(PROC_GET_ID, (void *)(pid_ptr))
 /*****************************************************************************************/
@@ -237,7 +242,7 @@ It sets a process priority. A process current state doesn't matter.
 \brief
 Назначить хозяина объекта типа #bgrt_sync_t.
 
-\param sync Указатель на объект типа #bgrt_sync_t.
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
 \param pid Уникальный идентификатор нового процесса-хозяин объекта типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
@@ -245,7 +250,7 @@ It sets a process priority. A process current state doesn't matter.
 \brief
 Set #bgrt_sync_t object owner.
 
-\param sync A pointer to the object of interest.
+\param sync_ptr A pointer to the object of interest.
 \param pid A unique ID of new #bgrt_sync_t object owner.
 \return #BGRT_ST_OK on success, or error code.
 */
@@ -255,15 +260,17 @@ Set #bgrt_sync_t object owner.
 \brief
 Получить хозяина примитива.
 
-\param sync Указатель на интересующий объект типа #bgrt_sync_t.
+\param sync_ptr - Указатель на интересующий объект типа #bgrt_sync_t.
+\param pid_ptr - Указатель на буфер чтения идентификатора процесса.
 \return Указатель на процесс-хозяин объекта типа #bgrt_sync_t.
 
 \~english
 \brief
 Get current #bgrt_sync_t object owner.
 
-\param sync A pointer to the object of interest.
-\return A pointer to #bgrt_sync_t object owner.
+\param sync_ptr - A pointer to the object of interest.
+\param pid_ptr - A process ID read buffer pointer.
+\return #BGRT_ST_OK on success, or error code.
 */
 #define BGRT_SYNC_GET_OWNER(sync_ptr, pid_ptr) (*(pid_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_NVAR(SYNC_GET_OWNER, (void *)(pid_ptr), (void *)(sync_ptr)))
 /*!
@@ -271,7 +278,7 @@ Get current #bgrt_sync_t object owner.
 \brief
 Завладеть объектом типа #bgrt_sync_t.
 
-\param sync Указатель на объект типа #bgrt_sync_t.
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
 \param touch Если не 0, - пометить sync, как "грязный" случае неудачи.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
@@ -279,7 +286,7 @@ Get current #bgrt_sync_t object owner.
 \brief
 Own #bgrt_sync_t object.
 
-\param sync A pointer to the object of interest.
+\param sync_ptr A pointer to the object of interest.
 \param touch If not 0 then mark sync as dirty on fail.
 \return #BGRT_ST_OK if on success, or error code.
 */
@@ -289,17 +296,17 @@ Own #bgrt_sync_t object.
 \brief
 Пометить объект #bgrt_sync_t, как грязный.
 
-\param sync Указатель на объект типа #bgrt_sync_t.
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
 \return #BGRT_ST_OK в случае успеха, либо код ошибки.
 
 \~english
 \brief
 Touch #bgrt_sync_t object.
 
-\param sync A pointer to the object of interest.
+\param sync_ptr A pointer to the object of interest.
 \return #BGRT_ST_OK if on success, or error code.
 */
-#define BGRT_SYNC_TOUCH(sync) BGRT_SYSCALL_N(SYNC_TOUCH, (void *)(sync))
+#define BGRT_SYNC_TOUCH(sync_ptr) BGRT_SYSCALL_N(SYNC_TOUCH, (void *)(sync_ptr))
 /*****************************************************************************************/
 /*!
 \~russian
@@ -308,8 +315,8 @@ Touch #bgrt_sync_t object.
 
 Блокирует вызывающий процесс.
 
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param touch Если не 0, то sync был помечен, как "грязный".
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
+\param touch_ptr Указатель на переменную, хранащую флаг touch. Если там не 0, то sync был помечен, как "грязный".
 \return #BGRT_ST_OK в случае успеха, иначе - код ошибки.
 
 \~english
@@ -318,8 +325,8 @@ Sleep to wait for synchronization.
 
 Blocks caller process.
 
-\param sync A pointer to the object of interest.
-\param touch A touch flag, must be 1 if we've touched a sync before call.
+\param sync_ptr A pointer to the object of interest.
+\param touch_ptr A touch flag buffer pointer. The buffer value must be 1 if we've touched a sync before call.
 \return #BGRT_ST_OK on success, or error number.
 */
 #define BGRT_SYNC_SLEEP(sync_ptr,touch_ptr) BGRT_SYSCALL_NVAR(SYNC_SLEEP, (void *)(sync_ptr), (void *)(touch_ptr))
@@ -332,8 +339,8 @@ Blocks caller process.
 Запускает ожидающий процесс. Может запустить "голову" списка ожидающих процессов,
 или какой-то конкретный процесс, в случае, если он заблокирован на целевом примитиве синхронизации.
 
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Указатель на процесс, который надо запустить, если 0, то пытается запустить "голову" списка ожидающих.
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
+\param pid Идетификатор процесса, который надо запустить, если #BGRT_PID_NOTHING, то пытается запустить "голову" списка ожидающих.
 \param chown Флаг смены хозяина, если не 0, то запускаемый процесс станет новым хозяином примитива синхронизации.
 \return #BGRT_ST_OK в случае если удалось запустить процесс, иначе - код ошибки.
 
@@ -343,8 +350,8 @@ Sleep to wait for synchronization.
 
 Unblock some waiting process. A process should be blocked on target #bgrt_sync_t object.
 
-\param sync A #bgrt_sync_t object pointer.
-\param pid A pointer to a process, that is supposed to wake up. If 0, then try to wake up wait list head.
+\param sync_ptr A #bgrt_sync_t object pointer.
+\param pid A process ID, that is supposed to wake up. If #BGRT_PID_NOTHING, then try to wake up wait list head.
 \param chown A change owner flag. If non 0, then ownership is given to wake up process.
 \return #BGRT_ST_OK on process wakeup, or error code.
 */
@@ -357,8 +364,8 @@ Unblock some waiting process. A process should be blocked on target #bgrt_sync_t
 
 Подождать того момента, как целевой процесс будет заблокирован на целевом примитиве синхронизации.
 
-\param sync Указатель на объект типа #bgrt_sync_t.
-\param pid Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
+\param pid_ptr Указатель на идентификатор процесса, который надо подождать, если *pid==#BGRT_PID_NOTHING, то вызывающий процесс будет ждать первой блокировки процесса на объекте типа #bgrt_sync_t.
 \param block Флаг блокировки вызывающего процесса, если не 0 и нужно ждать, вызывающий процесс будет заблокирован.
 \return #BGRT_ST_OK в случае если дождался блокировки целевого процесса, иначе - код ошибки.
 
@@ -368,8 +375,8 @@ Sleep to wait for synchronization.
 
 Wait until target process is blocked on target #bgrt_sync_t object.
 
-\param sync A #bgrt_sync_t object pointer.
-\param pid A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
+\param sync_ptr A #bgrt_sync_t object pointer.
+\param pid_ptr A pointer to an ID of a process, that is supposed to block. If *pid is #BGRT_PID_NOTHING, then caller may wait for first process to block on #bgrt_sync_t object.
 \param block Block flag. If non 0 and caller process must wait, then caller is blocked until target process is blocked on #bgrt_sync_t object.
 \return #BGRT_ST_OK if target process has blocked on target #bgrt_sync_t object, or error code.
 */

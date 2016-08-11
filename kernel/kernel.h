@@ -169,7 +169,7 @@ struct _bgrt_kernel_t
 
 \~english
 \brief
-The BuguRTOS bgrt_kernel.
+The BuguRTOS kernel.
 
 It's the one for the entire system!
 */
