@@ -4,8 +4,8 @@
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================
-#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
-#define BGRT_SCL_TBL_READ(a) a
+#define BGRT_SC_TBL(a) const bgrt_scsr_t a
+#define BGRT_SC_TBL_READ(a) a
 
 #define WEAK
 #define NOP()                     __asm__("nop")

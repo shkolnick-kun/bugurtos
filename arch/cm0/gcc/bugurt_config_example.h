@@ -7,8 +7,8 @@
 
 #ifndef __ASSEMBLER__
 
-#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
-#define BGRT_SCL_TBL_READ(a) a
+#define BGRT_SC_TBL(a) const bgrt_scsr_t a
+#define BGRT_SC_TBL_READ(a) a
 
 #ifndef NOP
 #define NOP() __asm__ __volatile__ ("nop":::)

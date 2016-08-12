@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../kernel/bugurt.h" open="1" top="0" tabpos="1">
+	<File name="../../../kernel/bugurt.h" open="0" top="0" tabpos="1">
 		<Cursor position="7036" topLine="99" />
 	</File>
 	<File name="../../../kernel/index.h" open="0" top="0" tabpos="0">
@@ -29,7 +29,7 @@
 		<Cursor position="405" topLine="165" />
 	</File>
 	<File name="../bugurt_config.h" open="0" top="0" tabpos="3">
-		<Cursor position="6695" topLine="100" />
+		<Cursor position="5986" topLine="77" />
 	</File>
 	<File name="../bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="71" topLine="0" />

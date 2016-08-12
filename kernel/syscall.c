@@ -128,7 +128,7 @@ BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
     return BGRT_ST_OK;
 }
 
-BGRT_SCL_TBL( syscall_handler[] ) =
+BGRT_SC_TBL( syscall_handler[] ) =
 {
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
 #   include <syscall_table.h>
@@ -154,7 +154,7 @@ bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg)
     else
     {
         //Syscall processing
-        return (BGRT_SCL_TBL_READ(syscall_handler[syscall_num]))(syscall_arg);
+        return (BGRT_SC_TBL_READ(syscall_handler[syscall_num]))(syscall_arg);
     }
 }
 //Variadic version of bgrt_syscall

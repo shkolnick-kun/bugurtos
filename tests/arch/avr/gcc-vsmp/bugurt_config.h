@@ -15,12 +15,12 @@
 
 /// Syscall table is allocated in FLASH.
 #include <avr/pgmspace.h>
-#define BGRT_SCL_TBL(a) const PROGMEM bgrt_scsr_t a
-#define BGRT_SCL_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
+#define BGRT_SC_TBL(a) const PROGMEM bgrt_scsr_t a
+#define BGRT_SC_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 
 /// Another option is to allocate it in RAM.
-//#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
-//#define BGRT_SCL_TBL_READ(a) a
+//#define BGRT_SC_TBL(a) const bgrt_scsr_t a
+//#define BGRT_SC_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
 #define WEAK __attribute__(( __weak__ ))

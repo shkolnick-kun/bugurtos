@@ -75,8 +75,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Тестовый конфиг-файл, в последствии будет заменён
 #define _BGRT_CONFIG_H_
 
-#define BGRT_SCL_TBL(a) const bgrt_code_t a
-#define BGRT_SCL_TBL_READ(a) a
+#define BGRT_SC_TBL(a) const bgrt_code_t a
+#define BGRT_SC_TBL_READ(a) a
 
 // data types
 typedef unsigned char bgrt_index_t;
