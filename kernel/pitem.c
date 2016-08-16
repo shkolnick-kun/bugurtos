@@ -119,7 +119,7 @@ void bgrt_pitem_fast_cut( bgrt_pitem_t * pitem )
     //Check for single element sublist
     if( ((bgrt_item_t *)pitem)->next == (bgrt_item_t *)pitem )
     {
-        // Seingle element, delete sublist!
+        // Single element, delete sublist!
         xlist->item[prio] = (bgrt_item_t *)0;
         xlist->index &= ~(((bgrt_index_t)1)<<prio);
     }
