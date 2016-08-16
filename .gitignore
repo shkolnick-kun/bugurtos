@@ -1,12 +1,12 @@
-# Desktop enviroment #
+# Desktop environment
 *.directory
 *~
 
-# Compiled Objects #
+# Compiled Objects
 *.o
 *.obj
 
-# Compiled Static libraries #
+# Compiled Static libraries
 *.a
 *.lib
 
@@ -15,7 +15,7 @@
 *.lss
 *.lst
 
-#IDE files
+# IDE files
 *.pbd
 *.cseg
 *.CSEG
@@ -23,7 +23,7 @@
 *.XRF
 *.html
 
-# Executables #
+# Executables
 *.exe
 *.out
 *.app

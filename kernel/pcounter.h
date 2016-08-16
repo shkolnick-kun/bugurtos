@@ -168,10 +168,10 @@ Subtraction from counter value.
 */
 bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b );
 
-#define BGRT_CNT_INC( cnt ) (cnt = bgrt_cnt_inc( cnt )) /*!< \~russian Обертка над #bgrt_cnt_inc; \~english A wrappet for #bgrt_cnt_inc; */
-#define BGRT_CNT_DEC( cnt ) (cnt = bgrt_cnt_dec( cnt )) /*!< \~russian Обертка над #bgrt_cnt_dec; \~english A wrappet for #bgrt_cnt_dec; */
-#define BGRT_CNT_ADD( cnt, delta ) (cnt = bgrt_cnt_add( cnt, delta )) /*!< \~russian Обертка над #bgrt_cnt_add; \~english A wrappet for #bgrt_cnt_add; */
-#define BGRT_CNT_SUB( cnt, delta ) (cnt = bgrt_cnt_sub( cnt, delta )) /*!< \~russian Обертка над #bgrt_cnt_sub; \~english A wrappet for #bgrt_cnt_sub; */
+#define BGRT_CNT_INC( cnt ) (cnt = bgrt_cnt_inc( cnt )) /*!< \~russian Обёртка над #bgrt_cnt_inc; \~english A wrappet for #bgrt_cnt_inc; */
+#define BGRT_CNT_DEC( cnt ) (cnt = bgrt_cnt_dec( cnt )) /*!< \~russian Обёртка над #bgrt_cnt_dec; \~english A wrappet for #bgrt_cnt_dec; */
+#define BGRT_CNT_ADD( cnt, delta ) (cnt = bgrt_cnt_add( cnt, delta )) /*!< \~russian Обёртка над #bgrt_cnt_add; \~english A wrappet for #bgrt_cnt_add; */
+#define BGRT_CNT_SUB( cnt, delta ) (cnt = bgrt_cnt_sub( cnt, delta )) /*!< \~russian Обёртка над #bgrt_cnt_sub; \~english A wrappet for #bgrt_cnt_sub; */
 
 typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_bgrt_pcounter_t; \~english See #_bgrt_pcounter_t; */
 /*!

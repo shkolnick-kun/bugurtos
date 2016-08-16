@@ -116,7 +116,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define BGRT_SYSCALL_USER                           (BGRT_SYSCALL_SYNC_PROC_TIMEOUT + (bgrt_syscall_t)(1))     /*!< \~russian \brief Пользовательский системный вызов. \~english \brief User system call. */
 
-typedef bgrt_st_t (* bgrt_scsr_t)(void *); /*!< \~russian \brief Обработчик системного вызова. \~english \brief System call srvice routine pointer. */
+typedef bgrt_st_t (* bgrt_scsr_t)(void *); /*!< \~russian \brief Обработчик системного вызова. \~english \brief System call service routine pointer. */
 
 #define BGRT_SC_TBL_ENTRY(f) ((bgrt_scsr_t)f)
 /*!
