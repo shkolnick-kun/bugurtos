@@ -1,7 +1,7 @@
 #include <test_func.h>
 void(*test_kernel_preempt)(void) = test_do_nothing;
 
-void kernel_preemt_hook_add( void(*arg)(void) )
+void kernel_preemt_hook_add(void(*arg)(void))
 {
     cli();
     test_kernel_preempt = arg;
@@ -67,18 +67,18 @@ void blink_6(void)
     PORTD ^= 0x80;
 }
 
-static void blink_digit( bgrt_cnt_t digit )
+static void blink_digit(bgrt_cnt_t digit)
 {
     PORTB &= ~0x20;
     _delay_ms(200);
-    if( !digit )
+    if (!digit)
     {
         PORTB |= 0x20;
         _delay_ms(500);
         PORTB &= ~0x20;
         return;
     }
-    while(digit--)
+    while (digit--)
     {
         PORTB |= 0x20;
         _delay_ms(200);
@@ -87,28 +87,28 @@ static void blink_digit( bgrt_cnt_t digit )
     }
 }
 // Can blink numbers from 0 up to 99.
-static void blink_num( bgrt_cnt_t num )
+static void blink_num(bgrt_cnt_t num)
 {
     PORTB &= ~0x20;
     PORTD &= ~0x40;
     PORTD |= 0x20;
-    blink_digit( (num/100)%10 ); // Most significant digit
+    blink_digit((num/100)%10); // Most significant digit
     _delay_ms(300);
-    blink_digit( (num/10)%10 );
+    blink_digit((num/10)%10);
     _delay_ms(300);
-    blink_digit( num%10 ); //Least significant digit
+    blink_digit(num%10); //Least significant digit
 
 }
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_num)
 {
     // If test has failed, then where will be abnormal program termination!
-    if( !test_result )
+    if (!test_result)
     {
         cli();
-        while(1)
+        while (1)
         {
             _delay_ms(1000);
-            blink_num( test_num );
+            blink_num(test_num);
         }
     }
 }
@@ -119,7 +119,7 @@ void test_start(void)
 void tests_end(void)
 {
     cli();
-    while(1)
+    while (1)
     {
         PORTD |= 0x40;
         _delay_ms(500);
@@ -146,7 +146,7 @@ void show_nested_int(void)
 {
 //#ifdef BGRT_CONFIG_PREEMPTIVE_KERNEL
 //    PORTC |= 0x1f;
-//    switch(nested_interrupts)
+//    switch (nested_interrupts)
 //    {
 //        case 0:
 //            PORTC &= ~0x10;
@@ -169,7 +169,7 @@ void systick_hook(void)
     PORTD ^= 0x04;
 }
 
-//BGRT_ISR( INT0_vect )
+//BGRT_ISR(INT0_vect)
 //{
 //    show_nested_int();
 //}

@@ -91,7 +91,7 @@ void bgrt_xlist_init(
     //xlist is empty
     xlist->index = (bgrt_index_t)0;
     //all sublists are empty
-    for( i = 0; i < BGRT_BITS_IN_INDEX_T; i++ )xlist->item[i] = (bgrt_item_t *)0;
+    for (i = 0; i < BGRT_BITS_IN_INDEX_T; i++)xlist->item[i] = (bgrt_item_t *)0;
 }
 //===========================================================================
 //Find the head.
@@ -101,9 +101,9 @@ bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
     bgrt_index_t index;
     index = xlist->index;
 
-    if( index != (bgrt_index_t)0 )
+    if (index != (bgrt_index_t)0)
     {
-        ret_val = xlist->item[ bgrt_index_search( index ) ];
+        ret_val = xlist->item[ bgrt_index_search(index)];
     }
     return ret_val;
 }

@@ -99,7 +99,7 @@ project_traits:
     #       }
     #     return i;
     #   }
-    indent_style: "K&R"
+    indent_style: "Allman"
 
     # Appearance width of a TAB character.
     tab_width: 8
@@ -241,7 +241,7 @@ message_traits:
   language: "en_US"
 
   # Enable inline annotation based message suppression?
-  individual_suppression: false
+  individual_suppression: true
 
   # Project-wide code check exclusion settings.
   # Ex.
@@ -255,22 +255,40 @@ message_traits:
   #       W0002: "c_ansi"
   exclusion:
     messages:
+      # pointer arithmetic and comparison
+      W0023: "c_builtin"
+      W0027: "c_builtin"
       # include <bugurt,h>
       W0071: "c_builtin"
       # include <syscall_table,h>
-      
       W0070: "c_builtin"
-      W0809: "c_builtin"
+      W0076: "c_builtin"
       W0443: "c_builtin"
+      W0100: "c_builtin"
       W0104: "c_builtin"
+      W0105: "c_builtin"
+      W0114: "c_builtin"
       W0150: "c_builtin"
       W0246: "c_builtin"
-      W0492: "c_builtin"
-      W9003: "c_builtin"
-      W0549: "c_builtin"
-      W0576: "c_builtin"
+      W0422: "c_builtin"
+      W0424: "c_builtin"
       W0442: "c_builtin"
+      
+      # Убрать это
+      W0478: "c_builtin"
+      
+      W0492: "c_builtin"
+      W0549: "c_builtin"
+      # implementation defined arithmetic
+      W0572: "c_builtin"
+      
+      W0576: "c_builtin"
       W0511: "c_builtin"
+      W0809: "c_builtin"
+      # multiple return 
+      W1071: "c_builtin"
+      
+      W9003: "c_builtin"
   # Language of the 
   # Project-wide code check inclusion settings.
   # Ex.

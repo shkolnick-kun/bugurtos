@@ -87,7 +87,7 @@ code
 #include "vregs.inc"
 
 ;
-bgrt_stack_t * bugurt_save_context( void );
+bgrt_stack_t * bugurt_save_context(void);
 ;
 Initial conditions are:
 ;
@@ -128,7 +128,7 @@ Push return address on the top of the stack
             ;
 -------------------------------------------------------------------------------
 ;
-void bugurt_pop_context( void );
+void bugurt_pop_context(void);
 PUBLIC bugurt_pop_context
 bugurt_pop_context:
 popw Y
@@ -139,7 +139,7 @@ jra ?pop_context
 ;
 -------------------------------------------------------------------------------
 ;
-void bugurt_restore_context( void [__near] * new_sp );
+void bugurt_restore_context(void [__near] * new_sp);
 ;
 Initial conditions are:
 ;
@@ -183,7 +183,7 @@ retf
 ;
 -------------------------------------------------------------------------------
 ;
-void bugurt_set_stack_pointer( void [__near] * new_sp );
+void bugurt_set_stack_pointer(void [__near] * new_sp);
 ;
 Initial conditions are:
 ;

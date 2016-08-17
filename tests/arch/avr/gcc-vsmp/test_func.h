@@ -28,9 +28,9 @@ void sched_fix_bgrt_proc_2(void);
 void sched_lb_test_start(void);
 void sched_systick_hook_add(void);
 
-void kernel_preemt_hook_add( void(*arg)(void) );
+void kernel_preemt_hook_add(void(*arg)(void));
 
-void main_lb( void * arg );
+void main_lb(void * arg);
 
 void test_do_nothing(void);
 
@@ -43,7 +43,7 @@ void blink_6(void);
 void load_bar_graph(void);
 
 // proc test functions
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_mun );
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_mun);
 void test_start(void);
 void tests_end(void);
 

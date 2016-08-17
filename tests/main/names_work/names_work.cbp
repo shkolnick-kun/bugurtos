@@ -26,9 +26,6 @@
 				</Compiler>
 			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-		</Compiler>
 		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_config_example.h">
 			<Option target="Debug" />
 		</Unit>

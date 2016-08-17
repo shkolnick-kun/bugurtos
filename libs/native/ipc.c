@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 bgrt_st_t ipc_init_isr(ipc_t * endpoint)
 {
-    if(!endpoint)
+    if (!endpoint)
     {
         return BGRT_ST_ENULL;
     }

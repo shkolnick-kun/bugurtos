@@ -78,22 +78,22 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 //Run a process with higher prio to avoid prio inversion!
-static void _bgrt_pctrl_proc_run_high( bgrt_proc_t * proc, bgrt_flag_t state )
+static void _bgrt_pctrl_proc_run_high(bgrt_proc_t * proc, bgrt_flag_t state)
 {
-    BGRT_PROC_LRES_INC(proc, 0 );
+    BGRT_PROC_LRES_INC(proc, 0);
     ((bgrt_pitem_t *)proc)->prio = (bgrt_prio_t)0;
-    bgrt_sched_proc_run( proc, state );
+    bgrt_sched_proc_run(proc, state);
 }
 //========================================================================================
 // Change a process priority according to its #lres data field.
-static void _bgrt_pctrl_proc_stoped( bgrt_proc_t * proc )
+static void _bgrt_pctrl_proc_stoped(bgrt_proc_t * proc)
 {
-    if( (bgrt_index_t)0 != proc->lres.index )
+    if ((bgrt_index_t)0 != proc->lres.index)
     {
 
         bgrt_prio_t locker_prio;
-        locker_prio = bgrt_index_search( proc->lres.index );
-        ((bgrt_pitem_t *)proc)->prio = ( locker_prio < proc->base_prio )?locker_prio:proc->base_prio;
+        locker_prio = bgrt_index_search(proc->lres.index);
+        ((bgrt_pitem_t *)proc)->prio = (locker_prio < proc->base_prio)?locker_prio:proc->base_prio;
     }
     else
     {
@@ -101,24 +101,24 @@ static void _bgrt_pctrl_proc_stoped( bgrt_proc_t * proc )
     }
 }
 //========================================================================================
-static void _bgrt_pctrl_proc_run( bgrt_proc_t * proc, bgrt_flag_t state )
+static void _bgrt_pctrl_proc_run(bgrt_proc_t * proc, bgrt_flag_t state)
 {
-    _bgrt_pctrl_proc_stoped( proc );
-    bgrt_sched_proc_run( proc, state );
+    _bgrt_pctrl_proc_stoped(proc);
+    bgrt_sched_proc_run(proc, state);
 }
 //========================================================================================
-static void _bgrt_pctrl_proc_running( bgrt_proc_t * proc, bgrt_flag_t state )
+static void _bgrt_pctrl_proc_running(bgrt_proc_t * proc, bgrt_flag_t state)
 {
-    _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
-    _bgrt_pctrl_proc_run( proc, state );
+    _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
+    _bgrt_pctrl_proc_run(proc, state);
 }
 //========================================================================================
-bgrt_prio_t _bgrt_sync_prio( bgrt_sync_t * sync )
+bgrt_prio_t _bgrt_sync_prio(bgrt_sync_t * sync)
 {
     bgrt_prio_t sprio; //sync prio
 
     sprio = sync->prio;
-    if( (((bgrt_xlist_t *)sync)->index) )
+    if ((((bgrt_xlist_t *)sync)->index))
     {
         bgrt_prio_t wprio; //wait list prio
 
@@ -131,41 +131,41 @@ bgrt_prio_t _bgrt_sync_prio( bgrt_sync_t * sync )
     }
 }
 //========================================================================================
-static void _bgrt_sync_do_wake( bgrt_proc_t * proc, bgrt_sync_t * sync, bgrt_flag_t chown )
+static void _bgrt_sync_do_wake(bgrt_proc_t * proc, bgrt_sync_t * sync, bgrt_flag_t chown)
 {
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(proc);
 
     proc->sync = (void *)0; //It doesn't wait on sync any more.
 
-    if( BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE( proc ) )
+    if (BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE(proc))
     {
-        BGRT_PROC_SET_STATE ( proc, BGRT_PROC_STATE_PI_DONE );
-        if( chown )
+        BGRT_PROC_SET_STATE (proc, BGRT_PROC_STATE_PI_DONE);
+        if (chown)
         {
-            BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );
+            BGRT_PROC_LRES_INC(proc, BGRT_SYNC_PRIO(sync));
         }
     }
     else
     {
-        bgrt_pitem_cut( (bgrt_pitem_t *)proc );
-        if( chown )
+        bgrt_pitem_cut((bgrt_pitem_t *)proc);
+        if (chown)
         {
-            BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );
-            _bgrt_pctrl_proc_stoped( proc );
+            BGRT_PROC_LRES_INC(proc, BGRT_SYNC_PRIO(sync));
+            _bgrt_pctrl_proc_stoped(proc);
         }
-        _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_SYNC_READY );
+        _bgrt_pctrl_proc_run_high(proc, BGRT_PROC_STATE_SYNC_READY);
     }
-    BGRT_SPIN_FREE( proc );
+    BGRT_SPIN_FREE(proc);
 }
 //========================================================================================
-static void _bgrt_sync_do_pending_wake( bgrt_sync_t * sync )
+static void _bgrt_sync_do_pending_wake(bgrt_sync_t * sync)
 {
     bgrt_proc_t * proc;
-    proc = (bgrt_proc_t *)bgrt_xlist_head( (bgrt_xlist_t *)sync );
-    if( proc )
+    proc = (bgrt_proc_t *)bgrt_xlist_head((bgrt_xlist_t *)sync);
+    if (proc)
     {
         sync->pwake--;
-        _bgrt_sync_do_wake( proc, sync, (bgrt_flag_t)0 );
+        _bgrt_sync_do_wake(proc, sync, (bgrt_flag_t)0);
     }
     else
     {
@@ -178,11 +178,11 @@ static void _bgrt_sync_do_pending_wake( bgrt_sync_t * sync )
 #   define BGRT_PCTRL_PROP_HOOK() hook(hook_arg)
 #else // BGRT_CONFIG_MP
 #   define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc
-#   define BGRT_PCTRL_PROP_HOOK() do{}while(0)
+#   define BGRT_PCTRL_PROP_HOOK() do{}while (0)
 #endif // BGRT_CONFIG_MP
-static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
+static void _bgrt_pctrl_propagate(BGRT_PCTRL_PROP_ARGS)
 {
-    switch( BGRT_PROC_GET_STATE( proc ) )
+    switch(BGRT_PROC_GET_STATE(proc))
     {
     case BGRT_PROC_STATE_READY:
     case BGRT_PROC_STATE_RUNNING:
@@ -194,8 +194,8 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
     case BGRT_PROC_STATE_PI_RUNNING:
     {
         bgrt_flag_t state;
-        state = BGRT_PROC_GET_STATE( proc );
-        _bgrt_pctrl_proc_running( proc, state );
+        state = BGRT_PROC_GET_STATE(proc);
+        _bgrt_pctrl_proc_running(proc, state);
         BGRT_PCTRL_PROP_HOOK();
         break;
     }
@@ -203,7 +203,7 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
     {
         bgrt_sync_t * sync;
         bgrt_prio_t old_prio, new_prio;
-        BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_PI_PEND );  // Ensure that process will not run, and stay in a sync sleep list!
+        BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_PI_PEND);  // Ensure that process will not run, and stay in a sync sleep list!
 
         sync = proc->sync;
 
@@ -211,69 +211,69 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
 
         BGRT_KERNEL_PREEMPT();
 
-        if( (bgrt_sync_t *)0 == sync )
+        if ((bgrt_sync_t *)0 == sync)
         {
             // A process was trying to free a dirty sync and blocked
-            BGRT_SPIN_LOCK( proc );
+            BGRT_SPIN_LOCK(proc);
 
-            _bgrt_pctrl_proc_run( proc, BGRT_PROC_STATE_READY ); // A process must unlock the sync.
+            _bgrt_pctrl_proc_run(proc, BGRT_PROC_STATE_READY); // A process must unlock the sync.
 
-            BGRT_SPIN_FREE( proc );
+            BGRT_SPIN_FREE(proc);
             break; //Break the switch!
         }
 
-        BGRT_SPIN_LOCK( sync );
+        BGRT_SPIN_LOCK(sync);
 
-        old_prio = BGRT_SYNC_PRIO( sync ); // Get sync prio to keep sync->owner priority data consistent
+        old_prio = BGRT_SYNC_PRIO(sync); // Get sync prio to keep sync->owner priority data consistent
 
-        BGRT_SPIN_LOCK( proc );
+        BGRT_SPIN_LOCK(proc);
 
-        bgrt_pitem_cut( (bgrt_pitem_t *)proc );
-        if( BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE( proc ) )
+        bgrt_pitem_cut((bgrt_pitem_t *)proc);
+        if (BGRT_PROC_STATE_PI_PEND == BGRT_PROC_GET_STATE(proc))
         {
-            if( sync->owner )
+            if (sync->owner)
             {
                 // Start priority inheritance transaction.
-                BGRT_CNT_INC( sync->dirty ) ;
+                BGRT_CNT_INC(sync->dirty);
                 //To avoid prio inversion!!!
-                _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_PI_READY );
+                _bgrt_pctrl_proc_run_high(proc, BGRT_PROC_STATE_PI_READY);
             }
             else
             {
                 // Put back into sync->sleep
-                _bgrt_pctrl_proc_stoped( proc );
-                BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_SYNC_SLEEP );
-                bgrt_pitem_insert( (bgrt_pitem_t *)proc, (bgrt_xlist_t *)sync );
+                _bgrt_pctrl_proc_stoped(proc);
+                BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_SYNC_SLEEP);
+                bgrt_pitem_insert((bgrt_pitem_t *)proc, (bgrt_xlist_t *)sync);
             }
         }
         else
         {
             // Finish process wakeup
-            _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_SYNC_READY );
+            _bgrt_pctrl_proc_run_high(proc, BGRT_PROC_STATE_SYNC_READY);
         }
 
-        BGRT_SPIN_FREE( proc );
+        BGRT_SPIN_FREE(proc);
 
         proc = sync->owner;
-        if( proc )
+        if (proc)
         {
             // Keep priority data consistent
-            new_prio = BGRT_SYNC_PRIO( sync );
-            if( new_prio != old_prio )
+            new_prio = BGRT_SYNC_PRIO(sync);
+            if (new_prio != old_prio)
             {
-                BGRT_SPIN_LOCK( proc );
-                BGRT_PROC_LRES_DEC( proc, old_prio );
-                BGRT_PROC_LRES_INC( proc, new_prio );
-                BGRT_SPIN_FREE( proc );
+                BGRT_SPIN_LOCK(proc);
+                BGRT_PROC_LRES_DEC(proc, old_prio);
+                BGRT_PROC_LRES_INC(proc, new_prio);
+                BGRT_SPIN_FREE(proc);
             }
         }
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(sync);
 
         break;
     }
     case BGRT_PROC_STATE_SYNC_WAIT:
     {
-        _bgrt_pctrl_proc_run( proc, BGRT_PROC_STATE_READY );
+        _bgrt_pctrl_proc_run(proc, BGRT_PROC_STATE_READY);
         BGRT_PCTRL_PROP_HOOK();
         break;
     }
@@ -282,7 +282,7 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
     case BGRT_PROC_STATE_WD_STOPED:
     case BGRT_PROC_STATE_DEAD:
     {
-        _bgrt_pctrl_proc_stoped( proc );
+        _bgrt_pctrl_proc_stoped(proc);
     }
     case BGRT_PROC_STATE_PI_PEND:
     case BGRT_PROC_STATE_PI_DONE:
@@ -294,153 +294,153 @@ static void _bgrt_pctrl_propagate( BGRT_PCTRL_PROP_ARGS )
 }
 //========================================================================================
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate( p, (bgrt_code_t)bgrt_spin_free, (void *)&p->lock )
+#   define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate(p, (bgrt_code_t)bgrt_spin_free, (void *)&p->lock)
 #else // BGRT_CONFIG_MP
-#   define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate( p )
+#   define BGRT_PROC_PS_PI_PRIO_PROPAGATE(p) _bgrt_pctrl_propagate(p)
 #endif // BGRT_CONFIG_MP
-void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio )
+void _bgrt_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio)
 {
-    if( !proc )
+    if (!proc)
     {
         proc = bgrt_curr_proc();
     }
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(proc);
     proc->base_prio = prio;
-    BGRT_PROC_PS_PI_PRIO_PROPAGATE( proc );
+    BGRT_PROC_PS_PI_PRIO_PROPAGATE(proc);
 }
 /**********************************************************************************************
                                        Bsync methods
 **********************************************************************************************/
 #ifdef BGRT_CONFIG_MP
-static void bgrt_sync_prio_prop_hook( bgrt_sync_t * sync )
+static void bgrt_sync_prio_prop_hook(bgrt_sync_t * sync)
 {
-    BGRT_SPIN_FREE( (sync->owner) );
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_FREE((sync->owner));
+    BGRT_SPIN_FREE(sync);
 }
-#   define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate( p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m )
+#   define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate(p, (bgrt_code_t)bgrt_sync_prio_prop_hook, (void *)m)
 #else // BGRT_CONFIG_MP
-#   define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate( p )
+#   define BGRT_SYNC_PI_PRIO_PROPAGATE(p,m) _bgrt_pctrl_propagate(p)
 #endif // BGRT_CONFIG_MP
 //========================================================================================
-bgrt_st_t bgrt_sync_init( bgrt_sync_t * sync, bgrt_prio_t prio )
+bgrt_st_t bgrt_sync_init(bgrt_sync_t * sync, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = _bgrt_sync_init( sync, prio );
+    ret = _bgrt_sync_init(sync, prio);
     bgrt_enable_interrupts();
     return ret;
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_init( bgrt_sync_t * sync, bgrt_prio_t prio )
+bgrt_st_t _bgrt_sync_init(bgrt_sync_t * sync, bgrt_prio_t prio)
 {
-    if( !sync )
+    if (!sync)
     {
         return BGRT_ST_ENULL;
     }
 
-    BGRT_SPIN_INIT( sync );
-    BGRT_SPIN_LOCK( sync );
-    bgrt_xlist_init( (bgrt_xlist_t *)sync );
+    BGRT_SPIN_INIT(sync);
+    BGRT_SPIN_LOCK(sync);
+    bgrt_xlist_init((bgrt_xlist_t *)sync);
     sync->owner = (bgrt_proc_t *)0;
     sync->dirty = (bgrt_cnt_t)0;
     sync->snum  = (bgrt_cnt_t)0;
     sync->pwake = (bgrt_cnt_t)0;
     sync->prio = prio;
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_FREE(sync);
     return BGRT_ST_OK;
 }
 //========================================================================================
-bgrt_proc_t * _bgrt_sync_get_owner( bgrt_sync_t * sync )
+bgrt_proc_t * _bgrt_sync_get_owner(bgrt_sync_t * sync)
 {
     bgrt_proc_t * ret;
-    BGRT_SPIN_LOCK( sync );
+    BGRT_SPIN_LOCK(sync);
     ret = sync->owner;
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_FREE(sync);
     return ret;
 }
 //========================================================================================
-static void _bgrt_sync_assign_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
+static void _bgrt_sync_assign_owner(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
     sync->owner = proc;
     BGRT_SPIN_LOCK(proc);
-    BGRT_PROC_LRES_INC( proc, BGRT_SYNC_PRIO( sync ) );
-    BGRT_SYNC_PI_PRIO_PROPAGATE( proc, sync );
+    BGRT_PROC_LRES_INC(proc, BGRT_SYNC_PRIO(sync));
+    BGRT_SYNC_PI_PRIO_PROPAGATE(proc, sync);
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_set_owner( bgrt_sync_t * sync, bgrt_proc_t * proc )
+bgrt_st_t _bgrt_sync_set_owner(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
     bgrt_proc_t * owner;
     bgrt_prio_t old_prio;
 
-    if(!sync)
+    if (!sync)
     {
         return BGRT_ST_ENULL;
     }
 
     //Clear last owner
-    BGRT_SPIN_LOCK( sync );
+    BGRT_SPIN_LOCK(sync);
 
-    old_prio = BGRT_SYNC_PRIO( sync );
+    old_prio = BGRT_SYNC_PRIO(sync);
     owner = sync->owner;
 
-    if( owner == proc )
+    if (owner == proc)
     {
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(sync);
 
         return BGRT_ST_OK;
     }
 
     sync->owner = (bgrt_proc_t *)0;
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_FREE(sync);
 
     // check proc
-    if( owner )
+    if (owner)
     {
         // update proc priority info
-        BGRT_SPIN_LOCK( owner );
-        BGRT_PROC_LRES_DEC( owner, old_prio );
-        BGRT_PROC_PS_PI_PRIO_PROPAGATE( owner );
+        BGRT_SPIN_LOCK(owner);
+        BGRT_PROC_LRES_DEC(owner, old_prio);
+        BGRT_PROC_PS_PI_PRIO_PROPAGATE(owner);
     }
 
     //Check new owner
-    if( !proc )
+    if (!proc)
     {
         return BGRT_ST_OK;
     }
 
     //We have some new owner
-    BGRT_SPIN_LOCK( sync );
-    _bgrt_sync_assign_owner( sync, proc );
+    BGRT_SPIN_LOCK(sync);
+    _bgrt_sync_assign_owner(sync, proc);
 
     return BGRT_ST_OK;
 }
 //========================================================================================
-static void _bgrt_sync_touch_prio_up( bgrt_sync_t * sync, bgrt_proc_t * proc )
+static void _bgrt_sync_touch_prio_up(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(proc);
 
-    _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_STOPED );
+    _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
     proc->sync = sync;
-    _bgrt_pctrl_proc_run_high( proc, BGRT_PROC_STATE_RUNNING );
+    _bgrt_pctrl_proc_run_high(proc, BGRT_PROC_STATE_RUNNING);
 
-    BGRT_SPIN_FREE( proc );
+    BGRT_SPIN_FREE(proc);
 }
 
 //========================================================================================
-bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
+bgrt_st_t _bgrt_sync_own(bgrt_sync_t * sync, bgrt_flag_t touch)
 {
     bgrt_proc_t * owner;
 
-    if(!sync)
+    if (!sync)
     {
         return BGRT_ST_ENULL;
     }
-    BGRT_SPIN_LOCK( sync );
+    BGRT_SPIN_LOCK(sync);
 
     owner = sync->owner;
-    if( !owner )
+    if (!owner)
     {
-        _bgrt_sync_assign_owner( sync, bgrt_curr_proc() );
+        _bgrt_sync_assign_owner(sync, bgrt_curr_proc());
 
         return BGRT_ST_OK;
     }
@@ -449,51 +449,51 @@ bgrt_st_t _bgrt_sync_own( bgrt_sync_t * sync, bgrt_flag_t touch )
         bgrt_proc_t * current;
         current = bgrt_curr_proc();
 
-        if( touch && (owner != current) )
+        if (touch && (owner != current))
         {
-            BGRT_CNT_INC( sync->dirty ) ;
-            BGRT_CNT_INC( sync->snum ); //Increment sleeping process counter. Caller is going to sleep.
-            BGRT_SPIN_FREE( sync );
+            BGRT_CNT_INC(sync->dirty);
+            BGRT_CNT_INC(sync->snum); //Increment sleeping process counter. Caller is going to sleep.
+            BGRT_SPIN_FREE(sync);
 
-            _bgrt_sync_touch_prio_up( sync, current );
+            _bgrt_sync_touch_prio_up(sync, current);
         }
         else
         {
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(sync);
         }
         return BGRT_ST_EOWN;
     }
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_touch( bgrt_sync_t * sync )
+bgrt_st_t _bgrt_sync_touch(bgrt_sync_t * sync)
 {
     bgrt_proc_t * current;
 
-    if( !sync )
+    if (!sync)
     {
         return BGRT_ST_ENULL;
     }
 
-    BGRT_SPIN_LOCK( sync );
-    BGRT_CNT_INC( sync->dirty ) ;
-    BGRT_CNT_INC( sync->snum ); //Increment sleeping process counter. Caller is going to sleep.
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_LOCK(sync);
+    BGRT_CNT_INC(sync->dirty);
+    BGRT_CNT_INC(sync->snum); //Increment sleeping process counter. Caller is going to sleep.
+    BGRT_SPIN_FREE(sync);
 
     current = bgrt_curr_proc();
-    _bgrt_sync_touch_prio_up( sync, current );
+    _bgrt_sync_touch_prio_up(sync, current);
 
     return BGRT_ST_OK;
 }
 //========================================================================================
-static void _bgrt_sync_sleep_swap_locks( bgrt_sync_t * sync, bgrt_proc_t * proc )
+static void _bgrt_sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
-    BGRT_SPIN_FREE( proc );
+    BGRT_SPIN_FREE(proc);
     BGRT_KERNEL_PREEMPT();
-    BGRT_SPIN_LOCK( sync );
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(sync);
+    BGRT_SPIN_LOCK(proc);
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
+bgrt_st_t _bgrt_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
 {
     bgrt_proc_t * proc;
     bgrt_prio_t old_prio, new_prio;
@@ -501,76 +501,76 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
 
     _bgrt_proc_reset_watchdog();
 
-    if( !sync )
+    if (!sync)
     {
         return  BGRT_ST_ENULL;
     }
 
     proc = bgrt_curr_proc();
 
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(proc);
     //Use sync_clear as temp var.
-    if( *touch )
+    if (*touch)
     {
         *touch = 0;//Clear flag
         sync_clear = BGRT_PROC_STATE_PI_RUNNING;
     }
     else
     {
-        sync_clear = BGRT_PROC_GET_STATE( proc );
+        sync_clear = BGRT_PROC_GET_STATE(proc);
     }
-    BGRT_PROC_SET_STATE( proc, BGRT_PROC_STATE_RUNNING );
+    BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_RUNNING);
 
-    switch( sync_clear )
+    switch(sync_clear)
     {
     case BGRT_PROC_STATE_SYNC_RUNNING:
     {
-        BGRT_PROC_LRES_DEC( proc, 0 );
-        _bgrt_pctrl_proc_running( proc, BGRT_PROC_STATE_RUNNING );
+        BGRT_PROC_LRES_DEC(proc, 0);
+        _bgrt_pctrl_proc_running(proc, BGRT_PROC_STATE_RUNNING);
 
-        BGRT_SPIN_FREE( proc );
+        BGRT_SPIN_FREE(proc);
         BGRT_KERNEL_PREEMPT();
-        BGRT_SPIN_LOCK( sync );
+        BGRT_SPIN_LOCK(sync);
 
-        BGRT_CNT_DEC( sync->snum ); //One sleeping proc less!
+        BGRT_CNT_DEC(sync->snum); //One sleeping proc less!
 
-        if( sync->pwake )
+        if (sync->pwake)
         {
-            _bgrt_sync_do_pending_wake( sync );
+            _bgrt_sync_do_pending_wake(sync);
         }
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(sync);
 
         return BGRT_ST_OK;
     }
     case BGRT_PROC_STATE_TO_RUNNING:
     {
         //sync->snum decremented in _bgrt_sync_proc_timeout !!!
-        //no need to BGRT_SPIN_LOCK( sync ) !!!
-        BGRT_SPIN_FREE( proc );
+        //no need to BGRT_SPIN_LOCK(sync)!!!
+        BGRT_SPIN_FREE(proc);
 
         return BGRT_ST_ETIMEOUT;
     }
     case BGRT_PROC_STATE_PI_RUNNING:
     {
         //The end of priority inheritance transaction or BGRT_SYNC_OWN transaction
-        _bgrt_sync_sleep_swap_locks( sync, proc );
+        _bgrt_sync_sleep_swap_locks(sync, proc);
 
-        sync_clear = (bgrt_flag_t)( (bgrt_cnt_t)1 == sync->dirty ); //Event!
-        BGRT_CNT_DEC( sync->dirty );
+        sync_clear = (bgrt_flag_t)((bgrt_cnt_t)1 == sync->dirty); //Event!
+        BGRT_CNT_DEC(sync->dirty);
 
-        _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_SYNC_SLEEP );
+        _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_SYNC_SLEEP);
 
-        BGRT_PROC_LRES_DEC( proc, 0 );
-        _bgrt_pctrl_proc_stoped( proc );
+        BGRT_PROC_LRES_DEC(proc, 0);
+        _bgrt_pctrl_proc_stoped(proc);
 
-        if( sync->owner == proc )
+        if (sync->owner == proc)
         {
-            bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
+            bgrt_sched_proc_run(proc, BGRT_PROC_STATE_READY);
 
-            BGRT_SPIN_FREE( proc );
+            BGRT_SPIN_FREE(proc);
 
-            BGRT_CNT_DEC( sync->snum ); //The process become an owner during a prio inheritance transaction!
-            BGRT_SPIN_FREE( sync );
+            BGRT_CNT_DEC(sync->snum); //The process become an owner during a prio inheritance transaction!
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_EOWN;
         }
@@ -582,57 +582,57 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
     case BGRT_PROC_STATE_RUNNING:
     default:
     {
-        _bgrt_sync_sleep_swap_locks( sync, proc );
-        if( sync->owner == proc )
+        _bgrt_sync_sleep_swap_locks(sync, proc);
+        if (sync->owner == proc)
         {
-            BGRT_SPIN_FREE( proc );
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(proc);
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_EOWN;
         }
         else
         {
-            _bgrt_proc_stop_ensure( proc, BGRT_PROC_STATE_SYNC_SLEEP );
-            BGRT_CNT_INC( sync->snum );  //Increment sleeping process counter. Caller is going to sleep.
+            _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_SYNC_SLEEP);
+            BGRT_CNT_INC(sync->snum);  //Increment sleeping process counter. Caller is going to sleep.
             sync_clear = (bgrt_flag_t)0; //No event!
             break;
         }
     }
     }
 
-    old_prio = BGRT_SYNC_PRIO( sync );
+    old_prio = BGRT_SYNC_PRIO(sync);
     proc->sync = sync;
     //Insert to wait list
-    bgrt_pitem_insert( (bgrt_pitem_t *)proc, (bgrt_xlist_t *)sync );
+    bgrt_pitem_insert((bgrt_pitem_t *)proc, (bgrt_xlist_t *)sync);
 
-    BGRT_SPIN_FREE( proc );
+    BGRT_SPIN_FREE(proc);
     //Here we process a state, not sync_clear event!
-    if( ((bgrt_cnt_t)0 == sync->dirty) && (sync->pwake) )
+    if (((bgrt_cnt_t)0 == sync->dirty) && (sync->pwake))
     {
-        _bgrt_sync_do_pending_wake( sync );
+        _bgrt_sync_do_pending_wake(sync);
     }
 
     proc = sync->owner;
-    if( proc )
+    if (proc)
     {
-        new_prio = BGRT_SYNC_PRIO( sync );
-        if( (old_prio != new_prio) || sync_clear )
+        new_prio = BGRT_SYNC_PRIO(sync);
+        if ((old_prio != new_prio) || sync_clear)
         {
             // When owner in BGRT_PROC_STATE_SYNC_WAIT state, then old_prio != new_prio as sync->sleep was empty when owner called BGRT_SYNC_WAIT.
-            BGRT_SPIN_LOCK( proc );
-            BGRT_PROC_LRES_DEC( proc, old_prio );
-            BGRT_PROC_LRES_INC( proc, new_prio );
-            BGRT_SYNC_PI_PRIO_PROPAGATE( proc, sync );
+            BGRT_SPIN_LOCK(proc);
+            BGRT_PROC_LRES_DEC(proc, old_prio);
+            BGRT_PROC_LRES_INC(proc, new_prio);
+            BGRT_SYNC_PI_PRIO_PROPAGATE(proc, sync);
         }
         else
         {
-            BGRT_SPIN_LOCK( proc );
-            if( BGRT_PROC_STATE_SYNC_WAIT == BGRT_PROC_GET_STATE( proc ) )
+            BGRT_SPIN_LOCK(proc);
+            if (BGRT_PROC_STATE_SYNC_WAIT == BGRT_PROC_GET_STATE(proc))
             {
-                bgrt_sched_proc_run( proc, BGRT_PROC_STATE_READY );
+                bgrt_sched_proc_run(proc, BGRT_PROC_STATE_READY);
             }
-            BGRT_SPIN_FREE( proc );
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(proc);
+            BGRT_SPIN_FREE(sync);
         }
     }
     else
@@ -642,17 +642,17 @@ bgrt_st_t _bgrt_sync_sleep( bgrt_sync_t * sync, bgrt_flag_t * touch )
     return BGRT_ST_ROLL;
 }
 //========================================================================================
-static void _bgrt_sync_owner_block( bgrt_proc_t * owner )
+static void _bgrt_sync_owner_block(bgrt_proc_t * owner)
 {
-    BGRT_SPIN_LOCK( owner );
+    BGRT_SPIN_LOCK(owner);
 
     owner->sync = (bgrt_sync_t *)0;
-    _bgrt_proc_stop_ensure( owner, BGRT_PROC_STATE_SYNC_SLEEP );
+    _bgrt_proc_stop_ensure(owner, BGRT_PROC_STATE_SYNC_SLEEP);
 
-    BGRT_SPIN_FREE( owner );
+    BGRT_SPIN_FREE(owner);
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t block )
+bgrt_st_t _bgrt_sync_wait(bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t block)
 {
     bgrt_proc_t * current;
     bgrt_proc_t * owner;
@@ -660,114 +660,114 @@ bgrt_st_t _bgrt_sync_wait( bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t 
 
     _bgrt_proc_reset_watchdog();
 
-    if( !sync )
+    if (!sync)
     {
         return BGRT_ST_ENULL;
     }
 
     current = bgrt_curr_proc();
 
-    BGRT_SPIN_LOCK( current );
-    if( BGRT_PROC_STATE_TO_RUNNING == BGRT_PROC_GET_STATE( current ) )
+    BGRT_SPIN_LOCK(current);
+    if (BGRT_PROC_STATE_TO_RUNNING == BGRT_PROC_GET_STATE(current))
     {
-        BGRT_PROC_SET_STATE( current, BGRT_PROC_STATE_RUNNING );
-        BGRT_SPIN_FREE( current );
+        BGRT_PROC_SET_STATE(current, BGRT_PROC_STATE_RUNNING);
+        BGRT_SPIN_FREE(current);
 
         return BGRT_ST_ETIMEOUT;
     }
     else
     {
-        BGRT_SPIN_FREE( current );
+        BGRT_SPIN_FREE(current);
     }
 
-    BGRT_SPIN_LOCK( sync );
+    BGRT_SPIN_LOCK(sync);
     owner = sync->owner;
 
-    if( owner != current )
+    if (owner != current)
     {
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(sync);
         return BGRT_ST_EOWN;
     }
 
-    if( sync->dirty )
+    if (sync->dirty)
     {
-        _bgrt_sync_owner_block( owner );
-        BGRT_SPIN_FREE( sync );
+        _bgrt_sync_owner_block(owner);
+        BGRT_SPIN_FREE(sync);
         return BGRT_ST_ROLL;
     }
 
-    if( !*proc )
+    if (!*proc)
     {
-        *proc = (bgrt_proc_t *)bgrt_xlist_head( ((bgrt_xlist_t *)sync) );
+        *proc = (bgrt_proc_t *)bgrt_xlist_head(((bgrt_xlist_t *)sync));
     }
 
     status = (block)?BGRT_ST_ROLL:BGRT_ST_EEMPTY;
-    if( *proc )
+    if (*proc)
     {
-        BGRT_SPIN_LOCK( (*proc) );
-        if( (*proc)->sync == sync )
+        BGRT_SPIN_LOCK((*proc));
+        if ((*proc)->sync == sync)
         {
             status = BGRT_ST_OK;
         }
-        BGRT_SPIN_FREE( (*proc) );
+        BGRT_SPIN_FREE((*proc));
     }//else BGRT_ST_ROLL/BGRT_ST_EEMPTY
 
-    if( status == BGRT_ST_ROLL )
+    if (status == BGRT_ST_ROLL)
     {
-        BGRT_SPIN_LOCK( owner );
-        _bgrt_proc_stop_ensure( owner, BGRT_PROC_STATE_SYNC_WAIT );
-        BGRT_SPIN_FREE( owner );
+        BGRT_SPIN_LOCK(owner);
+        _bgrt_proc_stop_ensure(owner, BGRT_PROC_STATE_SYNC_WAIT);
+        BGRT_SPIN_FREE(owner);
     }
 
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_FREE(sync);
     return status;
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t chown )
+bgrt_st_t _bgrt_sync_wake(bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t chown)
 {
     bgrt_proc_t * owner;
     bgrt_st_t status;
 
     _bgrt_proc_reset_watchdog();
 
-    if( !sync )
+    if (!sync)
     {
         return BGRT_ST_ENULL;
     }
 
-    BGRT_SPIN_LOCK( sync );
+    BGRT_SPIN_LOCK(sync);
     owner = sync->owner;
     // Check sync ownership
-    if( owner )
+    if (owner)
     {
-        if( bgrt_curr_proc() != owner )
+        if (bgrt_curr_proc() != owner)
         {
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_EOWN;
         }
         //Check for dirty priority inheritance transactions
-        if( sync->dirty )
+        if (sync->dirty)
         {
-            _bgrt_sync_owner_block( owner );
-            BGRT_SPIN_FREE( sync );
+            _bgrt_sync_owner_block(owner);
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_ROLL;
         }
     }
     else
     {
-        if( proc )
+        if (proc)
         {
             //We can,t wake the specified process, as sync is not owned.
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_EOWN;
         }
 
-        if( sync->dirty )
+        if (sync->dirty)
         {
-            if( sync->pwake < sync->snum )
+            if (sync->pwake < sync->snum)
             {
                 sync->pwake++;
                 status = BGRT_ST_OK;
@@ -776,48 +776,48 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
             {
                 status = BGRT_ST_EEMPTY; //We can,t wake more processes.
             }
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(sync);
 
             return status;
         }
     }
     // Nonzero proc argument???
-    if( proc )
+    if (proc)
     {
         // Check proc
         BGRT_SPIN_LOCK(proc);
-        if( proc->sync != sync )
+        if (proc->sync != sync)
         {
-            BGRT_SPIN_FREE( proc );
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(proc);
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_ESYNC;
         }
-        BGRT_SPIN_FREE( proc );
+        BGRT_SPIN_FREE(proc);
     }
     else
     {
-        proc = (bgrt_proc_t *)bgrt_xlist_head( (bgrt_xlist_t *)sync );
+        proc = (bgrt_proc_t *)bgrt_xlist_head((bgrt_xlist_t *)sync);
     }
     // Will now handle sync->owner
-    if( owner )
+    if (owner)
     {
-        BGRT_SPIN_LOCK( owner );
+        BGRT_SPIN_LOCK(owner);
 
-        bgrt_sched_proc_stop( owner, BGRT_PROC_STATE_STOPED );
-        BGRT_PROC_LRES_DEC( owner, BGRT_SYNC_PRIO( sync ) );// No prio control now!
+        bgrt_sched_proc_stop(owner, BGRT_PROC_STATE_STOPED);
+        BGRT_PROC_LRES_DEC(owner, BGRT_SYNC_PRIO(sync));// No prio control now!
 
-        BGRT_SPIN_FREE( owner );
+        BGRT_SPIN_FREE(owner);
     }
     //Ownership has been changed.
-    if( chown )
+    if (chown)
     {
         sync->owner = proc;
     }
     // We can wake some proc.
-    if( proc )
+    if (proc)
     {
-        _bgrt_sync_do_wake( proc, sync, chown );
+        _bgrt_sync_do_wake(proc, sync, chown);
         status = BGRT_ST_OK;
     }
     else
@@ -825,24 +825,24 @@ bgrt_st_t _bgrt_sync_wake( bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t c
         status = BGRT_ST_EEMPTY;
     }
 
-    if( owner )
+    if (owner)
     {
-        BGRT_SPIN_LOCK( owner );
+        BGRT_SPIN_LOCK(owner);
 
-        if( !chown )
+        if (!chown)
         {
-            BGRT_PROC_LRES_INC( owner, BGRT_SYNC_PRIO( sync ) );
+            BGRT_PROC_LRES_INC(owner, BGRT_SYNC_PRIO(sync));
         }
-        _bgrt_pctrl_proc_run( owner, BGRT_PROC_STATE_READY );
+        _bgrt_pctrl_proc_run(owner, BGRT_PROC_STATE_READY);
 
-        BGRT_SPIN_FREE( owner );
+        BGRT_SPIN_FREE(owner);
     }
 
-    BGRT_SPIN_FREE( sync );
+    BGRT_SPIN_FREE(sync);
     return status;
 }
 //========================================================================================
-bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
+bgrt_st_t _bgrt_sync_proc_timeout(bgrt_proc_t * proc)
 {
     bgrt_st_t status;
     bgrt_sync_t * sync;
@@ -851,28 +851,28 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 
     status = BGRT_ST_OK;
 
-    if( !proc )
+    if (!proc)
     {
         return BGRT_ST_ENULL;
     }
 
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(proc);
     sync = proc->sync;
-    BGRT_SPIN_FREE( proc );
+    BGRT_SPIN_FREE(proc);
 
-    if( (bgrt_sync_t *)0 == sync )
+    if ((bgrt_sync_t *)0 == sync)
     {
         BGRT_KERNEL_PREEMPT();
 
-        BGRT_SPIN_LOCK( proc );
+        BGRT_SPIN_LOCK(proc);
 
-        switch( BGRT_PROC_GET_STATE( proc ) )
+        switch(BGRT_PROC_GET_STATE(proc))
         {
         case BGRT_PROC_STATE_SYNC_WAIT:
         {
             //Is waiting on empty sync, wake up
             status = BGRT_ST_OK;
-            bgrt_sched_proc_run( proc, BGRT_PROC_STATE_TO_READY );
+            bgrt_sched_proc_run(proc, BGRT_PROC_STATE_TO_READY);
             break;
         }
         case BGRT_PROC_STATE_SYNC_SLEEP:
@@ -889,19 +889,19 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
         }
         }
 
-        BGRT_SPIN_FREE( proc );
+        BGRT_SPIN_FREE(proc);
         return status;
     }
 
     BGRT_KERNEL_PREEMPT();
 
-    BGRT_SPIN_LOCK( sync );
-    BGRT_SPIN_LOCK( proc );
+    BGRT_SPIN_LOCK(sync);
+    BGRT_SPIN_LOCK(proc);
 
-    if( proc->sync != sync )
+    if (proc->sync != sync)
     {
-        BGRT_SPIN_FREE( proc );
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(proc);
+        BGRT_SPIN_FREE(sync);
 
         return BGRT_ST_ESYNC;
     }
@@ -911,53 +911,53 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
 
         pwake = sync->pwake;
 
-        if((pwake)&&( pwake >= sync->snum ))
+        if ((pwake)&&(pwake >= sync->snum))
         {
             //The process is going to be woken up.
-            BGRT_SPIN_FREE( proc );
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(proc);
+            BGRT_SPIN_FREE(sync);
 
             return BGRT_ST_OK;
         }
     }
 
-    switch( BGRT_PROC_GET_STATE( proc ) )
+    switch(BGRT_PROC_GET_STATE(proc))
     {
     case BGRT_PROC_STATE_SYNC_SLEEP:
     {
         //Undo BGRT_SYNC_SLEEP
         bgrt_prio_t old_prio;
 
-        BGRT_CNT_DEC( sync->snum ); //One sleeping proc less
+        BGRT_CNT_DEC(sync->snum); //One sleeping proc less
 
-        old_prio = BGRT_SYNC_PRIO( sync );
+        old_prio = BGRT_SYNC_PRIO(sync);
 
-        bgrt_pitem_cut( (bgrt_pitem_t *)proc );
+        bgrt_pitem_cut((bgrt_pitem_t *)proc);
         proc->sync = (bgrt_sync_t *)0;
-        bgrt_sched_proc_run( proc, BGRT_PROC_STATE_TO_READY );
+        bgrt_sched_proc_run(proc, BGRT_PROC_STATE_TO_READY);
         BGRT_SPIN_FREE(proc);
 
         proc = sync->owner;
-        if( proc )
+        if (proc)
         {
             bgrt_prio_t new_prio;
 
-            new_prio = BGRT_SYNC_PRIO( sync );
-            if( new_prio != old_prio )
+            new_prio = BGRT_SYNC_PRIO(sync);
+            if (new_prio != old_prio)
             {
-                BGRT_SPIN_LOCK( proc );
-                BGRT_PROC_LRES_DEC( proc, old_prio );
-                BGRT_PROC_LRES_INC( proc, new_prio );
-                BGRT_SYNC_PI_PRIO_PROPAGATE( proc, sync );
+                BGRT_SPIN_LOCK(proc);
+                BGRT_PROC_LRES_DEC(proc, old_prio);
+                BGRT_PROC_LRES_INC(proc, new_prio);
+                BGRT_SYNC_PI_PRIO_PROPAGATE(proc, sync);
             }
             else
             {
-                BGRT_SPIN_FREE( sync );
+                BGRT_SPIN_FREE(sync);
             }
         }
         else
         {
-            BGRT_SPIN_FREE( sync );
+            BGRT_SPIN_FREE(sync);
         }
         return BGRT_ST_OK;
     }
@@ -966,15 +966,15 @@ bgrt_st_t _bgrt_sync_proc_timeout( bgrt_proc_t * proc )
     case BGRT_PROC_STATE_PI_READY:
     case BGRT_PROC_STATE_PI_RUNNING:
     {
-        BGRT_SPIN_FREE( proc );
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(proc);
+        BGRT_SPIN_FREE(sync);
 
         return BGRT_ST_EAGAIN;
     }
     default:
     {
-        BGRT_SPIN_FREE( proc );
-        BGRT_SPIN_FREE( sync );
+        BGRT_SPIN_FREE(proc);
+        BGRT_SPIN_FREE(sync);
 
         return BGRT_ST_OK;
     }

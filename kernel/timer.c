@@ -81,11 +81,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void _bgrt_clear_timer(bgrt_tmr_t * t)
 {
     BGRT_CRIT_SEC_ENTER();
-    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+    BGRT_SPIN_LOCK(&bgrt_kernel.timer);
 
     *t = bgrt_kernel.timer.val;
 
-    BGRT_SPIN_FREE( &bgrt_kernel.timer );
+    BGRT_SPIN_FREE(&bgrt_kernel.timer);
     BGRT_CRIT_SEC_EXIT();
 }
 //===========================================================================
@@ -93,11 +93,11 @@ bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t)
 {
     bgrt_tmr_t ret;
     BGRT_CRIT_SEC_ENTER();
-    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+    BGRT_SPIN_LOCK(&bgrt_kernel.timer);
 
     ret = (bgrt_tmr_t)bgrt_kernel.timer.val - (bgrt_tmr_t)t;
 
-    BGRT_SPIN_FREE( &bgrt_kernel.timer );
+    BGRT_SPIN_FREE(&bgrt_kernel.timer);
     BGRT_CRIT_SEC_EXIT();
 
     return ret;
@@ -109,16 +109,16 @@ void bgrt_wait_time(bgrt_tmr_t time)
     bgrt_tmr_t tmr;
     bgrt_bool_t roll=(bgrt_bool_t)1;
     BGRT_CLEAR_TIMER(tmr);
-    while((bgrt_bool_t)roll)
+    while ((bgrt_bool_t)roll)
     {
 #ifndef BGRT_CONFIG_TEST
 #   ifdef BGRT_CONFIG_SAVE_POWER
-        if( bgrt_sched_proc_yield() )BGRT_CONFIG_SAVE_POWER();
+        if (bgrt_sched_proc_yield())BGRT_CONFIG_SAVE_POWER();
 #   else // BGRT_CONFIG_SAVE_POWER
         bgrt_sched_proc_yield();
 #   endif // BGRT_CONFIG_SAVE_POWER
 #endif // BGRT_CONFIG_TEST
-        roll = (bgrt_bool_t)( BGRT_TIMER(tmr) < (bgrt_tmr_t)time );
+        roll = (bgrt_bool_t)(BGRT_TIMER(tmr) < (bgrt_tmr_t)time);
     }
 }
 //===========================================================================

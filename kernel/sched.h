@@ -161,7 +161,7 @@ This function switches processes in system timer interrupt handler.
 \warning For internal usage.
 \param sched - A scheduler pointer.
 */
-void bgrt_sched_schedule_prologue( bgrt_sched_t * sched );
+void bgrt_sched_schedule_prologue(bgrt_sched_t * sched);
 /*!
 \~russian
 \brief
@@ -181,7 +181,7 @@ This function is needed to switch processes if needed.
 \warning For internal usage.
 \param sched A scheduler pointer.
 */
-void bgrt_sched_reschedule_prologue( bgrt_sched_t * sched );
+void bgrt_sched_reschedule_prologue(bgrt_sched_t * sched);
 
 /*!
 \~russian
@@ -206,16 +206,16 @@ In other case it switches ready and expired process lists.
 \param sched A scheduler pointer.
 \return #BGRT_ST_OK is new ready process scheduled, #BGRT_ST_EEMPTY if there were no ready processes.
 */
-bgrt_st_t bgrt_sched_epilogue( bgrt_sched_t * sched );
+bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched);
 
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
-void bgrt_sched_proc_run( bgrt_proc_t * proc, bgrt_flag_t state );
+void bgrt_sched_proc_run(bgrt_proc_t * proc, bgrt_flag_t state);
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
-void bgrt_sched_proc_stop( bgrt_proc_t * proc , bgrt_flag_t state );
+void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state);
 
 
 /*!
@@ -237,7 +237,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bgrt_bool_t _bgrt_sched_proc_yield( void );
+bgrt_bool_t _bgrt_sched_proc_yield(void);
 /*!
 \~russian
 \brief Передача управления следующему процессу.
@@ -253,7 +253,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bgrt_bool_t bgrt_sched_proc_yield( void );
+bgrt_bool_t bgrt_sched_proc_yield(void);
 
 
 
@@ -312,7 +312,7 @@ bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat);
 \param stat A pointer to a bgrt_ls_t array of the kernel or of a signal.
 \return An ID of the most loaded process list.
 */
-bgrt_cpuid_t bgrt_sched_highest_load_core( bgrt_ls_t * stat );
+bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat);
 #endif // BGRT_CONFIG_MP
 
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))

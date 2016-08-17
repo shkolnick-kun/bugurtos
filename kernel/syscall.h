@@ -93,7 +93,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 typedef enum
 {
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_ID(syscall),
-#   include <syscall_table.h>
+#   include <syscall_table.h> /* ADLINT:SF:[W0073] No include guard! */
 #   undef  BGRT_SC_TBL_ENTRY
     BGRT_SC_ENUM_END
 } bgrt_sc_enum;
@@ -158,7 +158,7 @@ The Kernel does all of this job.
 
 \param num a number of a system call (what is going to be done).
 */
-bgrt_st_t bgrt_syscall_var( bgrt_syscall_t num, ... );
+bgrt_st_t bgrt_syscall_var(bgrt_syscall_t num, ...);
 
 /*!
 \~russian
@@ -178,7 +178,7 @@ A system call macro, see #bgrt_syscall.
 \param sc_name A system call name.
 \param arg A system call argument pointer.
 */
-#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall( BGRT_SC_ID(sc_name), arg )
+#define BGRT_SYSCALL_N(sc_name, arg) bgrt_syscall(BGRT_SC_ID(sc_name), arg)
 
 /*!
 \~russian

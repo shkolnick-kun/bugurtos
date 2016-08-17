@@ -17,7 +17,7 @@ extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 #define BGRT_SCHED_FIX_PROC_2() sched_fix_bgrt_proc_2()
 
-void kernel_preemt_hook_add( void(*arg)(void) );
+void kernel_preemt_hook_add(void(*arg)(void));
 
 void init_hardware(void);
 void sched_fix_bgrt_proc_2(void);
@@ -32,7 +32,7 @@ void blink_6(void);
 void test_do_nothing(void);
 
 // proc test functions
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_mun );
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_mun);
 void test_start(void);
 void tests_end(void);
 

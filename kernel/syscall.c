@@ -93,7 +93,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /**********************************************************************************************
                                       MANDATORY THINGS!!!
 **********************************************************************************************/
-static bgrt_st_t do_nothing_sr( void * arg )
+static bgrt_st_t do_nothing_sr(void * arg)
 {
     (void)arg;
     return BGRT_ST_SCALL;
@@ -102,12 +102,12 @@ static bgrt_st_t do_nothing_sr( void * arg )
                                        PROC_TERMINATE
 **********************************************************************************************/
 // Terminate a process after pmain return.
-void bgrt_proc_terminate( void )
+void bgrt_proc_terminate(void)
 {
-    BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0 );
+    BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0);
 }
 //========================================================================================
-BGRT_SC_SR(PROC_TERMINATE, void * arg )
+BGRT_SC_SR(PROC_TERMINATE, void * arg)
 {
     _bgrt_proc_terminate();
     return BGRT_ST_OK;
@@ -118,7 +118,7 @@ BGRT_SC_SR(PROC_TERMINATE, void * arg )
 bgrt_bool_t bgrt_sched_proc_yield(void)
 {
     volatile bgrt_bool_t ret;
-    BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)&ret );
+    BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)&ret);
     return ret;
 }
 //========================================================================================
@@ -128,7 +128,7 @@ BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
     return BGRT_ST_OK;
 }
 
-BGRT_SC_TBL( syscall_handler[] ) =
+BGRT_SC_TBL(syscall_handler[])=
 {
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
 #   include <syscall_table.h>

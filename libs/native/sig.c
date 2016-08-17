@@ -78,74 +78,74 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sig.h"
 
-bgrt_st_t sig_init( sig_t * sig )
+bgrt_st_t sig_init(sig_t * sig)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = sig_init_isr( sig );
+    ret = sig_init_isr(sig);
     bgrt_enable_interrupts();
     return ret;
 }
 
-bgrt_st_t sig_init_isr( sig_t * sig )
+bgrt_st_t sig_init_isr(sig_t * sig)
 {
-    if( !sig )
+    if (!sig)
     {
         return BGRT_ST_ENULL;
     }
-    cond_init_isr( (cond_t *)sig );
+    cond_init_isr((cond_t *)sig);
     BGRT_KERNEL_PREEMPT();
-    mutex_init_isr( &sig->wait, BGRT_PRIO_LOWEST );
+    mutex_init_isr(&sig->wait, BGRT_PRIO_LOWEST);
     return BGRT_ST_OK;
 }
 
-bgrt_st_t sig_wait( sig_t * sig )
+bgrt_st_t sig_wait(sig_t * sig)
 {
     bgrt_st_t ret;
-    if( !sig )
+    if (!sig)
     {
         return BGRT_ST_ENULL;
     }
-    ret = mutex_lock( &sig->wait );
-    if( BGRT_ST_OK != ret )
+    ret = mutex_lock(&sig->wait);
+    if (BGRT_ST_OK != ret)
     {
         return ret;
     }
-    ret = cond_wait( (cond_t *)sig, &sig->wait );
-    mutex_free( &sig->wait );
+    ret = cond_wait((cond_t *)sig, &sig->wait);
+    mutex_free(&sig->wait);
     return ret;
 }
 
-bgrt_st_t sig_signal( sig_t * sig )
+bgrt_st_t sig_signal(sig_t * sig)
 {
     bgrt_st_t ret;
-    if( !sig )
+    if (!sig)
     {
         return BGRT_ST_ENULL;
     }
-    ret = mutex_lock( &sig->wait );
-    if( BGRT_ST_OK != ret )
+    ret = mutex_lock(&sig->wait);
+    if (BGRT_ST_OK != ret)
     {
         return ret;
     }
-    ret = cond_signal( (cond_t *)sig );
-    mutex_free( &sig->wait );
+    ret = cond_signal((cond_t *)sig);
+    mutex_free(&sig->wait);
     return ret;
 }
 
-bgrt_st_t sig_broadcast( sig_t * sig )
+bgrt_st_t sig_broadcast(sig_t * sig)
 {
     bgrt_st_t ret;
-    if( !sig )
+    if (!sig)
     {
         return BGRT_ST_ENULL;
     }
-    ret = mutex_lock( &sig->wait );
-    if( BGRT_ST_OK != ret )
+    ret = mutex_lock(&sig->wait);
+    if (BGRT_ST_OK != ret)
     {
         return ret;
     }
-    ret = cond_broadcast( (cond_t *)sig );
-    mutex_free( &sig->wait );
+    ret = cond_broadcast((cond_t *)sig);
+    mutex_free(&sig->wait);
     return ret;
 }

@@ -139,7 +139,7 @@ typedef void (* bgrt_code_t)(void *);
 #include <bugurt_config.h>
 
 /*Basic types*/
-#include "index.h"
+#include "index.h"  /* ADLINT:SL:[W0073] No include guard! */
 #include "item.h"
 #include "pcounter.h"
 #include "xlist.h"
@@ -225,20 +225,20 @@ A wrapper for #bgrt_resched function.
 */
 
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_SPIN_INIT(arg) bgrt_spin_init( &((arg)->lock) )
-#   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock( &((arg)->lock) )
-#   define BGRT_SPIN_FREE(arg) bgrt_spin_free( &((arg)->lock) )
-#   define BGRT_RESCHED_PROC(proc) bgrt_resched( proc->core_id )
+#   define BGRT_SPIN_INIT(arg) bgrt_spin_init(&((arg)->lock))
+#   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock(&((arg)->lock))
+#   define BGRT_SPIN_FREE(arg) bgrt_spin_free(&((arg)->lock))
+#   define BGRT_RESCHED_PROC(proc) bgrt_resched(proc->core_id)
 #   ifndef BGRT_KERNEL_PREEMPT
-#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work( &bgrt_kernel.kblock[bgrt_curr_cpu()].vic )
+#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work(&bgrt_kernel.kblock[bgrt_curr_cpu()].vic)
 #   endif
 #else //BGRT_CONFIG_MP
-#   define BGRT_SPIN_INIT(arg) do{}while(0)
-#   define BGRT_SPIN_LOCK(arg) do{}while(0)
-#   define BGRT_SPIN_FREE(arg) do{}while(0)
+#   define BGRT_SPIN_INIT(arg) do{}while (0)
+#   define BGRT_SPIN_LOCK(arg) do{}while (0)
+#   define BGRT_SPIN_FREE(arg) do{}while (0)
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched()
 #   ifndef BGRT_KERNEL_PREEMPT
-#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work( &bgrt_kernel.kblock.vic )
+#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work(&bgrt_kernel.kblock.vic)
 #   endif
 #endif //BGRT_CONFIG_MP
 //======================================================
@@ -614,7 +614,7 @@ The Kernel does all of this job.
 \param num a number of a system call (what is going to be done).
 \param arg a system call argument (a pointer to an object to be processed).
 */
-extern bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg );
+extern bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg);
 
 /*!
 \~russian

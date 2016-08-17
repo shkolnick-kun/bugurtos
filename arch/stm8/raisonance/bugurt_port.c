@@ -84,9 +84,9 @@ bgrt_proc_t * bgrt_curr_proc(void)
     return BGRT_CURR_PROC;
 }
 
-void bgrt_resched( void )
+void bgrt_resched(void)
 {
-    bgrt_vint_push( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 }
 /******************************************************************************************************/
 void (*_bugurt_do_it)(void);
@@ -104,11 +104,11 @@ bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 
 void bgrt_set_curr_sp(void)
 {
-    if( BGRT_KBLOCK.vic.list.index )
+    if (BGRT_KBLOCK.vic.list.index)
     {
         kernel_mode = 1;
     }
-    if( kernel_mode )
+    if (kernel_mode)
     {
         current_sp = &kernel_sp;
     }
@@ -123,15 +123,15 @@ void system_timer_isr(void) interrupt BGRT_SYSTEM_TIMER_VECTOR
     BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR();
 
     bgrt_kernel.timer.val++;
-    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
+    if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 
     BGRT_ISR_END();
 }
 
-bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
+bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 {
     BGRT_USPD_T udata;
     bgrt_disable_interrupts();
@@ -140,7 +140,7 @@ bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
     udata->scnum = num;
     udata->scarg = arg;
 
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic);
     _trap_();
     bgrt_enable_interrupts();
 
@@ -171,5 +171,5 @@ void bgrt_init(void)
 void bgrt_start(void)
 {
     bgrt_enable_interrupts();
-    bgrt_kblock_main( &BGRT_KBLOCK );
+    bgrt_kblock_main(&BGRT_KBLOCK);
 }

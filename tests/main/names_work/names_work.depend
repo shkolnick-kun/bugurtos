@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.c
+1471438680 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.c
 	"bugurt.h"
 
-1471354328 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+1471434476 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
 	<bugurt_config.h>
 	"index.h"
 	"item.h"
@@ -19,11 +19,11 @@
 	"kernel.h"
 	<bugurt_port.h>
 
-1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
+1471434278 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
 
 1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
 
-1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
+1471433847 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
 
 1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
 
@@ -37,7 +37,7 @@
 
 1470920025 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
 
-1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+1471434508 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
 	<syscall_table.h>
 	<stdarg.h>
 	<custom_syscall_api.h>
@@ -49,19 +49,19 @@
 
 1470921371 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
 
-1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+1471434912 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
 	"bugurt.h"
 
-1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+1471438680 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
 	"item.h"
 
-1470028843 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.c
+1471436622 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.c
 	"bugurt.h"
 
-1469285830 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.c
+1471438680 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.c
 	"bugurt.h"
 
-1470744201 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
+1471438566 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
 	"bugurt.h"
 
 1470744201 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.c

@@ -78,6 +78,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+/* ADLINT:SF:[W1076,W0422,W0553,W1073,W0085,W0165] Static with no decls, Unsafe code.*/
+
 #ifdef BGRT_CONFIG_SAVE_POWER
 #   define BGRT_SAFE_POWER() BGRT_CONFIG_SAVE_POWER()
 #else // BGRT_CONFIG_SAVE_POWER
@@ -88,10 +90,11 @@ static void do_int_scall(bgrt_kblock_t * kblock)
 {
     BGRT_USPD_T uspd;
     bgrt_st_t scret;
+    (void)kblock;
     //Get system call number storage
-    uspd = BGRT_GET_USPD();
+    uspd = BGRT_GET_USPD(); /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     //Do system call
-    scret = bgrt_do_syscall( uspd->scnum, uspd->scarg );
+    scret = bgrt_do_syscall(uspd->scnum, uspd->scarg);
     uspd->scret = scret;
     //Clear scnum
     if (BGRT_ST_ROLL != scret)
@@ -102,14 +105,16 @@ static void do_int_scall(bgrt_kblock_t * kblock)
 //Check for pending system call and push it
 static void push_pend_scall(bgrt_kblock_t * kblock)
 {
-    if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum)
+    (void)kblock;
+    if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
         do_int_scall(kblock);
     }
 }
 
-static void do_int_sched( bgrt_kblock_t * kblock )
+static void do_int_sched(bgrt_kblock_t * kblock)
 {
+    (void)kblock;
     if (kblock->tmr_flg)
     {
         kblock->tmr_flg = (bgrt_bool_t)0;
@@ -182,7 +187,7 @@ void bgrt_kernel_init(void)
     }
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 
-    for(i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++)
+    for (i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++)
     {
         bgrt_kblock_init((bgrt_kblock_t *)bgrt_kernel.kblock + i);
     }
@@ -192,6 +197,6 @@ void bgrt_kernel_init(void)
     BGRT_SPIN_INIT(&bgrt_kernel.timer);
     BGRT_SPIN_LOCK(&bgrt_kernel.timer);
     bgrt_kernel.timer.val = (bgrt_tmr_t)0;
-    bgrt_kernel.timer.tick = (void(*)(void))0;
+    bgrt_kernel.timer.tick = (void(*)(void))0; /* ADLINT:SL:[W0566,W0567] I know. */
     BGRT_SPIN_FREE(&bgrt_kernel.timer);
 }

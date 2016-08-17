@@ -23,7 +23,7 @@
 //#define BGRT_SC_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
-#define WEAK __attribute__(( __weak__ ))
+#define WEAK __attribute__((__weak__))
 
 #define NOP() __asm__ __volatile__("nop"::)
 
@@ -120,7 +120,7 @@ extern const struct _bgrt_proc_t * proc_base;
 #define BGRT_PID_T bgrt_cnt_t
 #define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #define BGRT_PID_TO_PROC(p) ((BGRT_PID_NOTHING!=p)?((bgrt_proc_t *)proc_base + (p-1)):((bgrt_proc_t *)0))
-#define BGRT_PROC_TO_PID(p) ((p)?( 1 + (bgrt_cnt_t)(p - (bgrt_proc_t *)proc_base) ):(BGRT_PID_NOTHING))
+#define BGRT_PROC_TO_PID(p) ((p)?(1 + (bgrt_cnt_t)(p - (bgrt_proc_t *)proc_base)):(BGRT_PID_NOTHING))
 //*/
 
 #define PID0 BGRT_PROC_TO_PID(&proc[0])

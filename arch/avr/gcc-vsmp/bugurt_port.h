@@ -90,17 +90,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Эпилог обработчика прерывания
 #define BGRT_ISR_END()                     \
     bgrt_set_curr_sp();                    \
-    bugurt_restore_context( *current_sp ); \
+    bugurt_restore_context(*current_sp); \
     __asm__ __volatile__("reti"::)
 
 extern volatile bgrt_cpuid_t current_vm;
 
 void bgrt_set_curr_sp(void);
 
-extern bgrt_stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( bgrt_stack_t * new_sp );
-extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
-extern bgrt_stack_t * bugurt_reverse_byte_order ( bgrt_stack_t * arg );
+extern bgrt_stack_t * bugurt_save_context(void);
+extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_pop_context(void);
+extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
+extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
 #endif // _BGRT_PORT_H_

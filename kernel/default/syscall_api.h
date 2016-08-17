@@ -397,6 +397,6 @@ Wake a process on timeout.
 \param pid A pointer to a process, that is supposed to wake up.
 \return #BGRT_ST_OK if target process has been woken up, #BGRT_ST_EAGAIN if caller must do next iteration, or error code.
 */
-#define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid )
+#define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid)
 /*****************************************************************************************/
 #endif // _SYSCALL_API_H_

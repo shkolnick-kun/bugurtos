@@ -93,14 +93,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Эпилог обработчика прерывания
 #define BGRT_ISR_END()                     \
     bgrt_set_curr_sp();                    \
-    bugurt_restore_context( *current_sp )
+    bugurt_restore_context(*current_sp)
 
 // Подстановка вектора для шаблона обработчика прерывания
-#define BGRT_VECTOR_STR(v) BGRT_ARG_TO_STR( vector = (v) )
+#define BGRT_VECTOR_STR(v) BGRT_ARG_TO_STR(vector = (v))
 
 // Шаблон обёртки обработчика прерывания для внутреннего пользования
 #define _BGRT_ISR(v,f)                                \
-_Pragma( BGRT_VECTOR_STR(v) )                         \
+_Pragma(BGRT_VECTOR_STR(v))                        \
 __interrupt void BGRT_CONCAT(vector_wrapper_,v)(void) \
 {                                                     \
     BGRT_ISR_START();                                 \
@@ -127,9 +127,9 @@ extern bgrt_stack_t * kernel_sp;
 extern bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
-extern bgrt_stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( bgrt_stack_t * new_sp );
-extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
+extern bgrt_stack_t * bugurt_save_context(void);
+extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_pop_context(void);
+extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 
 #endif // _BGRT_PORT_H_

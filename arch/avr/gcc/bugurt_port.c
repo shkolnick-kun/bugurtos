@@ -95,9 +95,9 @@ bgrt_proc_t * bgrt_curr_proc(void)
     return BGRT_CURR_PROC;
 }
 
-void bgrt_resched( void )
+void bgrt_resched(void)
 {
-    bgrt_vint_push( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 }
 
 /******************************************************************************************************/
@@ -112,21 +112,21 @@ bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 #define BGRT_GOTO_KERNEL()  \
     kernel_mode = (bgrt_bool_t)1;\
     current_sp = &kernel_sp; \
-    bugurt_restore_context( kernel_sp ); \
+    bugurt_restore_context(kernel_sp); \
     __asm__ __volatile__("reti"::)
 
-__attribute__ (( naked )) void bgrt_switch_to_kernel(void);
+__attribute__ ((naked)) void bgrt_switch_to_kernel(void);
 void bgrt_switch_to_kernel(void)
 {
     BGRT_ISR_START();
 
     // Обрабатываем системный вызов
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic);
 
     BGRT_GOTO_KERNEL();
 }
 
-bgrt_st_t bgrt_syscall( unsigned char num, void * arg )
+bgrt_st_t bgrt_syscall(unsigned char num, void * arg)
 {
     BGRT_USPD_T udata;
     cli();
@@ -139,11 +139,11 @@ bgrt_st_t bgrt_syscall( unsigned char num, void * arg )
 
 void bgrt_set_curr_sp(void)
 {
-    if( BGRT_KBLOCK.vic.list.index )
+    if (BGRT_KBLOCK.vic.list.index)
     {
         kernel_mode = 1;
     }
-    if( kernel_mode )
+    if (kernel_mode)
     {
         current_sp = &kernel_sp;
     }
@@ -153,7 +153,7 @@ void bgrt_set_curr_sp(void)
     }
 }
 
-__attribute__ (( naked )) void bgrt_switch_to_proc(void)
+__attribute__ ((naked)) void bgrt_switch_to_proc(void)
 {
     cli();
     BGRT_ISR_START();
@@ -161,16 +161,16 @@ __attribute__ (( naked )) void bgrt_switch_to_proc(void)
     BGRT_ISR_END();
 }
 
-__attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
+__attribute__ ((signal, naked)) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
     BGRT_ISR_START();
 
     bgrt_kernel.timer.val++;
-    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
+    if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 
     BGRT_GOTO_KERNEL();
 }
@@ -187,5 +187,5 @@ void bgrt_start(void)
 {
     BGRT_START_SCHEDULER();
     sei();
-    bgrt_kblock_main( &BGRT_KBLOCK );
+    bgrt_kblock_main(&BGRT_KBLOCK);
 }

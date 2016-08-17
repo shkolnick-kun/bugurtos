@@ -102,7 +102,7 @@ extern void bgrt_set_curr_sp(void);
 /* ISR end sequence */
 #define BGRT_ISR_END()                \
     bgrt_set_curr_sp();               \
-    bgrt_isr_epilogue( *current_sp ); \
+    bgrt_isr_epilogue(*current_sp); \
     __asm__("iret")
 
 /* ISR declaration */

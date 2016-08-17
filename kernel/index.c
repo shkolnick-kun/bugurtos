@@ -77,6 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
+/* ADLINT:SF:[W0116,W0256,W0165,W0114,W0268] Yes we drop some bits, and convert some types */
 bgrt_prio_t bgrt_index_search(bgrt_index_t index)
 {
     bgrt_prio_t prio = (bgrt_prio_t)0;
@@ -86,7 +87,7 @@ bgrt_prio_t bgrt_index_search(bgrt_index_t index)
     Time limitation is O(BGRT_BITS_IN_INDEX_T), which is O(1).
     */
     bgrt_index_t mask = (bgrt_index_t)1;
-    while( mask )
+    while (mask)
     {
         if (mask & index)
         {

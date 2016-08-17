@@ -118,7 +118,7 @@ bgrt_st_t cond_wait(cond_t * cond, mutex_t * mutex)
         ret = BGRT_SYNC_SLEEP(cond, &touch);
         BGRT_PROC_FREE(); //Now may stop!
 
-        mutex_lock( mutex );
+        mutex_lock(mutex);
     }
 
     return ret;

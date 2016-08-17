@@ -78,25 +78,25 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sem.h"
 
-bgrt_st_t sem_init_isr( sem_t * sem, bgrt_cnt_t count )
+bgrt_st_t sem_init_isr(sem_t * sem, bgrt_cnt_t count)
 {
     if (!sem)
     {
         return BGRT_ST_ENULL;
     }
-    _BGRT_SYNC_INIT( sem, BGRT_PRIO_LOWEST );
-    BGRT_SPIN_INIT( sem );
-    BGRT_SPIN_LOCK( sem );
+    _BGRT_SYNC_INIT(sem, BGRT_PRIO_LOWEST);
+    BGRT_SPIN_INIT(sem);
+    BGRT_SPIN_LOCK(sem);
     sem->counter = count;
-    BGRT_SPIN_FREE( sem );
+    BGRT_SPIN_FREE(sem);
     return BGRT_ST_OK;
 }
 
-bgrt_st_t sem_init( sem_t * sem, bgrt_cnt_t count )
+bgrt_st_t sem_init(sem_t * sem, bgrt_cnt_t count)
 {
     bgrt_st_t ret;
     bgrt_disable_interrupts();
-    ret = sem_init_isr( sem, count );
+    ret = sem_init_isr(sem, count);
     bgrt_enable_interrupts();
     return ret;
 }
@@ -163,7 +163,7 @@ bgrt_st_t sem_lock(sem_t * sem)
     return ret;
 }
 
-bgrt_st_t sem_free( sem_t * sem )
+bgrt_st_t sem_free(sem_t * sem)
 {
     bgrt_st_t ret;
 
@@ -179,19 +179,19 @@ bgrt_st_t sem_free( sem_t * sem )
     if (BGRT_ST_EEMPTY == ret)
     {
         bgrt_disable_interrupts();
-        BGRT_SPIN_LOCK( sem );
+        BGRT_SPIN_LOCK(sem);
 
         sem->counter++;
         ret = BGRT_ST_OK;
 
-        BGRT_SPIN_FREE( sem );
+        BGRT_SPIN_FREE(sem);
         bgrt_enable_interrupts();
     }
     BGRT_PROC_FREE();
     return ret;
 }
 
-bgrt_st_t sem_free_isr( sem_t * sem )
+bgrt_st_t sem_free_isr(sem_t * sem)
 {
     bgrt_st_t ret;
 
@@ -200,7 +200,7 @@ bgrt_st_t sem_free_isr( sem_t * sem )
         return BGRT_ST_ENULL;
     }
 
-    BGRT_SPIN_LOCK( sem );
+    BGRT_SPIN_LOCK(sem);
     //Check owner
     if (((bgrt_sync_t *)sem)->owner)
     {
@@ -208,7 +208,7 @@ bgrt_st_t sem_free_isr( sem_t * sem )
     }
     else
     {
-        // Now we can wake some process. )
+        // Now we can wake some process.)
         ret = _bgrt_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
         if (BGRT_ST_EEMPTY == ret)
         {

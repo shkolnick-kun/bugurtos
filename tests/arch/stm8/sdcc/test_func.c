@@ -7,7 +7,7 @@ void kernel_preemt_hook(void)
     test_kernel_preempt();
 }
 
-void kernel_preemt_hook_add( void(*arg)(void) )
+void kernel_preemt_hook_add(void(*arg)(void))
 {
     bgrt_disable_interrupts();
     test_kernel_preempt = arg;
@@ -62,10 +62,10 @@ void sched_fix_bgrt_proc_2(void)
 unsigned char test_fail = 0;
 unsigned char test_is_running = 0;
 
-static void blink_digit( bgrt_cnt_t digit )
+static void blink_digit(bgrt_cnt_t digit)
 {
     //RLED_ON();
-    if(!digit)
+    if (!digit)
     {
         RLED_ON();
         bgrt_wait_time(1000);
@@ -74,7 +74,7 @@ static void blink_digit( bgrt_cnt_t digit )
         return;
     }
 
-    while(digit--)
+    while (digit--)
     {
         RLED_ON();
         bgrt_wait_time(200);
@@ -84,27 +84,27 @@ static void blink_digit( bgrt_cnt_t digit )
     bgrt_wait_time(500);
 }
 // Can blink numbers from 0 up to 99.
-void blink_num( bgrt_cnt_t num )
+void blink_num(bgrt_cnt_t num)
 {
     RLED_ON();
     bgrt_wait_time(100);
     RLED_OFF();
     bgrt_wait_time(1000);
-    blink_digit( (num/100)%10 ); // Most significant digit
-    blink_digit( (num/10)%10 ); // Most significant digit
-    blink_digit( num%10 ); //Least significant digit
+    blink_digit((num/100)%10); // Most significant digit
+    blink_digit((num/10)%10); // Most significant digit
+    blink_digit(num%10); //Least significant digit
 
 }
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_num)
 {
     // If test has failed, then where will be abnormal program termination!
-    if( !test_result )
+    if (!test_result)
     {
         GLED_OFF();
-        while(1)
+        while (1)
         {
             bgrt_wait_time(2000);
-            blink_num( test_num );
+            blink_num(test_num);
         }
     }
 }
@@ -119,7 +119,7 @@ void tests_end(void)
 {
     GLED_OFF();
     bgrt_wait_time(1000);
-    while(1)
+    while (1)
     {
         GLED_ON();
         bgrt_wait_time(500);
@@ -176,7 +176,7 @@ void systick_hook(void)
 //    SPI1_CR1 |= 0x40;
 }
 
-BGRT_ISR( SPI_TXE_VECTOR )
+BGRT_ISR(SPI_TXE_VECTOR)
 {
     SPI1_CR1 &= ~0x40;
     SPI1_ICR &= ~0x80;

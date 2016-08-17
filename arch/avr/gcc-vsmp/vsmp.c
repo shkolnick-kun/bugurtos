@@ -89,7 +89,7 @@ hook_t vsmp_systimer_hook;
 
 
 
-void vsmp_vm_init( vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp )
+void vsmp_vm_init(vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp)
 {
     vm->int_fifo = (bgrt_item_t *)0; // Нет прерываний;
     vm->int_enabled = 1;// прерывания разрешены
@@ -97,43 +97,43 @@ void vsmp_vm_init( vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp )
     vm->int_sp = (bgrt_stack_t *)int_sp;
     vm->int_nest_count = (bgrt_cnt_t)0;
 }
-void vsmp_init( void )
+void vsmp_init(void)
 {
     unsigned short i;
     cli();
-    for(i = 0; i < VM_STACK_SIZE; i++ )vm_int_stack[0][i] = 0x55;
-    vsmp_vm_init( &vm_state[0], (bgrt_stack_t *)0 , &vm_int_stack[0][VM_INT_STACK_SIZE-1] );
-    for( current_vm = 1; current_vm < BGRT_MAX_CPU; current_vm++ )
+    for (i = 0; i < VM_STACK_SIZE; i++)vm_int_stack[0][i] = 0x55;
+    vsmp_vm_init(&vm_state[0], (bgrt_stack_t *)0 , &vm_int_stack[0][VM_INT_STACK_SIZE-1]);
+    for (current_vm = 1; current_vm < BGRT_MAX_CPU; current_vm++)
     {
         bgrt_stack_t * vm_sp;
-        for(i = 0; i < VM_STACK_SIZE; i++ )
+        for (i = 0; i < VM_STACK_SIZE; i++)
         {
             vm_stack[current_vm - 1][i] = 0x55;
             vm_int_stack[current_vm][i] = 0x55;
         }
-        vm_sp = bgrt_proc_stack_init( &vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (bgrt_code_t)vsmp_idle_main, (void *)0, (void(*)(void))vsmp_idle_main );
-        vsmp_vm_init( &vm_state[current_vm], (bgrt_stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1] );
+        vm_sp = bgrt_proc_stack_init(&vm_stack[current_vm - 1][VM_STACK_SIZE - 1], (bgrt_code_t)vsmp_idle_main, (void *)0, (void(*)(void))vsmp_idle_main);
+        vsmp_vm_init(&vm_state[current_vm], (bgrt_stack_t *)vm_sp, &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1]);
     }
     current_vm = 0;
 }
 
-void vsmp_run( void )
+void vsmp_run(void)
 {
     sei();
 }
-void vsmp_idle_main( void * arg )
+void vsmp_idle_main(void * arg)
 {
-    while(1);
+    while (1);
 }
 
 bgrt_bool_t vsmp_do_interrupt(void)
 {
     // if current vm is interruptible and there are some interrupts in fifo,
-    if( (vm_state[current_vm].int_enabled) && (vm_state[current_vm].int_fifo) )
+    if ((vm_state[current_vm].int_enabled) && (vm_state[current_vm].int_fifo))
     {
         // cut head interrupt,
         vm_buf = (void *)vm_state[current_vm].int_fifo;
-        if( vm_buf == (void *)((bgrt_item_t *)vm_buf)->next )
+        if (vm_buf == (void *)((bgrt_item_t *)vm_buf)->next)
         {
             /* only one interrupt in fifo */
             vm_state[current_vm].int_fifo = (bgrt_item_t *)0;
@@ -142,7 +142,7 @@ bgrt_bool_t vsmp_do_interrupt(void)
         {
             /* many interrupts in fifo */
             vm_state[current_vm].int_fifo = (void *)((bgrt_item_t *)vm_buf)->next;
-            bgrt_item_cut( (bgrt_item_t *)vm_buf );
+            bgrt_item_cut((bgrt_item_t *)vm_buf);
         }
         // write its isr pointer to vm_buf,
         ((vinterrupt_t *)vm_buf)->num_pending = (bgrt_cnt_t)0;
@@ -157,7 +157,7 @@ bgrt_bool_t vsmp_do_interrupt(void)
 /* Virtual interrupt prologue and epilogue inline functions (I can,t debug macros !) */
 #define _vsmp_interrupt_prologue() \
     vm_buf = (void *)bugurt_save_context(); \
-    if( vm_state[current_vm].int_nest_count ) \
+    if (vm_state[current_vm].int_nest_count)\
     { \
         vm_state[current_vm].int_sp = (bgrt_stack_t *)vm_buf; \
     } \
@@ -165,16 +165,16 @@ bgrt_bool_t vsmp_do_interrupt(void)
     { \
         vm_state[current_vm].sp = (bgrt_stack_t *)vm_buf; \
     } \
-    bugurt_set_stack_pointer( vm_state[current_vm].int_sp )
+    bugurt_set_stack_pointer(vm_state[current_vm].int_sp)
 
 #define _vsmp_interrupt_epilogue() \
  \
-    if( vsmp_do_interrupt() ) goto chained_vinterrupt_return; \
+    if (vsmp_do_interrupt())goto chained_vinterrupt_return; \
  \
-    if( --vm_state[current_vm].int_nest_count )goto nesting_vinterrupt_return; \
+    if (--vm_state[current_vm].int_nest_count)goto nesting_vinterrupt_return; \
  \
     vm_state[current_vm].int_sp = &vm_int_stack[current_vm][VM_INT_STACK_SIZE-1]; \
-    bugurt_restore_context( vm_state[current_vm].sp ); \
+    bugurt_restore_context(vm_state[current_vm].sp); \
     __asm__ __volatile__("reti"::); \
  \
 nesting_vinterrupt_return: \
@@ -183,7 +183,7 @@ nesting_vinterrupt_return: \
     __asm__ __volatile__("reti"::); \
  \
 chained_vinterrupt_return: \
-    bugurt_push_pointer( (void *)vinterrupt_wrapper ); \
+    bugurt_push_pointer((void *)vinterrupt_wrapper); \
     __asm__ __volatile__("ret"::)
 
 /*
@@ -201,7 +201,7 @@ void _vinterrupt_wrapper(void)
     isr();
 }
 // Nesting part, no prologue and hand made epilogue.
-__attribute__ (( naked )) void vinterrupt_wrapper(void)
+__attribute__ ((naked)) void vinterrupt_wrapper(void)
 {
     _vinterrupt_wrapper();
     cli();
@@ -211,26 +211,26 @@ __attribute__ (( naked )) void vinterrupt_wrapper(void)
     _vsmp_interrupt_epilogue();
 }
 // System timer interrupt, round robin scheduler.
-__attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
+__attribute__ ((signal, naked)) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
     _vsmp_interrupt_prologue();
 
     current_vm++;
-    if(current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
+    if (current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
 
-    if(vsmp_systimer_hook)
+    if (vsmp_systimer_hook)
     {
         vsmp_systimer_hook();
     }
 
     vm_state[current_vm].int_nest_count++;
-    bugurt_set_stack_pointer( vm_state[current_vm].int_sp );
+    bugurt_set_stack_pointer(vm_state[current_vm].int_sp);
 
     _vsmp_interrupt_epilogue();
 }
 // Software virtual interrupt tail function
-__attribute__ (( naked )) void _vsmp_vinterrupt(void)
+__attribute__ ((naked)) void _vsmp_vinterrupt(void)
 {
     _vsmp_interrupt_prologue();
 
@@ -239,13 +239,13 @@ __attribute__ (( naked )) void _vsmp_vinterrupt(void)
     _vsmp_interrupt_epilogue();
 }
 
-// Software virtual interrupt ( For ISR usage only ! Do NOT call from "main"!)
-bgrt_bool_t vsmp_vinterrupt_isr( bgrt_cpuid_t vm, vinterrupt_t * vector )
+// Software virtual interrupt (For ISR usage only ! Do NOT call from "main"!)
+bgrt_bool_t vsmp_vinterrupt_isr(bgrt_cpuid_t vm, vinterrupt_t * vector)
 {
-    if( vector->num_pending++ ) return (bgrt_bool_t)0;
-    if( vm_state[vm].int_fifo )
+    if (vector->num_pending++)return (bgrt_bool_t)0;
+    if (vm_state[vm].int_fifo)
     {
-        bgrt_item_insert( (bgrt_item_t *)vector, (bgrt_item_t *)vm_state[vm].int_fifo );
+        bgrt_item_insert((bgrt_item_t *)vector, (bgrt_item_t *)vm_state[vm].int_fifo);
     }
     else
     {
@@ -253,17 +253,17 @@ bgrt_bool_t vsmp_vinterrupt_isr( bgrt_cpuid_t vm, vinterrupt_t * vector )
     }
     return (bgrt_bool_t)1;
 }
-// Software virtual interrupt ( Use in "main" only ! Do NOT call from ISR!)
-void vsmp_vinterrupt( bgrt_cpuid_t vm, vinterrupt_t * vector )
+// Software virtual interrupt (Use in "main" only ! Do NOT call from ISR!)
+void vsmp_vinterrupt(bgrt_cpuid_t vm, vinterrupt_t * vector)
 {
     cli();
-    if( vsmp_vinterrupt_isr( vm, vector ) ) _vsmp_vinterrupt();
+    if (vsmp_vinterrupt_isr(vm, vector)) _vsmp_vinterrupt();
     else sei();
 }
 
-void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) )
+void vsmp_vinterrupt_init(vinterrupt_t * vector, void (*isr)(void))
 {
-    bgrt_item_init( (bgrt_item_t *)vector );
+    bgrt_item_init((bgrt_item_t *)vector);
     vector->num_pending = (bgrt_cnt_t)0;
     vector->isr = isr;
 }
@@ -279,7 +279,7 @@ void bgrt_enable_interrupts(void)
 {
     cli();
     vm_state[current_vm].int_enabled = (bgrt_bool_t)1;
-    if( vm_state[current_vm].int_fifo ) _vsmp_vinterrupt();
+    if (vm_state[current_vm].int_fifo)_vsmp_vinterrupt();
     else sei();
 }
 

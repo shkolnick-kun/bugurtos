@@ -108,35 +108,35 @@ bgrt_proc_t * bgrt_curr_proc(void)
     return ret;
 }
 
-void bgrt_resched( bgrt_cpuid_t core )
+void bgrt_resched(bgrt_cpuid_t core)
 {
     cli();
-    bgrt_vint_push_isr( &bgrt_kernel.kblock[core].int_sched, &bgrt_kernel.kblock[core].vic );
+    bgrt_vint_push_isr(&bgrt_kernel.kblock[core].int_sched, &bgrt_kernel.kblock[core].vic);
     sei();
 }
 
-void bgrt_spin_init( bgrt_lock_t * lock )
+void bgrt_spin_init(bgrt_lock_t * lock)
 {
     cli();
     *lock = (bgrt_lock_t)0;
     sei();
 }
 
-void bgrt_spin_lock( bgrt_lock_t * lock )
+void bgrt_spin_lock(bgrt_lock_t * lock)
 {
     unsigned short i;
     i = 1;
     do
     {
         cli();
-        if(!*lock)
+        if (!*lock)
         {
             *lock = (bgrt_lock_t)1;
             i = 0;
         }
         sei();
     }
-    while(i);
+    while (i);
     _delay_us(1100);// delay, all other vms must spin for a while
 }
 void bgrt_spin_free(bgrt_lock_t * lock)
@@ -146,19 +146,19 @@ void bgrt_spin_free(bgrt_lock_t * lock)
     sei();
 }
 // bgrt_ls_t is simply process counter here!
-void bgrt_stat_init( bgrt_ls_t * stat )
+void bgrt_stat_init(bgrt_ls_t * stat)
 {
     *stat = 0; // no lad on a system
 }
-void bgrt_stat_dec( bgrt_proc_t * proc, bgrt_ls_t * stat )
+void bgrt_stat_dec(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
     (*stat)--;
 }
-void bgrt_stat_inc( bgrt_proc_t * proc, bgrt_ls_t * stat )
+void bgrt_stat_inc(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
     (*stat)++;
 }
-void bgrt_stat_merge( bgrt_ls_t *src_stat, bgrt_ls_t * dst_stat  )
+void bgrt_stat_merge(bgrt_ls_t *src_stat, bgrt_ls_t * dst_stat )
 {
     *dst_stat += *src_stat;
     *src_stat = (bgrt_ls_t)0;
@@ -170,12 +170,12 @@ load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat)
 /******************************************************************************************************/
 void bgrt_set_curr_sp(void)
 {
-    if( vm_int_enabled[current_vm] && BGRT_KBLOCK.vic.list.index )
+    if (vm_int_enabled[current_vm] && BGRT_KBLOCK.vic.list.index)
     {
         kernel_mode[current_vm] = 1;
     }
 
-    if( kernel_mode[current_vm] )
+    if (kernel_mode[current_vm])
     {
         current_sp = &kernel_sp[current_vm];
     }
@@ -186,15 +186,15 @@ void bgrt_set_curr_sp(void)
 }
 
 // Код ядра
-__attribute__ (( naked )) void bgrt_switch_to_kernel(void);
+__attribute__ ((naked)) void bgrt_switch_to_kernel(void);
 void bgrt_switch_to_kernel(void)
 {
     BGRT_ISR_START();
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic);
     BGRT_ISR_END();
 }
 
-bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
+bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 {
     BGRT_USPD_T udata;
     udata = BGRT_GET_USPD();
@@ -220,39 +220,39 @@ static void do_int_systick(void * arg)
     bgrt_cpuid_t i;
     (void)arg;
 
-    BGRT_SPIN_LOCK( &bgrt_kernel.timer );
+    BGRT_SPIN_LOCK(&bgrt_kernel.timer);
 
     bgrt_kernel.timer.val++;
-    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
+    if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
-    BGRT_SPIN_FREE( &bgrt_kernel.timer );
+    BGRT_SPIN_FREE(&bgrt_kernel.timer);
 
     cli();
-    for( i = 0; i < BGRT_MAX_CPU; i++ )
+    for (i = 0; i < BGRT_MAX_CPU; i++)
     {
         bgrt_kernel.kblock[i].tmr_flg = (bgrt_bool_t)1;
-        bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+        bgrt_vint_push_isr(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
     }
     sei();
 }
 
-__attribute__ (( naked )) void bgrt_enable_interrupts(void);
+__attribute__ ((naked)) void bgrt_enable_interrupts(void);
 void bgrt_enable_interrupts(void)
 {
     cli();
     BGRT_ISR_START();
 
     vm_int_enabled[current_vm]=1;
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 
     BGRT_ISR_END();
 }
 
-__attribute__ (( naked )) void bgrt_switch_to_proc(void)
+__attribute__ ((naked)) void bgrt_switch_to_proc(void)
 {
     cli();
     BGRT_ISR_START();
-    if( vm_int_enabled[current_vm] )
+    if (vm_int_enabled[current_vm])
     {
         kernel_mode[current_vm] = (bgrt_bool_t)0;
     }
@@ -261,19 +261,19 @@ __attribute__ (( naked )) void bgrt_switch_to_proc(void)
 
 bgrt_cnt_t systimer_hook_counter = 0;
 
-__attribute__ (( signal, naked )) void BGRT_SYSTEM_TIMER_ISR(void);
+__attribute__ ((signal, naked)) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
     BGRT_ISR_START();
 
     current_vm++;
-    if(current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
+    if (current_vm >= BGRT_MAX_CPU)current_vm = (bgrt_cpuid_t)0;
 
     systimer_hook_counter++;
-    if( systimer_hook_counter >= BGRT_CONFIG_SYSTIMER_HOOK_THR )
+    if (systimer_hook_counter >= BGRT_CONFIG_SYSTIMER_HOOK_THR)
     {
         systimer_hook_counter = (bgrt_cnt_t)0;
-        bgrt_vint_push_isr( &int_systick, &BGRT_KBLOCK.vic );
+        bgrt_vint_push_isr(&int_systick, &BGRT_KBLOCK.vic);
     }
 
     BGRT_ISR_END();
@@ -283,7 +283,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
 
 static void kernel_panic(void)
 {
-    while(1);
+    while (1);
 }
 
 void bgrt_init(void)
@@ -292,7 +292,7 @@ void bgrt_init(void)
     cli();
     vm_int_enabled[0]=0;
     kernel_mode[0] = 1;
-    for(i = 1; i < BGRT_MAX_CPU; i++)
+    for (i = 1; i < BGRT_MAX_CPU; i++)
     {
         vm_int_enabled[i]=0;
         kernel_mode[i] = 1;
@@ -301,9 +301,9 @@ void bgrt_init(void)
                            (bgrt_code_t)bgrt_kblock_main,
                            (void *)&bgrt_kernel.kblock[i],
                            (void(*)(void))kernel_panic
-                       );
+                      );
     }
-    bgrt_vint_init( &int_systick, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_systick, (void *)0 );
+    bgrt_vint_init(&int_systick, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_systick, (void *)0);
     bgrt_kernel_init();
     sei();
 }
@@ -311,10 +311,10 @@ void bgrt_start(void)
 {
     bgrt_cpuid_t i;
     cli();
-    for(i = 0; i < BGRT_MAX_CPU; i++)
+    for (i = 0; i < BGRT_MAX_CPU; i++)
     {
         vm_int_enabled[i]=1;
     }
     sei();
-    bgrt_kblock_main( &bgrt_kernel.kblock[0] );
+    bgrt_kblock_main(&bgrt_kernel.kblock[0]);
 }

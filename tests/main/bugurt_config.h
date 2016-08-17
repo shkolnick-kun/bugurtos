@@ -97,6 +97,7 @@ typedef unsigned long load_t;
 
 typedef unsigned long bgrt_st_t;
 
+#define BGRT_CONFIG_CNT_MAX (0xffffffff)
 typedef unsigned long bgrt_cnt_t;
 
 typedef unsigned long bgrt_tmr_t;

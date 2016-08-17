@@ -18,7 +18,7 @@ extern unsigned char test_is_running;
 
 #define BGRT_SCHED_SYSTICK_HOOK_ADD() (bgrt_kernel.timer.tick = systick_hook)
 
-void kernel_preemt_hook_add( void(*arg)(void) );
+void kernel_preemt_hook_add(void(*arg)(void));
 void kernel_preemt_hook(void);
 void test_do_nothing(void);
 
@@ -26,7 +26,7 @@ void init_hardware(void);
 void sched_fix_bgrt_proc_2(void);
 
 // proc test functions
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_mun );
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_mun);
 void test_start(void);
 void tests_end(void);
 

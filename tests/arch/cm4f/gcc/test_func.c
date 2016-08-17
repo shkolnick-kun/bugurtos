@@ -9,7 +9,7 @@ void kernel_preemt_hook(void)
     test_kernel_preempt();
 }
 
-void kernel_preemt_hook_add( void(*arg)(void) )
+void kernel_preemt_hook_add(void(*arg)(void))
 {
     bgrt_disable_interrupts();
     test_kernel_preempt = arg;
@@ -40,12 +40,12 @@ void sched_fix_bgrt_proc_2(void)
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
     bgrt_enable_interrupts();
 }
-static void blink_digit( bgrt_cnt_t digit )
+static void blink_digit(bgrt_cnt_t digit)
 {
     LED_OFF(RED);
     bgrt_wait_time(200);
 
-    if(!digit)
+    if (!digit)
     {
         LED_ON(RED);
         bgrt_wait_time(1000);
@@ -53,7 +53,7 @@ static void blink_digit( bgrt_cnt_t digit )
         return;
     }
 
-    while(digit--)
+    while (digit--)
     {
         LED_ON(RED);
         bgrt_wait_time(200);
@@ -62,24 +62,24 @@ static void blink_digit( bgrt_cnt_t digit )
     }
 }
 // Can blink numbers from 0 up to 99.
-static void blink_num( bgrt_cnt_t num )
+static void blink_num(bgrt_cnt_t num)
 {
     LED_OFF(RED);
-    blink_digit( (num/10)%10 ); // Most significant digit
+    blink_digit((num/10)%10); // Most significant digit
     bgrt_wait_time(300);
-    blink_digit( num%10 ); //Least significant digit
+    blink_digit(num%10); //Least significant digit
 
 }
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_num)
 {
     // If test has failed, then where will be abnormal program termination!
-    if( !test_result )
+    if (!test_result)
     {
         LED_OFF(GREEN);
-        while(1)
+        while (1)
         {
             bgrt_wait_time(500);
-            blink_num( test_num );
+            blink_num(test_num);
         }
     }
 }
@@ -91,7 +91,7 @@ void tests_end(void)
 {
     LED_OFF(GREEN);
     bgrt_wait_time(1000);
-    while(1)
+    while (1)
     {
         LED_ON(GREEN);
         bgrt_wait_time(500);
@@ -120,7 +120,7 @@ void systick_hook(void)
 
 void HardFault_Handler(void)
 {
-    while(1)
+    while (1)
     {
 
     }
@@ -129,11 +129,11 @@ void HardFault_Handler(void)
 void float_test_1(void)
 {
     a+=1.735;
-    if(a >= 178.0) a = 1.11;
+    if (a >= 178.0) a = 1.11;
 }
 
 void float_test_2(void)
 {
     b*=1.005;
-    if(b >= 178.0) b = 1.17;
+    if (b >= 178.0) b = 1.17;
 }

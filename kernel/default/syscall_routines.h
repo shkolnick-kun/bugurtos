@@ -87,21 +87,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 **********************************************************************************************/
 BGRT_SC_SR(PROC_RUN, void * arg)
 {
-    return _bgrt_proc_run( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
+    return _bgrt_proc_run(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                        PROC_RESTART
 **********************************************************************************************/
 BGRT_SC_SR(PROC_RESTART, void * arg)
 {
-    return _bgrt_proc_restart( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
+    return _bgrt_proc_restart(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                          PROC_STOP
 **********************************************************************************************/
 BGRT_SC_SR(PROC_STOP, void * arg)
 {
-    return _bgrt_proc_stop( BGRT_PID_TO_PROC( (BGRT_PID_T)arg ) );
+    return _bgrt_proc_stop(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                        PROC_SELF_STOP
@@ -142,7 +142,7 @@ BGRT_SC_SR(PROC_RESET_WATCHDOG,  void * arg)
 /**********************************************************************************************
                                        PROC_GET_PRIO
 **********************************************************************************************/
-BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va )
+BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va)
 {
     bgrt_prio_t * prio_ptr;
     BGRT_PID_T pid;
@@ -173,7 +173,7 @@ BGRT_SC_SR(PROC_GET_ID,  void * arg)
     bgrt_proc_t * curr_proc;
     /*Do NOT optimize this as BGRT_PROC_TO_PID may call bgrt_curr_proc more than one time!!!*/
     curr_proc = bgrt_curr_proc();
-    *(BGRT_PID_T *)arg = BGRT_PROC_TO_PID( curr_proc );
+    *(BGRT_PID_T *)arg = BGRT_PROC_TO_PID(curr_proc);
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -215,14 +215,14 @@ BGRT_SC_SR(SYNC_OWN,  bgrt_va_wr_t * va)
 /**********************************************************************************************
                                         SYNC_TOUCH
 **********************************************************************************************/
-BGRT_SC_SR(SYNC_TOUCH,  void * arg )
+BGRT_SC_SR(SYNC_TOUCH,  void * arg)
 {
     return _bgrt_sync_touch((bgrt_sync_t *)arg);
 }
 /**********************************************************************************************
                                          SYNC_SLEEP
 **********************************************************************************************/
-BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va )
+BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va)
 {
     va_list param;
     bgrt_sync_t * sync;
@@ -247,8 +247,8 @@ BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va)
 
     va_copy(param, va->list);
     sync  = (bgrt_sync_t *)va_arg(param, void *);
-    pid   = (BGRT_PID_T   )va_arg(param, void *);
-    chown = (bgrt_flag_t  )va_arg(param, int   );
+    pid   = (BGRT_PID_T  )va_arg(param, void *);
+    chown = (bgrt_flag_t )va_arg(param, int  );
     va_end(param);
 
     return _bgrt_sync_wake(sync, BGRT_PID_TO_PROC(pid), chown);
@@ -266,7 +266,7 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
     va_copy(param, va->list);
     sync  = (bgrt_sync_t *)va_arg(param, void *);
     pid   = (BGRT_PID_T  *)va_arg(param, void *);
-    block = (bgrt_flag_t  )va_arg(param, int   );
+    block = (bgrt_flag_t )va_arg(param, int  );
     va_end(param);
 
     if (!pid)
@@ -278,9 +278,9 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
         bgrt_proc_t * proc;
         bgrt_st_t ret;
         /*Do NOT optimize this as BGRT_PROC_TO_PID may call va_arg more than one time!!!*/
-        proc = BGRT_PID_TO_PROC( *pid );
-        ret  = _bgrt_sync_wait( sync, &proc, block );
-        *pid = BGRT_PROC_TO_PID( proc );
+        proc = BGRT_PID_TO_PROC(*pid);
+        ret  = _bgrt_sync_wait(sync, &proc, block);
+        *pid = BGRT_PROC_TO_PID(proc);
 
         return ret;
     }

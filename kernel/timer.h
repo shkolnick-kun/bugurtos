@@ -120,7 +120,7 @@ Reset software timer.
 
 \param t A timer variable name.
 */
-#define BGRT_CLEAR_TIMER(t) _bgrt_clear_timer( (bgrt_tmr_t *)&t)
+#define BGRT_CLEAR_TIMER(t) _bgrt_clear_timer((bgrt_tmr_t *)&t)
 
 /*!
 
@@ -136,7 +136,7 @@ Get software timer value.
 
 \param t Software timer value.
 */
-#define BGRT_TIMER(t) (bgrt_tmr_t)_bgrt_timer( (bgrt_tmr_t)t )
+#define BGRT_TIMER(t) (bgrt_tmr_t)_bgrt_timer((bgrt_tmr_t)t)
 
 /*!
 \~russian
@@ -155,7 +155,7 @@ Caller process spins in a loop for a time.
 
 \param time Wait time.
 */
-void bgrt_wait_time( bgrt_tmr_t time );
+void bgrt_wait_time(bgrt_tmr_t time);
 // Для внутреннего пользования
 
 /*!

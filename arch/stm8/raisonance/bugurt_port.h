@@ -93,7 +93,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Выход из обработчика прерывания, восстановление контекста текущего процесса
 #define BGRT_ISR_END()                   \
     bgrt_set_curr_sp();                  \
-    _setSP_( (unsigned int)*current_sp )
+    _setSP_((unsigned int)*current_sp)
 
 /*
 Объявление обработчика прерывания.
@@ -115,7 +115,7 @@ void BGRT_CONCAT(vector_wrapper_,v)(void) interrupt v \
 void BGRT_CONCAT(vector_func_,v)(void)
 
 extern void (*_bugurt_do_it)(void); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
-void _bugurt_do_nothing( void ); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
+void _bugurt_do_nothing(void); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
 
 extern bgrt_stack_t * saved_sp;
 extern bgrt_stack_t * kernel_sp;

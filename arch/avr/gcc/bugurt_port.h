@@ -96,12 +96,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Эпилог обработчика прерывания
 #define BGRT_ISR_END()                    \
     bgrt_set_curr_sp();                   \
-    bugurt_restore_context( *current_sp );\
+    bugurt_restore_context(*current_sp);\
     __asm__ __volatile__("reti"::)
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BGRT_ISR(v,f)                          \
-__attribute__ (( signal, naked )) void v(void); \
+__attribute__ ((signal, naked)) void v(void); \
 void v(void)                                    \
 {                                               \
     BGRT_ISR_START();                           \
@@ -131,10 +131,10 @@ bgrt_stack_t ** current_sp;
 
 void bgrt_set_curr_sp(void);
 
-extern bgrt_stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( bgrt_stack_t * new_sp );
-extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
-extern bgrt_stack_t * bugurt_reverse_byte_order ( bgrt_stack_t * arg );
+extern bgrt_stack_t * bugurt_save_context(void);
+extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_pop_context(void);
+extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
+extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
 #endif // _BGRT_PORT_H_

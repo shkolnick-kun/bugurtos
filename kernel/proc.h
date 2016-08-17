@@ -139,9 +139,9 @@ A decrement of proc->lres.
 
 */
 
-#define BGRT_PROC_LRES_INIT(a)  bgrt_pcounter_init( &((a)->lres) )
-#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), (bgrt_prio_t)b )
-#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), (bgrt_prio_t)b )
+#define BGRT_PROC_LRES_INIT(a)  bgrt_pcounter_init(&((a)->lres))
+#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc(&((a)->lres), (bgrt_prio_t)b)
+#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec(&((a)->lres), (bgrt_prio_t)b)
 
 //Процесс
 typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc_t; \~english See #_bgrt_proc_t; */
@@ -219,7 +219,7 @@ struct _bgrt_uspd_t
         do{\
             proc->udata.scarg = (void *)0;\
             proc->udata.scnum = (bgrt_syscall_t)BGRT_SC_ENUM_END;\
-        }while(0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
+        }while (0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
 #endif
 // Свойства
 /*!
@@ -448,7 +448,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define BGRT_PROC_PRE_STOP_TEST(a) ( ( (a)->flags & BGRT_PROC_FLG_PRE_STOP ) && ( !( (a)->flags & BGRT_PROC_FLG_LOCK_MASK ) ) )
+#define BGRT_PROC_PRE_STOP_TEST(a) (((a)->flags & BGRT_PROC_FLG_PRE_STOP)&& (!((a)->flags & BGRT_PROC_FLG_LOCK_MASK)))
 /*!
 \~russian
 \brief Проверяет, запущен ли процесс.
@@ -460,7 +460,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define BGRT_PROC_RUN_TEST(a) ( ( (a)->flags & BGRT_PROC_STATE_RUN_MASK ) >= BGRT_PROC_STATE_READY )
+#define BGRT_PROC_RUN_TEST(a) (((a)->flags & BGRT_PROC_STATE_RUN_MASK)>= BGRT_PROC_STATE_READY)
 /*!
 \~russian
 \brief Читает состояние процесса.
@@ -472,7 +472,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define BGRT_PROC_GET_STATE(a) ( (a)->flags & BGRT_PROC_STATE_MASK )
+#define BGRT_PROC_GET_STATE(a) ((a)->flags & BGRT_PROC_STATE_MASK)
 /*!
 \~russian
 \brief Устанавливает состояние процесса.
@@ -485,7 +485,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define BGRT_PROC_SET_STATE(a,b) ( (a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b )
+#define BGRT_PROC_SET_STATE(a,b) ((a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b)
 // Методы
 // Управление счётчиком захваченных ресурсов, для внутреннего использования
 /*!
@@ -509,7 +509,7 @@ Increments proc->lres counter, sets #BGRT_PROC_FLG_LOCK flag.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_lres_inc( bgrt_proc_t * proc ,bgrt_prio_t prio );
+void _bgrt_proc_lres_inc(bgrt_proc_t * proc ,bgrt_prio_t prio);
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -531,7 +531,7 @@ Decrements proc->lres counter, clears #BGRT_PROC_FLG_LOCK flag if needed.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_lres_dec( bgrt_proc_t * proc ,bgrt_prio_t prio );
+void _bgrt_proc_lres_dec(bgrt_proc_t * proc ,bgrt_prio_t prio);
 /*!
 \~russian
 \brief Останов процесса.
@@ -553,7 +553,7 @@ Stops a process for sure.
 \param proc - A pointer to a process.
 \param state - A new process state.
 */
-void _bgrt_proc_stop_ensure( bgrt_proc_t * proc, bgrt_flag_t state );
+void _bgrt_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state);
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
@@ -595,7 +595,7 @@ bgrt_st_t bgrt_proc_init(
 \~english
 \brief A process termination routine called after proc->pmain return. Internal usage function.
 */
-void bgrt_proc_terminate( void );
+void bgrt_proc_terminate(void);
 /*!
 \~russian
 \brief Завершение работы процесса после возврата из proc->pmain.
@@ -607,7 +607,7 @@ void bgrt_proc_terminate( void );
 
 \warning For internal usage.
 */
-void _bgrt_proc_terminate( void );
+void _bgrt_proc_terminate(void);
 /*!
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
@@ -739,7 +739,7 @@ It sets a process priority. A process current state doesn't matter.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
+void _bgrt_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
 /*!
 \~russian
 \brief Получить приоритет процесса.
@@ -757,5 +757,5 @@ void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
 \param proc - A process pointer.
 \return - A process priority value.
 */
-bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc );
+bgrt_prio_t _bgrt_proc_get_prio(bgrt_proc_t * proc);
 #endif // _BGRT_PROC_H_

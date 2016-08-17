@@ -86,56 +86,56 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #   define BGRT_VINT_CS_END() bgrt_enable_interrupts()
 #endif //BGRT_VINT_CS_END
 
-void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg )
+void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg)
 {
-    bgrt_pitem_init( (bgrt_pitem_t *)vint, prio );
+    bgrt_pitem_init((bgrt_pitem_t *)vint, prio);
     vint->func = func;
     vint->arg = arg;
 }
 
-void bgrt_vic_init( bgrt_vic_t * vic )
+void bgrt_vic_init(bgrt_vic_t * vic)
 {
-    bgrt_xlist_init( (bgrt_xlist_t *)vic );
+    bgrt_xlist_init((bgrt_xlist_t *)vic);
     vic->prio = BGRT_PRIO_LOWEST + 1 ;//Must be LOWER, than lowest valid priority
 }
 
-bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic )
+bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic)
 {
-    if( ((bgrt_pitem_t *)vint)->list )
+    if (((bgrt_pitem_t *)vint)->list)
     {
         return BGRT_ST_EAGAIN;
     }
     else
     {
-        bgrt_pitem_insert( (bgrt_pitem_t *)vint, (bgrt_xlist_t *)vic );
+        bgrt_pitem_insert((bgrt_pitem_t *)vint, (bgrt_xlist_t *)vic);
         return BGRT_ST_OK;
     }
 }
 
-bgrt_st_t bgrt_vint_push( bgrt_vint_t * vint, bgrt_vic_t * vic )
+bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
 {
     bgrt_st_t ret;
     //Everything is done on local CPU core, just disable interrupts.
     BGRT_VINT_CS_START();
     //Insert
-    ret = bgrt_vint_push_isr( vint, vic );
+    ret = bgrt_vint_push_isr(vint, vic);
     //May enable interrupts
     BGRT_VINT_CS_END();
     return ret;
 }
 
-static bgrt_vint_t * bgrt_vint_pop( bgrt_vic_t * vic )
+static bgrt_vint_t * bgrt_vint_pop(bgrt_vic_t * vic)
 {
     bgrt_pitem_t * ret;
     //Everything is done on local CPU core, just disable interrupts.
     BGRT_VINT_CS_START();
     //Get list head
-    ret = (bgrt_pitem_t *)bgrt_xlist_head( (bgrt_xlist_t *)vic );
+    ret = (bgrt_pitem_t *)bgrt_xlist_head((bgrt_xlist_t *)vic);
     //Is there any work?
-    if( ret )
+    if (ret)
     {
         //Cut it.
-        bgrt_pitem_cut( ret );
+        bgrt_pitem_cut(ret);
     }
     //May enable interrupts
     BGRT_VINT_CS_END();
@@ -143,35 +143,35 @@ static bgrt_vint_t * bgrt_vint_pop( bgrt_vic_t * vic )
     return (bgrt_vint_t *)ret;
 }
 
-void bgrt_vic_do_work( bgrt_vic_t * vic )
+void bgrt_vic_do_work(bgrt_vic_t * vic)
 {
     //Remember last priority
     bgrt_prio_t lprio;
     lprio = vic->prio;
     //Do some pending work...
-    while(1)
+    while (1)
     {
         bgrt_vint_t * work;
-        work = bgrt_vint_pop( vic );
+        work = bgrt_vint_pop(vic);
         //Is there any work?
-        if( work )
+        if (work)
         {
             //work_prio is used twice, so remember it.
             bgrt_prio_t work_prio;
             work_prio = ((bgrt_pitem_t *)work)->prio;
             //Do only higher priority work...
-            if( work_prio < lprio )
+            if (work_prio < lprio)
             {
                 //func is used twice, so...
                 bgrt_code_t func;
                 func = work->func;
                 //Is it valid?
-                if( func )
+                if (func)
                 {
                     //Remember current priority
                     vic->prio = work_prio;
                     // Do work.
-                    func( work->arg );
+                    func(work->arg);
                 }
             }
             else

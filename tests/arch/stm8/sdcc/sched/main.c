@@ -99,10 +99,10 @@ static void thread(void * arg)
 static void thread_end(void)
 {
     int d;
-    while(1)
+    while (1)
     {
         GPIOE_ODR &= ~0x80;
-        for(d = 0; d < d_thr; d++) { }
+        for (d = 0; d < d_thr; d++) { }
         __asm__("trap");
     }
 }
@@ -120,8 +120,8 @@ int main()
     do
     {
         GPIOE_ODR |= 0x80;
-        for(d = 0; d < 15000; d++) { }
+        for (d = 0; d < 15000; d++) { }
         __asm__("trap");
     }
-    while(1);
+    while (1);
 }
