@@ -78,12 +78,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+/* ADLINT:SF:[W1052] pointer OVF, */
+
 #ifdef BGRT_CONFIG_MP
 //========================================================================================
 // Load balancing function
 WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
-    bgrt_cpuid_t core = (bgrt_cpuid_t)0, ret;
+    bgrt_cpuid_t core = (bgrt_cpuid_t)0;
+    bgrt_cpuid_t ret;
     bgrt_aff_t mask = (bgrt_aff_t)1;
     while (core < (bgrt_cpuid_t)BGRT_MAX_CPU)
     {
@@ -96,19 +99,20 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
     }
     // Initial
     stat += (bgrt_cpuid_t)core;
-    ret = core++;
+    ret = core++; /* ADLINT:SL:[W0512] inc in expr*/
     mask<<=1;
     {
         bgrt_prio_t proc_prio;
-        load_t current_load, min_load;
+        load_t current_load;
+        load_t min_load;
 
         proc_prio = ((bgrt_pitem_t *)proc)->prio;
-        min_load = bgrt_stat_calc_load(proc_prio, stat++);
+        min_load = bgrt_stat_calc_load(proc_prio, stat++); /* ADLINT:SL:[W0512] inc in expr*/
         // Just find min load
         while (core < (bgrt_cpuid_t)BGRT_MAX_CPU)
         {
-            current_load = bgrt_stat_calc_load(proc_prio, stat++);
-            if ((proc->affinity & mask) && (current_load < min_load))
+            current_load = bgrt_stat_calc_load(proc_prio, stat++); /* ADLINT:SL:[W0512] inc in expr*/
+            if ((proc->affinity & mask) && (current_load < min_load)) /* ADLINT:SL:[W0734] inc in expr*/
             {
                 min_load = current_load;
                 ret = core;
@@ -121,8 +125,8 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
 }
 //========================================================================================
 //Find most loaded bgrt_ls_t object in an array
-WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat)
-{
+WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W0432] Intendation*/
+{                                                                /* ADLINT:SL:[W0431] Intendation*/
     load_t max_load;
     bgrt_cpuid_t object_core = (bgrt_cpuid_t)0; //max loaded core
     bgrt_cpuid_t core = (bgrt_cpuid_t)1;
@@ -155,9 +159,9 @@ void bgrt_sched_init(bgrt_sched_t * sched)
 #endif // BGRT_CONFIG_MP
     sched->ready = (bgrt_xlist_t *)sched->plst;
     bgrt_xlist_init(sched->ready);
-    sched->expired = (bgrt_xlist_t *)sched->plst + 1;
+    sched->expired = (bgrt_xlist_t *)sched->plst + 1; /* ADLINT:SL:[W0567] Int to ponter*/
     bgrt_xlist_init(sched->expired);
-    sched->current_proc = (bgrt_proc_t *)0;
+    sched->current_proc = (bgrt_proc_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
     sched->nested_crit_sec = (bgrt_cnt_t)0;
 #ifdef BGRT_CONFIG_MP
     bgrt_spin_free(sched_lock);
@@ -174,7 +178,7 @@ static bgrt_sched_t * sched_stat_update_run(bgrt_proc_t * proc)
     bgrt_stat_inc(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 
-    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched);
+    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched); /* ADLINT:SL:[W0705] out of range*/
 }
 static void sched_stat_update_stop(bgrt_proc_t * proc)
 {
@@ -190,7 +194,7 @@ static bgrt_sched_t * sched_stat_update_migrate(bgrt_proc_t * proc)
     bgrt_stat_inc(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 
-    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched);
+    return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched); /* ADLINT:SL:[W0705] out of range*/
 }
 #   define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
@@ -202,7 +206,7 @@ void bgrt_sched_proc_run(bgrt_proc_t * proc, bgrt_flag_t state)
 {
     bgrt_sched_t * sched;
     //Set new state
-    BGRT_PROC_SET_STATE(proc, state);
+    BGRT_PROC_SET_STATE(proc, state); /* ADLINT:SL:[W0447] coma operator*/
     sched = BGRT_SCHED_STAT_UPDATE_RUN(proc);
 
     BGRT_SPIN_LOCK(sched);
@@ -220,11 +224,11 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state)
 
     sched_stat_update_stop(proc);
 
-    xlist_lock = &bgrt_kernel.kblock[proc->core_id].sched.lock;
+    xlist_lock = &bgrt_kernel.kblock[proc->core_id].sched.lock; /* ADLINT:SL:[W0705] out of range*/
     bgrt_spin_lock(xlist_lock);
 #endif // BGRT_CONFIG_MP
 
-    BGRT_PROC_SET_STATE(proc, state);
+    BGRT_PROC_SET_STATE(proc, state); /* ADLINT:SL:[W0447] coma operator*/
     bgrt_pitem_cut((bgrt_pitem_t *)proc);
 
 #ifdef BGRT_CONFIG_MP
@@ -258,7 +262,7 @@ bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched)
         sched->ready = sched->expired;
         sched->expired = buf;
         // Clear current proc
-        sched->current_proc = (bgrt_proc_t *)0;
+        sched->current_proc = (bgrt_proc_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
 
         BGRT_SPIN_FREE(sched);
 
@@ -367,7 +371,7 @@ void bgrt_sched_schedule_prologue(bgrt_sched_t * sched)
             // What process is it?
             flags = current_proc->flags;
             if (
-                (!(flags & BGRT_PROC_FLG_RT))
+                (!(flags & BGRT_PROC_FLG_RT)) /* ADLINT:SL:[W0559] neg operator*/
 #ifndef BGRT_CONFIG_HARD_RT
                 ||(flags & BGRT_PROC_FLG_LOCK_MASK)
 #endif // BGRT_CONFIG_HARD_RT
@@ -385,9 +389,9 @@ void bgrt_sched_schedule_prologue(bgrt_sched_t * sched)
                 // A process is RT and it does not nave locked resources, stop it on watchdog!
                 BGRT_SCHED_STAT_UPDATE_STOP(current_proc);
                 //Finish process cut
-                ((bgrt_pitem_t *)current_proc)->list = (void *)0;
+                ((bgrt_pitem_t *)current_proc)->list = (void *)0; /* ADLINT:SL:[W0567] Int to ponter*/
                 //Update process state
-                BGRT_PROC_SET_STATE(current_proc, BGRT_PROC_NEW_STATE(flags));
+                BGRT_PROC_SET_STATE(current_proc, BGRT_PROC_NEW_STATE(flags)); /* ADLINT:SL:[W0447] coma operator*/
             }
         }
     }
@@ -438,7 +442,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
     bgrt_sched_t * sched;
     bgrt_proc_t * proc;
 
-    sched = BGRT_SCHED_INIT();
+    sched = BGRT_SCHED_INIT(); /* ADLINT:SL:[W0567,W0705] Int to ponter, OOR*/
     proc = sched->current_proc;
 
     BGRT_SPIN_LOCK(proc);
@@ -450,7 +454,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
             bgrt_prio_t prio;
 
             bgrt_index_t mask = ~(bgrt_index_t)0;
-            mask <<= ((bgrt_pitem_t *)proc)->prio;
+            mask <<= ((bgrt_pitem_t *)proc)->prio; /* ADLINT:SL:[W0165] type conversion*/
             mask = ~mask; // Mask all lower prio processes
 
             prio = ((bgrt_pitem_t *)proc)->prio;
@@ -458,15 +462,16 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
             BGRT_SPIN_LOCK(sched);
 
             bgrt_xlist_switch(sched->ready, prio);
-
-            save_power = (bgrt_bool_t)(sched->ready->item[prio] == (bgrt_item_t *)proc);// Is there any other process in proc sublist? If none, then we probably can save power...
+            // Is there any other process in proc sublist? If none, then we probably can save power...
+            save_power = (bgrt_bool_t)(sched->ready->item[prio] == (bgrt_item_t *)proc);/* ADLINT:SL:[W0567,W0608,W0705] type conversions*/
 
             proc_map = sched->ready->index;
 
             BGRT_SPIN_FREE(sched);
-
-            proc_map &= mask; //Are there higher prio processes in sched->ready?
-            save_power = save_power || ((bgrt_bool_t)!proc_map); // If there are some processes with proc->parent->group->prio >= prio, then we can't save power.
+            //Are there higher prio processes in sched->ready?
+            proc_map &= mask; /* ADLINT:SL:[W0165] type conversions*/
+            // If there are some processes with proc->parent->group->prio >= prio, then we can't save power.
+            save_power = save_power || ((bgrt_bool_t)!proc_map); /* ADLINT:SL:[W0608,W0168] type conversions*/
         }
         else
         {
@@ -477,16 +482,16 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
             bgrt_sched_proc_stop(proc, BGRT_PROC_STATE_STOPED);
 
             BGRT_SPIN_LOCK(sched);
-            proc_map |= sched->ready->index;
+            proc_map |= sched->ready->index; /* ADLINT:SL:[W0165] type conversions*/
             BGRT_SPIN_FREE(sched);
 
-            BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_READY);
+            BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_READY); /* ADLINT:SL:[W0447] coma operator*/
             //Update sched if needed!
             BGRT_PROC_YIELD_SCHED_UPDATE(proc);
             //Insert to expired lists
             BGRT_SCHED_PROC_INSERT_EXPIRED(proc, sched);
 
-            save_power = (bgrt_bool_t)!proc_map;
+            save_power = (bgrt_bool_t)!proc_map; /* ADLINT:SL:[W0608,W0168] type conversions*/
         }
 
     }
@@ -494,7 +499,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
     BGRT_RESCHED_PROC(proc);
     BGRT_SPIN_FREE(proc);
 
-    BGRT_KERNEL_PREEMPT(); // BGRT_KERNEL_PREEMPT
+    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] type conversions*/
 
     return save_power;
 }

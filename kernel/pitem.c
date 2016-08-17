@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 // Инициация
-/* ADLINT:SF:[W0422,W0116,W0256,W0165,W0114,W0268,W0705] Yes we drop some bits, and convert some types */
+/* ADLINT:SF:[W0422,W0256,W0165,W0114,W0268,W0705] Yes we drop some bits, and convert some types */
 void bgrt_pitem_init(bgrt_pitem_t * pitem, bgrt_prio_t prio)
 {
     bgrt_item_init((bgrt_item_t *)pitem);

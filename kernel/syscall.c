@@ -78,6 +78,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+/* ADLINT:SF:[W1025] syscall_table.h */
+
 //System call SR declarations
 #define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_SR(syscall, arg);
 #include <syscall_table.h>

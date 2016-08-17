@@ -123,8 +123,8 @@ bgrt_st_t bgrt_proc_init(
 #ifdef BGRT_CONFIG_MP
               ,affinity
 #endif // BGRT_CONFIG_MP
-          );
-    bgrt_enable_interrupts();
+          );                  /* ADLINT:SL:[W0432] Intendation */
+    bgrt_enable_interrupts(); /* ADLINT:SL:[W0431] Intendation */
     return ret;
 }
 //========================================================================================
@@ -298,7 +298,7 @@ void _bgrt_proc_free(void)
     and a process does not have locked resources,
     then stop a process.
     */
-    if (BGRT_PROC_PRE_STOP_TEST(proc))
+    if (BGRT_PROC_PRE_STOP_TEST(proc)) /* ADLINT:SL:[W0734,W0559,W0432] Operators in macro*/
     {
         _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
         proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;

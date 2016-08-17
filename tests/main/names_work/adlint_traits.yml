@@ -257,17 +257,22 @@ message_traits:
     messages:
       # pointer arithmetic and comparison
       W0023: "c_builtin"
+      W0024: "c_builtin"
       W0027: "c_builtin"
       # include <bugurt,h>
       W0071: "c_builtin"
       # include <syscall_table,h>
       W0070: "c_builtin"
       W0076: "c_builtin"
+      # (void)something
+      W0076: "c_builtin"
       W0443: "c_builtin"
       W0100: "c_builtin"
       W0104: "c_builtin"
       W0105: "c_builtin"
       W0114: "c_builtin"
+      # Drop bits
+      W0116: "c_builtin"
       W0150: "c_builtin"
       W0246: "c_builtin"
       W0422: "c_builtin"
@@ -287,7 +292,8 @@ message_traits:
       W0809: "c_builtin"
       # multiple return 
       W1071: "c_builtin"
-      
+      # static func with no prototype
+      W1076: "c_builtin"
       W9003: "c_builtin"
   # Language of the 
   # Project-wide code check inclusion settings.

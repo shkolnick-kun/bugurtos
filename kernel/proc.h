@@ -448,7 +448,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define BGRT_PROC_PRE_STOP_TEST(a) (((a)->flags & BGRT_PROC_FLG_PRE_STOP)&& (!((a)->flags & BGRT_PROC_FLG_LOCK_MASK)))
+#define BGRT_PROC_PRE_STOP_TEST(a) ((((a)->flags) & BGRT_PROC_FLG_PRE_STOP) && (!(((a)->flags) & BGRT_PROC_FLG_LOCK_MASK)))
 /*!
 \~russian
 \brief Проверяет, запущен ли процесс.

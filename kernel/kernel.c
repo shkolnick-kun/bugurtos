@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-/* ADLINT:SF:[W1076,W0422,W0553,W1073,W0085,W0165] Static with no decls, Unsafe code.*/
+/* ADLINT:SF:[W0422,W0553,W1073,W0085,W0165] Static with no decls, Unsafe code.*/
 
 #ifdef BGRT_CONFIG_SAVE_POWER
 #   define BGRT_SAFE_POWER() BGRT_CONFIG_SAVE_POWER()
