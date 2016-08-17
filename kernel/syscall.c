@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-//System call SR declaratins
+//System call SR declarations
 #define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_SR(syscall, arg);
 #include <syscall_table.h>
 #undef  BGRT_SC_TBL_ENTRY
