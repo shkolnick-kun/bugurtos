@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="Debug" />
-	<File name="../../../arch/avr/gcc-vsmp/bugurt_config_example.h" open="0" top="0" tabpos="3">
-		<Cursor position="740" topLine="7" />
+	<ActiveTarget name="adlint" />
+	<File name="../../../arch/avr/gcc-vsmp/bugurt_config_example.h" open="0" top="0" tabpos="1">
+		<Cursor position="1961" topLine="53" />
 	</File>
-	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="0">
-		<Cursor position="10285" topLine="0" />
+	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="4">
+		<Cursor position="6084" topLine="68" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="6650" topLine="86" />
@@ -13,8 +13,8 @@
 	<File name="../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="0">
 		<Cursor position="12374" topLine="134" />
 	</File>
-	<File name="../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="112" />
+	<File name="../../../arch/avr/gcc-vsmp/vsmp.h" open="0" top="0" tabpos="2">
+		<Cursor position="6515" topLine="82" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_config_example.h" open="0" top="0" tabpos="0">
 		<Cursor position="621" topLine="0" />
@@ -31,8 +31,8 @@
 	<File name="../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="124" />
 	</File>
-	<File name="../../../arch/cm0/gcc/bugurt_config_example.h" open="0" top="0" tabpos="0">
-		<Cursor position="351" topLine="9" />
+	<File name="../../../arch/cm0/gcc/bugurt_config_example.h" open="0" top="0" tabpos="6">
+		<Cursor position="3510" topLine="99" />
 	</File>
 	<File name="../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="0">
 		<Cursor position="8764" topLine="219" />
@@ -94,8 +94,11 @@
 	<File name="../../../arch/stm8/sdcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="6908" topLine="98" />
 	</File>
-	<File name="../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
-		<Cursor position="6299" topLine="60" />
+	<File name="../../../kernel/bugurt.h" open="1" top="1" tabpos="3">
+		<Cursor position="7036" topLine="99" />
+	</File>
+	<File name="../../../kernel/crit_sec.c" open="1" top="0" tabpos="2">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../../../kernel/crit_sec.h" open="0" top="0" tabpos="6">
 		<Cursor position="8055" topLine="121" />
@@ -104,7 +107,7 @@
 		<Cursor position="18708" topLine="355" />
 	</File>
 	<File name="../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="3">
-		<Cursor position="15199" topLine="0" />
+		<Cursor position="9181" topLine="105" />
 	</File>
 	<File name="../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="7">
 		<Cursor position="9117" topLine="82" />
@@ -136,14 +139,14 @@
 	<File name="../../../kernel/sched.h" open="0" top="0" tabpos="0">
 		<Cursor position="153" topLine="0" />
 	</File>
-	<File name="../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="153" topLine="0" />
+	<File name="../../../kernel/sync.c" open="0" top="0" tabpos="7">
+		<Cursor position="6585" topLine="80" />
 	</File>
 	<File name="../../../kernel/sync.h" open="0" top="0" tabpos="2">
 		<Cursor position="10648" topLine="175" />
 	</File>
 	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="2">
-		<Cursor position="8719" topLine="151" />
+		<Cursor position="8331" topLine="132" />
 	</File>
 	<File name="../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="6392" topLine="69" />
@@ -226,8 +229,8 @@
 	<File name="../../arch/stm8/raisonance/test_func.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="18" />
 	</File>
-	<File name="../../arch/stm8/sdcc/bugurt_config.h" open="0" top="0" tabpos="0">
-		<Cursor position="336" topLine="6" />
+	<File name="../../arch/stm8/sdcc/bugurt_config.h" open="0" top="0" tabpos="3">
+		<Cursor position="1624" topLine="0" />
 	</File>
 	<File name="../../arch/stm8/sdcc/test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="3728" topLine="163" />
@@ -235,7 +238,7 @@
 	<File name="../../arch/stm8/sdcc/test_func.h" open="0" top="0" tabpos="0">
 		<Cursor position="1205" topLine="28" />
 	</File>
-	<File name="../bugurt_config.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="100" />
+	<File name="../bugurt_config.h" open="1" top="0" tabpos="4">
+		<Cursor position="0" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

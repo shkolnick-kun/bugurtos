@@ -1,0 +1,123 @@
+# depslib dependency file v1.0
+1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.c
+	"bugurt.h"
+
+1471354328 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+	<bugurt_config.h>
+	"index.h"
+	"item.h"
+	"pcounter.h"
+	"xlist.h"
+	"pitem.h"
+	"crit_sec.h"
+	"proc.h"
+	"sched.h"
+	"sync.h"
+	"syscall.h"
+	"timer.h"
+	"vint.h"
+	"kernel.h"
+	<bugurt_port.h>
+
+1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
+
+1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
+
+1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
+
+1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
+
+1466842318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.h
+
+1470027536 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
+
+1470920025 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+	<syscall_table.h>
+	<stdarg.h>
+	<custom_syscall_api.h>
+	<default/syscall_api.h>
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.h
+
+1470921371 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
+
+1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+	"bugurt.h"
+
+1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+	"item.h"
+
+1470028843 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.c
+	"bugurt.h"
+
+1469285830 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.c
+	"bugurt.h"
+
+1470744201 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
+	"bugurt.h"
+
+1470744201 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.c
+	"bugurt.h"
+
+1470744201 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.c
+	"bugurt.h"
+
+1470027536 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.c
+	"bugurt.h"
+
+1471002494 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.c
+	"bugurt.h"
+	<syscall_table.h>
+	<syscall_routines.h>
+	<default/syscall_routines.h>
+	<syscall_table.h>
+
+1470230441 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.c
+	"bugurt.h"
+
+1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.c
+	"bugurt.h"
+
+1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
+	"bugurt.h"
+
+1470027536 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/cond.c
+	"cond.h"
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/cond.h
+	<bugurt.h>
+	"mutex.h"
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/mutex.h
+	<bugurt.h>
+
+1470027536 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/ipc.c
+	"ipc.h"
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/ipc.h
+	<bugurt.h>
+
+1470027536 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/mutex.c
+	"mutex.h"
+
+1470027536 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
+	"sem.h"
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.h
+	<bugurt.h>
+
+1466842318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sig.c
+	"sig.h"
+
+1470744201 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sig.h
+	<bugurt.h>
+	"cond.h"
+

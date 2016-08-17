@@ -113,7 +113,7 @@ typedef struct _load_stat
     bgrt_cnt_t total_bgrt_proc_count;
 } bgrt_ls_t;
 
-#define WEAK __attribute__((__weak__))
+#define WEAK
 
 // defines
 #define BGRT_CONFIG_USE_HIGHEST_LOCKER

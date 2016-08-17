@@ -88,7 +88,10 @@ bgrt_prio_t bgrt_index_search(bgrt_index_t index)
     bgrt_index_t mask = (bgrt_index_t)1;
     while( mask )
     {
-        if ( mask & index )break;
+        if (mask & index)
+        {
+            break;
+        }
         prio++;
         mask<<=1;
     }

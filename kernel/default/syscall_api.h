@@ -233,7 +233,7 @@ It sets a process priority. A process current state doesn't matter.
 \param pid_ptr - A process ID read buffer pointer.
 \return - A system call result.
 */
-#define BGRT_PROC_GET_ID(pid_ptr) (*(pid_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_N(PROC_GET_ID, (void *)(pid_ptr))
+#define BGRT_PROC_GET_ID(pid_ptr) (*(pid_ptr) = BGRT_PID_NOTHING, BGRT_SYSCALL_N(PROC_GET_ID, (void *)(pid_ptr)))
 /*****************************************************************************************/
 /*                                        Sync                                           */
 /*****************************************************************************************/
