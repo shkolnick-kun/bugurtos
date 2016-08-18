@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-/* ADLINT:SF:[W1071,W1052,W0165] Miltiple return, OVF, out of range access */
+/* ADLINT:SF:[W1071,W1052,W0165,W0422] Miltiple return, OVF, out of range access */
 
 #ifdef BGRT_CONFIG_TEST
 static void bgrt_cnt_panic(void)
@@ -154,13 +154,13 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
     pcounter->index = (bgrt_index_t)0;
     for (p = 0; p < (bgrt_index_t)BGRT_BITS_IN_INDEX_T; p++)
     {
-        pcounter->counter[p] = (bgrt_cnt_t)0; /* ADLINT:SL:[W0705] Out of range access!*/
+        pcounter->counter[p] = (bgrt_cnt_t)0;    /* ADLINT:SL:[W0705] Out of range access!*/
     }
 }
 // Increment
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
-    BGRT_CNT_INC(pcounter->counter[prio]);    /* ADLINT:SL:[W0705] Out of range access!*/
+    BGRT_CNT_INC(pcounter->counter[prio]);      /* ADLINT:SL:[W0705] Out of range access!*/
     pcounter->index |= ((bgrt_index_t)1)<<prio; /* ADLINT:SL:[W0572] Drop bits!*/
 }
 // Decrement

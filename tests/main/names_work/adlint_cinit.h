@@ -14,9 +14,9 @@
 //#define __restrict restrict
 //#define __inline inline
 typedef  void * __builtin_va_list;
-#define __builtin_va_start(a, b) (0)
-#define __builtin_va_end(a) (0)
-#define __builtin_va_arg(ar, t) (0)
-#define __builtin_va_copy(d, s) (0)
+#define __builtin_va_start(a, b) ((void)a)
+#define __builtin_va_end(a) ((void)a)
+#define __builtin_va_arg(ar, t) ((void)ar)
+#define __builtin_va_copy(d, s) ((void)d)
 //#define __builtin_offsetof(type, member) (0)
 //#define __alignof__(type) (0)

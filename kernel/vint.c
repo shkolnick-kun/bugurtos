@@ -78,6 +78,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+/* ADLINT:SF:[W0422] NULL */
+
 #ifndef BGRT_VINT_CS_START
 #   define BGRT_VINT_CS_START() bgrt_disable_interrupts()
 #endif //BGRT_VINT_CS_START
@@ -96,7 +98,8 @@ void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void
 void bgrt_vic_init(bgrt_vic_t * vic)
 {
     bgrt_xlist_init((bgrt_xlist_t *)vic);
-    vic->prio = BGRT_PRIO_LOWEST + 1 ;//Must be LOWER, than lowest valid priority
+    //Must be LOWER, than lowest valid priority
+    vic->prio = BGRT_PRIO_LOWEST + 1 ; /* ADLINT:SL:[W0165] signed/unsigned*/
 }
 
 bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic)
@@ -177,13 +180,13 @@ void bgrt_vic_do_work(bgrt_vic_t * vic)
             else
             {
                 //Nothing to do, exit.
-                break;
+                break; /* ADLINT:SL:[W0605] signed/unsigned*/
             }
         }
         else
         {
             //Nothing to do, exit.
-            break;
+            break; /* ADLINT:SL:[W0605] signed/unsigned*/
         }
     }
     //Remind last priority

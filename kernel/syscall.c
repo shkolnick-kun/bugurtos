@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-/* ADLINT:SF:[W1025] syscall_table.h */
+/* ADLINT:SF:[W0025,W0026,W0422] syscall_table.h, NULL */
 
 //System call SR declarations
 #define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_SR(syscall, arg);
@@ -97,7 +97,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 **********************************************************************************************/
 static bgrt_st_t do_nothing_sr(void * arg)
 {
-    (void)arg;
+    (void)arg; /* ADLINT:SL:[W0085] no effect*/
     return BGRT_ST_SCALL;
 }
 /**********************************************************************************************
@@ -106,11 +106,12 @@ static bgrt_st_t do_nothing_sr(void * arg)
 // Terminate a process after pmain return.
 void bgrt_proc_terminate(void)
 {
-    BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0);
+    BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0); /* ADLINT:SL:[W0567,W1059,W1073] conversion*/
 }
 //========================================================================================
 BGRT_SC_SR(PROC_TERMINATE, void * arg)
 {
+    (void)arg; /* ADLINT:SL:[W0085] no effect*/
     _bgrt_proc_terminate();
     return BGRT_ST_OK;
 }
@@ -120,7 +121,7 @@ BGRT_SC_SR(PROC_TERMINATE, void * arg)
 bgrt_bool_t bgrt_sched_proc_yield(void)
 {
     volatile bgrt_bool_t ret;
-    BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)&ret);
+    BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)&ret); /* ADLINT:SL:[W0459,W0021,W1059,W1073] conversion of ret, enum, result discarded*/
     return ret;
 }
 //========================================================================================
@@ -130,7 +131,7 @@ BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
     return BGRT_ST_OK;
 }
 
-BGRT_SC_TBL(syscall_handler[])=
+BGRT_SC_TBL(syscall_handler[])= /* ADLINT:SL:[W0117] extern linkage*/
 {
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
 #   include <syscall_table.h>
@@ -156,7 +157,7 @@ bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg)
     else
     {
         //Syscall processing
-        return (BGRT_SC_TBL_READ(syscall_handler[syscall_num]))(syscall_arg);
+        return (BGRT_SC_TBL_READ(syscall_handler[syscall_num]))(syscall_arg); /* ADLINT:SL:[W0147,W0644] type conversion,void val */
     }
 }
 //Variadic version of bgrt_syscall
@@ -165,9 +166,9 @@ bgrt_st_t bgrt_syscall_var(bgrt_syscall_t num, ...)
     bgrt_va_wr_t varg;
     bgrt_st_t ret;
 
-    va_start(varg.list, num);
-    ret = bgrt_syscall(num, (void *)&varg);
-    va_end(varg.list);
+    va_start(varg.list, num);               /* ADLINT:SL:[W0459,W0085] */
+    ret = bgrt_syscall(num, (void *)&varg); /* ADLINT:SL:[W0459,W0085] */
+    va_end(varg.list);                      /* ADLINT:SL:[W0085] no side effect*/
 
     return ret;
 }

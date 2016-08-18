@@ -275,13 +275,12 @@ message_traits:
       W0116: "c_builtin"
       W0150: "c_builtin"
       W0246: "c_builtin"
-      W0422: "c_builtin"
+      # W0422: "c_builtin"
       W0424: "c_builtin"
       W0442: "c_builtin"
       
-      # Убрать это
+      # unrecognized code
       W0478: "c_builtin"
-      
       W0492: "c_builtin"
       W0549: "c_builtin"
       # implementation defined arithmetic
@@ -289,6 +288,13 @@ message_traits:
       
       W0576: "c_builtin"
       W0511: "c_builtin"
+      
+      # func not used
+      W0589: "c_builtin"
+      W0591: "c_builtin"
+      W0593: "c_builtin"
+      W0628: "c_builtin"
+      
       W0809: "c_builtin"
       # multiple return 
       W1071: "c_builtin"

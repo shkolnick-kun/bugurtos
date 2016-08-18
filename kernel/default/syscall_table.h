@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-/* ADLINT:SF:[W0073] No include guard! */
+/* ADLINT:SF:[W0073,W0553] No include guard!,func pointers */
 
 BGRT_SC_TBL_ENTRY(PROC_RUN           , void*       )/* \~russian \brief Запуск процесса.                                              \~english \brief A process launch.                                 */
 BGRT_SC_TBL_ENTRY(PROC_RESTART       , void*       )/* \~russian \brief Перезапуск процесса.                                          \~english \brief A Process restart.                                */

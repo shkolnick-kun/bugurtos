@@ -80,6 +80,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _BGRT_SCR_H_
 
 #include <bugurt.h>
+/* ADLINT:SF:[W0456,W0567,W0644,W0459,W0085,W0073,WO422] extern func, valist */
+
 /**********************************************************************************************
                                   System call handlers !!!
 ***********************************************************************************************
@@ -147,7 +149,7 @@ BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va)
     bgrt_prio_t * prio_ptr;
     BGRT_PID_T pid;
 
-    prio_ptr = (bgrt_prio_t *)va_arg(va->list, void *);
+    prio_ptr = (bgrt_prio_t *)va_arg(va->list, void *); /* ADLINT:SL:[W0644] valist */
     pid = (BGRT_PID_T)va_arg(va->list, void *);
 
     *prio_ptr = _bgrt_proc_get_prio(BGRT_PID_TO_PROC(pid));
@@ -222,7 +224,7 @@ BGRT_SC_SR(SYNC_TOUCH,  void * arg)
 /**********************************************************************************************
                                          SYNC_SLEEP
 **********************************************************************************************/
-BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va)
+BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
 {
     va_list param;
     bgrt_sync_t * sync;
@@ -238,7 +240,7 @@ BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va)
 /**********************************************************************************************
                                         SYNC_WAKE
 **********************************************************************************************/
-BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va)
+BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
 {
     va_list param;
     bgrt_sync_t * sync;
@@ -256,7 +258,7 @@ BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va)
 /**********************************************************************************************
                                         SYNC_WAIT
 **********************************************************************************************/
-BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va)
+BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
 {
     va_list       param;
     bgrt_sync_t  *sync;
