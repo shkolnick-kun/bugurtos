@@ -1,26 +1,26 @@
- /**************************************************************************
-    BuguRTOS-1.0.x (Bugurt real time operating system)
-    Copyright (C) 2016 anonimous
+/**************************************************************************
+   BuguRTOS-1.0.x (Bugurt real time operating system)
+   Copyright (C) 2016 anonimous
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    Please contact with me by E-mail: shkolnick.kun@gmail.com
+   Please contact with me by E-mail: shkolnick.kun@gmail.com
 
-    A special exception to the GPL can be applied should you wish to distribute
-    a combined work that includes BuguRTOS, without being obliged to provide
-    the source code for any proprietary components. See the file exception.txt
-    for full details of how and when the exception can be applied.
+   A special exception to the GPL can be applied should you wish to distribute
+   a combined work that includes BuguRTOS, without being obliged to provide
+   the source code for any proprietary components. See the file exception.txt
+   for full details of how and when the exception can be applied.
 **************************************************************************/
 
 /*****************************************************************************************
@@ -139,9 +139,9 @@ A decrement of proc->lres.
 
 */
 
-#define BGRT_PROC_LRES_INIT(a) bgrt_pcounter_init( &((a)->lres) )
-#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc( &((a)->lres), (bgrt_prio_t)b )
-#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec( &((a)->lres), (bgrt_prio_t)b )
+#define BGRT_PROC_LRES_INIT(a)  bgrt_pcounter_init(&((a)->lres))
+#define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc(&((a)->lres), (bgrt_prio_t)b)
+#define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec(&((a)->lres), (bgrt_prio_t)b)
 
 //Процесс
 typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc_t; \~english See #_bgrt_proc_t; */
@@ -198,10 +198,10 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 \brief An empty process ID.
 */
 #ifndef BGRT_PID_T
-#define BGRT_PID_T bgrt_proc_t *
-#define BGRT_PID_TO_PROC(p) (p)
-#define BGRT_PROC_TO_PID(p) (p)
-#define BGRT_PID_NOTHING ((BGRT_PID_T)0)
+#   define BGRT_PID_T bgrt_proc_t *
+#   define BGRT_PID_TO_PROC(p) (p)
+#   define BGRT_PROC_TO_PID(p) (p)
+#   define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #endif//BGRT_PID_T
 
 struct _bgrt_uspd_t
@@ -212,17 +212,14 @@ struct _bgrt_uspd_t
 };                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
 //Default implementation
 #ifndef BGRT_USPD_T
-
-#define BGRT_USPD_PROC_T struct _bgrt_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
-#define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
-
-#define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
-#define BGRT_USPD_INIT(proc) \
-    do{\
-        proc->udata.scarg = (void *)0;\
-        proc->udata.scnum = (bgrt_syscall_t)0;\
-    }while(0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
-
+#   define BGRT_USPD_PROC_T struct _bgrt_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+#   define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+#   define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
+#   define BGRT_USPD_INIT(proc) \
+        do{\
+            proc->udata.scarg = (void *)0;\
+            proc->udata.scnum = (bgrt_syscall_t)BGRT_SC_ENUM_END;\
+        }while (0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
 #endif
 // Свойства
 /*!
@@ -260,7 +257,7 @@ struct _bgrt_proc_t
     bgrt_tmr_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     bgrt_tmr_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
     struct _bgrt_sync_t * sync;
-    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #bgrt_proc_lock. \~english A counter of #bgrt_proc_lock nesting.*/
+    bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #BGRT_PROC_LOCK. \~english A counter of #BGRT_PROC_LOCK nesting.*/
 #ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
     bgrt_cpuid_t core_id;    /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
@@ -377,12 +374,12 @@ Used clear execution three LSBs state bits in proc->flags.
 \~russian
 \brief Маска проверки состояния процесса.
 
-Используется функциями #bgrt_proc_restart и #_bgrt_proc_restart, для проверки возможности перезапуска.
+Используется функцией #_bgrt_proc_restart, для проверки возможности перезапуска.
 
 \~english
 \brief A process execution state check mask.
 
-Used by #bgrt_proc_restart and #_bgrt_proc_restart to check for restart possibility.
+Used by #_bgrt_proc_restart to check for restart possibility.
 */
 #define BGRT_PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
 
@@ -451,7 +448,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define BGRT_PROC_PRE_STOP_TEST(a) ( ( (a)->flags & BGRT_PROC_FLG_PRE_STOP ) && ( !( (a)->flags & BGRT_PROC_FLG_LOCK_MASK ) ) )
+#define BGRT_PROC_PRE_STOP_TEST(a) ((((a)->flags) & BGRT_PROC_FLG_PRE_STOP) && (!(((a)->flags) & BGRT_PROC_FLG_LOCK_MASK)))
 /*!
 \~russian
 \brief Проверяет, запущен ли процесс.
@@ -463,7 +460,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define BGRT_PROC_RUN_TEST(a) ( ( (a)->flags & BGRT_PROC_STATE_RUN_MASK ) >= BGRT_PROC_STATE_READY )
+#define BGRT_PROC_RUN_TEST(a) (((a)->flags & BGRT_PROC_STATE_RUN_MASK)>= BGRT_PROC_STATE_READY)
 /*!
 \~russian
 \brief Читает состояние процесса.
@@ -475,7 +472,7 @@ A process should not have locked resources at a moment of a flag stop.
 
 \warning For internal usage.
 */
-#define BGRT_PROC_GET_STATE(a) ( (a)->flags & BGRT_PROC_STATE_MASK )
+#define BGRT_PROC_GET_STATE(a) ((a)->flags & BGRT_PROC_STATE_MASK)
 /*!
 \~russian
 \brief Устанавливает состояние процесса.
@@ -488,7 +485,7 @@ A process should not have locked resources at a moment of a flag stop.
 \warning For internal usage.
 
 */
-#define BGRT_PROC_SET_STATE(a,b) ( (a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b )
+#define BGRT_PROC_SET_STATE(a,b) ((a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b)
 // Методы
 // Управление счётчиком захваченных ресурсов, для внутреннего использования
 /*!
@@ -512,7 +509,7 @@ Increments proc->lres counter, sets #BGRT_PROC_FLG_LOCK flag.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_lres_inc( bgrt_proc_t * proc ,bgrt_prio_t prio );
+void _bgrt_proc_lres_inc(bgrt_proc_t * proc ,bgrt_prio_t prio);
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -534,7 +531,7 @@ Decrements proc->lres counter, clears #BGRT_PROC_FLG_LOCK flag if needed.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_lres_dec( bgrt_proc_t * proc ,bgrt_prio_t prio );
+void _bgrt_proc_lres_dec(bgrt_proc_t * proc ,bgrt_prio_t prio);
 /*!
 \~russian
 \brief Останов процесса.
@@ -556,7 +553,7 @@ Stops a process for sure.
 \param proc - A pointer to a process.
 \param state - A new process state.
 */
-void _bgrt_proc_stop_ensure( bgrt_proc_t * proc, bgrt_flag_t state );
+void _bgrt_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state);
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
@@ -598,7 +595,7 @@ bgrt_st_t bgrt_proc_init(
 \~english
 \brief A process termination routine called after proc->pmain return. Internal usage function.
 */
-void bgrt_proc_terminate( void );
+void bgrt_proc_terminate(void);
 /*!
 \~russian
 \brief Завершение работы процесса после возврата из proc->pmain.
@@ -610,24 +607,7 @@ void bgrt_proc_terminate( void );
 
 \warning For internal usage.
 */
-void _bgrt_proc_terminate( void );
-/*!
-\~russian
-\brief Запуск процесса.
-
-Ставит процесс в список готовых к выполнению, если можно (процесс не запущен, ещё не завершил работу, не был "убит"), и производит перепланировку.
-\param pid - Идентификатор процесса.
-\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
-
-\~english
-\brief A process launch routine.
-
-This function schedules a process if possible.
-
-\param pid - A process ID.
-\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
-*/
-bgrt_st_t bgrt_proc_run(BGRT_PID_T pid);
+void _bgrt_proc_terminate(void);
 /*!
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
@@ -645,24 +625,6 @@ This function schedules a process if possible.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
 bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc);
-
-/*!
-\~russian
-\brief Перезапуск процесса.
-
-Если можно (процесс не запущен, завершил работу, не был "убит"), приводит структуру proc в состояние, которое было после вызова #bgrt_proc_init, и ставит процесс в список готовых к выполнению, и производит перепланировку.
-\param pid - Идентификатор процесса.
-\return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
-
-\~english
-\brief A process restart routine.
-
-This function reinitializes a process and schedules it if possible.
-
-\param pid - A process ID.
-\return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
-*/
-bgrt_st_t bgrt_proc_restart(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
@@ -680,22 +642,6 @@ This function reinitializes a process and schedules it if possible.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
 bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc);
-/*!
-\~russian
-\brief Останов процесса.
-
-Вырезает процесс из списка готовых к выполнению и производит перепланировку.
-\param pid - Идентификатор процесса.
-\return BGRT_ST_OK - если процесс был вырезан из списка готовых к выполнению, либо код ошибки.
-
-\~english
-\brief A process stop routine.
-
-This function stops a process if possible.
-\param pid - A process ID.
-\return BGRT_ST_OK - if a process has been stopped, error code in other cases.
-*/
-bgrt_st_t bgrt_proc_stop(BGRT_PID_T pid);
 /*!
 \~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
@@ -718,18 +664,6 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc);
 
 Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
 
-\~english
-\brief A process self stop routine.
-
-This function stops caller process.
-*/
-void bgrt_proc_self_stop(void);
-/*!
-\~russian
-\brief Самоостанов процесса.
-
-Вырезает вызывающий процесс из списка готовых к выполнению и производит перепланировку.
-
 \warning Для внутреннего использования.
 
 \~english
@@ -741,21 +675,6 @@ This function stops caller process.
 
 */
 void _bgrt_proc_self_stop(void);
-
-/*!
-\~russian
-\brief Сброс watchdog для процесса реального времени.
-
-Если функцию вызывает процесс реального времени, то функция сбрасывает его таймер.
-Если процесс завис, и таймер не был вовремя сброшен, то планировщик остановит такой процесс и передаст управление другому.
-
-\~english
-\brief A watchdog reset routine for real time processes.
-
-If a caller process is real time, then this function resets its timer.
-If a real time process failed to reset its watchdog, then the scheduler stops such process and wakes up next ready process.
-*/
-void bgrt_proc_reset_watchdog(void);
 /*!
 \~russian
 \brief Сброс watchdog для процесса реального времени из обработчика прерывания.
@@ -779,14 +698,6 @@ void _bgrt_proc_reset_watchdog(void);
 \~russian
 \brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
 
-\~english
-\brief Set #BGRT_PROC_FLG_LOCK for caller process.
-*/
-void bgrt_proc_lock(void);
-/*!
-\~russian
-\brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
-
 \warning Для внутреннего использования.
 
 \~english
@@ -795,14 +706,6 @@ void bgrt_proc_lock(void);
 \warning For internal usage.
 */
 void _bgrt_proc_lock(void);
-/*!
-\~russian
-\brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP.
-
-\~english
-\brief A #BGRT_PROC_FLG_PRE_STOP flag processing routine.
-*/
-void bgrt_proc_free(void);
 /*!
 \~russian
 \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.
@@ -815,24 +718,6 @@ void bgrt_proc_free(void);
 \warning For internal usage.
 */
 void _bgrt_proc_free(void);
-/*!
-\~russian
-\brief Управление приоритетом процесса.
-
-Устанавливает приоритет процесса, находящегося в любом состоянии.
-
-\param pid - Идентификатор процесса.
-\param prio - Новое значение приоритета.
-
-\~english
-\brief Set a priority of a process.
-
-It sets a process priority. A process current state doesn't matter.
-
-\param pid - A process ID.
-\param prio - New process priority value.
-*/
-void bgrt_proc_set_prio( BGRT_PID_T pid, bgrt_prio_t prio );
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -854,22 +739,7 @@ It sets a process priority. A process current state doesn't matter.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_set_prio( bgrt_proc_t * proc, bgrt_prio_t prio );
-
-/*!
-\~russian
-\brief Получить приоритет процесса.
-
-\param pid - Идентификатор процесса.
-\return - Значение приоритета процесса.
-
-\~english
-\brief Get a priority of a process.
-
-\param pid - A process ID.
-\return - A process priority value.
-*/
-bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
+void _bgrt_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
 /*!
 \~russian
 \brief Получить приоритет процесса.
@@ -887,19 +757,5 @@ bgrt_prio_t bgrt_proc_get_prio( BGRT_PID_T pid );
 \param proc - A process pointer.
 \return - A process priority value.
 */
-bgrt_prio_t _bgrt_proc_get_prio( bgrt_proc_t * proc );
-
-/*!
-\~russian
-\brief Получить идентификатор текущего процесса.
-
-\return Идентификатор процесса.
-
-\~english
-\brief Get a current process ID.
-
-\return A current process ID.
-*/
-BGRT_PID_T bgrt_proc_get_id(void);
-
+bgrt_prio_t _bgrt_proc_get_prio(bgrt_proc_t * proc);
 #endif // _BGRT_PROC_H_

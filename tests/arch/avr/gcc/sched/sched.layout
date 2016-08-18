@@ -8,19 +8,28 @@
 		<Cursor position="6287" topLine="72" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="5">
-		<Cursor position="164" topLine="1" />
+		<Cursor position="7582" topLine="133" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="5">
 		<Cursor position="6497" topLine="86" />
 	</File>
-	<File name="../../../../../kernel/bugurt.h" open="1" top="1" tabpos="0">
-		<Cursor position="23341" topLine="26" />
+	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="1">
+		<Cursor position="7159" topLine="604" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="4">
 		<Cursor position="6877" topLine="88" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="3">
 		<Cursor position="163" topLine="93" />
+	</File>
+	<File name="../../../../../kernel/default/syscall_api.h" open="1" top="0" tabpos="1">
+		<Cursor position="8981" topLine="207" />
+	</File>
+	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="0" tabpos="3">
+		<Cursor position="15096" topLine="286" />
+	</File>
+	<File name="../../../../../kernel/default/syscall_table.h" open="1" top="0" tabpos="1">
+		<Cursor position="9434" topLine="77" />
 	</File>
 	<File name="../../../../../kernel/index.c" open="0" top="0" tabpos="10">
 		<Cursor position="163" topLine="71" />
@@ -37,7 +46,7 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="1">
 		<Cursor position="7857" topLine="134" />
 	</File>
-	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="4">
+	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="3">
 		<Cursor position="8661" topLine="169" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="3">
@@ -53,10 +62,10 @@
 		<Cursor position="9318" topLine="178" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="2">
-		<Cursor position="6484" topLine="80" />
+		<Cursor position="6484" topLine="101" />
 	</File>
-	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="2">
-		<Cursor position="14858" topLine="238" />
+	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="5">
+		<Cursor position="37787" topLine="736" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="4">
 		<Cursor position="21751" topLine="506" />
@@ -65,22 +74,22 @@
 		<Cursor position="9143" topLine="149" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="3">
-		<Cursor position="28370" topLine="883" />
+		<Cursor position="20085" topLine="0" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="5">
-		<Cursor position="16336" topLine="298" />
+		<Cursor position="10920" topLine="183" />
 	</File>
-	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="3">
-		<Cursor position="21846" topLine="148" />
+	<File name="../../../../../kernel/syscall.c" open="1" top="0" tabpos="2">
+		<Cursor position="7555" topLine="141" />
 	</File>
-	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="4">
-		<Cursor position="11925" topLine="104" />
+	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="2">
+		<Cursor position="6818" topLine="166" />
 	</File>
 	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="1">
-		<Cursor position="6876" topLine="89" />
+		<Cursor position="6720" topLine="89" />
 	</File>
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="12">
-		<Cursor position="8960" topLine="174" />
+		<Cursor position="8960" topLine="173" />
 	</File>
 	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="7">
 		<Cursor position="6802" topLine="136" />
@@ -101,6 +110,6 @@
 		<Cursor position="827" topLine="21" />
 	</File>
 	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1609" topLine="18" />
+		<Cursor position="884" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

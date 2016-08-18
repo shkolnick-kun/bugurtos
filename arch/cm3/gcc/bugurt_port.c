@@ -26,24 +26,24 @@
 #include <bugurt.h>
 
 //====================================================================================
-#define BUGURT_SYS_ICSR 	*(( volatile unsigned long *) 0xE000ED04 )
-//#define BUGURT_SYS_SCR 		*(( volatile unsigned long *) 0xE000ED10 )
-//#define BUGURT_SYS_CCR 		*(( volatile unsigned long *) 0xE000ED14 )
+#define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
+//#define BGRT_SYS_SCR 		*((volatile unsigned long *) 0xE000ED10)
+//#define BGRT_SYS_CCR 		*((volatile unsigned long *) 0xE000ED14)
 
-//#define BUGURT_SYS_SHPR1 	*(( volatile unsigned long *) 0xE000ED18 )
-#define BUGURT_SYS_SHPR2 	*(( volatile unsigned long *) 0xE000ED1C )
-#define BUGURT_SYS_SHPR3 	*(( volatile unsigned long *) 0xE000ED20 )
-//#define BUGURT_SYS_SHCRS 	*(( volatile unsigned long *) 0xE000ED24 )
-//#define BUGURT_SYS_CFSR 	*(( volatile unsigned long *) 0xE000ED28 )
+//#define BGRT_SYS_SHPR1 	*((volatile unsigned long *) 0xE000ED18)
+#define BGRT_SYS_SHPR2 	*((volatile unsigned long *) 0xE000ED1C)
+#define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
+//#define BGRT_SYS_SHCRS 	*((volatile unsigned long *) 0xE000ED24)
+//#define BGRT_SYS_CFSR 	*((volatile unsigned long *) 0xE000ED28)
 
-#define BUGURT_SYST_CSR 	*(( volatile unsigned long *) 0xE000E010 )
-#define BUGURT_SYST_RVR 	*(( volatile unsigned long *) 0xE000E014 )
+#define BGRT_SYST_CSR 	*((volatile unsigned long *) 0xE000E010)
+#define BGRT_SYST_RVR 	*((volatile unsigned long *) 0xE000E014)
 
-#define BUGURT_SYST_RVR_VALUE ( ( BGRT_CONFIG_FCPU_HZ / BGRT_CONFIG_FSYSTICK_HZ ) - 1ul )
-#define BUGURT_SYST_CSR_VALUE ( 0x00000007 ) //Enable clock, interrupt, timer.
+#define BGRT_SYST_RVR_VALUE ((BGRT_CONFIG_FCPU_HZ / BGRT_CONFIG_FSYSTICK_HZ)- 1ul)
+#define BGRT_SYST_CSR_VALUE (0x00000007)//Enable clock, interrupt, timer.
 
-#define BUGURT_PENDSV_SET   (0x10000000)
-#define BUGURT_PENDSV_CLR   (0x08000000)
+#define BGRT_PENDSV_SET   (0x10000000)
+#define BGRT_PENDSV_CLR   (0x08000000)
 
 //====================================================================================
 #ifndef BGRT_CONFIG_FCPU_HZ
@@ -54,9 +54,9 @@
 #error "You must define BGRT_CONFIG_FSYSTICK_HZ macro!!!"
 #endif //BGRT_CONFIG_FSYSTICK_HZ
 
-#if BUGURT_SYST_RVR_VALUE > 0xFFFFFFUL
+#if BGRT_SYST_RVR_VALUE > 0xFFFFFFUL
 #error "Impossible SYST_RVR value!!! "
-#endif //BUGURT_SYST_RVR_VALUE
+#endif //BGRT_SYST_RVR_VALUE
 
 #ifndef BGRT_CONFIG_PRIO_BITS
 #error "You must define BGRT_CONFIG_PRIO_BITS macro!!!"
@@ -72,16 +72,16 @@
 //====================================================================================
 volatile bgrt_stack_t bugurt_kernel_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //====================================================================================
-#define BUGURT_CONTEXT_STORE() \
-	__asm__ __volatile__ ( 							 \
+#define BGRT_CONTEXT_STORE() \
+	__asm__ __volatile__ (							 \
 				"mrs r0, psp					\n\t"\
 				"stmdb r0!, {r4-r11,lr}			\n\t"\
 				"msr psp, r0					\n\t"\
 				"dsb        					\n\t"\
 				"isb        					\n\t"\
-				::: )
+				:::)
 //====================================================================================
-#define BUGURT_CONTEXT_LOAD() \
+#define BGRT_CONTEXT_LOAD() \
 	__asm__ __volatile__ (						 	 \
 				"mrs r0, psp					\n\t"\
 				"ldmia r0!, {r4-r11,lr}			\n\t"\
@@ -89,25 +89,25 @@ volatile bgrt_stack_t bugurt_kernel_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				"dsb        					\n\t"\
 				"isb        					\n\t"\
 				"bx lr							\n\t"\
-				::: )
+				:::)
 //====================================================================================
 static bgrt_stack_t * bugurt_read_psp(void)
 {
     bgrt_stack_t * ret=0;
-    __asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret) );
+__asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret));
     return(ret);
 }
 //====================================================================================
-static void bugurt_write_psp( volatile bgrt_stack_t * ptr )
+static void bugurt_write_psp(volatile bgrt_stack_t * ptr)
 {
     __asm__ __volatile__ (
-                          "msr psp, %0\n\t"
-                          "dsb \n\t"
-                          "isb \n\t"
-                          : : "r" (ptr) );
+        "msr psp, %0\n\t"
+        "dsb \n\t"
+        "isb \n\t"
+    : : "r" (ptr));
 }
 //====================================================================================
-bgrt_stack_t * bgrt_proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void(*return_address)(void)  )
+bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void(*return_address)(void) )
 {
     // регистры, сохраняемые аппаратно
     *sstart = (bgrt_stack_t)0x01000000;		// psr
@@ -134,27 +134,27 @@ bgrt_stack_t * bgrt_proc_stack_init( bgrt_stack_t * sstart, bgrt_code_t pmain, v
 void bgrt_disable_interrupts(void)
 {
     __asm__ __volatile__ (
-                          "mov r0, %0      \n\t"
-                          "msr basepri, r0 \n\t"
-                          "dsb             \n\t"
-                          "isb             \n\t"
-                          :
-                          : "i" ( BGRT_CONFIG_CRITSEC_PRIO << ( 8 - BGRT_CONFIG_PRIO_BITS ) )
-                          : "r0"
-                          );
+        "mov r0, %0      \n\t"
+        "msr basepri, r0 \n\t"
+        "dsb             \n\t"
+        "isb             \n\t"
+    :
+    : "i" (BGRT_CONFIG_CRITSEC_PRIO << (8 - BGRT_CONFIG_PRIO_BITS))
+            : "r0"
+       );
 }
 //====================================================================================
 void bgrt_enable_interrupts(void)
 {
     __asm__ __volatile__ (
-                          "mov r0, #0      \n\t"
-                          "msr basepri, r0  \n\t"
-                          "dsb             \n\t"
-                          "isb             \n\t"
-                          :
-                          :
-                          : "r0"
-                          );
+        "mov r0, #0      \n\t"
+        "msr basepri, r0  \n\t"
+        "dsb             \n\t"
+        "isb             \n\t"
+    :
+    :
+    : "r0"
+   );
 }
 //====================================================================================
 static bgrt_stack_t * saved_sp;
@@ -165,12 +165,12 @@ static bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 //====================================================================================
 static void bgrt_set_curr_sp(void)
 {
-    if( BGRT_KBLOCK.vic.list.index )
+    if (BGRT_KBLOCK.vic.list.index)
     {
         kernel_mode = 1;
     }
 
-    if( kernel_mode )
+    if (kernel_mode)
     {
         current_sp = &kernel_sp;
     }
@@ -185,88 +185,88 @@ bgrt_proc_t * bgrt_curr_proc(void)
     return BGRT_CURR_PROC;
 }
 //====================================================================================
-void bgrt_resched( void )
+void bgrt_resched(void)
 {
-    bgrt_vint_push( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 }
 //====================================================================================
 void bgrt_init(void)
 {
     __asm__ __volatile__ (
-                          "dsb     \n\t"
-                          "cpsid i \n\t"
-                          );
+        "dsb     \n\t"
+        "cpsid i \n\t"
+   );
     bgrt_kernel_init();
     // Устанавливаем начальное значение PSP, для потока Ядра;
-    bugurt_write_psp( (volatile bgrt_stack_t *)&bugurt_kernel_stack[16] ); //  !!! Внимательно смотрим на границы!!!
+    bugurt_write_psp((volatile bgrt_stack_t *)&bugurt_kernel_stack[16]); //  !!! Внимательно смотрим на границы!!!
     // Устанавливаем приоритеты обработчиков прерываний;
-    BUGURT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << ( 8 - BGRT_CONFIG_PRIO_BITS )) << 16; // PendSV
-    BUGURT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << ( 8 - BGRT_CONFIG_PRIO_BITS )) << 24; // SysTick
+    BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 16; // PendSV
+    BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 24; // SysTick
     // Настраиваем системный таймер и приоритет его прерывания
-    BUGURT_SYST_RVR = BUGURT_SYST_RVR_VALUE;
-	BUGURT_SYST_CSR = BUGURT_SYST_CSR_VALUE;
+    BGRT_SYST_RVR = BGRT_SYST_RVR_VALUE;
+    BGRT_SYST_CSR = BGRT_SYST_CSR_VALUE;
 
 }
 //====================================================================================
 void bgrt_start(void)
 {
     __asm__ __volatile__ (
-                          "dsb     \n\t"
-                          "cpsie i \n\t"
-                          "isb     \n\t"
-                          );
-    bgrt_kblock_main( &BGRT_KBLOCK );
+        "dsb     \n\t"
+        "cpsie i \n\t"
+        "isb     \n\t"
+   );
+    bgrt_kblock_main(&BGRT_KBLOCK);
 }
 //====================================================================================
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     bgrt_kernel.timer.val++;
-    if( bgrt_kernel.timer.tick != (void (*)(void))0 ) bgrt_kernel.timer.tick();
+    if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
     BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 //====================================================================================
-bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg )
+bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 {
     BGRT_USPD_T udata;
 
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     udata = BGRT_GET_USPD();
     udata->scnum = num;
     udata->scarg = arg;
 
-    bgrt_vint_push_isr( &BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic );
+    bgrt_vint_push_isr(&BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic);
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 
     return udata->scret;
 }
 //====================================================================================
 void bgrt_switch_to_proc(void)
 {
-    BUGURT_ISR_START();
+    BGRT_ISR_START();
 
     kernel_mode = (bgrt_bool_t)0;
 
-    BUGURT_ISR_END();
+    BGRT_ISR_END();
 }
 //====================================================================================
-__attribute__ (( naked )) void BGRT_SYSCALL_ISR(void)
+__attribute__ ((naked)) void BGRT_SYSCALL_ISR(void)
 {
-    BUGURT_CONTEXT_STORE();
+    BGRT_CONTEXT_STORE();
     saved_sp = bugurt_read_psp();
     *current_sp = saved_sp;
 
     bgrt_set_curr_sp();
 
-    BUGURT_SYS_ICSR |= BUGURT_PENDSV_CLR; // Fix for a hardware race condition.
+    BGRT_SYS_ICSR |= BGRT_PENDSV_CLR; // Fix for a hardware race condition.
 
-    bugurt_write_psp( *current_sp );
-    BUGURT_CONTEXT_LOAD();
+    bugurt_write_psp(*current_sp);
+    BGRT_CONTEXT_LOAD();
 }

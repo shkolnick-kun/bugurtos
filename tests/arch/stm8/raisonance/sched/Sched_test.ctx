@@ -2,19 +2,9 @@
 <Debug>
 	<RFlasher7>
 		<CodeView Focus="0" TopRow="0" NbPerLine="8" />
-																					
+																																																						
 	</RFlasher7>
 	<Sched_test>
-		<CodeView TopRow="40707" Focus="4294967295" >
-			<CodeReport>
-				<0>126</0>
-				<1>139</1>
-				<2>75</2>
-				<3>426</3>
-																												
-			</CodeReport>
-																				
-		</CodeView>
 		<SpyWatch>
 			<Report>
 				<Def Header="InspectReport" NbCol="6" >
@@ -24,7 +14,7 @@
 					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
-																																				
+																		
 				</Def>
 				<Rows>
 					<Row Name="proc[0].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[0].flags" />
@@ -35,13 +25,23 @@
 					<Row Name="proc[5].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[5].flags" />
 					<Row Name="nested_interrupts" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
 					<Row Name="kernel.timer" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
-																																				
+																		
 				</Rows>
-																												
+														
 			</Report>
-																				
+										
 		</SpyWatch>
-												
+		<CodeView TopRow="40923" Focus="4294967295" >
+			<CodeReport>
+				<0>126</0>
+				<1>139</1>
+				<2>75</2>
+				<3>426</3>
+														
+			</CodeReport>
+										
+		</CodeView>
+						
 	</Sched_test>
 	<Flags>
 		<Report>
@@ -59,18 +59,25 @@
 				<Col Type="PT_STRING" Header="Condcount" sizeCache="DD" AutoSize="1" Edit="0" Sortable="0" Visible="0" />
 							
 			</Def>
-			<Rows/>
+			<Rows>
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:24" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\sched\main.c" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:29" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\sched\main.c" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:38" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\sched\main.c" />
+							
+			</Rows>
 					
 		</Report>
 			
 	</Flags>
 	<Views>
-		<View File="..\..\..\..\main\sched\main.c" Line="36" Index="0" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Line="76" Index="1" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="78" Index="2" />
+		<View File="..\..\..\..\main\sched\main.c" Line="37" Index="0" focus="1" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Line="71" Index="1" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="73" Index="2" />
 		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.c" Line="0" Index="3" />
-		<View File="..\..\..\..\..\kernel\syscall.c" Line="114" Index="4" />
-		<View File="..\..\..\..\..\kernel\bugurt.h" Line="36" Index="5" focus="1" />
+		<View File="..\..\..\..\..\kernel\syscall.c" Line="34" Index="4" />
+		<View File="..\..\..\..\..\kernel\bugurt.h" Line="135" Index="5" />
+		<View File="..\..\..\..\..\kernel\syscall.h" Line="101" Index="6" />
+		<View File="..\bugurt_config.h" Line="5" Index="7" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />

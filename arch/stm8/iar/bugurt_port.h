@@ -76,38 +76,36 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BUGURT_PORT_H_
-#define _BUGURT_PORT_H_
+#ifndef _BGRT_PORT_H_
+#define _BGRT_PORT_H_
 
 // Подстановка_строки
-#define BUGURT_ARG_TO_STR(a) #a
-// Конкатенация строк
-#define BUGURT_CONCAT(a,b) a##b
+#define BGRT_ARG_TO_STR(a) #a
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
 // Пролог обработчика прерывания
-#define BUGURT_ISR_START() \
+#define BGRT_ISR_START()             \
     saved_sp = bugurt_save_context();\
     *current_sp = saved_sp
 
 // Эпилог обработчика прерывания
-#define BUGURT_ISR_END() \
-    bgrt_set_curr_sp();\
-    bugurt_restore_context( *current_sp )
+#define BGRT_ISR_END()                     \
+    bgrt_set_curr_sp();                    \
+    bugurt_restore_context(*current_sp)
 
 // Подстановка вектора для шаблона обработчика прерывания
-#define BUGURT_VECTOR_STR(v) BUGURT_ARG_TO_STR( vector = (v) )
+#define BGRT_VECTOR_STR(v) BGRT_ARG_TO_STR(vector = (v))
 
 // Шаблон обёртки обработчика прерывания для внутреннего пользования
-#define _BUGURT_ISR(v,f) \
-_Pragma( BUGURT_VECTOR_STR(v) ) \
-__interrupt void BUGURT_CONCAT(vector_wrapper_,v)(void) \
-{ \
-    BUGURT_ISR_START();\
-    f();\
-    BUGURT_ISR_END();\
+#define _BGRT_ISR(v,f)                                \
+_Pragma(BGRT_VECTOR_STR(v))                        \
+__interrupt void BGRT_CONCAT(vector_wrapper_,v)(void) \
+{                                                     \
+    BGRT_ISR_START();                                 \
+    f();                                              \
+    BGRT_ISR_END();                                   \
 }
 
 /*
@@ -119,19 +117,19 @@ __interrupt void BUGURT_CONCAT(vector_wrapper_,v)(void) \
 Не очень быстро,
 зато память экономится.
 */
-#define BUGURT_INTERRUPT(v) \
-void BUGURT_CONCAT(vector_func_,v)(void);\
-_BUGURT_ISR(v,BUGURT_CONCAT(vector_func_,v)) \
-void BUGURT_CONCAT(vector_func_,v)(void)
+#define BGRT_ISR(v)                      \
+void BGRT_CONCAT(vector_func_,v)(void);  \
+_BGRT_ISR(v,BGRT_CONCAT(vector_func_,v)) \
+void BGRT_CONCAT(vector_func_,v)(void)
 
 extern bgrt_stack_t * saved_sp;
 extern bgrt_stack_t * kernel_sp;
 extern bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
-extern bgrt_stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( bgrt_stack_t * new_sp );
-extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
+extern bgrt_stack_t * bugurt_save_context(void);
+extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_pop_context(void);
+extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 
-#endif // _BUGURT_PORT_H_
+#endif // _BGRT_PORT_H_

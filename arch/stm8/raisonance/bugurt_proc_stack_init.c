@@ -86,11 +86,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #endif
 
 bgrt_stack_t * bgrt_proc_stack_init(
-                            bgrt_stack_t * bgrt_stack_top,
-                            bgrt_code_t pmain,
-                            void * arg,
-                            void (*return_address)(void)
-                        )
+    bgrt_stack_t * bgrt_stack_top,
+    bgrt_code_t pmain,
+    void * arg,
+    void (*return_address)(void)
+)
 {
     // return address (func)
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);

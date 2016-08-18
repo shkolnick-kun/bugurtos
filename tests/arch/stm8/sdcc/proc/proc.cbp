@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="proc" />
+		<Option pch_mode="2" />
+		<Option compiler="sdcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\proc.hex" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="sdcc" />
+				<Compiler>
+					<Add option="--debug" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\proc.hex" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="sdcc" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="--out-fmt-ihx" />
+			<Add option="--verbose" />
+			<Add option="--stack-auto" />
+			<Add option="-lstm8 -mstm8" />
+			<Add directory="..\..\sdcc" />
+			<Add directory="..\..\..\..\..\kernel" />
+			<Add directory="..\..\..\..\..\kernel\default" />
+			<Add directory="..\..\..\..\..\arch\stm8\sdcc" />
+			<Add directory="..\..\..\..\..\..\thirdparty\libstm8\include" />
+		</Compiler>
+		<Unit filename="..\..\..\..\..\arch\stm8\sdcc\bugurt_port.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\arch\stm8\sdcc\bugurt_port.h" />
+		<Unit filename="..\..\..\..\..\arch\stm8\sdcc\bugurt_proc_stack_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\bugurt.h" />
+		<Unit filename="..\..\..\..\..\kernel\crit_sec.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\crit_sec.h" />
+		<Unit filename="..\..\..\..\..\kernel\default\syscall_api.h" />
+		<Unit filename="..\..\..\..\..\kernel\default\syscall_routines.h" />
+		<Unit filename="..\..\..\..\..\kernel\default\syscall_table.h" />
+		<Unit filename="..\..\..\..\..\kernel\index.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\index.h" />
+		<Unit filename="..\..\..\..\..\kernel\item.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\item.h" />
+		<Unit filename="..\..\..\..\..\kernel\kernel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\kernel.h" />
+		<Unit filename="..\..\..\..\..\kernel\pcounter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\pcounter.h" />
+		<Unit filename="..\..\..\..\..\kernel\pitem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\pitem.h" />
+		<Unit filename="..\..\..\..\..\kernel\proc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\proc.h" />
+		<Unit filename="..\..\..\..\..\kernel\sched.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\sched.h" />
+		<Unit filename="..\..\..\..\..\kernel\sync.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\sync.h" />
+		<Unit filename="..\..\..\..\..\kernel\syscall.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\syscall.h" />
+		<Unit filename="..\..\..\..\..\kernel\timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\timer.h" />
+		<Unit filename="..\..\..\..\..\kernel\vint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\vint.h" />
+		<Unit filename="..\..\..\..\..\kernel\xlist.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\kernel\xlist.h" />
+		<Unit filename="..\bugurt_config.h" />
+		<Unit filename="..\test_func.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\test_func.h" />
+		<Unit filename="..\..\..\..\main\proc\main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\..\..\..\..\thirdparty\libstm8\lib\l\gpio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

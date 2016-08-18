@@ -249,6 +249,7 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\..\..\..\..\kernel</state>
+          <state>$PROJ_DIR$\..\..\..\..\..\kernel\default</state>
           <state>$PROJ_DIR$\..\..\..\..\..\arch\stm8\iar</state>
           <state>$PROJ_DIR$\..</state>
         </option>
@@ -1535,6 +1536,18 @@
   </group>
   <group>
     <name>kernel</name>
+    <group>
+      <name>default</name>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\..\kernel\default\syscall_api.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\..\kernel\default\syscall_routines.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\..\kernel\default\syscall_table.h</name>
+      </file>
+    </group>
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\kernel\bugurt.h</name>
     </file>

@@ -118,7 +118,7 @@ IPC endpoint initiation from ISR or critical section.
 
 \param endpoint A pointer to the endpoint.
 */
-bgrt_st_t ipc_init_isr( ipc_t * endpoint );
+bgrt_st_t ipc_init_isr(ipc_t * endpoint);
 /*!
 \~russian
 \brief
@@ -131,7 +131,7 @@ IPC endpoint initiation.
 
 \param endpoint A pointer to the endpoint.
 */
-bgrt_st_t ipc_init( ipc_t * endpoint );
+bgrt_st_t ipc_init(ipc_t * endpoint);
 /*!
 \~russian
 \brief
@@ -156,7 +156,7 @@ receiver inherits senders priorities.
 \param msg A message buffer pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_send( ipc_t * out, void * msg );
+bgrt_st_t ipc_send(ipc_t * out, void * msg);
 /*!
 \~russian
 \brief
@@ -182,7 +182,7 @@ A buffer pointer must be passed as a second parameter.
 \param block A caller block flag. If non zero, then caller is blocked until message is sent.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_wait( ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block );
+bgrt_st_t ipc_wait(ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block);
 
 /*!
 \~russian
@@ -202,6 +202,6 @@ Unblock a sender process, which message has been received.
 \param pid A sender process ID.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_reply( ipc_t * in, BGRT_PID_T pid);
+bgrt_st_t ipc_reply(ipc_t * in, BGRT_PID_T pid);
 
 #endif // _IPC_H_

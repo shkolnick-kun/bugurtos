@@ -176,7 +176,7 @@ Does xlist->item[prio] = xlist->item[prio]->next.
 \param xlist An #bgrt_xlist_t pointer.
 \param prio A priority to switch.
 */
-void bgrt_xlist_switch(bgrt_xlist_t * xlist, bgrt_prio_t prio);
+void bgrt_xlist_switch (bgrt_xlist_t * xlist, bgrt_prio_t prio);
 
 /*---------------------------------------------------
 Для типов элементов, ссылки на которые будут хранится в bgrt_xlist_t

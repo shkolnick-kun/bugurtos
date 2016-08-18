@@ -7,8 +7,8 @@
 
 #include <intrins.h>
 
-#define BGRT_SCL_TBL(a) bgrt_scsr_t code a
-#define BGRT_SCL_TBL_READ(a) a
+#define BGRT_SC_TBL(a) bgrt_scsr_t code a
+#define BGRT_SC_TBL_READ(a) a
 
 #define WEAK
 #define NOP _nop_

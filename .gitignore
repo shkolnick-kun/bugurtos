@@ -5,6 +5,7 @@
 # Compiled Objects
 *.o
 *.obj
+*.rel
 
 # Compiled Static libraries
 *.a
@@ -22,6 +23,7 @@
 *.xrf
 *.XRF
 *.html
+*.cbTemp
 
 # Executables
 *.exe
@@ -31,3 +33,7 @@
 *.axf
 *.hex
 *.bin
+
+# Other files
+*obj*
+*bin*

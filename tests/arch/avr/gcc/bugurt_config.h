@@ -12,17 +12,17 @@
 
 // Syscall table is allocated in FLASH
 #include <avr/pgmspace.h>
-#define BGRT_SCL_TBL(a) const PROGMEM bgrt_scsr_t a
-#define BGRT_SCL_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
+#define BGRT_SC_TBL(a) const PROGMEM bgrt_scsr_t a
+#define BGRT_SC_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 // Another option is to allocate it in RAM
-//#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
-//#define BGRT_SCL_TBL_READ(a) a
+//#define BGRT_SC_TBL(a) const bgrt_scsr_t a
+//#define BGRT_SC_TBL_READ(a) a
 
 #define INLINE __attribute__((__always_inline__))
-#define WEAK __attribute__(( __weak__ ))
+#define WEAK __attribute__((__weak__))
 
-#define SYS_TMR_ISR_ATTR __attribute__ (( signal, naked ))
-#define BGRT_RESCHED_ISR_ATTR __attribute__ (( signal, naked ))
+#define SYS_TMR_ISR_ATTR __attribute__ ((signal, naked))
+#define BGRT_RESCHED_ISR_ATTR __attribute__ ((signal, naked))
 
 #define NOP() __asm__ __volatile__("nop"::)
 #define SYSCALL_DELLAY() NOP();NOP();NOP()
@@ -83,11 +83,11 @@ typedef unsigned char bgrt_syscall_t;
 //extern const struct _bgrt_proc_t * proc_base;
 //#define BGRT_PID_T void *
 //#define BGRT_PID_TO_PROC(p) (((bgrt_proc_t *)proc_base) + p)
-//#define BGRT_PROC_TO_PID(p) ( p - ((bgrt_proc_t *)proc_base) )
+//#define BGRT_PROC_TO_PID(p) (p - ((bgrt_proc_t *)proc_base))
 
-#define BGRT_PID_T int
+#define BGRT_PID_T void *
 #define BGRT_PID_TO_PROC(p) ((bgrt_proc_t *)(p))
-#define BGRT_PROC_TO_PID(p) ( (int)p )
+#define BGRT_PROC_TO_PID(p) ((void *)p)
 #define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 //*/
 

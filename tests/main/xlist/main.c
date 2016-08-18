@@ -5,15 +5,15 @@
 
 void print_ok(void)
 {
-    printf( "\t\t[ OK ]\n" );
+    printf("\t\t[ OK ]\n");
 }
 void print_fail(void)
 {
-    printf( "\t\t[Fail]\n" );
+    printf("\t\t[Fail]\n");
 }
 
-#define print_test_res( t ) \
-    if( t ) \
+#define print_test_res(t)\
+    if (t)\
     { \
         print_fail(); \
         return 0; \
@@ -24,9 +24,9 @@ void print_fail(void)
 int main()
 {
     bgrt_item_t
-        bgrt_item_1 = BGRT_ITEM_T_INIT( bgrt_item_1 ),
-        bgrt_item_2 = BGRT_ITEM_T_INIT( bgrt_item_2 ),
-        bgrt_item_3 = BGRT_ITEM_T_INIT( bgrt_item_3 );
+    bgrt_item_1 = BGRT_ITEM_T_INIT(bgrt_item_1),
+                  bgrt_item_2 = BGRT_ITEM_T_INIT(bgrt_item_2),
+                                bgrt_item_3 = BGRT_ITEM_T_INIT(bgrt_item_3);
 
     bgrt_item_t * head;
     bgrt_xlist_t list;
@@ -34,15 +34,15 @@ int main()
 
     printf("Test 1: bgrt_xlist_init function: ");
 
-    bgrt_xlist_init( &list );
+    bgrt_xlist_init(&list);
 
     test = (list.index != (bgrt_index_t)0);
-    for( i=0; i<BGRT_BITS_IN_INDEX_T; i++ )
+    for (i=0; i<BGRT_BITS_IN_INDEX_T; i++)
     {
-        test |= ( list.item[i]!=(bgrt_item_t*)0 );
+        test |= (list.item[i]!=(bgrt_item_t*)0);
     }
 
-    print_test_res( test );
+    print_test_res(test);
 
     printf("Test 2: bgrt_xlist_head function: ");
 
@@ -51,15 +51,15 @@ int main()
     list.item[2] = &bgrt_item_2;
     bgrt_item_insert(&bgrt_item_3, list.item[0]);
 
-    head = bgrt_xlist_head( &list );
+    head = bgrt_xlist_head(&list);
 
-    print_test_res( (head != &bgrt_item_1) );
+    print_test_res((head != &bgrt_item_1));
 
     printf("Test 3: bgrt_xlist_switch function: ");
 
-    bgrt_xlist_switch( &list, 0 );
-    head = bgrt_xlist_head( &list );
-    print_test_res( (head != &bgrt_item_3) );
+    bgrt_xlist_switch(&list, 0);
+    head = bgrt_xlist_head(&list);
+    print_test_res((head != &bgrt_item_3));
 
     return 0;
 }

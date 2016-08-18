@@ -120,7 +120,7 @@ A conditional variable initiation from ISR or critical section.
 
 \param cond A #cond_t pointer.
 */
-bgrt_st_t cond_init_isr( cond_t * cond );
+bgrt_st_t cond_init_isr(cond_t * cond);
 /*!
 \~russian
 \brief
@@ -135,7 +135,7 @@ A conditional variable initiation.
 
 \param cond A #cond_t pointer.
 */
-bgrt_st_t cond_init( cond_t * cond );
+bgrt_st_t cond_init(cond_t * cond);
 /*!
 
 \~russian
@@ -158,7 +158,7 @@ This function stops caller process and inserts it to conditional variable wait l
 \param mutex A pointer to a mutex which protects a conditional variable.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t cond_wait(  cond_t * cond, mutex_t * mutex );
+bgrt_st_t cond_wait( cond_t * cond, mutex_t * mutex);
 /*!
 \~russian
 \brief
@@ -181,7 +181,7 @@ Launches the head of waiting process list.
 \param cond A #cond_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t cond_signal( cond_t * cond );
+bgrt_st_t cond_signal(cond_t * cond);
 /*!
 \~russian
 \brief
@@ -204,6 +204,6 @@ Launches all processes from waiting process list.
 \param cond A #cond_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t cond_broadcast( cond_t * cond );
+bgrt_st_t cond_broadcast(cond_t * cond);
 
 #endif // _COND_H_

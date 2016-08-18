@@ -102,4 +102,4 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 bgrt_prio_t bgrt_index_search(bgrt_index_t index);
 
-#endif // _INDEX_H_
+#endif//_INDEX_H_

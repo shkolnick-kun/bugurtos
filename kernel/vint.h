@@ -144,7 +144,7 @@ A #bgrt_vint_t object initiation.
 \param func An ISR pointer.
 \param arg  An ISR arg pointer.
 */
-void bgrt_vint_init( bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg );
+void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg);
 /*!
 \~russian
 \brief
@@ -164,7 +164,7 @@ Insert #bgrt_vint_t object to #bgrt_vic_t container for processing (for ISR usag
 \param vint A #bgrt_vint_t pointer.
 \param vic A pointer to destination #bgrt_vic_t object.
 */
-bgrt_st_t bgrt_vint_push_isr( bgrt_vint_t * vint, bgrt_vic_t * vic );
+bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic);
 /*!
 \~russian
 \brief
@@ -184,7 +184,7 @@ Insert #bgrt_vint_t object to #bgrt_xlist_t container for processing.
 \param vint A #bgrt_vint_t pointer.
 \param vic A pointer to destination #bgrt_vic_t object.
 */
-bgrt_st_t bgrt_vint_push( bgrt_vint_t * vint, bgrt_vic_t * vic );
+bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic);
 /*!
 \~russian
 \brief
@@ -202,7 +202,7 @@ Virtual interrupt controller initialization.
 
 \param vic A pointer to a #bgrt_vic_t object.
 */
-void bgrt_vic_init( bgrt_vic_t * vic );
+void bgrt_vic_init(bgrt_vic_t * vic);
 
 /*!
 \~russian
@@ -221,5 +221,5 @@ Virtual interrupt processing.
 
 \param vic A pointer to a #bgrt_vic_t object.
 */
-void bgrt_vic_do_work( bgrt_vic_t * vic );
+void bgrt_vic_do_work(bgrt_vic_t * vic);
 #endif // _VINT_H_

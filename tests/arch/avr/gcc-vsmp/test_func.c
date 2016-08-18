@@ -47,7 +47,7 @@ void sched_systick_hook_add(void)
     sei();
 }
 
-void kernel_preemt_hook_add( void(*arg)(void) )
+void kernel_preemt_hook_add(void(*arg)(void))
 {
     cli();
     test_kernel_preempt = arg;
@@ -57,7 +57,7 @@ void kernel_preemt_hook_add( void(*arg)(void) )
 void blink_1(void)
 {
     cli();
-    if(current_vm)
+    if (current_vm)
     {
         PORTC ^= 0x10;
     }
@@ -70,7 +70,7 @@ void blink_1(void)
 void blink_2(void)
 {
     cli();
-    if(current_vm)
+    if (current_vm)
     {
         PORTC ^= 0x08;
     }
@@ -83,7 +83,7 @@ void blink_2(void)
 void blink_3(void)
 {
     cli();
-    if(current_vm)
+    if (current_vm)
     {
         PORTC ^= 0x04;
     }
@@ -96,7 +96,7 @@ void blink_3(void)
 void blink_4(void)
 {
     cli();
-    if(current_vm)
+    if (current_vm)
     {
         PORTC ^= 0x02;
     }
@@ -109,7 +109,7 @@ void blink_4(void)
 void blink_5(void)
 {
     cli();
-    if(current_vm)
+    if (current_vm)
     {
         PORTC ^= 0x01;
     }
@@ -122,7 +122,7 @@ void blink_5(void)
 void blink_6(void)
 {
     cli();
-    if(current_vm)
+    if (current_vm)
     {
         PORTB ^= 0x20;
     }
@@ -137,7 +137,7 @@ bgrt_tmr_t blink_tmr = 0;
 
 void load_bar_graph(void)
 {
-    if( blink_tmr < 2 )
+    if (blink_tmr < 2)
     {
         blink_tmr++;
         PORTB &= ~0x3f;
@@ -153,57 +153,57 @@ void load_bar_graph(void)
     PORTB |= 0x3f;
     PORTC |= 0x1f;
     PORTD |= 0x80;
-    switch(bgrt_kernel.stat.val[0])
+    switch (bgrt_kernel.stat.val[0])
     {
-        default:
-        case 0:
-            PORTB &= ~0x10;
-        case 1:
-            PORTB &= ~0x08;
-        case 2:
-            PORTB &= ~0x04;
-        case 3:
-            PORTB &= ~0x02;
-        case 4:
-            PORTB &= ~0x01;
-        case 5:
-            PORTD &= ~0x80;
-        case 6:
-            break;
+    default:
+    case 0:
+        PORTB &= ~0x10;
+    case 1:
+        PORTB &= ~0x08;
+    case 2:
+        PORTB &= ~0x04;
+    case 3:
+        PORTB &= ~0x02;
+    case 4:
+        PORTB &= ~0x01;
+    case 5:
+        PORTD &= ~0x80;
+    case 6:
+        break;
     }
-    switch(bgrt_kernel.stat.val[1])
+    switch (bgrt_kernel.stat.val[1])
     {
-        default:
-        case 0:
-            PORTC &= ~0x10;
-        case 1:
-            PORTC &= ~0x08;
-        case 2:
-            PORTC &= ~0x04;
-        case 3:
-            PORTC &= ~0x02;
-        case 4:
-            PORTC &= ~0x01;
-        case 5:
-            PORTB &= ~0x20;
-        case 6:
-            break;
+    default:
+    case 0:
+        PORTC &= ~0x10;
+    case 1:
+        PORTC &= ~0x08;
+    case 2:
+        PORTC &= ~0x04;
+    case 3:
+        PORTC &= ~0x02;
+    case 4:
+        PORTC &= ~0x01;
+    case 5:
+        PORTB &= ~0x20;
+    case 6:
+        break;
     }
     sei();
 }
 
-static void blink_digit( bgrt_cnt_t digit )
+static void blink_digit(bgrt_cnt_t digit)
 {
     PORTB &= ~0x20;
     _delay_ms(200);
-    if( !digit )
+    if (!digit)
     {
         PORTB |= 0x20;
         _delay_ms(500);
         PORTB &= ~0x20;
         return;
     }
-    while(digit--)
+    while (digit--)
     {
         PORTB |= 0x20;
         _delay_ms(200);
@@ -212,28 +212,28 @@ static void blink_digit( bgrt_cnt_t digit )
     }
 }
 // Can blink numbers from 0 up to 99.
-static void blink_num( bgrt_cnt_t num )
+static void blink_num(bgrt_cnt_t num)
 {
     PORTB &= ~0x20;
     PORTD &= ~0x40;
     PORTD |= 0x20;
-    blink_digit( (num/100)%10 ); // Most significant digit
+    blink_digit((num/100)%10); // Most significant digit
     _delay_ms(300);
-    blink_digit( (num/10)%10 );
+    blink_digit((num/10)%10);
     _delay_ms(300);
-    blink_digit( num%10 ); //Least significant digit
+    blink_digit(num%10); //Least significant digit
 
 }
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_num)
 {
     // If test has failed, then where will be abnormal program termination!
-    if( !test_result )
+    if (!test_result)
     {
         cli();
-        while(1)
+        while (1)
         {
             _delay_ms(500);
-            blink_num( test_num );
+            blink_num(test_num);
         }
     }
 }
@@ -244,7 +244,7 @@ void test_start(void)
 void tests_end(void)
 {
     cli();
-    while(1)
+    while (1)
     {
         PORTD |= 0x40;
         _delay_ms(500);

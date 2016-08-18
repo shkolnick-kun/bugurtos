@@ -119,7 +119,7 @@ A #bgrt_kblock_t object initialization.
 
 \param kblock A #bgrt_kblock_t object pointer.
 */
-void bgrt_kblock_init( bgrt_kblock_t * kblock );
+void bgrt_kblock_init(bgrt_kblock_t * kblock);
 
 /*!
 \~russian
@@ -134,7 +134,7 @@ A kernel thread main function.
 
 \param kblock A #bgrt_kblock_t object pointer.
 */
-void bgrt_kblock_main( bgrt_kblock_t * kblock );
+void bgrt_kblock_main(bgrt_kblock_t * kblock);
 //Ядро
 typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
 /*!
@@ -169,7 +169,7 @@ struct _bgrt_kernel_t
 
 \~english
 \brief
-The BuguRTOS bgrt_kernel.
+The BuguRTOS kernel.
 
 It's the one for the entire system!
 */

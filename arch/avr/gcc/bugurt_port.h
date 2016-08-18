@@ -76,11 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BUGURT_PORT_H_
-#define _BUGURT_PORT_H_
-
-// Конкатенация строк
-#define BUGURT_CONCAT(a,b) a##b
+#ifndef _BGRT_PORT_H_
+#define _BGRT_PORT_H_
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
@@ -92,24 +89,24 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /// компилятор будет стирать r16, r17 до сохранения контекста.
 
 // Пролог обработчика прерывания
-#define BUGURT_ISR_START() \
+#define BGRT_ISR_START()             \
     saved_sp = bugurt_save_context();\
     *current_sp = saved_sp
 
 // Эпилог обработчика прерывания
-#define BUGURT_ISR_END() \
-    bgrt_set_curr_sp();\
-    bugurt_restore_context( *current_sp );\
+#define BGRT_ISR_END()                    \
+    bgrt_set_curr_sp();                   \
+    bugurt_restore_context(*current_sp);\
     __asm__ __volatile__("reti"::)
 
 // Шаблон обработчика прерывания для внутреннего пользования
-#define _BUGURT_ISR(v,f) \
-__attribute__ (( signal, naked )) void v(void); \
-void v(void) \
-{ \
-    BUGURT_ISR_START();\
-    f();\
-    BUGURT_ISR_END();\
+#define _BGRT_ISR(v,f)                          \
+__attribute__ ((signal, naked)) void v(void); \
+void v(void)                                    \
+{                                               \
+    BGRT_ISR_START();                           \
+    f();                                        \
+    BGRT_ISR_END();                             \
 }
 
 /*
@@ -121,10 +118,10 @@ void v(void) \
 Не очень быстро,
 зато память экономится.
 */
-#define BUGURT_INTERRUPT(v) \
-void BUGURT_CONCAT(v,_func)(void);\
-_BUGURT_ISR(v,BUGURT_CONCAT(v,_func)) \
-void BUGURT_CONCAT(v,_func)(void)
+#define BGRT_ISR(v)               \
+void BGRT_CONCAT(v,_func)(void);  \
+_BGRT_ISR(v,BGRT_CONCAT(v,_func)) \
+void BGRT_CONCAT(v,_func)(void)
 
 unsigned char bgrt_kernel_state;
 //Временное хранилище для указателей стеков процессов.
@@ -134,10 +131,10 @@ bgrt_stack_t ** current_sp;
 
 void bgrt_set_curr_sp(void);
 
-extern bgrt_stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( bgrt_stack_t * new_sp );
-extern void bugurt_pop_context( void );
-extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
-extern bgrt_stack_t * bugurt_reverse_byte_order ( bgrt_stack_t * arg );
+extern bgrt_stack_t * bugurt_save_context(void);
+extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_pop_context(void);
+extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
+extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
-#endif // _BUGURT_PORT_H_
+#endif // _BGRT_PORT_H_

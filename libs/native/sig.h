@@ -121,7 +121,7 @@ A signal initiation from ISR or critical section.
 
 \param sig A #sig_t pointer.
 */
-bgrt_st_t sig_init_isr( sig_t * sig );
+bgrt_st_t sig_init_isr(sig_t * sig);
 /*!
 \~russian
 \brief
@@ -135,7 +135,7 @@ Signal initiation.
 
 \param sig A #sig_t pointer.
 */
-bgrt_st_t sig_init( sig_t * sig );
+bgrt_st_t sig_init(sig_t * sig);
 /*!
 
 \~russian
@@ -156,7 +156,7 @@ This function stops caller process and inserts it to signal wait list.
 \param sig A #sig_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sig_wait( sig_t * sig );
+bgrt_st_t sig_wait(sig_t * sig);
 /*!
 \~russian
 \brief
@@ -175,7 +175,7 @@ Fire a signal, launch one waiting process.
 \return #BGRT_ST_OK on success, or error number.
 */
 
-bgrt_st_t sig_signal( sig_t * sig );
+bgrt_st_t sig_signal(sig_t * sig);
 /*!
 \~russian
 \brief
@@ -195,6 +195,6 @@ This function launches all processes waiting for certain signal.
 \param sig A #sig_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sig_broadcast( sig_t * sig );
+bgrt_st_t sig_broadcast(sig_t * sig);
 
 #endif // _SIG_H_

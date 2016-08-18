@@ -7,8 +7,8 @@
 
 #ifndef __ASSEMBLER__
 
-#define BGRT_SCL_TBL(a) const bgrt_scsr_t a
-#define BGRT_SCL_TBL_READ(a) a
+#define BGRT_SC_TBL(a) const bgrt_scsr_t a
+#define BGRT_SC_TBL_READ(a) a
 
 #ifndef NOP
 #define NOP() __asm__ __volatile__ ("nop":::)
@@ -64,8 +64,8 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define BGRT_SYSTEM_TIMER_ISR 	    sys_tick_handler
 #define BGRT_SYSCALL_ISR			pend_sv_handler
 
-#define BGRT_CONFIG_FCPU_HZ 			( 168000000ul )
-#define BGRT_CONFIG_FSYSTICK_HZ 		( 1000ul )
+#define BGRT_CONFIG_FCPU_HZ 			(168000000ul)
+#define BGRT_CONFIG_FSYSTICK_HZ 		(1000ul)
 
 #define BGRT_CONFIG_PRIO_BITS        4  // Used upper priority bits
 #define BGRT_CONFIG_SYSCALL_PRIO 	16 // SysCall priority

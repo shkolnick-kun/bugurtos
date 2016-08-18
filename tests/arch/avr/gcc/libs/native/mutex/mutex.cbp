@@ -36,6 +36,7 @@
 			<Add directory="../../../../../../../arch/avr/gcc" />
 			<Add directory="../../../" />
 			<Add directory="../../../../../../../libs/native" />
+			<Add directory="../../../../../../../kernel/default" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega328p" />
@@ -60,6 +61,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../kernel/crit_sec.h" />
+		<Unit filename="../../../../../../../kernel/default/syscall_api.h" />
+		<Unit filename="../../../../../../../kernel/default/syscall_routines.h" />
+		<Unit filename="../../../../../../../kernel/default/syscall_table.h" />
 		<Unit filename="../../../../../../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>

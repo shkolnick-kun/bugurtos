@@ -80,12 +80,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _VSMP_H_
 #define _VSMP_H_
 
-extern bgrt_stack_t * bugurt_save_context( void );
-extern void bugurt_restore_context( bgrt_stack_t * new_sp );
+extern bgrt_stack_t * bugurt_save_context(void);
+extern void bugurt_restore_context(bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
-extern void bugurt_set_stack_pointer( bgrt_stack_t * new_sp );
-extern void bugurt_push_pointer( void * pointer );
-extern bgrt_stack_t * bugurt_reverse_byte_order ( bgrt_stack_t * arg );
+extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
+extern void bugurt_push_pointer(void * pointer);
+extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
 typedef struct _vsmp_vm_t  vsmp_vm_t;
 struct _vsmp_vm_t
@@ -115,17 +115,17 @@ hook_t vsmp_systimer_hook;
 
 #define VINTERRUPT_INIT(v, f) { BGRT_ITEM_T_INIT(v), (bgrt_cnt_t)0, f }
 
-void vsmp_vm_init( vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp );
+void vsmp_vm_init(vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp);
 
-void vsmp_init( void );
-void vsmp_run( void );
+void vsmp_init(void);
+void vsmp_run(void);
 
-void vsmp_idle_main( void * arg );
+void vsmp_idle_main(void * arg);
 
 void _vsmp_vinterrupt(void);
-void vsmp_vinterrupt_init( vinterrupt_t * vector, void (*isr)(void) );
-bgrt_bool_t vsmp_vinterrupt_isr( bgrt_cpuid_t vm, vinterrupt_t * vector );
-void vsmp_vinterrupt( bgrt_cpuid_t vm, vinterrupt_t * vector );
+void vsmp_vinterrupt_init(vinterrupt_t * vector, void (*isr)(void));
+bgrt_bool_t vsmp_vinterrupt_isr(bgrt_cpuid_t vm, vinterrupt_t * vector);
+void vsmp_vinterrupt(bgrt_cpuid_t vm, vinterrupt_t * vector);
 
 void vinterrupt_wrapper(void);
 bgrt_bool_t vsmp_do_interrupt(void);

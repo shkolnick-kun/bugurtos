@@ -7,7 +7,7 @@ void kernel_preemt_hook(void)
     test_kernel_preempt();
 }
 
-void kernel_preemt_hook_add( void(*arg)(void) )
+void kernel_preemt_hook_add(void(*arg)(void))
 {
     bgrt_disable_interrupts();
     test_kernel_preempt = arg;
@@ -28,7 +28,7 @@ void init_hardware(void)
     TIM4_SR    = 0x00;
     TIM4_EGR   = 0x00;
     TIM4_CNTR  = 0x00;
-    TIM4_PSCR  = 0x07; // 0x07 - 1 ÏÒ, 0x05 - 250 ÏÍÒ
+    TIM4_PSCR  = 0x07; // 0x07 - 1 –º—Å, 0x05 - 250 –º–∫—Å
     TIM4_ARR   = 0x7C;
 
     CLK_PCKENR1|=0x02;
@@ -45,15 +45,15 @@ void sched_fix_bgrt_proc_2(void)
 }
 unsigned char test_fail = 0;
 unsigned char test_is_running = 0;
-void test_output( bgrt_bool_t test_result, bgrt_cnt_t test_num )
+void test_output(bgrt_bool_t test_result, bgrt_cnt_t test_num)
 {
     // If test has failed, then where will be abnormal program termination!
-    if( !test_result )
+    if (!test_result)
     {
         bgrt_disable_interrupts();
         test_is_running = 0;
         test_fail = test_num;
-        while(1);
+        while (1);
     }
 }
 void test_start(void)
@@ -64,7 +64,7 @@ void tests_end(void)
 {
     bgrt_disable_interrupts();
     test_is_running = 0;
-    while(1);
+    while (1);
 }
 
 unsigned char test_var_sig;
@@ -88,7 +88,7 @@ void systick_hook(void)
     SPI_SR = 0x00;
     SPI_CR1 |= 0x40;
 }
-BUGURT_INTERRUPT( SPI_TXE_vector )
+BGRT_ISR(SPI_TXE_vector)
 {
     SPI_CR1 &= ~0x40;
     SPI_ICR &= ~0x80;

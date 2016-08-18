@@ -77,6 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "item.h"
+/* ADLINT:SF:[W0422] Yes this code is unsafe!*/
 // bgrt_item_t methods.
 // Initiation
 void bgrt_item_init(bgrt_item_t *item)

@@ -142,7 +142,7 @@ A #bgrt_pitem_t object initiation.
 \param pitem A #bgrt_pitem_t pointer.
 \param prio A priority.
 */
-void bgrt_pitem_init( bgrt_pitem_t * pitem, bgrt_prio_t prio );
+void bgrt_pitem_init(bgrt_pitem_t * pitem, bgrt_prio_t prio);
 /*!
 \~russian
 \brief
@@ -162,7 +162,7 @@ Insert #bgrt_pitem_t object to #bgrt_xlist_t container.
 \param pitem A #bgrt_pitem_t pointer.
 \param xlist A pointer to destination list.
 */
-void bgrt_pitem_insert( bgrt_pitem_t * pitem, bgrt_xlist_t * xlist );
+void bgrt_pitem_insert(bgrt_pitem_t * pitem, bgrt_xlist_t * xlist);
 /*!
 \~russian
 \brief
@@ -184,7 +184,7 @@ This function cuts #bgrt_pitem_t object from #bgrt_xlist_t container without pit
 
 \param pitem A #bgrt_pitem_t pointer.
 */
-void bgrt_pitem_fast_cut( bgrt_pitem_t * pitem );
+void bgrt_pitem_fast_cut(bgrt_pitem_t * pitem);
 /*!
 \~russian
 \brief
@@ -206,7 +206,7 @@ This function calls #bgrt_pitem_fast_cut and then nulls pitem->list field.
 
 \param pitem A #bgrt_pitem_t pointer.
 */
-void bgrt_pitem_cut( bgrt_pitem_t * pitem );
+void bgrt_pitem_cut(bgrt_pitem_t * pitem);
 
 /*!
 \~russian
@@ -231,5 +231,5 @@ Cut all #bgrt_pitem_t objects from #bgrt_xlist_t container and form an ordinary 
 \param src A #bgrt_xlist_t pointer.
 \return An ordinary doublelinked list head pointer.
 */
-bgrt_pitem_t * bgrt_pitem_xlist_chain( bgrt_xlist_t * src );
+bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src);
 #endif // _BGRT_PITEM_H_

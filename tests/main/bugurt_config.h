@@ -75,8 +75,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Тестовый конфиг-файл, в последствии будет заменён
 #define _BGRT_CONFIG_H_
 
-#define BGRT_SCL_TBL(a) const bgrt_code_t a
-#define BGRT_SCL_TBL_READ(a) a
+#define BGRT_SC_TBL(a) const bgrt_code_t a
+#define BGRT_SC_TBL_READ(a) a
 
 // data types
 typedef unsigned char bgrt_index_t;
@@ -97,6 +97,7 @@ typedef unsigned long load_t;
 
 typedef unsigned long bgrt_st_t;
 
+#define BGRT_CONFIG_CNT_MAX (0xffffffff)
 typedef unsigned long bgrt_cnt_t;
 
 typedef unsigned long bgrt_tmr_t;
@@ -113,7 +114,7 @@ typedef struct _load_stat
     bgrt_cnt_t total_bgrt_proc_count;
 } bgrt_ls_t;
 
-#define WEAK __attribute__((__weak__))
+#define WEAK
 
 // defines
 #define BGRT_CONFIG_USE_HIGHEST_LOCKER

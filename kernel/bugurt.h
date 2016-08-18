@@ -77,8 +77,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#ifndef _BUGURT_H_
-#define _BUGURT_H_
+#ifndef _BGRT_H_
+#define _BGRT_H_
 
 /*!
 \mainpage
@@ -106,10 +106,16 @@ The BuguRTOS is a RTOS bgrt_kernel. It is written by anonymous JUST FOR FUN.
 All other BuguRTOS headers are included here.
 On the other hand all BuguRTOS source files include this file.
 */
-//======================================================
-//                ОПРЕДЕЛЕНИЯ ТИПОВ
-//                     TYPEDEFS
-//======================================================
+
+#define BGRT_CONCAT(a,b) a##b
+#define BGRT_CONCAT2(a,b) BGRT_CONCAT(a,b)
+#define BGRT_CONCAT3(a,b) BGRT_CONCAT2(a,b)
+/*
+======================================================
+                ОПРЕДЕЛЕНИЯ ТИПОВ
+                     TYPEDEFS
+======================================================
+*/
 /*!
 \~russian
 \brief
@@ -124,40 +130,33 @@ Executable code.
 A pointer to a void function, that takes void pointer as argument.
 */
 typedef void (* bgrt_code_t)(void *);
-
+/*
 //======================================================
 //                     ИНКЛЮДЫ
 //======================================================
 //BuguRTOS config (must be included first)
+*/
 #include <bugurt_config.h>
 
-//Basic types
-#include "index.h"
+/*Basic types*/
+#include "index.h"  /* ADLINT:SL:[W0073] No include guard! */
 #include "item.h"
-#include "xlist.h"
-#include "pitem.h"
 #include "pcounter.h"
+#include "xlist.h"
+#include "pitem.h" /*Depends on xlist.h*/
 
-//Kernel services (use basic types)
+/*Kernel services (use basic types)*/
 #include "crit_sec.h"
-#include "timer.h"
 #include "proc.h"
 #include "sched.h"
 #include "sync.h"
-//User may write his own system call dispatcher
-#ifndef BGRT_CONFIG_USER_SYSCALL
-#   include "syscall.h" //Default system call dispatcher
-#else
-#   include <user_syscall.h>
-#endif//BGRT_CONFIG_USER_SYSCALL
-
-//Virtual interrupts
+#include "syscall.h"
+#include "timer.h"
 #include "vint.h"
-
-//Kernel (use kernel services)
+/*Kernel (kernel services, must be included after syscall.h and vint.h)*/
 #include "kernel.h"
 
-//Platform dependent things (must be included last)
+/*Platform dependent things (must be included last)*/
 #include <bugurt_port.h>
 
 #define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
@@ -226,20 +225,20 @@ A wrapper for #bgrt_resched function.
 */
 
 #ifdef BGRT_CONFIG_MP
-#   define BGRT_SPIN_INIT(arg) bgrt_spin_init( &((arg)->lock) )
-#   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock( &((arg)->lock) )
-#   define BGRT_SPIN_FREE(arg) bgrt_spin_free( &((arg)->lock) )
-#   define BGRT_RESCHED_PROC(proc) bgrt_resched( proc->core_id )
+#   define BGRT_SPIN_INIT(arg) bgrt_spin_init(&((arg)->lock))
+#   define BGRT_SPIN_LOCK(arg) bgrt_spin_lock(&((arg)->lock))
+#   define BGRT_SPIN_FREE(arg) bgrt_spin_free(&((arg)->lock))
+#   define BGRT_RESCHED_PROC(proc) bgrt_resched(proc->core_id)
 #   ifndef BGRT_KERNEL_PREEMPT
-#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work( &bgrt_kernel.kblock[bgrt_curr_cpu()].vic );
+#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work(&bgrt_kernel.kblock[bgrt_curr_cpu()].vic)
 #   endif
 #else //BGRT_CONFIG_MP
-#   define BGRT_SPIN_INIT(arg) do{}while(0)
-#   define BGRT_SPIN_LOCK(arg) do{}while(0)
-#   define BGRT_SPIN_FREE(arg) do{}while(0)
+#   define BGRT_SPIN_INIT(arg) do{}while (0)
+#   define BGRT_SPIN_LOCK(arg) do{}while (0)
+#   define BGRT_SPIN_FREE(arg) do{}while (0)
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched()
 #   ifndef BGRT_KERNEL_PREEMPT
-#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work( &bgrt_kernel.kblock.vic );
+#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work(&bgrt_kernel.kblock.vic)
 #   endif
 #endif //BGRT_CONFIG_MP
 //======================================================
@@ -615,7 +614,7 @@ The Kernel does all of this job.
 \param num a number of a system call (what is going to be done).
 \param arg a system call argument (a pointer to an object to be processed).
 */
-extern bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg );
+extern bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg);
 
 /*!
 \~russian
@@ -627,4 +626,4 @@ extern bgrt_st_t bgrt_syscall( bgrt_syscall_t num, void * arg );
 Kernel to process context switch.
 */
 extern void bgrt_switch_to_proc(void);
-#endif //_BUGURT_H_
+#endif //_BGRT_H_

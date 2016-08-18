@@ -78,23 +78,25 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
+/* ADLINT:SF:[W1071,W1052,W0165,W0422] Miltiple return, OVF, out of range access */
+
 #ifdef BGRT_CONFIG_TEST
 static void bgrt_cnt_panic(void)
 {
-    while(1);
+    while (1);
 }
 #   define BGRT_CNT_PANIC() bgrt_cnt_panic()
 #else  //BGRT_CONFIG_TEST
 #   ifdef BGRT_CONFIG_PANIC
 #       define BGRT_CNT_PANIC() BGRT_CONFIG_PANIC()
 #   else
-#       define BGRT_CNT_PANIC() do{}while(0)
+#       define BGRT_CNT_PANIC() do{}while (0)
 #   endif //BGRT_CONFIG_PANIC
 #endif //BGRT_CONFIG_TEST
 
-bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val )
+bgrt_cnt_t bgrt_cnt_inc(bgrt_cnt_t val)
 {
-    if( BGRT_CONFIG_CNT_MAX > val )
+    if (BGRT_CONFIG_CNT_MAX > val)
     {
         return val + (bgrt_cnt_t)1;
     }
@@ -105,9 +107,9 @@ bgrt_cnt_t bgrt_cnt_inc( bgrt_cnt_t val )
     }
 }
 
-bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val )
+bgrt_cnt_t bgrt_cnt_dec(bgrt_cnt_t val)
 {
-    if( val )
+    if (val)
     {
         return val - (bgrt_cnt_t)1;
     }
@@ -118,9 +120,9 @@ bgrt_cnt_t bgrt_cnt_dec( bgrt_cnt_t val )
     }
 }
 
-bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b )
+bgrt_cnt_t bgrt_cnt_add(bgrt_cnt_t a, bgrt_cnt_t b)
 {
-    if( BGRT_CONFIG_CNT_MAX - a > b )
+    if ((BGRT_CONFIG_CNT_MAX - a) > b)
     {
         return a + b;
     }
@@ -131,9 +133,9 @@ bgrt_cnt_t bgrt_cnt_add( bgrt_cnt_t a, bgrt_cnt_t b )
     }
 }
 
-bgrt_cnt_t bgrt_cnt_sub( bgrt_cnt_t a, bgrt_cnt_t b )
+bgrt_cnt_t bgrt_cnt_sub(bgrt_cnt_t a, bgrt_cnt_t b)
 {
-    if( a >= b )
+    if (a >= b)
     {
         return a - b;
     }
@@ -150,13 +152,16 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 {
     bgrt_prio_t p;
     pcounter->index = (bgrt_index_t)0;
-    for(p = 0; p < (bgrt_index_t)BGRT_BITS_IN_INDEX_T; p++)pcounter->counter[p] = (bgrt_cnt_t)0;
+    for (p = 0; p < (bgrt_index_t)BGRT_BITS_IN_INDEX_T; p++)
+    {
+        pcounter->counter[p] = (bgrt_cnt_t)0;    /* ADLINT:SL:[W0705] Out of range access!*/
+    }
 }
 // Increment
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
-    BGRT_CNT_INC( pcounter->counter[prio] );
-    pcounter->index |= ((bgrt_index_t)1)<<prio;
+    BGRT_CNT_INC(pcounter->counter[prio]);      /* ADLINT:SL:[W0705] Out of range access!*/
+    pcounter->index |= ((bgrt_index_t)1)<<prio; /* ADLINT:SL:[W0572] Drop bits!*/
 }
 // Decrement
 bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
@@ -165,20 +170,20 @@ bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 
     mask = ((bgrt_index_t)1)<<prio;
 
-    BGRT_CNT_DEC( pcounter->counter[prio] );
+    BGRT_CNT_DEC(pcounter->counter[prio]);  /* ADLINT:SL:[W0705] Out of range access!*/
 
-    if(pcounter->counter[prio] == (bgrt_cnt_t)0)
+    if (pcounter->counter[prio] == (bgrt_cnt_t)0) /* ADLINT:SL:[W0705] Out of range access!*/
     {
-        pcounter->index &= ~mask;
+        pcounter->index &= ~mask; /* ADLINT:SL:[W0578] type converstions */
     }
-    return pcounter->index & mask;
+    return pcounter->index & mask; /* ADLINT:SL:[W0272,W0301] */
 }
 // Multiple increment
 void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
-    pcounter->index |= ((bgrt_index_t)1)<<prio;
+    pcounter->index |= ((bgrt_index_t)1)<<prio;  /* ADLINT:SL:[W0572] */
 
-    BGRT_CNT_ADD( pcounter->counter[prio], count );
+    BGRT_CNT_ADD(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/
 }
 // Multiple decrement
 bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
@@ -186,11 +191,11 @@ bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, b
     bgrt_index_t mask;
     mask = ((bgrt_index_t)1)<<prio;
 
-    BGRT_CNT_SUB( pcounter->counter[prio], count );
+    BGRT_CNT_SUB(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/
 
-    if( (bgrt_cnt_t)0 == pcounter->counter[prio] )
+    if ((bgrt_cnt_t)0 == pcounter->counter[prio])/* ADLINT:SL:[W0705] Out of range access!*/
     {
-        pcounter->index &= ~mask;
+        pcounter->index &= ~mask; /* ADLINT:SL:[W0578] type converstions */
     }
-    return pcounter->index & mask;
+    return pcounter->index & mask; /* ADLINT:SL:[W0272,W0301] */
 }

@@ -15,65 +15,134 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
+			<Target title="adlint">
+				<Option output="bin/Debug/names_work" prefix_auto="1" extension_auto="0" />
+				<Option object_output="obj/adlint/" />
+				<Option type="1" />
+				<Option compiler="adlint" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Compiler>
+					<Add option="-p 3" />
+				</Compiler>
+			</Target>
 		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-		</Compiler>
-		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_config_example.h" />
+		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_port.h" />
+		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/avr/gcc-vsmp/vsmp.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/avr/gcc-vsmp/vsmp.h" />
-		<Unit filename="../../../arch/avr/gcc/bugurt_config_exapmle.h" />
+		<Unit filename="../../../arch/avr/gcc-vsmp/vsmp.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/avr/gcc/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/avr/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/avr/gcc/bugurt_port.h" />
-		<Unit filename="../../../arch/avr/gcc/bugurt_port_asm.S" />
+		<Unit filename="../../../arch/avr/gcc/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/avr/gcc/bugurt_port_asm.S">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/avr/gcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/cm0/gcc/bugurt_config_example.h" />
+		<Unit filename="../../../arch/cm0/gcc/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/cm0/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/cm0/gcc/bugurt_port.h" />
-		<Unit filename="../../../arch/cm3/gcc/bugurt_config_example.h" />
+		<Unit filename="../../../arch/cm0/gcc/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/cm3/gcc/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/cm3/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/cm3/gcc/bugurt_port.h" />
-		<Unit filename="../../../arch/cm4f/gcc/bugurt_config_example.h" />
+		<Unit filename="../../../arch/cm3/gcc/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/cm4f/gcc/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/cm4f/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/cm4f/gcc/bugurt_port.h" />
-		<Unit filename="../../../arch/stm8/iar/bugurt_config_example.h" />
+		<Unit filename="../../../arch/cm4f/gcc/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/iar/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/stm8/iar/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/stm8/iar/bugurt_port.h" />
-		<Unit filename="../../../arch/stm8/iar/bugurt_port_asm.S" />
+		<Unit filename="../../../arch/stm8/iar/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/iar/bugurt_port_asm.S">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/stm8/iar/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/stm8/raisonance/bugurt_config_example.h" />
+		<Unit filename="../../../arch/stm8/raisonance/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/stm8/raisonance/bugurt_port.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/stm8/raisonance/bugurt_port.h" />
+		<Unit filename="../../../arch/stm8/raisonance/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/stm8/raisonance/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_config_example.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_port.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_port.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../arch/stm8/sdcc/bugurt_proc_stack_init.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../../../kernel/bugurt.h" />
 		<Unit filename="../../../kernel/crit_sec.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../kernel/crit_sec.h" />
+		<Unit filename="../../../kernel/default/syscall_api.h" />
+		<Unit filename="../../../kernel/default/syscall_routines.h" />
+		<Unit filename="../../../kernel/default/syscall_table.h" />
 		<Unit filename="../../../kernel/index.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -143,78 +212,139 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../libs/native/sig.h" />
-		<Unit filename="../../arch/avr/gcc-vsmp/bugurt_config.h" />
+		<Unit filename="../../arch/avr/gcc-vsmp/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/avr/gcc-vsmp/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/avr/gcc-vsmp/test_func.h" />
-		<Unit filename="../../arch/avr/gcc/bugurt_config.h" />
+		<Unit filename="../../arch/avr/gcc-vsmp/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/avr/gcc/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/avr/gcc/libs/native/sig/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../../arch/avr/gcc/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/avr/gcc/test_func.h" />
-		<Unit filename="../../arch/cm0/gcc/bugurt_config.h" />
+		<Unit filename="../../arch/avr/gcc/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/cm0/gcc/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/cm0/gcc/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/cm0/gcc/test_func.h" />
-		<Unit filename="../../arch/cm3/gcc/bugurt_config.h" />
+		<Unit filename="../../arch/cm0/gcc/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/cm3/gcc/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/cm3/gcc/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/cm3/gcc/test_func.h" />
-		<Unit filename="../../arch/cm4f/gcc/bugurt_config.h" />
+		<Unit filename="../../arch/cm3/gcc/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/cm4f/gcc/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/cm4f/gcc/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/cm4f/gcc/test_func.h" />
-		<Unit filename="../../arch/stm8/iar/bugurt_config.h" />
+		<Unit filename="../../arch/cm4f/gcc/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/stm8/iar/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/stm8/iar/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/stm8/iar/test_func.h" />
-		<Unit filename="../../arch/stm8/raisonance/bugurt_config.h" />
+		<Unit filename="../../arch/stm8/iar/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/stm8/raisonance/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../arch/stm8/raisonance/test_func.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/stm8/raisonance/test_func.h" />
+		<Unit filename="../../arch/stm8/raisonance/test_func.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/stm8/sdcc/bugurt_config.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/stm8/sdcc/sched/main.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/stm8/sdcc/test_func.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../arch/stm8/sdcc/test_func.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../bsync/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../bugurt_config.h" />
 		<Unit filename="../bugurt_port.h" />
 		<Unit filename="../item/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../libs/native/ipc/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../libs/native/mutex/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../libs/native/sem/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../libs/native/sig/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../pitem/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../proc/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../sched/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../vint/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../xlist/main.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Extensions>
 			<code_completion />

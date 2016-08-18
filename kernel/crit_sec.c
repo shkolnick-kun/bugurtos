@@ -77,6 +77,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
+
+/* ADLINT:SF:[W0705] Yes, this code is unsafe! */
+
 #ifdef BGRT_CONFIG_MP
 // No need to spinlock sched as all changes are local!
 bgrt_cpuid_t _bgrt_crit_sec_enter(void)
@@ -84,14 +87,14 @@ bgrt_cpuid_t _bgrt_crit_sec_enter(void)
     bgrt_cpuid_t ret;
     bgrt_disable_interrupts();
     ret = bgrt_curr_cpu();
-    BGRT_CNT_INC( bgrt_kernel.kblock[ret].sched.nested_crit_sec );
+    BGRT_CNT_INC(bgrt_kernel.kblock[ret].sched.nested_crit_sec);
     return ret;
 }
 
 void _bgrt_crit_sec_exit(bgrt_cpuid_t core)
 {
-    BGRT_CNT_DEC( bgrt_kernel.kblock[core].sched.nested_crit_sec );
-    if( bgrt_kernel.kblock[core].sched.nested_crit_sec == (bgrt_cnt_t)0 )
+    BGRT_CNT_DEC(bgrt_kernel.kblock[core].sched.nested_crit_sec);
+    if (bgrt_kernel.kblock[core].sched.nested_crit_sec == (bgrt_cnt_t)0)
     {
         bgrt_enable_interrupts();
     }
@@ -101,13 +104,13 @@ void _bgrt_crit_sec_exit(bgrt_cpuid_t core)
 void bgrt_crit_sec_enter(void)
 {
     bgrt_disable_interrupts();
-    BGRT_CNT_INC( bgrt_kernel.kblock.sched.nested_crit_sec );
+    BGRT_CNT_INC(bgrt_kernel.kblock.sched.nested_crit_sec);
 }
 void bgrt_crit_sec_exit(void)
 {
-    BGRT_CNT_DEC( bgrt_kernel.kblock.sched.nested_crit_sec );
+    BGRT_CNT_DEC(bgrt_kernel.kblock.sched.nested_crit_sec);
 
-    if( bgrt_kernel.kblock.sched.nested_crit_sec == (bgrt_cnt_t)0 )
+    if (bgrt_kernel.kblock.sched.nested_crit_sec == (bgrt_cnt_t)0)
     {
         bgrt_enable_interrupts();
     }

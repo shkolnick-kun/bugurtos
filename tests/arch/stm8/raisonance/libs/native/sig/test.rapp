@@ -1,7 +1,7 @@
 
-<ApplicationBuild Header="test" Extern=".\test.rapp" Path=".\test.rapp" OutputFile=".\bin\test.aof" sate="96" >
+<ApplicationBuild Header="test" Extern=".\test.rapp" Path=".\test.rapp" OutputFile=".\bin\test.aof" sate="98" >
 	<Group Header="bugurtos" Marker="-1" OutputFile="" sate="96" >
-		<Group Header="kernel" Marker="-1" OutputFile="" sate="2" >
+		<Group Header="kernel" Marker="-1" OutputFile="" sate="0" >
 			<NodeH Path="..\..\..\..\..\..\..\kernel\bugurt.h" Header="bugurt.h" Marker="-1" OutputFile="" sate="0" />
 			<NodeC Path="..\..\..\..\..\..\..\kernel\crit_sec.c" Header="crit_sec.c" Marker="-1" OutputFile=".\bin\crit_sec.obj" sate="0" />
 			<NodeH Path="..\..\..\..\..\..\..\kernel\crit_sec.h" Header="crit_sec.h" Marker="-1" OutputFile="" sate="0" />
@@ -29,13 +29,13 @@
 			<NodeH Path="..\..\..\..\..\..\..\kernel\xlist.h" Header="xlist.h" Marker="-1" OutputFile="" sate="0" />
 			<NodeC Path="..\..\..\..\..\..\..\kernel\vint.c" Header="vint.c" Marker="-1" OutputFile=".\bin\vint.obj" sate="0" />
 			<NodeH Path="..\..\..\..\..\..\..\kernel\vint.h" Header="vint.h" Marker="-1" OutputFile="" sate="0" />
-															
+																				
 		</Group>
 		<Group Header="arch" Marker="-1" OutputFile="" sate="0" >
 			<NodeC Path="..\..\..\..\..\..\..\arch\stm8\raisonance\bugurt_port.c" Header="bugurt_port.c" Marker="-1" OutputFile=".\bin\bugurt_port.obj" sate="0" />
 			<NodeH Path="..\..\..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Header="bugurt_port.h" Marker="-1" OutputFile="" sate="0" />
 			<NodeC Path="..\..\..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Header="bugurt_proc_stack_init.c" Marker="-1" OutputFile=".\bin\bugurt_proc_stack_init.obj" sate="0" />
-															
+																				
 		</Group>
 		<Group Header="libs-native" Marker="-1" OutputFile="" sate="0" >
 			<NodeC Path="..\..\..\..\..\..\..\libs\native\mutex.c" Header="mutex.c" Marker="-1" OutputFile=".\bin\mutex.obj" sate="0" />
@@ -44,9 +44,9 @@
 			<NodeH Path="..\..\..\..\..\..\..\libs\native\cond.h" Header="cond.h" Marker="-1" OutputFile="" sate="0" />
 			<NodeC Path="..\..\..\..\..\..\..\libs\native\sig.c" Header="sig.c" Marker="-1" OutputFile=".\bin\sig.obj" sate="0" />
 			<NodeH Path="..\..\..\..\..\..\..\libs\native\sig.h" Header="sig.h" Marker="-1" OutputFile="" sate="0" />
-															
+																				
 		</Group>
-									
+												
 	</Group>
 	<NodeC Path="..\..\..\test_func.C" Header="test_func.C" Marker="-1" OutputFile=".\bin\test_func.obj" sate="0" />
 	<NodeH Path="..\..\..\test_func.h" Header="test_func.h" Marker="-1" OutputFile="" sate="0" />
@@ -56,19 +56,19 @@
 			<Set Header="ApplicationBuild" >
 				<Section Header="General" >
 					<Property Header="TargetFamily" Value="ST7" />
-																											
+																																				
 				</Section>
 				<Section Header="Directories" >
 					<Property Header="OutDir" Value="$(ApplicationDir)\bin" Removable="1" />
 					<Property Header="ListDir" Value="$(ApplicationDir)\bin" Removable="1" />
-																											
+																																				
 				</Section>
-																					
+																												
 			</Set>
 			<Set Header="Target" >
 				<Section Header="ProcessorST7" >
 					<Property Header="Processor" Value="STM8S208MB" Removable="1" />
-																											
+																																				
 				</Section>
 				<Section Header="ToolSetST7" >
 					<Property Header="BuildToolSetST7" Value="ST7\RaisonanceTools.config" Removable="1" />
@@ -79,18 +79,18 @@
 			</Set>
 			<Set Header="RCST7" >
 				<Section Header="Defines" >
-					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\native&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;)" Removable="1" />
-																											
+					<Property Header="More" Value="PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\arch\stm8\raisonance&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\kernel\default&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\..\..\..\..\libs\native&quot;) PIN(&quot;$(ApplicationDir)\..\..\..\&quot;)" Removable="1" />
+							
 				</Section>
 				<Section Header="Model" >
 					<Property Header="GlobalMemory" Value="DGC(DATA)" Removable="1" />
-																											
+																																				
 				</Section>
 				<Section Header="OPTIM" >
 					<Property Header="OTLEVEL" Value="0" Removable="1" />
-																											
+																																				
 				</Section>
-																					
+					
 			</Set>
 			<Set Header="RLST7" >
 				<Section Header="Output" >
