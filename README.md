@@ -9,11 +9,8 @@ It is free and open source software, but you can use it for
 proprietary software development.
 
 # Licensing #
-* Development source code version (trunk) before release 33 is licensed under GNU GPL v3.
-* Source code releases before version 0.3.3 are licensed under GNU GPL v3.
-
-* Development source code version (trunk) of release 34 and newer is licensed under GNU GPL v3 with linking exception to enable BuguRTOS usage in closed source products.
-* Source code releases starting from version 0.3.3 and newer are licensed under GNU GPL v3 with linking exception to enable BuguRTOS usage in closed source products.
+* BuguRTOS is licensed under GPLv3 with linking exception, see [exception.txt](./exception.txt)
+* STM8/SDCC tests are licensed under GPLv3 without exceptions as [libstm8](https://github.com/mnd/libstm8) is used!
 
 # Get it! #
 * Old releases are on [Gdrive!](https://drive.google.com/folderview?id=0B32mjehjqcIOYlFtNnRSc0JxdGc&usp=sharing).
@@ -22,20 +19,29 @@ proprietary software development.
 # Current status #
 * Branches supported:
   * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
-  * 1.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
+  * End of life:
+    * 1.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
+  * On the way:
+    * 2.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
 
-* Current versions are
+* Current versions are:
   * 0.6.6;
+  * 2.0.0-rc0(master);
   * 1.0.0.
 
 * Platforms supported:
   * AVR (GNU-toolchain);
   * STM8:
     * IAR,
-    * Raisonance;
+    * Raisonance,
+    * SDCC (since 2.0.0-rc0);
   * Cortex<sup>TM</sup>-M4 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M3 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M0 (GNU-toolchain).
+
+* Notes on STM8/SDCC port:
+  * Thank @stph for taking part in this port!
+  * SDCC generates strange code for long linear functions which allocates __MUCH STACK SPACE__ for temoprary vars, be carefull!
 
 # Get started #
 Getting started guide is [here](./doc/GettingStartedEN.md).

@@ -44,9 +44,9 @@ you can see the list of different RTOS.
    * Copy BuguRTOS to some dir in your workspace.
    * Write config.h file or take one from tests or example config files.
    * Add files to your project and configure it:
-     *  preinclude config.h;
      *  add following dirs to compiler search path:
         * [%bugurtos_dir%]/kernel,
+        * [%bugurtos_dir%]/kernel/default,
         * [%bugurtos_dir%]/libs/native,
         * [%bugurtos_dir%]/arch/[%processor%]/[%toolchain%].
    * Write your program, in **main.c** you may write something like:
@@ -63,7 +63,7 @@ you can see the list of different RTOS.
     	/*Initialize everything*/
     	start_bugurt();
     	/*
-    	Don't write anything here, as control never reaches this place by default.
+    	Don't write anything here, as control never reaches this place.
     	*/
     }
 ```
@@ -76,17 +76,17 @@ First of all, multitasking OS is scheduler and other basic process (task,thread 
 All this stuff will be described below.
 
 ##Interrupts.
-If you want to use BuguRTOS api inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_INTERRUPT** macro.
+If you want to use BuguRTOS api inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_ISR** macro.
 This macro gives a proper wrapper for user ISR. Real ISR should be as small as possible and use as little resources as possible.
 If you need to do some complex work, then you should use virtual interrupt for such work.
 
 ####WARNING!!!
-Since BuguRTOS-1.0.0 no context switch is done on ISR enter! 
+Since BuguRTOS-1.0.0 no context switch is done on ISR enter!
 This may lead to stack overflow on some architectures!!!
 
 Example:
 ```C
-BGRT_INTERRUPT(SOME_INTERRUPT)
+BGRT_ISR(SOME_INTERRUPT)
 {
     /*Do something.*/
 }
@@ -108,24 +108,24 @@ void do_my_vint(void * arg)
 int main(void)
 {
     /*On init phase do:*/
-    
+
     /*On interrupt firing do_my_vint(some_arg) will be called.*/
     bgrt_vint_init( &my_vint, MY_VINT_PRIORITY, (bgrt_code_t)do_my_vint, (void *)some_arg );
     /*Some other init code ...*/
 }
 
-BGRT_INTERRUPT(SOME_INTERRUPT)
+BGRT_ISR(SOME_INTERRUPT)
 {
     /*Do something.*/
-    
+
     /*
     Now fire a virtual interrupt for some complex work.
     */
-    
-    /*   
-    BGRT_KBLOCK is wrapper macro for kernel block (a control structure 
+
+    /*
+    BGRT_KBLOCK is wrapper macro for kernel block (a control structure
     which is responsible kernel services on certain CPU).
-    
+
     BGRT_KBLOCK.vic is virtual interrupt controller.
     */
     bgrt_vint_push_isr( &my_vint, &BGRT_KBLOCK.vic );
@@ -428,6 +428,11 @@ Signals in BuguRTOS **native** lib **ARE NOT** POSIX signals. They used for even
 conditionals. A signal contains a conditional and a mutex.
 
 Here are signal tools, provided by **native** lib:
+
+######WARNING!!!
+Signals in bugurtos native API have poor design leading to event leaks!!!
+Use Conditionals and Semaphores instead!!!
+
 ```C
 #include <native.h>
 
@@ -451,7 +456,7 @@ BuguRTOS **native** lib provides unbuffered blocking IPC.
 This IPC implementation uses rendezvous method to pass messages between processes.
 Messages are passed by reference through endpoints.
 Every endpoint has its owner process, which receives messages.
-Priority inheritance protocol is used in IPC.
+Priority inheritance/ceiling protocol is used in IPC.
 An IPC endpoint is a variable of ipc_t type.
 Here are IPC tools:
 ```C
