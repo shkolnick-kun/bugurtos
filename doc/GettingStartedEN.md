@@ -1,4 +1,4 @@
-# Getting started with BuguRTOS-1.0.x
+# Getting started with BuguRTOS-2.0.x
 
 ##Hello, %username%!!!
 If you are reading this flow of words, then you may be interested in BuguRTOS.

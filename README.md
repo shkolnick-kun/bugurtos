@@ -40,7 +40,7 @@ proprietary software development.
   * Cortex<sup>TM</sup>-M0 (GNU-toolchain).
 
 * Notes on STM8/SDCC port:
-  * Thank @stph for taking part in this port!
+  * Thank [Philipp Klaus Krause](https://github.com/spth) for taking part in this port!
   * SDCC generates strange code for long linear functions which allocates __MUCH STACK SPACE__ for temoprary vars, be carefull!
 
 # Get started #
