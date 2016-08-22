@@ -26,6 +26,9 @@
 				</Compiler>
 			</Target>
 		</Build>
+		<Unit filename="../../../README.md">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="../../../arch/avr/gcc-vsmp/bugurt_config_example.h">
 			<Option target="Debug" />
 		</Unit>
@@ -133,6 +136,15 @@
 		</Unit>
 		<Unit filename="../../../arch/stm8/sdcc/bugurt_proc_stack_init.c">
 			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../doc/Changelog.md">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../doc/GettingStartedEN.md">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="../../../doc/NewBranchDifferences.md">
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="../../../kernel/bugurt.h" />

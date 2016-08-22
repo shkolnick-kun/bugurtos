@@ -22,7 +22,7 @@
 	<File name="../../../../../kernel/crit_sec.h" open="0" top="0" tabpos="0">
 		<Cursor position="8048" topLine="120" />
 	</File>
-	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="1" tabpos="0">
+	<File name="../../../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="0">
 		<Cursor position="14005" topLine="77" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="7">

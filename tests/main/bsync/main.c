@@ -969,6 +969,18 @@ void main_0(void * arg)
     test = (BGRT_ST_EOWN == status[0]);
     test_output(test, test_num++);
 
+    ///BGRT_SYNC_SLEEP
+    //199
+    BGRT_PROC_RUN(PID2);
+    bgrt_wait_time(10);
+    status[0] = BGRT_SYNC_WAKE(&bgrt_sync_1, BGRT_PID_NOTHING, 0);
+    test = (BGRT_ST_OK == status[0]);
+    test_output(test, test_num++);
+    //200 Null pointer arg in BGRT_SYNC_SLEEP
+    bgrt_wait_time(10);
+    test = (BGRT_ST_OK == status[0]);
+    test_output(test, test_num++);
+
     tests_end();
 }
 
@@ -1127,6 +1139,11 @@ void main_2(void * arg)
     // bgrt_sync_1 must be dirty on sync_timeout_hook_1 call
     BGRT_SYNC_TOUCH(&bgrt_sync_1);
     status[2] = bgrt_test_sync_sleep(&bgrt_sync_1, (bgrt_flag_t)0);
+    BGRT_PROC_SELF_STOP();
+
+    //199, 200 null pointer as argument.
+    status[2] = BGRT_ST_ESTAT;
+    status[2] = BGRT_SYNC_SLEEP(&bgrt_sync_1,0);
     BGRT_PROC_SELF_STOP();
 }
 

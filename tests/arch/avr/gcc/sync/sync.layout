@@ -20,7 +20,7 @@
 		<Cursor position="20201" topLine="395" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="0">
-		<Cursor position="15068" topLine="286" />
+		<Cursor position="15276" topLine="286" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="0">
 		<Cursor position="8947" topLine="0" />
@@ -68,7 +68,7 @@
 		<Cursor position="16439" topLine="352" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="25636" topLine="954" />
+		<Cursor position="19939" topLine="657" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="11182" topLine="188" />
@@ -100,7 +100,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1896" topLine="70" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="17187" topLine="452" />
+	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="1">
+		<Cursor position="39412" topLine="1131" />
 	</File>
 </CodeBlocks_layout_file>
