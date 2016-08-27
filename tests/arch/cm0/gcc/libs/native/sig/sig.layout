@@ -4,7 +4,7 @@
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="1">
 		<Cursor position="6805" topLine="73" />
 	</File>
-	<File name="../../../../../../main/libs/native/sig/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="1833" topLine="70" />
+	<File name="../../../../../../main/libs/native/sig/main.c" open="1" top="1" tabpos="0">
+		<Cursor position="1836" topLine="70" />
 	</File>
 </CodeBlocks_layout_file>

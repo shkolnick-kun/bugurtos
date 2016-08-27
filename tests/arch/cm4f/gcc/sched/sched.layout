@@ -31,8 +31,8 @@
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="5">
-		<Cursor position="6616" topLine="92" />
+	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="2">
+		<Cursor position="6875" topLine="92" />
 	</File>
 	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -52,7 +52,7 @@
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="771" topLine="15" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="884" topLine="12" />
+	<File name="../../../../main/sched/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="914" topLine="18" />
 	</File>
 </CodeBlocks_layout_file>

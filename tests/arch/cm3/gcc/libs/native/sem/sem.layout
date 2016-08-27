@@ -28,7 +28,7 @@
 	<File name="../../../test_func.h" open="0" top="0" tabpos="0">
 		<Cursor position="21" topLine="0" />
 	</File>
-	<File name="../../../../../../main/libs/native/sem/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="2124" topLine="60" />
+	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="2100" topLine="60" />
 	</File>
 </CodeBlocks_layout_file>

@@ -10,8 +10,8 @@
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="3">
 		<Cursor position="7800" topLine="117" />
 	</File>
-	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="1">
-		<Cursor position="6696" topLine="86" />
+	<File name="../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="2">
+		<Cursor position="6837" topLine="86" />
 	</File>
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="0">
 		<Cursor position="8074" topLine="124" />
@@ -28,8 +28,8 @@
 	<File name="../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="6098" topLine="67" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="3">
-		<Cursor position="7252" topLine="91" />
+	<File name="../../../../../kernel/timer.c" open="1" top="1" tabpos="5">
+		<Cursor position="6719" topLine="91" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6947" topLine="87" />
@@ -40,7 +40,7 @@
 	<File name="../test_func.h" open="0" top="0" tabpos="2">
 		<Cursor position="14" topLine="0" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
-		<Cursor position="884" topLine="8" />
+	<File name="../../../../main/sched/main.c" open="1" top="0" tabpos="1">
+		<Cursor position="914" topLine="22" />
 	</File>
 </CodeBlocks_layout_file>
