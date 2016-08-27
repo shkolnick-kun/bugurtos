@@ -29,19 +29,19 @@
 		<Cursor position="7547" topLine="84" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="0" top="0" tabpos="0">
-		<Cursor position="9165" topLine="151" />
+		<Cursor position="14023" topLine="284" />
 	</File>
 	<File name="../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="10663" topLine="207" />
 	</File>
 	<File name="../../../../../kernel/sched.c" open="0" top="0" tabpos="0">
-		<Cursor position="9010" topLine="566" />
+		<Cursor position="17771" topLine="461" />
 	</File>
 	<File name="../../../../../kernel/sched.h" open="0" top="0" tabpos="0">
-		<Cursor position="12117" topLine="347" />
+		<Cursor position="15657" topLine="318" />
 	</File>
 	<File name="../../../../../kernel/sync.c" open="0" top="0" tabpos="0">
-		<Cursor position="6199" topLine="971" />
+		<Cursor position="22558" topLine="800" />
 	</File>
 	<File name="../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="11971" topLine="229" />

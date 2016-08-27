@@ -200,6 +200,7 @@ bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc)
         ret = BGRT_ST_EAGAIN;
         goto end;
     }
+    BGRT_SCHED_PROC_SET_CORE(proc);
     bgrt_sched_proc_run(proc, BGRT_PROC_STATE_READY);
 end:
     BGRT_SPIN_FREE(proc);
@@ -233,6 +234,7 @@ bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc)
     {
         proc->spointer = bgrt_proc_stack_init(proc->sstart, (bgrt_code_t)proc->pmain, (void *)proc->arg, (void (*)(void))bgrt_proc_terminate);
     }
+    BGRT_SCHED_PROC_SET_CORE(proc);
     bgrt_sched_proc_run(proc, BGRT_PROC_STATE_READY);
 end:
     BGRT_SPIN_FREE(proc);

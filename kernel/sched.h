@@ -255,8 +255,6 @@ If there is another running process, this function passes control to it.
 */
 bgrt_bool_t bgrt_sched_proc_yield(void);
 
-
-
 #ifdef BGRT_CONFIG_MP
 //CPU load information
 typedef struct _bgrt_kstat_t bgrt_kstat_t; /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
@@ -313,6 +311,29 @@ bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat);
 \return An ID of the most loaded process list.
 */
 bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat);
+/*!
+\~russian
+\brief Назначить ядро процессора.
+
+ Выбирает и устанавливает ядро, на котором будет выполняться процесс.
+
+\warning Для внутреннего использования.
+
+\param proc Указатель процесс
+
+\~english
+\brief Assign a core.
+
+ This assigns a core when a process starts execution.
+
+\warning For internal usage.
+
+\param proc A pointer to a process.
+*/
+void _bgrt_sched_proc_set_core(bgrt_proc_t * proc);
+#define BGRT_SCHED_PROC_SET_CORE(proc) _bgrt_sched_proc_set_core(proc)
+#else  // BGRT_CONFIG_MP
+#define BGRT_SCHED_PROC_SET_CORE(proc) do{}while (0)
 #endif // BGRT_CONFIG_MP
 
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))

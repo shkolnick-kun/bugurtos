@@ -171,10 +171,16 @@ void bgrt_sched_init(bgrt_sched_t * sched)
 //========================================================================================
 // Insert a process to ready list and update load information.
 #ifdef BGRT_CONFIG_MP
-static bgrt_sched_t * sched_stat_update_run(bgrt_proc_t * proc)
+void _bgrt_sched_proc_set_core(bgrt_proc_t * proc)
 {
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     proc->core_id = bgrt_sched_load_balancer(proc, (bgrt_ls_t *)bgrt_kernel.stat.val);
+    BGRT_SPIN_FREE(&bgrt_kernel.stat);
+}
+
+static bgrt_sched_t * sched_stat_update_run(bgrt_proc_t * proc)
+{
+    BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_inc(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 
@@ -429,12 +435,6 @@ void bgrt_sched_reschedule_prologue(bgrt_sched_t * sched)
 #   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock.sched)
 #endif // BGRT_CONFIG_MP
 
-#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-#   define BGRT_PROC_YIELD_SCHED_UPDATE(proc) (sched = sched_stat_update_run(proc)) //A process will migrate
-#else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-#   define BGRT_PROC_YIELD_SCHED_UPDATE(proc) do{}while (0)            //A process will stay on the same scheduler
-#endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
-
 bgrt_bool_t _bgrt_sched_proc_yield(void)
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;
@@ -477,19 +477,13 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
         {
             BGRT_SPIN_LOCK(sched);
             proc_map = sched->expired->index;
-            BGRT_SPIN_FREE(sched);
 
-            bgrt_sched_proc_stop(proc, BGRT_PROC_STATE_STOPED);
+            bgrt_pitem_fast_cut((bgrt_pitem_t *)proc);
 
-            BGRT_SPIN_LOCK(sched);
             proc_map |= sched->ready->index; /* ADLINT:SL:[W0165] type conversions*/
-            BGRT_SPIN_FREE(sched);
 
-            BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_READY); /* ADLINT:SL:[W0447] coma operator*/
-            //Update sched if needed!
-            BGRT_PROC_YIELD_SCHED_UPDATE(proc);
-            //Insert to expired lists
-            BGRT_SCHED_PROC_INSERT_EXPIRED(proc, sched);
+            bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired);
+            BGRT_SPIN_FREE(sched);
 
             save_power = (bgrt_bool_t)!proc_map; /* ADLINT:SL:[W0608,W0168] type conversions*/
         }
