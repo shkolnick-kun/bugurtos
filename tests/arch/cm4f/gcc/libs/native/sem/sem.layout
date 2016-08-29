@@ -7,7 +7,7 @@
 	<File name="../../../../../../../kernel/proc.h" open="0" top="0" tabpos="0">
 		<Cursor position="18556" topLine="275" />
 	</File>
-	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="0" tabpos="5">
+	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="1" tabpos="1">
 		<Cursor position="2100" topLine="59" />
 	</File>
 </CodeBlocks_layout_file>

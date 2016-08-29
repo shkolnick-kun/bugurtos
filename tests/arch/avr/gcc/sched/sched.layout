@@ -26,7 +26,7 @@
 		<Cursor position="8981" topLine="207" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_routines.h" open="1" top="0" tabpos="3">
-		<Cursor position="15096" topLine="286" />
+		<Cursor position="15096" topLine="279" />
 	</File>
 	<File name="../../../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="1">
 		<Cursor position="9434" topLine="77" />
