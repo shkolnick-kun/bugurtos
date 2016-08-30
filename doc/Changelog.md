@@ -7,9 +7,8 @@
     * The project code has been checked with [Adlint](http://adlint.sourceforge.net/) and anotated.
     * Added STM8/SDCC port.
     * Fixed #20.
+    * Fixed #26
   * TODO:
-    * Address #26: write one more test.
-    * Do regression tests.
     * Do release.
   * 1.0.0
     * Deleted IDLE process and user code execution after start (Oh boy! How do I add CMSIS-RTOS API after this???).
