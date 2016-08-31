@@ -8,6 +8,15 @@ It is capable to work in hard/soft real time systems.
 It is free and open source software, but you can use it for
 proprietary software development.
 
+# Main features #
+* Small. BuguRTOS can run on small 8bit microcontrollers.
+* Portable. The kernel is designed to be easy portable to new platforms.
+* No memory management in kernel.
+* Smaller process stack size required as kernel runs in separate thread with it's own stack.
+* The kernel is allmost fully preemptive. Only small chunks of code can't be preempted by interrupts.
+* Interrupt virtualization. Virtual interrupts are run cooperatively in kernel threads. By default they can be preempted by other virtual interrupts in preemtion points.
+* Customizable system call interface. One may comment out unneeded system calls, add custom system calls or rewrite system call table completely.
+
 # Licensing #
 * BuguRTOS is licensed under GPLv3 with linking exception, see [exception.txt](./exception.txt)
 * STM8/SDCC tests are licensed under GPLv3 without exceptions as [libstm8](https://github.com/mnd/libstm8) is used!
@@ -19,22 +28,18 @@ proprietary software development.
 # Current status #
 * Branches supported:
   * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
-  * End of life:
-    * 1.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
-  * On the way:
-    * 2.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
+  * 2.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
 
 * Current versions are:
   * 0.6.6;
-  * 2.0.0-rc0(master);
-  * 1.0.0.
+  * 2.0.0;
 
 * Platforms supported:
   * AVR (GNU-toolchain);
   * STM8:
     * IAR,
     * Raisonance,
-    * SDCC (since 2.0.0-rc0);
+    * SDCC (since 2.0.0);
   * Cortex<sup>TM</sup>-M4 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M3 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M0 (GNU-toolchain).
@@ -47,13 +52,14 @@ proprietary software development.
 Getting started guide is [here](./doc/GettingStartedEN.md).
 
 # Todo #
-* Write libs for 1.0.x branch.
+* Write libs for 2.0.x branch.
 * Write more ports.
 * Fix bugs.
 * ??????
 * PROFIT!!!
 
 # News #
+* **August 31th 2016: BuguRTOS updated** version 2.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **April 26th 2016: BuguRTOS updated** version 1.0.0 is out, see [Changelog](./doc/Changelog.md), semantic versioning is used now!
 * **January 6th 2016: BuguRTOS updated** version 0.9.9 is out, see [Changelog](./doc/Changelog.md)!
 * **July 3rd 2015: BuguRTOS updated** versions 0.6.6, 0.7.3, 0.8.4 are out,  are out, see [Changelog](./doc/Changelog.md)!
