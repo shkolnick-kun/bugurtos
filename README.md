@@ -48,6 +48,9 @@ proprietary software development.
   * Thank [Philipp Klaus Krause](https://github.com/spth) for taking part in this port!
   * SDCC generates strange code for long linear functions which allocates __MUCH STACK SPACE__ for temoprary vars, be carefull!
 
+* Notes on Cortex<sup>TM</sup>-M0 port:
+  * This port should also work on Cortex<sup>TM</sup>-M1 with OS-extension.
+
 # Get started #
 Getting started guide is [here](./doc/GettingStartedEN.md).
 

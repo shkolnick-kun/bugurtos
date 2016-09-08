@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="4">
+	<File name="../../../../../arch/cm4f/gcc/bugurt_port.c" open="1" top="0" tabpos="4">
 		<Cursor position="6617" topLine="165" />
 	</File>
 	<File name="../../../../../arch/cm4f/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
@@ -31,7 +31,7 @@
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="2">
 		<Cursor position="6719" topLine="93" />
 	</File>
 	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="1">
@@ -52,7 +52,7 @@
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="771" topLine="15" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="1" top="0" tabpos="1">
+	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="1">
 		<Cursor position="914" topLine="30" />
 	</File>
 </CodeBlocks_layout_file>

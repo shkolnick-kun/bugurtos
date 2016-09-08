@@ -81,44 +81,45 @@
 volatile bgrt_stack_t bugurt_kernel_stack[32] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //====================================================================================
 #define BGRT_CONTEXT_STORE() \
-	__asm__ __volatile__ (							 \
-				"mrs r0, psp                    \n\t"\
-				"tst r14, #0x10                 \n\t"\
-				"it eq                          \n\t"\
-				"vstmdbeq r0!, {s16-s31}        \n\t"\
-				"stmdb r0!, {r4-r11,lr}         \n\t"\
-				"msr psp, r0                    \n\t"\
-				"dsb        					\n\t"\
-				"isb        					\n\t"\
+	__asm__ __volatile__ (               \
+				"mrs r0, psp             \n\t"\
+				"tst r14, #0x10          \n\t"\
+				"it eq                   \n\t"\
+				"vstmdbeq r0!, {s16-s31} \n\t"\
+				"stmdb r0!, {r4-r11,lr}  \n\t"\
+				"msr psp, r0             \n\t"\
+				"dsb                     \n\t"\
+				"isb                     \n\t"\
 				:::)
 //====================================================================================
 #define BGRT_CONTEXT_LOAD() \
-	__asm__ __volatile__ (						 	 \
-				"mrs r0, psp                    \n\t"\
-				"ldmfd r0!, {r4-r11,lr}			\n\t"\
-				"tst r14, #0x10                 \n\t"\
-				"it eq                          \n\t"\
-				"vldmiaeq r0!, {s16-s31}		\n\t"\
-				"msr psp, r0                    \n\t"\
-				"dsb        					\n\t"\
-				"isb        					\n\t"\
-				"bx lr                          \n\t"\
+	__asm__ __volatile__ (               \
+				"mrs r0, psp             \n\t"\
+				"ldmfd r0!, {r4-r11,lr}  \n\t"\
+				"tst r14, #0x10          \n\t"\
+				"it eq                   \n\t"\
+				"vldmiaeq r0!, {s16-s31} \n\t"\
+				"msr psp, r0             \n\t"\
+				"dsb                     \n\t"\
+				"isb                     \n\t"\
+				"bx lr                   \n\t"\
 				:::)
 //====================================================================================
 static bgrt_stack_t * bugurt_read_psp(void)
 {
     bgrt_stack_t * ret=0;
-__asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret));
-    return(ret);
+    __asm__ __volatile__ ("mrs %0, psp \n\t" :"=r" (ret)::);
+    return ret;
 }
 //====================================================================================
 static void bugurt_write_psp(volatile bgrt_stack_t * ptr)
 {
     __asm__ __volatile__ (
-        "msr psp, %0\n\t"
-        "dsb \n\t"
-        "isb \n\t"
-    : : "r" (ptr));
+        "msr psp, %0 \n\t"
+        "dsb         \n\t"
+        "isb         \n\t"
+        ::"r" (ptr):
+        );
 }
 //====================================================================================
 bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, void * arg, void(*return_address)(void) )
@@ -152,9 +153,9 @@ void bgrt_disable_interrupts(void)
         "msr basepri, r0 \n\t"
         "dsb             \n\t"
         "isb             \n\t"
-    :
-    : "i" (BGRT_CONFIG_CRITSEC_PRIO << (8 - BGRT_CONFIG_PRIO_BITS))
-            : "r0"
+        :
+        :"i" (BGRT_CONFIG_CRITSEC_PRIO << (8 - BGRT_CONFIG_PRIO_BITS))
+        :"r0"
         );
 }
 //====================================================================================
@@ -162,12 +163,12 @@ void bgrt_enable_interrupts(void)
 {
     __asm__ __volatile__ (
         "mov r0, #0      \n\t"
-        "msr basepri, r0  \n\t"
+        "msr basepri, r0 \n\t"
         "dsb             \n\t"
         "isb             \n\t"
-    :
-    :
-    : "r0"
+        :
+        :
+        :"r0"
     );
 }
 //====================================================================================
@@ -209,6 +210,7 @@ void bgrt_init(void)
     __asm__ __volatile__ (
         "dsb     \n\t"
         "cpsid i \n\t"
+        :::
     );
     bgrt_kernel_init();
     // Устанавливаем начальное значение PSP, для процесса потока Ядра;
@@ -228,6 +230,7 @@ void bgrt_start(void)
         "dsb     \n\t"
         "cpsie i \n\t"
         "isb     \n\t"
+        :::
     );
     bgrt_kblock_main(&BGRT_KBLOCK);
 }

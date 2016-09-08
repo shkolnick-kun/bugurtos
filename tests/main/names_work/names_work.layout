@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="adlint" />
-	<File name="../../../README.md" open="0" top="0" tabpos="3">
-		<Cursor position="1739" topLine="38" />
+	<File name="../../../README.md" open="1" top="0" tabpos="2">
+		<Cursor position="2464" topLine="0" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_config_example.h" open="0" top="0" tabpos="11">
 		<Cursor position="4055" topLine="102" />
@@ -37,8 +37,8 @@
 	<File name="../../../arch/cm0/gcc/bugurt_config_example.h" open="0" top="0" tabpos="19">
 		<Cursor position="2289" topLine="67" />
 	</File>
-	<File name="../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="20">
-		<Cursor position="94" topLine="1" />
+	<File name="../../../arch/cm0/gcc/bugurt_port.c" open="1" top="1" tabpos="3">
+		<Cursor position="3468" topLine="216" />
 	</File>
 	<File name="../../../arch/cm0/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="699" topLine="20" />
@@ -100,8 +100,8 @@
 	<File name="../../../arch/stm8/sdcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../doc/Changelog.md" open="1" top="1" tabpos="0">
-		<Cursor position="455" topLine="123" />
+	<File name="../../../doc/Changelog.md" open="1" top="0" tabpos="1">
+		<Cursor position="455" topLine="0" />
 	</File>
 	<File name="../../../doc/GettingStartedEN.md" open="0" top="0" tabpos="1">
 		<Cursor position="33" topLine="0" />
