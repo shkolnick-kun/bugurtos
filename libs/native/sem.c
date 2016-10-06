@@ -194,32 +194,17 @@ bgrt_st_t sem_lock(sem_t * sem)
     }
 }
 
+bgrt_st_t _sem_free_payload(bgrt_va_wr_t* va)
+{
+    sem_t *sem;
+
+    sem   = (sem_t *)va_arg(va->list, void *);
+    return sem_free_isr(sem);
+}
+
 bgrt_st_t sem_free(sem_t * sem)
 {
-    bgrt_st_t ret;
-
-    if (!sem)
-    {
-        return BGRT_ST_ENULL;
-    }
-
-    BGRT_PROC_LOCK();
-
-    ret = BGRT_SYNC_WAKE(sem,  BGRT_PID_NOTHING, 0);// Now we can try to wake some process.
-
-    if (BGRT_ST_EEMPTY == ret)
-    {
-        bgrt_disable_interrupts();
-        BGRT_SPIN_LOCK(sem);
-
-        sem->counter++;
-        ret = BGRT_ST_OK;
-
-        BGRT_SPIN_FREE(sem);
-        bgrt_enable_interrupts();
-    }
-    BGRT_PROC_FREE();
-    return ret;
+    return BGRT_SYSCALL_NVAR(USER, (void *)(_sem_free_payload), (void *)sem);
 }
 
 bgrt_st_t sem_free_isr(sem_t * sem)

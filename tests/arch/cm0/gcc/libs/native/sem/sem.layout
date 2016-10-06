@@ -49,8 +49,8 @@
 	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="10890" topLine="179" />
 	</File>
-	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="12">
-		<Cursor position="7134" topLine="92" />
+	<File name="../../../../../../../kernel/timer.c" open="1" top="0" tabpos="8">
+		<Cursor position="7462" topLine="92" />
 	</File>
 	<File name="../../../../../../../kernel/vint.c" open="0" top="0" tabpos="7">
 		<Cursor position="7521" topLine="135" />
@@ -58,19 +58,19 @@
 	<File name="../../../../../../../kernel/vint.h" open="0" top="0" tabpos="4">
 		<Cursor position="7942" topLine="129" />
 	</File>
-	<File name="../../../../../../../libs/native/sem.c" open="0" top="0" tabpos="0">
-		<Cursor position="7460" topLine="0" />
+	<File name="../../../../../../../libs/native/sem.c" open="1" top="1" tabpos="5">
+		<Cursor position="8441" topLine="0" />
 	</File>
 	<File name="../../../../../../../libs/native/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="6277" topLine="100" />
 	</File>
 	<File name="../../../test_func.c" open="1" top="0" tabpos="1">
-		<Cursor position="3153" topLine="112" />
+		<Cursor position="1381" topLine="49" />
 	</File>
 	<File name="../../../test_func.h" open="1" top="0" tabpos="2">
 		<Cursor position="13" topLine="0" />
 	</File>
 	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="0" tabpos="4">
-		<Cursor position="2966" topLine="77" />
+		<Cursor position="2100" topLine="53" />
 	</File>
 </CodeBlocks_layout_file>
