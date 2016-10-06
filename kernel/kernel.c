@@ -108,7 +108,8 @@ static void push_pend_scall(bgrt_kblock_t * kblock)
     (void)kblock;
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
-        do_int_scall(kblock);
+        //DO NOT "OPTIMIZE" THIS!!!
+        bgrt_vint_push(&kblock->int_scall, &kblock->vic);
     }
 }
 
@@ -166,6 +167,7 @@ void bgrt_kblock_main(bgrt_kblock_t * kblock)
 {
     while (1)
     {
+
         bgrt_vic_do_work(&kblock->vic);
         bgrt_switch_to_proc();
     }
