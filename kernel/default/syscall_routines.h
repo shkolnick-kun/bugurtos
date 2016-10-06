@@ -302,7 +302,14 @@ typedef bgrt_st_t (*bgrt_user_func_t)(bgrt_va_wr_t*);
 BGRT_SC_SR(USER, bgrt_va_wr_t* va)
 {
     bgrt_user_func_t func;
-    func = (bgrt_user_func_t)va_arg(va->list, void *);
-    return (*func)(va);
+    bgrt_va_wr_t param;
+    bgrt_st_t ret;
+
+    va_copy(param.list, va->list);
+    func = (bgrt_user_func_t)va_arg(param.list, void *);
+    ret = (*func)(&param);
+    va_end(param.list);
+
+    return ret;
 }
 #endif //_BGRT_SCR_H_

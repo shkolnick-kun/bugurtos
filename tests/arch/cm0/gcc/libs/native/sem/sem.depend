@@ -346,7 +346,7 @@
 	<default/syscall_routines.h>
 	<syscall_table.h>
 
-1475730675 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/default/syscall_routines.h
+1475733614 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/default/syscall_routines.h
 	<bugurt.h>
 
 1472567319 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.c
@@ -358,7 +358,7 @@
 1472567319 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
 	"bugurt.h"
 
-1475678271 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
+1475735165 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
 	"sem.h"
 
 1472567320 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.h

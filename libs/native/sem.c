@@ -125,42 +125,73 @@ bgrt_st_t sem_try_lock(sem_t * sem)
     return ret;
 }
 
+bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
+{
+    bgrt_st_t ret = BGRT_ST_SCALL;
+    sem_t       * sem;
+    bgrt_flag_t * touch;
+    bgrt_flag_t * state;
+
+    sem   = (sem_t      *)va_arg(va->list, void *);
+    touch = (bgrt_flag_t*)va_arg(va->list, void *);
+    state = (bgrt_flag_t*)va_arg(va->list, void *);
+
+    switch (*state)
+    {
+    case 0:
+    {
+        _bgrt_proc_lock();
+
+        BGRT_KERNEL_PREEMPT();
+
+        BGRT_SPIN_LOCK(sem);
+
+        if (sem->counter)
+        {
+            sem->counter--;
+            BGRT_SPIN_FREE(sem);
+
+            return BGRT_ST_OK;
+
+        }
+        else
+        {
+            _bgrt_sync_touch((bgrt_sync_t *)sem);
+            BGRT_SPIN_FREE(sem);
+            //Now goto state 1
+            *touch = (bgrt_flag_t)1;
+            *state = (bgrt_flag_t)1;
+        }
+    }
+    case 1:
+    {
+        ret = _bgrt_sync_sleep((bgrt_sync_t *)sem, touch);
+        if (BGRT_ST_ROLL != ret)
+        {
+            _bgrt_proc_free();
+        }
+        break;
+    }
+    default:
+        break;
+    }
+    return ret;
+}
+
+
 bgrt_st_t sem_lock(sem_t * sem)
 {
-    bgrt_st_t ret;
+    volatile bgrt_flag_t touch = 0;
+    volatile bgrt_flag_t state = 0;
 
     if (!sem)
     {
         return BGRT_ST_ENULL;
     }
-
-    BGRT_PROC_LOCK();
-
-    bgrt_disable_interrupts();
-    BGRT_SPIN_LOCK(sem);
-
-    if (sem->counter)
-    {
-        sem->counter--;
-        ret = BGRT_ST_OK;
-    }
     else
     {
-        _bgrt_sync_touch((bgrt_sync_t *)sem);
-        ret = BGRT_ST_ROLL;
+        return BGRT_SYSCALL_NVAR(USER, (void *)(_sem_lock_fsm), (void *)sem, (void *)&touch, (void *)&state);
     }
-
-    BGRT_SPIN_FREE(sem);
-    bgrt_enable_interrupts();
-
-    if (BGRT_ST_ROLL == ret)
-    {
-        bgrt_flag_t touch = 1;
-        ret = BGRT_SYNC_SLEEP(sem, &touch);
-    }
-
-    BGRT_PROC_FREE();
-    return ret;
 }
 
 bgrt_st_t sem_free(sem_t * sem)
