@@ -79,19 +79,6 @@ void main_sem(void * arg)
     }
 }
 
-//extern bgrt_vint_t test_vint;
-//sem_t test_sem2;
-//void main_sem2(void * arg)
-//{
-//    (void)arg;
-//    while (1)
-//    {
-//        sem_lock(&test_sem2);
-//        LED_OFF(RED);
-//    }
-//}
-
-
 int main(void)
 {
     /***************************************************
@@ -106,19 +93,13 @@ int main(void)
     init_hardware();
     bgrt_init();
 
-//    sem_init_isr(&test_sem2, 0);
-//    bgrt_vint_init(&test_vint, 0, (bgrt_code_t)sem_free_isr, (void*)&test_sem2);
-    BGRT_SCHED_SYSTICK_HOOK_ADD();
-
     _bgrt_proc_init(PR0, main_with_return,   SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 1,      1, 0 ARG_END);
     _bgrt_proc_init(PR1, main_lb,            SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END);
     _bgrt_proc_init(PR2, main_sem,           SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END);
-    //_bgrt_proc_init(PR3, main_sem2,          SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END);
 
     sem_init_isr(&test_sem, 1);
 
     _bgrt_proc_run(PR0);
-    //_bgrt_proc_run(PR3);
 
     bgrt_start();
     return 0;

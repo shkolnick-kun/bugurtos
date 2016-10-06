@@ -136,9 +136,7 @@ void test_inc(void)
     bgrt_enable_interrupts();
 }
 
-//bgrt_vint_t test_vint;
 void systick_hook(void)
 {
     NOP();
-    //bgrt_vint_push_isr(&test_vint, &BGRT_KBLOCK.vic);
 }

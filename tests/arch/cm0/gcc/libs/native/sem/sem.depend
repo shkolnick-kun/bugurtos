@@ -19,8 +19,9 @@
 	"kernel.h"
 	<bugurt_port.h>
 
-1475730645 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/bugurt_config.h
+1475736434 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/bugurt_config.h
 	<libopencmsis/core_cm3.h>
+	<libopencm3/stm32/gpio.h>
 
 1430829252 /home/anon/BuguRTOS/0.8.x/thirdparty/libopencm3/include/libopencmsis/core_cm3.h
 	<libopencm3/cm3/common.h>
@@ -358,13 +359,13 @@
 1472567319 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
 	"bugurt.h"
 
-1475735165 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
+1475735478 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
 	"sem.h"
 
 1472567320 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.h
 	<bugurt.h>
 
-1475730787 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/test_func.c
+1475736449 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/test_func.c
 	<test_func.h>
 
 1472297014 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/test_func.h

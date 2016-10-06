@@ -4,8 +4,8 @@
 	<File name="../../../../../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="11">
 		<Cursor position="5206" topLine="122" />
 	</File>
-	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="1">
-		<Cursor position="9653" topLine="147" />
+	<File name="../../../../../../../kernel/bugurt.h" open="1" top="0" tabpos="3">
+		<Cursor position="7915" topLine="129" />
 	</File>
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="10">
 		<Cursor position="6837" topLine="89" />
@@ -50,7 +50,7 @@
 		<Cursor position="10890" topLine="179" />
 	</File>
 	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="12">
-		<Cursor position="6875" topLine="92" />
+		<Cursor position="7134" topLine="92" />
 	</File>
 	<File name="../../../../../../../kernel/vint.c" open="0" top="0" tabpos="7">
 		<Cursor position="7521" topLine="135" />
@@ -58,19 +58,19 @@
 	<File name="../../../../../../../kernel/vint.h" open="0" top="0" tabpos="4">
 		<Cursor position="7942" topLine="129" />
 	</File>
-	<File name="../../../../../../../libs/native/sem.c" open="1" top="1" tabpos="0">
+	<File name="../../../../../../../libs/native/sem.c" open="0" top="0" tabpos="0">
 		<Cursor position="7460" topLine="0" />
 	</File>
 	<File name="../../../../../../../libs/native/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="6277" topLine="100" />
 	</File>
-	<File name="../../../test_func.c" open="0" top="0" tabpos="6">
-		<Cursor position="3156" topLine="115" />
+	<File name="../../../test_func.c" open="1" top="0" tabpos="1">
+		<Cursor position="3153" topLine="112" />
 	</File>
-	<File name="../../../test_func.h" open="0" top="0" tabpos="2">
-		<Cursor position="596" topLine="16" />
+	<File name="../../../test_func.h" open="1" top="0" tabpos="2">
+		<Cursor position="13" topLine="0" />
 	</File>
-	<File name="../../../../../../main/libs/native/sem/main.c" open="0" top="0" tabpos="5">
-		<Cursor position="2295" topLine="66" />
+	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="0" tabpos="4">
+		<Cursor position="2966" topLine="77" />
 	</File>
 </CodeBlocks_layout_file>
