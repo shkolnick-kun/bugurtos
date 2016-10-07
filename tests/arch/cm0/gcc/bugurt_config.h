@@ -26,7 +26,7 @@ typedef unsigned long bgrt_stack_t;
 // data types
 typedef unsigned long bgrt_index_t;
 #define BGRT_BITS_IN_INDEX_T (32)
-#define BGRT_CONFIG_USER_SEARCH(index,prio) do{ prio = __builtin_ctzl(index); }while(0)
+#define BGRT_CONFIG_USER_SEARCH(index) (__builtin_ctzl(index))
 
 // Even if bgrt_index_t is unsigned long long,
 // there will be only 64 priority levels available,
@@ -62,11 +62,12 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define STM32F0
 #include <libopencmsis/core_cm3.h>
 
-//#include <libopencm3/stm32/gpio.h>
-//#define GREEN GPIO9
-//#define RED   GPIO8
-//#define LED_ON(CL)  gpio_set(GPIOC, CL)
-//#define LED_OFF(CL) gpio_clear(GPIOC, CL)
+#include <libopencm3/stm32/gpio.h>
+#define GREEN GPIO9
+#define RED   GPIO8
+#define LED_ON(CL)  gpio_set(GPIOC, CL)
+#define LED_OFF(CL) gpio_clear(GPIOC, CL)
+#define LED_TOGGLE(CL) gpio_toggle(GPIOC, CL)
 
 // These macros needed to interface cstartup code.
 #define BGRT_SYSTEM_TIMER_ISR 	sys_tick_handler

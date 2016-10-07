@@ -80,8 +80,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /* ADLINT:SF:[W0256,W0165,W0114,W0268] Yes we drop some bits, and convert some types */
 bgrt_prio_t bgrt_index_search(bgrt_index_t index)
 {
-    bgrt_prio_t prio = (bgrt_prio_t)0;
 #ifndef BGRT_CONFIG_USER_SEARCH
+    bgrt_prio_t prio = (bgrt_prio_t)0;
     /*
     Linear search.
     Time limitation is O(BGRT_BITS_IN_INDEX_T), which is O(1).
@@ -96,8 +96,8 @@ bgrt_prio_t bgrt_index_search(bgrt_index_t index)
         prio++;
         mask<<=1;
     }
-#else
-    BGRT_CONFIG_USER_SEARCH(index, prio); //User defined search procedure
-#endif
     return prio;
+#else
+    return BGRT_CONFIG_USER_SEARCH(index); //User defined search procedure
+#endif
 }
