@@ -26,6 +26,7 @@ typedef unsigned long bgrt_stack_t;
 // data types
 typedef unsigned long bgrt_index_t;
 #define BGRT_BITS_IN_INDEX_T (32)
+#define BGRT_CONFIG_USER_SEARCH(index,prio) do{ prio = __builtin_ctzl(index); }while(0)
 
 // Even if bgrt_index_t is unsigned long long,
 // there will be only 64 priority levels available,

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1475677651 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm0/gcc/bugurt_port.c
+1475757870 source:/home/anon/BuguRTOS/0.8.x/bugurtos/arch/cm0/gcc/bugurt_port.c
 	<bugurt.h>
 
 1472567317 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
@@ -19,8 +19,9 @@
 	"kernel.h"
 	<bugurt_port.h>
 
-1475737061 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/bugurt_config.h
+1475816881 /home/anon/BuguRTOS/0.8.x/bugurtos/tests/arch/cm0/gcc/bugurt_config.h
 	<libopencmsis/core_cm3.h>
+	<libopencm3/stm32/gpio.h>
 
 1430829252 /home/anon/BuguRTOS/0.8.x/thirdparty/libopencm3/include/libopencmsis/core_cm3.h
 	<libopencm3/cm3/common.h>
@@ -315,13 +316,13 @@
 1472567318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.c
 	"bugurt.h"
 
-1472567318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+1475817013 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
 	"bugurt.h"
 
 1472567318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
 	"item.h"
 
-1475730566 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.c
+1475760015 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.c
 	"bugurt.h"
 
 1472567318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.c
@@ -358,7 +359,7 @@
 1472567319 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
 	"bugurt.h"
 
-1475747067 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
+1475760025 source:/home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.c
 	"sem.h"
 
 1472567320 /home/anon/BuguRTOS/0.8.x/bugurtos/libs/native/sem.h
@@ -503,7 +504,7 @@
 1430829252 /home/anon/BuguRTOS/0.8.x/thirdparty/libopencm3/include/libopencm3/stm32/l1/exti.h
 	<libopencm3/stm32/common/exti_common_all.h>
 
-1475736933 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/libs/native/sem/main.c
+1475816715 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/libs/native/sem/main.c
 	<test_func.h>
 	<sem.h>
 

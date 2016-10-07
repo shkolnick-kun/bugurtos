@@ -167,7 +167,6 @@ void bgrt_kblock_main(bgrt_kblock_t * kblock)
 {
     while (1)
     {
-
         bgrt_vic_do_work(&kblock->vic);
         bgrt_switch_to_proc();
     }

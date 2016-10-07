@@ -97,7 +97,7 @@ bgrt_prio_t bgrt_index_search(bgrt_index_t index)
         mask<<=1;
     }
 #else
-    BGRT_CONFIG_USER_SEARCH(prio); //User defined search procedure
+    BGRT_CONFIG_USER_SEARCH(index, prio); //User defined search procedure
 #endif
     return prio;
 }
