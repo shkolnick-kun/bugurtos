@@ -125,7 +125,7 @@ bgrt_st_t sem_try_lock(sem_t * sem)
     return ret;
 }
 
-bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
+static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
 {
     bgrt_st_t ret = BGRT_ST_SCALL;
     sem_t       * sem;
@@ -194,17 +194,43 @@ bgrt_st_t sem_lock(sem_t * sem)
     }
 }
 
+static bgrt_st_t _sem_free_body(sem_t *sem)
+{
+    bgrt_st_t ret;
+    // Now we can wake some process.)
+    ret = _bgrt_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
+    if (BGRT_ST_EEMPTY == ret)
+    {
+        sem->counter++;
+        ret = BGRT_ST_OK;
+    }
+    return ret;
+}
+
 bgrt_st_t _sem_free_payload(bgrt_va_wr_t* va)
 {
     sem_t *sem;
+    bgrt_st_t ret;
 
     sem   = (sem_t *)va_arg(va->list, void *);
-    return sem_free_isr(sem);
+
+    BGRT_SPIN_LOCK(sem);
+    ret = _sem_free_body(sem);
+    BGRT_SPIN_FREE(sem);
+
+    return ret;
 }
 
 bgrt_st_t sem_free(sem_t * sem)
 {
-    return BGRT_SYSCALL_NVAR(USER, (void *)(_sem_free_payload), (void *)sem);
+    if (!sem)
+    {
+        return BGRT_ST_ENULL;
+    }
+    else
+    {
+        return BGRT_SYSCALL_NVAR(USER, (void *)(_sem_free_payload), (void *)sem);
+    }
 }
 
 bgrt_st_t sem_free_isr(sem_t * sem)
@@ -224,13 +250,7 @@ bgrt_st_t sem_free_isr(sem_t * sem)
     }
     else
     {
-        // Now we can wake some process.)
-        ret = _bgrt_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
-        if (BGRT_ST_EEMPTY == ret)
-        {
-            sem->counter++;
-            ret = BGRT_ST_OK;
-        }
+        _sem_free_body(sem);
     }
     BGRT_SPIN_FREE(sem);
 

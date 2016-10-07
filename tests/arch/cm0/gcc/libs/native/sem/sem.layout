@@ -4,8 +4,8 @@
 	<File name="../../../../../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="12">
 		<Cursor position="5422" topLine="122" />
 	</File>
-	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="6">
-		<Cursor position="7918" topLine="138" />
+	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="2">
+		<Cursor position="7914" topLine="381" />
 	</File>
 	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="10">
 		<Cursor position="6803" topLine="87" />
@@ -19,8 +19,8 @@
 	<File name="../../../../../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="0">
 		<Cursor position="7280" topLine="72" />
 	</File>
-	<File name="../../../../../../../kernel/index.c" open="0" top="0" tabpos="13">
-		<Cursor position="6666" topLine="74" />
+	<File name="../../../../../../../kernel/index.c" open="0" top="0" tabpos="1">
+		<Cursor position="6096" topLine="74" />
 	</File>
 	<File name="../../../../../../../kernel/kernel.c" open="0" top="0" tabpos="4">
 		<Cursor position="8093" topLine="138" />
@@ -38,7 +38,7 @@
 		<Cursor position="12109" topLine="217" />
 	</File>
 	<File name="../../../../../../../kernel/sync.c" open="0" top="0" tabpos="8">
-		<Cursor position="19556" topLine="479" />
+		<Cursor position="19556" topLine="935" />
 	</File>
 	<File name="../../../../../../../kernel/sync.h" open="0" top="0" tabpos="0">
 		<Cursor position="11207" topLine="203" />
@@ -58,8 +58,8 @@
 	<File name="../../../../../../../kernel/vint.h" open="0" top="0" tabpos="4">
 		<Cursor position="7942" topLine="129" />
 	</File>
-	<File name="../../../../../../../libs/native/sem.c" open="0" top="0" tabpos="3">
-		<Cursor position="8450" topLine="209" />
+	<File name="../../../../../../../libs/native/sem.c" open="1" top="1" tabpos="0">
+		<Cursor position="8747" topLine="203" />
 	</File>
 	<File name="../../../../../../../libs/native/sem.h" open="0" top="0" tabpos="0">
 		<Cursor position="6277" topLine="100" />
