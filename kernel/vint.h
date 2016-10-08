@@ -212,6 +212,27 @@ void bgrt_vic_init(bgrt_vic_t * vic);
 \warning Для внутреннего использования.
 
 \param vic  Указатель на виртуальный контроллер прерываний.
+\return BGRT_ST_ROLL если нужна еще иттерация, BGRT_ST_OK если вся работа выполнена.
+
+\~english
+\brief
+Virtual interrupt processing.
+
+\warning For internal usage.
+
+\param vic A pointer to a #bgrt_vic_t object.
+\return BGRT_ST_ROLL if next itteration needed, BGRT_ST_OK if all done.
+*/
+bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic);
+
+/*!
+\~russian
+\brief
+Обработка виртуальных прерываний.
+
+\warning Для внутреннего использования.
+
+\param vic  Указатель на виртуальный контроллер прерываний.
 
 \~english
 \brief

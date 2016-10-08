@@ -52,12 +52,25 @@ static void tst_vfunc_3(bgrt_vic_t * vic)
     printf("Do work for tst_vint_3:%d\n", (int)vic->prio);
 }
 
+bgrt_vint_t tst_vint_4;
+static void tst_vfunc_4(bgrt_vic_t * vic)
+{
+    printf("Do work for tst_vint_4:%d\n", (int)vic->prio);
+
+    printf("Insert VINT2.\n");
+    bgrt_vint_push(&tst_vint_2, &tst_vic);
+    printf("Do nested work.\n");
+    bgrt_vic_do_work(&tst_vic);
+    printf("Done nested work.\n");
+}
+
 int main()
 {
     bgrt_vic_init(&tst_vic);
     bgrt_vint_init(&tst_vint_1,      BGRT_PRIO_LOWEST, (bgrt_code_t)tst_vfunc_1, (void *)&tst_vic);
     bgrt_vint_init(&tst_vint_2,                     2, (bgrt_code_t)tst_vfunc_2, (void *)&tst_vic);
     bgrt_vint_init(&tst_vint_3,                     2, (bgrt_code_t)tst_vfunc_3, (void *)&tst_vic);
+    bgrt_vint_init(&tst_vint_4,      BGRT_PRIO_LOWEST, (bgrt_code_t)tst_vfunc_4, (void *)&tst_vic);
 
     printf("Do work on empty VIC.\n");
     bgrt_vic_do_work(&tst_vic);
@@ -82,6 +95,11 @@ int main()
     bgrt_vint_push(&tst_vint_3, &tst_vic);
 
     printf("\nDo work on with 3 VINTs.\n");
+    bgrt_vic_do_work(&tst_vic);
+
+    printf("\nInsert VINT4.\n");
+    bgrt_vint_push(&tst_vint_4, &tst_vic);
+    printf("\nDo work on with nested VINTs.\n");
     bgrt_vic_do_work(&tst_vic);
 
     printf("\nHello world!\n");

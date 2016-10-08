@@ -127,68 +127,66 @@ bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
     return ret;
 }
 
-static bgrt_vint_t * bgrt_vint_pop(bgrt_vic_t * vic)
+static bgrt_vint_t * bgrt_vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
 {
-    bgrt_pitem_t * ret;
+    bgrt_pitem_t * work;
     //Everything is done on local CPU core, just disable interrupts.
     BGRT_VINT_CS_START();
     //Get list head
-    ret = (bgrt_pitem_t *)bgrt_xlist_head((bgrt_xlist_t *)vic);
+    work = (bgrt_pitem_t *)bgrt_xlist_head((bgrt_xlist_t *)vic);
     //Is there any work?
-    if (ret)
+    if (work)
     {
-        //Cut it.
-        bgrt_pitem_cut(ret);
+        //Do only higher priority work...
+        if (work->prio < lprio)
+        {
+            //Cut it.
+            bgrt_pitem_cut(work);
+        }
+        else
+        {
+            work = (bgrt_pitem_t *)0;
+        }
     }
     //May enable interrupts
     BGRT_VINT_CS_END();
     //We must return virtual interrupt
-    return (bgrt_vint_t *)ret;
+    return (bgrt_vint_t *)work;
+}
+
+bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic)
+{
+    bgrt_prio_t lprio;
+    bgrt_vint_t * work;
+
+    lprio = vic->prio;
+    work = bgrt_vint_pop(vic,lprio);
+    //Is there any work?
+    if (work)
+    {
+        //func is used twice, so...
+        bgrt_code_t func;
+        func = work->func;
+        //Is it valid?
+        if (func)
+        {
+            //Remember current priority
+            vic->prio = ((bgrt_pitem_t *)work)->prio;
+            // Do work.
+            func(work->arg);
+            //A work is done, remind last priority.
+            vic->prio = lprio;
+        }
+        return BGRT_ST_ROLL;
+    }
+    return BGRT_ST_OK; /* ADLINT:SL:[W0605] signed/unsigned*/
 }
 
 void bgrt_vic_do_work(bgrt_vic_t * vic)
 {
     //Remember last priority
-    bgrt_prio_t lprio;
-    lprio = vic->prio;
+
+
     //Do some pending work...
-    while (1)
-    {
-        bgrt_vint_t * work;
-        work = bgrt_vint_pop(vic);
-        //Is there any work?
-        if (work)
-        {
-            //work_prio is used twice, so remember it.
-            bgrt_prio_t work_prio;
-            work_prio = ((bgrt_pitem_t *)work)->prio;
-            //Do only higher priority work...
-            if (work_prio < lprio)
-            {
-                //func is used twice, so...
-                bgrt_code_t func;
-                func = work->func;
-                //Is it valid?
-                if (func)
-                {
-                    //Remember current priority
-                    vic->prio = work_prio;
-                    // Do work.
-                    func(work->arg);
-                }
-            }
-            else
-            {
-                //Nothing to do, exit.
-                break; /* ADLINT:SL:[W0605] signed/unsigned*/
-            }
-        }
-        else
-        {
-            //Nothing to do, exit.
-            break; /* ADLINT:SL:[W0605] signed/unsigned*/
-        }
-    }
-    //Remind last priority
-    vic->prio = lprio;
+    while (BGRT_ST_ROLL == bgrt_vic_iterator(vic));
 }

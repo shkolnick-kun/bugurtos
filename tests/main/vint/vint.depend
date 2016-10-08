@@ -1,60 +1,68 @@
 # depslib dependency file v1.0
-1456905793 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
+1475836085 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.c
 	"bugurt.h"
 
-1460441261 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
+1472567317 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/bugurt.h
 	<bugurt_config.h>
 	"index.h"
 	"item.h"
+	"pcounter.h"
 	"xlist.h"
 	"pitem.h"
-	"pcounter.h"
 	"crit_sec.h"
-	"timer.h"
 	"proc.h"
 	"sched.h"
 	"sync.h"
 	"syscall.h"
-	<user_syscall.h>
+	"timer.h"
 	"vint.h"
 	"kernel.h"
 	<bugurt_port.h>
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
+1472567318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/index.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
+1472567318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pcounter.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
+1472567318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/crit_sec.h
 
-1460200997 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/timer.h
 
-1460441276 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/proc.h
 
-1460200806 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sched.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/sync.h
 
-1456905793 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+1472567319 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/syscall.h
+	<syscall_table.h>
+	<stdarg.h>
+	<custom_syscall_api.h>
+	<default/syscall_api.h>
 
-1460375181 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.h
+1475906948 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.h
 
-1460200936 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
+1472567318 /home/anon/BuguRTOS/0.8.x/bugurtos/kernel/kernel.h
 
-1456905793 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+1472567318 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/item.c
+	"item.h"
+
+1472567319 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
 	"bugurt.h"
 
-1460273436 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/pitem.c
+1475907101 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.c
 	"bugurt.h"
 
-1460439770 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/vint.c
+1472567319 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
 	"bugurt.h"
 
-1456905793 source:/home/anon/BuguRTOS/0.8.x/bugurtos/kernel/xlist.c
-	"bugurt.h"
+1472297014 source:/home/anon/BuguRTOS/0.8.x/bugurtos/tests/main/vint/main.c
+	<stdio.h>
+	<stdlib.h>
+	<bugurt.h>
 
