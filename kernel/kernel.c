@@ -109,16 +109,15 @@ static void push_pend_scall(bgrt_kblock_t * kblock)
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
         //DO NOT "OPTIMIZE" THIS!!!
-        bgrt_vint_push(&kblock->int_scall, &kblock->vic);
+        bgrt_fic_push_int_isr(&kblock->lpfic, BGRT_KBLOCK_VSCALL);
     }
 }
 
-static void do_int_sched(bgrt_kblock_t * kblock)
+static void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
 {
     (void)kblock;
-    if (kblock->tmr_flg)
+    if (BGRT_KBLOCK_VTMR == work)
     {
-        kblock->tmr_flg = (bgrt_bool_t)0;
         bgrt_sched_schedule_prologue(&kblock->sched);
     }
     else
@@ -137,7 +136,7 @@ static void do_int_sched(bgrt_kblock_t * kblock)
         if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
         {
             //A scheduler is empty, must do resched
-            bgrt_vint_push(&kblock->int_sched, &kblock->vic);
+            bgrt_fic_push_int(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
             //May safe power
             BGRT_SAFE_POWER();
         }
@@ -156,18 +155,63 @@ void bgrt_kblock_init(bgrt_kblock_t * kblock)
 {
     bgrt_vic_init(&kblock->vic);
     bgrt_sched_init(&kblock->sched);
-    bgrt_vint_init(&kblock->int_scall, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_scall, (void *)kblock);
-    bgrt_vint_init(&kblock->int_sched, BGRT_PRIO_LOWEST, (bgrt_code_t)do_int_sched, (void *)kblock);
-    kblock->tmr_flg = (bgrt_bool_t)0;
+    bgrt_fic_init_isr(&kblock->hpfic);
+    bgrt_fic_init_isr(&kblock->lpfic);
+    bgrt_fic_push_int_isr(&kblock->lpfic, BGRT_KBLOCK_VRESCH);
+}
 
-    bgrt_vint_push_isr(&kblock->int_sched, &kblock->vic);
+#ifdef BGRT_CONFIG_HPFIC_HOOK
+#   define BGRT_KBLOCK_HPFIC_HOOK(a) BGRT_CONFIG_HPFIC_HOOK((a)->hpfic)
+#else
+#   define BGRT_KBLOCK_HPFIC_HOOK(a) do{}while(0)
+#endif
+
+#ifdef BGRT_CONFIG_LPFIC_HOOK
+#   define BGRT_KBLOCK_LPFIC_HOOK(a) BGRT_CONFIG_LPFIC_HOOK((a)->lpfic)
+#else
+#   define BGRT_KBLOCK_LPFIC_HOOK(a) do{}while(0)
+#endif
+
+
+void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
+{
+    while(1)
+    {
+        bgrt_index_t work;
+
+        BGRT_KBLOCK_HPFIC_HOOK(&kblock);
+
+        if (bgrt_vic_iterator(&kblock->vic))
+        {
+            continue;
+        }
+
+        if (bgrt_fic_pop_int(&kblock->lpfic, BGRT_KBLOCK_VSCALL))
+        {
+            do_int_scall(kblock);
+            continue;
+        }
+
+        BGRT_KBLOCK_LPFIC_HOOK(&kblock);
+
+        work = bgrt_fic_pop_int(&kblock->lpfic, BGRT_KBLOCK_VSCHMSK);
+        if (work)
+        {
+            do_int_sched(kblock, work);
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
 }
 
 void bgrt_kblock_main(bgrt_kblock_t * kblock)
 {
     while (1)
     {
-        bgrt_vic_do_work(&kblock->vic);
+        bgrt_kblock_do_work(kblock);
         bgrt_switch_to_proc();
     }
 }

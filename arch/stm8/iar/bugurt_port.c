@@ -86,7 +86,7 @@ bgrt_proc_t * bgrt_curr_proc(void)
 
 void bgrt_resched(void)
 {
-    bgrt_vint_push(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
+    bgrt_fic_push_int(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
 }
 /******************************************************************************************************/
 // Код ядра
@@ -103,7 +103,9 @@ bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 
 void bgrt_set_curr_sp(void)
 {
-    if (BGRT_KBLOCK.vic.list.index)
+    if (BGRT_KBLOCK.vic.list.index ||
+        BGRT_KBLOCK.hpfic.map      ||
+        BGRT_KBLOCK.lpfic.map)
     {
         kernel_mode = 1;
     }
@@ -134,7 +136,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     udata->scnum = num;
     udata->scarg = arg;
 
-    bgrt_vint_push_isr(&BGRT_KBLOCK.int_scall, &BGRT_KBLOCK.vic);
+    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
     __trap();
     bgrt_enable_interrupts();
 
@@ -157,8 +159,7 @@ __interrupt void system_timer_isr(void)
     bgrt_kernel.timer.val++;
     if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
-    BGRT_KBLOCK.tmr_flg = (bgrt_bool_t)1;
-    bgrt_vint_push_isr(&BGRT_KBLOCK.int_sched, &BGRT_KBLOCK.vic);
+    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VTMR);
 
     BGRT_ISR_END();
 }

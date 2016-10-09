@@ -22,6 +22,22 @@ void print_fail(void)
     else \
         print_ok()
 
+
+void bgrt_spin_init(bgrt_lock_t * lock)
+{
+    (void)lock;
+}
+
+void bgrt_spin_lock(bgrt_lock_t * lock)
+{
+    (void)lock;
+}
+
+void bgrt_spin_free(bgrt_lock_t * lock)
+{
+    (void)lock;
+}
+
 void bgrt_disable_interrupts(void)
 {
     printf("Interrupts disabled.\n");

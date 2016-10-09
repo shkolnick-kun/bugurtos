@@ -212,7 +212,7 @@ void bgrt_vic_init(bgrt_vic_t * vic);
 \warning Для внутреннего использования.
 
 \param vic  Указатель на виртуальный контроллер прерываний.
-\return BGRT_ST_ROLL если нужна еще иттерация, BGRT_ST_OK если вся работа выполнена.
+\return BGRT_ST_ROLL если нужна еще итерация, BGRT_ST_OK если вся работа выполнена.
 
 \~english
 \brief
@@ -221,7 +221,7 @@ Virtual interrupt processing.
 \warning For internal usage.
 
 \param vic A pointer to a #bgrt_vic_t object.
-\return BGRT_ST_ROLL if next itteration needed, BGRT_ST_OK if all done.
+\return BGRT_ST_ROLL if next iteration needed, BGRT_ST_OK if all done.
 */
 bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic);
 
@@ -243,4 +243,186 @@ Virtual interrupt processing.
 \param vic A pointer to a #bgrt_vic_t object.
 */
 void bgrt_vic_do_work(bgrt_vic_t * vic);
+
+//Виртуальный контроллер прерываний
+typedef struct _bgrt_fic_t bgrt_fic_t;
+//Свойства
+/*!
+\~russian
+\brief
+Виртуальный контроллер "быстрых" прерываний.
+
+\~english
+\brief
+A virtual fast interrupt controller.
+*/
+
+#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_FIC_LOCKED)
+#   define BGRT_FIC_LOCK_OBJ bgrt_lock_t lock; /*!< \~russian Спин-блокировка. \~english A spin-lock. */
+#else
+#   define BGRT_FIC_LOCK_OBJ
+#endif // BGRT_CONFIG_MP
+
+struct _bgrt_fic_t
+{
+    bgrt_index_t map;      /*!< \~russian Карта векторов "быстрых" прерываний. \~english A fast interrupt vector map.*/
+    BGRT_FIC_LOCK_OBJ
+};
+
+/*!
+\~russian
+\brief
+Инициализация виртуального контроллера "быстрых" прерываний.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic  Указатель на виртуальный контроллер прерываний.
+
+\~english
+\brief
+Virtual interrupt controller initialization.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_vic_t object.
+*/
+void bgrt_fic_init_isr(bgrt_fic_t * fic);
+
+/*!
+\~russian
+\brief
+Инициализация виртуального контроллера "быстрых" прерываний.
+
+\param fic  Указатель на виртуальный контроллер прерываний.
+
+\~english
+\brief
+Virtual interrupt controller initialization.
+
+\param fic A pointer to a #bgrt_vic_t object.
+*/
+void bgrt_fic_init(bgrt_fic_t * fic);
+
+/*!
+\~russian
+\brief
+Поставить прерывания на обработку
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+
+\~english
+\brief
+Push vectors to fic.
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+*/
+void bgrt_fic_push_int_isr(bgrt_fic_t * fic, bgrt_index_t msk);
+
+/*!
+\~russian
+\brief
+Поставить прерывания на обработку.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+
+\~english
+\brief
+Push vectors to fic.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+*/
+void bgrt_fic_push_int(bgrt_fic_t * fic, bgrt_index_t msk);
+
+/*!
+\~russian
+\brief
+Считать сотояние векторов по маске.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Masked vectirs state.
+*/
+bgrt_index_t bgrt_fic_read_int_isr(bgrt_fic_t * fic, bgrt_index_t msk);
+
+/*!
+\~russian
+\brief
+Считать сотояние векторов по маске.
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Masked vectirs state.
+*/
+bgrt_index_t bgrt_fic_read_int(bgrt_fic_t * fic, bgrt_index_t msk);
+
+/*!
+\~russian
+\brief
+Извлечь вектора прерываний для обработки.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Последнее состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Last masked vectors state.
+*/
+bgrt_index_t bgrt_fic_pop_int_isr(bgrt_fic_t * fic, bgrt_index_t msk);
+
+/*!
+\~russian
+\brief
+Извлечь вектора прерываний для обработки.
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Последнее состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Last masked vectors state.
+*/
+bgrt_index_t bgrt_fic_pop_int(bgrt_fic_t * fic, bgrt_index_t msk);
+
 #endif // _VINT_H_

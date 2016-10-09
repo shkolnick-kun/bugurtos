@@ -1,6 +1,7 @@
 #include <test_func.h>
 
 bgrt_proc_t proc[6];
+unsigned char barrier[10];
 bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 void main_with_return(void * arg)

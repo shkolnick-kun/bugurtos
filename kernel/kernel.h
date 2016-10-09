@@ -101,10 +101,14 @@ struct _bgrt_kblock_t
 {
     bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
     bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
-    bgrt_vint_t int_scall;            /*!< \~russian Диспетчер системных вызовов. \~english A system call dispatcher. */
-    bgrt_vint_t int_sched;            /*!< \~russian Прерывание планировщика. \~english A scheduler interrupt. */
-    bgrt_bool_t tmr_flg;              /*!< \~russian Флаг прерывания системного таймера. \~english System timer interrupt flag. */
+    bgrt_fic_t   hpfic;               /*!< \~russian Виртуальный контроллер "быстрых" прерываний высокого приоритета. \~english A high priority fast virtual interrupt controller. */
+    bgrt_fic_t   lpfic;               /*!< \~russian Виртуальный контроллер "быстрых" прерываний низкого приоритета. \~english A low priority fast virtual interrupt controller. */
 };
+
+#define BGRT_KBLOCK_VSCALL  ((bgrt_index_t)0x1) /*!< \~russian Вектор системного вызова.    \~english A system call vector.    */
+#define BGRT_KBLOCK_VTMR    ((bgrt_index_t)0x2) /*!< \~russian Вектор системног таймера.    \~english A system timer vector.   */
+#define BGRT_KBLOCK_VRESCH  ((bgrt_index_t)0x4) /*!< \~russian Вектор перепланировки.       \~english A CPU reschedule vector. */
+#define BGRT_KBLOCK_VSCHMSK ((bgrt_index_t)0x6) /*!< \~russian Маска векторов планировщика. \~english A chrduler vector mask.  */
 
 /*!
 \~russian
@@ -120,6 +124,21 @@ A #bgrt_kblock_t object initialization.
 \param kblock A #bgrt_kblock_t object pointer.
 */
 void bgrt_kblock_init(bgrt_kblock_t * kblock);
+
+/*!
+\~russian
+\brief
+Обработка программных прерываний.
+
+\param kblock Указатель на объект типа #bgrt_kblock_t.
+
+\~english
+\brief
+Software interrupt processing.
+
+\param kblock A #bgrt_kblock_t object pointer.
+*/
+void bgrt_kblock_do_work(bgrt_kblock_t * kblock);
 
 /*!
 \~russian

@@ -230,7 +230,7 @@ A wrapper for #bgrt_resched function.
 #   define BGRT_SPIN_FREE(arg) bgrt_spin_free(&((arg)->lock))
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched(proc->core_id)
 #   ifndef BGRT_KERNEL_PREEMPT
-#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work(&bgrt_kernel.kblock[bgrt_curr_cpu()].vic)
+#       define BGRT_KERNEL_PREEMPT() bgrt_kblock_do_work(&bgrt_kernel.kblock[bgrt_curr_cpu()].vic)
 #   endif
 #else //BGRT_CONFIG_MP
 #   define BGRT_SPIN_INIT(arg) do{}while (0)
@@ -238,7 +238,7 @@ A wrapper for #bgrt_resched function.
 #   define BGRT_SPIN_FREE(arg) do{}while (0)
 #   define BGRT_RESCHED_PROC(proc) bgrt_resched()
 #   ifndef BGRT_KERNEL_PREEMPT
-#       define BGRT_KERNEL_PREEMPT() bgrt_vic_do_work(&bgrt_kernel.kblock.vic)
+#       define BGRT_KERNEL_PREEMPT() bgrt_kblock_do_work(&bgrt_kernel.kblock.vic)
 #   endif
 #endif //BGRT_CONFIG_MP
 //======================================================

@@ -91,11 +91,11 @@
 	<File name="../../../../../kernel/timer.h" open="0" top="0" tabpos="12">
 		<Cursor position="8960" topLine="173" />
 	</File>
-	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="7">
-		<Cursor position="6802" topLine="136" />
+	<File name="../../../../../kernel/vint.c" open="1" top="0" tabpos="5">
+		<Cursor position="6802" topLine="67" />
 	</File>
-	<File name="../../../../../kernel/vint.h" open="0" top="0" tabpos="0">
-		<Cursor position="8670" topLine="153" />
+	<File name="../../../../../kernel/vint.h" open="1" top="1" tabpos="6">
+		<Cursor position="11337" topLine="250" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="28">
 		<Cursor position="163" topLine="1" />

@@ -16,11 +16,11 @@
 	<File name="../../../kernel/pitem.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
 	</File>
-	<File name="../../../kernel/vint.c" open="0" top="0" tabpos="3">
-		<Cursor position="94" topLine="1" />
+	<File name="../../../kernel/vint.c" open="0" top="0" tabpos="2">
+		<Cursor position="8823" topLine="173" />
 	</File>
-	<File name="../../../kernel/vint.h" open="0" top="0" tabpos="1">
-		<Cursor position="94" topLine="0" />
+	<File name="../../../kernel/vint.h" open="0" top="0" tabpos="3">
+		<Cursor position="15995" topLine="394" />
 	</File>
 	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6818" topLine="85" />
@@ -34,7 +34,7 @@
 	<File name="../bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="71" topLine="0" />
 	</File>
-	<File name="main.c" open="0" top="0" tabpos="4">
-		<Cursor position="214" topLine="0" />
+	<File name="main.c" open="0" top="0" tabpos="1">
+		<Cursor position="507" topLine="94" />
 	</File>
 </CodeBlocks_layout_file>
