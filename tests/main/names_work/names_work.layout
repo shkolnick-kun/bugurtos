@@ -8,10 +8,10 @@
 		<Cursor position="4055" topLine="102" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="2">
-		<Cursor position="8937" topLine="211" />
+		<Cursor position="8094" topLine="164" />
 	</File>
-	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="13">
-		<Cursor position="6269" topLine="68" />
+	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.h" open="1" top="1" tabpos="0">
+		<Cursor position="7165" topLine="90" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="14">
 		<Cursor position="12122" topLine="248" />
@@ -22,8 +22,8 @@
 	<File name="../../../arch/avr/gcc/bugurt_config_example.h" open="0" top="0" tabpos="16">
 		<Cursor position="286" topLine="0" />
 	</File>
-	<File name="../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="3">
-		<Cursor position="6217" topLine="65" />
+	<File name="../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="1">
+		<Cursor position="7569" topLine="122" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="18">
 		<Cursor position="6155" topLine="76" />
@@ -38,7 +38,7 @@
 		<Cursor position="2289" topLine="67" />
 	</File>
 	<File name="../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="1">
-		<Cursor position="5081" topLine="45" />
+		<Cursor position="5672" topLine="118" />
 	</File>
 	<File name="../../../arch/cm0/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="45" topLine="1" />
@@ -47,7 +47,7 @@
 		<Cursor position="2296" topLine="47" />
 	</File>
 	<File name="../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="4">
-		<Cursor position="5837" topLine="91" />
+		<Cursor position="6428" topLine="131" />
 	</File>
 	<File name="../../../arch/cm3/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="68" topLine="0" />
@@ -56,7 +56,7 @@
 		<Cursor position="2293" topLine="47" />
 	</File>
 	<File name="../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="5">
-		<Cursor position="6869" topLine="140" />
+		<Cursor position="6924" topLine="146" />
 	</File>
 	<File name="../../../arch/cm4f/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="416" topLine="0" />
@@ -65,7 +65,7 @@
 		<Cursor position="459" topLine="0" />
 	</File>
 	<File name="../../../arch/stm8/iar/bugurt_port.c" open="0" top="0" tabpos="6">
-		<Cursor position="7194" topLine="85" />
+		<Cursor position="6997" topLine="95" />
 	</File>
 	<File name="../../../arch/stm8/iar/bugurt_port.h" open="0" top="0" tabpos="26">
 		<Cursor position="6235" topLine="70" />
@@ -80,7 +80,7 @@
 		<Cursor position="275" topLine="0" />
 	</File>
 	<File name="../../../arch/stm8/raisonance/bugurt_port.c" open="0" top="0" tabpos="7">
-		<Cursor position="8287" topLine="144" />
+		<Cursor position="6972" topLine="96" />
 	</File>
 	<File name="../../../arch/stm8/raisonance/bugurt_port.h" open="0" top="0" tabpos="29">
 		<Cursor position="6149" topLine="75" />
@@ -92,7 +92,7 @@
 		<Cursor position="336" topLine="0" />
 	</File>
 	<File name="../../../arch/stm8/sdcc/bugurt_port.c" open="0" top="0" tabpos="3">
-		<Cursor position="6103" topLine="75" />
+		<Cursor position="7343" topLine="114" />
 	</File>
 	<File name="../../../arch/stm8/sdcc/bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="6206" topLine="63" />
@@ -133,11 +133,11 @@
 	<File name="../../../kernel/item.c" open="0" top="0" tabpos="5">
 		<Cursor position="6632" topLine="70" />
 	</File>
-	<File name="../../../kernel/kernel.c" open="0" top="0" tabpos="3">
-		<Cursor position="94" topLine="1" />
+	<File name="../../../kernel/kernel.c" open="0" top="0" tabpos="2">
+		<Cursor position="8856" topLine="177" />
 	</File>
 	<File name="../../../kernel/kernel.h" open="0" top="0" tabpos="34">
-		<Cursor position="94" topLine="1" />
+		<Cursor position="6849" topLine="91" />
 	</File>
 	<File name="../../../kernel/pcounter.c" open="0" top="0" tabpos="6">
 		<Cursor position="94" topLine="1" />

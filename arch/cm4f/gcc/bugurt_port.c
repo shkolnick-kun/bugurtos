@@ -154,8 +154,10 @@ static bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 //====================================================================================
 static void bgrt_set_curr_sp(void)
 {
-    if (BGRT_KBLOCK.vic.list.index ||
-        BGRT_KBLOCK.hpfic.map      ||
+    if (BGRT_KBLOCK.hpfic.map      ||
+#ifdef BGRT_CONFIG_USE_VIC
+        BGRT_KBLOCK.vic.list.index ||
+#endif//BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.lpfic.map)
     {
         kernel_mode = 1;

@@ -99,7 +99,9 @@ A kernel block is responsible for virtual interrupt processing, system call proc
 */
 struct _bgrt_kblock_t
 {
+#ifdef BGRT_CONFIG_USE_VIC
     bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
+#endif
     bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
     bgrt_fic_t   hpfic;               /*!< \~russian Виртуальный контроллер "быстрых" прерываний высокого приоритета. \~english A high priority fast virtual interrupt controller. */
     bgrt_fic_t   lpfic;               /*!< \~russian Виртуальный контроллер "быстрых" прерываний низкого приоритета. \~english A low priority fast virtual interrupt controller. */

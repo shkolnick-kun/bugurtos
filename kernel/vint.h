@@ -79,6 +79,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _VINT_H_
 #define _VINT_H_
 
+#ifndef BGRT_VINT_CS_START
+#   define BGRT_VINT_CS_START() BGRT_INT_LOCK()
+#endif //BGRT_VINT_CS_START
+
+#ifndef BGRT_VINT_CS_END
+#   define BGRT_VINT_CS_END() BGRT_INT_FREE()
+#endif //BGRT_VINT_CS_END
 /*!
 \file
 \brief \~russian Заголовок виртуальных прерываний. \~english A virtual interrupt header.
@@ -256,11 +263,16 @@ typedef struct _bgrt_fic_t bgrt_fic_t;
 \brief
 A virtual fast interrupt controller.
 */
-
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_FIC_LOCKED)
 #   define BGRT_FIC_LOCK_OBJ bgrt_lock_t lock; /*!< \~russian Спин-блокировка. \~english A spin-lock. */
+#   define BGRT_FIC_LO_INIT BGRT_SPIN_INIT
+#   define BGRT_FIC_LOCK    BGRT_SPIN_LOCK
+#   define BGRT_FIC_FREE    BGRT_SPIN_LOCK
 #else
 #   define BGRT_FIC_LOCK_OBJ
+#   define BGRT_FIC_LO_INIT(a) do{}while(0)
+#   define BGRT_FIC_LOCK(a)    do{}while(0)
+#   define BGRT_FIC_FREE(a)    do{}while(0)
 #endif // BGRT_CONFIG_MP
 
 struct _bgrt_fic_t
@@ -268,7 +280,6 @@ struct _bgrt_fic_t
     bgrt_index_t map;      /*!< \~russian Карта векторов "быстрых" прерываний. \~english A fast interrupt vector map.*/
     BGRT_FIC_LOCK_OBJ
 };
-
 /*!
 \~russian
 \brief
@@ -286,8 +297,13 @@ Virtual interrupt controller initialization.
 
 \param fic A pointer to a #bgrt_vic_t object.
 */
-void bgrt_fic_init_isr(bgrt_fic_t * fic);
-
+static inline void bgrt_fic_init_isr(bgrt_fic_t * fic)
+{
+    BGRT_FIC_LO_INIT(fic);
+    BGRT_FIC_LOCK(fic);
+    fic->map = (bgrt_index_t)0;
+    BGRT_FIC_FREE(fic);
+}
 /*!
 \~russian
 \brief
@@ -301,8 +317,12 @@ Virtual interrupt controller initialization.
 
 \param fic A pointer to a #bgrt_vic_t object.
 */
-void bgrt_fic_init(bgrt_fic_t * fic);
-
+static inline void bgrt_fic_init(bgrt_fic_t * fic)
+{
+    BGRT_VINT_CS_START();
+    bgrt_fic_init_isr(fic);
+    BGRT_VINT_CS_END();
+}
 /*!
 \~russian
 \brief
@@ -318,7 +338,13 @@ Push vectors to fic.
 \param fic A pointer to a #bgrt_fic_t object.
 \param msk A vector mask.
 */
-void bgrt_fic_push_int_isr(bgrt_fic_t * fic, bgrt_index_t msk);
+static inline void bgrt_fic_push_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
+{
+    BGRT_FIC_LOCK(fic);
+    fic->map |= msk;
+    BGRT_FIC_FREE(fic);
+}
+
 
 /*!
 \~russian
@@ -339,7 +365,12 @@ Push vectors to fic.
 \param fic A pointer to a #bgrt_fic_t object.
 \param msk A vector mask.
 */
-void bgrt_fic_push_int(bgrt_fic_t * fic, bgrt_index_t msk);
+static inline void bgrt_fic_push_int(bgrt_fic_t * fic, bgrt_index_t msk)
+{
+    BGRT_VINT_CS_START();
+    bgrt_fic_push_int_isr(fic,msk);
+    BGRT_VINT_CS_END();
+}
 
 /*!
 \~russian
@@ -362,7 +393,15 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Masked vectirs state.
 */
-bgrt_index_t bgrt_fic_read_int_isr(bgrt_fic_t * fic, bgrt_index_t msk);
+static inline bgrt_index_t bgrt_fic_read_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
+{
+    bgrt_index_t ret;
+    BGRT_FIC_LOCK(fic);
+    //Get states
+    ret = fic->map & msk;
+    BGRT_FIC_FREE(fic);
+    return ret;
+}
 
 /*!
 \~russian
@@ -381,8 +420,14 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Masked vectirs state.
 */
-bgrt_index_t bgrt_fic_read_int(bgrt_fic_t * fic, bgrt_index_t msk);
-
+static inline bgrt_index_t bgrt_fic_read_int(bgrt_fic_t * fic, bgrt_index_t msk)
+{
+    bgrt_index_t ret;
+    BGRT_VINT_CS_START();
+    ret = bgrt_fic_read_int_isr(fic,msk);
+    BGRT_VINT_CS_END();
+    return ret;
+}
 /*!
 \~russian
 \brief
@@ -404,8 +449,17 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Last masked vectors state.
 */
-bgrt_index_t bgrt_fic_pop_int_isr(bgrt_fic_t * fic, bgrt_index_t msk);
-
+static inline bgrt_index_t bgrt_fic_pop_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
+{
+    bgrt_index_t ret;
+    BGRT_FIC_LOCK(fic);
+    //Get states
+    ret = fic->map & msk;
+    //Clear states
+    fic->map &= ~msk;
+    BGRT_FIC_FREE(fic);
+    return ret;
+}
 /*!
 \~russian
 \brief
@@ -423,6 +477,13 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Last masked vectors state.
 */
-bgrt_index_t bgrt_fic_pop_int(bgrt_fic_t * fic, bgrt_index_t msk);
+static inline bgrt_index_t bgrt_fic_pop_int(bgrt_fic_t * fic, bgrt_index_t msk)
+{
+    bgrt_index_t ret;
+    BGRT_VINT_CS_START();
+    ret = bgrt_fic_pop_int_isr(fic,msk);
+    BGRT_VINT_CS_END();
+    return ret;
+}
 
 #endif // _VINT_H_

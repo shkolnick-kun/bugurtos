@@ -80,14 +80,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /* ADLINT:SF:[W0422] NULL */
 
-#ifndef BGRT_VINT_CS_START
-#   define BGRT_VINT_CS_START() BGRT_INT_LOCK()
-#endif //BGRT_VINT_CS_START
-
-#ifndef BGRT_VINT_CS_END
-#   define BGRT_VINT_CS_END() BGRT_INT_FREE()
-#endif //BGRT_VINT_CS_END
-
 void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg)
 {
     bgrt_pitem_init((bgrt_pitem_t *)vint, prio);
@@ -185,97 +177,4 @@ void bgrt_vic_do_work(bgrt_vic_t * vic)
 {
     //Do some pending work...
     while (BGRT_ST_ROLL == bgrt_vic_iterator(vic));
-}
-
-#if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_FIC_LOCKED)
-#   define BGRT_FIC_LO_INIT BGRT_SPIN_INIT
-#   define BGRT_FIC_LOCK    BGRT_SPIN_LOCK
-#   define BGRT_FIC_FREE    BGRT_SPIN_LOCK
-#else
-#   define BGRT_FIC_LO_INIT(a) do{}while(0)
-#   define BGRT_FIC_LOCK(a)    do{}while(0)
-#   define BGRT_FIC_FREE(a)    do{}while(0)
-#endif // BGRT_CONFIG_MP && BGRT_CONFIG_FIC_LOCKED
-
-void bgrt_fic_init_isr(bgrt_fic_t * fic)
-{
-    BGRT_FIC_LO_INIT(fic);
-    BGRT_FIC_LOCK(fic);
-
-    fic->map = (bgrt_index_t)0;
-
-    BGRT_FIC_FREE(fic);
-}
-
-void bgrt_fic_init(bgrt_fic_t * fic)
-{
-    BGRT_VINT_CS_START();
-
-    bgrt_fic_init_isr(fic);
-
-    BGRT_VINT_CS_END();
-}
-
-void bgrt_fic_push_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
-{
-    BGRT_FIC_LOCK(fic);
-
-    fic->map |= msk;
-
-    BGRT_FIC_FREE(fic);
-}
-
-void bgrt_fic_push_int(bgrt_fic_t * fic, bgrt_index_t msk)
-{
-    BGRT_VINT_CS_START();
-
-    bgrt_fic_push_int_isr(fic,msk);
-
-    BGRT_VINT_CS_END();
-}
-
-bgrt_index_t bgrt_fic_read_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
-{
-    bgrt_index_t ret;
-    BGRT_FIC_LOCK(fic);
-    //Get states
-    ret = fic->map & msk;
-
-    BGRT_FIC_FREE(fic);
-    return ret;
-}
-
-bgrt_index_t bgrt_fic_read_int(bgrt_fic_t * fic, bgrt_index_t msk)
-{
-    bgrt_index_t ret;
-    BGRT_VINT_CS_START();
-
-    ret = bgrt_fic_read_int_isr(fic,msk);
-
-    BGRT_VINT_CS_END();
-    return ret;
-}
-
-bgrt_index_t bgrt_fic_pop_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
-{
-    bgrt_index_t ret;
-    BGRT_FIC_LOCK(fic);
-    //Get states
-    ret = fic->map & msk;
-    //Clear states
-    fic->map &= ~msk;
-
-    BGRT_FIC_FREE(fic);
-    return ret;
-}
-
-bgrt_index_t bgrt_fic_pop_int(bgrt_fic_t * fic, bgrt_index_t msk)
-{
-    bgrt_index_t ret;
-    BGRT_VINT_CS_START();
-
-    ret = bgrt_fic_pop_int_isr(fic,msk);
-
-    BGRT_VINT_CS_END();
-    return ret;
 }

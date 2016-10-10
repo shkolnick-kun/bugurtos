@@ -109,4 +109,7 @@ extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
+//Must use VIC for tests
+#define BGRT_CONFIG_USE_VIC
+
 #endif // _BGRT_PORT_H_

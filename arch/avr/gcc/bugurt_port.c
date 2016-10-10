@@ -130,8 +130,10 @@ bgrt_st_t bgrt_syscall(unsigned char num, void * arg)
 
 void bgrt_set_curr_sp(void)
 {
-    if (BGRT_KBLOCK.vic.list.index ||
-        BGRT_KBLOCK.hpfic.map      ||
+    if (BGRT_KBLOCK.hpfic.map      ||
+#ifdef BGRT_CONFIG_USE_VIC
+        BGRT_KBLOCK.vic.list.index ||
+#endif//BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.lpfic.map)
     {
         kernel_mode = 1;

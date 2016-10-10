@@ -86,7 +86,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #   define BGRT_SAFE_POWER() do{}while (0)
 #endif// BGRT_CONFIG_SAVE_POWER
 
-static void do_int_scall(bgrt_kblock_t * kblock)
+static inline void do_int_scall(bgrt_kblock_t * kblock)
 {
     BGRT_USPD_T uspd;
     bgrt_st_t scret;
@@ -103,7 +103,7 @@ static void do_int_scall(bgrt_kblock_t * kblock)
     }
 }
 //Check for pending system call and push it
-static void push_pend_scall(bgrt_kblock_t * kblock)
+static inline void push_pend_scall(bgrt_kblock_t * kblock)
 {
     (void)kblock;
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
@@ -113,7 +113,7 @@ static void push_pend_scall(bgrt_kblock_t * kblock)
     }
 }
 
-static void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
+static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
 {
     (void)kblock;
     if (BGRT_KBLOCK_VTMR == work)
@@ -153,7 +153,9 @@ static void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
 
 void bgrt_kblock_init(bgrt_kblock_t * kblock)
 {
+#ifdef BGRT_CONFIG_USE_VIC
     bgrt_vic_init(&kblock->vic);
+#endif
     bgrt_sched_init(&kblock->sched);
     bgrt_fic_init_isr(&kblock->hpfic);
     bgrt_fic_init_isr(&kblock->lpfic);
@@ -180,11 +182,12 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         bgrt_index_t work;
 
         BGRT_KBLOCK_HPFIC_HOOK(&kblock);
-
+#ifdef BGRT_CONFIG_USE_VIC
         if (bgrt_vic_iterator(&kblock->vic))
         {
             continue;
         }
+#endif//BGRT_CONFIG_USE_VIC
 
         if (bgrt_fic_pop_int(&kblock->lpfic, BGRT_KBLOCK_VSCALL))
         {

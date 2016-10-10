@@ -152,12 +152,14 @@ typedef void (* bgrt_code_t)(void *);
 #include "sync.h"
 #include "syscall.h"
 #include "timer.h"
+
+#include <bugurt_port.h>
+/*bgrt_fic_t, depends on BGRT_INT_LOCK/FREE*/
 #include "vint.h"
 /*Kernel (kernel services, must be included after syscall.h and vint.h)*/
 #include "kernel.h"
 
-/*Platform dependent things (must be included last)*/
-#include <bugurt_port.h>
+
 
 #define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
 #define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
