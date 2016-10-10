@@ -79,6 +79,12 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BGRT_PORT_H_
 #define _BGRT_PORT_H_
 
+extern  void bgrt_int_lock(void);
+extern  void bgrt_int_free(void);
+
+#define BGRT_INT_LOCK bgrt_int_lock
+#define BGRT_INT_FREE bgrt_int_free
+
 #define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
 #define BGRT_CURR_PROC bgrt_kernel.kblock[current_vm].sched.current_proc
 

@@ -79,6 +79,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BGRT_PORT_H_
 #define _BGRT_PORT_H_
 
+#include <intrinsics.h>
+#define BGRT_INT_LOCK __disable_interrupt
+#define BGRT_INT_FREE __enable_interrupt
+
 // Подстановка_строки
 #define BGRT_ARG_TO_STR(a) #a
 

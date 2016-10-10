@@ -135,7 +135,7 @@ void system_timer_isr(void) interrupt BGRT_SYSTEM_TIMER_VECTOR
 bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 {
     BGRT_USPD_T udata;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
 
     udata = BGRT_GET_USPD();
     udata->scnum = num;
@@ -143,17 +143,17 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 
     bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
     _trap_();
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 
     return udata->scret;
 }
 
 void bgrt_switch_to_proc(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     kernel_mode = (bgrt_bool_t)0;
     _trap_();
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 }
 
 void bgrt_switch_context(void) trap
@@ -165,12 +165,12 @@ void bgrt_switch_context(void) trap
 // Функции общего пользования
 void bgrt_init(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     _bugurt_do_it = _bugurt_do_nothing;
     bgrt_kernel_init();
 }
 void bgrt_start(void)
 {
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     bgrt_kblock_main(&BGRT_KBLOCK);
 }

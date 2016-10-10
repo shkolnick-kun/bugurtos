@@ -109,7 +109,7 @@ bgrt_st_t bgrt_proc_init(
 )
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = _bgrt_proc_init(
               proc, //A process pointer
               pmain,
@@ -124,7 +124,7 @@ bgrt_st_t bgrt_proc_init(
               ,affinity
 #endif // BGRT_CONFIG_MP
           );                  /* ADLINT:SL:[W0432] Intendation */
-    bgrt_enable_interrupts(); /* ADLINT:SL:[W0431] Intendation */
+    BGRT_INT_FREE(); /* ADLINT:SL:[W0431] Intendation */
     return ret;
 }
 //========================================================================================

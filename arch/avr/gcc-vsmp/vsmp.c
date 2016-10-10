@@ -268,14 +268,14 @@ void vsmp_vinterrupt_init(vinterrupt_t * vector, void (*isr)(void))
     vector->isr = isr;
 }
 
-void bgrt_disable_interrupts(void)
+void BGRT_INT_LOCK(void)
 {
     cli();
     vm_state[current_vm].int_enabled = (bgrt_bool_t)0;
     sei();
 }
 
-void bgrt_enable_interrupts(void)
+void BGRT_INT_FREE(void)
 {
     cli();
     vm_state[current_vm].int_enabled = (bgrt_bool_t)1;

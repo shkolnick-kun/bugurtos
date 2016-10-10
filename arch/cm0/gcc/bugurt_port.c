@@ -118,25 +118,6 @@ bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, vo
     return sstart;
 }
 //====================================================================================
-void bgrt_disable_interrupts(void)
-{
-    __asm__ __volatile__ (
-        "dsb     \n\t"
-        "cpsid i \n\t"
-        :::
-   );
-}
-//====================================================================================
-void bgrt_enable_interrupts(void)
-{
-    __asm__ __volatile__ (
-        "dsb     \n\t"
-        "cpsie i \n\t"
-        "isb     \n\t"
-        :::
-   );
-}
-//====================================================================================
 static bgrt_stack_t * saved_sp;
 static bgrt_stack_t * kernel_sp;
 static bgrt_stack_t ** current_sp = &kernel_sp;
@@ -174,7 +155,7 @@ void bgrt_resched(void)
 //====================================================================================
 void bgrt_init(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     bgrt_kernel_init();
     // Устанавливаем начальное значение PSP, для потока Ядра;
     bugurt_write_psp((volatile bgrt_stack_t *)&bugurt_kernel_stack[16]); //  !!! Внимательно смотрим на границы!!!
@@ -184,7 +165,7 @@ void bgrt_init(void)
 //====================================================================================
 void bgrt_start(void)
 {
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     bgrt_kblock_main(&BGRT_KBLOCK);
 }
 //====================================================================================

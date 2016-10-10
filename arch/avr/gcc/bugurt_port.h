@@ -79,6 +79,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BGRT_PORT_H_
 #define _BGRT_PORT_H_
 
+#include <avr/interrupt.h>
+#define BGRT_INT_LOCK cli
+#define BGRT_INT_FREE sei
+
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 

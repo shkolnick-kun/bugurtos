@@ -86,9 +86,9 @@ bgrt_st_t mutex_init_isr(mutex_t * mutex, bgrt_prio_t prio)
 bgrt_st_t mutex_init(mutex_t * mutex, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = mutex_init_isr(mutex, prio);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     return ret;
 }
 

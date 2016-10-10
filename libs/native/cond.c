@@ -86,9 +86,9 @@ bgrt_st_t cond_init_isr(cond_t * cond)
 bgrt_st_t cond_init(cond_t * cond)
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = cond_init_isr(cond);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     return ret;
 }
 

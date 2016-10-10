@@ -20,8 +20,8 @@ In this file there are definitions of functions, macros and data types. Also thi
 #define init_bugurt         bgrt_init                    /*!< \~russian \brief Инициация Ядра ОС. \~english \brief An OS kernel initialization. */
 #define start_bugurt        bgrt_start                   /*!< \~russian \brief Запуск Ядра ОС. \~english \brief An OS kernel start. */
 
-#define disable_interrupts  bgrt_disable_interrupts      /*!< \~russian \brief Запретить прерывания. \~english \brief Disable interrupts. */
-#define enable_interrupts   bgrt_enable_interrupts       /*!< \~russian \brief Разрешить прерывания. \~english \brief Enable interrupts. */
+#define disable_interrupts  BGRT_INT_LOCK      /*!< \~russian \brief Запретить прерывания. \~english \brief Disable interrupts. */
+#define enable_interrupts   BGRT_INT_FREE       /*!< \~russian \brief Разрешить прерывания. \~english \brief Enable interrupts. */
 
 #define proc_init_isr       _bgrt_proc_init              /*!< \~russian \brief Инициация процесса из обработчика прерывания или критической секции. \~english \brief A process initialization from ISR or critical section. */
 #define proc_init           bgrt_proc_init               /*!< \~russian \brief Инициация процесса. \~english \brief A process initialization. */

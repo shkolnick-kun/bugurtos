@@ -79,6 +79,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BGRT_PORT_H_
 #define _BGRT_PORT_H_
 
+#define BGRT_INT_LOCK() __asm__("sim")
+#define BGRT_INT_FREE() __asm__("rim")
+
 // Подстановка_строки
 #define BGRT_ARG_TO_STR(a) #a
 // Конкатенация строк

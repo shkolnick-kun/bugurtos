@@ -487,33 +487,6 @@ extern void bgrt_resched(void);
 /*!
 \~russian
 \brief
-Запрет прерываний.
-
-Запрет прерываний на текущем процессорном ядре.
-\~english
-\brief
-Interrupt disable.
-
-Disables interrupts on current CPU core.
-*/
-extern void bgrt_disable_interrupts(void);
-/*!
-\~russian
-\brief
-Разрешение прерываний.
-
-Разрешение прерываний на текущем процессорном ядре.
-\~english
-\brief
-Interrupt enable.
-
-Enables interrupts on current CPU core.
-*/
-extern void bgrt_enable_interrupts(void);
-
-/*!
-\~russian
-\brief
 Текущий процесс.
 
 \warning Для внутреннего использования.

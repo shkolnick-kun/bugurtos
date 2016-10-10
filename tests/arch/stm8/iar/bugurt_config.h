@@ -10,8 +10,8 @@
 
 #define WEAK __weak
 #define NOP __no_operation
-#define bgrt_disable_interrupts __disable_interrupt
-#define bgrt_enable_interrupts __enable_interrupt
+#define BGRT_INT_LOCK __disable_interrupt
+#define BGRT_INT_FREE __enable_interrupt
 
 #if (__DATA_MODEL__==__LARGE_DATA_MODEL__)
 typedef unsigned char __near bgrt_stack_t;

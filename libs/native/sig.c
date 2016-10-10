@@ -81,9 +81,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 bgrt_st_t sig_init(sig_t * sig)
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = sig_init_isr(sig);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     return ret;
 }
 

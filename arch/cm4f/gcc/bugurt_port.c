@@ -146,32 +146,6 @@ bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, vo
     return sstart;
 }
 //====================================================================================
-void bgrt_disable_interrupts(void)
-{
-    __asm__ __volatile__ (
-        "mov r0, %0      \n\t"
-        "msr basepri, r0 \n\t"
-        "dsb             \n\t"
-        "isb             \n\t"
-        :
-        :"i" (BGRT_CONFIG_CRITSEC_PRIO << (8 - BGRT_CONFIG_PRIO_BITS))
-        :"r0"
-        );
-}
-//====================================================================================
-void bgrt_enable_interrupts(void)
-{
-    __asm__ __volatile__ (
-        "mov r0, #0      \n\t"
-        "msr basepri, r0 \n\t"
-        "dsb             \n\t"
-        "isb             \n\t"
-        :
-        :
-        :"r0"
-    );
-}
-//====================================================================================
 static bgrt_stack_t * saved_sp;
 static bgrt_stack_t * kernel_sp;
 static bgrt_stack_t ** current_sp = &kernel_sp;

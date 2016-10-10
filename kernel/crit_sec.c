@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 bgrt_cpuid_t _bgrt_crit_sec_enter(void)
 {
     bgrt_cpuid_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = bgrt_curr_cpu();
     BGRT_CNT_INC(bgrt_kernel.kblock[ret].sched.nested_crit_sec);
     return ret;
@@ -96,14 +96,14 @@ void _bgrt_crit_sec_exit(bgrt_cpuid_t core)
     BGRT_CNT_DEC(bgrt_kernel.kblock[core].sched.nested_crit_sec);
     if (bgrt_kernel.kblock[core].sched.nested_crit_sec == (bgrt_cnt_t)0)
     {
-        bgrt_enable_interrupts();
+        BGRT_INT_FREE();
     }
 }
 
 #else
 void bgrt_crit_sec_enter(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     BGRT_CNT_INC(bgrt_kernel.kblock.sched.nested_crit_sec);
 }
 void bgrt_crit_sec_exit(void)
@@ -112,7 +112,7 @@ void bgrt_crit_sec_exit(void)
 
     if (bgrt_kernel.kblock.sched.nested_crit_sec == (bgrt_cnt_t)0)
     {
-        bgrt_enable_interrupts();
+        BGRT_INT_FREE();
     }
 }
 #endif

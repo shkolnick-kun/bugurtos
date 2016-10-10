@@ -216,7 +216,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     return udata->scret;
 }
 
-void bgrt_disable_interrupts(void)
+void bgrt_int_lock(void)
 {
     cli();
     vm_int_enabled[current_vm]=0;
@@ -245,18 +245,18 @@ static void do_int_systick(void * arg)
     sei();
 }
 
-static void _bgrt_enable_interrupts(void)
+static void _bgrt_int_free(void)
 {
     vm_int_enabled[current_vm]=1;
     kernel_mode[current_vm] = 1;
 }
 
-__attribute__ ((naked)) void bgrt_enable_interrupts(void);
-void bgrt_enable_interrupts(void)
+__attribute__ ((naked)) void bgrt_int_free(void);
+void bgrt_int_free(void)
 {
     cli();
     BGRT_ISR_START();
-    _bgrt_enable_interrupts();
+    _bgrt_int_free();
     BGRT_ISR_END();
 }
 

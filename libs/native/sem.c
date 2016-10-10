@@ -95,9 +95,9 @@ bgrt_st_t sem_init_isr(sem_t * sem, bgrt_cnt_t count)
 bgrt_st_t sem_init(sem_t * sem, bgrt_cnt_t count)
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = sem_init_isr(sem, count);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     return ret;
 }
 
@@ -110,7 +110,7 @@ bgrt_st_t sem_try_lock(sem_t * sem)
         return BGRT_ST_ENULL;
     }
 
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     BGRT_SPIN_LOCK(sem);
 
     if (sem->counter)
@@ -120,7 +120,7 @@ bgrt_st_t sem_try_lock(sem_t * sem)
     }
 
     BGRT_SPIN_FREE(sem);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 
     return ret;
 }

@@ -327,9 +327,9 @@ static void bgrt_sync_prio_prop_hook(bgrt_sync_t * sync)
 bgrt_st_t bgrt_sync_init(bgrt_sync_t * sync, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = _bgrt_sync_init(sync, prio);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     return ret;
 }
 //========================================================================================

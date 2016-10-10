@@ -38,12 +38,12 @@ void bgrt_spin_free(bgrt_lock_t * lock)
     (void)lock;
 }
 
-void bgrt_disable_interrupts(void)
+void BGRT_INT_LOCK(void)
 {
     printf("Interrupts disabled.\n");
 }
 
-void bgrt_enable_interrupts(void)
+void BGRT_INT_FREE(void)
 {
     printf("Interrupts enabled.\n");
 }

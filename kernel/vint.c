@@ -81,11 +81,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /* ADLINT:SF:[W0422] NULL */
 
 #ifndef BGRT_VINT_CS_START
-#   define BGRT_VINT_CS_START() bgrt_disable_interrupts()
+#   define BGRT_VINT_CS_START() BGRT_INT_LOCK()
 #endif //BGRT_VINT_CS_START
 
 #ifndef BGRT_VINT_CS_END
-#   define BGRT_VINT_CS_END() bgrt_enable_interrupts()
+#   define BGRT_VINT_CS_END() BGRT_INT_FREE()
 #endif //BGRT_VINT_CS_END
 
 void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg)

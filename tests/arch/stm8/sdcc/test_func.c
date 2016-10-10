@@ -9,9 +9,9 @@ void kernel_preemt_hook(void)
 
 void kernel_preemt_hook_add(void(*arg)(void))
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     test_kernel_preempt = arg;
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 }
 
 void test_do_nothing(void)
@@ -21,7 +21,7 @@ void test_do_nothing(void)
 
 void init_hardware(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
 
     CLK_DIVR = 0x00;
 
@@ -53,10 +53,10 @@ void init_hardware(void)
 
 void sched_fix_bgrt_proc_2(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     proc[2].flags &= ~BGRT_PROC_FLG_RT;
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 }
 
 unsigned char test_fail = 0;
@@ -156,16 +156,16 @@ void blink_6(void)
 unsigned char test_var_sig;
 void test_clear(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     test_var_sig = 0;
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 }
 
 void test_inc(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     test_var_sig++;
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 }
 
 void systick_hook(void)

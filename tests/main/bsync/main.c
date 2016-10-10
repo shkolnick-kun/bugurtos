@@ -247,11 +247,11 @@ void main_0(void * arg)
     test = (1 == proc[0].lres.counter[BGRT_PRIO_LOWEST]);
     test_output(test, test_num++);
     // 41 BGRT_SYNC_OWN
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
 
     // 42 BGRT_SYNC_OWN
@@ -265,11 +265,11 @@ void main_0(void * arg)
     test = (1 == proc[0].lres.counter[BGRT_PRIO_LOWEST]);
     test_output(test, test_num++);
     // 45 BGRT_SYNC_OWN
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
 
     // 46 BGRT_SYNC_OWN
@@ -284,11 +284,11 @@ void main_0(void * arg)
     test = (1 == proc[0].lres.counter[BGRT_PRIO_LOWEST]);
     test_output(test, test_num++);
     // 49 BGRT_SYNC_OWN
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
 
     // 50 BGRT_SYNC_OWN
@@ -303,11 +303,11 @@ void main_0(void * arg)
     test = (1 == proc[0].lres.counter[BGRT_PRIO_LOWEST]);
     test_output(test, test_num++);
     // 53 BGRT_SYNC_OWN
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
 
     // 54 BGRT_SYNC_OWN
@@ -325,11 +325,11 @@ void main_0(void * arg)
     test = (0 == proc[0].lres.counter[BGRT_PRIO_LOWEST]);
     test_output(test, test_num++);
     // 58 BGRT_SYNC_OWN
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
 
     // 59 BGRT_SYNC_OWN
@@ -346,7 +346,7 @@ void main_0(void * arg)
     test = (0 == proc[0].lres.counter[BGRT_PRIO_LOWEST]);
     test_output(test, test_num++);
     // 63 BGRT_SYNC_OWN
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     if (test)
@@ -356,7 +356,7 @@ void main_0(void * arg)
         proc[0].sync = (bgrt_sync_t *)0;
     }
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
     /// BGRT_SYNC_OWN covered!!!
     //cleanup
@@ -370,11 +370,11 @@ void main_0(void * arg)
     test = (BGRT_ST_ENULL == status[0]);
     test_output(test, test_num++);
     //65 BGRT_SYNC_TOUCH
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
 
     //66 BGRT_SYNC_TOUCH
@@ -382,7 +382,7 @@ void main_0(void * arg)
     test = (BGRT_ST_OK == status[0]);
     test_output(test, test_num++);
     //67 BGRT_SYNC_TOUCH
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR0));
     test = (BGRT_PROC_STATE_RUNNING == BGRT_PROC_GET_STATE((PR0)));
     if (test)
@@ -392,7 +392,7 @@ void main_0(void * arg)
         proc[0].sync = (bgrt_sync_t *)0;
     }
     //BGRT_SPIN_FREE((PR0));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     test_output(test, test_num++);
     /// BGRT_SYNC_TOUCH covered!!!
     //cleanup
@@ -653,19 +653,19 @@ void main_0(void * arg)
     test_output(test, test_num++);
 
     //124 BGRT_SYNC_PROC_TIMEOUT
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     BGRT_PROC_SET_STATE((PR2), BGRT_PROC_STATE_PI_PEND);
     PR2->sync = &bgrt_sync_1;
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 
     status[0] = BGRT_SYNC_PROC_TIMEOUT(PID2);
     test = (BGRT_ST_EAGAIN == status[0]);
     test_output(test, test_num++);
     //cleanup
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     BGRT_PROC_SET_STATE((PR2), BGRT_PROC_STATE_STOPED);
     PR2->sync = 0;
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     //125 BGRT_SYNC_PROC_TIMEOUT
     BGRT_SYNC_SET_OWNER(&bgrt_sync_1, PID1);
     BGRT_PROC_RUN(PID2);
@@ -989,35 +989,35 @@ void main_1(void * arg)
     bgrt_flag_t state;
     (void)arg;
     // 5,6,7
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR1));
     state = BGRT_PROC_GET_STATE((PR1));
     //BGRT_SPIN_FREE((PR1));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     status[1] = (BGRT_PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     BGRT_PROC_SELF_STOP();
     // 8,9,10
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR1));
     state = BGRT_PROC_GET_STATE((PR1));
     //BGRT_SPIN_FREE((PR1));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     status[1] = (BGRT_PROC_STATE_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     BGRT_PROC_SELF_STOP();
     // 14,15,16,17,18
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR1));
     state = BGRT_PROC_GET_STATE((PR1));
     //BGRT_SPIN_FREE((PR1));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     status[1] = (BGRT_PROC_STATE_PI_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     BGRT_PROC_SELF_STOP();
     // 19,20,21,22,23
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     //BGRT_SPIN_LOCK((PR1));
     state = BGRT_PROC_GET_STATE((PR1));
     //BGRT_SPIN_FREE((PR1));
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     status[1] = (BGRT_PROC_STATE_SYNC_RUNNING == state)?BGRT_ST_OK:BGRT_ST_ESTAT;
     BGRT_PROC_SELF_STOP();
 

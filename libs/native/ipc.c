@@ -92,9 +92,9 @@ bgrt_st_t ipc_init_isr(ipc_t * endpoint)
 bgrt_st_t ipc_init(ipc_t * endpoint)
 {
     bgrt_st_t ret;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     ret = ipc_init_isr(endpoint);
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     return ret;
 }
 

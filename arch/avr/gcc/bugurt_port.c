@@ -81,15 +81,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 // Платформозависимый код
 // Просто функции, специфичные для AVR
 
-void bgrt_disable_interrupts(void)
-{
-    cli();
-}
-void bgrt_enable_interrupts(void)
-{
-    sei();
-}
-
 bgrt_proc_t * bgrt_curr_proc(void)
 {
     return BGRT_CURR_PROC;

@@ -37,6 +37,7 @@ void main_with_return(void * arg)
     test_output((0 == test_sem.counter), 8);
     //sem_free test 9
     // proc[2] must get semaphore and self stop
+    LED_ON(RED);
     sem_free(&test_sem);
     bgrt_wait_time(2);
     test_output((0 == test_sem.counter), 9);
@@ -73,6 +74,7 @@ void main_sem(void * arg)
     while (1)
     {
         sem_lock(&test_sem);
+        LED_OFF(RED);
         BGRT_PROC_SELF_STOP();
         sem_free(&test_sem);
         BGRT_PROC_SELF_STOP();
@@ -95,7 +97,7 @@ int main(void)
 
     _bgrt_proc_init(PR0, main_with_return,   SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 1,      1, 0 ARG_END);
     _bgrt_proc_init(PR1, main_lb,            SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END);
-    _bgrt_proc_init(PR2, main_sem,           SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END);
+    _bgrt_proc_init(PR2, main_sem,           SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END);
 
     sem_init_isr(&test_sem, 1);
 

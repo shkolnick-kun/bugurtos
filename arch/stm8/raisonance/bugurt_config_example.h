@@ -12,8 +12,8 @@
 
 #define WEAK
 #define NOP _nop_
-#define bgrt_disable_interrupts _sim_
-#define bgrt_enable_interrupts _rim_
+#define BGRT_INT_LOCK _sim_
+#define BGRT_INT_FREE _rim_
 
 typedef unsigned char bgrt_stack_t;
 

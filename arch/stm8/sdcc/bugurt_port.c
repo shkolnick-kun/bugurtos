@@ -77,15 +77,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include <bugurt.h>
-void bgrt_disable_interrupts(void)
-{
-    __asm__("sim");
-}
-
-void bgrt_enable_interrupts(void)
-{
-    __asm__("rim");
-}
 
 // Просто функции, специфичные для STM8
 bgrt_proc_t * bgrt_curr_proc(void)
@@ -151,7 +142,7 @@ void bgrt_set_curr_sp(void)
 bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 {
     BGRT_USPD_T udata;
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
 
     udata = BGRT_GET_USPD();
     udata->scnum = num;
@@ -159,17 +150,17 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 
     bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
     bgrt_trap();
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 
     return udata->scret;
 }
 
 void bgrt_switch_to_proc(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     kernel_mode = (bgrt_bool_t)0;
     bgrt_trap();
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
 }
 
 void bgrt_switch_context(void) __trap __naked
@@ -199,11 +190,11 @@ void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked
 // Функции общего пользования
 void bgrt_init(void)
 {
-    bgrt_disable_interrupts();
+    BGRT_INT_LOCK();
     bgrt_kernel_init();
 }
 void bgrt_start(void)
 {
-    bgrt_enable_interrupts();
+    BGRT_INT_FREE();
     bgrt_kblock_main(&BGRT_KBLOCK);
 }
