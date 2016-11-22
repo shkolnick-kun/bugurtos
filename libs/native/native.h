@@ -23,16 +23,16 @@ In this file there are definitions of functions, macros and data types. Also thi
 #define disable_interrupts  BGRT_INT_LOCK      /*!< \~russian \brief Запретить прерывания. \~english \brief Disable interrupts. */
 #define enable_interrupts   BGRT_INT_FREE       /*!< \~russian \brief Разрешить прерывания. \~english \brief Enable interrupts. */
 
-#define proc_init_isr       _bgrt_proc_init              /*!< \~russian \brief Инициация процесса из обработчика прерывания или критической секции. \~english \brief A process initialization from ISR or critical section. */
+#define proc_init_cs        _bgrt_proc_init              /*!< \~russian \brief Инициация процесса из обработчика прерывания или критической секции. \~english \brief A process initialization from ISR or critical section. */
 #define proc_init           bgrt_proc_init               /*!< \~russian \brief Инициация процесса. \~english \brief A process initialization. */
 
-#define proc_run_isr        _bgrt_proc_run               /*!< \~russian \brief Запуск процесса из обработчика прерывания или критической секции. \~english \brief Run a process from ISR or critical section. */
+#define proc_run_cs         _bgrt_proc_run               /*!< \~russian \brief Запуск процесса из обработчика прерывания или критической секции. \~english \brief Run a process from ISR or critical section. */
 #define proc_run            BGRT_PROC_RUN                /*!< \~russian \brief Запуск процесса. \~english \brief Run a process. */
 
-#define proc_stop_isr       _bgrt_proc_stop              /*!< \~russian \brief Останов процесса из обработчика прерывания или критической секции. \~english \brief Stop a process from ISR or critical section. */
+#define proc_stop_cs        _bgrt_proc_stop              /*!< \~russian \brief Останов процесса из обработчика прерывания или критической секции. \~english \brief Stop a process from ISR or critical section. */
 #define proc_stop           BGRT_PROC_STOP               /*!< \~russian \brief Останов процесса. \~english \brief Stop a process. */
 
-#define proc_restart_isr    _bgrt_proc_restart           /*!< \~russian \brief Перезапустить процесс из обработчика прерывания. \~english \brief Restart a process from ISR. */
+#define proc_restart_cs     _bgrt_proc_restart           /*!< \~russian \brief Перезапустить процесс из обработчика прерывания. \~english \brief Restart a process from ISR. */
 #define proc_restart        BGRT_PROC_RESTART            /*!< \~russian \brief Перезапустить процесс. \~english \brief Restart a process. */
 
 #define proc_self_stop      BGRT_PROC_SELF_STOP          /*!< \~russian \brief Останов вызывающего процесса. \~english \brief Stop a caller process. */

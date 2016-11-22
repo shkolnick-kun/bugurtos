@@ -13,7 +13,7 @@
 	<File name="../../../../../../../kernel/pcounter.c" open="1" top="0" tabpos="3">
 		<Cursor position="6801" topLine="98" />
 	</File>
-	<File name="../../../../../../../kernel/pitem.c" open="1" top="0" tabpos="10">
+	<File name="../../../../../../../kernel/pitem.c" open="1" top="0" tabpos="7">
 		<Cursor position="7481" topLine="95" />
 	</File>
 	<File name="../../../../../../../kernel/sched.c" open="1" top="0" tabpos="6">
@@ -34,7 +34,7 @@
 	<File name="../../../../../../../libs/native/ipc.c" open="0" top="0" tabpos="0">
 		<Cursor position="6926" topLine="99" />
 	</File>
-	<File name="../../../../../../main/libs/native/ipc/main.c" open="1" top="1" tabpos="2">
+	<File name="../../../../../../main/libs/native/ipc/main.c" open="1" top="0" tabpos="2">
 		<Cursor position="2419" topLine="79" />
 	</File>
 </CodeBlocks_layout_file>

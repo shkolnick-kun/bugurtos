@@ -16,6 +16,9 @@
         :::                \
         )
 
+#define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
+#define BGRT_FIC_PUSH_INT_ISR bgrt_fic_push_int_isr
+
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 

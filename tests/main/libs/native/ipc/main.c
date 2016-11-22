@@ -120,7 +120,7 @@ int main(void)
     _bgrt_proc_init(PR2, main_2,         SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END);
     _bgrt_proc_init(PR3, main_3,         SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END);
 
-    ipc_init_isr(&test_ep);
+    ipc_init_cs(&test_ep);
 
     _bgrt_proc_run(PR0);
 

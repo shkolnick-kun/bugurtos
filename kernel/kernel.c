@@ -136,7 +136,7 @@ static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
         if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
         {
             //A scheduler is empty, must do resched
-            bgrt_fic_push_int(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
+            bgrt_fic_push_int(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
             //May safe power
             BGRT_SAFE_POWER();
         }
@@ -192,7 +192,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         if (bgrt_fic_pop_int(&kblock->lpfic, BGRT_KBLOCK_VSCALL))
         {
             do_int_scall(kblock);
-            continue;
+            continue; /* ADLINT:SL:[W0013] continue*/
         }
 
         BGRT_KBLOCK_LPFIC_HOOK(&kblock);
@@ -201,7 +201,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         if (work)
         {
             do_int_sched(kblock, work);
-            continue;
+            continue; /* ADLINT:SL:[W0013] continue*/
         }
         else
         {

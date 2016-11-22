@@ -82,20 +82,20 @@ bgrt_st_t sig_init(sig_t * sig)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = sig_init_isr(sig);
+    ret = sig_init_cs(sig);
     BGRT_INT_FREE();
     return ret;
 }
 
-bgrt_st_t sig_init_isr(sig_t * sig)
+bgrt_st_t sig_init_cs(sig_t * sig)
 {
     if (!sig)
     {
         return BGRT_ST_ENULL;
     }
-    cond_init_isr((cond_t *)sig);
+    cond_init_cs((cond_t *)sig);
     BGRT_KERNEL_PREEMPT();
-    mutex_init_isr(&sig->wait, BGRT_PRIO_LOWEST);
+    mutex_init_cs(&sig->wait, BGRT_PRIO_LOWEST);
     return BGRT_ST_OK;
 }
 

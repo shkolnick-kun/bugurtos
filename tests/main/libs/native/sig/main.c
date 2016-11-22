@@ -114,7 +114,7 @@ int main(void)
     _bgrt_proc_init(PR4, main_sig,       SVH4, RSH4, 0, &bgrt_proc_stack[4][BGRT_PROC_STACK_SIZE-1], 2,      2, 0 ARG_END);
     _bgrt_proc_init(PR5, main_sig,       SVH5, RSH5, 0, &bgrt_proc_stack[5][BGRT_PROC_STACK_SIZE-1], 3,      2, 0 ARG_END);
 
-    sig_init_isr(&test_sig);
+    sig_init_cs(&test_sig);
 
     _bgrt_proc_run(PR0);
 

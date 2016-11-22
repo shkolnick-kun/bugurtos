@@ -19,6 +19,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option='-I &quot;${PROJECT_DIR}/../../../kernel&quot;' />
+			<Add option='-I &quot;${PROJECT_DIR}/../../../kernel/default&quot;' />
 			<Add option='-I &quot;${PROJECT_DIR}/../&quot;' />
 		</Compiler>
 		<Unit filename="../../../kernel/index.c">

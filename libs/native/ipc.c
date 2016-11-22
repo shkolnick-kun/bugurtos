@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "ipc.h"
 
-bgrt_st_t ipc_init_isr(ipc_t * endpoint)
+bgrt_st_t ipc_init_cs(ipc_t * endpoint)
 {
     if (!endpoint)
     {
@@ -93,7 +93,7 @@ bgrt_st_t ipc_init(ipc_t * endpoint)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = ipc_init_isr(endpoint);
+    ret = ipc_init_cs(endpoint);
     BGRT_INT_FREE();
     return ret;
 }

@@ -136,7 +136,7 @@ static bgrt_vint_t * bgrt_vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
         }
         else
         {
-            work = (bgrt_pitem_t *)0;
+            work = (bgrt_pitem_t *)0;/* ADLINT:SL:[W0567] tute conversion*/
         }
     }
     //May enable interrupts
@@ -176,5 +176,5 @@ bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic)
 void bgrt_vic_do_work(bgrt_vic_t * vic)
 {
     //Do some pending work...
-    while (BGRT_ST_ROLL == bgrt_vic_iterator(vic));
+    while (BGRT_ST_ROLL == bgrt_vic_iterator(vic)); /* ADLINT:SL:[W0414,W0627,W0085]*/
 }

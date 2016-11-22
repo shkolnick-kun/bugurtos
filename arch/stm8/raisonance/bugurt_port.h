@@ -83,6 +83,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_INT_LOCK _sim_
 #define BGRT_INT_FREE _rim_
 
+#define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
+#define BGRT_FIC_PUSH_INT_ISR bgrt_fic_push_int_isr
+
 // Подстановка_строки
 #define BGRT_ARG_TO_STR(a) #a
 

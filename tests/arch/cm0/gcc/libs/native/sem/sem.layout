@@ -7,7 +7,7 @@
 	<File name="../../../../../../../kernel/bugurt.h" open="0" top="0" tabpos="3">
 		<Cursor position="8319" topLine="144" />
 	</File>
-	<File name="../../../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="2">
+	<File name="../../../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="2">
 		<Cursor position="6774" topLine="87" />
 	</File>
 	<File name="../../../../../../../kernel/default/syscall_api.h" open="0" top="0" tabpos="0">
@@ -25,7 +25,7 @@
 	<File name="../../../../../../../kernel/item.c" open="0" top="0" tabpos="8">
 		<Cursor position="6229" topLine="55" />
 	</File>
-	<File name="../../../../../../../kernel/kernel.c" open="1" top="0" tabpos="1">
+	<File name="../../../../../../../kernel/kernel.c" open="0" top="0" tabpos="1">
 		<Cursor position="8236" topLine="144" />
 	</File>
 	<File name="../../../../../../../kernel/pcounter.c" open="0" top="0" tabpos="7">
@@ -52,7 +52,7 @@
 	<File name="../../../../../../../kernel/syscall.h" open="0" top="0" tabpos="0">
 		<Cursor position="10890" topLine="179" />
 	</File>
-	<File name="../../../../../../../kernel/timer.c" open="1" top="1" tabpos="4">
+	<File name="../../../../../../../kernel/timer.c" open="0" top="0" tabpos="4">
 		<Cursor position="7462" topLine="93" />
 	</File>
 	<File name="../../../../../../../kernel/vint.c" open="0" top="0" tabpos="1">
@@ -73,7 +73,7 @@
 	<File name="../../../test_func.h" open="0" top="0" tabpos="8">
 		<Cursor position="15" topLine="0" />
 	</File>
-	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="0" tabpos="3">
+	<File name="../../../../../../main/libs/native/sem/main.c" open="1" top="0" tabpos="1">
 		<Cursor position="2139" topLine="79" />
 	</File>
 </CodeBlocks_layout_file>

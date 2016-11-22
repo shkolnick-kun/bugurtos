@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "cond.h"
 
-bgrt_st_t cond_init_isr(cond_t * cond)
+bgrt_st_t cond_init_cs(cond_t * cond)
 {
     return _BGRT_SYNC_INIT(cond, BGRT_PRIO_LOWEST);
 }
@@ -87,7 +87,7 @@ bgrt_st_t cond_init(cond_t * cond)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = cond_init_isr(cond);
+    ret = cond_init_cs(cond);
     BGRT_INT_FREE();
     return ret;
 }

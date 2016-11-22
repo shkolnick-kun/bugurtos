@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-/* ADLINT:SF:[W9001,W0431,W0432] control never...WTF??!, 2x(intendation in switches)*/
+/* ADLINT:SF:[W9001,W0431,W0432,W0422] control never...WTF??!, 2x(intendation in switches), NULL ptr*/
 //Run a process with higher prio to avoid prio inversion!
 static void _bgrt_pctrl_proc_run_high(bgrt_proc_t * proc, bgrt_flag_t state)
 {
@@ -212,7 +212,7 @@ static void _bgrt_pctrl_propagate(BGRT_PCTRL_PROP_ARGS)
 
         BGRT_PCTRL_PROP_HOOK();
 
-        BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] OOR access*/
+        BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
 
         if ((bgrt_sync_t *)0 == sync) /* ADLINT:SL:[W0567] type conversion*/
         {
@@ -490,7 +490,7 @@ bgrt_st_t _bgrt_sync_touch(bgrt_sync_t * sync)
 static void _bgrt_sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
     BGRT_SPIN_FREE(proc);
-    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] OOR access*/
+    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
     BGRT_SPIN_LOCK(sync);
     BGRT_SPIN_LOCK(proc);
 }
@@ -540,7 +540,7 @@ bgrt_st_t _bgrt_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
         _bgrt_pctrl_proc_running(proc, BGRT_PROC_STATE_RUNNING);
 
         BGRT_SPIN_FREE(proc);
-        BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] OOR access*/
+        BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
         BGRT_SPIN_LOCK(sync);
 
         BGRT_CNT_DEC(sync->snum); //One sleeping proc less!
@@ -873,7 +873,7 @@ bgrt_st_t _bgrt_sync_proc_timeout(bgrt_proc_t * proc)
 
     if ((bgrt_sync_t *)0 == sync) /* ADLINT:SL:[W0567] type conversion*/
     {
-        BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] OOR access*/
+        BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
 
         BGRT_SPIN_LOCK(proc);
 
@@ -904,7 +904,7 @@ bgrt_st_t _bgrt_sync_proc_timeout(bgrt_proc_t * proc)
         return status;
     }
 
-    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] OOR access*/
+    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
 
     BGRT_SPIN_LOCK(sync);
     BGRT_SPIN_LOCK(proc);

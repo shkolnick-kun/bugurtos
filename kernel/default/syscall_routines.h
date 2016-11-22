@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _BGRT_SCR_H_
 
 #include <bugurt.h>
-/* ADLINT:SF:[W0456,W0567,W0644,W0459,W0085,W0073,WO422] extern func, valist */
+/* ADLINT:SF:[W0456,W0567,W0644,W0459,W0085,W0073,W0422] extern func, valist */
 
 /**********************************************************************************************
                                   System call handlers !!!
@@ -299,7 +299,7 @@ BGRT_SC_SR(SYNC_PROC_TIMEOUT, void * arg)
 **********************************************************************************************/
 typedef bgrt_st_t (*bgrt_user_func_t)(bgrt_va_wr_t*);
 
-BGRT_SC_SR(USER, bgrt_va_wr_t* va)
+BGRT_SC_SR(USER, bgrt_va_wr_t* va)/* ADLINT:SL:[W0031] va is used!!!*/
 {
     bgrt_user_func_t func;
     bgrt_va_wr_t param;

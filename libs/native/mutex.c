@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "mutex.h"
 
-bgrt_st_t mutex_init_isr(mutex_t * mutex, bgrt_prio_t prio)
+bgrt_st_t mutex_init_cs(mutex_t * mutex, bgrt_prio_t prio)
 {
     return _BGRT_SYNC_INIT(mutex, prio);
 }
@@ -87,7 +87,7 @@ bgrt_st_t mutex_init(mutex_t * mutex, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = mutex_init_isr(mutex, prio);
+    ret = mutex_init_cs(mutex, prio);
     BGRT_INT_FREE();
     return ret;
 }

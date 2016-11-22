@@ -128,7 +128,7 @@ Semaphore initiation from ISR.
 \param sem A #sem_t pointer.
 \param count A counter start value.
 */
-bgrt_st_t sem_init_isr(sem_t * sem, bgrt_cnt_t count);
+bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count);
 /*!
 \~russian
 \brief
@@ -237,6 +237,6 @@ else semaphore wait list head will be launched.
 \param sem A #sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sem_free_isr(sem_t * sem);
+bgrt_st_t sem_free_cs(sem_t * sem);
 
 #endif // _SEM_H_

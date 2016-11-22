@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sem.h"
 
-bgrt_st_t sem_init_isr(sem_t * sem, bgrt_cnt_t count)
+bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count)
 {
     if (!sem)
     {
@@ -96,7 +96,7 @@ bgrt_st_t sem_init(sem_t * sem, bgrt_cnt_t count)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = sem_init_isr(sem, count);
+    ret = sem_init_cs(sem, count);
     BGRT_INT_FREE();
     return ret;
 }
@@ -233,7 +233,7 @@ bgrt_st_t sem_free(sem_t * sem)
     }
 }
 
-bgrt_st_t sem_free_isr(sem_t * sem)
+bgrt_st_t sem_free_cs(sem_t * sem)
 {
     bgrt_st_t ret;
 

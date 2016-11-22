@@ -120,7 +120,7 @@ A conditional variable initiation from ISR or critical section.
 
 \param cond A #cond_t pointer.
 */
-bgrt_st_t cond_init_isr(cond_t * cond);
+bgrt_st_t cond_init_cs(cond_t * cond);
 /*!
 \~russian
 \brief

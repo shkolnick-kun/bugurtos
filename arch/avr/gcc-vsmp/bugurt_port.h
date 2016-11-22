@@ -85,6 +85,9 @@ extern  void bgrt_int_free(void);
 #define BGRT_INT_LOCK bgrt_int_lock
 #define BGRT_INT_FREE bgrt_int_free
 
+#define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
+#define BGRT_FIC_PUSH_INT_ISR bgrt_fic_push_int_isr
+
 #define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
 #define BGRT_CURR_PROC bgrt_kernel.kblock[current_vm].sched.current_proc
 

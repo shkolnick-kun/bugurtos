@@ -121,7 +121,7 @@ A signal initiation from ISR or critical section.
 
 \param sig A #sig_t pointer.
 */
-bgrt_st_t sig_init_isr(sig_t * sig);
+bgrt_st_t sig_init_cs(sig_t * sig);
 /*!
 \~russian
 \brief

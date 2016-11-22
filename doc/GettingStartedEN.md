@@ -128,7 +128,7 @@ BGRT_ISR(SOME_INTERRUPT)
 
     BGRT_KBLOCK.vic is virtual interrupt controller.
     */
-    bgrt_vint_push_isr( &my_vint, &BGRT_KBLOCK.vic );
+    BGRT_VINT_PUSH_ISR( &my_vint, &BGRT_KBLOCK.vic );
 }
 ```
 ###Processes.
@@ -171,10 +171,10 @@ You need to do the steps below.
         /* Do something.*/
     }
 ```
- 4. Call **proc_init_isr** or **proc_init**:
+ 4. Call **proc_init_cs** or **proc_init**:
 ```C
     // This function is called before start_bugurt() call in main or in ISR
-    proc_init_isr(
+    proc_init_cs(
  		&my_proc,  /*a process descriptor pointer  */
  		my_process_main, /*a process main function pointer */
  		my_sv_hook, /* «sv_hook» function pointer */
@@ -187,9 +187,9 @@ You need to do the steps below.
  		);
     // If you need to initiate process from other process, then you MUST use proc_init instead.
 ```
- 5. Call **proc_run_isr** or **proc_run**:
+ 5. Call **proc_run_cs** or **proc_run**:
 ```C
-    proc_run_isr(&my_proc); // Use in ISR or from main before start_bugurt() call.
+    proc_run_cs(&my_proc); // Use in ISR or from main before start_bugurt() call.
     // If you need to run a process from an other process, then you MUST use proc_run instead.
 ```
 ####What can I do in process main?
@@ -235,9 +235,9 @@ These primitives will be described in next chapters.
 There are some functions to control process execution, here they are:
 ```C
 proc_stop(&some_proc);     /*This may stop a process*/
-proc_stop_isr(&some_proc); /*Same function for ISR and critical section calls.*/
+proc_stop_cs(&some_proc); /*Same function for ISR and critical section calls.*/
 proc_restart(&some_proc);  /*This may restart a process, if it has returned from pmain.*/
-proc_restart_isr(&some_proc);/*Same function for ISR and critical section calls.*/
+proc_restart_cs(&some_proc);/*Same function for ISR and critical section calls.*/
 proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
 ```
 ###Scheduler.
@@ -343,7 +343,7 @@ mutex_t some_mutex;                    /*This is mutex declaration*/
 status_t status;
 
 mutex_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
-                                       one must use mutex_init_isr in critical sections etc.*/
+                                       one must use mutex_init_cs in critical sections etc.*/
 status = mutex_try_lock( &some_mutex );/*This function tries to lock mutex, caller is not blocked.*/
 status = mutex_lock( &some_mutex );    /*This function locks mutex, caller is blocked
                                        until mutex is free.*/
@@ -369,7 +369,7 @@ sem_t some_sem;                    /*This is semaphore declaration*/
 status_t status;
 
 sem_init( &some_sem, COUNT_INIT ); /*This initiates semaphore, for usage in processes main,
-                                   one must use sem_init_isr in critical sections etc.*/
+                                   one must use sem_init_cs in critical sections etc.*/
 status = sem_try_lock( &some_sem );/*This function tries to lock semaphore, caller is not blocked.*/
 status = sem_lock( &some_sem );    /*This function locks semaphore, caller is blocked
                                    until semaphore is free.*/
@@ -396,7 +396,7 @@ cond_t some_cond;
 status_t status;
 
 mutex_init( &some_mutex, MUTEX_PRIO );
-cond_init( &some_cond );                       /*There is also *_isr version of this.*/
+cond_init( &some_cond );                       /*There is also *_cs version of this.*/
 
 // Conditional wait
 status = mutex_lock( &some_mutex );            /*The mutex must be locked.*/
@@ -439,7 +439,7 @@ Use Conditionals and Semaphores instead!!!
 sig_t some_sig;
 status_t status;
 
-sig_init( &some_sig ); /*There is also *_isr version.*/
+sig_init( &some_sig ); /*There is also *_cs version.*/
 
 status = sig_wait( &some_sig );      /*Wait for signal, caller is blocked.*/
 status = sig_signal( &some_sig );    /*Wake up most prioritized waiting process (if any).*/
@@ -466,7 +466,7 @@ ipc_t some_ep;
 status_t status;
 proc_t * wait_for = 0;
 
-ipc_init( &some_ep );                       /*This function has *_isr variant.*/
+ipc_init( &some_ep );                       /*This function has *_cs variant.*/
 SYNC_SET_OWNER( &some_ep, &some_proccess ); /*Set an owner after init. This macro must be called
                                             from a process main with interrupts enabled.*/
 /*

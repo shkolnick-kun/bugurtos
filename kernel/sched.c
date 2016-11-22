@@ -461,7 +461,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
 
             BGRT_SPIN_LOCK(sched);
 
-            bgrt_xlist_switch(sched->ready, prio);
+            bgrt_xlist_switch(sched->ready, prio); /* ADLINT:SL:[W1026] 1st arg type*/
             // Is there any other process in proc sublist? If none, then we probably can save power...
             save_power = (bgrt_bool_t)(sched->ready->item[prio] == (bgrt_item_t *)proc);/* ADLINT:SL:[W0567,W0608,W0705] type conversions*/
 
@@ -482,7 +482,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
 
             proc_map |= sched->ready->index; /* ADLINT:SL:[W0165] type conversions*/
 
-            bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired);
+            bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired); /* ADLINT:SL:[W1026] 2nd arg type*/
             BGRT_SPIN_FREE(sched);
 
             save_power = (bgrt_bool_t)!proc_map; /* ADLINT:SL:[W0608,W0168] type conversions*/
@@ -493,7 +493,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
     BGRT_RESCHED_PROC(proc);
     BGRT_SPIN_FREE(proc);
 
-    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705] type conversions*/
+    BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] type conversions*/
 
     return save_power;
 }
