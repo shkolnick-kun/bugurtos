@@ -111,7 +111,7 @@ bgrt_proc_t * bgrt_curr_proc(void)
 void bgrt_resched(bgrt_cpuid_t core)
 {
     cli();
-    bgrt_fic_push_int_isr(&bgrt_kernel.kblock[core].lpfic, BGRT_KBLOCK_VRESCH);
+    BGRT_FIC_PUSH_INT_ISR(&bgrt_kernel.kblock[core].lpfic, BGRT_KBLOCK_VRESCH);
     sei();
 }
 
@@ -194,7 +194,7 @@ void bgrt_set_curr_sp(void)
 // Код ядра
 static void _bgrt_switch_to_kernel(void)
 {
-    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
 }
 __attribute__ ((naked)) void bgrt_switch_to_kernel(void);
 void bgrt_switch_to_kernel(void)
@@ -240,7 +240,7 @@ static void do_int_systick(void * arg)
     cli();
     for (i = 0; i < BGRT_MAX_CPU; i++)
     {
-        bgrt_fic_push_int_isr(&bgrt_kernel.kblock[i].lpfic, BGRT_KBLOCK_VTMR);
+        BGRT_FIC_PUSH_INT_ISR(&bgrt_kernel.kblock[i].lpfic, BGRT_KBLOCK_VTMR);
     }
     sei();
 }

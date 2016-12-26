@@ -178,7 +178,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
     bgrt_kernel.timer.val++;
     if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
-    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VTMR);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VTMR);
 
     BGRT_ISR_END();
 }
@@ -193,7 +193,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     udata->scnum = num;
     udata->scarg = arg;
 
-    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
 
     BGRT_ISR_END();
 

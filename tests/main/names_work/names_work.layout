@@ -8,10 +8,10 @@
 		<Cursor position="4055" topLine="102" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.c" open="0" top="0" tabpos="2">
-		<Cursor position="10333" topLine="274" />
+		<Cursor position="6788" topLine="335" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/bugurt_port.h" open="0" top="0" tabpos="0">
-		<Cursor position="6371" topLine="81" />
+		<Cursor position="6349" topLine="81" />
 	</File>
 	<File name="../../../arch/avr/gcc-vsmp/vsmp.c" open="0" top="0" tabpos="14">
 		<Cursor position="12122" topLine="248" />
@@ -23,10 +23,10 @@
 		<Cursor position="286" topLine="0" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="1">
-		<Cursor position="7569" topLine="122" />
+		<Cursor position="8180" topLine="160" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="18">
-		<Cursor position="6181" topLine="77" />
+		<Cursor position="6287" topLine="77" />
 	</File>
 	<File name="../../../arch/avr/gcc/bugurt_port_asm.S" open="0" top="0" tabpos="0">
 		<Cursor position="95" topLine="0" />
@@ -38,7 +38,7 @@
 		<Cursor position="2289" topLine="67" />
 	</File>
 	<File name="../../../arch/cm0/gcc/bugurt_port.c" open="0" top="0" tabpos="1">
-		<Cursor position="5672" topLine="118" />
+		<Cursor position="7617" topLine="170" />
 	</File>
 	<File name="../../../arch/cm0/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
 		<Cursor position="486" topLine="1" />
@@ -47,25 +47,25 @@
 		<Cursor position="2296" topLine="47" />
 	</File>
 	<File name="../../../arch/cm3/gcc/bugurt_port.c" open="0" top="0" tabpos="4">
-		<Cursor position="6428" topLine="131" />
+		<Cursor position="8471" topLine="185" />
 	</File>
 	<File name="../../../arch/cm3/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
-		<Cursor position="801" topLine="0" />
+		<Cursor position="801" topLine="6" />
 	</File>
 	<File name="../../../arch/cm4f/gcc/bugurt_config_example.h" open="0" top="0" tabpos="23">
 		<Cursor position="2293" topLine="47" />
 	</File>
 	<File name="../../../arch/cm4f/gcc/bugurt_port.c" open="0" top="0" tabpos="5">
-		<Cursor position="6924" topLine="146" />
+		<Cursor position="9343" topLine="212" />
 	</File>
 	<File name="../../../arch/cm4f/gcc/bugurt_port.h" open="0" top="0" tabpos="0">
-		<Cursor position="801" topLine="0" />
+		<Cursor position="801" topLine="9" />
 	</File>
 	<File name="../../../arch/stm8/iar/bugurt_config_example.h" open="0" top="0" tabpos="0">
 		<Cursor position="459" topLine="0" />
 	</File>
 	<File name="../../../arch/stm8/iar/bugurt_port.c" open="0" top="0" tabpos="6">
-		<Cursor position="6997" topLine="95" />
+		<Cursor position="8060" topLine="138" />
 	</File>
 	<File name="../../../arch/stm8/iar/bugurt_port.h" open="0" top="0" tabpos="26">
 		<Cursor position="6337" topLine="70" />
@@ -80,7 +80,7 @@
 		<Cursor position="275" topLine="0" />
 	</File>
 	<File name="../../../arch/stm8/raisonance/bugurt_port.c" open="0" top="0" tabpos="7">
-		<Cursor position="6972" topLine="96" />
+		<Cursor position="7709" topLine="120" />
 	</File>
 	<File name="../../../arch/stm8/raisonance/bugurt_port.h" open="0" top="0" tabpos="29">
 		<Cursor position="6307" topLine="75" />
@@ -92,7 +92,7 @@
 		<Cursor position="336" topLine="0" />
 	</File>
 	<File name="../../../arch/stm8/sdcc/bugurt_port.c" open="0" top="0" tabpos="3">
-		<Cursor position="7343" topLine="114" />
+		<Cursor position="8362" topLine="155" />
 	</File>
 	<File name="../../../arch/stm8/sdcc/bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="6308" topLine="63" />
@@ -118,10 +118,10 @@
 	<File name="../../../kernel/default/syscall_api.h" open="0" top="0" tabpos="88">
 		<Cursor position="94" topLine="1" />
 	</File>
-	<File name="../../../kernel/default/syscall_routines.h" open="1" top="0" tabpos="3">
+	<File name="../../../kernel/default/syscall_routines.h" open="0" top="0" tabpos="3">
 		<Cursor position="6199" topLine="78" />
 	</File>
-	<File name="../../../kernel/default/syscall_table.h" open="1" top="0" tabpos="2">
+	<File name="../../../kernel/default/syscall_table.h" open="0" top="0" tabpos="2">
 		<Cursor position="6112" topLine="73" />
 	</File>
 	<File name="../../../kernel/index.c" open="0" top="0" tabpos="6">
@@ -169,7 +169,7 @@
 	<File name="../../../kernel/sync.h" open="0" top="0" tabpos="40">
 		<Cursor position="94" topLine="127" />
 	</File>
-	<File name="../../../kernel/syscall.c" open="1" top="1" tabpos="1">
+	<File name="../../../kernel/syscall.c" open="0" top="0" tabpos="1">
 		<Cursor position="6162" topLine="72" />
 	</File>
 	<File name="../../../kernel/syscall.h" open="0" top="0" tabpos="1">
