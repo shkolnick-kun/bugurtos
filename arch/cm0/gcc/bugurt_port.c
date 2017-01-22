@@ -187,26 +187,28 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
 {
     BGRT_USPD_T udata;
 
-    BGRT_ISR_START();
+    BGRT_INT_LOCK();
 
     udata = BGRT_GET_USPD();
     udata->scnum = num;
     udata->scarg = arg;
 
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
+    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
 
-    BGRT_ISR_END();
+    BGRT_SYS_ICSR |= BGRT_PENDSV_SET;
+    BGRT_INT_FREE();
 
     return udata->scret;
 }
 //====================================================================================
 void bgrt_switch_to_proc(void)
 {
-    BGRT_ISR_START();
+    BGRT_INT_LOCK();
 
     kernel_mode = (bgrt_bool_t)0;
 
-    BGRT_ISR_END();
+    BGRT_SYS_ICSR |= BGRT_PENDSV_SET;
+    BGRT_INT_FREE();
 }
 //====================================================================================
 __attribute__ ((naked)) void BGRT_SYSCALL_ISR(void)

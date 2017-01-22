@@ -109,7 +109,7 @@ static inline void push_pend_scall(bgrt_kblock_t * kblock)
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
         //DO NOT "OPTIMIZE" THIS!!!
-        bgrt_fic_push_int_isr(&kblock->lpfic, BGRT_KBLOCK_VSCALL);
+        bgrt_fic_push_int(&kblock->lpfic, BGRT_KBLOCK_VSCALL);
     }
 }
 

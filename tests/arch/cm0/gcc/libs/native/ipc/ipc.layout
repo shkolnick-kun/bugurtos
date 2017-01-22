@@ -4,8 +4,8 @@
 	<File name="../../../../../../../arch/cm0/gcc/bugurt_port.c" open="1" top="0" tabpos="1">
 		<Cursor position="5387" topLine="122" />
 	</File>
-	<File name="../../../../../../../kernel/crit_sec.c" open="1" top="0" tabpos="5">
-		<Cursor position="6743" topLine="87" />
+	<File name="../../../../../../../kernel/crit_sec.c" open="1" top="1" tabpos="5">
+		<Cursor position="6973" topLine="87" />
 	</File>
 	<File name="../../../../../../../kernel/index.c" open="0" top="0" tabpos="0">
 		<Cursor position="6535" topLine="63" />
@@ -17,13 +17,13 @@
 		<Cursor position="7481" topLine="95" />
 	</File>
 	<File name="../../../../../../../kernel/sched.c" open="1" top="0" tabpos="6">
-		<Cursor position="12140" topLine="218" />
+		<Cursor position="15979" topLine="319" />
 	</File>
 	<File name="../../../../../../../kernel/syscall.c" open="0" top="0" tabpos="0">
 		<Cursor position="19346" topLine="370" />
 	</File>
 	<File name="../../../../../../../kernel/timer.c" open="1" top="0" tabpos="4">
-		<Cursor position="6719" topLine="86" />
+		<Cursor position="6719" topLine="92" />
 	</File>
 	<File name="../../../../../../../kernel/vint.c" open="0" top="0" tabpos="0">
 		<Cursor position="7853" topLine="145" />

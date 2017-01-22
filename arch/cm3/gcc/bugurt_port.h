@@ -23,20 +23,20 @@
         :"r0"                  \
         )
 
-#define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
-#define BGRT_FIC_PUSH_INT_ISR bgrt_fic_push_int_isr
+#define BGRT_VINT_PUSH_ISR    bgrt_vint_push
+#define BGRT_FIC_PUSH_INT_ISR bgrt_fic_push_int
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
 // Пролог обработчика прерывания
-#define BGRT_ISR_START()     \
-    BGRT_INT_LOCK()
+#define BGRT_ISR_START() do{}while(0)
 
 // Эпилог обработчика прерывания
-#define BGRT_ISR_END()                \
-    BGRT_SYS_ICSR |= BGRT_PENDSV_SET; \
-    BGRT_INT_FREE()
+#define BGRT_ISR_END()                    \
+    do{                                   \
+        BGRT_SYS_ICSR |= BGRT_PENDSV_SET; \
+    }while(0)
 
 // Шаблон обработчика прерывания для внутреннего пользования
 #define _BGRT_ISR(v,f) \
