@@ -79,184 +79,215 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BGRT_PORT_H_
 #define _BGRT_PORT_H_
 
+/*!
+\~russian
+\brief
+Запретить прерывания.
+
+\~english
+\brief
+Disable interrupts.
+*/
 #define BGRT_INT_LOCK()
+
+/*!
+\~russian
+\brief
+Разрешить прерывания.
+
+\~english
+\brief
+Enable interrupts.
+*/
 #define BGRT_INT_FREE()
 
-#define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
-#define BGRT_FIC_PUSH_INT_ISR BGRT_ATM_BSET_ISR
+/*!
+\~russian
+\brief
+Текущий блок ядра.
 
-#define BGRT_KBLOCK bgrt_kernel.kblock
-#define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
+\~english
+\brief
+Current kernel block.
+*/
+#define BGRT_KBLOCK
+
+/*!
+\~russian
+\brief
+Текущий процесс.
+
+\~english
+\brief
+Current process.
+*/
+#define BGRT_CURR_PROC
+
+/*!
+\~russian
+\brief
+Шаблон обработчика прерывания.
+
+\param map_ptr  Указатель на атомарную карту.
+
+\~english
+\brief
+Interrupt service routine declaration template.
+
+\param v An interrupt vector id.
+*/
 
 #define BGRT_ISR(v)
-
-//Виртуальный контроллер прерываний
-typedef struct _bgrt_fic_t bgrt_fic_t;
-//Свойства
 /*!
 \~russian
 \brief
-Виртуальный контроллер "быстрых" прерываний.
-
-\~english
-\brief
-A virtual fast interrupt controller.
-*/
-
-struct _bgrt_fic_t
-{
-    bgrt_map_t map;      /*!< \~russian Карта векторов "быстрых" прерываний. \~english A fast interrupt vector map.*/
-};
-/*!
-\~russian
-\brief
-Инициализация виртуального контроллера "быстрых" прерываний.
+Инициализация атомарной карты.
 
 \warning Для вызова из обработчиков прерываний.кротических секций!
 
-\param fic  Указатель на виртуальный контроллер прерываний.
+\param map_ptr  Указатель на атомарную карту.
 
 \~english
 \brief
-Virtual interrupt controller initialization.
+Atomic map initialization.
 
 \warning For ISR/crit_sec usage!
 
-\param fic A pointer to a #bgrt_vic_t object.
+\param map_ptr A pointer to atomic map.
 */
-void BGRT_ATM_INIT_ISR(bgrt_fic_t * fic);
+#define BGRT_ATM_INIT_ISR(map_ptr)
 /*!
 \~russian
 \brief
-Инициализация виртуального контроллера "быстрых" прерываний.
+Инициализация атомарной карты.
 
-\param fic  Указатель на виртуальный контроллер прерываний.
+\param map_ptr  Указатель на атомарную карту.
 
 \~english
 \brief
-Virtual interrupt controller initialization.
+Atomic map initialization.
 
-\param fic A pointer to a #bgrt_vic_t object.
+\param map_ptr A pointer to atomic map.
 */
-void bgrt_atm_init(bgrt_fic_t * fic);
+void bgrt_atm_init(bgrt_map_t * map_ptr);
 /*!
 \~russian
 \brief
-Поставить прерывания на обработку
+Поставить биты в 1 по маске.
 
-\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
-\param msk Маска векторов для обработки.
+\param map_ptr  Указатель на атомарную карту.
+\param msk Маска.
 
 \~english
 \brief
-Push vectors to fic.
+Set masked bits.
 
-\param fic A pointer to a #bgrt_fic_t object.
-\param msk A vector mask.
+\param map_ptr A pointer to atomic map.
+\param msk A mask.
 */
-void BGRT_ATM_BSET_ISR(bgrt_fic_t * fic, bgrt_map_t msk);
+#define BGRT_ATM_BSET_ISR(map_ptr, msk)
 
 /*!
 \~russian
 \brief
-Поставить прерывания на обработку.
+Поставить биты в 1 по маске.
 
 \warning Для вызова из обработчиков прерываний.кротических секций!
 
-\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
-\param msk Маска векторов для обработки.
+\param map_ptr  Указатель на атомарную карту.
+\param msk Маска.
 
 \~english
 \brief
-Push vectors to fic.
+Set bits using mask.
 
 \warning For ISR/crit_sec usage!
 
-\param fic A pointer to a #bgrt_fic_t object.
-\param msk A vector mask.
+\param map_ptr A pointer to atomic map.
+\param msk A mask.
 */
-void bgrt_atm_bset(bgrt_fic_t * fic, bgrt_map_t msk);
+void bgrt_atm_bset(bgrt_map_t * map_ptr, bgrt_map_t msk);
 /*!
 \~russian
 \brief
-Считать сотояние векторов по маске.
+Считать биты по маске.
 
 \warning Для вызова из обработчиков прерываний.кротических секций!
 
-\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
-\param msk Маска векторов для обработки.
+\param map_ptr  Указатель на атомарную карту.
+\param msk Маска.
 \return Состояние векторов прерываний.
 
 \~english
 \brief
-Read masked vectors state.
+Read masked bits.
 
 \warning For ISR/crit_sec usage!
 
-\param fic A pointer to a #bgrt_fic_t object.
-\param msk A vector mask.
+\param map_ptr A pointer to atomic map.
+\param msk A mask.
 \return Masked vectirs state.
 */
-bgrt_map_t BGRT_ATM_BGET_ISR(bgrt_fic_t * fic, bgrt_map_t msk)
+#define BGRT_ATM_BGET_ISR(map_ptr, msk)
 
 /*!
 \~russian
 \brief
-Считать сотояние векторов по маске.
+Считать биты по маске.
 
-\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
-\param msk Маска векторов для обработки.
+\param map_ptr  Указатель на атомарную карту.
+\param msk Маска.
 \return Состояние векторов прерываний.
 
 \~english
 \brief
-Read masked vectors state.
+Read masked bits.
 
-\param fic A pointer to a #bgrt_fic_t object.
-\param msk A vector mask.
+\param map_ptr A pointer to atomic map.
+\param msk A mask.
 \return Masked vectirs state.
 */
-bgrt_map_t bgrt_atm_bget(bgrt_fic_t * fic, bgrt_map_t msk);
+bgrt_map_t bgrt_atm_bget(bgrt_map_t * map_ptr, bgrt_map_t msk);
 /*!
 \~russian
 \brief
-Извлечь вектора прерываний для обработки.
+Сбросить значения битов по маске.
 
 \warning Для вызова из обработчиков прерываний.кротических секций!
 
-\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
-\param msk Маска векторов для обработки.
-\return Последнее состояние векторов прерываний.
+\param map_ptr  Указатель на атомарную карту.
+\param msk Маска.
+\return Последнее состояние интересующих битов.
 
 \~english
 \brief
-Read masked vectors state.
+Clear masked bits.
 
 \warning For ISR/crit_sec usage!
 
-\param fic A pointer to a #bgrt_fic_t object.
-\param msk A vector mask.
-\return Last masked vectors state.
+\param map_ptr A pointer to atomic map.
+\param msk A mask.
+\return Last masked bits state.
 */
-bgrt_map_t BGRT_ATM_BCLR_ISR(bgrt_fic_t * fic, bgrt_map_t msk);
+#definne BGRT_ATM_BCLR_ISR(map_ptr, msk)
 
 /*!
 \~russian
 \brief
-Извлечь вектора прерываний для обработки.
+Сбросить биты по маске.
 
-\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
-\param msk Маска векторов для обработки.
-\return Последнее состояние векторов прерываний.
+\param map_ptr  Указатель на атомарную карту.
+\param msk Маска.
+\return Последнее состояние маскированных битов.
 
 \~english
 \brief
-Read masked vectors state.
+Clear masked bits.
 
-\param fic A pointer to a #bgrt_fic_t object.
-\param msk A vector mask.
-\return Last masked vectors state.
+\param map_ptr A pointer to atomic map.
+\param msk A mask.
+\return Last masked bits state.
 */
-bgrt_map_t bgrt_atm_bclr(bgrt_fic_t * fic, bgrt_map_t msk);
+bgrt_map_t bgrt_atm_bclr(bgrt_map_t * map_ptr, bgrt_map_t msk);
 
 #endif // _BGRT_PORT_H_

@@ -136,7 +136,7 @@ static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
         if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
         {
             //A scheduler is empty, must do resched
-            bgrt_atm_bset(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
+            bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
             //May safe power
             BGRT_SAFE_POWER();
         }
