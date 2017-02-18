@@ -154,7 +154,7 @@ typedef void (* bgrt_code_t)(void *);
 #include "timer.h"
 
 #include <bugurt_port.h>
-/*bgrt_fic_t, depends on BGRT_INT_LOCK/FREE*/
+/*bgrt_map_t, depends on BGRT_INT_LOCK/FREE*/
 #include "vint.h"
 /*Kernel (kernel services, must be included after syscall.h and vint.h)*/
 #include "kernel.h"

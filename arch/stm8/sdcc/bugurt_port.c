@@ -86,7 +86,7 @@ bgrt_proc_t * bgrt_curr_proc(void)
 
 void bgrt_resched(void)
 {
-    bgrt_atm_bset(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
+    bgrt_atm_bset(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VRESCH);
 }
 // Платформозависимый код
 bgrt_stack_t * bgrt_isr_prologue(void) __naked
@@ -122,11 +122,11 @@ bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 
 void bgrt_set_curr_sp(void)
 {
-    if (BGRT_KBLOCK.hpfic.map      ||
+    if (BGRT_KBLOCK.hpmap      ||
 #ifdef BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.vic.list.map ||
 #endif//BGRT_CONFIG_USE_VIC
-        BGRT_KBLOCK.lpfic.map)
+        BGRT_KBLOCK.lpmap)
     {
         kernel_mode = 1;
     }
@@ -150,7 +150,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     udata->scnum = num;
     udata->scarg = arg;
 
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
     bgrt_trap();
     BGRT_INT_FREE();
 
@@ -178,7 +178,7 @@ static void _system_timer_isr(void)
     bgrt_kernel.timer.val++;
     if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VTMR);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VTMR);
 }
 
 void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked

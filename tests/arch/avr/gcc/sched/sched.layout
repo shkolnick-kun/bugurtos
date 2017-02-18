@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="0" top="0" tabpos="2">
+	<File name="../../../../../arch/avr/gcc/bugurt_port.c" open="1" top="0" tabpos="2">
 		<Cursor position="7564" topLine="0" />
 	</File>
 	<File name="../../../../../arch/avr/gcc/bugurt_port.h" open="0" top="0" tabpos="3">
@@ -46,7 +46,7 @@
 	<File name="../../../../../kernel/kernel.c" open="0" top="0" tabpos="1">
 		<Cursor position="7857" topLine="134" />
 	</File>
-	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="3">
+	<File name="../../../../../kernel/kernel.h" open="1" top="0" tabpos="3">
 		<Cursor position="8661" topLine="169" />
 	</File>
 	<File name="../../../../../kernel/pcounter.c" open="0" top="0" tabpos="3">
@@ -95,7 +95,7 @@
 		<Cursor position="6802" topLine="67" />
 	</File>
 	<File name="../../../../../kernel/vint.h" open="1" top="0" tabpos="5">
-		<Cursor position="11337" topLine="250" />
+		<Cursor position="11067" topLine="228" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="28">
 		<Cursor position="163" topLine="1" />

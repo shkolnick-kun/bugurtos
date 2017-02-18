@@ -79,105 +79,184 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef _BGRT_PORT_H_
 #define _BGRT_PORT_H_
 
-#define BGRT_INT_LOCK() __asm__("sim")
-#define BGRT_INT_FREE() __asm__("rim")
-
-#define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
-
-static inline void bgrt_atm_init(bgrt_map_t * fic) /* ADLINT:SL:[W0629] linkage*/
-{
-    BGRT_INT_LOCK();
-    BGRT_ATM_INIT_ISR(fic);
-    BGRT_INT_FREE();
-}
-
-#define BGRT_ATM_BSET_ISR(map_ptr, msk) do{ *(map_ptr) |= (msk); }while(0)
-
-static inline void bgrt_atm_bset(bgrt_map_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
-{
-    BGRT_INT_LOCK();
-    BGRT_ATM_BSET_ISR(fic,msk);
-    BGRT_INT_FREE();
-}
-
-#define BGRT_ATM_BGET_ISR(map_ptr, msk) (*(map_ptr) & (msk))
-
-static inline bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
-{
-    bgrt_map_t ret;
-    BGRT_INT_LOCK();
-    ret = BGRT_ATM_BGET_ISR(fic,msk);
-    BGRT_INT_FREE();
-    return ret; /* ADLINT:SL:[W0256,W0268] ret type check fail*/
-}
-
-#define BGRT_ATM_BCLR_ISR(map_ptr, msk) (__bgrt_atm_bclr_isr((map_ptr), (msk)))
-static inline bgrt_map_t __bgrt_atm_bclr_isr(bgrt_map_t * fic, bgrt_map_t msk)
-{
-    bgrt_map_t ret;
-    //Get states
-    ret = *fic & msk; /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
-    //Clear states
-    *fic &= ~msk;     /* ADLINT:SL:[W0422,W0165,W0578] NULL ptr deref*/
-    return ret;           /* ADLINT:SL:[W0256,W0268] ret type check fail*/
-}
-
-static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
-{
-    bgrt_map_t ret;
-    BGRT_INT_LOCK();
-    ret = BGRT_ATM_BCLR_ISR(fic,msk);
-    BGRT_INT_FREE();
-    return ret;         /* ADLINT:SL:[W0256,W0268] ret type check fail*/
-}
+#define BGRT_INT_LOCK()
+#define BGRT_INT_FREE()
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
 #define BGRT_FIC_PUSH_INT_ISR BGRT_ATM_BSET_ISR
 
-// Подстановка_строки
-#define BGRT_ARG_TO_STR(a) #a
-// Конкатенация строк
-
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
-extern bgrt_stack_t * bgrt_isr_prologue(void) __naked;
-extern void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked;
+#define BGRT_ISR(v)
 
-extern bgrt_stack_t * saved_sp;
-extern bgrt_stack_t * kernel_sp;
-extern bgrt_stack_t ** current_sp;
-extern void bgrt_set_curr_sp(void);
+//Виртуальный контроллер прерываний
+typedef struct _bgrt_fic_t bgrt_fic_t;
+//Свойства
+/*!
+\~russian
+\brief
+Виртуальный контроллер "быстрых" прерываний.
 
-/* ISR start sequence */
-#define BGRT_ISR_START()            \
-    saved_sp = bgrt_isr_prologue(); \
-    *current_sp = saved_sp
+\~english
+\brief
+A virtual fast interrupt controller.
+*/
 
-/* ISR end sequence */
-#define BGRT_ISR_END()                \
-    bgrt_set_curr_sp();               \
-    bgrt_isr_epilogue(*current_sp); \
-    __asm__("iret")
+struct _bgrt_fic_t
+{
+    bgrt_map_t map;      /*!< \~russian Карта векторов "быстрых" прерываний. \~english A fast interrupt vector map.*/
+};
+/*!
+\~russian
+\brief
+Инициализация виртуального контроллера "быстрых" прерываний.
 
-/* ISR declaration */
-#define BGRT_ISR_DECL(v)                                         \
-void BGRT_CONCAT(vector_wrapper_,v)(void) __interrupt(v) __naked
+\warning Для вызова из обработчиков прерываний.кротических секций!
 
-/* ISR definition */
-#define BGRT_ISR(v)                     \
-void BGRT_CONCAT(vector_func_,v)(void); \
-BGRT_ISR_DECL(v)                        \
-{                                       \
-    BGRT_ISR_START();                   \
-    BGRT_CONCAT(vector_func_,v)();      \
-    BGRT_ISR_END();                     \
-}                                       \
-void BGRT_CONCAT(vector_func_,v)(void)
+\param fic  Указатель на виртуальный контроллер прерываний.
 
-/* Trap handler declaration */
-extern void bgrt_switch_context(void) __trap __naked;
-/* System timer ISR declaration */
-extern void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked;
+\~english
+\brief
+Virtual interrupt controller initialization.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_vic_t object.
+*/
+void BGRT_ATM_INIT_ISR(bgrt_fic_t * fic);
+/*!
+\~russian
+\brief
+Инициализация виртуального контроллера "быстрых" прерываний.
+
+\param fic  Указатель на виртуальный контроллер прерываний.
+
+\~english
+\brief
+Virtual interrupt controller initialization.
+
+\param fic A pointer to a #bgrt_vic_t object.
+*/
+void bgrt_atm_init(bgrt_fic_t * fic);
+/*!
+\~russian
+\brief
+Поставить прерывания на обработку
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+
+\~english
+\brief
+Push vectors to fic.
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+*/
+void BGRT_ATM_BSET_ISR(bgrt_fic_t * fic, bgrt_map_t msk);
+
+/*!
+\~russian
+\brief
+Поставить прерывания на обработку.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+
+\~english
+\brief
+Push vectors to fic.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+*/
+void bgrt_atm_bset(bgrt_fic_t * fic, bgrt_map_t msk);
+/*!
+\~russian
+\brief
+Считать сотояние векторов по маске.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Masked vectirs state.
+*/
+bgrt_map_t BGRT_ATM_BGET_ISR(bgrt_fic_t * fic, bgrt_map_t msk)
+
+/*!
+\~russian
+\brief
+Считать сотояние векторов по маске.
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Masked vectirs state.
+*/
+bgrt_map_t bgrt_atm_bget(bgrt_fic_t * fic, bgrt_map_t msk);
+/*!
+\~russian
+\brief
+Извлечь вектора прерываний для обработки.
+
+\warning Для вызова из обработчиков прерываний.кротических секций!
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Последнее состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\warning For ISR/crit_sec usage!
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Last masked vectors state.
+*/
+bgrt_map_t BGRT_ATM_BCLR_ISR(bgrt_fic_t * fic, bgrt_map_t msk);
+
+/*!
+\~russian
+\brief
+Извлечь вектора прерываний для обработки.
+
+\param fic Указатель на виртуальный контроллер "быстрых" прерываний.
+\param msk Маска векторов для обработки.
+\return Последнее состояние векторов прерываний.
+
+\~english
+\brief
+Read masked vectors state.
+
+\param fic A pointer to a #bgrt_fic_t object.
+\param msk A vector mask.
+\return Last masked vectors state.
+*/
+bgrt_map_t bgrt_atm_bclr(bgrt_fic_t * fic, bgrt_map_t msk);
 
 #endif // _BGRT_PORT_H_

@@ -88,7 +88,7 @@ bgrt_proc_t * bgrt_curr_proc(void)
 
 void bgrt_resched(void)
 {
-    bgrt_atm_bset(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
+    bgrt_atm_bset(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VRESCH);
 }
 
 /******************************************************************************************************/
@@ -112,7 +112,7 @@ void bgrt_switch_to_kernel(void)
     BGRT_ISR_START();
 
     // Обрабатываем системный вызов
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
 
     BGRT_GOTO_KERNEL();
 }
@@ -130,11 +130,11 @@ bgrt_st_t bgrt_syscall(unsigned char num, void * arg)
 
 void bgrt_set_curr_sp(void)
 {
-    if (BGRT_KBLOCK.hpfic.map      ||
+    if (BGRT_KBLOCK.hpmap      ||
 #ifdef BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.vic.list.map ||
 #endif//BGRT_CONFIG_USE_VIC
-        BGRT_KBLOCK.lpfic.map)
+        BGRT_KBLOCK.lpmap)
     {
         kernel_mode = 1;
     }
@@ -164,7 +164,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
     bgrt_kernel.timer.val++;
     if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VTMR);
+    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VTMR);
 
     BGRT_GOTO_KERNEL();
 }
