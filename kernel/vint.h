@@ -277,7 +277,7 @@ A virtual fast interrupt controller.
 
 struct _bgrt_fic_t
 {
-    bgrt_index_t map;      /*!< \~russian Карта векторов "быстрых" прерываний. \~english A fast interrupt vector map.*/
+    bgrt_map_t map;      /*!< \~russian Карта векторов "быстрых" прерываний. \~english A fast interrupt vector map.*/
     BGRT_FIC_LOCK_OBJ
 };
 /*!
@@ -297,11 +297,11 @@ Virtual interrupt controller initialization.
 
 \param fic A pointer to a #bgrt_vic_t object.
 */
-static inline void bgrt_fic_init_isr(bgrt_fic_t * fic)
+static inline void BGRT_ATM_INIT_ISR(bgrt_fic_t * fic)
 {
     BGRT_FIC_LO_INIT(fic);
     BGRT_FIC_LOCK(fic);
-    fic->map = (bgrt_index_t)0; /* ADLINT:SL:[W0422] NULL ptr deref*/
+    fic->map = (bgrt_map_t)0; /* ADLINT:SL:[W0422] NULL ptr deref*/
     BGRT_FIC_FREE(fic);
 }
 /*!
@@ -317,10 +317,10 @@ Virtual interrupt controller initialization.
 
 \param fic A pointer to a #bgrt_vic_t object.
 */
-static inline void bgrt_fic_init(bgrt_fic_t * fic) /* ADLINT:SL:[W0629] linkage*/
+static inline void bgrt_atm_init(bgrt_fic_t * fic) /* ADLINT:SL:[W0629] linkage*/
 {
     BGRT_VINT_CS_START();
-    bgrt_fic_init_isr(fic);
+    BGRT_ATM_INIT_ISR(fic);
     BGRT_VINT_CS_END();
 }
 /*!
@@ -338,7 +338,7 @@ Push vectors to fic.
 \param fic A pointer to a #bgrt_fic_t object.
 \param msk A vector mask.
 */
-static inline void bgrt_fic_push_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
+static inline void BGRT_ATM_BSET_ISR(bgrt_fic_t * fic, bgrt_map_t msk)
 {
     BGRT_FIC_LOCK(fic);
     fic->map |= msk;   /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
@@ -365,10 +365,10 @@ Push vectors to fic.
 \param fic A pointer to a #bgrt_fic_t object.
 \param msk A vector mask.
 */
-static inline void bgrt_fic_push_int(bgrt_fic_t * fic, bgrt_index_t msk) /* ADLINT:SL:[W0629] linkage*/
+static inline void bgrt_atm_bset(bgrt_fic_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
 {
     BGRT_VINT_CS_START();
-    bgrt_fic_push_int_isr(fic,msk);
+    BGRT_ATM_BSET_ISR(fic,msk);
     BGRT_VINT_CS_END();
 }
 
@@ -393,9 +393,9 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Masked vectirs state.
 */
-static inline bgrt_index_t bgrt_fic_read_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
+static inline bgrt_map_t BGRT_ATM_BGET_ISR(bgrt_fic_t * fic, bgrt_map_t msk)
 {
-    bgrt_index_t ret;
+    bgrt_map_t ret;
     BGRT_FIC_LOCK(fic);
     //Get states
     ret = fic->map & msk; /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
@@ -420,11 +420,11 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Masked vectirs state.
 */
-static inline bgrt_index_t bgrt_fic_read_int(bgrt_fic_t * fic, bgrt_index_t msk) /* ADLINT:SL:[W0629] linkage*/
+static inline bgrt_map_t bgrt_atm_bget(bgrt_fic_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
 {
-    bgrt_index_t ret;
+    bgrt_map_t ret;
     BGRT_VINT_CS_START();
-    ret = bgrt_fic_read_int_isr(fic,msk);
+    ret = BGRT_ATM_BGET_ISR(fic,msk);
     BGRT_VINT_CS_END();
     return ret; /* ADLINT:SL:[W0256,W0268] ret type check fail*/
 }
@@ -449,9 +449,9 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Last masked vectors state.
 */
-static inline bgrt_index_t bgrt_fic_pop_int_isr(bgrt_fic_t * fic, bgrt_index_t msk)
+static inline bgrt_map_t BGRT_ATM_BCLR_ISR(bgrt_fic_t * fic, bgrt_map_t msk)
 {
-    bgrt_index_t ret;
+    bgrt_map_t ret;
     BGRT_FIC_LOCK(fic);
     //Get states
     ret = fic->map & msk; /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
@@ -477,11 +477,11 @@ Read masked vectors state.
 \param msk A vector mask.
 \return Last masked vectors state.
 */
-static inline bgrt_index_t bgrt_fic_pop_int(bgrt_fic_t * fic, bgrt_index_t msk) /* ADLINT:SL:[W0629] linkage*/
+static inline bgrt_map_t bgrt_atm_bclr(bgrt_fic_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
 {
-    bgrt_index_t ret;
+    bgrt_map_t ret;
     BGRT_VINT_CS_START();
-    ret = bgrt_fic_pop_int_isr(fic,msk);
+    ret = BGRT_ATM_BCLR_ISR(fic,msk);
     BGRT_VINT_CS_END();
     return ret;         /* ADLINT:SL:[W0256,W0268] ret type check fail*/
 }

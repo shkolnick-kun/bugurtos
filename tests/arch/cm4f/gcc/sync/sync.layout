@@ -5,7 +5,7 @@
 		<Cursor position="4196" topLine="87" />
 	</File>
 	<File name="../../../../../kernel/bugurt.h" open="0" top="0" tabpos="0">
-		<Cursor position="11779" topLine="375" />
+		<Cursor position="11779" topLine="453" />
 	</File>
 	<File name="../../../../../kernel/crit_sec.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="88" />
@@ -77,7 +77,7 @@
 		<Cursor position="0" topLine="164" />
 	</File>
 	<File name="../../../../../kernel/vint.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="198" />
+		<Cursor position="13538" topLine="311" />
 	</File>
 	<File name="../../../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="91" />
@@ -88,7 +88,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1342" topLine="63" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="0">
-		<Cursor position="39762" topLine="1145" />
+	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
+		<Cursor position="39762" topLine="1091" />
 	</File>
 </CodeBlocks_layout_file>

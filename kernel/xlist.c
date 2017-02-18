@@ -92,7 +92,7 @@ void bgrt_xlist_init(
 {
     bgrt_cnt_t i;
     //xlist is empty
-    xlist->index = (bgrt_index_t)0;
+    xlist->map = (bgrt_map_t)0;
     //all sublists are empty
     for (i = 0; i < BGRT_BITS_IN_INDEX_T; i++) /* ADLINT:SL:[W0168] type conversion */
     {
@@ -104,12 +104,12 @@ void bgrt_xlist_init(
 bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
 {
     bgrt_item_t * ret_val = (bgrt_item_t *)0; /* ADLINT:SL:[W0567] type conversion*/
-    bgrt_index_t index;
-    index = xlist->index;
+    bgrt_map_t map;
+    map = xlist->map;
 
-    if (index != (bgrt_index_t)0)
+    if (map != (bgrt_map_t)0)
     {
-        ret_val = xlist->item[ bgrt_index_search(index)]; /* ADLINT:SL:[W0705] OOR access*/
+        ret_val = xlist->item[ bgrt_map_search(map)]; /* ADLINT:SL:[W0705] OOR access*/
     }
     return ret_val;
 }

@@ -108,7 +108,7 @@ In fact these containers store lists of #bgrt_pitem_t or other compatible object
 struct _bgrt_xlist_t
 {
     bgrt_item_t * item[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
-    bgrt_index_t index; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
+    bgrt_map_t map; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
 };
 // методы
 /*!

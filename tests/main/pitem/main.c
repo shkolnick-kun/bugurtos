@@ -58,7 +58,7 @@ int main()
         bgrt_pitem_insert(&my_item[i], &list);
         test |= (my_item[i].list != &list);
     }
-    test |= (list.index != (bgrt_index_t)7);
+    test |= (list.map != (bgrt_map_t)7);
     test |= (list.item[0] != &my_item[0]);
     test |= (list.item[1] != &my_item[1]);
     test |= (list.item[2] != &my_item[3]);
@@ -83,16 +83,16 @@ int main()
     bgrt_pitem_cut(&my_item[4]);
     bgrt_pitem_cut(&my_item[5]);
 
-    test |= (list.item[2] != 0)||(list.index != (bgrt_index_t)3);
+    test |= (list.item[2] != 0)||(list.map != (bgrt_map_t)3);
 
     bgrt_pitem_cut(&my_item[1]);
     bgrt_pitem_cut(&my_item[2]);
 
-    test |= (list.item[1] != 0)||(list.index != (bgrt_index_t)1);
+    test |= (list.item[1] != 0)||(list.map != (bgrt_map_t)1);
 
     bgrt_pitem_cut(&my_item[0]);
 
-    test |= (list.item[0] != 0)||(list.index != (bgrt_index_t)0);
+    test |= (list.item[0] != 0)||(list.map != (bgrt_map_t)0);
 
     for (i=0; i<6; i++)
     {

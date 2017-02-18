@@ -151,8 +151,8 @@ bgrt_cnt_t bgrt_cnt_sub(bgrt_cnt_t a, bgrt_cnt_t b)
 void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 {
     bgrt_prio_t p;
-    pcounter->index = (bgrt_index_t)0;
-    for (p = 0; p < (bgrt_index_t)BGRT_BITS_IN_INDEX_T; p++)
+    pcounter->map = (bgrt_map_t)0;
+    for (p = 0; p < (bgrt_map_t)BGRT_BITS_IN_INDEX_T; p++)
     {
         pcounter->counter[p] = (bgrt_cnt_t)0;    /* ADLINT:SL:[W0705] Out of range access!*/
     }
@@ -161,41 +161,41 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
     BGRT_CNT_INC(pcounter->counter[prio]);      /* ADLINT:SL:[W0705] Out of range access!*/
-    pcounter->index |= ((bgrt_index_t)1)<<prio; /* ADLINT:SL:[W0572] Drop bits!*/
+    pcounter->map |= ((bgrt_map_t)1)<<prio; /* ADLINT:SL:[W0572] Drop bits!*/
 }
 // Decrement
-bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
+bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
-    bgrt_index_t mask;
+    bgrt_map_t mask;
 
-    mask = ((bgrt_index_t)1)<<prio;
+    mask = ((bgrt_map_t)1)<<prio;
 
     BGRT_CNT_DEC(pcounter->counter[prio]);  /* ADLINT:SL:[W0705] Out of range access!*/
 
     if (pcounter->counter[prio] == (bgrt_cnt_t)0) /* ADLINT:SL:[W0705] Out of range access!*/
     {
-        pcounter->index &= ~mask; /* ADLINT:SL:[W0578] type converstions */
+        pcounter->map &= ~mask; /* ADLINT:SL:[W0578] type converstions */
     }
-    return pcounter->index & mask; /* ADLINT:SL:[W0272,W0301] */
+    return pcounter->map & mask; /* ADLINT:SL:[W0272,W0301] */
 }
 // Multiple increment
 void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
-    pcounter->index |= ((bgrt_index_t)1)<<prio;  /* ADLINT:SL:[W0572] */
+    pcounter->map |= ((bgrt_map_t)1)<<prio;  /* ADLINT:SL:[W0572] */
 
     BGRT_CNT_ADD(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/
 }
 // Multiple decrement
-bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
+bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
-    bgrt_index_t mask;
-    mask = ((bgrt_index_t)1)<<prio;
+    bgrt_map_t mask;
+    mask = ((bgrt_map_t)1)<<prio;
 
     BGRT_CNT_SUB(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/
 
     if ((bgrt_cnt_t)0 == pcounter->counter[prio])/* ADLINT:SL:[W0705] Out of range access!*/
     {
-        pcounter->index &= ~mask; /* ADLINT:SL:[W0578] type converstions */
+        pcounter->map &= ~mask; /* ADLINT:SL:[W0578] type converstions */
     }
-    return pcounter->index & mask; /* ADLINT:SL:[W0272,W0301] */
+    return pcounter->map & mask; /* ADLINT:SL:[W0272,W0301] */
 }

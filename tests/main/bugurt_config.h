@@ -79,7 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SC_TBL_READ(a) a
 
 // data types
-typedef unsigned char bgrt_index_t;
+typedef unsigned char bgrt_map_t;
 #define BGRT_BITS_IN_INDEX_T (8)
 
 typedef unsigned char bgrt_prio_t;

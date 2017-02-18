@@ -260,7 +260,7 @@ bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched)
 
     BGRT_SPIN_LOCK(sched);
 
-    if (sched->ready->index == (bgrt_index_t)0)
+    if (sched->ready->map == (bgrt_map_t)0)
     {
         // If ready list is empty, then swap ready and expired lists
         bgrt_xlist_t * buf;
@@ -438,7 +438,7 @@ void bgrt_sched_reschedule_prologue(bgrt_sched_t * sched)
 bgrt_bool_t _bgrt_sched_proc_yield(void)
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;
-    bgrt_index_t proc_map;
+    bgrt_map_t proc_map;
     bgrt_sched_t * sched;
     bgrt_proc_t * proc;
 
@@ -453,7 +453,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
         {
             bgrt_prio_t prio;
 
-            bgrt_index_t mask = ~(bgrt_index_t)0;
+            bgrt_map_t mask = ~(bgrt_map_t)0;
             mask <<= ((bgrt_pitem_t *)proc)->prio; /* ADLINT:SL:[W0165] type conversion*/
             mask = ~mask; // Mask all lower prio processes
 
@@ -465,7 +465,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
             // Is there any other process in proc sublist? If none, then we probably can save power...
             save_power = (bgrt_bool_t)(sched->ready->item[prio] == (bgrt_item_t *)proc);/* ADLINT:SL:[W0567,W0608,W0705] type conversions*/
 
-            proc_map = sched->ready->index;
+            proc_map = sched->ready->map;
 
             BGRT_SPIN_FREE(sched);
             //Are there higher prio processes in sched->ready?
@@ -476,11 +476,11 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
         else
         {
             BGRT_SPIN_LOCK(sched);
-            proc_map = sched->expired->index;
+            proc_map = sched->expired->map;
 
             bgrt_pitem_fast_cut((bgrt_pitem_t *)proc);
 
-            proc_map |= sched->ready->index; /* ADLINT:SL:[W0165] type conversions*/
+            proc_map |= sched->ready->map; /* ADLINT:SL:[W0165] type conversions*/
 
             bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired); /* ADLINT:SL:[W1026] 2nd arg type*/
             BGRT_SPIN_FREE(sched);
@@ -517,7 +517,7 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 
     BGRT_SPIN_LOCK(sched);
 
-    if ((bgrt_index_t)0 == sched->expired->index)
+    if ((bgrt_map_t)0 == sched->expired->map)
     {
         BGRT_SPIN_FREE(sched);
         return;

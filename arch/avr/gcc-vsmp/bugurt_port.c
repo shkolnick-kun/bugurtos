@@ -173,7 +173,7 @@ void bgrt_set_curr_sp(void)
     if (vm_int_enabled[current_vm])
     {
         if (BGRT_KBLOCK.hpfic.map      ||
-            BGRT_KBLOCK.vic.list.index ||
+            BGRT_KBLOCK.vic.list.map ||
             BGRT_KBLOCK.lpfic.map)
         {
             kernel_mode[current_vm] = 1;

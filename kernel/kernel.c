@@ -109,11 +109,11 @@ static inline void push_pend_scall(bgrt_kblock_t * kblock)
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
         //DO NOT "OPTIMIZE" THIS!!!
-        bgrt_fic_push_int(&kblock->lpfic, BGRT_KBLOCK_VSCALL);
+        bgrt_atm_bset(&kblock->lpfic, BGRT_KBLOCK_VSCALL);
     }
 }
 
-static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
+static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
     (void)kblock;
     if (BGRT_KBLOCK_VTMR == work)
@@ -136,7 +136,7 @@ static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_index_t work)
         if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
         {
             //A scheduler is empty, must do resched
-            bgrt_fic_push_int(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
+            bgrt_atm_bset(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
             //May safe power
             BGRT_SAFE_POWER();
         }
@@ -157,9 +157,9 @@ void bgrt_kblock_init(bgrt_kblock_t * kblock)
     bgrt_vic_init(&kblock->vic);
 #endif
     bgrt_sched_init(&kblock->sched);
-    bgrt_fic_init_isr(&kblock->hpfic);
-    bgrt_fic_init_isr(&kblock->lpfic);
-    bgrt_fic_push_int_isr(&kblock->lpfic, BGRT_KBLOCK_VRESCH);
+    BGRT_ATM_INIT_ISR(&kblock->hpfic);
+    BGRT_ATM_INIT_ISR(&kblock->lpfic);
+    BGRT_ATM_BSET_ISR(&kblock->lpfic, BGRT_KBLOCK_VRESCH);
 }
 
 #ifdef BGRT_CONFIG_HPFIC_HOOK
@@ -179,7 +179,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
 {
     while(1)
     {
-        bgrt_index_t work;
+        bgrt_map_t work;
 
         BGRT_KBLOCK_HPFIC_HOOK(&kblock);
 #ifdef BGRT_CONFIG_USE_VIC
@@ -189,7 +189,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         }
 #endif//BGRT_CONFIG_USE_VIC
 
-        if (bgrt_fic_pop_int(&kblock->lpfic, BGRT_KBLOCK_VSCALL))
+        if (bgrt_atm_bclr(&kblock->lpfic, BGRT_KBLOCK_VSCALL))
         {
             do_int_scall(kblock);
             continue; /* ADLINT:SL:[W0013] continue*/
@@ -197,7 +197,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
 
         BGRT_KBLOCK_LPFIC_HOOK(&kblock);
 
-        work = bgrt_fic_pop_int(&kblock->lpfic, BGRT_KBLOCK_VSCHMSK);
+        work = bgrt_atm_bclr(&kblock->lpfic, BGRT_KBLOCK_VSCHMSK);
         if (work)
         {
             do_int_sched(kblock, work);

@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../kernel/bugurt.h" open="0" top="0" tabpos="1">
-		<Cursor position="20080" topLine="482" />
+		<Cursor position="7954" topLine="141" />
 	</File>
 	<File name="../../../kernel/index.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
@@ -19,17 +19,17 @@
 	<File name="../../../kernel/vint.c" open="0" top="0" tabpos="2">
 		<Cursor position="6307" topLine="83" />
 	</File>
-	<File name="../../../kernel/vint.h" open="0" top="0" tabpos="3">
-		<Cursor position="13109" topLine="314" />
+	<File name="../../../kernel/vint.h" open="1" top="0" tabpos="3">
+		<Cursor position="14512" topLine="345" />
 	</File>
 	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">
 		<Cursor position="6818" topLine="85" />
 	</File>
 	<File name="../../../kernel/xlist.h" open="0" top="0" tabpos="0">
-		<Cursor position="8749" topLine="171" />
+		<Cursor position="7096" topLine="110" />
 	</File>
 	<File name="../bugurt_config.h" open="0" top="0" tabpos="3">
-		<Cursor position="6012" topLine="74" />
+		<Cursor position="6044" topLine="74" />
 	</File>
 	<File name="../bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="103" topLine="0" />

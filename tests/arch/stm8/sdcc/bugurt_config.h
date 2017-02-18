@@ -16,13 +16,13 @@ typedef unsigned char bgrt_stack_t;
 ///               Edit this part carefully!!!
 ///==================================================================
 
-// Max priority levels are defined by bgrt_index_t,
+// Max priority levels are defined by bgrt_map_t,
 // you must specify BGRT_BITS_IN_INDEX_T to show
 // how many levels you actually are going to use.
-typedef unsigned char bgrt_index_t;
+typedef unsigned char bgrt_map_t;
 #define BGRT_BITS_IN_INDEX_T (8)
 
-// Even if bgrt_index_t is unsigned long long,
+// Even if bgrt_map_t is unsigned long long,
 // there will be only 64 priority levels available,
 // so unsigned char is always enough.
 typedef unsigned char bgrt_prio_t;

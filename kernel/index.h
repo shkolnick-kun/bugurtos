@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define _INDEX_H_
 /*!
 \file
-\brief \~russian Заголовок функции поиска в бинарном индексе. \~english An index search header.
+\brief \~russian Заголовок функции поиска в бинарном индексе. \~english An map search header.
 */
 /*!
 \~russian
@@ -89,17 +89,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 \warning Для внутреннего использования.
 
-\param index Бинарный индекс.
+\param map Бинарный индекс.
 \return Наивысший (с минимальным значением) приоритет в индексе.
 
 \brief
-\~english An index search.
+\~english An map search.
 
 \warning Internal usage function.
 
-\param index An index.
-\return Highest priority of an index (with minimal value).
+\param map An map.
+\return Highest priority of an map (with minimal value).
 */
-bgrt_prio_t bgrt_index_search(bgrt_index_t index);
+bgrt_prio_t bgrt_map_search(bgrt_map_t map);
 
 #endif//_INDEX_H_

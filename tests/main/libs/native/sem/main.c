@@ -37,7 +37,7 @@ void main_with_return(void * arg)
     test_output((0 == test_sem.counter), 8);
     //sem_free test 9
     // proc[2] must get semaphore and self stop
-    LED_ON(RED);
+    //LED_ON(RED);
     sem_free(&test_sem);
     bgrt_wait_time(2);
     test_output((0 == test_sem.counter), 9);
@@ -74,7 +74,7 @@ void main_sem(void * arg)
     while (1)
     {
         sem_lock(&test_sem);
-        LED_OFF(RED);
+        //LED_OFF(RED);
         BGRT_PROC_SELF_STOP();
         sem_free(&test_sem);
         BGRT_PROC_SELF_STOP();

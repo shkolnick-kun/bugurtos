@@ -190,7 +190,7 @@ A locked resource counter.
 struct _bgrt_pcounter_t
 {
     bgrt_cnt_t counter[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив счётчиков. \~english A counter array. */
-    bgrt_index_t index; /*!< \~russian Индекс для ускорения поиска. \~english An index to speedup search. */
+    bgrt_map_t map; /*!< \~russian Индекс для ускорения поиска. \~english An map to speedup search. */
 };
 
 /*!
@@ -251,7 +251,7 @@ Decrement counter.
 \param pcounter A #bgrt_pcounter_t pointer.
 \param prio A priority.
 */
-bgrt_index_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio);
+bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio);
 /*!
 \~russian
 \brief
@@ -297,5 +297,5 @@ Decrease counter by a number of steps;
 \param count A number of decrement steps.
 \return 0 if correspondent counter is nulled, not 0 else.
 */
-bgrt_index_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
+bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
 #endif // _BGRT_PCOUNTER_H_

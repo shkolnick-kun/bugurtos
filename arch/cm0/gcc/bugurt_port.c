@@ -128,7 +128,7 @@ static void bgrt_set_curr_sp(void)
 {
     if (BGRT_KBLOCK.hpfic.map      ||
 #ifdef BGRT_CONFIG_USE_VIC
-        BGRT_KBLOCK.vic.list.index ||
+        BGRT_KBLOCK.vic.list.map ||
 #endif//BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.lpfic.map)
     {
@@ -152,7 +152,7 @@ bgrt_proc_t * bgrt_curr_proc(void)
 //====================================================================================
 void bgrt_resched(void)
 {
-    bgrt_fic_push_int(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
+    bgrt_atm_bset(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VRESCH);
 }
 //====================================================================================
 void bgrt_init(void)
@@ -193,7 +193,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     udata->scnum = num;
     udata->scarg = arg;
 
-    bgrt_fic_push_int_isr(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
+    BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpfic, BGRT_KBLOCK_VSCALL);
 
     BGRT_SYS_ICSR |= BGRT_PENDSV_SET;
     BGRT_INT_FREE();

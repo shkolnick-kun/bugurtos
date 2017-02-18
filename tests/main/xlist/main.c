@@ -36,7 +36,7 @@ int main()
 
     bgrt_xlist_init(&list);
 
-    test = (list.index != (bgrt_index_t)0);
+    test = (list.map != (bgrt_map_t)0);
     for (i=0; i<BGRT_BITS_IN_INDEX_T; i++)
     {
         test |= (list.item[i]!=(bgrt_item_t*)0);
@@ -46,7 +46,7 @@ int main()
 
     printf("Test 2: bgrt_xlist_head function: ");
 
-    list.index = 5;
+    list.map = 5;
     list.item[0] = &bgrt_item_1;
     list.item[2] = &bgrt_item_2;
     bgrt_item_insert(&bgrt_item_3, list.item[0]);

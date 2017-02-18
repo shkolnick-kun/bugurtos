@@ -84,7 +84,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_INT_FREE sei
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
-#define BGRT_FIC_PUSH_INT_ISR bgrt_fic_push_int_isr
+#define BGRT_FIC_PUSH_INT_ISR BGRT_ATM_BSET_ISR
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc

@@ -89,11 +89,11 @@ static void _bgrt_pctrl_proc_run_high(bgrt_proc_t * proc, bgrt_flag_t state)
 // Change a process priority according to its #lres data field.
 static void _bgrt_pctrl_proc_stoped(bgrt_proc_t * proc)
 {
-    if ((bgrt_index_t)0 != proc->lres.index)
+    if ((bgrt_map_t)0 != proc->lres.map)
     {
 
         bgrt_prio_t locker_prio;
-        locker_prio = bgrt_index_search(proc->lres.index);
+        locker_prio = bgrt_map_search(proc->lres.map);
         ((bgrt_pitem_t *)proc)->prio = (locker_prio < proc->base_prio)?locker_prio:proc->base_prio;
     }
     else
@@ -119,11 +119,11 @@ bgrt_prio_t _bgrt_sync_prio(bgrt_sync_t * sync)
     bgrt_prio_t sprio; //sync prio
 
     sprio = sync->prio;
-    if ((((bgrt_xlist_t *)sync)->index))
+    if ((((bgrt_xlist_t *)sync)->map))
     {
         bgrt_prio_t wprio; //wait list prio
 
-        wprio = bgrt_index_search(((bgrt_xlist_t *)sync)->index);
+        wprio = bgrt_map_search(((bgrt_xlist_t *)sync)->map);
         return (wprio < sprio)?wprio:sprio; /* ADLINT:SL:[W0256,W0268] signed/unsigned*/
     }
     else

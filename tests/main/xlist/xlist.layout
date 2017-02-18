@@ -2,12 +2,12 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../kernel/index.c" open="0" top="0" tabpos="1">
-		<Cursor position="94" topLine="0" />
+		<Cursor position="6629" topLine="78" />
 	</File>
 	<File name="../../../kernel/xlist.c" open="0" top="0" tabpos="0">
-		<Cursor position="94" topLine="1" />
+		<Cursor position="7067" topLine="86" />
 	</File>
 	<File name="main.c" open="0" top="0" tabpos="5">
-		<Cursor position="49" topLine="0" />
+		<Cursor position="909" topLine="23" />
 	</File>
 </CodeBlocks_layout_file>
