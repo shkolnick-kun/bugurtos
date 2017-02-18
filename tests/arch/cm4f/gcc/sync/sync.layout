@@ -88,7 +88,7 @@
 	<File name="../test_func.c" open="0" top="0" tabpos="0">
 		<Cursor position="1342" topLine="63" />
 	</File>
-	<File name="../../../../main/bsync/main.c" open="0" top="0" tabpos="0">
-		<Cursor position="39762" topLine="1091" />
+	<File name="../../../../main/bsync/main.c" open="1" top="1" tabpos="2">
+		<Cursor position="39762" topLine="1145" />
 	</File>
 </CodeBlocks_layout_file>
