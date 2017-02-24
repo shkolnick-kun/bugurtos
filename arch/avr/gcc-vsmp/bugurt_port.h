@@ -135,7 +135,6 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 }
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
-#define BGRT_FIC_PUSH_INT_ISR BGRT_ATM_BSET_ISR
 
 #define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
 #define BGRT_CURR_PROC bgrt_kernel.kblock[current_vm].sched.current_proc

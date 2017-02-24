@@ -36,9 +36,7 @@ static inline void bgrt_atm_init(bgrt_map_t * fic) /* ADLINT:SL:[W0629] linkage*
 
 static inline void bgrt_atm_bset(bgrt_map_t * fic, bgrt_map_t msk)
 {
-    BGRT_INT_LOCK();
     BGRT_ATM_BSET_ISR(fic,msk);
-    BGRT_INT_FREE();
 }
 
 #define BGRT_ATM_BGET_ISR(map_ptr, msk) (*(map_ptr) & (msk))
@@ -56,7 +54,6 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk)
 }
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push
-#define BGRT_FIC_PUSH_INT_ISR bgrt_atm_bset
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc

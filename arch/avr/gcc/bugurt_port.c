@@ -112,7 +112,7 @@ void bgrt_switch_to_kernel(void)
     BGRT_ISR_START();
 
     // Обрабатываем системный вызов
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
+    BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
 
     BGRT_GOTO_KERNEL();
 }
@@ -164,7 +164,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
     bgrt_kernel.timer.val++;
     if (bgrt_kernel.timer.tick != (void (*)(void))0)bgrt_kernel.timer.tick();
 
-    BGRT_FIC_PUSH_INT_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VTMR);
+    BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VTMR);
 
     BGRT_GOTO_KERNEL();
 }
