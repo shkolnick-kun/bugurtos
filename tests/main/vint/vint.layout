@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="../../../kernel/bugurt.h" open="0" top="0" tabpos="1">
-		<Cursor position="8298" topLine="579" />
+		<Cursor position="8298" topLine="576" />
 	</File>
 	<File name="../../../kernel/index.h" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />

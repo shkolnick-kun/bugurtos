@@ -76,109 +76,40 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
 
-#define BGRT_INT_LOCK() __asm__("sim")
-#define BGRT_INT_FREE() __asm__("rim")
+#ifndef _ATM_CORTEX_M34_1_H_
+#define _ATM_CORTEX_M34_1_H_
 
-#include "../../common/atm_gen_1.h"
-//
-//#define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
-//
-//static inline void bgrt_atm_init(bgrt_map_t * fic) /* ADLINT:SL:[W0629] linkage*/
-//{
-//    BGRT_INT_LOCK();
-//    BGRT_ATM_INIT_ISR(fic);
-//    BGRT_INT_FREE();
-//}
-//
-//#define BGRT_ATM_BSET_ISR(map_ptr, msk) do{ *(map_ptr) |= (msk); }while(0)
-//
-//static inline void bgrt_atm_bset(bgrt_map_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
-//{
-//    BGRT_INT_LOCK();
-//    BGRT_ATM_BSET_ISR(fic,msk);
-//    BGRT_INT_FREE();
-//}
-//
-//#define BGRT_ATM_BGET_ISR(map_ptr, msk) (*(map_ptr) & (msk))
-//
-//static inline bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
-//{
-//    bgrt_map_t ret;
-//    BGRT_INT_LOCK();
-//    ret = BGRT_ATM_BGET_ISR(fic,msk);
-//    BGRT_INT_FREE();
-//    return ret; /* ADLINT:SL:[W0256,W0268] ret type check fail*/
-//}
-//
-//#define BGRT_ATM_BCLR_ISR(map_ptr, msk) (__bgrt_atm_bclr_isr((map_ptr), (msk)))
-//static inline bgrt_map_t __bgrt_atm_bclr_isr(bgrt_map_t * fic, bgrt_map_t msk)
-//{
-//    bgrt_map_t ret;
-//    //Get states
-//    ret = *fic & msk; /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
-//    //Clear states
-//    *fic &= ~msk;     /* ADLINT:SL:[W0422,W0165,W0578] NULL ptr deref*/
-//    return ret;           /* ADLINT:SL:[W0256,W0268] ret type check fail*/
-//}
-//
-//static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLINT:SL:[W0629] linkage*/
-//{
-//    bgrt_map_t ret;
-//    BGRT_INT_LOCK();
-//    ret = BGRT_ATM_BCLR_ISR(fic,msk);
-//    BGRT_INT_FREE();
-//    return ret;         /* ADLINT:SL:[W0256,W0268] ret type check fail*/
-//}
-//
-//#define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
+#define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
 
-// Подстановка_строки
-#define BGRT_ARG_TO_STR(a) #a
-// Конкатенация строк
+static inline void bgrt_atm_init(bgrt_map_t * fic) /* ADLINT:SL:[W0629] linkage*/
+{
+    BGRT_INT_LOCK();
+    BGRT_ATM_INIT_ISR(fic);
+    BGRT_INT_FREE();
+}
 
-#define BGRT_KBLOCK bgrt_kernel.kblock
-#define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
+#define BGRT_ATM_BSET_ISR(map_ptr, msk) __atomic_fetch_or((map_ptr), (msk), __ATOMIC_SEQ_CST)
 
-extern bgrt_stack_t * bgrt_isr_prologue(void) __naked;
-extern void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked;
+static inline void bgrt_atm_bset(bgrt_map_t * fic, bgrt_map_t msk)
+{
+    BGRT_ATM_BSET_ISR(fic,msk);
+}
 
-extern bgrt_stack_t * saved_sp;
-extern bgrt_stack_t * kernel_sp;
-extern bgrt_stack_t ** current_sp;
-extern void bgrt_set_curr_sp(void);
+#define BGRT_ATM_BGET_ISR(map_ptr, msk) (*(map_ptr) & (msk))
 
-/* ISR start sequence */
-#define BGRT_ISR_START()            \
-    saved_sp = bgrt_isr_prologue(); \
-    *current_sp = saved_sp
+static inline bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk)
+{
+    return BGRT_ATM_BGET_ISR(fic,msk);
+}
 
-/* ISR end sequence */
-#define BGRT_ISR_END()                \
-    bgrt_set_curr_sp();               \
-    bgrt_isr_epilogue(*current_sp); \
-    __asm__("iret")
+#define BGRT_ATM_BCLR_ISR(map_ptr, msk) ((msk) & __atomic_fetch_and((map_ptr), ~(msk), __ATOMIC_SEQ_CST))
 
-/* ISR declaration */
-#define BGRT_ISR_DECL(v)                                         \
-void BGRT_CONCAT(vector_wrapper_,v)(void) __interrupt(v) __naked
+static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk)
+{
+    return BGRT_ATM_BCLR_ISR(fic,msk);
+}
 
-/* ISR definition */
-#define BGRT_ISR(v)                     \
-void BGRT_CONCAT(vector_func_,v)(void); \
-BGRT_ISR_DECL(v)                        \
-{                                       \
-    BGRT_ISR_START();                   \
-    BGRT_CONCAT(vector_func_,v)();      \
-    BGRT_ISR_END();                     \
-}                                       \
-void BGRT_CONCAT(vector_func_,v)(void)
+#define BGRT_VINT_PUSH_ISR    bgrt_vint_push
 
-/* Trap handler declaration */
-extern void bgrt_switch_context(void) __trap __naked;
-/* System timer ISR declaration */
-extern void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked;
-
-#endif // _BGRT_PORT_H_
+#endif // _ATM_CORTEX_M34_1_H_

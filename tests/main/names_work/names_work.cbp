@@ -93,7 +93,10 @@
 		<Unit filename="../../../arch/cm4f/gcc/bugurt_port.h">
 			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../../arch/doxygen/bugurt_port.h" />
+		<Unit filename="../../../arch/common/atm_cortex_m34_1.h" />
+		<Unit filename="../../../arch/common/atm_gen_1.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="../../../arch/stm8/iar/bugurt_config_example.h">
 			<Option target="Debug" />
 		</Unit>

@@ -84,7 +84,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_INT_LOCK __disable_interrupt
 #define BGRT_INT_FREE __enable_interrupt
 
-#include <arch/common/atm_gen_1.h>
+#include "../../common/atm_gen_1.h"
 
 //#define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
 //

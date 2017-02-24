@@ -19,7 +19,7 @@
 	<File name="../../../../../kernel/kernel.h" open="0" top="0" tabpos="6">
 		<Cursor position="7620" topLine="95" />
 	</File>
-	<File name="../../../../../kernel/pcounter.c" open="1" top="1" tabpos="5">
+	<File name="../../../../../kernel/pcounter.c" open="1" top="0" tabpos="3">
 		<Cursor position="6801" topLine="91" />
 	</File>
 	<File name="../../../../../kernel/proc.c" open="1" top="0" tabpos="1">
@@ -40,8 +40,8 @@
 	<File name="../../../../../kernel/syscall.h" open="0" top="0" tabpos="2">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../../../../../kernel/timer.c" open="0" top="0" tabpos="2">
-		<Cursor position="7462" topLine="93" />
+	<File name="../../../../../kernel/timer.c" open="1" top="0" tabpos="6">
+		<Cursor position="7134" topLine="93" />
 	</File>
 	<File name="../../../../../kernel/vint.c" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
@@ -61,7 +61,7 @@
 	<File name="../test_func.h" open="0" top="0" tabpos="3">
 		<Cursor position="771" topLine="15" />
 	</File>
-	<File name="../../../../main/sched/main.c" open="0" top="0" tabpos="3">
-		<Cursor position="941" topLine="19" />
+	<File name="../../../../main/sched/main.c" open="1" top="0" tabpos="5">
+		<Cursor position="648" topLine="13" />
 	</File>
 </CodeBlocks_layout_file>
