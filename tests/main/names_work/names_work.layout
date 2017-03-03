@@ -73,7 +73,7 @@
 	<File name="../../../arch/stm8/iar/bugurt_port.c" open="0" top="0" tabpos="7">
 		<Cursor position="8038" topLine="128" />
 	</File>
-	<File name="../../../arch/stm8/iar/bugurt_port.h" open="1" top="0" tabpos="1">
+	<File name="../../../arch/stm8/iar/bugurt_port.h" open="0" top="0" tabpos="1">
 		<Cursor position="6273" topLine="72" />
 	</File>
 	<File name="../../../arch/stm8/iar/bugurt_port_asm.S" open="0" top="0" tabpos="27">
@@ -88,8 +88,8 @@
 	<File name="../../../arch/stm8/raisonance/bugurt_port.c" open="0" top="0" tabpos="8">
 		<Cursor position="7687" topLine="130" />
 	</File>
-	<File name="../../../arch/stm8/raisonance/bugurt_port.h" open="0" top="0" tabpos="9">
-		<Cursor position="2557" topLine="14" />
+	<File name="../../../arch/stm8/raisonance/bugurt_port.h" open="1" top="1" tabpos="0">
+		<Cursor position="6243" topLine="74" />
 	</File>
 	<File name="../../../arch/stm8/raisonance/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
 		<Cursor position="94" topLine="0" />
@@ -100,7 +100,7 @@
 	<File name="../../../arch/stm8/sdcc/bugurt_port.c" open="0" top="0" tabpos="9">
 		<Cursor position="8340" topLine="172" />
 	</File>
-	<File name="../../../arch/stm8/sdcc/bugurt_port.h" open="1" top="1" tabpos="2">
+	<File name="../../../arch/stm8/sdcc/bugurt_port.h" open="0" top="0" tabpos="2">
 		<Cursor position="6243" topLine="72" />
 	</File>
 	<File name="../../../arch/stm8/sdcc/bugurt_proc_stack_init.c" open="0" top="0" tabpos="0">
