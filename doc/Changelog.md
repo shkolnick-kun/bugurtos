@@ -1,5 +1,16 @@
 # Changelog #
-  * 2.0.0-rc0
+  * 3.0.0-rc0
+    * API renamed to clarify its usage.
+    * Optimized performance(see #32.#33,#34).
+      * Added atomic notifications mechanism.
+      * Added bgrt_map_search using CLZ on Cortex-M3,4F.
+      * Reworked sem_free, now it is done in FSM in kernel thread.
+    * Added owner feature to native lib semaphores.
+    * Fixed #30, now the kernel is more robust to user lib errors.
+    * Fixed #31 (logical mistake in native lib semaphore implementation).
+    * Reworked vitrual interrupt controller, fixed #34 (virtual interrupt leak).
+    * Added common files to arch dir.
+  * 2.0.0
     * Reworked system call dispathcer.
       [X_MACRO](https://en.wikipedia.org/wiki/X_Macro) is used to generate boilerplate code thus enabling kernel extensions and size optimizatioms.
     * Reworked kernel API.
