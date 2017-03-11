@@ -136,8 +136,8 @@ Interrupt service routine declaration template.
 
 \param v An interrupt vector id.
 */
-
 #define BGRT_ISR(v)
+
 /*!
 \~russian
 \brief
@@ -156,6 +156,7 @@ Atomic map initialization.
 \param map_ptr A pointer to atomic map.
 */
 #define BGRT_ATM_INIT_ISR(map_ptr)
+
 /*!
 \~russian
 \brief
@@ -170,6 +171,7 @@ Atomic map initialization.
 \param map_ptr A pointer to atomic map.
 */
 void bgrt_atm_init(bgrt_map_t * map_ptr);
+
 /*!
 \~russian
 \brief
@@ -207,6 +209,7 @@ Set bits using mask.
 \param msk A mask.
 */
 void bgrt_atm_bset(bgrt_map_t * map_ptr, bgrt_map_t msk);
+
 /*!
 \~russian
 \brief
@@ -269,7 +272,8 @@ Clear masked bits.
 \param msk A mask.
 \return Last masked bits state.
 */
-#definne BGRT_ATM_BCLR_ISR(map_ptr, msk)
+#define BGRT_ATM_BCLR_ISR(map_ptr, msk)
+
 
 /*!
 \~russian
