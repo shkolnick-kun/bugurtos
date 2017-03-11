@@ -3,8 +3,9 @@
     * API renamed to clarify its usage.
     * Optimized performance(see #32.#33,#34).
       * Added atomic notifications mechanism.
-      * Added bgrt_map_search using CLZ on Cortex-M3,4F.
+      * Added bgrt_map_search using CLZ on Cortex<sup>TM</sup>-M3,4F.
       * Reworked sem_free, now it is done in FSM in kernel thread.
+      * Made BGRT_ISR preemptive on on Cortex<sup>TM</sup>-M3,4F.
     * Added owner feature to native lib semaphores.
     * Fixed #30, now the kernel is more robust to user lib errors.
     * Fixed #31 (logical mistake in native lib semaphore implementation).

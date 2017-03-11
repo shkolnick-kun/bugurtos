@@ -78,7 +78,7 @@ All this stuff will be described below.
 ##Interrupts.
 If you want to use BuguRTOS api inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_ISR** macro.
 This macro gives a proper wrapper for user ISR. Real ISR should be as small as possible and use as little resources as possible.
-If you need to do some complex work, then you should use virtual interrupt for such work.
+If you need to do some complex work, then you should use virtual interrupt or atomic notification for such work.
 
 ####WARNING!!!
 Since BuguRTOS-1.0.0 no context switch is done on ISR enter!
@@ -131,6 +131,47 @@ BGRT_ISR(SOME_INTERRUPT)
     BGRT_VINT_PUSH_ISR( &my_vint, &BGRT_KBLOCK.vic );
 }
 ```
+
+###Atomic notification
+Atomic notifications are done with inine functions bgrt_atm_init, bgrt_atm_bset, bgrt_atm_bget, bgrt_atm_bclr and BGRT_ATM_BSET_ISR macro.
+Here is the usage example.
+```C
+bgrt_map_t var;
+
+/*Some place in the code*/
+{
+    bgrt_atm_init(&var);
+}
+
+BGRT_ISR(SOME_INTERRUPT)
+{
+    /*Do something.*/
+
+    /*
+    Now fire a virtual interrupt for some complex work.
+    */
+
+    BGRT_ATM_BSET_ISR(&var, SET_MASK); /*This call will set SET_MASK bits in var*/
+}
+
+/*Some other later place in code*/
+{
+    if (bgrt_atm_bget(&var, GET_MASK)) /*Flags are not afffected by this call.*/
+    {
+        /*Handle GET_MASK flags here*/
+    }
+}
+
+/*Some other later place in code*/
+{
+    if (bgrt_atm_bclr(&var, CLR_MASK)) /*This call will clear CLR_MASK bits in var*/
+    {
+        /*Handle CLR_MASK flags here*/
+    }
+}
+
+```
+
 ###Processes.
 In different OSes it may be called process, task, thread etc., but the main pint is
 **independent CPU instruction execution flow**.
