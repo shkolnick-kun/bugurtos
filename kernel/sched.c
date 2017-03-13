@@ -159,9 +159,9 @@ void bgrt_sched_init(bgrt_sched_t * sched)
 #endif // BGRT_CONFIG_MP
     sched->ready = (bgrt_xlist_t *)sched->plst;
     bgrt_xlist_init(sched->ready);
-    sched->expired = (bgrt_xlist_t *)sched->plst + 1; /* ADLINT:SL:[W0567] Int to ponter*/
+    sched->expired = (bgrt_xlist_t *)sched->plst + 1; /* ADLINT:SL:[W0567] Int to pointer*/
     bgrt_xlist_init(sched->expired);
-    sched->current_proc = (bgrt_proc_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
+    sched->current_proc = (bgrt_proc_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
     sched->nested_crit_sec = (bgrt_cnt_t)0;
 #ifdef BGRT_CONFIG_MP
     bgrt_spin_free(sched_lock);
@@ -268,7 +268,7 @@ bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched)
         sched->ready = sched->expired;
         sched->expired = buf;
         // Clear current proc
-        sched->current_proc = (bgrt_proc_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
+        sched->current_proc = (bgrt_proc_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
 
         BGRT_SPIN_FREE(sched);
 
@@ -316,7 +316,7 @@ static void sched_proc_insert_expired(bgrt_proc_t * proc, bgrt_sched_t * sched)
 #   define BGRT_PROC_NEW_SCHED(proc) sched               //A process will stay on the same scheduler
 #endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 
-#ifdef BGRT_CONFIG_HARD_RT  //Hard real time, the process may be "killed" or "wd stoped"
+#ifdef BGRT_CONFIG_HARD_RT  //Hard real time, the process may be "killed" or "wd stopped"
 #   define BGRT_PROC_NEW_STATE(flags) ((flags & BGRT_PROC_FLG_LOCK_MASK)?(BGRT_PROC_STATE_DEAD):(BGRT_PROC_STATE_WD_STOPED))
 #else //BGRT_CONFIG_HARD_RT // Soft real time, just stop the process!
 #   define BGRT_PROC_NEW_STATE(flags) (BGRT_PROC_STATE_WD_STOPED)
@@ -395,7 +395,7 @@ void bgrt_sched_schedule_prologue(bgrt_sched_t * sched)
                 // A process is RT and it does not nave locked resources, stop it on watchdog!
                 BGRT_SCHED_STAT_UPDATE_STOP(current_proc);
                 //Finish process cut
-                ((bgrt_pitem_t *)current_proc)->list = (void *)0; /* ADLINT:SL:[W0567] Int to ponter*/
+                ((bgrt_pitem_t *)current_proc)->list = (void *)0; /* ADLINT:SL:[W0567] Int to pointer*/
                 //Update process state
                 BGRT_PROC_SET_STATE(current_proc, BGRT_PROC_NEW_STATE(flags)); /* ADLINT:SL:[W0447] coma operator*/
             }
@@ -442,7 +442,7 @@ bgrt_bool_t _bgrt_sched_proc_yield(void)
     bgrt_sched_t * sched;
     bgrt_proc_t * proc;
 
-    sched = BGRT_SCHED_INIT(); /* ADLINT:SL:[W0567,W0705] Int to ponter, OOR*/
+    sched = BGRT_SCHED_INIT(); /* ADLINT:SL:[W0567,W0705] Int to pointer, OOR*/
     proc = sched->current_proc;
 
     BGRT_SPIN_LOCK(proc);

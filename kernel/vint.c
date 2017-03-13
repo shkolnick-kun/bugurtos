@@ -136,7 +136,7 @@ static bgrt_vint_t * bgrt_vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
         }
         else
         {
-            work = (bgrt_pitem_t *)0;/* ADLINT:SL:[W0567] tute conversion*/
+            work = (bgrt_pitem_t *)0;/* ADLINT:SL:[W0567] type conversion*/
         }
     }
     //May enable interrupts

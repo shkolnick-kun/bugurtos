@@ -159,7 +159,7 @@ bgrt_st_t _bgrt_proc_init(
     proc->base_prio = prio;
     proc->time_quant = time_quant;
     proc->timer = time_quant;
-    proc->sync = (bgrt_sync_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
+    proc->sync = (bgrt_sync_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
     proc->cnt_lock = (bgrt_cnt_t)0;
 #ifdef BGRT_CONFIG_MP
     proc->core_id = (bgrt_cpuid_t)0;
@@ -176,7 +176,7 @@ bgrt_st_t _bgrt_proc_init(
         proc->spointer = bgrt_proc_stack_init(sstart, (bgrt_code_t)pmain, (void *)arg, (void (*)(void))bgrt_proc_terminate);
     }
 
-    BGRT_USPD_INIT(proc); /* ADLINT:SL:[W0567,W0425] Int to ponter, miltiline macro*/
+    BGRT_USPD_INIT(proc); /* ADLINT:SL:[W0567,W0425] Int to pointer, multiline macro*/
 
     BGRT_SPIN_FREE(proc);
 

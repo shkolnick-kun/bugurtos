@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 
-/* ADLINT:SF:[W1071,W1052,W0165,W0422] Miltiple return, OVF, out of range access */
+/* ADLINT:SF:[W1071,W1052,W0165,W0422] Multiple return, OVF, out of range access */
 
 #ifdef BGRT_CONFIG_TEST
 static void bgrt_cnt_panic(void)
@@ -174,7 +174,7 @@ bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 
     if (pcounter->counter[prio] == (bgrt_cnt_t)0) /* ADLINT:SL:[W0705] Out of range access!*/
     {
-        pcounter->map &= ~mask; /* ADLINT:SL:[W0578] type converstions */
+        pcounter->map &= ~mask; /* ADLINT:SL:[W0578] type conversions */
     }
     return pcounter->map & mask; /* ADLINT:SL:[W0272,W0301] */
 }
@@ -195,7 +195,7 @@ bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgr
 
     if ((bgrt_cnt_t)0 == pcounter->counter[prio])/* ADLINT:SL:[W0705] Out of range access!*/
     {
-        pcounter->map &= ~mask; /* ADLINT:SL:[W0578] type converstions */
+        pcounter->map &= ~mask; /* ADLINT:SL:[W0578] type conversions */
     }
     return pcounter->map & mask; /* ADLINT:SL:[W0272,W0301] */
 }
