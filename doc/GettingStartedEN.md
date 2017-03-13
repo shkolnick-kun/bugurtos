@@ -1,4 +1,4 @@
-# Getting started with BuguRTOS-2.0.x
+# Getting started with BuguRTOS-3.0.x
 
 ##Hello, %username%!!!
 If you are reading this flow of words, then you may be interested in BuguRTOS.
@@ -250,7 +250,7 @@ This function returns nonzero, if power can be saved.*/
 ```
 Also, be careful with static variables, as they a common for all running instances.
 To deal with common resources, events and time user needs some synchronization primitives.
-BuguRTOS-0.8.x kernel provides following primitives:
+BuguRTOS-3.0.x kernel provides following primitives:
  1. software timers for time management;
  2. critical sections for fast data access control;
  3. basic synchronization primitive (bgrt_sync_t) which can be used to construct conventional ones such as mutex, semaphore etc.

@@ -1,5 +1,5 @@
 # Changelog #
-  * 3.0.0-rc0
+  * 3.0.0
     * API renamed to clarify its usage.
     * Optimized performance(see #32.#33,#34).
       * Added atomic notifications mechanism.

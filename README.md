@@ -28,11 +28,11 @@ proprietary software development.
 # Current status #
 * Branches supported:
   * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
-  * 2.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
+  * 3.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
 
 * Current versions are:
   * 0.6.6;
-  * 2.0.0;
+  * 3.0.0;
 
 * Platforms supported:
   * AVR (GNU-toolchain);
@@ -55,13 +55,14 @@ proprietary software development.
 Getting started guide is [here](./doc/GettingStartedEN.md).
 
 # Todo #
-* Write libs for 2.0.x branch.
+* Write libs for 3.0.x branch.
 * Write more ports.
 * Fix bugs.
 * ??????
 * PROFIT!!!
 
 # News #
+* **March 13th 2017: BuguRTOS updated** version 3.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **August 31th 2016: BuguRTOS updated** version 2.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **April 26th 2016: BuguRTOS updated** version 1.0.0 is out, see [Changelog](./doc/Changelog.md), semantic versioning is used now!
 * **January 6th 2016: BuguRTOS updated** version 0.9.9 is out, see [Changelog](./doc/Changelog.md)!
