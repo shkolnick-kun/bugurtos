@@ -13,8 +13,8 @@ proprietary software development.
 * Portable. The kernel is designed to be easy portable to new platforms.
 * No memory management in kernel.
 * Smaller process stack size required as kernel runs in separate thread with it's own stack.
-* The kernel is allmost fully preemptive. Only small chunks of code can't be preempted by interrupts.
-* Interrupt virtualization. Virtual interrupts are run cooperatively in kernel threads. By default they can be preempted by other virtual interrupts in preemtion points.
+* The kernel is almost fully preemptive. Only small chunks of code can't be preempted by interrupts.
+* Interrupt virtualization. Virtual interrupts are run cooperatively in kernel threads. By default they can be preempted by other virtual interrupts in preemption points.
 * Customizable system call interface. One may comment out unneeded system calls, add custom system calls or rewrite system call table completely.
 
 # Licensing #
@@ -46,7 +46,7 @@ proprietary software development.
 
 * Notes on STM8/SDCC port:
   * Thank [Philipp Klaus Krause](https://github.com/spth) for taking part in this port!
-  * SDCC generates strange code for long linear functions which allocates __MUCH STACK SPACE__ for temoprary vars, be carefull!
+  * SDCC generates strange code for long linear functions which allocates __MUCH STACK SPACE__ for temporary vars, be careful!
 
 * Notes on Cortex<sup>TM</sup>-M0 port:
   * This port should also work on Cortex<sup>TM</sup>-M1 with OS-extension.

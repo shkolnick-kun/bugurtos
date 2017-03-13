@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 void bgrt_pitem_init(bgrt_pitem_t * pitem, bgrt_prio_t prio)
 {
     bgrt_item_init((bgrt_item_t *)pitem);
-    pitem->list = (bgrt_xlist_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
+    pitem->list = (bgrt_xlist_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
     pitem->prio = prio;
 }
 // Вставка в список
@@ -94,7 +94,7 @@ void bgrt_pitem_insert(bgrt_pitem_t * pitem, bgrt_xlist_t * xlist)
 
     prio = pitem->prio;
     mask = ((bgrt_map_t)1)<<prio;
-    head = (bgrt_item_t **)xlist + prio; /* ADLINT:SL:[W1052] Int to ponter*/
+    head = (bgrt_item_t **)xlist + prio; /* ADLINT:SL:[W1052] Int to pointer*/
     // Check for empty sublist
     if ((xlist->map)& mask)
     {
@@ -121,7 +121,7 @@ void bgrt_pitem_fast_cut(bgrt_pitem_t * pitem)
     if (((bgrt_item_t *)pitem)->next == (bgrt_item_t *)pitem)
     {
         // Single element, delete sublist!
-        xlist->item[prio] = (bgrt_item_t *)0;       /* ADLINT:SL:[W0567] Int to ponter*/
+        xlist->item[prio] = (bgrt_item_t *)0;       /* ADLINT:SL:[W0567] Int to pointer*/
         xlist->map &= ~(((bgrt_map_t)1)<<prio);
     }
     else
@@ -141,7 +141,7 @@ void bgrt_pitem_fast_cut(bgrt_pitem_t * pitem)
 void bgrt_pitem_cut(bgrt_pitem_t * pitem)
 {
     bgrt_pitem_fast_cut(pitem);
-    pitem->list = (bgrt_xlist_t *)0; /* ADLINT:SL:[W0567] Int to ponter*/
+    pitem->list = (bgrt_xlist_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
 }
 
 bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src)
@@ -159,7 +159,7 @@ bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src)
         tail = ((bgrt_item_t *)ret)->prev;      // current list tail initial value
         prio = ret->prio;                       // initial working prio
         // cut all items from current xlist part
-        src->item[prio++] = (bgrt_item_t *)0;   /** ADLINT:SL:[W0567,W0512] Int to ponter*/
+        src->item[prio++] = (bgrt_item_t *)0;   /** ADLINT:SL:[W0567,W0512] Int to pointer*/
         map = src->map;                     // remember xlist map to improve performance
         mask = ((bgrt_map_t)1) << prio;       // initial mask value
         // cut all items from xlist and form an ordinary list of them
@@ -172,7 +172,7 @@ bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src)
                 bgrt_item_t * buf;
                 xhead = src->item[prio];                    // current xlist head;
                 // cut all items from current xlist part
-                src->item[prio] = (bgrt_item_t *)0;         /** ADLINT:SL:[W0567] Int to ponter*/
+                src->item[prio] = (bgrt_item_t *)0;         /** ADLINT:SL:[W0567] Int to pointer*/
                 // chain former xlist head to a list tail
                 tail->next = xhead;
                 buf = xhead->prev;

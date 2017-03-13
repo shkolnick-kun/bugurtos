@@ -143,7 +143,7 @@ Interrupt service routine declaration template.
 \brief
 Инициализация атомарной карты.
 
-\warning Для вызова из обработчиков прерываний.кротических секций!
+\warning Для вызова из обработчиков прерываний/критических секций!
 
 \param map_ptr  Указатель на атомарную карту.
 
@@ -194,7 +194,7 @@ Set masked bits.
 \brief
 Поставить биты в 1 по маске.
 
-\warning Для вызова из обработчиков прерываний.кротических секций!
+\warning Для вызова из обработчиков прерываний/критических секций!
 
 \param map_ptr  Указатель на атомарную карту.
 \param msk Маска.
@@ -215,7 +215,7 @@ void bgrt_atm_bset(bgrt_map_t * map_ptr, bgrt_map_t msk);
 \brief
 Считать биты по маске.
 
-\warning Для вызова из обработчиков прерываний.кротических секций!
+\warning Для вызова из обработчиков прерываний/критических секций!
 
 \param map_ptr  Указатель на атомарную карту.
 \param msk Маска.
@@ -229,7 +229,7 @@ Read masked bits.
 
 \param map_ptr A pointer to atomic map.
 \param msk A mask.
-\return Masked vectirs state.
+\return Masked vectors state.
 */
 #define BGRT_ATM_BGET_ISR(map_ptr, msk)
 
@@ -248,7 +248,7 @@ Read masked bits.
 
 \param map_ptr A pointer to atomic map.
 \param msk A mask.
-\return Masked vectirs state.
+\return Masked vectors state.
 */
 bgrt_map_t bgrt_atm_bget(bgrt_map_t * map_ptr, bgrt_map_t msk);
 /*!
@@ -256,7 +256,7 @@ bgrt_map_t bgrt_atm_bget(bgrt_map_t * map_ptr, bgrt_map_t msk);
 \brief
 Сбросить значения битов по маске.
 
-\warning Для вызова из обработчиков прерываний.кротических секций!
+\warning Для вызова из обработчиков прерываний/критических секций!
 
 \param map_ptr  Указатель на атомарную карту.
 \param msk Маска.

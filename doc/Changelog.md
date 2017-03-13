@@ -9,14 +9,14 @@
     * Added owner feature to native lib semaphores.
     * Fixed #30, now the kernel is more robust to user lib errors.
     * Fixed #31 (logical mistake in native lib semaphore implementation).
-    * Reworked vitrual interrupt controller, fixed #34 (virtual interrupt leak).
+    * Reworked virtual interrupt controller, fixed #34 (virtual interrupt leak).
     * Added common files to arch dir.
   * 2.0.0
-    * Reworked system call dispathcer.
-      [X_MACRO](https://en.wikipedia.org/wiki/X_Macro) is used to generate boilerplate code thus enabling kernel extensions and size optimizatioms.
+    * Reworked system call dispatcher.
+      [X_MACRO](https://en.wikipedia.org/wiki/X_Macro) is used to generate boilerplate code thus enabling kernel extensions and size optimizations.
     * Reworked kernel API.
     * Updated native lib and getting started guide.
-    * The project code has been checked with [Adlint](http://adlint.sourceforge.net/) and anotated.
+    * The project code has been checked with [Adlint](http://adlint.sourceforge.net/) and annotated.
     * Added STM8/SDCC port.
     * Fixed #20.
     * Fixed #26.

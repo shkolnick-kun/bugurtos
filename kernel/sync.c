@@ -536,7 +536,7 @@ bgrt_st_t _bgrt_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
     {
     case BGRT_PROC_STATE_SYNC_RUNNING:
     {
-        BGRT_PROC_LRES_DEC(proc, 0); /* ADLINT:SL:[W1073] retvel discarded*/
+        BGRT_PROC_LRES_DEC(proc, 0); /* ADLINT:SL:[W1073] retval discarded*/
         _bgrt_pctrl_proc_running(proc, BGRT_PROC_STATE_RUNNING);
 
         BGRT_SPIN_FREE(proc);
@@ -571,7 +571,7 @@ bgrt_st_t _bgrt_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
 
         _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_SYNC_SLEEP);
 
-        BGRT_PROC_LRES_DEC(proc, 0); /* ADLINT:SL:[W1073] retvel discarded*/
+        BGRT_PROC_LRES_DEC(proc, 0); /* ADLINT:SL:[W1073] retval discarded*/
         _bgrt_pctrl_proc_stoped(proc);
 
         if (sync->owner == proc)

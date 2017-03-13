@@ -219,7 +219,7 @@ void bgrt_vic_init(bgrt_vic_t * vic);
 \warning Для внутреннего использования.
 
 \param vic  Указатель на виртуальный контроллер прерываний.
-\return BGRT_ST_ROLL если нужна еще итерация, BGRT_ST_OK если вся работа выполнена.
+\return BGRT_ST_ROLL если нужна ещё итерация, BGRT_ST_OK если вся работа выполнена.
 
 \~english
 \brief

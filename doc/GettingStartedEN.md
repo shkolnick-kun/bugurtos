@@ -76,7 +76,7 @@ First of all, multitasking OS is scheduler and other basic process (task,thread 
 All this stuff will be described below.
 
 ##Interrupts.
-If you want to use BuguRTOS api inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_ISR** macro.
+If you want to use BuguRTOS API inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_ISR** macro.
 This macro gives a proper wrapper for user ISR. Real ISR should be as small as possible and use as little resources as possible.
 If you need to do some complex work, then you should use virtual interrupt or atomic notification for such work.
 
@@ -133,7 +133,7 @@ BGRT_ISR(SOME_INTERRUPT)
 ```
 
 ###Atomic notification
-Atomic notifications are done with inine functions bgrt_atm_init, bgrt_atm_bset, bgrt_atm_bget, bgrt_atm_bclr and BGRT_ATM_BSET_ISR macro.
+Atomic notifications are done with inline functions bgrt_atm_init, bgrt_atm_bset, bgrt_atm_bget, bgrt_atm_bclr and BGRT_ATM_BSET_ISR macro.
 Here is the usage example.
 ```C
 bgrt_map_t var;
@@ -156,7 +156,7 @@ BGRT_ISR(SOME_INTERRUPT)
 
 /*Some other later place in code*/
 {
-    if (bgrt_atm_bget(&var, GET_MASK)) /*Flags are not afffected by this call.*/
+    if (bgrt_atm_bget(&var, GET_MASK)) /*Flags are not affected by this call.*/
     {
         /*Handle GET_MASK flags here*/
     }
