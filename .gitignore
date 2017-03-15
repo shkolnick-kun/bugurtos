@@ -24,6 +24,8 @@
 *.XRF
 *.html
 *.cbTemp
+*.depend
+*.layout
 
 # Executables
 *.exe
