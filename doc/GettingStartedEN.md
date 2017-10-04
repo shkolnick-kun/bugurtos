@@ -1,10 +1,10 @@
 # Getting started with BuguRTOS-3.0.x
 
-##Hello, %username%!!!
+## Hello, %username%!!!
 If you are reading this flow of words, then you may be interested in BuguRTOS.
 In this document you will get **basic concepts** and **first step instructions** of writing BuguRTOS apps.
 
-###What is BuguRTOS?
+### What is BuguRTOS?
 BuguRTOS is an embedded OS kernel, written by
 anonymous for [LULZZZZ](https://www.google.com/search?q=LULZ&ie=utf-8&oe=utf-8).
 
@@ -21,20 +21,20 @@ BuguRTOS now is such a library. In fact BuguRTOS is a set of source and header f
 that you can use in your project of
 [Giant](http://www.themoscowtimes.com/business/article/russia-wants-in-on-a-killer-robot-future/500203.html) [Anthropomorphic](http://www.youtube.com/watch?v=UPh7uFMLmSw) [Combat](https://www.youtube.com/watch?v=NDsVhpA24n4) [Robot](http://player.vimeo.com/video/75781782?title=0&byline=0&portrait=0&autoplay=1) firmware.
 
-###Why should I need this?
+### Why should I need this?
 If you like to blink a LED on you Arduino<sup>TM</sup>, then you definitely **DON'T NEED AN OS!**
 But if you want to write big and complex firmware which must do many tasks simultaneously,
 then you probably need one.
 
-###But why?
+### But why?
 Because OS enables you to **control the complexity** of your project and to use **any styles of programming**
 and **any suitable software libs**.
 
-###Why BuguRTOS?
+### Why BuguRTOS?
 You can use any OS you like. [Here](http://en.wikipedia.org/wiki/List_of_real-time_operating_systems)
 you can see the list of different RTOS.
 
-###What do I need?
+### What do I need?
  1. You need to get OS source code, check releases on the project page.
  2. You need a cross toolchain for your processor.
  3. You may need some IDE, I prefer to use Code::Blocks.
@@ -71,16 +71,16 @@ you can see the list of different RTOS.
    * ??????
    * PROFIT!!!
 
-##Inside BuguRTOS.
+## Inside BuguRTOS.
 First of all, multitasking OS is scheduler and other basic process (task,thread etc.) control services.
 All this stuff will be described below.
 
-##Interrupts.
+## Interrupts.
 If you want to use BuguRTOS API inside interrupts, then you need to declare your Interrupt Service Routine (ISR) with **BGRT_ISR** macro.
 This macro gives a proper wrapper for user ISR. Real ISR should be as small as possible and use as little resources as possible.
 If you need to do some complex work, then you should use virtual interrupt or atomic notification for such work.
 
-####WARNING!!!
+#### WARNING!!!
 Since BuguRTOS-1.0.0 no context switch is done on ISR enter!
 This may lead to stack overflow on some architectures!!!
 
@@ -91,7 +91,7 @@ BGRT_ISR(SOME_INTERRUPT)
     /*Do something.*/
 }
 ```
-###Virtual interrupts.
+### Virtual interrupts.
 The BuguRTOS kernel have an interrupt virtualization layer. Virtual interrupts are declared using **bgrt_vint_t** type.
 Virtual interrupts have a software priority which is used when they are scheduled for execution.
 Also one virtual ISR may be used to process different interrupt sources. In such case one may use an argument pointer to process different data sets with one ISR.
@@ -132,7 +132,7 @@ BGRT_ISR(SOME_INTERRUPT)
 }
 ```
 
-###Atomic notification
+### Atomic notification
 Atomic notifications are done with inline functions bgrt_atm_init, bgrt_atm_bset, bgrt_atm_bget, bgrt_atm_bclr and BGRT_ATM_BSET_ISR macro.
 Here is the usage example.
 ```C
@@ -172,7 +172,7 @@ BGRT_ISR(SOME_INTERRUPT)
 
 ```
 
-###Processes.
+### Processes.
 In different OSes it may be called process, task, thread etc., but the main pint is
 **independent CPU instruction execution flow**.
 
@@ -201,7 +201,7 @@ synchronization primitives. If user **fails** to do that, then
 Processes **must** have **different nonoverlapping stacks**. Actually user may allocate one stack for two or
 more processes, but in such case user **must make sure** that only one such process runs at any time.
 
-####What is needed to create a process?
+#### What is needed to create a process?
 You need to do the steps below.
  1. Declare a variable of **proc_t** type (a process descriptor). It's better to declare it global.
  2. Declare an array of **stack_t**, this is a process stack. It's better to declare it global too.
@@ -233,7 +233,7 @@ You need to do the steps below.
     proc_run_cs(&my_proc); // Use in ISR or from main before start_bugurt() call.
     // If you need to run a process from an other process, then you MUST use proc_run instead.
 ```
-####What can I do in process main?
+#### What can I do in process main?
 You can do everything you do in programs main. Here are some functions, which control a process execution:
 ```C
 proc_reset_watchdog(); /*This resets watchdog of real time process*/
@@ -272,7 +272,7 @@ There is only **native** library at the moment, which provides following sync pr
 
 These primitives will be described in next chapters.
 
-####What can I do with processes?
+#### What can I do with processes?
 There are some functions to control process execution, here they are:
 ```C
 proc_stop(&some_proc);     /*This may stop a process*/
@@ -281,11 +281,11 @@ proc_restart(&some_proc);  /*This may restart a process, if it has returned from
 proc_restart_cs(&some_proc);/*Same function for ISR and critical section calls.*/
 proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
 ```
-###Scheduler.
+### Scheduler.
 A scheduler is one of the most important OS component. It enables multitasking by switching processes contexts.
 In BuguRTOS scheduler works on periodic system timer interrupts or when rescheduling needed.
 
-####How does it work?
+#### How does it work?
 To enable scheduler there must be one hardware timer, which can generate periodic interrupts (for example one
 interrupt per millisecond).
 
@@ -299,7 +299,7 @@ All BuguRTOS system call handlers as well as scheduler routines have O(1) comple
 their execution time has **bounded upper limit**. This feature enables BuguRTOS usage in hard real time
 applications.
 
-####How next process is selected?
+#### How next process is selected?
 As described above, there are two kinds of processes in BuguRTOS, they are **general purpose** and
 **real time** processes.
 
@@ -322,26 +322,26 @@ so a process with expired watchdog can't be run by **proc_run** function, typica
 In **general purpose** processes timer is used to count process time slice, so when process time slice expires a
 process gets placed to expired process list and its timer gets reset.
 
-####What is process priority?
+#### What is process priority?
 A process priority is metric of level of a process importance.
 More important processes must get their time earlier than less important.
 In BuguRTOS zero is the highest priority and lowest priority is PROC_PRIO_LOWEST.
 
-####What is process time slice?
+#### What is process time slice?
 A process time slice is amount of time when process can run
 without being stopped or moved to expired process list.
 Time slices are used to share CPU time between processes in needed proportions and to guarantee,
 that ready processes of at least highest priority will get their CPU time.
 
-###Process synchronization primitives.
+### Process synchronization primitives.
 During development process people encounter process synchronization problems.
 Processes must be synchronized on time, events or common data access.
 BuguRTOS and its **native** lib provide some synchronization primitives.
 
-####BuguRTOS kernel primitives.
+#### BuguRTOS kernel primitives.
 BuguRTOS kernel provides three types of primitives, described below.
 
-#####Software timers.
+##### Software timers.
 Software timers are used for time synchronization and time management.
 The unit of time measurement in BuguRTOS is system timer tick.
 Software timer is a variable of **timer_t** type.
@@ -354,7 +354,7 @@ TIMER( some_timer );          /*This macro gives a number of ticks since last ti
                               It may be used to count and compare time intervals.*/
 void wait_time( some_time );  /*This function spins for a given time, may be used for delays, etc.*/
 ```
-#####Critical sections.
+##### Critical sections.
 A critical section is a part of a program with disabled interrupts.
 Critical sections may be nested.
 To enter critical section one must call **ENTER_CRIT_SEC** macro.
@@ -363,16 +363,16 @@ In case of nesting critical sections interrupts are disabled on first critical s
 and enabled on last critical section exit.
 A program is supposed to exit critical sections **as fast as possible**.
 
-#####Basic synchronization primitive.
+##### Basic synchronization primitive.
 BuguRTOS kernel provides **bgrt_sync_t** primitive for library usage.
 It is documented in BuguRTOS API reference manual, check releases on the project page.
 Also you can see **native** lib for examples of **bgrt_sync_t** usage.
 
-####Native lib synchronization primitives.
+#### Native lib synchronization primitives.
 There are some primitives, implemented in **native** lib.
 All these primitives use **bgrt_sync_t** primitive, provided by BuguRTOS kernel.
 
-#####Mutexes.
+##### Mutexes.
 Mutex is mutual exclusion primitive.
 It ensures that only one process can access to common data at any time.
 Mutex must be declared as **mutex_t** variable.
@@ -398,7 +398,7 @@ considered to be fallback protocol, if user fails to assign correct priority to 
 
 Mutex must be freed by its owner process, as other processes can't free it.
 
-#####Counting semaphores.
+##### Counting semaphores.
 Counting semaphore should be used in client-server communications, see
 [producer-consumer problem](http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) for background.
 Semaphore must be declared as **sem_t** variable.
@@ -425,7 +425,7 @@ Counting semaphore may be locked by one process and freed by another.
 Counting semaphore may have an owner process, in such case every process can lock this semaphore,
 but only owner can free it.
 
-#####Conditional variables.
+##### Conditional variables.
 Conditional variables are used in client-server communications just like semaphores,
 they can be used for data or event synchronization.
 Conditionals are used with mutexes. Here are tools for conditional variable handling:
@@ -464,13 +464,13 @@ SYNC_CLEAR_OWNER( &some_cond );           /*This macro clears an owner*/
 ```
 Conditionals may have an owner process, in such case only an owner can broadcast and signal conditionals.
 
-#####Signals.
+##### Signals.
 Signals in BuguRTOS **native** lib **ARE NOT** POSIX signals. They used for event notification and based on
 conditionals. A signal contains a conditional and a mutex.
 
 Here are signal tools, provided by **native** lib:
 
-######WARNING!!!
+###### WARNING!!!
 Signals in bugurtos native API have poor design leading to event leaks!!!
 Use Conditionals and Semaphores instead!!!
 
@@ -492,7 +492,7 @@ SYNC_CLEAR_OWNER( &some_sig );           /*This macro clears an owner*/
 ```
 If signal has an owner process, then only owner can signal and broadcast.
 
-#####IPC.
+##### IPC.
 BuguRTOS **native** lib provides unbuffered blocking IPC.
 This IPC implementation uses rendezvous method to pass messages between processes.
 Messages are passed by reference through endpoints.
@@ -533,7 +533,7 @@ Second arg is sender process id.
 */
 status = ipc_reply( &some_ep, wait_for );
 ```
-##Good luck!
+## Good luck!
 Good luck %username%, write elegant, robust and maintainable code!
 
 I hope you'll use BuguRTOS in your projects.
