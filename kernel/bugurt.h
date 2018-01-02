@@ -442,7 +442,7 @@ Processor core load calculation.
 \param stat a pointer to a Kernel statistic structure.
 \return current estimation of the core load.
 */
-extern load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat);
+extern bgrt_load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat);
 /*!
 \~russian
 \brief

@@ -3,23 +3,23 @@
 bgrt_proc_t proc[6];
 bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
-ipc_t test_ep;
+bgrt_ipc_t test_ep;
 
 typedef struct
 {
     int send;
     int reply;
 }
-ipc_msg_t;
+bgrt_ipc_msg_t;
 
-ipc_msg_t msg_2, msg_3;
+bgrt_ipc_msg_t msg_2, msg_3;
 
 void (*test_hook)(void);
 
 void main_bgrt_proc_test(void * arg)
 {
     BGRT_PID_T wait_for = BGRT_PID_NOTHING;
-    ipc_msg_t * in;
+    bgrt_ipc_msg_t * in;
 
     (void)arg;
 
@@ -28,35 +28,35 @@ void main_bgrt_proc_test(void * arg)
     test_start();
     BGRT_SYNC_SET_OWNER(&test_ep, PID0);
 
-    test_output(BGRT_ST_EEMPTY == ipc_wait(&test_ep, &wait_for, 0), 1);
+    test_output(BGRT_ST_EEMPTY == bgrt_ipc_wait(&test_ep, &wait_for, 0), 1);
     //priority inheritance tests
     BGRT_PROC_RUN(PID3);
     test_output(proc[0].parent.prio == 1, 2);
     BGRT_PROC_RUN(PID2);
     test_output(proc[0].parent.prio == 0, 3);
-    // ipc_send tests
+    // bgrt_ipc_send tests
     test_output(BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[2])), 4);
     test_output(BGRT_PROC_STATE_SYNC_SLEEP == BGRT_PROC_GET_STATE((&proc[3])), 5);
-    // ipc_send  ipc_wait test 6
+    // bgrt_ipc_send  bgrt_ipc_wait test 6
     wait_for = PID3;
-    test_output(BGRT_ST_OK == ipc_wait(&test_ep, &wait_for, 1), 6);
-    // ipc_send  ipc_wait test 7
+    test_output(BGRT_ST_OK == bgrt_ipc_wait(&test_ep, &wait_for, 1), 6);
+    // bgrt_ipc_send  bgrt_ipc_wait test 7
     test_output(0 == proc[0].parent.prio, 7);
-    // ipc_send  ipc_wait test 8
-    in = (ipc_msg_t *)test_ep.msg;
+    // bgrt_ipc_send  bgrt_ipc_wait test 8
+    in = (bgrt_ipc_msg_t *)test_ep.msg;
     test_output(3 == in->send, 8);
-    // ipc_send  ipc_reply test 9
+    // bgrt_ipc_send  bgrt_ipc_reply test 9
     in->reply = 9;
-    test_output(BGRT_ST_OK == ipc_reply(&test_ep, wait_for), 9);
-    // ipc_send ipc_wait test 10
+    test_output(BGRT_ST_OK == bgrt_ipc_reply(&test_ep, wait_for), 9);
+    // bgrt_ipc_send bgrt_ipc_wait test 10
     wait_for = BGRT_PID_NOTHING;
-    test_output(BGRT_ST_OK == ipc_wait(&test_ep, &wait_for, 1), 10);
-    // ipc_send ipc_wait test 11
-    in = (ipc_msg_t *)test_ep.msg;
+    test_output(BGRT_ST_OK == bgrt_ipc_wait(&test_ep, &wait_for, 1), 10);
+    // bgrt_ipc_send bgrt_ipc_wait test 11
+    in = (bgrt_ipc_msg_t *)test_ep.msg;
     test_output(2 == in->send, 11);
-    // ipc_send  ipc_reply test 11
+    // bgrt_ipc_send  bgrt_ipc_reply test 11
     in->reply = 11;
-    test_output(BGRT_ST_OK == ipc_reply(&test_ep, wait_for), 12);
+    test_output(BGRT_ST_OK == bgrt_ipc_reply(&test_ep, wait_for), 12);
     bgrt_wait_time(20);
 
     tests_end();
@@ -69,7 +69,7 @@ void main_2(void * arg)
     {
         msg_2.send = 2;
         msg_2.reply = 0;
-        ipc_send(&test_ep, (void *)&msg_2);
+        bgrt_ipc_send(&test_ep, (void *)&msg_2);
         test_output(11 == msg_2.reply , 13);
         bgrt_wait_time(1);
     }
@@ -82,7 +82,7 @@ void main_3(void * arg)
     {
         msg_3.send = 3;
         msg_3.reply = 0;
-        ipc_send(&test_ep, (void *)&msg_3);
+        bgrt_ipc_send(&test_ep, (void *)&msg_3);
         test_output(9 == msg_3.reply , 14);
         bgrt_wait_time(1);
     }
@@ -120,7 +120,7 @@ int main(void)
     bgrt_priv_proc_init(PR2, main_2,         SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END);
     bgrt_priv_proc_init(PR3, main_3,         SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END);
 
-    ipc_init_cs(&test_ep);
+    bgrt_ipc_init_cs(&test_ep);
 
     bgrt_priv_proc_run(PR0);
 

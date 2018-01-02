@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sig" />
+		<Option title="cond" />
 		<Option pch_mode="2" />
 		<Option compiler="avrgcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/sig.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/cond.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="avrgcc" />
@@ -18,7 +18,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/sig.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/cond.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="avrgcc" />
@@ -122,17 +122,13 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../libs/native/mutex.h" />
-		<Unit filename="../../../../../../../libs/native/sig.c">
+		<Unit filename="../../../../../../main/libs/native/sig/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../../libs/native/sig.h" />
 		<Unit filename="../../../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../test_func.h" />
-		<Unit filename="../../../../../../main/libs/native/sig/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

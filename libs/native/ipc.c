@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "ipc.h"
 
-bgrt_st_t ipc_init_cs(ipc_t * endpoint)
+bgrt_st_t bgrt_ipc_init_cs(bgrt_ipc_t * endpoint)
 {
     if (!endpoint)
     {
@@ -89,16 +89,16 @@ bgrt_st_t ipc_init_cs(ipc_t * endpoint)
     return BGRT_ST_OK;
 }
 
-bgrt_st_t ipc_init(ipc_t * endpoint)
+bgrt_st_t bgrt_ipc_init(bgrt_ipc_t * endpoint)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = ipc_init_cs(endpoint);
+    ret = bgrt_ipc_init_cs(endpoint);
     BGRT_INT_FREE();
     return ret;
 }
 
-bgrt_st_t ipc_send(ipc_t * out, void * msg)
+bgrt_st_t bgrt_ipc_send(bgrt_ipc_t * out, void * msg)
 {
     bgrt_st_t ret;
     bgrt_flag_t touch = 0;
@@ -120,7 +120,7 @@ bgrt_st_t ipc_send(ipc_t * out, void * msg)
     return ret;
 }
 
-bgrt_st_t ipc_wait(ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block)
+bgrt_st_t bgrt_ipc_wait(bgrt_ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block)
 {
     bgrt_st_t ret;
 
@@ -144,7 +144,7 @@ end:
     return ret;
 }
 
-bgrt_st_t ipc_reply(ipc_t * in, BGRT_PID_T pid)
+bgrt_st_t bgrt_ipc_reply(bgrt_ipc_t * in, BGRT_PID_T pid)
 {
     bgrt_st_t ret;
 

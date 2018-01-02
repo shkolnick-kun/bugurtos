@@ -78,21 +78,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "cond.h"
 
-bgrt_st_t cond_init_cs(cond_t * cond)
+bgrt_st_t bgrt_cond_init_cs(bgrt_cond_t * cond)
 {
     return BGRT_PRIV_SYNC_INIT(cond, BGRT_PRIO_LOWEST);
 }
 
-bgrt_st_t cond_init(cond_t * cond)
+bgrt_st_t bgrt_cond_init(bgrt_cond_t * cond)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = cond_init_cs(cond);
+    ret = bgrt_cond_init_cs(cond);
     BGRT_INT_FREE();
     return ret;
 }
 
-bgrt_st_t cond_wait(cond_t * cond, mutex_t * mutex)
+bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
@@ -105,7 +105,7 @@ bgrt_st_t cond_wait(cond_t * cond, mutex_t * mutex)
 
     BGRT_SYNC_TOUCH(cond);
 
-    ret = mutex_free(mutex);
+    ret = bgrt_mtx_free(mutex);
 
     if (BGRT_ST_EOWN == ret)
     {
@@ -118,32 +118,32 @@ bgrt_st_t cond_wait(cond_t * cond, mutex_t * mutex)
         ret = BGRT_SYNC_SLEEP(cond, &touch);
         BGRT_PROC_FREE(); //Now may stop!
 
-        mutex_lock(mutex);
+        bgrt_mtx_lock(mutex);
     }
 
     return ret;
 }
 
-static bgrt_st_t _cond_signal(cond_t * cond)
+static bgrt_st_t bgrt_priv_cond_signal(bgrt_cond_t * cond)
 {
     return BGRT_SYNC_WAKE(cond, BGRT_PID_NOTHING, 0);
 }
 
-bgrt_st_t cond_signal(cond_t * cond)
+bgrt_st_t bgrt_cond_signal(bgrt_cond_t * cond)
 {
     bgrt_st_t ret;
 
-    ret = _cond_signal(cond);
+    ret = bgrt_priv_cond_signal(cond);
 
     return ret;
 }
 
-bgrt_st_t cond_broadcast(cond_t * cond)
+bgrt_st_t bgrt_cond_broadcast(bgrt_cond_t * cond)
 {
     bgrt_cnt_t cwake = (bgrt_cnt_t)0;
     bgrt_st_t ret = BGRT_ST_ROLL;
 
-    for (ret = BGRT_ST_OK; BGRT_ST_OK == ret; ret = _cond_signal(cond))
+    for (ret = BGRT_ST_OK; BGRT_ST_OK == ret; ret = bgrt_priv_cond_signal(cond))
     {
         cwake++;
     }

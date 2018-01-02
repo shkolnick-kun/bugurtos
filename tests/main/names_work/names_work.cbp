@@ -224,10 +224,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../libs/native/sem.h" />
-		<Unit filename="../../../libs/native/sig.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../libs/native/sig.h" />
 		<Unit filename="../../arch/avr/gcc-vsmp/bugurt_config.h">
 			<Option target="Debug" />
 		</Unit>

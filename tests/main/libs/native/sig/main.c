@@ -1,5 +1,89 @@
 #include <test_func.h>
-#include <sig.h>
+
+#include <bugurt.h>
+#include "cond.h"
+//Сигнал
+typedef struct _sig_t sig_t;
+
+struct _sig_t
+{
+    bgrt_cond_t wakeup;
+    bgrt_mtx_t wait;
+};
+
+bgrt_st_t sig_init_cs(sig_t * sig);
+
+bgrt_st_t sig_init(sig_t * sig)
+{
+    bgrt_st_t ret;
+    BGRT_INT_LOCK();
+    ret = sig_init_cs(sig);
+    BGRT_INT_FREE();
+    return ret;
+}
+
+bgrt_st_t sig_init_cs(sig_t * sig)
+{
+    if (!sig)
+    {
+        return BGRT_ST_ENULL;
+    }
+    bgrt_cond_init_cs((bgrt_cond_t *)sig);
+    BGRT_KERNEL_PREEMPT();
+    bgrt_mtx_init_cs(&sig->wait, BGRT_PRIO_LOWEST);
+    return BGRT_ST_OK;
+}
+
+bgrt_st_t sig_wait(sig_t * sig)
+{
+    bgrt_st_t ret;
+    if (!sig)
+    {
+        return BGRT_ST_ENULL;
+    }
+    ret = bgrt_mtx_lock(&sig->wait);
+    if (BGRT_ST_OK != ret)
+    {
+        return ret;
+    }
+    ret = bgrt_cond_wait((bgrt_cond_t *)sig, &sig->wait);
+    bgrt_mtx_free(&sig->wait);
+    return ret;
+}
+
+bgrt_st_t sig_signal(sig_t * sig)
+{
+    bgrt_st_t ret;
+    if (!sig)
+    {
+        return BGRT_ST_ENULL;
+    }
+    ret = bgrt_mtx_lock(&sig->wait);
+    if (BGRT_ST_OK != ret)
+    {
+        return ret;
+    }
+    ret = bgrt_cond_signal((bgrt_cond_t *)sig);
+    bgrt_mtx_free(&sig->wait);
+    return ret;
+}
+
+bgrt_st_t sig_broadcast(sig_t * sig)
+{
+    bgrt_st_t ret;
+    if (!sig)
+    {
+        return BGRT_ST_ENULL;
+    }
+    ret = bgrt_mtx_lock(&sig->wait);
+    if (BGRT_ST_OK != ret)
+    {
+        return ret;
+    }
+    ret = bgrt_cond_broadcast((bgrt_cond_t *)sig);
+    bgrt_mtx_free(&sig->wait);
+    return ret;
+}
 
 bgrt_proc_t proc[6];
 bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];

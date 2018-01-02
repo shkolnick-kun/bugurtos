@@ -76,15 +76,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _IPC_H_
-#define _IPC_H_
+#ifndef IPC_H
+#define IPC_H
 /*!
 \file
 \brief \~russian Заголовок IPC. \~english An IPC header.
 */
 #include <bugurt.h>
 
-typedef struct _ipc_t ipc_t;/*!< \~russian Смотри #_ipc_t; \~english See #_ipc_t; */
+typedef struct bgrt_priv_ipc_t bgrt_ipc_t;/*!< \~russian Смотри #bgrt_priv_ipc_t; \~english See #bgrt_priv_ipc_t; */
 // Свойства
 /*!
 \~russian
@@ -99,7 +99,7 @@ An IPC endpoint.
 
 Used for blocking synchronous or asynchronous IPC protocol implementation.
 */
-struct _ipc_t
+struct bgrt_priv_ipc_t
 {
     bgrt_sync_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes.  */
     void * msg;  /*!< \~russian Указатель на буфер с сообщением. \~english A message buffer pointer. */
@@ -118,7 +118,7 @@ IPC endpoint initiation from ISR or critical section.
 
 \param endpoint A pointer to the endpoint.
 */
-bgrt_st_t ipc_init_cs(ipc_t * endpoint);
+bgrt_st_t bgrt_ipc_init_cs(bgrt_ipc_t * endpoint);
 /*!
 \~russian
 \brief
@@ -131,7 +131,7 @@ IPC endpoint initiation.
 
 \param endpoint A pointer to the endpoint.
 */
-bgrt_st_t ipc_init(ipc_t * endpoint);
+bgrt_st_t bgrt_ipc_init(bgrt_ipc_t * endpoint);
 /*!
 \~russian
 \brief
@@ -156,7 +156,7 @@ receiver inherits senders priorities.
 \param msg A message buffer pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_send(ipc_t * out, void * msg);
+bgrt_st_t bgrt_ipc_send(bgrt_ipc_t * out, void * msg);
 /*!
 \~russian
 \brief
@@ -182,7 +182,7 @@ A buffer pointer must be passed as a second parameter.
 \param block A caller block flag. If non zero, then caller is blocked until message is sent.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_wait(ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block);
+bgrt_st_t bgrt_ipc_wait(bgrt_ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block);
 
 /*!
 \~russian
@@ -202,6 +202,6 @@ Unblock a sender process, which message has been received.
 \param pid A sender process ID.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t ipc_reply(ipc_t * in, BGRT_PID_T pid);
+bgrt_st_t bgrt_ipc_reply(bgrt_ipc_t * in, BGRT_PID_T pid);
 
-#endif // _IPC_H_
+#endif // IPC_H

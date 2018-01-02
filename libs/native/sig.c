@@ -93,9 +93,9 @@ bgrt_st_t sig_init_cs(sig_t * sig)
     {
         return BGRT_ST_ENULL;
     }
-    cond_init_cs((cond_t *)sig);
+    bgrt_cond_init_cs((bgrt_cond_t *)sig);
     BGRT_KERNEL_PREEMPT();
-    mutex_init_cs(&sig->wait, BGRT_PRIO_LOWEST);
+    bgrt_mtx_init_cs(&sig->wait, BGRT_PRIO_LOWEST);
     return BGRT_ST_OK;
 }
 
@@ -106,13 +106,13 @@ bgrt_st_t sig_wait(sig_t * sig)
     {
         return BGRT_ST_ENULL;
     }
-    ret = mutex_lock(&sig->wait);
+    ret = bgrt_mtx_lock(&sig->wait);
     if (BGRT_ST_OK != ret)
     {
         return ret;
     }
-    ret = cond_wait((cond_t *)sig, &sig->wait);
-    mutex_free(&sig->wait);
+    ret = bgrt_cond_wait((bgrt_cond_t *)sig, &sig->wait);
+    bgrt_mtx_free(&sig->wait);
     return ret;
 }
 
@@ -123,13 +123,13 @@ bgrt_st_t sig_signal(sig_t * sig)
     {
         return BGRT_ST_ENULL;
     }
-    ret = mutex_lock(&sig->wait);
+    ret = bgrt_mtx_lock(&sig->wait);
     if (BGRT_ST_OK != ret)
     {
         return ret;
     }
-    ret = cond_signal((cond_t *)sig);
-    mutex_free(&sig->wait);
+    ret = bgrt_cond_signal((bgrt_cond_t *)sig);
+    bgrt_mtx_free(&sig->wait);
     return ret;
 }
 
@@ -140,12 +140,12 @@ bgrt_st_t sig_broadcast(sig_t * sig)
     {
         return BGRT_ST_ENULL;
     }
-    ret = mutex_lock(&sig->wait);
+    ret = bgrt_mtx_lock(&sig->wait);
     if (BGRT_ST_OK != ret)
     {
         return ret;
     }
-    ret = cond_broadcast((cond_t *)sig);
-    mutex_free(&sig->wait);
+    ret = bgrt_cond_broadcast((bgrt_cond_t *)sig);
+    bgrt_mtx_free(&sig->wait);
     return ret;
 }

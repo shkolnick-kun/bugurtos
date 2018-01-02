@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SIG_H_
-#define _SIG_H_
+#ifndef SIG_H
+#define SIG_H
 /*!
 \file
 \brief \~russian Заголовок сигналов. \~english A signal header.
@@ -104,8 +104,8 @@ Other process or interrupt handler can fire a signal and launch one or all proce
 */
 struct _sig_t
 {
-    cond_t wakeup; /*!< \~russian Список процессов для пробуждения. \~english Wakeup process list. */
-    mutex_t wait;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
+    bgrt_cond_t wakeup; /*!< \~russian Список процессов для пробуждения. \~english Wakeup process list. */
+    bgrt_mtx_t wait;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 };
 /*!
 \~russian
@@ -197,4 +197,4 @@ This function launches all processes waiting for certain signal.
 */
 bgrt_st_t sig_broadcast(sig_t * sig);
 
-#endif // _SIG_H_
+#endif // SIG_H

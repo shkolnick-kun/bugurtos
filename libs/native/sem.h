@@ -76,15 +76,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SEM_H_
-#define _SEM_H_
+#ifndef SEM_H
+#define SEM_H
 /*!
 \file
 \brief \~russian Заголовок счётных семафоров. \~english A counting semaphores header.
 */
 #include <bugurt.h>
 //Семафор
-typedef struct _sem_t sem_t;/*!< \~russian Смотри #_sem_t; \~english See #_sem_t; */
+typedef struct bgrt_priv_sem_t bgrt_sem_t;/*!< \~russian Смотри #bgrt_priv_sem_t; \~english See #bgrt_priv_sem_t; */
 // Свойства
 /*!
 \~russian
@@ -102,7 +102,7 @@ Counting semaphores are used for process synchronization.
 It is not recommended to use them in common data access control, because priority inversion is possible.
 A counting semaphore can be locked by one process and freed by another.
 */
-struct _sem_t
+struct bgrt_priv_sem_t
 {
     bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_cnt_t counter;/*!< \~russian Счётчик ресурсов. \~english A resource counter. */
@@ -125,10 +125,10 @@ struct _sem_t
 \brief
 Semaphore initiation from ISR.
 
-\param sem A #sem_t pointer.
+\param sem A #bgrt_sem_t pointer.
 \param count A counter start value.
 */
-bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count);
+bgrt_st_t bgrt_sem_init_cs(bgrt_sem_t * sem, bgrt_cnt_t count);
 /*!
 \~russian
 \brief
@@ -141,10 +141,10 @@ bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count);
 \brief
 Semaphore initiation.
 
-\param sem A #sem_t pointer.
+\param sem A #bgrt_sem_t pointer.
 \param count A counter start value.
 */
-bgrt_st_t sem_init(sem_t * sem, bgrt_cnt_t count);
+bgrt_st_t bgrt_sem_init(bgrt_sem_t * sem, bgrt_cnt_t count);
 /*!
 \~russian
 \brief
@@ -163,10 +163,10 @@ A semaphore lock.
 If semaphore counter greater than zero, then it will be decreased and caller process will continue,
 else  caller process will stop and wait until semaphore get free.
 
-\param sem A #sem_t pointer.
+\param sem A #bgrt_sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sem_lock(sem_t * sem);
+bgrt_st_t bgrt_sem_lock(bgrt_sem_t * sem);
 /*!
 \~russian
 \brief
@@ -185,10 +185,10 @@ Try to lock a semaphore.
 If semaphore counter greater than zero, then it will be decreased and caller process will continue,
 else caller process will just continue.
 
-\param sem A #sem_t pointer.
+\param sem A #bgrt_sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sem_try_lock(sem_t * sem);
+bgrt_st_t bgrt_sem_try_lock(bgrt_sem_t * sem);
 /*!
 \~russian
 \brief
@@ -207,10 +207,10 @@ Semaphore free.
 If semaphore wait list is empty, then counter will be increased,
 else semaphore wait list head will be launched.
 
-\param sem A #sem_t pointer.
+\param sem A #bgrt_sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sem_free(sem_t * sem);
+bgrt_st_t bgrt_sem_free(bgrt_sem_t * sem);
 
 /*!
 \~russian
@@ -234,9 +234,9 @@ Semaphore free. For ISR usage.
 If semaphore wait list is empty, then counter will be increased,
 else semaphore wait list head will be launched.
 
-\param sem A #sem_t pointer.
+\param sem A #bgrt_sem_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t sem_free_cs(sem_t * sem);
+bgrt_st_t bgrt_sem_free_cs(bgrt_sem_t * sem);
 
-#endif // _SEM_H_
+#endif // SEM_H

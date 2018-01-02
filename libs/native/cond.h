@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _COND_H_
-#define _COND_H_
+#ifndef COND_H
+#define COND_H
 /*!
 \file
 \brief \~russian Заголовок условных переменных. \~english A conditional variable header.
@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <bugurt.h>
 #include "mutex.h"
 
-typedef struct _cond_t cond_t; /*!< \~russian Смотри #_cond_t; \~english See #_cond_t; */
+typedef struct bgrt_priv_cond_t bgrt_cond_t; /*!< \~russian Смотри #bgrt_priv_cond_t; \~english See #bgrt_priv_cond_t; */
 // Свойства
 /*!
 \~russian
@@ -102,7 +102,7 @@ A conditional variable.
 Conditional variables with mutexes are used for process-event synchronization. A process can block on conditional variable.
 Other process can launch one or all processes blocked on conditional variable.
 */
-struct _cond_t
+struct bgrt_priv_cond_t
 {
     bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 };
@@ -118,9 +118,9 @@ struct _cond_t
 \brief
 A conditional variable initiation from ISR or critical section.
 
-\param cond A #cond_t pointer.
+\param cond A #bgrt_cond_t pointer.
 */
-bgrt_st_t cond_init_cs(cond_t * cond);
+bgrt_st_t bgrt_cond_init_cs(bgrt_cond_t * cond);
 /*!
 \~russian
 \brief
@@ -133,9 +133,9 @@ bgrt_st_t cond_init_cs(cond_t * cond);
 \brief
 A conditional variable initiation.
 
-\param cond A #cond_t pointer.
+\param cond A #bgrt_cond_t pointer.
 */
-bgrt_st_t cond_init(cond_t * cond);
+bgrt_st_t bgrt_cond_init(bgrt_cond_t * cond);
 /*!
 
 \~russian
@@ -154,11 +154,11 @@ Wait for a condition.
 
 This function stops caller process and inserts it to conditional variable wait list.
 
-\param cond A #cond_t pointer.
+\param cond A #bgrt_cond_t pointer.
 \param mutex A pointer to a mutex which protects a conditional variable.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t cond_wait( cond_t * cond, mutex_t * mutex);
+bgrt_st_t bgrt_cond_wait( bgrt_cond_t * cond, bgrt_mtx_t * mutex);
 /*!
 \~russian
 \brief
@@ -178,10 +178,10 @@ Launch one waiting process.
 Launches the head of waiting process list.
 \warning Caller must lock mutex first!
 
-\param cond A #cond_t pointer.
+\param cond A #bgrt_cond_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t cond_signal(cond_t * cond);
+bgrt_st_t bgrt_cond_signal(bgrt_cond_t * cond);
 /*!
 \~russian
 \brief
@@ -201,9 +201,9 @@ Launch all waiting processes.
 Launches all processes from waiting process list.
 \warning Caller must lock mutex first!
 
-\param cond A #cond_t pointer.
+\param cond A #bgrt_cond_t pointer.
 \return #BGRT_ST_OK on success, or error number.
 */
-bgrt_st_t cond_broadcast(cond_t * cond);
+bgrt_st_t bgrt_cond_broadcast(bgrt_cond_t * cond);
 
-#endif // _COND_H_
+#endif // COND_H

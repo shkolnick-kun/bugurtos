@@ -87,13 +87,13 @@ typedef int * bgrt_stack_t;
 
 typedef unsigned int bgrt_flag_t;
 
-typedef unsigned int ipc_data_t;
+typedef unsigned int bgrt_ipc_data_t;
 
 typedef unsigned int bgrt_syscall_t;
 
 typedef unsigned int bgrt_aff_t;
 
-typedef unsigned long load_t;
+typedef unsigned long bgrt_load_t;
 
 typedef unsigned long bgrt_st_t;
 

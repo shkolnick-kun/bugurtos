@@ -163,9 +163,9 @@ void bgrt_stat_merge(bgrt_ls_t *src_stat, bgrt_ls_t * dst_stat )
     *dst_stat += *src_stat;
     *src_stat = (bgrt_ls_t)0;
 }
-load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat)
+bgrt_load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat)
 {
-    return (load_t)*stat;
+    return (bgrt_load_t)*stat;
 }
 /******************************************************************************************************/
 void bgrt_set_curr_sp(void)

@@ -59,9 +59,9 @@ you can see the list of different RTOS.
     */
     int main(void)
     {
-    	init_bugurt();
+    	bgrt_init();
     	/*Initialize everything*/
-    	start_bugurt();
+    	bgrt_start();
     	/*
     	Don't write anything here, as control never reaches this place.
     	*/
@@ -203,7 +203,7 @@ more processes, but in such case user **must make sure** that only one such proc
 
 #### What is needed to create a process?
 You need to do the steps below.
- 1. Declare a variable of **proc_t** type (a process descriptor). It's better to declare it global.
+ 1. Declare a variable of **bgrt_proc_t** type (a process descriptor). It's better to declare it global.
  2. Declare an array of **stack_t**, this is a process stack. It's better to declare it global too.
  3. Write some **pmain**:
 ```C
@@ -212,10 +212,10 @@ You need to do the steps below.
         /* Do something.*/
     }
 ```
- 4. Call **proc_init_cs** or **proc_init**:
+ 4. Call **bgrt_proc_init_cs** or **proc_init**:
 ```C
-    // This function is called before start_bugurt() call in main or in ISR
-    proc_init_cs(
+    // This function is called before bgrt_start() call in main or in ISR
+    bgrt_proc_init_cs(
  		&my_proc,  /*a process descriptor pointer  */
  		my_process_main, /*a process main function pointer */
  		my_sv_hook, /* «sv_hook» function pointer */
@@ -228,21 +228,21 @@ You need to do the steps below.
  		);
     // If you need to initiate process from other process, then you MUST use proc_init instead.
 ```
- 5. Call **proc_run_cs** or **proc_run**:
+ 5. Call **bgrt_proc_run_cs** or **bgrt_proc_run**:
 ```C
-    proc_run_cs(&my_proc); // Use in ISR or from main before start_bugurt() call.
-    // If you need to run a process from an other process, then you MUST use proc_run instead.
+    bgrt_proc_run_cs(&my_proc); // Use in ISR or from main before bgrt_start() call.
+    // If you need to run a process from an other process, then you MUST use bgrt_proc_run instead.
 ```
 #### What can I do in process main?
 You can do everything you do in programs main. Here are some functions, which control a process execution:
 ```C
-proc_reset_watchdog(); /*This resets watchdog of real time process*/
-proc_self_stop();      /*This stops caller*/
-proc_lock();           /*This makes caller "unstoppable" by proc_stop function.*/
-proc_free();           /*This makes caller "stoppable" by proc_stop function.*/
-/*Calls of proc_lock and proc_free may be nested, in such case caller is "unstoppable"
+bgrt_proc_wd_reset(); /*This resets watchdog of real time process*/
+bgrt_proc_self_stop();      /*This stops caller*/
+bgrt_proc_lock();           /*This makes caller "unstoppable" by bgrt_proc_stop function.*/
+bgrt_proc_free();           /*This makes caller "stoppable" by bgrt_proc_stop function.*/
+/*Calls of bgrt_proc_lock and bgrt_proc_free may be nested, in such case caller is "unstoppable"
 while nest count is greater than zero.*/
-sched_proc_yeld();     /*This suspends caller execution and resumes next ready process execution.
+bgrt_sched_proc_yeld();     /*This suspends caller execution and resumes next ready process execution.
 If caller is real time, then its watchdog gets reset,
 caller is placed to the end of ready process list.
 if caller is general purpose, then it is placed to the end of expired process list.
@@ -275,11 +275,11 @@ These primitives will be described in next chapters.
 #### What can I do with processes?
 There are some functions to control process execution, here they are:
 ```C
-proc_stop(&some_proc);     /*This may stop a process*/
-proc_stop_cs(&some_proc); /*Same function for ISR and critical section calls.*/
-proc_restart(&some_proc);  /*This may restart a process, if it has returned from pmain.*/
-proc_restart_cs(&some_proc);/*Same function for ISR and critical section calls.*/
-proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
+bgrt_proc_stop(&some_proc);     /*This may stop a process*/
+bgrt_proc_stop_cs(&some_proc); /*Same function for ISR and critical section calls.*/
+bgrt_proc_restart(&some_proc);  /*This may restart a process, if it has returned from pmain.*/
+bgrt_proc_restart_cs(&some_proc);/*Same function for ISR and critical section calls.*/
+bgrt_proc_set_prio(&some_proc, some_priority); /* This sets basic process priority.*/
 ```
 ### Scheduler.
 A scheduler is one of the most important OS component. It enables multitasking by switching processes contexts.
@@ -316,7 +316,7 @@ scheduling policy).
 
 In **real time** processes timer is used as watchdog, so when watchdog expires scheduler stops such process
 and gives processor to next ready process. Watchdog expiration is exceptional situation which needs handling,
-so a process with expired watchdog can't be run by **proc_run** function, typically it must be restarted
+so a process with expired watchdog can't be run by **bgrt_proc_run** function, typically it must be restarted
 (sometimes dependent processes need restart too).
 
 In **general purpose** processes timer is used to count process time slice, so when process time slice expires a
@@ -325,7 +325,7 @@ process gets placed to expired process list and its timer gets reset.
 #### What is process priority?
 A process priority is metric of level of a process importance.
 More important processes must get their time earlier than less important.
-In BuguRTOS zero is the highest priority and lowest priority is PROC_PRIO_LOWEST.
+In BuguRTOS zero is the highest priority and lowest priority is BGRT_PROC_PRIO_LOWEST.
 
 #### What is process time slice?
 A process time slice is amount of time when process can run
@@ -348,11 +348,11 @@ Software timer is a variable of **timer_t** type.
 Here are some timer management tools:
 ```C
 timer_t some_timer;           /*A timer_t variable declaration.*/
-CLEAR_TIMER( some_timer );    /*This macro clears a timer,
+BGRT_CLEAR_TIMER( some_timer );    /*This macro clears a timer,
                               it also must be used to initiate timers.*/
-TIMER( some_timer );          /*This macro gives a number of ticks since last timer clear.
+BGRT_TIMER( some_timer );          /*This macro gives a number of ticks since last timer clear.
                               It may be used to count and compare time intervals.*/
-void wait_time( some_time );  /*This function spins for a given time, may be used for delays, etc.*/
+void bgrt_wait_time( some_time );  /*This function spins for a given time, may be used for delays, etc.*/
 ```
 ##### Critical sections.
 A critical section is a part of a program with disabled interrupts.
@@ -375,20 +375,20 @@ All these primitives use **bgrt_sync_t** primitive, provided by BuguRTOS kernel.
 ##### Mutexes.
 Mutex is mutual exclusion primitive.
 It ensures that only one process can access to common data at any time.
-Mutex must be declared as **mutex_t** variable.
+Mutex must be declared as **bgrt_mtx_t** variable.
 Here are mutex handling tools:
 ```C
 #include <native.h>
 
-mutex_t some_mutex;                    /*This is mutex declaration*/
-status_t status;
+bgrt_mtx_t some_mutex;                    /*This is mutex declaration*/
+bgrt_st_t status;
 
-mutex_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
-                                       one must use mutex_init_cs in critical sections etc.*/
-status = mutex_try_lock( &some_mutex );/*This function tries to lock mutex, caller is not blocked.*/
-status = mutex_lock( &some_mutex );    /*This function locks mutex, caller is blocked
+bgrt_mtx_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
+                                       one must use bgrt_mtx_init_cs in critical sections etc.*/
+status = bgrt_mtx_try_lock( &some_mutex );/*This function tries to lock mutex, caller is not blocked.*/
+status = bgrt_mtx_lock( &some_mutex );    /*This function locks mutex, caller is blocked
                                        until mutex is free.*/
-status = mutex_free( &some_mutex );    /*This function frees mutex, if there are blocked processes,
+status = bgrt_mtx_free( &some_mutex );    /*This function frees mutex, if there are blocked processes,
                                        then mutex is passed to most prioritized of them.*/
 ```
 Mutex in **native** lib combines priority inheritance and immediate priority ceiling protocols,
@@ -401,25 +401,25 @@ Mutex must be freed by its owner process, as other processes can't free it.
 ##### Counting semaphores.
 Counting semaphore should be used in client-server communications, see
 [producer-consumer problem](http://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem) for background.
-Semaphore must be declared as **sem_t** variable.
+Semaphore must be declared as **bgrt_sem_t** variable.
 Here are semaphore tools, provided by **native** lib:
 ```C
 #include <native.h>
 
-sem_t some_sem;                    /*This is semaphore declaration*/
-status_t status;
+bgrt_sem_t some_sem;                    /*This is semaphore declaration*/
+bgrt_st_t status;
 
-sem_init( &some_sem, COUNT_INIT ); /*This initiates semaphore, for usage in processes main,
-                                   one must use sem_init_cs in critical sections etc.*/
-status = sem_try_lock( &some_sem );/*This function tries to lock semaphore, caller is not blocked.*/
-status = sem_lock( &some_sem );    /*This function locks semaphore, caller is blocked
+bgrt_sem_init( &some_sem, COUNT_INIT ); /*This initiates semaphore, for usage in processes main,
+                                   one must use bgrt_sem_init_cs in critical sections etc.*/
+status = bgrt_sem_try_lock( &some_sem );/*This function tries to lock semaphore, caller is not blocked.*/
+status = bgrt_sem_lock( &some_sem );    /*This function locks semaphore, caller is blocked
                                    until semaphore is free.*/
-status = sem_free( &some_sem );    /*This function frees semaphore, if there are blocked processes,
+status = bgrt_sem_free( &some_sem );    /*This function frees semaphore, if there are blocked processes,
                                    then most prioritized of them gets resumed.*/
 
-/*Semaphore in BuguRTOS may have an owner process, as bgrt_sync_t is used as sem_t parent type.*/
-SYNC_SET_OWNER( &some_sem, &some_proc ); /*This macro assigns an owner*/
-SYNC_CLEAR_OWNER( &some_sem );           /*This macro clears an owner*/
+/*Semaphore in BuguRTOS may have an owner process, as bgrt_sync_t is used as bgrt_sem_t parent type.*/
+BGRT_SYNC_SET_OWNER( &some_sem, &some_proc ); /*This macro assigns an owner*/
+BGRT_SYNC_SET_OWNER( &some_sem, 0 );           /*This macro clears an owner*/
 ```
 Counting semaphore may be locked by one process and freed by another.
 Counting semaphore may have an owner process, in such case every process can lock this semaphore,
@@ -432,65 +432,37 @@ Conditionals are used with mutexes. Here are tools for conditional variable hand
 ```C
 #include <native.h>
 
-mutex_t some_mutex;
-cond_t some_cond;
-status_t status;
+bgrt_mtx_t some_mutex;
+bgrt_cond_t some_cond;
+bgrt_st_t status;
 
-mutex_init( &some_mutex, MUTEX_PRIO );
-cond_init( &some_cond );                       /*There is also *_cs version of this.*/
+bgrt_mtx_init( &some_mutex, MUTEX_PRIO );
+bgrt_cond_init( &some_cond );                       /*There is also *_cs version of this.*/
 
 // Conditional wait
-status = mutex_lock( &some_mutex );            /*The mutex must be locked.*/
+status = bgrt_mtx_lock( &some_mutex );            /*The mutex must be locked.*/
 /*Do something.*/
-status = cond_wait( &some_cond, &some_mutex ); /*Wait for conditional (caller will block).*/
+status = bgrt_cond_wait( &some_cond, &some_mutex ); /*Wait for conditional (caller will block).*/
 /*Do something.*/
-status = mutex_free( &some_mutex );            /*Must free the mutex*/
+status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
 
 // Conditional signal
-status = mutex_lock( &some_mutex );            /*Mutex must be locked.*/
+status = bgrt_mtx_lock( &some_mutex );            /*Mutex must be locked.*/
 /*Do something.*/
-status = cond_sinal( &some_cond );             /*Wake up most prioritized waiting process.*/
-status = mutex_free( &some_mutex );            /*Must free the mutex*/
+status = bgrt_cond_sinal( &some_cond );             /*Wake up most prioritized waiting process.*/
+status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
 
 // Conditional broadcast
-status = mutex_lock( &some_mutex );            /*Mutex must be locked.*/
+status = bgrt_mtx_lock( &some_mutex );            /*Mutex must be locked.*/
 /*Do something.*/
-status = cond_broadcast( &some_cond );         /*Wake up all waiting processes.*/
-status = mutex_free( &some_mutex );            /*Must free the mutex*/
+status = bgrt_cond_broadcast( &some_cond );         /*Wake up all waiting processes.*/
+status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
 
-/*Conditional in BuguRTOS may have an owner process, as bgrt_sync_t is used as cond_t parent type.*/
-SYNC_SET_OWNER( &some_cond, &some_proc ); /*This macro assigns an owner*/
-SYNC_CLEAR_OWNER( &some_cond );           /*This macro clears an owner*/
+/*Conditional in BuguRTOS may have an owner process, as bgrt_sync_t is used as bgrt_cond_t parent type.*/
+BGRT_SYNC_SET_OWNER( &some_cond, &some_proc ); /*This macro assigns an owner*/
+BGRT_SYNC_SET_OWNER( &some_cond, 0 );           /*This macro clears an owner*/
 ```
 Conditionals may have an owner process, in such case only an owner can broadcast and signal conditionals.
-
-##### Signals.
-Signals in BuguRTOS **native** lib **ARE NOT** POSIX signals. They used for event notification and based on
-conditionals. A signal contains a conditional and a mutex.
-
-Here are signal tools, provided by **native** lib:
-
-###### WARNING!!!
-Signals in bugurtos native API have poor design leading to event leaks!!!
-Use Conditionals and Semaphores instead!!!
-
-```C
-#include <native.h>
-
-sig_t some_sig;
-status_t status;
-
-sig_init( &some_sig ); /*There is also *_cs version.*/
-
-status = sig_wait( &some_sig );      /*Wait for signal, caller is blocked.*/
-status = sig_signal( &some_sig );    /*Wake up most prioritized waiting process (if any).*/
-status = sig_broadcast( &some_sig ); /*Wake up all waiting processes (if any). */
-
-/*Signal in BuguRTOS may have an owner process, as cond_t is used as sig_t parent type.*/
-SYNC_SET_OWNER( &some_sig, &some_proc ); /*This macro assigns an owner*/
-SYNC_CLEAR_OWNER( &some_sig );           /*This macro clears an owner*/
-```
-If signal has an owner process, then only owner can signal and broadcast.
 
 ##### IPC.
 BuguRTOS **native** lib provides unbuffered blocking IPC.
@@ -498,17 +470,17 @@ This IPC implementation uses rendezvous method to pass messages between processe
 Messages are passed by reference through endpoints.
 Every endpoint has its owner process, which receives messages.
 Priority inheritance/ceiling protocol is used in IPC.
-An IPC endpoint is a variable of ipc_t type.
+An IPC endpoint is a variable of bgrt_ipc_t type.
 Here are IPC tools:
 ```C
 #include <native.h>
 
-ipc_t some_ep;
-status_t status;
-proc_t * wait_for = 0;
+bgrt_ipc_t some_ep;
+bgrt_st_t status;
+bgrt_proc_t * wait_for = 0;
 
-ipc_init( &some_ep );                       /*This function has *_cs variant.*/
-SYNC_SET_OWNER( &some_ep, &some_proccess ); /*Set an owner after init. This macro must be called
+bgrt_ipc_init( &some_ep );                       /*This function has *_cs variant.*/
+BGRT_SYNC_SET_OWNER( &some_ep, &some_proccess ); /*Set an owner after init. This macro must be called
                                             from a process main with interrupts enabled.*/
 /*
 Wait for a message.
@@ -518,20 +490,20 @@ This function may block caller process (BLOCKC_CALLER != 0) or not (BLOCKC_CALLE
 This call is open, as (wait_for == 0).
 After this call wait_for will point to a sender process.
 */
-status = ipc_wait( &some_ep, &wait_for, BLOCK_CALLER);
+status = bgrt_ipc_wait( &some_ep, &wait_for, BLOCK_CALLER);
 
 /*
 Send a message.
 A sender will be blocked until reply.
 */
-status = ipc_send( &some_ep, &some_msg );
+status = bgrt_ipc_send( &some_ep, &some_msg );
 
 /*
 Reply to the sender.
 
 Second arg is sender process id.
 */
-status = ipc_reply( &some_ep, wait_for );
+status = bgrt_ipc_reply( &some_ep, wait_for );
 ```
 ## Good luck!
 Good luck %username%, write elegant, robust and maintainable code!

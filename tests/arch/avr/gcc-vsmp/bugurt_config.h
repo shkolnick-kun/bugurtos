@@ -88,7 +88,7 @@ typedef unsigned char bgrt_ls_t;
 
 // Unsigned char is enough.
 // There is no reason to make it bigger.
-typedef unsigned char load_t;
+typedef unsigned char bgrt_load_t;
 
 ///=================================================================
 ///     BuguRTOS behavior compilation flags, edit carefully!!!

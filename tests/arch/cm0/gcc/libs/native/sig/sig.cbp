@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sig" />
+		<Option title="cond" />
 		<Option pch_mode="2" />
 		<Option compiler="armnoneeabigcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/sig.axf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/cond.axf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
@@ -17,7 +17,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/sig.axf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/cond.axf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
@@ -59,6 +59,7 @@
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
+		<Unit filename="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f051r8.ld" />
 		<Unit filename="../../../../../../../arch/cm0/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -126,18 +127,13 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../libs/native/mutex.h" />
-		<Unit filename="../../../../../../../libs/native/sig.c">
+		<Unit filename="../../../../../../main/libs/native/sig/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../../libs/native/sig.h" />
 		<Unit filename="../../../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../test_func.h" />
-		<Unit filename="../../../../../../main/libs/native/sig/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f051r8.ld" />
 		<Extensions>
 			<envvars />
 			<code_completion />

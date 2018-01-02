@@ -103,8 +103,8 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
     mask<<=1;
     {
         bgrt_prio_t proc_prio;
-        load_t current_load;
-        load_t min_load;
+        bgrt_load_t current_load;
+        bgrt_load_t min_load;
 
         proc_prio = ((bgrt_pitem_t *)proc)->prio;
         min_load = bgrt_stat_calc_load(proc_prio, stat++); /* ADLINT:SL:[W0512] inc in expr*/
@@ -127,14 +127,14 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
 //Find most loaded bgrt_ls_t object in an array
 WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W0432] Intendation*/
 {                                                                /* ADLINT:SL:[W0431] Intendation*/
-    load_t max_load;
+    bgrt_load_t max_load;
     bgrt_cpuid_t object_core = (bgrt_cpuid_t)0; //max loaded core
     bgrt_cpuid_t core = (bgrt_cpuid_t)1;
     max_load  = bgrt_stat_calc_load((bgrt_prio_t)BGRT_BITS_IN_INDEX_T, stat);
 
     while (core < (bgrt_cpuid_t)BGRT_MAX_CPU)
     {
-        load_t current_load;
+        bgrt_load_t current_load;
         current_load = bgrt_stat_calc_load((bgrt_prio_t)BGRT_BITS_IN_INDEX_T, stat + core);
         if (current_load > max_load)
         {

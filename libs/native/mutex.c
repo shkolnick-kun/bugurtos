@@ -78,21 +78,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "mutex.h"
 
-bgrt_st_t mutex_init_cs(mutex_t * mutex, bgrt_prio_t prio)
+bgrt_st_t bgrt_mtx_init_cs(bgrt_mtx_t * mutex, bgrt_prio_t prio)
 {
     return BGRT_PRIV_SYNC_INIT(mutex, prio);
 }
 
-bgrt_st_t mutex_init(mutex_t * mutex, bgrt_prio_t prio)
+bgrt_st_t bgrt_mtx_init(bgrt_mtx_t * mutex, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = mutex_init_cs(mutex, prio);
+    ret = bgrt_mtx_init_cs(mutex, prio);
     BGRT_INT_FREE();
     return ret;
 }
 
-bgrt_st_t mutex_try_lock(mutex_t * mutex)
+bgrt_st_t bgrt_mtx_try_lock(bgrt_mtx_t * mutex)
 {
     bgrt_st_t ret;
 
@@ -110,7 +110,7 @@ bgrt_st_t mutex_try_lock(mutex_t * mutex)
     return ret;
 }
 
-bgrt_st_t mutex_lock(mutex_t * mutex)
+bgrt_st_t bgrt_mtx_lock(bgrt_mtx_t * mutex)
 {
     bgrt_st_t ret;
 
@@ -127,7 +127,7 @@ bgrt_st_t mutex_lock(mutex_t * mutex)
     return ret;
 }
 
-bgrt_st_t mutex_free(mutex_t * mutex)
+bgrt_st_t bgrt_mtx_free(bgrt_mtx_t * mutex)
 {
     bgrt_st_t ret;
 

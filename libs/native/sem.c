@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "sem.h"
 
-bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count)
+bgrt_st_t bgrt_sem_init_cs(bgrt_sem_t * sem, bgrt_cnt_t count)
 {
     if (!sem)
     {
@@ -92,16 +92,16 @@ bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count)
     return BGRT_ST_OK;
 }
 
-bgrt_st_t sem_init(sem_t * sem, bgrt_cnt_t count)
+bgrt_st_t bgrt_sem_init(bgrt_sem_t * sem, bgrt_cnt_t count)
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = sem_init_cs(sem, count);
+    ret = bgrt_sem_init_cs(sem, count);
     BGRT_INT_FREE();
     return ret;
 }
 
-bgrt_st_t sem_try_lock(sem_t * sem)
+bgrt_st_t bgrt_sem_try_lock(bgrt_sem_t * sem)
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
 
@@ -128,11 +128,11 @@ bgrt_st_t sem_try_lock(sem_t * sem)
 static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
 {
     bgrt_st_t ret = BGRT_ST_SCALL;
-    sem_t       * sem;
+    bgrt_sem_t       * sem;
     bgrt_flag_t * touch;
     bgrt_flag_t * state;
 
-    sem   = (sem_t      *)va_arg(va->list, void *);
+    sem   = (bgrt_sem_t      *)va_arg(va->list, void *);
     touch = (bgrt_flag_t*)va_arg(va->list, void *);
     state = (bgrt_flag_t*)va_arg(va->list, void *);
 
@@ -179,7 +179,7 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
 }
 
 
-bgrt_st_t sem_lock(sem_t * sem)
+bgrt_st_t bgrt_sem_lock(bgrt_sem_t * sem)
 {
     volatile bgrt_flag_t touch = 0;
     volatile bgrt_flag_t state = 0;
@@ -194,7 +194,7 @@ bgrt_st_t sem_lock(sem_t * sem)
     }
 }
 
-static bgrt_st_t _sem_free_body(sem_t *sem)
+static bgrt_st_t _sem_free_body(bgrt_sem_t *sem)
 {
     bgrt_st_t ret;
     // Now we can wake some process.)
@@ -209,10 +209,10 @@ static bgrt_st_t _sem_free_body(sem_t *sem)
 
 bgrt_st_t _sem_free_payload(bgrt_va_wr_t* va)
 {
-    sem_t *sem;
+    bgrt_sem_t *sem;
     bgrt_st_t ret;
 
-    sem   = (sem_t *)va_arg(va->list, void *);
+    sem   = (bgrt_sem_t *)va_arg(va->list, void *);
 
     BGRT_SPIN_LOCK(sem);
     ret = _sem_free_body(sem);
@@ -221,7 +221,7 @@ bgrt_st_t _sem_free_payload(bgrt_va_wr_t* va)
     return ret;
 }
 
-bgrt_st_t sem_free(sem_t * sem)
+bgrt_st_t bgrt_sem_free(bgrt_sem_t * sem)
 {
     if (!sem)
     {
@@ -233,7 +233,7 @@ bgrt_st_t sem_free(sem_t * sem)
     }
 }
 
-bgrt_st_t sem_free_cs(sem_t * sem)
+bgrt_st_t bgrt_sem_free_cs(bgrt_sem_t * sem)
 {
     bgrt_st_t ret;
 
