@@ -98,8 +98,8 @@ Software timers used for time-process synchronization.
 \warning Software timers can not be used for precision time interval measurement!
 */
 
-typedef struct _bgrt_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер (используется для подсчёта времени Ядром). \~english The system timer (used by the kernel to count ticks). */
-struct _bgrt_ktimer_t
+typedef struct bgrt_priv_ktimer_t bgrt_ktimer_t;/*!< \~russian Системный таймер (используется для подсчёта времени Ядром). \~english The system timer (used by the kernel to count ticks). */
+struct bgrt_priv_ktimer_t
 {
     void (*tick)(void);           /*!< \~russian Хук. \~english A hook pointer. */
     bgrt_tmr_t val;               /*!< \~russian Значение. \~english A value. */
@@ -120,7 +120,7 @@ Reset software timer.
 
 \param t A timer variable name.
 */
-#define BGRT_CLEAR_TIMER(t) _bgrt_clear_timer((bgrt_tmr_t *)&t)
+#define BGRT_CLEAR_TIMER(t) bgrt_priv_clear_timer((bgrt_tmr_t *)&t)
 
 /*!
 
@@ -136,7 +136,7 @@ Get software timer value.
 
 \param t Software timer value.
 */
-#define BGRT_TIMER(t) (bgrt_tmr_t)_bgrt_timer((bgrt_tmr_t)t)
+#define BGRT_TIMER(t) (bgrt_tmr_t)bgrt_priv_timer((bgrt_tmr_t)t)
 
 /*!
 \~russian
@@ -175,7 +175,7 @@ Clear software timer.
 
 \param t A pointer to a timer.
 */
-void _bgrt_clear_timer(bgrt_tmr_t * t);
+void bgrt_priv_clear_timer(bgrt_tmr_t * t);
 
 /*!
 \~russian
@@ -194,5 +194,5 @@ Get software timer value.
 
 \param t A timer value.
 */
-bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t);
+bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t);
 #endif // _TIMER_H_

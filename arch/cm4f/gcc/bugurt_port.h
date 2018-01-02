@@ -77,8 +77,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
+#ifndef BGRT_PORT_H
+#define BGRT_PORT_H
 
 #define BGRT_INT_LOCK()        \
     __asm__ __volatile__ (     \
@@ -117,7 +117,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     }while(0)
 
 // Шаблон обработчика прерывания для внутреннего пользования
-#define _BGRT_ISR(v,f) \
+#define BGRT_TMPL_ISR(v,f) \
 void v(void)           \
 {                      \
     BGRT_ISR_START();  \
@@ -136,7 +136,7 @@ void v(void)           \
 */
 #define BGRT_ISR(v)               \
 void BGRT_CONCAT(v,_func)(void);  \
-_BGRT_ISR(v,BGRT_CONCAT(v,_func)) \
+BGRT_TMPL_ISR(v,BGRT_CONCAT(v,_func)) \
 void BGRT_CONCAT(v,_func)(void)
 
-#endif //_BGRT_PORT_H_
+#endif //BGRT_PORT_H

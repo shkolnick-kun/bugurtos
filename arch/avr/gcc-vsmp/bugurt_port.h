@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
+#ifndef BGRT_PORT_H
+#define BGRT_PORT_H
 
 extern  void bgrt_int_lock(void);
 extern  void bgrt_int_free(void);
@@ -163,4 +163,4 @@ extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 //Must use VIC for tests
 #define BGRT_CONFIG_USE_VIC
 
-#endif // _BGRT_PORT_H_
+#endif // BGRT_PORT_H

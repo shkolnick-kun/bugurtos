@@ -91,7 +91,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок виртуальных прерываний. \~english A virtual interrupt header.
 */
 //Виртуальное прерывание
-typedef struct _bgrt_vint_t bgrt_vint_t;
+typedef struct bgrt_priv_vint_t bgrt_vint_t;
 //Свойства
 /*!
 \~russian
@@ -102,7 +102,7 @@ typedef struct _bgrt_vint_t bgrt_vint_t;
 \brief
 A virtual interrupt.
 */
-struct _bgrt_vint_t
+struct bgrt_priv_vint_t
 {
     bgrt_pitem_t parent; /*!< \~russian Родитель - #bgrt_item_t. \~english A parent - #bgrt_item_t. */
     bgrt_code_t  func;   /*!< \~russian Указатель на обработчик. \~english A virtual ISR pointer.*/
@@ -110,7 +110,7 @@ struct _bgrt_vint_t
 };
 
 //Виртуальный контроллер прерываний
-typedef struct _bgrt_vic_t bgrt_vic_t;
+typedef struct bgrt_priv_vic_t bgrt_vic_t;
 //Свойства
 /*!
 \~russian
@@ -121,7 +121,7 @@ typedef struct _bgrt_vic_t bgrt_vic_t;
 \brief
 A virtual interrupt controller.
 */
-struct _bgrt_vic_t
+struct bgrt_priv_vic_t
 {
     bgrt_xlist_t list; /*!< \~russian Родитель - #bgrt_xlist_t. \~english A parent - #bgrt_xlist_t. */
     bgrt_prio_t  prio; /*!< \~russian Текущий приоритет. \~english Current priority. */

@@ -81,11 +81,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /* ADLINT:SF:[W1071,W1052,W0165,W0422] Multiple return, OVF, out of range access */
 
 #ifdef BGRT_CONFIG_TEST
-static void bgrt_cnt_panic(void)
+static void _cnt_panic(void)
 {
     while (1);
 }
-#   define BGRT_CNT_PANIC() bgrt_cnt_panic()
+#   define BGRT_CNT_PANIC() _cnt_panic()
 #else  //BGRT_CONFIG_TEST
 #   ifdef BGRT_CONFIG_PANIC
 #       define BGRT_CNT_PANIC() BGRT_CONFIG_PANIC()

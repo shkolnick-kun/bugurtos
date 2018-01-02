@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*****************************************************************************************
                               Internal Usage functions!!!
 *****************************************************************************************/
-void _bgrt_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state)
+void bgrt_priv_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state)
 {
     if (BGRT_PROC_RUN_TEST(proc))
     {
@@ -110,7 +110,7 @@ bgrt_st_t bgrt_proc_init(
 {
     bgrt_st_t ret;
     BGRT_INT_LOCK();
-    ret = _bgrt_proc_init(
+    ret = bgrt_priv_proc_init(
               proc, //A process pointer
               pmain,
               sv_hook,
@@ -128,7 +128,7 @@ bgrt_st_t bgrt_proc_init(
     return ret;
 }
 //========================================================================================
-bgrt_st_t _bgrt_proc_init(
+bgrt_st_t bgrt_priv_proc_init(
     bgrt_proc_t * proc, //A process pointer!
     bgrt_code_t pmain,
     bgrt_code_t sv_hook,
@@ -184,7 +184,7 @@ bgrt_st_t _bgrt_proc_init(
 }
 //========================================================================================
 // Run a process? used in ISRs and in #BGRT_SYSCALL_PROC_RUN
-bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc)
+bgrt_st_t bgrt_priv_proc_run(bgrt_proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_OK;
 
@@ -208,7 +208,7 @@ end:
 }
 //========================================================================================
 // Restart a process from some ISR.
-bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc)
+bgrt_st_t bgrt_priv_proc_restart(bgrt_proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_OK;
 
@@ -242,7 +242,7 @@ end:
 }
 //========================================================================================
 // Stop a process from ISR
-bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
+bgrt_st_t bgrt_priv_proc_stop(bgrt_proc_t * proc)
 {
     bgrt_st_t ret = BGRT_ST_EAGAIN;
 
@@ -260,7 +260,7 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
     }
     else
     {
-        _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
+        bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
         ret = BGRT_ST_OK; /* ADLINT:SL:[W0085] Side effects*/
     }
 
@@ -268,7 +268,7 @@ bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc)
     return ret;
 }
 //========================================================================================
-void _bgrt_proc_lock(void)
+void bgrt_priv_proc_lock(void)
 {
     bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
@@ -282,7 +282,7 @@ void _bgrt_proc_lock(void)
 }
 //========================================================================================
 // #BGRT_PROC_FLG_PRE_STOP processing with mask clearing.
-void _bgrt_proc_free(void)
+void bgrt_priv_proc_free(void)
 {
     bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
@@ -302,33 +302,33 @@ void _bgrt_proc_free(void)
     */
     if (BGRT_PROC_PRE_STOP_TEST(proc)) /* ADLINT:SL:[W0734,W0559,W0432] Operators in macro*/
     {
-        _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
+        bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
         proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;
     }
 
     BGRT_SPIN_FREE(proc);
 }
 //========================================================================================
-void _bgrt_proc_self_stop(void)
+void bgrt_priv_proc_self_stop(void)
 {
     bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK(proc);
 
-    _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
+    bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
 
     BGRT_SPIN_FREE(proc);
 }
 //========================================================================================
-void _bgrt_proc_terminate(void)
+void bgrt_priv_proc_terminate(void)
 {
     bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
 
     BGRT_SPIN_LOCK(proc);
 
-    _bgrt_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
+    bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
     // Flags processing!
     // A process is not allowed to return from pmain while being locked!
     if (proc->flags & BGRT_PROC_FLG_LOCK_MASK)
@@ -345,7 +345,7 @@ void _bgrt_proc_terminate(void)
     BGRT_SPIN_FREE(proc);
 }
 //========================================================================================
-void _bgrt_proc_reset_watchdog(void)
+void bgrt_priv_proc_reset_watchdog(void)
 {
     bgrt_proc_t * proc;
     proc = bgrt_curr_proc();
@@ -360,7 +360,7 @@ void _bgrt_proc_reset_watchdog(void)
     BGRT_SPIN_FREE(proc);
 }
 //========================================================================================
-bgrt_prio_t _bgrt_proc_get_prio(bgrt_proc_t * proc)
+bgrt_prio_t bgrt_priv_proc_get_prio(bgrt_proc_t * proc)
 {
     bgrt_prio_t ret;
 

@@ -76,14 +76,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_KERNEL_H_
-#define _BGRT_KERNEL_H_
+#ifndef BGRT_KERNEL_H
+#define BGRT_KERNEL_H
 /*!
 \file
 \brief \~russian Заголовок Ядра. \~english A kernel header.
 */
 
-typedef struct _bgrt_kblock_t bgrt_kblock_t; /*!< \~russian Смотри #_bgrt_kblock_t; \~english See #_bgrt_kblock_t; */
+typedef struct bgrt_priv_kblock_t bgrt_kblock_t; /*!< \~russian Смотри #bgrt_priv_kblock_t; \~english See #bgrt_priv_kblock_t; */
 /*!
 \~russian
 \brief
@@ -97,7 +97,7 @@ A BuguRTOS kernel block structure.
 
 A kernel block is responsible for virtual interrupt processing, system call processing and process scheduling in certain CPU core.
 */
-struct _bgrt_kblock_t
+struct bgrt_priv_kblock_t
 {
 #ifdef BGRT_CONFIG_USE_VIC
     bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
@@ -157,7 +157,7 @@ A kernel thread main function.
 */
 void bgrt_kblock_main(bgrt_kblock_t * kblock);
 //Ядро
-typedef struct _bgrt_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #_bgrt_kernel_t; \~english See #_bgrt_kernel_t; */
+typedef struct bgrt_priv_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #bgrt_priv_kernel_t; \~english See #bgrt_priv_kernel_t; */
 /*!
 \~russian
 \brief
@@ -171,7 +171,7 @@ A BuguRTOS kernel structure.
 
 The kernel stores information about launched processes, system time and other important information.
 */
-struct _bgrt_kernel_t
+struct bgrt_priv_kernel_t
 {
 #ifdef BGRT_CONFIG_MP
     bgrt_kblock_t kblock[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
@@ -214,4 +214,4 @@ This function prepares the kernel to work.
 \warning Internal usage function.
 */
 void bgrt_kernel_init(void);
-#endif // _BGRT_KERNEL_H_
+#endif // BGRT_KERNEL_H

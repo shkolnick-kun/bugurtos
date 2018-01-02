@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_XLIST_H_
-#define _BGRT_XLIST_H_
+#ifndef BGRT_XLIST_H
+#define BGRT_XLIST_H
 /*!
 \file
 
@@ -89,7 +89,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief
 A prioritized list header.
 */
-typedef struct _bgrt_xlist_t bgrt_xlist_t; /*!< \~russian Смотри #_bgrt_xlist_t; \~english See #_bgrt_xlist_t; */
+typedef struct bgrt_priv_xlist_t bgrt_xlist_t; /*!< \~russian Смотри #bgrt_priv_xlist_t; \~english See #bgrt_priv_xlist_t; */
 // свойства
 /*!
 \~russian
@@ -105,7 +105,7 @@ A prioritized list.
 A container type, #bgrt_xlist_t objects store lists of #bgrt_item_t objects.
 In fact these containers store lists of #bgrt_pitem_t or other compatible objects.
 */
-struct _bgrt_xlist_t
+struct bgrt_priv_xlist_t
 {
     bgrt_item_t * item[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
     bgrt_map_t map; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
@@ -187,4 +187,4 @@ void bgrt_xlist_switch (bgrt_xlist_t * xlist, bgrt_prio_t prio);
 "переместить в другой список"
 ----------------------------------------------------*/
 
-#endif // _BGRT_XLIST_H_
+#endif // BGRT_XLIST_H

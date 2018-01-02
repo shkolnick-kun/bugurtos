@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PCOUNTER_H_
-#define _BGRT_PCOUNTER_H_
+#ifndef BGRT_PCOUNTER_H
+#define BGRT_PCOUNTER_H
 /*!
 \file
 \brief \~russian Заголовок счётчиков захваченных ресурсов. \~english A locked resource counter header.
@@ -173,7 +173,7 @@ bgrt_cnt_t bgrt_cnt_sub(bgrt_cnt_t a, bgrt_cnt_t b);
 #define BGRT_CNT_ADD(cnt, delta)(cnt = bgrt_cnt_add(cnt, delta)) /*!< \~russian Обёртка над #bgrt_cnt_add; \~english A wrappet for #bgrt_cnt_add; */
 #define BGRT_CNT_SUB(cnt, delta)(cnt = bgrt_cnt_sub(cnt, delta)) /*!< \~russian Обёртка над #bgrt_cnt_sub; \~english A wrappet for #bgrt_cnt_sub; */
 
-typedef struct _bgrt_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #_bgrt_pcounter_t; \~english See #_bgrt_pcounter_t; */
+typedef struct bgrt_priv_pcounter_t bgrt_pcounter_t; /*!< \~russian Смотри #bgrt_priv_pcounter_t; \~english See #bgrt_priv_pcounter_t; */
 /*!
 \~russian
 \brief
@@ -187,7 +187,7 @@ A locked resource counter.
 
 #bgrt_pcounter_t objects are used to store information about inherited priorities.
 */
-struct _bgrt_pcounter_t
+struct bgrt_priv_pcounter_t
 {
     bgrt_cnt_t counter[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив счётчиков. \~english A counter array. */
     bgrt_map_t map; /*!< \~russian Индекс для ускорения поиска. \~english An map to speedup search. */
@@ -298,4 +298,4 @@ Decrease counter by a number of steps;
 \return 0 if correspondent counter is nulled, not 0 else.
 */
 bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
-#endif // _BGRT_PCOUNTER_H_
+#endif // BGRT_PCOUNTER_H

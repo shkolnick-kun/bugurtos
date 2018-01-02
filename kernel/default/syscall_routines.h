@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_SCR_H_
-#define _BGRT_SCR_H_
+#ifndef BGRT_SCR_H
+#define BGRT_SCR_H
 
 #include <bugurt.h>
 /* ADLINT:SF:[W0456,W0567,W0644,W0459,W0085,W0073,W0422] extern func, valist */
@@ -89,21 +89,21 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 **********************************************************************************************/
 BGRT_SC_SR(PROC_RUN, void * arg)
 {
-    return _bgrt_proc_run(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
+    return bgrt_priv_proc_run(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                        PROC_RESTART
 **********************************************************************************************/
 BGRT_SC_SR(PROC_RESTART, void * arg)
 {
-    return _bgrt_proc_restart(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
+    return bgrt_priv_proc_restart(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                          PROC_STOP
 **********************************************************************************************/
 BGRT_SC_SR(PROC_STOP, void * arg)
 {
-    return _bgrt_proc_stop(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
+    return bgrt_priv_proc_stop(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                        PROC_SELF_STOP
@@ -111,7 +111,7 @@ BGRT_SC_SR(PROC_STOP, void * arg)
 BGRT_SC_SR(PROC_SELF_STOP, void * arg)
 {
     (void)arg;
-    _bgrt_proc_self_stop();
+    bgrt_priv_proc_self_stop();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -120,7 +120,7 @@ BGRT_SC_SR(PROC_SELF_STOP, void * arg)
 BGRT_SC_SR(PROC_LOCK, void * arg)
 {
     (void)arg;
-    _bgrt_proc_lock();
+    bgrt_priv_proc_lock();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -129,7 +129,7 @@ BGRT_SC_SR(PROC_LOCK, void * arg)
 BGRT_SC_SR(PROC_FREE,  void * arg)
 {
     (void)arg;
-    _bgrt_proc_free();
+    bgrt_priv_proc_free();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -138,7 +138,7 @@ BGRT_SC_SR(PROC_FREE,  void * arg)
 BGRT_SC_SR(PROC_RESET_WATCHDOG,  void * arg)
 {
     (void)arg;
-    _bgrt_proc_reset_watchdog();
+    bgrt_priv_proc_reset_watchdog();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -152,7 +152,7 @@ BGRT_SC_SR(PROC_GET_PRIO,  bgrt_va_wr_t * va)
     prio_ptr = (bgrt_prio_t *)va_arg(va->list, void *); /* ADLINT:SL:[W0644] valist */
     pid = (BGRT_PID_T)va_arg(va->list, void *);
 
-    *prio_ptr = _bgrt_proc_get_prio(BGRT_PID_TO_PROC(pid));
+    *prio_ptr = bgrt_priv_proc_get_prio(BGRT_PID_TO_PROC(pid));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -164,7 +164,7 @@ BGRT_SC_SR(PROC_SET_PRIO,  bgrt_va_wr_t * va)
 
     pid = (BGRT_PID_T)va_arg(va->list, void *);
 
-    _bgrt_proc_set_prio(BGRT_PID_TO_PROC(pid), (bgrt_prio_t)va_arg(va->list, int));
+    bgrt_priv_proc_set_prio(BGRT_PID_TO_PROC(pid), (bgrt_prio_t)va_arg(va->list, int));
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -189,7 +189,7 @@ BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va)
     sync = (bgrt_sync_t *)va_arg(va->list, void *);
     pid = (BGRT_PID_T)va_arg(va->list, void *);
 
-    return _bgrt_sync_set_owner(sync, BGRT_PID_TO_PROC(pid));
+    return bgrt_priv_sync_set_owner(sync, BGRT_PID_TO_PROC(pid));
 }
 /**********************************************************************************************
                                        SYNC_GET_OWNER
@@ -201,7 +201,7 @@ BGRT_SC_SR(SYNC_GET_OWNER,  bgrt_va_wr_t * va)
 
     pid = (BGRT_PID_T *)va_arg(va->list, void *);
     /*Do NOT optimize this as BGRT_PROC_TO_PID may call va_arg more than one time!!!*/
-    proc = _bgrt_sync_get_owner((bgrt_sync_t *)va_arg(va->list, void *));
+    proc = bgrt_priv_sync_get_owner((bgrt_sync_t *)va_arg(va->list, void *));
     *pid = BGRT_PROC_TO_PID(proc);
     return BGRT_ST_OK;
 }
@@ -212,14 +212,14 @@ BGRT_SC_SR(SYNC_OWN,  bgrt_va_wr_t * va)
 {
     bgrt_sync_t * sync;
     sync = (bgrt_sync_t *)va_arg(va->list, void *);
-    return _bgrt_sync_own(sync, (bgrt_flag_t)va_arg(va->list, int));
+    return bgrt_priv_sync_own(sync, (bgrt_flag_t)va_arg(va->list, int));
 }
 /**********************************************************************************************
                                         SYNC_TOUCH
 **********************************************************************************************/
 BGRT_SC_SR(SYNC_TOUCH,  void * arg)
 {
-    return _bgrt_sync_touch((bgrt_sync_t *)arg);
+    return bgrt_priv_sync_touch((bgrt_sync_t *)arg);
 }
 /**********************************************************************************************
                                          SYNC_SLEEP
@@ -235,7 +235,7 @@ BGRT_SC_SR(SYNC_SLEEP,  bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
     touch = (bgrt_flag_t *)va_arg(param, void *);
     va_end(param);
 
-    return _bgrt_sync_sleep(sync, touch);
+    return bgrt_priv_sync_sleep(sync, touch);
 }
 /**********************************************************************************************
                                         SYNC_WAKE
@@ -253,7 +253,7 @@ BGRT_SC_SR(SYNC_WAKE,  bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
     chown = (bgrt_flag_t )va_arg(param, int  );
     va_end(param);
 
-    return _bgrt_sync_wake(sync, BGRT_PID_TO_PROC(pid), chown);
+    return bgrt_priv_sync_wake(sync, BGRT_PID_TO_PROC(pid), chown);
 }
 /**********************************************************************************************
                                         SYNC_WAIT
@@ -281,7 +281,7 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
         bgrt_st_t ret;
         /*Do NOT optimize this as BGRT_PROC_TO_PID may call va_arg more than one time!!!*/
         proc = BGRT_PID_TO_PROC(*pid);
-        ret  = _bgrt_sync_wait(sync, &proc, block);
+        ret  = bgrt_priv_sync_wait(sync, &proc, block);
         *pid = BGRT_PROC_TO_PID(proc);
 
         return ret;
@@ -292,7 +292,7 @@ BGRT_SC_SR(SYNC_WAIT, bgrt_va_wr_t * va) /* ADLINT:SL:[W0031] not used*/
 **********************************************************************************************/
 BGRT_SC_SR(SYNC_PROC_TIMEOUT, void * arg)
 {
-    return _bgrt_sync_proc_timeout(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
+    return bgrt_priv_sync_proc_timeout(BGRT_PID_TO_PROC((BGRT_PID_T)arg));
 }
 /**********************************************************************************************
                                             USER
@@ -312,4 +312,4 @@ BGRT_SC_SR(USER, bgrt_va_wr_t* va)/* ADLINT:SL:[W0031] va is used!!!*/
 
     return ret;
 }
-#endif //_BGRT_SCR_H_
+#endif //BGRT_SCR_H

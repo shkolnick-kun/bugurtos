@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PITEM_H_
-#define _BGRT_PITEM_H_
+#ifndef BGRT_PITEM_H
+#define BGRT_PITEM_H
 
 /*!
 \file
@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 //Элемент списка с приоритетами
 
-typedef struct _bgrt_pitem_t bgrt_pitem_t;
+typedef struct bgrt_priv_pitem_t bgrt_pitem_t;
 //Свойства
 /*!
 \~russian
@@ -96,7 +96,7 @@ typedef struct _bgrt_pitem_t bgrt_pitem_t;
 \brief
 A prioritized list item.
 */
-struct _bgrt_pitem_t
+struct bgrt_priv_pitem_t
 {
     bgrt_item_t parent; /*!< \~russian Родитель - #bgrt_item_t. \~english A parent - #bgrt_item_t. */
     bgrt_xlist_t * list; /*!< \~russian Указатель на список в который будем вставлять. \~english A pointer to an #bgrt_xlist_t object.*/
@@ -232,4 +232,4 @@ Cut all #bgrt_pitem_t objects from #bgrt_xlist_t container and form an ordinary 
 \return An ordinary doublelinked list head pointer.
 */
 bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src);
-#endif // _BGRT_PITEM_H_
+#endif // BGRT_PITEM_H

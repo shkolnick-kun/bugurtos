@@ -119,7 +119,7 @@ bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
     return ret;
 }
 
-static bgrt_vint_t * bgrt_vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
+static bgrt_vint_t * _vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
 {
     bgrt_pitem_t * work;
     //Everything is done on local CPU core, just disable interrupts.
@@ -151,7 +151,7 @@ bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic)
     bgrt_vint_t * work;
 
     lprio = vic->prio;
-    work = bgrt_vint_pop(vic,lprio);
+    work = _vint_pop(vic,lprio);
     //Is there any work?
     if (work)
     {

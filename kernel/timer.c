@@ -79,7 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include "bugurt.h"
 /* ADLINT:SF:[W0422] NULL */
 //========================================================================================
-void _bgrt_clear_timer(bgrt_tmr_t * t)
+void bgrt_priv_clear_timer(bgrt_tmr_t * t)
 {
     BGRT_CRIT_SEC_ENTER(); /* ADLINT:SL:[W0425] several def/expr*/
     BGRT_SPIN_LOCK(&bgrt_kernel.timer);
@@ -90,7 +90,7 @@ void _bgrt_clear_timer(bgrt_tmr_t * t)
     BGRT_CRIT_SEC_EXIT();
 }
 //===========================================================================
-bgrt_tmr_t _bgrt_timer(bgrt_tmr_t t)
+bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t)
 {
     bgrt_tmr_t ret;
     BGRT_CRIT_SEC_ENTER(); /* ADLINT:SL:[W0425] several def/expr*/

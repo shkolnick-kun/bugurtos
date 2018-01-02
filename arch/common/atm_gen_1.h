@@ -77,8 +77,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 
-#ifndef _BGRT_ATM_GEN_1_H_
-#define _BGRT_ATM_GEN_1_H_
+#ifndef BGRT_ATM_GEN_1_H
+#define BGRT_ATM_GEN_1_H
 
 #define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
 
@@ -133,4 +133,4 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 #   define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
 #endif //BGRT_VINT_PUSH_ISR
 
-#endif // _BGRT_ATM_GEN_1_H_
+#endif // BGRT_ATM_GEN_1_H

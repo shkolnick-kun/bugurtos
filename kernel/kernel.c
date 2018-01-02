@@ -86,7 +86,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #   define BGRT_SAFE_POWER() do{}while (0)
 #endif// BGRT_CONFIG_SAVE_POWER
 
-static inline void do_int_scall(bgrt_kblock_t * kblock)
+static inline void _do_int_scall(bgrt_kblock_t * kblock)
 {
     BGRT_USPD_T uspd;
     bgrt_st_t scret;
@@ -103,7 +103,7 @@ static inline void do_int_scall(bgrt_kblock_t * kblock)
     }
 }
 //Check for pending system call and push it
-static inline void push_pend_scall(bgrt_kblock_t * kblock)
+static inline void _push_pend_scall(bgrt_kblock_t * kblock)
 {
     (void)kblock;
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
@@ -113,7 +113,7 @@ static inline void push_pend_scall(bgrt_kblock_t * kblock)
     }
 }
 
-static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
+static inline void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
     (void)kblock;
     if (BGRT_KBLOCK_VTMR == work)
@@ -142,12 +142,12 @@ static inline void do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
         }
         else
         {
-            push_pend_scall(kblock);
+            _push_pend_scall(kblock);
         }
     }
     else
     {
-        push_pend_scall(kblock);
+        _push_pend_scall(kblock);
     }
 }
 
@@ -191,7 +191,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
 
         if (bgrt_atm_bclr(&kblock->lpmap, BGRT_KBLOCK_VSCALL))
         {
-            do_int_scall(kblock);
+            _do_int_scall(kblock);
             continue; /* ADLINT:SL:[W0013] continue*/
         }
 
@@ -200,7 +200,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         work = bgrt_atm_bclr(&kblock->lpmap, BGRT_KBLOCK_VSCHMSK);
         if (work)
         {
-            do_int_sched(kblock, work);
+            _do_int_sched(kblock, work);
             continue; /* ADLINT:SL:[W0013] continue*/
         }
         else

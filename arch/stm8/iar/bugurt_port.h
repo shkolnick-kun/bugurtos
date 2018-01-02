@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
+#ifndef BGRT_PORT_H
+#define BGRT_PORT_H
 
 #include <intrinsics.h>
 
@@ -106,7 +106,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_VECTOR_STR(v) BGRT_ARG_TO_STR(vector = (v))
 
 // Шаблон обёртки обработчика прерывания для внутреннего пользования
-#define _BGRT_ISR(v,f)                                \
+#define BGRT_TMPL_ISR(v,f)                                \
 _Pragma(BGRT_VECTOR_STR(v))                        \
 __interrupt void BGRT_CONCAT(vector_wrapper_,v)(void) \
 {                                                     \
@@ -126,7 +126,7 @@ __interrupt void BGRT_CONCAT(vector_wrapper_,v)(void) \
 */
 #define BGRT_ISR(v)                      \
 void BGRT_CONCAT(vector_func_,v)(void);  \
-_BGRT_ISR(v,BGRT_CONCAT(vector_func_,v)) \
+BGRT_TMPL_ISR(v,BGRT_CONCAT(vector_func_,v)) \
 void BGRT_CONCAT(vector_func_,v)(void)
 
 extern bgrt_stack_t * saved_sp;
@@ -139,4 +139,4 @@ extern void bugurt_restore_context(bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 
-#endif // _BGRT_PORT_H_
+#endif // BGRT_PORT_H

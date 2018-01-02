@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
+#ifndef BGRT_PORT_H
+#define BGRT_PORT_H
 
 #include <avr/interrupt.h>
 
@@ -107,7 +107,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
     __asm__ __volatile__("reti"::)
 
 // Шаблон обработчика прерывания для внутреннего пользования
-#define _BGRT_ISR(v,f)                          \
+#define BGRT_TMPL_ISR(v,f)                          \
 __attribute__ ((signal, naked)) void v(void); \
 void v(void)                                    \
 {                                               \
@@ -127,7 +127,7 @@ void v(void)                                    \
 */
 #define BGRT_ISR(v)               \
 void BGRT_CONCAT(v,_func)(void);  \
-_BGRT_ISR(v,BGRT_CONCAT(v,_func)) \
+BGRT_TMPL_ISR(v,BGRT_CONCAT(v,_func)) \
 void BGRT_CONCAT(v,_func)(void)
 
 unsigned char bgrt_kernel_state;
@@ -144,4 +144,4 @@ extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
-#endif // _BGRT_PORT_H_
+#endif // BGRT_PORT_H

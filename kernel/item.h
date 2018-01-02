@@ -83,7 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок элементов 2-связного списка. \~english A list item header.
 */
 //Элемент 2-связного списка;
-typedef struct _bgrt_item_t bgrt_item_t; /*!< \~russian Смотри #_bgrt_item_t; \~english See #_bgrt_item_t; */
+typedef struct bgrt_priv_item_t bgrt_item_t; /*!< \~russian Смотри #bgrt_priv_item_t; \~english See #bgrt_priv_item_t; */
 //Свойства
 /*!
 \~russian
@@ -96,7 +96,7 @@ typedef struct _bgrt_item_t bgrt_item_t; /*!< \~russian Смотри #_bgrt_item
 
 All structures, that must be listed, will inherit #bgrt_item_t properties and methods.
 */
-struct _bgrt_item_t
+struct bgrt_priv_item_t
 {
     bgrt_item_t *next;  /*!< \~russian Следующий элемент. \~english Next item in a list. */
     bgrt_item_t *prev;  /*!< \~russian Предыдущий элемент. \~english Previous item in a list. */

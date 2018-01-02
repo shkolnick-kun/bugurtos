@@ -1,5 +1,5 @@
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
+#ifndef BGRT_PORT_H
+#define BGRT_PORT_H
 
 extern void BGRT_INT_LOCK(void);
 extern void BGRT_INT_FREE(void);
@@ -13,4 +13,4 @@ extern bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk);
 extern bgrt_map_t BGRT_ATM_BCLR_ISR(bgrt_map_t * fic, bgrt_map_t msk);
 extern bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk);
 
-#endif // _BGRT_PORT_H_
+#endif // BGRT_PORT_H

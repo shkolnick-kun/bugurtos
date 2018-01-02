@@ -1,6 +1,6 @@
-#ifndef _BGRT_CONFIG_H_
+#ifndef BGRT_CONFIG_H
 // Example config file for avr-vsmp test architecture.
-#define _BGRT_CONFIG_H_
+#define BGRT_CONFIG_H
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================
@@ -116,7 +116,7 @@ typedef unsigned char load_t;
 ///=================================================================
 #define BGRT_CONFIG_TEST  //This is test project
 //*
-extern const struct _bgrt_proc_t * proc_base;
+extern const struct bgrt_priv_proc_t * proc_base;
 #define BGRT_PID_T bgrt_cnt_t
 #define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #define BGRT_PID_TO_PROC(p) ((BGRT_PID_NOTHING!=p)?((bgrt_proc_t *)proc_base + (p-1)):((bgrt_proc_t *)0))
@@ -184,4 +184,4 @@ extern void test_do_nothing(void);
 #define RSH5 (bgrt_code_t)0
 
 #endif //__ASSEMBLER__
-#endif //_BGRT_CONFIG_H_
+#endif //BGRT_CONFIG_H

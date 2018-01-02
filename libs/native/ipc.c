@@ -84,7 +84,7 @@ bgrt_st_t ipc_init_cs(ipc_t * endpoint)
     {
         return BGRT_ST_ENULL;
     }
-    _BGRT_SYNC_INIT(endpoint, BGRT_PRIO_LOWEST);
+    BGRT_PRIV_SYNC_INIT(endpoint, BGRT_PRIO_LOWEST);
     endpoint->msg = (void *)0;
     return BGRT_ST_OK;
 }

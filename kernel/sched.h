@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_SCHED_H_
-#define _BGRT_SCHED_H_
+#ifndef BGRT_SCHED_H
+#define BGRT_SCHED_H
 /*!
 \file
 \~russian
@@ -93,7 +93,7 @@ A scheduler header.
 \warning All functions in this file are internal usage functions!!!
 */
 // Планировщик
-typedef struct _bgrt_sched_t bgrt_sched_t; /*!< \~russian Смотри #_bgrt_sched_t; \~english See #_bgrt_sched_t; */
+typedef struct bgrt_priv_sched_t bgrt_sched_t; /*!< \~russian Смотри #bgrt_priv_sched_t; \~english See #bgrt_priv_sched_t; */
 // Свойства
 /*!
 \~russian
@@ -108,7 +108,7 @@ A scheduler.
 
 A scheduler object contains an information about processes, running on some CPU core.
 */
-struct _bgrt_sched_t
+struct bgrt_priv_sched_t
 {
     bgrt_proc_t * current_proc;      /*!< \~russian Текущий процесс. \~english A currently running process. */
     bgrt_xlist_t * ready;            /*!< \~russian Указатель на список готовых к выполнению процессов. \~english A pointer to a ready process list. */
@@ -237,7 +237,7 @@ If there is another running process, this function passes control to it.
 
 \return One if power saving mode can be used, zero in other cases.
 */
-bgrt_bool_t _bgrt_sched_proc_yield(void);
+bgrt_bool_t bgrt_priv_sched_proc_yield(void);
 /*!
 \~russian
 \brief Передача управления следующему процессу.
@@ -257,8 +257,8 @@ bgrt_bool_t bgrt_sched_proc_yield(void);
 
 #ifdef BGRT_CONFIG_MP
 //CPU load information
-typedef struct _bgrt_kstat_t bgrt_kstat_t; /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
-struct _bgrt_kstat_t
+typedef struct bgrt_priv_kstat_t bgrt_kstat_t; /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
+struct bgrt_priv_kstat_t
 {
     bgrt_ls_t val[BGRT_MAX_CPU];  /*!< \~russian Значения. \~english A values. */
     bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
@@ -330,8 +330,8 @@ bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat);
 
 \param proc A pointer to a process.
 */
-void _bgrt_sched_proc_set_core(bgrt_proc_t * proc);
-#define BGRT_SCHED_PROC_SET_CORE(proc) _bgrt_sched_proc_set_core(proc)
+void bgrt_priv_sched_proc_set_core(bgrt_proc_t * proc);
+#define BGRT_SCHED_PROC_SET_CORE(proc) bgrt_priv_sched_proc_set_core(proc)
 #else  // BGRT_CONFIG_MP
 #define BGRT_SCHED_PROC_SET_CORE(proc) do{}while (0)
 #endif // BGRT_CONFIG_MP
@@ -367,7 +367,7 @@ This function transfers one process on the least loaded CPU core from the object
 
 \param object_core - A CPU core to decrease a load on.
 */
-void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core);
+void bgrt_priv_sched_lazy_load_balancer(bgrt_cpuid_t object_core);
 
 /*!
 \~russian
@@ -395,4 +395,4 @@ Finds the most loaded CPU core on the system and transfers one process from it t
 void bgrt_sched_lazy_global_load_balancer(void);
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 
-#endif // _BGRT_SCHED_H_
+#endif // BGRT_SCHED_H

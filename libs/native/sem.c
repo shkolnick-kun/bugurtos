@@ -84,7 +84,7 @@ bgrt_st_t sem_init_cs(sem_t * sem, bgrt_cnt_t count)
     {
         return BGRT_ST_ENULL;
     }
-    _BGRT_SYNC_INIT(sem, BGRT_PRIO_LOWEST);
+    BGRT_PRIV_SYNC_INIT(sem, BGRT_PRIO_LOWEST);
     BGRT_SPIN_INIT(sem);
     BGRT_SPIN_LOCK(sem);
     sem->counter = count;
@@ -140,7 +140,7 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
     {
     case 0:
     {
-        _bgrt_proc_lock();
+        bgrt_priv_proc_lock();
 
         BGRT_KERNEL_PREEMPT();
 
@@ -156,7 +156,7 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
         }
         else
         {
-            _bgrt_sync_touch((bgrt_sync_t *)sem);
+            bgrt_priv_sync_touch((bgrt_sync_t *)sem);
             BGRT_SPIN_FREE(sem);
             //Now goto state 1
             *touch = (bgrt_flag_t)1;
@@ -165,10 +165,10 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
     }
     case 1:
     {
-        ret = _bgrt_sync_sleep((bgrt_sync_t *)sem, touch);
+        ret = bgrt_priv_sync_sleep((bgrt_sync_t *)sem, touch);
         if (BGRT_ST_ROLL != ret)
         {
-            _bgrt_proc_free();
+            bgrt_priv_proc_free();
         }
         break;
     }
@@ -198,7 +198,7 @@ static bgrt_st_t _sem_free_body(sem_t *sem)
 {
     bgrt_st_t ret;
     // Now we can wake some process.)
-    ret = _bgrt_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
+    ret = bgrt_priv_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
     if (BGRT_ST_EEMPTY == ret)
     {
         sem->counter++;

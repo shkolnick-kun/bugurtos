@@ -91,14 +91,14 @@ volatile bgrt_stack_t bugurt_kernel_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 				"bx lr                  \n\t"\
 				:::)
 //====================================================================================
-static bgrt_stack_t * bugurt_read_psp(void)
+static bgrt_stack_t * _read_psp(void)
 {
     bgrt_stack_t * ret=0;
 __asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret));
     return(ret);
 }
 //====================================================================================
-static void bugurt_write_psp(volatile bgrt_stack_t * ptr)
+static void _write_psp(volatile bgrt_stack_t * ptr)
 {
     __asm__ __volatile__ (
         "msr psp, %0\n\t"
@@ -177,7 +177,7 @@ void bgrt_init(void)
    );
     bgrt_kernel_init();
     // Устанавливаем начальное значение PSP, для потока Ядра;
-    bugurt_write_psp((volatile bgrt_stack_t *)&bugurt_kernel_stack[16]); //  !!! Внимательно смотрим на границы!!!
+    _write_psp((volatile bgrt_stack_t *)&bugurt_kernel_stack[16]); //  !!! Внимательно смотрим на границы!!!
     // Устанавливаем приоритеты обработчиков прерываний;
     BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 16; // PendSV
     BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 24; // SysTick
@@ -241,13 +241,13 @@ void bgrt_switch_to_proc(void)
 __attribute__ ((naked)) void BGRT_SYSCALL_ISR(void)
 {
     BGRT_CONTEXT_STORE();
-    saved_sp = bugurt_read_psp();
+    saved_sp = _read_psp();
     *current_sp = saved_sp;
 
     bgrt_set_curr_sp();
 
     BGRT_SYS_ICSR |= BGRT_PENDSV_CLR; // Fix for a hardware race condition.
 
-    bugurt_write_psp(*current_sp);
+    _write_psp(*current_sp);
     BGRT_CONTEXT_LOAD();
 }

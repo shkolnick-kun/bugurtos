@@ -115,14 +115,14 @@ int main(void)
 
     BGRT_SCHED_SYSTICK_HOOK_ADD();
 
-    _bgrt_proc_init(PR0, main_bgrt_proc_test, SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END);
-    _bgrt_proc_init(PR1, main_lb,        SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END);
-    _bgrt_proc_init(PR2, main_2,         SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END);
-    _bgrt_proc_init(PR3, main_3,         SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END);
+    bgrt_priv_proc_init(PR0, main_bgrt_proc_test, SVH0, RSH0, 0, &bgrt_proc_stack[0][BGRT_PROC_STACK_SIZE-1], 4,      1, 0 ARG_END);
+    bgrt_priv_proc_init(PR1, main_lb,        SVH1, RSH1, 0, &bgrt_proc_stack[1][BGRT_PROC_STACK_SIZE-1], LOWEST, 1, 0 BGRT_SCHED_ARG_END);
+    bgrt_priv_proc_init(PR2, main_2,         SVH2, RSH2, 0, &bgrt_proc_stack[2][BGRT_PROC_STACK_SIZE-1], 0,      2, 0 ARG_END);
+    bgrt_priv_proc_init(PR3, main_3,         SVH3, RSH3, 0, &bgrt_proc_stack[3][BGRT_PROC_STACK_SIZE-1], 1,      2, 0 ARG_END);
 
     ipc_init_cs(&test_ep);
 
-    _bgrt_proc_run(PR0);
+    bgrt_priv_proc_run(PR0);
 
     bgrt_start();
     return 0;

@@ -1,6 +1,6 @@
-#ifndef _BGRT_CONFIG_H_
+#ifndef BGRT_CONFIG_H
 // Example config file
-#define _BGRT_CONFIG_H_
+#define BGRT_CONFIG_H
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================
@@ -85,7 +85,7 @@ typedef unsigned char bgrt_syscall_t;
 #define BGRT_STOP_SCHEDULER() (TIMSK2 &= ~0x02)
 
 ///*
-//extern const struct _bgrt_proc_t * proc_base;
+//extern const struct bgrt_priv_proc_t * proc_base;
 //#define BGRT_PID_T void *
 //#define BGRT_PID_TO_PROC(p) (((bgrt_proc_t *)proc_base) + p)
 //#define BGRT_PROC_TO_PID(p) (p - ((bgrt_proc_t *)proc_base))
@@ -172,4 +172,4 @@ extern void(*test_kernel_preempt)(void);
 
 
 #endif //__ASSEMBLER__
-#endif //_BGRT_CONFIG_H_
+#endif //BGRT_CONFIG_H

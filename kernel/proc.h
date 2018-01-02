@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PROC_H_
-#define _BGRT_PROC_H_
+#ifndef BGRT_PROC_H
+#define BGRT_PROC_H
 /*!
 \file
 \~russian
@@ -144,7 +144,7 @@ A decrement of proc->lres.
 #define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec(&((a)->lres), (bgrt_prio_t)b)
 
 //Процесс
-typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc_t; \~english See #_bgrt_proc_t; */
+typedef struct bgrt_priv_proc_t bgrt_proc_t; /*!< \~russian Смотри #bgrt_priv_proc_t; \~english See #bgrt_priv_proc_t; */
 
 
 /*!
@@ -204,7 +204,7 @@ typedef struct _bgrt_proc_t bgrt_proc_t; /*!< \~russian Смотри #_bgrt_proc
 #   define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #endif//BGRT_PID_T
 
-struct _bgrt_uspd_t
+struct bgrt_priv_uspd_t
 {
     void *         scarg;    /*!<\~russian Указатель на аргумент системного вызова. \~english A system call pointer.*/
     bgrt_syscall_t scnum;    /*!<\~russian Номер системного вызова. \~english A system call number.*/
@@ -212,7 +212,7 @@ struct _bgrt_uspd_t
 };                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
 //Default implementation
 #ifndef BGRT_USPD_T
-#   define BGRT_USPD_PROC_T struct _bgrt_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+#   define BGRT_USPD_PROC_T struct bgrt_priv_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
 #   define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
 #   define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
 #   define BGRT_USPD_INIT(proc) \
@@ -248,7 +248,7 @@ It's possible to use one "main" routine for many processes, as different process
 Be careful with static variables, these variables are common for all processes sharing one routine!
 You must access such static variables using process synchronization facilities.
 */
-struct _bgrt_proc_t
+struct bgrt_priv_proc_t
 {
     bgrt_pitem_t parent;     /*!<\~russian Родитель - #bgrt_pitem_t. \~english A parent is #bgrt_pitem_t.*/
     bgrt_flag_t flags;       /*!<\~russian  Флаги (для ускорения анализа состояния процесса). \~english Process state flags (to treat process state quickly).*/
@@ -256,7 +256,7 @@ struct _bgrt_proc_t
     bgrt_pcounter_t lres;     /*!<\~russian  Счётчик захваченных ресурсов. \~english A locked resource counter.*/
     bgrt_tmr_t time_quant; /*!<\~russian  Квант времени процесса. \~english A process time slice.*/
     bgrt_tmr_t timer;      /*!<\~russian  Таймер процесса, для процессов жесткого реального времени используется как watchdog. \~english A process timer, it is used as watchdog for real time processes*/
-    struct _bgrt_sync_t * sync;
+    struct bgrt_priv_sync_t * sync;
     bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #BGRT_PROC_LOCK. \~english A counter of #BGRT_PROC_LOCK nesting.*/
 #ifdef BGRT_CONFIG_MP
     // Поля, специфичные для многопроцессорных систем;
@@ -374,12 +374,12 @@ Used clear execution three LSBs state bits in proc->flags.
 \~russian
 \brief Маска проверки состояния процесса.
 
-Используется функцией #_bgrt_proc_restart, для проверки возможности перезапуска.
+Используется функцией #bgrt_priv_proc_restart, для проверки возможности перезапуска.
 
 \~english
 \brief A process execution state check mask.
 
-Used by #_bgrt_proc_restart to check for restart possibility.
+Used by #bgrt_priv_proc_restart to check for restart possibility.
 */
 #define BGRT_PROC_STATE_RESTART_MASK ((bgrt_flag_t)0x8)
 
@@ -509,7 +509,7 @@ Increments proc->lres counter, sets #BGRT_PROC_FLG_LOCK flag.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_lres_inc(bgrt_proc_t * proc ,bgrt_prio_t prio);
+void bgrt_priv_proc_lres_inc(bgrt_proc_t * proc ,bgrt_prio_t prio);
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -531,7 +531,7 @@ Decrements proc->lres counter, clears #BGRT_PROC_FLG_LOCK flag if needed.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_lres_dec(bgrt_proc_t * proc ,bgrt_prio_t prio);
+void bgrt_priv_proc_lres_dec(bgrt_proc_t * proc ,bgrt_prio_t prio);
 /*!
 \~russian
 \brief Останов процесса.
@@ -553,11 +553,11 @@ Stops a process for sure.
 \param proc - A pointer to a process.
 \param state - A new process state.
 */
-void _bgrt_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state);
+void bgrt_priv_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state);
 /*!
 \brief \~russian Инициализация процесса из обработчика прерывания, либо из критической секции. \~english A process initialization. Must be used in critical sections and interrupt service routines.
 */
-bgrt_st_t _bgrt_proc_init(
+bgrt_st_t bgrt_priv_proc_init(
     bgrt_proc_t * proc,      /*!< \~russian Указатель на инициируемый процесс. \~english A pointer to a initialized process.*/
     bgrt_code_t pmain,       /*!< \~russian Указатель на главную функцию процесса. \~english A pointer to a process "main" routine.*/
     bgrt_code_t sv_hook,     /*!< \~russian Указатель на хук proc->sv_hook. \~english A context save hook pointer.*/
@@ -607,7 +607,7 @@ void bgrt_proc_terminate(void);
 
 \warning For internal usage.
 */
-void _bgrt_proc_terminate(void);
+void bgrt_priv_proc_terminate(void);
 /*!
 \~russian
 \brief Запуск процесса из критической секции, либо обработчика прерывания.
@@ -624,7 +624,7 @@ This function schedules a process if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bgrt_st_t _bgrt_proc_run(bgrt_proc_t * proc);
+bgrt_st_t bgrt_priv_proc_run(bgrt_proc_t * proc);
 /*!
 \~russian
 \brief Перезапуск процесса из критической секции или обработчика прерывания.
@@ -641,7 +641,7 @@ This function reinitializes a process and schedules it if possible.
 \param proc - A pointer to a process to launch.
 \return BGRT_ST_OK - if a process has been scheduled, error code in other cases.
 */
-bgrt_st_t _bgrt_proc_restart(bgrt_proc_t * proc);
+bgrt_st_t bgrt_priv_proc_restart(bgrt_proc_t * proc);
 /*!
 \~russian
 \brief Останов процесса из критической секции или обработчика прерывания.
@@ -657,7 +657,7 @@ This function stops a process if possible.
 \param proc - A pointer to a process to stop.
 \return BGRT_ST_OK - if a process has been stopped, error code in other cases.
 */
-bgrt_st_t _bgrt_proc_stop(bgrt_proc_t * proc);
+bgrt_st_t bgrt_priv_proc_stop(bgrt_proc_t * proc);
 /*!
 \~russian
 \brief Самоостанов процесса.
@@ -674,7 +674,7 @@ This function stops caller process.
 \warning For internal usage.
 
 */
-void _bgrt_proc_self_stop(void);
+void bgrt_priv_proc_self_stop(void);
 /*!
 \~russian
 \brief Сброс watchdog для процесса реального времени из обработчика прерывания.
@@ -692,7 +692,7 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 
 \warning For internal usage.
 */
-void _bgrt_proc_reset_watchdog(void);
+void bgrt_priv_proc_reset_watchdog(void);
 //===========================================================
 /*!
 \~russian
@@ -705,7 +705,7 @@ void _bgrt_proc_reset_watchdog(void);
 
 \warning For internal usage.
 */
-void _bgrt_proc_lock(void);
+void bgrt_priv_proc_lock(void);
 /*!
 \~russian
 \brief Останов процесса по флагу #BGRT_PROC_FLG_PRE_STOP из критической секции или обработчика прерывания.
@@ -717,7 +717,7 @@ void _bgrt_proc_lock(void);
 
 \warning For internal usage.
 */
-void _bgrt_proc_free(void);
+void bgrt_priv_proc_free(void);
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -739,7 +739,7 @@ It sets a process priority. A process current state doesn't matter.
 \param proc - A pointer to a process.
 \param prio - New process priority value.
 */
-void _bgrt_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
+void bgrt_priv_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
 /*!
 \~russian
 \brief Получить приоритет процесса.
@@ -757,5 +757,5 @@ void _bgrt_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
 \param proc - A process pointer.
 \return - A process priority value.
 */
-bgrt_prio_t _bgrt_proc_get_prio(bgrt_proc_t * proc);
-#endif // _BGRT_PROC_H_
+bgrt_prio_t bgrt_priv_proc_get_prio(bgrt_proc_t * proc);
+#endif // BGRT_PROC_H

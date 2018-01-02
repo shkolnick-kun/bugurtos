@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_PORT_H_
-#define _BGRT_PORT_H_
+#ifndef BGRT_PORT_H
+#define BGRT_PORT_H
 
 #define BGRT_INT_LOCK() __asm__("sim")
 #define BGRT_INT_FREE() __asm__("rim")
@@ -130,4 +130,4 @@ extern void bgrt_switch_context(void) __trap __naked;
 /* System timer ISR declaration */
 extern void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked;
 
-#endif // _BGRT_PORT_H_
+#endif // BGRT_PORT_H

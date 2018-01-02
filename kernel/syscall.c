@@ -95,7 +95,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /**********************************************************************************************
                                       MANDATORY THINGS!!!
 **********************************************************************************************/
-static bgrt_st_t do_nothing_sr(void * arg)
+static bgrt_st_t _do_nothing_sr(void * arg)
 {
     (void)arg; /* ADLINT:SL:[W0085] no effect*/
     return BGRT_ST_SCALL;
@@ -112,7 +112,7 @@ void bgrt_proc_terminate(void)
 BGRT_SC_SR(PROC_TERMINATE, void * arg)
 {
     (void)arg; /* ADLINT:SL:[W0085] no effect*/
-    _bgrt_proc_terminate();
+    bgrt_priv_proc_terminate();
     return BGRT_ST_OK;
 }
 /**********************************************************************************************
@@ -127,7 +127,7 @@ bgrt_bool_t bgrt_sched_proc_yield(void)
 //========================================================================================
 BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
 {
-    *(bgrt_bool_t *)arg = _bgrt_sched_proc_yield();
+    *(bgrt_bool_t *)arg = bgrt_priv_sched_proc_yield();
     return BGRT_ST_OK;
 }
 
@@ -136,7 +136,7 @@ BGRT_SC_TBL(syscall_handler[])= /* ADLINT:SL:[W0117] extern linkage*/
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) (bgrt_scsr_t)(BGRT_SC_SR_NAME(syscall)),
 #   include <syscall_table.h>
 #   undef  BGRT_SC_TBL_ENTRY
-    do_nothing_sr
+    _do_nothing_sr
 };
 
 #ifdef BGRT_CONFIG_SYSCALL_CHECK

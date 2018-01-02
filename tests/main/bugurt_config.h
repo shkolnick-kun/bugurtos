@@ -71,9 +71,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_CONFIG_H_
+#ifndef BGRT_CONFIG_H
 // Тестовый конфиг-файл, впоследствии будет заменён
-#define _BGRT_CONFIG_H_
+#define BGRT_CONFIG_H
 
 #define BGRT_SC_TBL(a) const bgrt_code_t a
 #define BGRT_SC_TBL_READ(a) a
@@ -123,4 +123,4 @@ typedef struct _load_stat
 #define BGRT_CONFIG_USE_ALB
 #define BGRT_CONFIG_HARD_RT
 
-#endif //_BGRT_CONFIG_H_
+#endif //BGRT_CONFIG_H

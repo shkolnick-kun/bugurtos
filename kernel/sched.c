@@ -171,14 +171,14 @@ void bgrt_sched_init(bgrt_sched_t * sched)
 //========================================================================================
 // Insert a process to ready list and update load information.
 #ifdef BGRT_CONFIG_MP
-void _bgrt_sched_proc_set_core(bgrt_proc_t * proc)
+void bgrt_priv_sched_proc_set_core(bgrt_proc_t * proc)
 {
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     proc->core_id = bgrt_sched_load_balancer(proc, (bgrt_ls_t *)bgrt_kernel.stat.val);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 }
 
-static bgrt_sched_t * sched_stat_update_run(bgrt_proc_t * proc)
+static bgrt_sched_t * _sched_stat_update_run(bgrt_proc_t * proc)
 {
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_inc(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
@@ -186,13 +186,13 @@ static bgrt_sched_t * sched_stat_update_run(bgrt_proc_t * proc)
 
     return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched); /* ADLINT:SL:[W0705] out of range*/
 }
-static void sched_stat_update_stop(bgrt_proc_t * proc)
+static void _sched_stat_update_stop(bgrt_proc_t * proc)
 {
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_dec(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 }
-static bgrt_sched_t * sched_stat_update_migrate(bgrt_proc_t * proc)
+static bgrt_sched_t * _sched_stat_update_migrate(bgrt_proc_t * proc)
 {
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_dec(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
@@ -202,8 +202,8 @@ static bgrt_sched_t * sched_stat_update_migrate(bgrt_proc_t * proc)
 
     return ((bgrt_sched_t *)&bgrt_kernel.kblock[proc->core_id].sched); /* ADLINT:SL:[W0705] out of range*/
 }
-#   define BGRT_SCHED_STAT_UPDATE_RUN(a) sched_stat_update_run(a)
-#   define BGRT_SCHED_STAT_UPDATE_STOP(a) sched_stat_update_stop(a)
+#   define BGRT_SCHED_STAT_UPDATE_RUN(a) _sched_stat_update_run(a)
+#   define BGRT_SCHED_STAT_UPDATE_STOP(a) _sched_stat_update_stop(a)
 #else  //BGRT_CONFIG_MP
 #   define BGRT_SCHED_STAT_UPDATE_RUN(a) (&bgrt_kernel.kblock.sched)
 #   define BGRT_SCHED_STAT_UPDATE_STOP(a) do{}while (0)
@@ -228,7 +228,7 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state)
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * xlist_lock;
 
-    sched_stat_update_stop(proc);
+    _sched_stat_update_stop(proc);
 
     xlist_lock = &bgrt_kernel.kblock[proc->core_id].sched.lock; /* ADLINT:SL:[W0705] out of range*/
     bgrt_spin_lock(xlist_lock);
@@ -299,19 +299,19 @@ bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched)
 }
 
 #ifdef BGRT_CONFIG_MP
-static void sched_proc_insert_expired(bgrt_proc_t * proc, bgrt_sched_t * sched)
+static void _sched_proc_insert_expired(bgrt_proc_t * proc, bgrt_sched_t * sched)
 {
     BGRT_SPIN_LOCK(sched);
     bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired);
     BGRT_SPIN_FREE(sched);
 }
-#   define BGRT_SCHED_PROC_INSERT_EXPIRED sched_proc_insert_expired
+#   define BGRT_SCHED_PROC_INSERT_EXPIRED _sched_proc_insert_expired
 #else //BGRT_CONFIG_MP
 #   define BGRT_SCHED_PROC_INSERT_EXPIRED(proc,sched) bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired)
 #endif//BGRT_CONFIG_MP
 
 #if defined(BGRT_CONFIG_MP) && defined(BGRT_CONFIG_USE_ALB)
-#   define BGRT_PROC_NEW_SCHED sched_stat_update_migrate //A process will migrate
+#   define BGRT_PROC_NEW_SCHED _sched_stat_update_migrate //A process will migrate
 #else // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
 #   define BGRT_PROC_NEW_SCHED(proc) sched               //A process will stay on the same scheduler
 #endif// BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
@@ -435,7 +435,7 @@ void bgrt_sched_reschedule_prologue(bgrt_sched_t * sched)
 #   define BGRT_SCHED_INIT() ((bgrt_sched_t *)&bgrt_kernel.kblock.sched)
 #endif // BGRT_CONFIG_MP
 
-bgrt_bool_t _bgrt_sched_proc_yield(void)
+bgrt_bool_t bgrt_priv_sched_proc_yield(void)
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;
     bgrt_map_t proc_map;
@@ -506,7 +506,7 @@ was not defined.
 
 May be used in combinations...
 ************************************/
-void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
+void bgrt_priv_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 {
     bgrt_sched_t * sched;
     bgrt_proc_t * proc;
@@ -541,7 +541,7 @@ void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
         bgrt_resched(proc->core_id); // Resched object core...
 
         // Migrate it
-        sched = sched_stat_update_migrate(proc);
+        sched = _sched_stat_update_migrate(proc);
 
         BGRT_SCHED_PROC_INSERT_EXPIRED(proc, sched);
     }
@@ -559,12 +559,12 @@ void bgrt_sched_lazy_global_load_balancer(void)
 
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
     // Transfer load...
-    _bgrt_sched_lazy_load_balancer(object_core);
+    bgrt_priv_sched_lazy_load_balancer(object_core);
 }
 //========================================================================================
 // Local
 void bgrt_sched_lazy_local_load_balancer(void)
 {
-    _bgrt_sched_lazy_load_balancer(bgrt_curr_cpu());
+    bgrt_priv_sched_lazy_load_balancer(bgrt_curr_cpu());
 }
 #endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB

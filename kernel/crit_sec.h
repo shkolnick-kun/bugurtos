@@ -131,8 +131,8 @@ A critical section end.
 */
 #ifdef BGRT_CONFIG_MP
 #   define BGRT_CRIT_SEC_ENTER() bgrt_cpuid_t current_core; \
-                         current_core = _bgrt_crit_sec_enter()
-#   define BGRT_CRIT_SEC_EXIT() _bgrt_crit_sec_exit(current_core)
+                         current_core = bgrt_priv_crit_sec_enter()
+#   define BGRT_CRIT_SEC_EXIT() bgrt_priv_crit_sec_exit(current_core)
 
 /*!
 \~russian
@@ -146,7 +146,7 @@ A critical section end.
 \return
  An ID of the local CPU core.
 */
-bgrt_cpuid_t _bgrt_crit_sec_enter(void);
+bgrt_cpuid_t bgrt_priv_crit_sec_enter(void);
 /*!
 \~russian
 \brief Выход из критической секции на многопроцессорной системе
@@ -161,7 +161,7 @@ bgrt_cpuid_t _bgrt_crit_sec_enter(void);
 
 \warning If core param don't match the local CPU core the behavior is undefined.
 */
-void _bgrt_crit_sec_exit(bgrt_cpuid_t core);
+void bgrt_priv_crit_sec_exit(bgrt_cpuid_t core);
 #else
 #   define BGRT_CRIT_SEC_ENTER() bgrt_crit_sec_enter()
 #   define BGRT_CRIT_SEC_EXIT() bgrt_crit_sec_exit()

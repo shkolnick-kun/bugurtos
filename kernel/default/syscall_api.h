@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SYSCALL_API_H_
-#define _SYSCALL_API_H_
+#ifndef SYSCALL_API_H
+#define SYSCALL_API_H
 /*!
 \file
 \brief \~russian Заголовок системных вызовов.
@@ -399,4 +399,4 @@ Wake a process on timeout.
 */
 #define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid)
 /*****************************************************************************************/
-#endif // _SYSCALL_API_H_
+#endif // SYSCALL_API_H

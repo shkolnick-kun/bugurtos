@@ -192,7 +192,7 @@ void bgrt_set_curr_sp(void)
 }
 
 // Код ядра
-static void _bgrt_switch_to_kernel(void)
+static void bgrt_priv_switch_to_kernel(void)
 {
     BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
 }
@@ -200,7 +200,7 @@ __attribute__ ((naked)) void bgrt_switch_to_kernel(void);
 void bgrt_switch_to_kernel(void)
 {
     BGRT_ISR_START();
-    _bgrt_switch_to_kernel();
+    bgrt_priv_switch_to_kernel();
     BGRT_ISR_END();
 }
 
@@ -245,7 +245,7 @@ static void do_int_systick(void * arg)
     sei();
 }
 
-static void _bgrt_int_free(void)
+static void _int_free(void)
 {
     vm_int_enabled[current_vm]=1;
     kernel_mode[current_vm] = 1;
@@ -256,11 +256,11 @@ void bgrt_int_free(void)
 {
     cli();
     BGRT_ISR_START();
-    _bgrt_int_free();
+    _int_free();
     BGRT_ISR_END();
 }
 
-static void _bgrt_switch_to_proc(void)
+static void _switch_to_proc(void)
 {
     if (vm_int_enabled[current_vm])
     {
@@ -272,7 +272,7 @@ __attribute__ ((naked)) void bgrt_switch_to_proc(void)
 {
     cli();
     BGRT_ISR_START();
-    _bgrt_switch_to_proc();
+    _switch_to_proc();
     BGRT_ISR_END();
 }
 
@@ -299,7 +299,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
 /***************************************************************************************************************/
 // Функции общего пользования
 
-static void kernel_panic(void)
+static void _kernel_panic(void)
 {
     while (1)
     {
@@ -307,7 +307,7 @@ static void kernel_panic(void)
     };
 }
 
-static void idle_main(void *arg)
+static void _idle_main(void *arg)
 {
     (void)arg;
 
@@ -329,9 +329,9 @@ void bgrt_init(void)
         kernel_mode[i] = 1;
         kernel_sp[i] = bgrt_proc_stack_init(
                            &kernel_stack[i-1][VM_STACK_SIZE - 1],
-                           (bgrt_code_t)idle_main,
+                           (bgrt_code_t)_idle_main,
                            (void *)0,
-                           (void(*)(void))kernel_panic
+                           (void(*)(void))_kernel_panic
                        );
     }
     sei();
@@ -352,7 +352,7 @@ void bgrt_start(void)
                            &kernel_stack[i-1][VM_STACK_SIZE - 1],
                            (bgrt_code_t)bgrt_kblock_main,
                            (void *)&bgrt_kernel.kblock[i],
-                           (void(*)(void))kernel_panic
+                           (void(*)(void))_kernel_panic
                        );
     }
     sei();

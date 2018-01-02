@@ -76,14 +76,14 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _BGRT_SYNC_H_
-#define _BGRT_SYNC_H_
+#ifndef BGRT_SYNC_H
+#define BGRT_SYNC_H
 /*!
 \file
 \brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
 */
 
-typedef struct _bgrt_sync_t bgrt_sync_t; /*!< \~russian Смотри #_bgrt_sync_t; \~english See #_bgrt_sync_t; */
+typedef struct bgrt_priv_sync_t bgrt_sync_t; /*!< \~russian Смотри #bgrt_priv_sync_t; \~english See #bgrt_priv_sync_t; */
 // Свойства
 /*!
 \~russian
@@ -107,7 +107,7 @@ By wrapping this type one can get traditional synchronization primitives
 Basic priority inheritance protocol is supported.
 
 */
-struct _bgrt_sync_t
+struct bgrt_priv_sync_t
 {
     bgrt_xlist_t sleep;  /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_proc_t * owner;/*!< \~russian Указатель на процесс-хозяин. \~english A pointer to a process, that holds a sync. */
@@ -131,8 +131,8 @@ struct _bgrt_sync_t
 Returns current #bgrt_sync_t object priority.
 \warning For internal usage.
 */
-bgrt_prio_t _bgrt_sync_prio(bgrt_sync_t * sync);
-#define BGRT_SYNC_PRIO(s) _bgrt_sync_prio(s) /*!< \~russian \brief Считает приоритет щбъекта типа #bgrt_sync_t. \~english \brief Calculates a #bgrt_sync_t object priority */
+bgrt_prio_t bgrt_priv_sync_prio(bgrt_sync_t * sync);
+#define BGRT_SYNC_PRIO(s) bgrt_priv_sync_prio(s) /*!< \~russian \brief Считает приоритет щбъекта типа #bgrt_sync_t. \~english \brief Calculates a #bgrt_sync_t object priority */
 /*!
 \~russian
 \brief
@@ -157,11 +157,11 @@ bgrt_st_t bgrt_sync_init(
 \brief
 A sync initiation for usage in ISRs or in critical sections.
 */
-bgrt_st_t _bgrt_sync_init(
+bgrt_st_t bgrt_priv_sync_init(
     bgrt_sync_t * sync, /*!< \~russian Указатель на базовый примитив синхронизации. \~english A sync pointer. */
     bgrt_prio_t prio    /*!< \~russian Приоритет. \~english A priority. */
 );
-#define _BGRT_SYNC_INIT(s,p) _bgrt_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #_bgrt_sync_init. \~english \brief Watch #_bgrt_sync_init. */
+#define BGRT_PRIV_SYNC_INIT(s,p) bgrt_priv_sync_init((bgrt_sync_t *)s, (bgrt_prio_t)p) /*!< \~russian \brief Смотри #bgrt_priv_sync_init. \~english \brief Watch #bgrt_priv_sync_init. */
 /*!
 \~russian
 \brief
@@ -174,7 +174,7 @@ Watch #BGRT_SYNC_SET_OWNER.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_set_owner(bgrt_sync_t * sync, bgrt_proc_t * proc);
+bgrt_st_t bgrt_priv_sync_set_owner(bgrt_sync_t * sync, bgrt_proc_t * proc);
 /*!
 \~russian
 \brief
@@ -187,7 +187,7 @@ See #BGRT_SYNC_GET_OWNER.
 
 \warning For internal usage.
 */
-bgrt_proc_t * _bgrt_sync_get_owner(bgrt_sync_t * sync);
+bgrt_proc_t * bgrt_priv_sync_get_owner(bgrt_sync_t * sync);
 /*!
 \~russian
 \brief
@@ -201,7 +201,7 @@ Watch #BGRT_SYNC_OWN.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_own(bgrt_sync_t * sync, bgrt_flag_t touch);
+bgrt_st_t bgrt_priv_sync_own(bgrt_sync_t * sync, bgrt_flag_t touch);
 /*!
 \~russian
 \brief
@@ -215,7 +215,7 @@ Watch #BGRT_SYNC_TOUCH.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_touch(bgrt_sync_t * sync);
+bgrt_st_t bgrt_priv_sync_touch(bgrt_sync_t * sync);
 /*!
 \~russian
 \brief
@@ -229,7 +229,7 @@ Watch #BGRT_SYNC_WAKE.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_wake(bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t chown);
+bgrt_st_t bgrt_priv_sync_wake(bgrt_sync_t * sync, bgrt_proc_t * proc, bgrt_flag_t chown);
 /*!
 \~russian
 \brief
@@ -243,7 +243,7 @@ Watch #BGRT_SYNC_SLEEP.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch);
+bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch);
 /*!
 \~russian
 \brief
@@ -256,7 +256,7 @@ Watch #BGRT_SYNC_WAIT.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_wait(bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t block);
+bgrt_st_t bgrt_priv_sync_wait(bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag_t block);
 /*!
 \~russian
 \brief
@@ -269,5 +269,5 @@ Watch #BGRT_SYNC_PROC_TIMEOUT.
 
 \warning For internal usage.
 */
-bgrt_st_t _bgrt_sync_proc_timeout(bgrt_proc_t * proc);
-#endif // _BGRT_SYNC_H_
+bgrt_st_t bgrt_priv_sync_proc_timeout(bgrt_proc_t * proc);
+#endif // BGRT_SYNC_H

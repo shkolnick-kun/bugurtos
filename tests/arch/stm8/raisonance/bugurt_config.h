@@ -1,6 +1,6 @@
-#ifndef _BGRT_CONFIG_H_
+#ifndef BGRT_CONFIG_H
 /// This is example config file
-#define _BGRT_CONFIG_H_
+#define BGRT_CONFIG_H
 ///==================================================================
 ///               Don't edit this part of the file!!!
 ///==================================================================
@@ -112,4 +112,4 @@ typedef volatile unsigned char bgrt_syscall_t;
 extern void kernel_preemt_hook(void);
 #define BGRT_KERNEL_PREEMPT() kernel_preemt_hook()
 
-#endif //_BGRT_CONFIG_H_
+#endif //BGRT_CONFIG_H

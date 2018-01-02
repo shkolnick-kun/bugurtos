@@ -80,7 +80,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 bgrt_st_t mutex_init_cs(mutex_t * mutex, bgrt_prio_t prio)
 {
-    return _BGRT_SYNC_INIT(mutex, prio);
+    return BGRT_PRIV_SYNC_INIT(mutex, prio);
 }
 
 bgrt_st_t mutex_init(mutex_t * mutex, bgrt_prio_t prio)

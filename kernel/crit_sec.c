@@ -82,7 +82,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #ifdef BGRT_CONFIG_MP
 // No need to spinlock sched as all changes are local!
-bgrt_cpuid_t _bgrt_crit_sec_enter(void)
+bgrt_cpuid_t bgrt_priv_crit_sec_enter(void)
 {
     bgrt_cpuid_t ret;
     BGRT_INT_LOCK();
@@ -91,7 +91,7 @@ bgrt_cpuid_t _bgrt_crit_sec_enter(void)
     return ret;
 }
 
-void _bgrt_crit_sec_exit(bgrt_cpuid_t core)
+void bgrt_priv_crit_sec_exit(bgrt_cpuid_t core)
 {
     BGRT_CNT_DEC(bgrt_kernel.kblock[core].sched.nested_crit_sec);
     if (bgrt_kernel.kblock[core].sched.nested_crit_sec == (bgrt_cnt_t)0)
