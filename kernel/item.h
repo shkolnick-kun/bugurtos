@@ -76,15 +76,15 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _ITEM_H_
-#define _ITEM_H_
+#ifndef ITEM_H
+#define ITEM_H
 /*!
 \file
 \brief \~russian Заголовок элементов 2-связного списка. \~english A list item header.
 */
-//Элемент 2-связного списка;
+/*Элемент 2-связного списка;*/
 typedef struct bgrt_priv_item_t bgrt_item_t; /*!< \~russian Смотри #bgrt_priv_item_t; \~english See #bgrt_priv_item_t; */
-//Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief Элемент 2-связного списка.
@@ -115,7 +115,7 @@ struct bgrt_priv_item_t
 */
 #define BGRT_ITEM_T_INIT(a) { (bgrt_item_t *)&a, (bgrt_item_t *)&a }
 
-//Методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -172,4 +172,4 @@ Cut an item from a list.
 \param item A pointer to an item to cut.
 */
 void bgrt_item_cut(bgrt_item_t *item);
-#endif //_ITEM_H_
+#endif /*ITEM_H*/

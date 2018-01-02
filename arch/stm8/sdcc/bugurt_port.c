@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include <bugurt.h>
 
-// Просто функции, специфичные для STM8
+/* Просто функции, специфичные для STM8 */
 bgrt_proc_t * bgrt_curr_proc(void)
 {
     return BGRT_CURR_PROC;
@@ -88,7 +88,7 @@ void bgrt_resched(void)
 {
     bgrt_atm_bset(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VRESCH);
 }
-// Платформозависимый код
+/* Платформозависимый код */
 bgrt_stack_t * bgrt_isr_prologue(void) __naked
 {
     __asm
@@ -112,8 +112,8 @@ void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked
     __endasm;
 }
 /******************************************************************************************************/
-// Код ядра
-//Временное хранилище для указателей стеков процессов.
+/* Код ядра */
+/* Временное хранилище для указателей стеков процессов. */
 bgrt_stack_t * saved_sp;
 bgrt_stack_t * kernel_sp;
 bgrt_stack_t ** current_sp = &kernel_sp;
@@ -125,7 +125,7 @@ void bgrt_set_curr_sp(void)
     if (BGRT_KBLOCK.hpmap      ||
 #ifdef BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.vic.list.map ||
-#endif//BGRT_CONFIG_USE_VIC
+#endif/*BGRT_CONFIG_USE_VIC*/
         BGRT_KBLOCK.lpmap)
     {
         kernel_mode = 1;
@@ -189,7 +189,7 @@ void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked
 }
 
 /***************************************************************************************************************/
-// Функции общего пользования
+/* Функции общего пользования */
 void bgrt_init(void)
 {
     BGRT_INT_LOCK();

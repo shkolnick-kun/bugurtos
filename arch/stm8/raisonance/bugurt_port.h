@@ -86,18 +86,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include "../../common/atm_gen_1.h"
 
-// Подстановка_строки
+/* Подстановка_строки */
 #define BGRT_ARG_TO_STR(a) #a
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
-// Пролог обработчика прерывания
+/* Пролог обработчика прерывания */
 #define BGRT_ISR_START()                    \
     _bugurt_do_it();                        \
     *current_sp = (bgrt_stack_t *)_getSP_()
 
-// Выход из обработчика прерывания, восстановление контекста текущего процесса
+/* Выход из обработчика прерывания, восстановление контекста текущего процесса */
 #define BGRT_ISR_END()                   \
     bgrt_set_curr_sp();                  \
     _setSP_((unsigned int)*current_sp)
@@ -121,12 +121,12 @@ void BGRT_CONCAT(vector_wrapper_,v)(void) interrupt v \
 }                                                     \
 void BGRT_CONCAT(vector_func_,v)(void)
 
-extern void (*_bugurt_do_it)(void); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
-void _bugurt_do_nothing(void); /// NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES !
+extern void (*_bugurt_do_it)(void); /** NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES ! */
+void _bugurt_do_nothing(void);      /** NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES ! */
 
 extern bgrt_stack_t * saved_sp;
 extern bgrt_stack_t * kernel_sp;
 extern bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
-#endif // BGRT_PORT_H
+#endif /*BGRT_PORT_H*/

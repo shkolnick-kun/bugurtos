@@ -7,19 +7,19 @@
 #define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
 
 #define BGRT_SYST_RVR_VALUE ((BGRT_CONFIG_FCPU_HZ / BGRT_CONFIG_FSYSTICK_HZ)- 1ul)
-#define BGRT_SYST_CSR_VALUE (0x00000007)//Enable clock, interrupt, timer.
+#define BGRT_SYST_CSR_VALUE (0x00000007)/* Enable clock, interrupt, timer. */
 
 #ifndef BGRT_CONFIG_FCPU_HZ
 #error "You must define BGRT_CONFIG_FCPU_HZ macro!!!"
-#endif //BGRT_CONFIG_FCPU_HZ
+#endif /*BGRT_CONFIG_FCPU_HZ*/
 
 #ifndef BGRT_CONFIG_FSYSTICK_HZ
 #error "You must define BGRT_CONFIG_FSYSTICK_HZ macro!!!"
-#endif //BGRT_CONFIG_FSYSTICK_HZ
+#endif /*BGRT_CONFIG_FSYSTICK_HZ*/
 
 #if BGRT_SYST_RVR_VALUE > 0xFFFFFFUL
 #error "Impossible SYST_RVR value!!! "
-#endif //BGRT_SYST_RVR_VALUE
+#endif /*BGRT_SYST_RVR_VALUE*/
 
 void(*test_kernel_preempt)(void) = test_do_nothing;
 
@@ -44,8 +44,8 @@ void init_hardware(void)
 {
     __asm__ __volatile__ ("cpsid i \n\t");
     rcc_clock_setup_in_hsi_out_32mhz();
-    // Настраиваем системный таймер и приоритет его прерывания
-    BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 24; // SysTick
+    /* Настраиваем системный таймер и приоритет его прерывания */
+    BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 24; /* SysTick */
     BGRT_SYST_RVR = BGRT_SYST_RVR_VALUE;
     BGRT_SYST_CSR = BGRT_SYST_CSR_VALUE;
 

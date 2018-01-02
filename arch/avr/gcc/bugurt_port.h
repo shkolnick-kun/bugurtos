@@ -89,24 +89,25 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
-// Пролог обработчика прерывания
-///                         АХТУНГ !!!
-/// Используется переменная saved_sp для временного хранения
-/// указателя стека прерываемого процесса, если так не делать,
-/// компилятор будет стирать r16, r17 до сохранения контекста.
-
-// Пролог обработчика прерывания
+/* Пролог обработчика прерывания */
+/**
+                         АХТУНГ !!!
+ Используется переменная saved_sp для временного хранения
+ указателя стека прерываемого процесса, если так не делать,
+ компилятор будет стирать r16, r17 до сохранения контекста.
+*/
+/* Пролог обработчика прерывания */
 #define BGRT_ISR_START()             \
     saved_sp = bugurt_save_context();\
     *current_sp = saved_sp
 
-// Эпилог обработчика прерывания
+/* Эпилог обработчика прерывания */
 #define BGRT_ISR_END()                    \
     bgrt_set_curr_sp();                   \
     bugurt_restore_context(*current_sp);\
     __asm__ __volatile__("reti"::)
 
-// Шаблон обработчика прерывания для внутреннего пользования
+/* Шаблон обработчика прерывания для внутреннего пользования */
 #define BGRT_TMPL_ISR(v,f)                          \
 __attribute__ ((signal, naked)) void v(void); \
 void v(void)                                    \
@@ -131,7 +132,7 @@ BGRT_TMPL_ISR(v,BGRT_CONCAT(v,_func)) \
 void BGRT_CONCAT(v,_func)(void)
 
 unsigned char bgrt_kernel_state;
-//Временное хранилище для указателей стеков процессов.
+/*Временное хранилище для указателей стеков процессов.*/
 bgrt_stack_t * saved_sp;
 bgrt_stack_t * kernel_sp;
 bgrt_stack_t ** current_sp;
@@ -144,4 +145,4 @@ extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
-#endif // BGRT_PORT_H
+#endif /* BGRT_PORT_H*/

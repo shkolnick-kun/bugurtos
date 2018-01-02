@@ -117,7 +117,7 @@ struct bgrt_priv_sync_t
     bgrt_prio_t prio; /*!< \~russian Приоритет. \~english Priority. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 };
 // Методы
 /*!

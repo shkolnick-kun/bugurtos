@@ -108,7 +108,7 @@ void bgrt_proc_terminate(void)
 {
     BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0); /* ADLINT:SL:[W0567,W1059,W1073] conversion*/
 }
-//========================================================================================
+/*====================================================================================*/
 BGRT_SC_SR(PROC_TERMINATE, void * arg)
 {
     (void)arg; /* ADLINT:SL:[W0085] no effect*/
@@ -124,7 +124,7 @@ bgrt_bool_t bgrt_sched_proc_yield(void)
     BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)&ret); /* ADLINT:SL:[W0459,W0021,W1059,W1073] conversion of ret, enum, result discarded*/
     return ret;
 }
-//========================================================================================
+/*====================================================================================*/
 BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
 {
     *(bgrt_bool_t *)arg = bgrt_priv_sched_proc_yield();

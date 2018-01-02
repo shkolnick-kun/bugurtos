@@ -98,6 +98,6 @@ bgrt_prio_t bgrt_map_search(bgrt_map_t map)
     }
     return prio;
 #else
-    return BGRT_CONFIG_USER_SEARCH(map); //User defined search procedure
+    return BGRT_CONFIG_USER_SEARCH(map); /*User defined search procedure*/
 #endif
 }

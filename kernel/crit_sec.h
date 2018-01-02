@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _CRIT_SEC_H_
-#define _CRIT_SEC_H_
+#ifndef CRIT_SEC_H
+#define CRIT_SEC_H
 
 /*!
 \file
@@ -179,6 +179,6 @@ void bgrt_crit_sec_enter(void);
 \brief A critical section end.
 */
 void bgrt_crit_sec_exit(void);
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 
-#endif // _CRIT_SEC_H_
+#endif /* CRIT_SEC_H */

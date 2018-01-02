@@ -84,7 +84,7 @@ bgrt_stack_t * kernel_sp[BGRT_MAX_CPU];
 bgrt_bool_t kernel_mode[BGRT_MAX_CPU];
 bgrt_stack_t kernel_stack[BGRT_MAX_CPU -1][VM_STACK_SIZE];
 
-//VM variables
+/*VM variables*/
 volatile bgrt_cpuid_t current_vm = 0;
 bgrt_bool_t vm_int_enabled[BGRT_MAX_CPU];
 
@@ -145,10 +145,10 @@ void bgrt_spin_free(bgrt_lock_t * lock)
     *lock = (bgrt_lock_t)0;
     sei();
 }
-// bgrt_ls_t is simply process counter here!
+/* bgrt_ls_t is simply process counter here!*/
 void bgrt_stat_init(bgrt_ls_t * stat)
 {
-    *stat = 0; // no lad on a system
+    *stat = 0; /* no lad on a system*/
 }
 void bgrt_stat_dec(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
@@ -191,7 +191,7 @@ void bgrt_set_curr_sp(void)
     }
 }
 
-// Код ядра
+/* Код ядра*/
 static void bgrt_priv_switch_to_kernel(void)
 {
     BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
@@ -297,7 +297,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
     BGRT_ISR_END();
 }
 /***************************************************************************************************************/
-// Функции общего пользования
+/* Функции общего пользования*/
 
 static void _kernel_panic(void)
 {

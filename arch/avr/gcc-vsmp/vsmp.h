@@ -90,11 +90,11 @@ extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 typedef struct _vsmp_vm_t  vsmp_vm_t;
 struct _vsmp_vm_t
 {
-    volatile bgrt_item_t * int_fifo; // Virtual interrupt fifo;
-    volatile bgrt_bool_t int_enabled;// Virtual interrupts enabled flag;
+    volatile bgrt_item_t * int_fifo; /* Virtual interrupt fifo;*/
+    volatile bgrt_bool_t int_enabled;/* Virtual interrupts enabled flag;*/
     volatile bgrt_cnt_t int_nest_count;
-    bgrt_stack_t * sp; // VM stack pointer
-    bgrt_stack_t * int_sp; // VM virtual interrupt stack pointer
+    bgrt_stack_t * sp; /* VM stack pointer*/
+    bgrt_stack_t * int_sp; /* VM virtual interrupt stack pointer*/
 };
 
 typedef struct _vinterrupt_t  vinterrupt_t;
@@ -102,7 +102,7 @@ struct _vinterrupt_t
 {
     bgrt_item_t parent;
     bgrt_cnt_t num_pending;
-    void (*isr)(void); // Virtual Interrupt Service Routine
+    void (*isr)(void); /* Virtual Interrupt Service Routine*/
 };
 
 vsmp_vm_t vm_state[BGRT_MAX_CPU];
@@ -129,4 +129,4 @@ void vsmp_vinterrupt(bgrt_cpuid_t vm, vinterrupt_t * vector);
 
 void vinterrupt_wrapper(void);
 bgrt_bool_t vsmp_do_interrupt(void);
-#endif // _VSMP_H_
+#endif /* _VSMP_H_*/

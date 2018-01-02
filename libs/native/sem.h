@@ -109,7 +109,7 @@ struct bgrt_priv_sem_t
     //bgrt_cnt_t blocked;/*!< \~russian Счётчик блокированных процессов. \~english A blocked process counter. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
-#endif // BGRT_CONFIG_MP
+#endif /* BGRT_CONFIG_MP */
 };
 // Методы
 // Инициализация

@@ -83,10 +83,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \file
 \brief \~russian Заголовок элементов списка с приоритетами. \~english A prioritized list item header.
 */
-//Элемент списка с приоритетами
+/*Элемент списка с приоритетами*/
 
 typedef struct bgrt_priv_pitem_t bgrt_pitem_t;
-//Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -122,7 +122,7 @@ struct bgrt_priv_pitem_t
 */
 #define BGRT_PITEM_T_INIT(a,p) { BGRT_ITEM_T_INIT(a), (bgrt_xlist_t *)0, (bgrt_prio_t)p }
 
-//Методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -232,4 +232,4 @@ Cut all #bgrt_pitem_t objects from #bgrt_xlist_t container and form an ordinary 
 \return An ordinary doublelinked list head pointer.
 */
 bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src);
-#endif // BGRT_PITEM_H
+#endif /*BGRT_PITEM_H*/

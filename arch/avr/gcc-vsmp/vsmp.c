@@ -128,10 +128,10 @@ void vsmp_idle_main(void * arg)
 
 bgrt_bool_t vsmp_do_interrupt(void)
 {
-    // if current vm is interruptible and there are some interrupts in fifo,
+    /* if current vm is interruptible and there are some interrupts in fifo,*/
     if ((vm_state[current_vm].int_enabled) && (vm_state[current_vm].int_fifo))
     {
-        // cut head interrupt,
+        /* cut head interrupt,*/
         vm_buf = (void *)vm_state[current_vm].int_fifo;
         if (vm_buf == (void *)((bgrt_item_t *)vm_buf)->next)
         {
@@ -144,13 +144,13 @@ bgrt_bool_t vsmp_do_interrupt(void)
             vm_state[current_vm].int_fifo = (void *)((bgrt_item_t *)vm_buf)->next;
             bgrt_item_cut((bgrt_item_t *)vm_buf);
         }
-        // write its isr pointer to vm_buf,
+        /* write its isr pointer to vm_buf,*/
         ((vinterrupt_t *)vm_buf)->num_pending = (bgrt_cnt_t)0;
         vm_buf = (void *)(((vinterrupt_t *)vm_buf)->isr);
-        // and return 1;
+        /* and return 1;*/
         return (bgrt_bool_t)1;
     }
-    // else return 0.
+    /* else return 0.*/
     return (bgrt_bool_t)0;
 }
 
@@ -190,27 +190,27 @@ chained_vinterrupt_return: \
                        Virtual interrupts wrapper functions.
     Local variable is used to call virtual ISR, so wrapper must have two parts.
 */
-// Nested part, uses local variables, so compiler generated prologue and epilogue are needed.
+/* Nested part, uses local variables, so compiler generated prologue and epilogue are needed.*/
 void _vinterrupt_wrapper(void)
 {
     void (*isr)(void);
-    vm_state[current_vm].int_enabled = (bgrt_bool_t)0; // Virtual interrupt nesting is not allowed by default.
+    vm_state[current_vm].int_enabled = (bgrt_bool_t)0; /* Virtual interrupt nesting is not allowed by default.*/
     isr = (void (*)(void))vm_buf;
-    // After vm-buf read we can reenable real interrupts!
+    /* After vm-buf read we can reenable real interrupts!*/
     sei();
     isr();
 }
-// Nesting part, no prologue and hand made epilogue.
+/* Nesting part, no prologue and hand made epilogue.*/
 __attribute__ ((naked)) void vinterrupt_wrapper(void)
 {
     _vinterrupt_wrapper();
     cli();
-    // Virtual interrupts are enabled after interrupt processing.
+    /* Virtual interrupts are enabled after interrupt processing.*/
     vm_state[current_vm].int_enabled = (bgrt_bool_t)1;
-    // Tail recursion, will return to it self entry point until all virtual interrupts are processed, lol!
+    /* Tail recursion, will return to it self entry point until all virtual interrupts are processed, lol!*/
     _vsmp_interrupt_epilogue();
 }
-// System timer interrupt, round robin scheduler.
+/* System timer interrupt, round robin scheduler.*/
 __attribute__ ((signal, naked)) void BGRT_SYSTEM_TIMER_ISR(void);
 void BGRT_SYSTEM_TIMER_ISR(void)
 {
@@ -229,7 +229,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
 
     _vsmp_interrupt_epilogue();
 }
-// Software virtual interrupt tail function
+/* Software virtual interrupt tail function*/
 __attribute__ ((naked)) void _vsmp_vinterrupt(void)
 {
     _vsmp_interrupt_prologue();
@@ -239,7 +239,7 @@ __attribute__ ((naked)) void _vsmp_vinterrupt(void)
     _vsmp_interrupt_epilogue();
 }
 
-// Software virtual interrupt (For ISR usage only ! Do NOT call from "main"!)
+/* Software virtual interrupt (For ISR usage only ! Do NOT call from "main"!)*/
 bgrt_bool_t vsmp_vinterrupt_isr(bgrt_cpuid_t vm, vinterrupt_t * vector)
 {
     if (vector->num_pending++)return (bgrt_bool_t)0;
@@ -253,7 +253,7 @@ bgrt_bool_t vsmp_vinterrupt_isr(bgrt_cpuid_t vm, vinterrupt_t * vector)
     }
     return (bgrt_bool_t)1;
 }
-// Software virtual interrupt (Use in "main" only ! Do NOT call from ISR!)
+/* Software virtual interrupt (Use in "main" only ! Do NOT call from ISR!)*/
 void vsmp_vinterrupt(bgrt_cpuid_t vm, vinterrupt_t * vector)
 {
     cli();

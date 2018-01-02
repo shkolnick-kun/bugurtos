@@ -82,33 +82,33 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #ifdef BGRT_CONFIG_SAVE_POWER
 #   define BGRT_SAFE_POWER() BGRT_CONFIG_SAVE_POWER()
-#else // BGRT_CONFIG_SAVE_POWER
+#else /* BGRT_CONFIG_SAVE_POWER */
 #   define BGRT_SAFE_POWER() do{}while (0)
-#endif// BGRT_CONFIG_SAVE_POWER
+#endif/* BGRT_CONFIG_SAVE_POWER */
 
 static inline void _do_int_scall(bgrt_kblock_t * kblock)
 {
     BGRT_USPD_T uspd;
     bgrt_st_t scret;
     (void)kblock;
-    //Get system call number storage
+    /* Get system call number storage */
     uspd = BGRT_GET_USPD(); /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
-    //Do system call
+    /* Do system call */
     scret = bgrt_do_syscall(uspd->scnum, uspd->scarg);
     uspd->scret = scret;
-    //Clear scnum
+    /* Clear scnum */
     if (BGRT_ST_ROLL != scret)
     {
         uspd->scnum = BGRT_SC_ENUM_END;
     }
 }
-//Check for pending system call and push it
+/* Check for pending system call and push it */
 static inline void _push_pend_scall(bgrt_kblock_t * kblock)
 {
     (void)kblock;
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
-        //DO NOT "OPTIMIZE" THIS!!!
+        /* DO NOT "OPTIMIZE" THIS!!! */
         bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VSCALL);
     }
 }
@@ -127,17 +127,17 @@ static inline void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 
     if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
     {
-        //Do IDLE work if needed
+        /* Do IDLE work if needed */
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
 #   ifdef BGRT_CONFIG_USE_LLB
         bgrt_sched_lazy_global_load_balancer();
-#   endif//BGRT_CONFIG_USE_LLB
-#endif//BGRT_CONFIG_MP
+#   endif/*BGRT_CONFIG_USE_LLB*/
+#endif/*BGRT_CONFIG_MP*/
         if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
         {
-            //A scheduler is empty, must do resched
+            /*A scheduler is empty, must do resched*/
             bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
-            //May safe power
+            /*May safe power*/
             BGRT_SAFE_POWER();
         }
         else
@@ -187,7 +187,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         {
             continue;
         }
-#endif//BGRT_CONFIG_USE_VIC
+#endif/*BGRT_CONFIG_USE_VIC*/
 
         if (bgrt_atm_bclr(&kblock->lpmap, BGRT_KBLOCK_VSCALL))
         {
@@ -219,7 +219,7 @@ void bgrt_kblock_main(bgrt_kblock_t * kblock)
     }
 }
 
-bgrt_kernel_t bgrt_kernel;// The kernel, it is the one!
+bgrt_kernel_t bgrt_kernel;/* The kernel, it is the one!*/
 
 void bgrt_kernel_init(void)
 {
@@ -228,7 +228,7 @@ void bgrt_kernel_init(void)
 
     BGRT_SPIN_INIT(&bgrt_kernel.stat);
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
-    //The Kernel initiation!
+    /*The Kernel initiation!*/
     for (i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++)
     {
         bgrt_stat_init((bgrt_ls_t *)bgrt_kernel.stat.val + i);
@@ -241,7 +241,7 @@ void bgrt_kernel_init(void)
     }
 #else
     bgrt_kblock_init((bgrt_kblock_t *)&bgrt_kernel.kblock);
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
     BGRT_SPIN_INIT(&bgrt_kernel.timer);
     BGRT_SPIN_LOCK(&bgrt_kernel.timer);
     bgrt_kernel.timer.val = (bgrt_tmr_t)0;

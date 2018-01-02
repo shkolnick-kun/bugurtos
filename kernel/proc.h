@@ -143,7 +143,7 @@ A decrement of proc->lres.
 #define BGRT_PROC_LRES_INC(a,b) bgrt_pcounter_inc(&((a)->lres), (bgrt_prio_t)b)
 #define BGRT_PROC_LRES_DEC(a,b) bgrt_pcounter_dec(&((a)->lres), (bgrt_prio_t)b)
 
-//Процесс
+/*Процесс*/
 typedef struct bgrt_priv_proc_t bgrt_proc_t; /*!< \~russian Смотри #bgrt_priv_proc_t; \~english See #bgrt_priv_proc_t; */
 
 
@@ -202,7 +202,7 @@ typedef struct bgrt_priv_proc_t bgrt_proc_t; /*!< \~russian Смотри #bgrt_p
 #   define BGRT_PID_TO_PROC(p) (p)
 #   define BGRT_PROC_TO_PID(p) (p)
 #   define BGRT_PID_NOTHING ((BGRT_PID_T)0)
-#endif//BGRT_PID_T
+#endif/*BGRT_PID_T*/
 
 struct bgrt_priv_uspd_t
 {
@@ -210,7 +210,7 @@ struct bgrt_priv_uspd_t
     bgrt_syscall_t scnum;    /*!<\~russian Номер системного вызова. \~english A system call number.*/
     bgrt_st_t      scret;    /*!<\~russian Результат системного вызова. \~english A system call result.*/
 };                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
-//Default implementation
+/*Default implementation*/
 #ifndef BGRT_USPD_T
 #   define BGRT_USPD_PROC_T struct bgrt_priv_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
 #   define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
@@ -221,7 +221,7 @@ struct bgrt_priv_uspd_t
             proc->udata.scnum = (bgrt_syscall_t)BGRT_SC_ENUM_END;\
         }while (0)                                        /*!<\~russian Инициализация. \~english Initialization.*/
 #endif
-// Свойства
+/* Свойства*/
 /*!
 \~russian
 \brief Процесс.
@@ -259,7 +259,7 @@ struct bgrt_priv_proc_t
     struct bgrt_priv_sync_t * sync;
     bgrt_cnt_t cnt_lock;    /*!<\~russian  Счётчик уровней вложенности #BGRT_PROC_LOCK. \~english A counter of #BGRT_PROC_LOCK nesting.*/
 #ifdef BGRT_CONFIG_MP
-    // Поля, специфичные для многопроцессорных систем;
+    /* Поля, специфичные для многопроцессорных систем;*/
     bgrt_cpuid_t core_id;    /*!<\~russian  Идентификатор процессора, на котором исполняется процесс. \~english An ID of a CPU that runs a process.*/
     bgrt_aff_t affinity;     /*!<\~russian  Аффинность (индекс процессоров, на котором может исполняться процесс). \~english An Affinity of a process.*/
     bgrt_lock_t lock;        /*!<\~russian  Спин блокировка процесса. \~english  A process spin-lock.*/
@@ -280,7 +280,7 @@ struct bgrt_priv_proc_t
 2) при удалении процесса из списка, без изменения полей кроме parent: блокировка списка
 3) при удалении процесса из списка, с изменениями полей кроме parent: 1-блокировка процесса, 2-блокировка списка
 */
-// Флаги
+/* Флаги*/
 /*!
 \~russian
 \brief Флаг реального времени.
@@ -409,7 +409,7 @@ Used to check if the process is waiting for synchronization.
 */
 #define BGRT_PROC_STATE_WAIT_MASK ((bgrt_flag_t)0x8)
 
-//process states
+/*process states*/
 #define BGRT_PROC_STATE_STOPED           ((bgrt_flag_t)0x0)   /*!< \~russian \brief Начальное состояние, остановлен. \~english \brief Initial state, stopped. */
 #define BGRT_PROC_STATE_END              ((bgrt_flag_t)0x1)   /*!< \~russian \brief Завершен. \~english \brief Normal process termination. */
 #define BGRT_PROC_STATE_READY            ((bgrt_flag_t)0x2)   /*!< \~russian \brief Готов к выполнению. \~english \brief Is ready to run. */
@@ -486,8 +486,8 @@ A process should not have locked resources at a moment of a flag stop.
 
 */
 #define BGRT_PROC_SET_STATE(a,b) ((a)->flags &= BGRT_PROC_STATE_CLEAR_MASK, (a)->flags |= b)
-// Методы
-// Управление счётчиком захваченных ресурсов, для внутреннего использования
+/* Методы*/
+/* Управление счётчиком захваченных ресурсов, для внутреннего использования*/
 /*!
 \~russian
 \brief Управление приоритетом процесса.
@@ -569,7 +569,7 @@ bgrt_st_t bgrt_priv_proc_init(
     bgrt_bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
 #ifdef BGRT_CONFIG_MP
     ,bgrt_aff_t affinity/*!< \~russian Аффинность. \~english A process affinity.*/
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 );
 /*!
 \brief \~russian Инициализация процесса. \~english A process initialization.
@@ -586,7 +586,7 @@ bgrt_st_t bgrt_proc_init(
     bgrt_bool_t is_rt        /*! \~russian Флаг реального времени, если true, значит процесс будет иметь поведение RT. \~english A real time flag. If true, then a process is scheduled in a real time manner.*/
 #ifdef BGRT_CONFIG_MP
     ,bgrt_aff_t affinity/*!< \~russian Аффинность. \~english A process affinity.*/
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 );
 /*!
 \~russian
@@ -693,7 +693,7 @@ If a real time process failed to reset its watchdog, then the scheduler stops su
 \warning For internal usage.
 */
 void bgrt_priv_proc_reset_watchdog(void);
-//===========================================================
+/*===========================================================*/
 /*!
 \~russian
 \brief Установка флага #BGRT_PROC_FLG_LOCK для вызывающего процесса.
@@ -758,4 +758,4 @@ void bgrt_priv_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
 \return - A process priority value.
 */
 bgrt_prio_t bgrt_priv_proc_get_prio(bgrt_proc_t * proc);
-#endif // BGRT_PROC_H
+#endif /*BGRT_PROC_H*/

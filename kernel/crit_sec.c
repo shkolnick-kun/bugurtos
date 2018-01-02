@@ -81,7 +81,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /* ADLINT:SF:[W0705] Yes, this code is unsafe! */
 
 #ifdef BGRT_CONFIG_MP
-// No need to spinlock sched as all changes are local!
+/* No need to spinlock sched as all changes are local! */
 bgrt_cpuid_t bgrt_priv_crit_sec_enter(void)
 {
     bgrt_cpuid_t ret;

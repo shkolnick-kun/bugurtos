@@ -1,9 +1,9 @@
 #ifndef BGRT_CONFIG_H
-// Example config file
+/* Example config file */
 #define BGRT_CONFIG_H
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 #ifndef __ASSEMBLER__
 
@@ -16,9 +16,9 @@
 
 typedef unsigned long bgrt_stack_t;
 
-///==================================================================
+/**================================================================*/
 ///               Edit this part carefully!!!
-///==================================================================
+/**================================================================*/
 
 // Max priority levels are defined by bgrt_map_t,
 // you must specify BGRT_BITS_IN_INDEX_T to show
@@ -51,13 +51,13 @@ typedef unsigned char bgrt_bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef volatile unsigned char bgrt_syscall_t;
-///=================================================================
-//     BuguRTOS behavior compilation flags, edit carefully!!!
-///=================================================================
+/**===============================================================*/
+/**     BuguRTOS behavior compilation flags, edit carefully!!!    */
+/**===============================================================*/
 #define BGRT_CONFIG_HARD_RT
-///=================================================================
+/**===============================================================*/
 ///     Project specific stuff, you are welcome to edit it!!!
-///=================================================================
+/**===============================================================*/
 #define BGRT_CONFIG_TEST  //This is test project.
 #define STM32F0
 #include <libopencmsis/core_cm3.h>
@@ -116,9 +116,9 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define SVH5 (bgrt_code_t)0
 #define RSH5 (bgrt_code_t)0
 
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 extern void kernel_preemt_hook(void);
 #define BGRT_KERNEL_PREEMPT() kernel_preemt_hook()

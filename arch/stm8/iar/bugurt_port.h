@@ -86,26 +86,26 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include "../../common/atm_gen_1.h"
 
-// Подстановка_строки
+/* Подстановка_строки */
 #define BGRT_ARG_TO_STR(a) #a
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
-// Пролог обработчика прерывания
+/* Пролог обработчика прерывания */
 #define BGRT_ISR_START()             \
     saved_sp = bugurt_save_context();\
     *current_sp = saved_sp
 
-// Эпилог обработчика прерывания
+/* Эпилог обработчика прерывания */
 #define BGRT_ISR_END()                     \
     bgrt_set_curr_sp();                    \
     bugurt_restore_context(*current_sp)
 
-// Подстановка вектора для шаблона обработчика прерывания
+/* Подстановка вектора для шаблона обработчика прерывания */
 #define BGRT_VECTOR_STR(v) BGRT_ARG_TO_STR(vector = (v))
 
-// Шаблон обёртки обработчика прерывания для внутреннего пользования
+/* Шаблон обёртки обработчика прерывания для внутреннего пользования */
 #define BGRT_TMPL_ISR(v,f)                                \
 _Pragma(BGRT_VECTOR_STR(v))                        \
 __interrupt void BGRT_CONCAT(vector_wrapper_,v)(void) \
@@ -139,4 +139,4 @@ extern void bugurt_restore_context(bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 
-#endif // BGRT_PORT_H
+#endif /*BGRT_PORT_H*/

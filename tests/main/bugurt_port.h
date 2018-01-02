@@ -13,4 +13,4 @@ extern bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk);
 extern bgrt_map_t BGRT_ATM_BCLR_ISR(bgrt_map_t * fic, bgrt_map_t msk);
 extern bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk);
 
-#endif // BGRT_PORT_H
+#endif /*BGRT_PORT_H*/

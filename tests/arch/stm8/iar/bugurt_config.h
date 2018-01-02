@@ -1,9 +1,9 @@
 #ifndef BGRT_CONFIG_H
 // Тестовый конфиг-файл, впоследствии будет заменён
 #define BGRT_CONFIG_H
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 #define BGRT_SC_TBL(a) const bgrt_scsr_t a
 #define BGRT_SC_TBL_READ(a) a
@@ -19,9 +19,9 @@ typedef unsigned char __near bgrt_stack_t;
 typedef unsigned char bgrt_stack_t;
 #endif
 
-///==================================================================
+/**================================================================*/
 ///               Edit this part carefully!!!
-///==================================================================
+/**================================================================*/
 
 // Max priority levels are defined by bgrt_map_t,
 // you must specify BGRT_BITS_IN_INDEX_T to show
@@ -47,7 +47,7 @@ typedef unsigned char bgrt_st_t;
 #define BGRT_CONFIG_CNT_MAX (0xffff)
 typedef unsigned short bgrt_cnt_t;
 
-// You can specify any unsigned type here.
+/* You can specify any unsigned type here. */
 typedef unsigned short bgrt_tmr_t;
 
 // Unsigned char is enough.
@@ -57,13 +57,13 @@ typedef unsigned char bgrt_bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef volatile unsigned char bgrt_syscall_t;
-///=================================================================
-//     BuguRTOS behavior compilation flags, edit carefully!!!
-///=================================================================
+/**===============================================================*/
+/**     BuguRTOS behavior compilation flags, edit carefully!!!    */
+/**===============================================================*/
 #define BGRT_CONFIG_HARD_RT
-///=================================================================
+/**===============================================================*/
 ///     Project specific stuff, you are welcome to edit it!!!
-///=================================================================
+/**===============================================================*/
 #define BGRT_CONFIG_TEST  //This is test project.
 #include <iostm8s208mb.h>///STM8 include!!!!
 #include <intrinsics.h>
@@ -109,9 +109,9 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define SVH5 (bgrt_code_t)0
 #define RSH5 (bgrt_code_t)0
 
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 extern void kernel_preemt_hook(void);
 #define BGRT_KERNEL_PREEMPT() kernel_preemt_hook()

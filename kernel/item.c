@@ -78,33 +78,33 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "item.h"
 /* ADLINT:SF:[W0422] Yes this code is unsafe!*/
-// bgrt_item_t methods.
-// Initiation
+/* bgrt_item_t methods. */
+/* Initiation */
 void bgrt_item_init(bgrt_item_t *item)
 {
     item->prev = item;
     item->next = item;
 }
-// Insert an item to a list
+/* Insert an item to a list*/
 void bgrt_item_insert(bgrt_item_t *item, bgrt_item_t *head)
 {
-    // A tail of a list
+    /* A tail of a list*/
     bgrt_item_t * tail;
     tail = head->prev;
-    // Insert an item between a head and a tail
+    /* Insert an item between a head and a tail */
     item->prev = tail;
     item->next = head;
 
     head->prev = item;
     tail->next = item;
 }
-//Cut an item
+/*Cut an item*/
 void bgrt_item_cut(bgrt_item_t *item)
 {
     bgrt_item_t * prev;
     bgrt_item_t * next;
-    prev = item->prev; //Previous item
-    next = item->next; //Next item
+    prev = item->prev; /*Previous item*/
+    next = item->next; /*Next item*/
 
     next->prev = prev;
     prev->next = next;

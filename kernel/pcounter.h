@@ -298,4 +298,4 @@ Decrease counter by a number of steps;
 \return 0 if correspondent counter is nulled, not 0 else.
 */
 bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
-#endif // BGRT_PCOUNTER_H
+#endif /*BGRT_PCOUNTER_H*/

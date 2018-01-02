@@ -399,4 +399,4 @@ Wake a process on timeout.
 */
 #define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid)
 /*****************************************************************************************/
-#endif // SYSCALL_API_H
+#endif /*SYSCALL_API_H*/

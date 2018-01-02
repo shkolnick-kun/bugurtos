@@ -86,13 +86,13 @@ static void _cnt_panic(void)
     while (1);
 }
 #   define BGRT_CNT_PANIC() _cnt_panic()
-#else  //BGRT_CONFIG_TEST
+#else  /*BGRT_CONFIG_TEST*/
 #   ifdef BGRT_CONFIG_PANIC
 #       define BGRT_CNT_PANIC() BGRT_CONFIG_PANIC()
 #   else
 #       define BGRT_CNT_PANIC() do{}while (0)
-#   endif //BGRT_CONFIG_PANIC
-#endif //BGRT_CONFIG_TEST
+#   endif /*BGRT_CONFIG_PANIC*/
+#endif /*BGRT_CONFIG_TEST*/
 
 bgrt_cnt_t bgrt_cnt_inc(bgrt_cnt_t val)
 {
@@ -146,8 +146,8 @@ bgrt_cnt_t bgrt_cnt_sub(bgrt_cnt_t a, bgrt_cnt_t b)
     }
 }
 
-// bgrt_pcounter_t methods
-// Initiation
+/* bgrt_pcounter_t methods*/
+/* Initiation*/
 void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 {
     bgrt_prio_t p;
@@ -157,13 +157,13 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
         pcounter->counter[p] = (bgrt_cnt_t)0;    /* ADLINT:SL:[W0705] Out of range access!*/
     }
 }
-// Increment
+/* Increment*/
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
     BGRT_CNT_INC(pcounter->counter[prio]);      /* ADLINT:SL:[W0705] Out of range access!*/
     pcounter->map |= ((bgrt_map_t)1)<<prio; /* ADLINT:SL:[W0572] Drop bits!*/
 }
-// Decrement
+/* Decrement*/
 bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
     bgrt_map_t mask;
@@ -178,14 +178,14 @@ bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
     }
     return pcounter->map & mask; /* ADLINT:SL:[W0272,W0301] */
 }
-// Multiple increment
+/* Multiple increment*/
 void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
     pcounter->map |= ((bgrt_map_t)1)<<prio;  /* ADLINT:SL:[W0572] */
 
     BGRT_CNT_ADD(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/
 }
-// Multiple decrement
+/* Multiple decrement*/
 bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
     bgrt_map_t mask;

@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _INDEX_H_
-#define _INDEX_H_
+#ifndef INDEX_H
+#define INDEX_H
 /*!
 \file
 \brief \~russian Заголовок функции поиска в бинарном индексе. \~english An map search header.
@@ -102,4 +102,4 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 bgrt_prio_t bgrt_map_search(bgrt_map_t map);
 
-#endif//_INDEX_H_
+#endif/*INDEX_H*/

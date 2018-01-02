@@ -113,9 +113,9 @@ static inline bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 static inline bgrt_map_t __bgrt_atm_bclr_isr(bgrt_map_t * fic, bgrt_map_t msk)
 {
     bgrt_map_t ret;
-    //Get states
+    /* Get states */
     ret = *fic & msk; /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
-    //Clear states
+    /* Clear states */
     *fic &= ~msk;     /* ADLINT:SL:[W0422,W0165,W0578] NULL ptr deref*/
     return ret;           /* ADLINT:SL:[W0256,W0268] ret type check fail*/
 }
@@ -131,6 +131,6 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 
 #ifndef BGRT_VINT_PUSH_ISR
 #   define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
-#endif //BGRT_VINT_PUSH_ISR
+#endif /*BGRT_VINT_PUSH_ISR*/
 
-#endif // BGRT_ATM_GEN_1_H
+#endif /*BGRT_ATM_GEN_1_H*/

@@ -1,9 +1,9 @@
 #ifndef BGRT_CONFIG_H
-// Example config file for avr-vsmp test architecture.
+/* Example config file for avr-vsmp test architecture. */
 #define BGRT_CONFIG_H
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -18,7 +18,7 @@
 #define BGRT_SC_TBL(a) const PROGMEM bgrt_scsr_t a
 #define BGRT_SC_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
 
-/// Another option is to allocate it in RAM.
+//* A nother option is to allocate it in RAM. */
 //#define BGRT_SC_TBL(a) const bgrt_scsr_t a
 //#define BGRT_SC_TBL_READ(a) a
 
@@ -32,9 +32,9 @@
 
 typedef unsigned char bgrt_stack_t;
 
-///==================================================================
+/**================================================================*/
 ///               Edit this part carefully!!!
-///==================================================================
+/**================================================================*/
 
 // Max priority levels are defined by bgrt_map_t,
 // you must specify BGRT_BITS_IN_INDEX_T to show
@@ -60,7 +60,7 @@ typedef unsigned char bgrt_st_t;
 #define BGRT_CONFIG_CNT_MAX (0xff)
 typedef unsigned short bgrt_cnt_t;
 
-// You can specify any volatile unsigned type here.
+/* You can specify any volatile unsigned type here. */
 typedef volatile unsigned short bgrt_tmr_t;
 
 // Unsigned char is enough.
@@ -90,15 +90,15 @@ typedef unsigned char bgrt_ls_t;
 // There is no reason to make it bigger.
 typedef unsigned char bgrt_load_t;
 
-///=================================================================
-///     BuguRTOS behavior compilation flags, edit carefully!!!
-///=================================================================
+/**===============================================================*/
+//**     BuguRTOS behavior compilation flags, edit carefully!!!    */
+/**===============================================================*/
 // Use "Hard real time" scheduling. RT processes a stopped
 // on watchdog expire, locked mutexes DO DNOT matter.
 #define BGRT_CONFIG_HARD_RT
 
 //#define BGRT_CONFIG_LB_SCHEME 0 // No load balancing during runtime
-#define BGRT_CONFIG_LB_SCHEME 1 // Active load balancing
+#define BGRT_CONFIG_LB_SCHEME 1 /* Active load balancing */
 //#define BGRT_CONFIG_LB_SCHEME 2 // Lazy load balancing
 
 #if (BGRT_CONFIG_LB_SCHEME == 1)
@@ -111,9 +111,9 @@ typedef unsigned char bgrt_load_t;
 #define BGRT_CONFIG_USE_LLB
 #endif
 
-///=================================================================
+/**===============================================================*/
 ///     Project specific stuff, you are welcome to edit it!!!
-///=================================================================
+/**===============================================================*/
 #define BGRT_CONFIG_TEST  //This is test project
 //*
 extern const struct bgrt_priv_proc_t * proc_base;

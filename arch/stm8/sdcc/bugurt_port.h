@@ -84,9 +84,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include "../../common/atm_gen_1.h"
 
-// Подстановка_строки
+/* Подстановка_строки */
 #define BGRT_ARG_TO_STR(a) #a
-// Конкатенация строк
+/* Конкатенация строк */
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
@@ -130,4 +130,4 @@ extern void bgrt_switch_context(void) __trap __naked;
 /* System timer ISR declaration */
 extern void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked;
 
-#endif // BGRT_PORT_H
+#endif /*BGRT_PORT_H*/

@@ -78,8 +78,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include <bugurt.h>
 
-// Платформозависимый код
-// Просто функции, специфичные для AVR
+/* Платформозависимый код*/
+/* Просто функции, специфичные для AVR*/
 
 bgrt_proc_t * bgrt_curr_proc(void)
 {
@@ -92,8 +92,10 @@ void bgrt_resched(void)
 }
 
 /******************************************************************************************************/
-// Код ядра
-//Временное хранилище для указателей стеков процессов.
+/*
+Код ядра
+Временное хранилище для указателей стеков процессов.
+*/
 bgrt_stack_t * saved_sp;
 bgrt_stack_t * kernel_sp;
 bgrt_stack_t ** current_sp = &kernel_sp;
@@ -111,7 +113,7 @@ void bgrt_switch_to_kernel(void)
 {
     BGRT_ISR_START();
 
-    // Обрабатываем системный вызов
+    /* Обрабатываем системный вызов*/
     BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
 
     BGRT_GOTO_KERNEL();
@@ -133,7 +135,7 @@ void bgrt_set_curr_sp(void)
     if (BGRT_KBLOCK.hpmap      ||
 #ifdef BGRT_CONFIG_USE_VIC
         BGRT_KBLOCK.vic.list.map ||
-#endif//BGRT_CONFIG_USE_VIC
+#endif/*BGRT_CONFIG_USE_VIC*/
         BGRT_KBLOCK.lpmap)
     {
         kernel_mode = 1;
@@ -170,7 +172,7 @@ void BGRT_SYSTEM_TIMER_ISR(void)
 }
 
 /***************************************************************************************************************/
-// Функции общего пользования
+/* Функции общего пользования*/
 
 void bgrt_init(void)
 {

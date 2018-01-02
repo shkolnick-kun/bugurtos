@@ -92,13 +92,13 @@ bgrt_stack_t * bgrt_proc_stack_init(
     void (*return_address)(void)
 )
 {
-    // return address (func)
+    /* return address (func) */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
 #if (__ROM_MODEL__ > 0)
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>16)& 0xFF);
 #endif
-    // process main
+    /* process main */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain>>8)& 0xFF);
 #if (__ROM_MODEL__ > 0)
@@ -106,18 +106,18 @@ bgrt_stack_t * bgrt_proc_stack_init(
 #else
     *bgrt_stack_top-- = 0x00;
 #endif
-    // Y
+    /* Y */
     *bgrt_stack_top-- = 0xAD;
     *bgrt_stack_top-- = 0xDE;
     /** WARNING: LARGE RAM MODEL IS NOT SUPPORTED IN THIS CODE!!! */
-    // X - 1st argument is placed in X
+    /* X - 1st argument is placed in X */
     *bgrt_stack_top-- = (bgrt_stack_t)((unsigned short)arg & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((unsigned short)arg>>8)& 0xFF);
-    // A
+    /* A */
     *bgrt_stack_top-- = 0xAA;
-    // CCR
-    *bgrt_stack_top-- = 0x20; //Interrupts are enabled
-    // ?BH ?BL ?CH ?CL
+    /* CCR */
+    *bgrt_stack_top-- = 0x20; /* Interrupts are enabled */
+    /* ?BH ?BL ?CH ?CL */
     *bgrt_stack_top-- = 0xC1;
     *bgrt_stack_top-- = 0xC0;
     *bgrt_stack_top-- = 0xB1;

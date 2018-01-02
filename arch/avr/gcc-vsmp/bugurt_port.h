@@ -118,9 +118,9 @@ static inline bgrt_map_t bgrt_atm_bget(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 static inline bgrt_map_t __bgrt_atm_bclr_isr(bgrt_map_t * fic, bgrt_map_t msk)
 {
     bgrt_map_t ret;
-    //Get states
+    /*Get states*/
     ret = *fic & msk; /* ADLINT:SL:[W0422,W0165] NULL ptr deref*/
-    //Clear states
+    /*Clear states*/
     *fic &= ~msk;     /* ADLINT:SL:[W0422,W0165,W0578] NULL ptr deref*/
     return ret;           /* ADLINT:SL:[W0256,W0268] ret type check fail*/
 }
@@ -139,12 +139,12 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 #define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
 #define BGRT_CURR_PROC bgrt_kernel.kblock[current_vm].sched.current_proc
 
-// Пролог обработчика прерывания
+/* Пролог обработчика прерывания*/
 #define BGRT_ISR_START()             \
     saved_sp = bugurt_save_context();\
     *current_sp = saved_sp
 
-// Эпилог обработчика прерывания
+/* Эпилог обработчика прерывания*/
 #define BGRT_ISR_END()                     \
     bgrt_set_curr_sp();                    \
     bugurt_restore_context(*current_sp); \
@@ -160,7 +160,7 @@ extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
-//Must use VIC for tests
+/*Must use VIC for tests*/
 #define BGRT_CONFIG_USE_VIC
 
-#endif // BGRT_PORT_H
+#endif /* BGRT_PORT_H*/

@@ -156,7 +156,7 @@ A kernel thread main function.
 \param kblock A #bgrt_kblock_t object pointer.
 */
 void bgrt_kblock_main(bgrt_kblock_t * kblock);
-//Ядро
+/*Ядро*/
 typedef struct bgrt_priv_kernel_t bgrt_kernel_t; /*!< \~russian Смотри #bgrt_priv_kernel_t; \~english See #bgrt_priv_kernel_t; */
 /*!
 \~russian
@@ -178,7 +178,7 @@ struct bgrt_priv_kernel_t
     bgrt_kstat_t stat;                /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
 #else
     bgrt_kblock_t kblock;               /*!< \~russian Планировщик. \~english The scheduler. */
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
     bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
 };
 /*!
@@ -195,7 +195,7 @@ The BuguRTOS kernel.
 It's the one for the entire system!
 */
 extern bgrt_kernel_t bgrt_kernel;
-// Методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -214,4 +214,4 @@ This function prepares the kernel to work.
 \warning Internal usage function.
 */
 void bgrt_kernel_init(void);
-#endif // BGRT_KERNEL_H
+#endif //*BGRT_KERNEL_H*/

@@ -131,10 +131,10 @@ A pointer to a void function, that takes void pointer as argument.
 */
 typedef void (* bgrt_code_t)(void *);
 /*
-//======================================================
-//                     ИНКЛЮДЫ
-//======================================================
-//BuguRTOS config (must be included first)
+======================================================
+                     ИНКЛЮДЫ
+======================================================
+BuguRTOS config (must be included first)
 */
 #include <bugurt_config.h>
 
@@ -234,7 +234,7 @@ A wrapper for #bgrt_resched function.
 #   ifndef BGRT_KERNEL_PREEMPT
 #       define BGRT_KERNEL_PREEMPT() bgrt_kblock_do_work(&bgrt_kernel.kblock[bgrt_curr_cpu()])
 #   endif
-#else //BGRT_CONFIG_MP
+#else /*BGRT_CONFIG_MP*/
 #   define BGRT_SPIN_INIT(arg) do{}while (0)
 #   define BGRT_SPIN_LOCK(arg) do{}while (0)
 #   define BGRT_SPIN_FREE(arg) do{}while (0)
@@ -242,11 +242,13 @@ A wrapper for #bgrt_resched function.
 #   ifndef BGRT_KERNEL_PREEMPT
 #       define BGRT_KERNEL_PREEMPT() bgrt_kblock_do_work(&bgrt_kernel.kblock)
 #   endif
-#endif //BGRT_CONFIG_MP
-//======================================================
-//   Внешние функции, определяемые пользователем
-//        User defined external functions
-//======================================================
+#endif /*BGRT_CONFIG_MP*/
+/*
+======================================================
+   Внешние функции, определяемые пользователем
+        User defined external functions
+======================================================
+*/
 #ifdef BGRT_CONFIG_MP
 
 /*!
@@ -327,8 +329,8 @@ This function returns an id of a processor core on which it is run.
 */
 extern bgrt_cpuid_t bgrt_curr_cpu(void);
 
-// Доступ к объектам типа bgrt_ls_t должен быть атомарным!!!
-// A bgrt_ls_t access must be atomic!!!
+/* Доступ к объектам типа bgrt_ls_t должен быть атомарным!!!*/
+/* A bgrt_ls_t access must be atomic!!! */
 /*!
 \~russian
 \brief
@@ -464,7 +466,7 @@ Launches a reschedule sequence on one of the processor cores of the system.
 \param core_id a processor core id.
 */
 extern void bgrt_resched(bgrt_cpuid_t core_id);
-#else //#ifdef BGRT_CONFIG_SAVE_POWER
+#else /* #ifdef BGRT_CONFIG_SAVE_POWER */
 
 /*!
 \~russian
@@ -484,7 +486,7 @@ Launches a reschedule sequence.
 \warning Internal usage function.
 */
 extern void bgrt_resched(void);
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 
 /*!
 \~russian
@@ -601,4 +603,4 @@ extern bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg);
 Kernel to process context switch.
 */
 extern void bgrt_switch_to_proc(void);
-#endif //BGRT_H
+#endif /*BGRT_H*/

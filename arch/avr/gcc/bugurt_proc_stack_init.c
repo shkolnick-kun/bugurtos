@@ -86,7 +86,7 @@ bgrt_stack_t * bgrt_proc_stack_init(
 )
 {
     bgrt_stack_t * tos = (bgrt_stack_t *)sstart;
-    // return address
+    /* return address */
     unsigned short tmp;
 
     tmp = (unsigned short)return_address;
@@ -99,11 +99,11 @@ bgrt_stack_t * bgrt_proc_stack_init(
     tmp>>=8;
     *tos-- = (bgrt_stack_t)(tmp&(unsigned short)0x00ff);
 
-    // s
+    /* s */
     *tos-- = 0x00;
-    *tos-- = 0x00;// r1 must B 0
-    *tos-- = 0x02;// r2
-    *tos-- = 0x80;// SREG: enable interrupts
+    *tos-- = 0x00;/* r1 must B 0 */
+    *tos-- = 0x02;/* r2 */
+    *tos-- = 0x80;/* SREG: enable interrupts */
     *tos-- = 0x03;
     *tos-- = 0x04;
     *tos-- = 0x05;
@@ -127,9 +127,9 @@ bgrt_stack_t * bgrt_proc_stack_init(
     *tos-- = 0x23;
 
     tmp = (unsigned short)arg;
-    *tos-- = (bgrt_stack_t)(tmp&(unsigned short)0x00ff); // r24 LSByte of arg
+    *tos-- = (bgrt_stack_t)(tmp&(unsigned short)0x00ff); /* r24 LSByte of arg*/
     tmp>>=8;
-    *tos-- = (bgrt_stack_t)(tmp&(unsigned short)0x00ff); // r25 MSByte of arg
+    *tos-- = (bgrt_stack_t)(tmp&(unsigned short)0x00ff); /* r25 MSByte of arg*/
 
     *tos-- = 0x26;
     *tos-- = 0x27;

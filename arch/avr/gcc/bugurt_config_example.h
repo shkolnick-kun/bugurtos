@@ -1,9 +1,9 @@
 #ifndef BGRT_CONFIG_H
-// Example config file
+/* Example config file */
 #define BGRT_CONFIG_H
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -14,7 +14,7 @@
 #include <avr/pgmspace.h>
 #define BGRT_SC_TBL(a) const PROGMEM bgrt_scsr_t a
 #define BGRT_SC_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
-// Another option is to allocate it in RAM
+/* A nother option is to allocate it in RAM */
 //#define BGRT_SC_TBL(a) const bgrt_scsr_t a
 //#define BGRT_SC_TBL_READ(a) a
 
@@ -29,9 +29,9 @@
 
 typedef unsigned char bgrt_stack_t;
 
-///==================================================================
+/**================================================================*/
 ///               Edit this part carefully!!!
-///==================================================================
+/**================================================================*/
 
 // Max priority levels are defined by bgrt_map_t,
 // you must specify BGRT_BITS_IN_INDEX_T to show
@@ -57,7 +57,7 @@ typedef unsigned char bgrt_st_t;
 #define BGRT_CONFIG_CNT_MAX (255)
 typedef unsigned short bgrt_cnt_t;
 
-// You can specify any volatile unsigned type here.
+/* Y ou can specify any volatile unsigned type here.*/
 typedef volatile unsigned short bgrt_tmr_t;
 
 // Unsigned char is enough.
@@ -67,18 +67,18 @@ typedef unsigned char bgrt_bool_t;
 // Unsigned char is enough.
 // There is no reason to make it bigger.
 typedef unsigned char bgrt_syscall_t;
-///=================================================================
-//     BuguRTOS behavior compilation flags, edit carefully!!!
-///=================================================================
+/**===============================================================*/
+/**     BuguRTOS behavior compilation flags, edit carefully!!!    */
+/**===============================================================*/
 
 #define BGRT_CONFIG_NEW_KERNEL
 
 #define BGRT_CONFIG_HARD_RT
 #define BGRT_CONFIG_USER_IDLE
 #define BGRT_CONFIG_PREEMPTIVE_KERNEL
-///=================================================================
+/**===============================================================*/
 ///     Project specific stuff, you are welcome to edit it!!!
-///=================================================================
+/**===============================================================*/
 #define BGRT_CONFIG_TEST  //This is test project
 #define BGRT_SYSTEM_TIMER_ISR TIMER2_COMPA_vect
 #define BGRT_START_SCHEDULER() (TIMSK2 |= 0x02)
@@ -166,9 +166,9 @@ extern void(*test_kernel_preempt)(void);
 #define blink_G3() (PORTD ^= 0x40)
 #define G3_on() (PORTD |= 0x40)
 #define G3_off() (PORTD &= ~0x40)
-///==================================================================
-///               Don't edit this part of the file!!!
-///==================================================================
+/**================================================================*/
+/**               Don't edit this part of the file!!!              */
+/**================================================================*/
 
 
 #endif //__ASSEMBLER__

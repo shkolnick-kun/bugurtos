@@ -112,4 +112,4 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk)
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push
 
-#endif // ATM_CORTEX_M34_1_H
+#endif /*ATM_CORTEX_M34_1_H*/

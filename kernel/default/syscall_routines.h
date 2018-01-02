@@ -184,7 +184,7 @@ BGRT_SC_SR(PROC_GET_ID,  void * arg)
 BGRT_SC_SR(SYNC_SET_OWNER,  bgrt_va_wr_t * va)
 {
     bgrt_sync_t * sync;
-    BGRT_PID_T pid; //BGRT_PID_TO_PROC macro must get only the value!!!
+    BGRT_PID_T pid; /* BGRT_PID_TO_PROC macro must get only the value!!! */
 
     sync = (bgrt_sync_t *)va_arg(va->list, void *);
     pid = (BGRT_PID_T)va_arg(va->list, void *);
@@ -312,4 +312,4 @@ BGRT_SC_SR(USER, bgrt_va_wr_t* va)/* ADLINT:SL:[W0031] va is used!!!*/
 
     return ret;
 }
-#endif //BGRT_SCR_H
+#endif /*BGRT_SCR_H*/

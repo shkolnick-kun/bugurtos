@@ -92,9 +92,9 @@ A scheduler header.
 
 \warning All functions in this file are internal usage functions!!!
 */
-// Планировщик
+/*Планировщик*/
 typedef struct bgrt_priv_sched_t bgrt_sched_t; /*!< \~russian Смотри #bgrt_priv_sched_t; \~english See #bgrt_priv_sched_t; */
-// Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -117,9 +117,9 @@ struct bgrt_priv_sched_t
     bgrt_cnt_t nested_crit_sec;    /*!< \~russian Счётчик вложенности критических секций. \~english A critical section nesting count. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;                /*!< \~russian Спин-блокировка планировщика. \~english A scheduler spin-lock. */
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 };
-// Методы
+/*Методы*/
 
 
 /*!
@@ -256,7 +256,7 @@ If there is another running process, this function passes control to it.
 bgrt_bool_t bgrt_sched_proc_yield(void);
 
 #ifdef BGRT_CONFIG_MP
-//CPU load information
+/*CPU load information*/
 typedef struct bgrt_priv_kstat_t bgrt_kstat_t; /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
 struct bgrt_priv_kstat_t
 {
@@ -264,7 +264,7 @@ struct bgrt_priv_kstat_t
     bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
 };
 
-// Балансировщик нагрузки
+/*Балансировщик нагрузки*/
 /*!
 \~russian
 \brief Балансировщик нагрузки.
@@ -332,9 +332,9 @@ bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat);
 */
 void bgrt_priv_sched_proc_set_core(bgrt_proc_t * proc);
 #define BGRT_SCHED_PROC_SET_CORE(proc) bgrt_priv_sched_proc_set_core(proc)
-#else  // BGRT_CONFIG_MP
+#else  /*BGRT_CONFIG_MP*/
 #define BGRT_SCHED_PROC_SET_CORE(proc) do{}while (0)
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 
 #if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
 /************************************
@@ -393,6 +393,6 @@ void bgrt_sched_lazy_local_load_balancer(void);
 Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
 */
 void bgrt_sched_lazy_global_load_balancer(void);
-#endif // BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB
+#endif /* BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB */
 
-#endif // BGRT_SCHED_H
+#endif /*BGRT_SCHED_H*/

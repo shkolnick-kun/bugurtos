@@ -107,16 +107,16 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_KBLOCK bgrt_kernel.kblock
 #define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
 
-// Пролог обработчика прерывания
+/* Пролог обработчика прерывания */
 #define BGRT_ISR_START() do{}while(0)
 
-// Эпилог обработчика прерывания
+/* Эпилог обработчика прерывания */
 #define BGRT_ISR_END()                    \
     do{                                   \
         BGRT_SYS_ICSR |= BGRT_PENDSV_SET; \
     }while(0)
 
-// Шаблон обработчика прерывания для внутреннего пользования
+/* Шаблон обработчика прерывания для внутреннего пользования */
 #define BGRT_TMPL_ISR(v,f) \
 void v(void)           \
 {                      \
@@ -139,4 +139,4 @@ void BGRT_CONCAT(v,_func)(void);  \
 BGRT_TMPL_ISR(v,BGRT_CONCAT(v,_func)) \
 void BGRT_CONCAT(v,_func)(void)
 
-#endif //BGRT_PORT_H
+#endif /*BGRT_PORT_H*/

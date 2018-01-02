@@ -12,27 +12,27 @@ bgrt_stack_t * bgrt_proc_stack_init(
     void (*return_address)(void)
 )
 {
-    //main arg
+    /* main arg */
     *bgrt_stack_top-- = (bgrt_stack_t)((unsigned short)arg & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((unsigned short)arg>>8)& 0xFF);
-    // return address (func)
+    /* return address (func) */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
-    // process main
+    /* process main */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain>>8)& 0xFF);
     *bgrt_stack_top-- = 0x00;
-    // Y
+    /* Y */
     *bgrt_stack_top-- = 0xAD;
     *bgrt_stack_top-- = 0xDE;
     /** WARNING: LARGE RAM MODEL IS NOT SUPPORTED IN THIS CODE!!! */
-    // X - 1st argument is placed in X
+    /* X - 1st argument is placed in X */
     *bgrt_stack_top-- = 0xBE;
     *bgrt_stack_top-- = 0xAF;
-    // A
+    /* A */
     *bgrt_stack_top-- = 0xAA;
-    // CCR
-    *bgrt_stack_top-- = 0x20; //Interrupts are enabled
+    /* CCR */
+    *bgrt_stack_top-- = 0x20; /* Interrupts are enabled */
     //Dummy bytes, as after bgrt_isr_epilogue [addw sp, #2] is done
     *bgrt_stack_top-- = 0xFF;
     *bgrt_stack_top-- = 0xFF;

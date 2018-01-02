@@ -105,7 +105,7 @@ struct bgrt_priv_ktimer_t
     bgrt_tmr_t val;               /*!< \~russian Значение. \~english A value. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
-#endif // BGRT_CONFIG_MP
+#endif /*BGRT_CONFIG_MP*/
 };
 // Работа с программными таймерами
 /*!

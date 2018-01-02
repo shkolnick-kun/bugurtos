@@ -125,7 +125,7 @@ void main_bgrt_proc_test(void * arg)
     BGRT_PROC_RUN(PID5);
 
     bgrt_wait_time(20);
-    // All processes of interest are waiting for signal now!
+    /* All processes of interest are waiting for signal now! */
     // sig_signal test 6
     test_var_sig = 0;
     test_hook = test_running;
