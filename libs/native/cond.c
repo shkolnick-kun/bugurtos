@@ -101,7 +101,7 @@ bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
         return BGRT_ST_ENULL;
     }
 
-    BGRT_PROC_LOCK(); //Don't stop caller until wakeup!
+    BGRT_PROC_LOCK(); /*Don't stop caller until wakeup!*/
 
     BGRT_SYNC_TOUCH(cond);
 
@@ -109,14 +109,14 @@ bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
 
     if (BGRT_ST_EOWN == ret)
     {
-        BGRT_PROC_FREE(); //May stop as error occurred!
+        BGRT_PROC_FREE(); /*May stop as error occurred!*/
     }
     else
     {
         bgrt_flag_t touch = 1;
 
         ret = BGRT_SYNC_SLEEP(cond, &touch);
-        BGRT_PROC_FREE(); //Now may stop!
+        BGRT_PROC_FREE(); /*Now may stop!*/
 
         bgrt_mtx_lock(mutex);
     }

@@ -158,7 +158,7 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
         {
             bgrt_priv_sync_touch((bgrt_sync_t *)sem);
             BGRT_SPIN_FREE(sem);
-            //Now goto state 1
+            /*Now goto state 1*/
             *touch = (bgrt_flag_t)1;
             *state = (bgrt_flag_t)1;
         }
@@ -197,7 +197,7 @@ bgrt_st_t bgrt_sem_lock(bgrt_sem_t * sem)
 static bgrt_st_t _sem_free_body(bgrt_sem_t *sem)
 {
     bgrt_st_t ret;
-    // Now we can wake some process.)
+    /*Now we can wake some process.*/
     ret = bgrt_priv_sync_wake((bgrt_sync_t *)sem, (bgrt_proc_t *)0, (bgrt_flag_t)0);
     if (BGRT_ST_EEMPTY == ret)
     {
@@ -243,7 +243,7 @@ bgrt_st_t bgrt_sem_free_cs(bgrt_sem_t * sem)
     }
 
     BGRT_SPIN_LOCK(sem);
-    //Check owner
+    /*Check owner*/
     if (((bgrt_sync_t *)sem)->owner)
     {
         ret = BGRT_ST_EOWN;

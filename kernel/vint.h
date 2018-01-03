@@ -76,23 +76,23 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _VINT_H_
-#define _VINT_H_
+#ifndef VINT_H
+#define VINT_H
 
 #ifndef BGRT_VINT_CS_START
 #   define BGRT_VINT_CS_START() BGRT_INT_LOCK()
-#endif //BGRT_VINT_CS_START
+#endif /*BGRT_VINT_CS_START*/
 
 #ifndef BGRT_VINT_CS_END
 #   define BGRT_VINT_CS_END() BGRT_INT_FREE()
-#endif //BGRT_VINT_CS_END
+#endif /*BGRT_VINT_CS_END*/
 /*!
 \file
 \brief \~russian Заголовок виртуальных прерываний. \~english A virtual interrupt header.
 */
-//Виртуальное прерывание
+/*Виртуальное прерывание*/
 typedef struct bgrt_priv_vint_t bgrt_vint_t;
-//Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -109,9 +109,9 @@ struct bgrt_priv_vint_t
     void * arg;          /*!< \~russian Аргумент обработчика. \~english A virtual ISR arg. */
 };
 
-//Виртуальный контроллер прерываний
+/*Виртуальный контроллер прерываний*/
 typedef struct bgrt_priv_vic_t bgrt_vic_t;
-//Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -127,7 +127,7 @@ struct bgrt_priv_vic_t
     bgrt_prio_t  prio; /*!< \~russian Текущий приоритет. \~english Current priority. */
 };
 
-//Методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -250,4 +250,4 @@ Virtual interrupt processing.
 \param vic A pointer to a #bgrt_vic_t object.
 */
 void bgrt_vic_do_work(bgrt_vic_t * vic);
-#endif // _VINT_H_
+#endif /*VINT_H*/

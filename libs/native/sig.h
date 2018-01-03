@@ -84,9 +84,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 #include <bugurt.h>
 #include "cond.h"
-//Сигнал
+/*Сигнал*/
 typedef struct _sig_t sig_t; /*!< \~russian Смотри #_sig_t; \~english See #_sig_t; */
-// Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -197,4 +197,4 @@ This function launches all processes waiting for certain signal.
 */
 bgrt_st_t sig_broadcast(sig_t * sig);
 
-#endif // SIG_H
+#endif /*SIG_H*/

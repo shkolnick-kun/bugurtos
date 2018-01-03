@@ -85,7 +85,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <bugurt.h>
 
 typedef struct bgrt_priv_ipc_t bgrt_ipc_t;/*!< \~russian Смотри #bgrt_priv_ipc_t; \~english See #bgrt_priv_ipc_t; */
-// Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -104,8 +104,8 @@ struct bgrt_priv_ipc_t
     bgrt_sync_t wait; /*!< \~russian Список ожидающих процессов. \~english A list of waiting processes.  */
     void * msg;  /*!< \~russian Указатель на буфер с сообщением. \~english A message buffer pointer. */
 };
-// Методы
-// Инициализация
+/*Методы*/
+/*Инициализация*/
 /*!
 \~russian
 \brief
@@ -204,4 +204,4 @@ Unblock a sender process, which message has been received.
 */
 bgrt_st_t bgrt_ipc_reply(bgrt_ipc_t * in, BGRT_PID_T pid);
 
-#endif // IPC_H
+#endif /*IPC_H*/

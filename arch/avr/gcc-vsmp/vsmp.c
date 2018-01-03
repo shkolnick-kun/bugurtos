@@ -91,8 +91,8 @@ hook_t vsmp_systimer_hook;
 
 void vsmp_vm_init(vsmp_vm_t * vm, bgrt_stack_t * sp, bgrt_stack_t * int_sp)
 {
-    vm->int_fifo = (bgrt_item_t *)0; // Нет прерываний;
-    vm->int_enabled = 1;// прерывания разрешены
+    vm->int_fifo = (bgrt_item_t *)0; /*Нет прерываний;*/
+    vm->int_enabled = 1;/*прерывания разрешены*/
     vm->sp = (bgrt_stack_t *)sp;
     vm->int_sp = (bgrt_stack_t *)int_sp;
     vm->int_nest_count = (bgrt_cnt_t)0;

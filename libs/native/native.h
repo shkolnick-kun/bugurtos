@@ -40,10 +40,10 @@ static inline bgrt_prio_t bgrt_proc_get_prio(BGRT_PID_T * pid)/*!< \~russian \br
     return ret;
 }
 
-//Sync primitives
+/*Sync primitives*/
 #include "ipc.h"
 #include "sem.h"
 #include "mutex.h"
 #include "cond.h"
 
-#endif // NATIVE_H
+#endif /*NATIVE_H*/

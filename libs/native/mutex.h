@@ -83,7 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок мьютексов. \~english A mutex header.
 */
 #include <bugurt.h>
-//Мьютекс
+/*Мьютекс*/
 typedef struct bgrt_priv_mtx_t bgrt_mtx_t; /*!< \~russian Смотри #bgrt_priv_mtx_t; \~english See #bgrt_priv_mtx_t; */
 /*!
 \~russian
@@ -110,7 +110,7 @@ struct bgrt_priv_mtx_t
 {
     bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
 };
-// Методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -205,4 +205,4 @@ If a mutex wait list is empty, then caller process frees a mutex, else mutex wai
 */
 bgrt_st_t bgrt_mtx_free(bgrt_mtx_t * mutex);
 
-#endif // MUTEX_H
+#endif /*MUTEX_H*/

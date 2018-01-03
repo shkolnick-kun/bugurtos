@@ -84,7 +84,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 
 typedef struct bgrt_priv_sync_t bgrt_sync_t; /*!< \~russian Смотри #bgrt_priv_sync_t; \~english See #bgrt_priv_sync_t; */
-// Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -119,7 +119,7 @@ struct bgrt_priv_sync_t
     bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
 #endif /*BGRT_CONFIG_MP*/
 };
-// Методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -270,4 +270,4 @@ Watch #BGRT_SYNC_PROC_TIMEOUT.
 \warning For internal usage.
 */
 bgrt_st_t bgrt_priv_sync_proc_timeout(bgrt_proc_t * proc);
-#endif // BGRT_SYNC_H
+#endif /*BGRT_SYNC_H*/

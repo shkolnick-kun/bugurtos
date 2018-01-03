@@ -116,10 +116,10 @@ typedef unsigned char bgrt_load_t;
  */
 #define BGRT_CONFIG_HARD_RT
 /*
-#define BGRT_CONFIG_LB_SCHEME 0 // No load balancing during runtime
+#define BGRT_CONFIG_LB_SCHEME 0 /*No load balancing during runtime*/
 #define BGRT_CONFIG_LB_SCHEME 1 /* Active load balancing */
 */
-#define BGRT_CONFIG_LB_SCHEME 2 // Lazy load balancing
+#define BGRT_CONFIG_LB_SCHEME 2 /*Lazy load balancing*/
 
 #if (BGRT_CONFIG_LB_SCHEME == 1)
 /*
@@ -137,13 +137,12 @@ typedef unsigned char bgrt_load_t;
         Project specific stuff, you are welcome to edit it!!!
 *******************************************************************/
 #define BGRT_CONFIG_TEST  /*This is test project*/
-//*
+
 extern const struct bgrt_priv_proc_t * proc_base;
 #define BGRT_PID_T bgrt_cnt_t
 #define BGRT_PID_NOTHING ((BGRT_PID_T)0)
 #define BGRT_PID_TO_PROC(p) ((BGRT_PID_NOTHING!=p)?((bgrt_proc_t *)proc_base + (p-1)):((bgrt_proc_t *)0))
 #define BGRT_PROC_TO_PID(p) ((p)?(1 + (bgrt_cnt_t)(p - (bgrt_proc_t *)proc_base)):(BGRT_PID_NOTHING))
-//*/
 
 #define PID0 BGRT_PROC_TO_PID(&proc[0])
 #define PID1 BGRT_PROC_TO_PID(&proc[1])

@@ -89,7 +89,7 @@ void bgrt_priv_clear_timer(bgrt_tmr_t * t)
     BGRT_SPIN_FREE(&bgrt_kernel.timer);
     BGRT_CRIT_SEC_EXIT();
 }
-//===========================================================================
+/*===========================================================================*/
 bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t)
 {
     bgrt_tmr_t ret;
@@ -104,7 +104,7 @@ bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t)
     return ret;
 }
 
-//===========================================================================
+/*===========================================================================*/
 void bgrt_wait_time(bgrt_tmr_t time)
 {
     bgrt_tmr_t tmr;
@@ -118,8 +118,8 @@ void bgrt_wait_time(bgrt_tmr_t time)
 #   else /* BGRT_CONFIG_SAVE_POWER */
         bgrt_sched_proc_yield(); /* ADLINT:SL:[W1073] retval discarded*/
 #   endif /* BGRT_CONFIG_SAVE_POWER */
-#endif // BGRT_CONFIG_TEST
+#endif /*BGRT_CONFIG_TEST*/
         roll = (bgrt_bool_t)(BGRT_TIMER(tmr) < (bgrt_tmr_t)time); /* ADLINT:SL:[W0608] minus converted */
     }
 }
-//===========================================================================
+/*===========================================================================*/

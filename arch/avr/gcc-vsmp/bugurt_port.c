@@ -137,7 +137,7 @@ void bgrt_spin_lock(bgrt_lock_t * lock)
         sei();
     }
     while (i);
-    for(i=0;i<1000;i++);//_delay_us(1100);// delay, all other vms must spin for a while
+    for(i=0;i<1000;i++);/*_delay_us(1100);// delay, all other vms must spin for a while*/
 }
 void bgrt_spin_free(bgrt_lock_t * lock)
 {

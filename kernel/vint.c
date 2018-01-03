@@ -90,7 +90,7 @@ void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void
 void bgrt_vic_init(bgrt_vic_t * vic)
 {
     bgrt_xlist_init((bgrt_xlist_t *)vic);
-    //Must be LOWER, than lowest valid priority
+    /*Must be LOWER, than lowest valid priority*/
     vic->prio = BGRT_PRIO_LOWEST + 1 ; /* ADLINT:SL:[W0165] signed/unsigned*/
 }
 
@@ -110,11 +110,11 @@ bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic)
 bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
 {
     bgrt_st_t ret;
-    //Everything is done on local CPU core, just disable interrupts.
+    /*Everything is done on local CPU core, just disable interrupts.*/
     BGRT_VINT_CS_START();
-    //Insert
+    /*Insert*/
     ret = bgrt_vint_push_isr(vint, vic);
-    //May enable interrupts
+    /*May enable interrupts*/
     BGRT_VINT_CS_END();
     return ret;
 }
@@ -122,14 +122,14 @@ bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
 static bgrt_vint_t * _vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
 {
     bgrt_pitem_t * work;
-    //Everything is done on local CPU core, just disable interrupts.
+    /*Everything is done on local CPU core, just disable interrupts.*/
     BGRT_VINT_CS_START();
-    //Get list head
+    /*Get list head*/
     work = (bgrt_pitem_t *)bgrt_xlist_head((bgrt_xlist_t *)vic);
-    //Is there any work?
+    /*Is there any work?*/
     if (work)
     {
-        //Do only higher priority work...
+        /*Do only higher priority work...*/
         if (work->prio < lprio)
         {
             bgrt_pitem_cut(work);
@@ -139,9 +139,9 @@ static bgrt_vint_t * _vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
             work = (bgrt_pitem_t *)0;/* ADLINT:SL:[W0567] type conversion*/
         }
     }
-    //May enable interrupts
+    /*May enable interrupts*/
     BGRT_VINT_CS_END();
-    //We must return virtual interrupt
+    /*We must return virtual interrupt*/
     return (bgrt_vint_t *)work;
 }
 
@@ -152,20 +152,20 @@ bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic)
 
     lprio = vic->prio;
     work = _vint_pop(vic,lprio);
-    //Is there any work?
+    /*Is there any work?*/
     if (work)
     {
-        //func is used twice, so...
+        /*func is used twice, so...*/
         bgrt_code_t func;
         func = work->func;
-        //Is it valid?
+        /*Is it valid?*/
         if (func)
         {
-            //Remember current priority
+            /*Remember current priority*/
             vic->prio = ((bgrt_pitem_t *)work)->prio;
-            // Do work.
+            /*Do work.*/
             func(work->arg);
-            //A work is done, remind last priority.
+            /*A work is done, remind last priority.*/
             vic->prio = lprio;
         }
         return BGRT_ST_ROLL;

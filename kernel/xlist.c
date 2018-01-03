@@ -85,22 +85,22 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 Всегда вызывать при запрещённых прерываниях!!!
 **********************************************/
-//Инициация
+/*Инициация*/
 void bgrt_xlist_init(
     bgrt_xlist_t * xlist
 )
 {
     bgrt_cnt_t i;
-    //xlist is empty
+    /*xlist is empty*/
     xlist->map = (bgrt_map_t)0;
-    //all sublists are empty
+    /*all sublists are empty*/
     for (i = 0; i < BGRT_BITS_IN_INDEX_T; i++) /* ADLINT:SL:[W0168] type conversion */
     {
         xlist->item[i] = (bgrt_item_t *)0;     /* ADLINT:SL:[W0567] type conversion */
     }
 }
-//===========================================================================
-//Find the head.
+/*===========================================================================*/
+/*Find the head.*/
 bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
 {
     bgrt_item_t * ret_val = (bgrt_item_t *)0; /* ADLINT:SL:[W0567] type conversion*/
@@ -113,12 +113,12 @@ bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
     }
     return ret_val;
 }
-//===========================================================================
-// Switch sublist head
+/*===========================================================================*/
+/*Switch sublist head*/
 void bgrt_xlist_switch(bgrt_xlist_t * xlist, bgrt_prio_t prio)
 {
     bgrt_item_t ** current;
     current = xlist->item + prio;
     *current = (*current)->next;
-    //*current = (bgrt_item_t *)*(bgrt_item_t **)*(bgrt_item_t ***)current;
+    /* *current = (bgrt_item_t *)*(bgrt_item_t **)*(bgrt_item_t ***)current; */
 }

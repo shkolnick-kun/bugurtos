@@ -83,9 +83,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок счётных семафоров. \~english A counting semaphores header.
 */
 #include <bugurt.h>
-//Семафор
+/*Семафор*/
 typedef struct bgrt_priv_sem_t bgrt_sem_t;/*!< \~russian Смотри #bgrt_priv_sem_t; \~english See #bgrt_priv_sem_t; */
-// Свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -106,13 +106,13 @@ struct bgrt_priv_sem_t
 {
     bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_cnt_t counter;/*!< \~russian Счётчик ресурсов. \~english A resource counter. */
-    //bgrt_cnt_t blocked;/*!< \~russian Счётчик блокированных процессов. \~english A blocked process counter. */
+    /*bgrt_cnt_t blocked;/*!< \~russian Счётчик блокированных процессов. \~english A blocked process counter. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
 #endif /* BGRT_CONFIG_MP */
 };
-// Методы
-// Инициализация
+/*Методы*/
+/*Инициализация*/
 /*!
 \~russian
 \brief
@@ -239,4 +239,4 @@ else semaphore wait list head will be launched.
 */
 bgrt_st_t bgrt_sem_free_cs(bgrt_sem_t * sem);
 
-#endif // SEM_H
+#endif /*SEM_H*/

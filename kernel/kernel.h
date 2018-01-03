@@ -214,4 +214,4 @@ This function prepares the kernel to work.
 \warning Internal usage function.
 */
 void bgrt_kernel_init(void);
-#endif //*BGRT_KERNEL_H*/
+#endif /*BGRT_KERNEL_H*/

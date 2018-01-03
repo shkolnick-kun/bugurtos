@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _SYSCALL_H_
-#define _SYSCALL_H_
+#ifndef SYSCALL_H
+#define SYSCALL_H
 /*!
 \file
 \brief \~russian Заголовок системных вызовов.
@@ -103,7 +103,7 @@ typedef enum
 typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                         /*!< \~russian \brief Указатель на обработчик системного вызова. \~english \brief System call service routine pointer. */
 
 #include <stdarg.h>
-//A wrapper for va_list, used to transfer a pointer to bgrt_syscall
+/*A wrapper for va_list, used to transfer a pointer to bgrt_syscall*/
 typedef struct
 {
     va_list list;
@@ -198,11 +198,11 @@ A system call macro, see #bgrt_syscall_var.
 */
 #define BGRT_SYSCALL_NVAR(sc_name,...) bgrt_syscall_var(BGRT_SC_ID(sc_name), __VA_ARGS__)
 
-//User may write his own system calls
+/*User may write his own system calls*/
 #ifdef BGRT_CONFIG_CUSTOM_SYSCALL
 #   include <custom_syscall_api.h>
 #else
-#   include <default/syscall_api.h> //Default system call dispatcher
-#endif//BGRT_CONFIG_USER_SYSCALL
+#   include <default/syscall_api.h> /*Default system call dispatcher*/
+#endif/*BGRT_CONFIG_USER_SYSCALL*/
 
-#endif // _SYSCALL_H_
+#endif /*SYSCALL_H*/

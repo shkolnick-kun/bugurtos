@@ -76,8 +76,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef TIMER_H
+#define TIMER_H
 
 /*!
 \file
@@ -107,7 +107,7 @@ struct bgrt_priv_ktimer_t
     bgrt_lock_t lock;             /*!< \~russian Спин-блокировка. \~english A spin-lock. */
 #endif /*BGRT_CONFIG_MP*/
 };
-// Работа с программными таймерами
+/*Работа с программными таймерами*/
 /*!
 \brief
 \~russian
@@ -156,7 +156,7 @@ Caller process spins in a loop for a time.
 \param time Wait time.
 */
 void bgrt_wait_time(bgrt_tmr_t time);
-// Для внутреннего пользования
+/*Для внутреннего пользования*/
 
 /*!
 \~russian
@@ -195,4 +195,4 @@ Get software timer value.
 \param t A timer value.
 */
 bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t);
-#endif // _TIMER_H_
+#endif /*TIMER_H*/

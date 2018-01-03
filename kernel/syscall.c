@@ -80,17 +80,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /* ADLINT:SF:[W0025,W0026,W0422] syscall_table.h, NULL */
 
-//System call SR declarations
+/*System call SR declarations*/
 #define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_SR(syscall, arg);
 #include <syscall_table.h>
 #undef  BGRT_SC_TBL_ENTRY
 
-//User may write his own system calls
+/*User may write his own system calls*/
 #ifdef BGRT_CONFIG_CUSTOM_SYSCALL
 #   include <syscall_routines.h>
 #else
-#   include <default/syscall_routines.h> //Default system call handlers
-#endif//BGRT_CONFIG_USER_SYSCALL
+#   include <default/syscall_routines.h> /*Default system call handlers*/
+#endif/*BGRT_CONFIG_USER_SYSCALL*/
 
 /**********************************************************************************************
                                       MANDATORY THINGS!!!
@@ -103,7 +103,7 @@ static bgrt_st_t _do_nothing_sr(void * arg)
 /**********************************************************************************************
                                        PROC_TERMINATE
 **********************************************************************************************/
-// Terminate a process after pmain return.
+/*Terminate a process after pmain return.*/
 void bgrt_proc_terminate(void)
 {
     BGRT_SYSCALL_N(PROC_TERMINATE, (void *)0); /* ADLINT:SL:[W0567,W1059,W1073] conversion*/
@@ -141,26 +141,26 @@ BGRT_SC_TBL(syscall_handler[])= /* ADLINT:SL:[W0117] extern linkage*/
 
 #ifdef BGRT_CONFIG_SYSCALL_CHECK
 #   define BGRT_SYSCALL_CHECK BGRT_CONFIG_SYSCALL_CHECK
-#else  //BGRT_CONFIG_SYSCALL_CHECK
-//Default syscall sanity check macro
+#else  /*BGRT_CONFIG_SYSCALL_CHECK*/
+/*Default syscall sanity check macro*/
 #   define BGRT_SYSCALL_CHECK(n,a) ((bgrt_syscall_t)BGRT_SC_ENUM_END <= n)
-#endif //BGRT_CONFIG_SYSCALL_CHECK
+#endif /*BGRT_CONFIG_SYSCALL_CHECK*/
 
 bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg)
 {
-    //Sanity check
+    /*Sanity check*/
     if (BGRT_SYSCALL_CHECK(syscall_num, syscall_arg))
     {
-        //Fail
+        /*Fail*/
         return BGRT_ST_SCALL;
     }
     else
     {
-        //Syscall processing
+        /*Syscall processing*/
         return (BGRT_SC_TBL_READ(syscall_handler[syscall_num]))(syscall_arg); /* ADLINT:SL:[W0147,W0644] type conversion,void val */
     }
 }
-//Variadic version of bgrt_syscall
+/*Variadic version of bgrt_syscall*/
 bgrt_st_t bgrt_syscall_var(bgrt_syscall_t num, ...)
 {
     bgrt_va_wr_t varg;

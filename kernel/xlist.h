@@ -90,7 +90,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 A prioritized list header.
 */
 typedef struct bgrt_priv_xlist_t bgrt_xlist_t; /*!< \~russian Смотри #bgrt_priv_xlist_t; \~english See #bgrt_priv_xlist_t; */
-// свойства
+/*Свойства*/
 /*!
 \~russian
 \brief
@@ -110,7 +110,7 @@ struct bgrt_priv_xlist_t
     bgrt_item_t * item[BGRT_BITS_IN_INDEX_T]; /*!< \~russian Массив указателей на элементы. \~english An array of list head pointers. */
     bgrt_map_t map; /*!< \~russian Индекс, показывает, где в массиве ненулевые указатели. \~english Index for fast search. */
 };
-// методы
+/*Методы*/
 /*!
 \~russian
 \brief
@@ -187,4 +187,4 @@ void bgrt_xlist_switch (bgrt_xlist_t * xlist, bgrt_prio_t prio);
 "переместить в другой список"
 ----------------------------------------------------*/
 
-#endif // BGRT_XLIST_H
+#endif /*BGRT_XLIST_H*/

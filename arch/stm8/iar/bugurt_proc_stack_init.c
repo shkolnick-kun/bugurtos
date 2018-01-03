@@ -96,7 +96,7 @@ bgrt_stack_t * bgrt_proc_stack_init(
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
 #if (__CODE_MODEL__!=__SMALL_CODE_MODEL__)
-    *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>16)& 0xFF);  // RETF is used by IAR in MEDIUM and LARGE code models
+    *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>16)& 0xFF);  /*RETF is used by IAR in MEDIUM and LARGE code models*/
 #endif
     /* process main */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
