@@ -72,13 +72,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #ifndef BGRT_CONFIG_H
-// Тестовый конфиг-файл, впоследствии будет заменён
+/*Тестовый конфиг-файл, впоследствии будет заменён*/
 #define BGRT_CONFIG_H
 
 #define BGRT_SC_TBL(a) const bgrt_code_t a
 #define BGRT_SC_TBL_READ(a) a
 
-// data types
+/*data types*/
 typedef unsigned char bgrt_map_t;
 #define BGRT_BITS_IN_INDEX_T (8)
 
@@ -116,11 +116,11 @@ typedef struct _load_stat
 
 #define WEAK
 
-// defines
+/*defines*/
 #define BGRT_CONFIG_USE_HIGHEST_LOCKER
 #define BGRT_CONFIG_MP
 #define BGRT_MAX_CPU (4)
 #define BGRT_CONFIG_USE_ALB
 #define BGRT_CONFIG_HARD_RT
 
-#endif //BGRT_CONFIG_H
+#endif /*BGRT_CONFIG_H*/

@@ -106,7 +106,6 @@ struct bgrt_priv_sem_t
 {
     bgrt_sync_t wait;/*!< \~russian Список ожидающих процессов. \~english A list of waiting processes. */
     bgrt_cnt_t counter;/*!< \~russian Счётчик ресурсов. \~english A resource counter. */
-    /*bgrt_cnt_t blocked;/*!< \~russian Счётчик блокированных процессов. \~english A blocked process counter. */
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t lock;/*!< \~russian Спин-блокировка. \~english A sync spin-lock. */
 #endif /* BGRT_CONFIG_MP */
