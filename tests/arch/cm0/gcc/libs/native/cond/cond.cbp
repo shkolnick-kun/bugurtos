@@ -7,7 +7,7 @@
 		<Option compiler="armnoneeabigcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/cond.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/cond.axf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
@@ -17,7 +17,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/cond.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/cond.axf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
@@ -31,38 +31,36 @@
 		</Build>
 		<Compiler>
 			<Add option="-mthumb" />
-			<Add option="-mcpu=cortex-m4" />
-			<Add option="-mfloat-abi=hard" />
-			<Add option="-mfpu=fpv4-sp-d16" />
+			<Add option="-mcpu=cortex-m0" />
 			<Add option="-O0" />
 			<Add option="-g3" />
 			<Add option="-fmessage-length=0" />
 			<Add option="-fno-builtin" />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
-			<Add directory="../../../../../../../kernel" />
-			<Add directory="../../../../gcc" />
 			<Add directory="../../../../../../../../thirdparty/libopencm3/include" />
+			<Add directory="../../../../../../../arch/cm0/gcc" />
+			<Add directory="../../../../gcc" />
+			<Add directory="../../../../../../../kernel" />
 			<Add directory="../../../../../../../libs/native" />
-			<Add directory="../../../../../../../arch/cm4f/gcc" />
 			<Add directory="../../../../../../../kernel/default" />
 		</Compiler>
 		<Linker>
-			<Add option="-mthumb" />
-			<Add option="-mcpu=cortex-m4" />
-			<Add option="-nostdlib" />
 			<Add option="-Xlinker" />
 			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
+			<Add option="-nostdlib" />
+			<Add option="-mthumb" />
+			<Add option="-mcpu=cortex-m0" />
+			<Add option='-T &quot;../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f051r8.ld&quot;' />
 			<Add option="-Wl,--gc-sections" />
-			<Add option='-T &quot;../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld&quot;' />
-			<Add library="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f4.a" />
+			<Add library="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f0.a" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld" />
-		<Unit filename="../../../../../../../arch/cm4f/gcc/bugurt_port.c">
+		<Unit filename="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f051r8.ld" />
+		<Unit filename="../../../../../../../arch/cm0/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../kernel/bugurt.h" />
@@ -129,7 +127,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../libs/native/mutex.h" />
-		<Unit filename="../../../../../../main/libs/native/sig/main.c">
+		<Unit filename="../../../../../../main/libs/native/cond/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../test_func.c">
@@ -142,7 +140,7 @@
 			<debugger>
 				<search_path add="bin/Debug" />
 				<remote_debugging>
-					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="4242" additional_cmds="load&#x0A;tb main&#x0A;monitor jtag_reset" additional_cmds_before="shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="4242" additional_cmds="monitor jtag_reset&#x0A;load&#x0A;tb main&#x0A;monitor jtag_reset&#x0A;" additional_cmds_before="shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />

@@ -4,57 +4,62 @@
 	<Project>
 		<Option title="cond" />
 		<Option pch_mode="2" />
-		<Option compiler="avrgcc" />
+		<Option compiler="armnoneeabigcc" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/cond.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="avrgcc" />
+				<Option compiler="armnoneeabigcc" />
 				<Compiler>
 					<Add option="-Os" />
-					<Add option="-Wall" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Debug/cond.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/cond.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="avrgcc" />
+				<Option compiler="armnoneeabigcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-g" />
+					<Add option="-O2" />
 				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-std=c99" />
-			<Add option="-mmcu=atmega328p" />
-			<Add option="-DF_CPU=16000000UL" />
+			<Add option="-mthumb" />
+			<Add option="-g3" />
+			<Add option="-fmessage-length=0" />
+			<Add option="-fno-builtin" />
+			<Add option="-ffunction-sections" />
+			<Add option="-fdata-sections" />
+			<Add option="-mcpu=cortex-m3" />
 			<Add directory="../../../../../../../kernel" />
-			<Add directory="../../../../../../../arch/avr/gcc" />
-			<Add directory="../../../" />
+			<Add directory="../../../../gcc" />
 			<Add directory="../../../../../../../libs/native" />
+			<Add directory="../../../../../../../../thirdparty/libopencm3/include" />
+			<Add directory="../../../../../../../arch/cm3/gcc" />
 			<Add directory="../../../../../../../kernel/default" />
 		</Compiler>
 		<Linker>
-			<Add option="-mmcu=atmega328p" />
-			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref" />
+			<Add option="-nostdlib" />
+			<Add option="-Xlinker" />
+			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
+			<Add option="-Wl,--gc-sections" />
+			<Add option="-mcpu=cortex-m3" />
+			<Add option="-mthumb" />
+			<Add option='-T &quot;../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld&quot;' />
+			<Add library="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l1.a" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
-			<Add after="avr-objcopy -O ihex -R .eeprom -R .eesafe $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).hex" />
-			<Add after="avr-objcopy --no-change-warnings -j .eeprom --change-section-lma .eeprom=0 -O ihex $(TARGET_OUTPUT_FILE) $(TARGET_OUTPUT_FILE).eep.hex" />
-			<Add after="avr-objdump -h -S $(TARGET_OUTPUT_FILE) &gt; $(TARGET_OUTPUT_FILE).lss" />
+			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
+			<Mode after="always" />
 		</ExtraCommands>
-		<Unit filename="../../../../../../../arch/avr/gcc/bugurt_port.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../../arch/avr/gcc/bugurt_port.h" />
-		<Unit filename="../../../../../../../arch/avr/gcc/bugurt_port_asm.S" />
-		<Unit filename="../../../../../../../arch/avr/gcc/bugurt_proc_stack_init.c">
+		<Unit filename="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld" />
+		<Unit filename="../../../../../../../arch/cm3/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../kernel/bugurt.h" />
@@ -62,7 +67,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../kernel/crit_sec.h" />
-		<Unit filename="../../../../../../../kernel/default/syscall.h" />
 		<Unit filename="../../../../../../../kernel/default/syscall_api.h" />
 		<Unit filename="../../../../../../../kernel/default/syscall_routines.h" />
 		<Unit filename="../../../../../../../kernel/default/syscall_table.h" />
@@ -122,7 +126,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../libs/native/mutex.h" />
-		<Unit filename="../../../../../../main/libs/native/sig/main.c">
+		<Unit filename="../../../../../../main/libs/native/cond/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../test_func.c">
@@ -130,11 +134,12 @@
 		</Unit>
 		<Unit filename="../../../test_func.h" />
 		<Extensions>
-			<code_completion />
 			<envvars />
+			<code_completion />
 			<debugger>
+				<search_path add="bin/Debug" />
 				<remote_debugging>
-					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
+					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="4242" additional_cmds="load&#x0A;tb main&#x0A;monitor reset" additional_cmds_before="shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />

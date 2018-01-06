@@ -267,8 +267,7 @@ There is only **native** library at the moment, which provides following sync pr
  1. mutex;
  2. counting semaphore;
  3. conditional variable;
- 4. signal (a kind of event);
- 5. synchronous nonbuffered IPC.
+ 4. synchronous nonbuffered IPC.
 
 These primitives will be described in next chapters.
 
@@ -449,7 +448,7 @@ status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
 // Conditional signal
 status = bgrt_mtx_lock( &some_mutex );            /*Mutex must be locked.*/
 /*Do something.*/
-status = bgrt_cond_sinal( &some_cond );             /*Wake up most prioritized waiting process.*/
+status = bgrt_cond_signal( &some_cond );             /*Wake up most prioritized waiting process.*/
 status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
 
 // Conditional broadcast
@@ -509,5 +508,4 @@ status = bgrt_ipc_reply( &some_ep, wait_for );
 Good luck %username%, write elegant, robust and maintainable code!
 
 I hope you'll use BuguRTOS in your projects.
-
 

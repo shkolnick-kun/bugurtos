@@ -1665,7 +1665,7 @@
     </file>
   </group>
   <file>
-    <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c</name>
+    <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\test_func.c</name>

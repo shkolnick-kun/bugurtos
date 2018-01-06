@@ -112,7 +112,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\..\test_func.h" />
-		<Unit filename="..\..\..\..\..\..\main\libs\native\sig\main.c">
+		<Unit filename="..\..\..\..\..\..\main\libs\native\cond\main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="..\..\..\..\..\..\..\..\thirdparty\libstm8\lib\l\gpio.c">

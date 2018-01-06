@@ -91,7 +91,7 @@
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.h</file>
       <file>$PROJ_DIR$\Debug\Obj\sync.o</file>
@@ -626,7 +626,7 @@
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sig\main.c</name>
+      <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>

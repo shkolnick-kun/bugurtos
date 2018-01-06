@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="sig/sig.cbp" active="1" />
+		<Project filename="cond/cond.cbp" active="1" />
 		<Project filename="ipc/ipc.cbp" />
 		<Project filename="mutex/mutex.cbp" />
 		<Project filename="sem/sem.cbp" />

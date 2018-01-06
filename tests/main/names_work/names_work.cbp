@@ -237,7 +237,7 @@
 		<Unit filename="../../arch/avr/gcc/bugurt_config.h">
 			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../../arch/avr/gcc/libs/native/sig/main.c">
+		<Unit filename="../../arch/avr/gcc/libs/native/cond/main.c">
 			<Option compilerVar="CC" />
 			<Option target="Debug" />
 		</Unit>
@@ -334,7 +334,7 @@
 			<Option compilerVar="CC" />
 			<Option target="Debug" />
 		</Unit>
-		<Unit filename="../libs/native/sig/main.c">
+		<Unit filename="../libs/native/cond/main.c">
 			<Option compilerVar="CC" />
 			<Option target="Debug" />
 		</Unit>
