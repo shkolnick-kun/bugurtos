@@ -123,6 +123,30 @@ Reset software timer.
 #define BGRT_CLEAR_TIMER(t) bgrt_priv_clear_timer((bgrt_tmr_t *)&t)
 
 /*!
+\brief
+\~russian
+Установка программного таймера.
+
+Может быть использована вместо #BGRT_CLEAR_TIMER для периодического вызова кода,
+в этом случае поведение таймеров будет детерминированным, не будет наблюдаться
+рассинхронизации.
+
+\param t Имя переменной таймера.
+\param s Шаг таймера.
+
+\~english
+Set software timer.
+
+May be used instead of #BGRT_CLEAR_TIMER for periodic code execution.
+Software timers will have deterministic behavior. Software timers with the same
+period will work synchronously.
+
+\param t A timer variable name.
+\param s A timer step.
+*/
+#define BGRT_SET_TIMER(t,s) (t += s)
+
+/*!
 
 \~russian
 \brief
