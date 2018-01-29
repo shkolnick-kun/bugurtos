@@ -22,33 +22,7 @@
     the source code for any proprietary components. See the file exception.txt
     for full details of how and when the exception can be applied.
 **************************************************************************/
-
 #include <bugurt.h>
-
-/*====================================================================================*/
-#define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
-/*
-#define BGRT_SYS_SCR 		*((volatile unsigned long *) 0xE000ED10)
-#define BGRT_SYS_CCR 		*((volatile unsigned long *) 0xE000ED14)
-
-#define BGRT_SYS_SHPR1 	*((volatile unsigned long *) 0xE000ED18)
-*/
-#define BGRT_SYS_SHPR2 	*((volatile unsigned long *) 0xE000ED1C)
-#define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
-/*
-#define BGRT_SYS_SHCRS 	*((volatile unsigned long *) 0xE000ED24)
-#define BGRT_SYS_CFSR 	*((volatile unsigned long *) 0xE000ED28)
-*/
-
-#define BGRT_SYST_CSR 	*((volatile unsigned long *) 0xE000E010)
-#define BGRT_SYST_RVR 	*((volatile unsigned long *) 0xE000E014)
-
-#define BGRT_SYST_RVR_VALUE ((BGRT_CONFIG_FCPU_HZ / BGRT_CONFIG_FSYSTICK_HZ)- 1ul)
-#define BGRT_SYST_CSR_VALUE (0x00000007)/* Enable clock, interrupt, timer. */
-
-#define BGRT_PENDSV_SET   (0x10000000)
-#define BGRT_PENDSV_CLR   (0x08000000)
-
 /*====================================================================================*/
 #ifndef BGRT_CONFIG_FCPU_HZ
 #error "You must define BGRT_CONFIG_FCPU_HZ macro!!!"

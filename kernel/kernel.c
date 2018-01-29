@@ -163,13 +163,13 @@ void bgrt_kblock_init(bgrt_kblock_t * kblock)
 }
 
 #ifdef BGRT_CONFIG_HPFIC_HOOK
-#   define BGRT_KBLOCK_HPFIC_HOOK(a) BGRT_CONFIG_HPFIC_HOOK((a)->hpmap)
+#   define BGRT_KBLOCK_HPFIC_HOOK(a) BGRT_CONFIG_HPFIC_HOOK(&(a)->hpmap)
 #else
 #   define BGRT_KBLOCK_HPFIC_HOOK(a) do{}while(0)
 #endif
 
 #ifdef BGRT_CONFIG_LPFIC_HOOK
-#   define BGRT_KBLOCK_LPFIC_HOOK(a) BGRT_CONFIG_LPFIC_HOOK((a)->lpmap)
+#   define BGRT_KBLOCK_LPFIC_HOOK(a) BGRT_CONFIG_LPFIC_HOOK(&(a)->lpmap)
 #else
 #   define BGRT_KBLOCK_LPFIC_HOOK(a) do{}while(0)
 #endif
@@ -181,7 +181,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
     {
         bgrt_map_t work;
 
-        BGRT_KBLOCK_HPFIC_HOOK(&kblock);
+        BGRT_KBLOCK_HPFIC_HOOK(kblock);
 #ifdef BGRT_CONFIG_USE_VIC
         if (bgrt_vic_iterator(&kblock->vic))
         {
@@ -195,7 +195,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
             continue; /* ADLINT:SL:[W0013] continue*/
         }
 
-        BGRT_KBLOCK_LPFIC_HOOK(&kblock);
+        BGRT_KBLOCK_LPFIC_HOOK(kblock);
 
         work = bgrt_atm_bclr(&kblock->lpmap, BGRT_KBLOCK_VSCHMSK);
         if (work)
