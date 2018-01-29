@@ -14,7 +14,7 @@
 
 In this file there are definitions of functions, macros and data types. Also this file includes other native lib headers.
 */
-#define proc_init_cs         bgrt_priv_proc_init          /*!< \~russian \brief Инициация процесса из обработчика прерывания или критической секции. \~english \brief A process initialization from ISR or critical section. */
+#define bgrt_proc_init_cs    bgrt_priv_proc_init          /*!< \~russian \brief Инициация процесса из обработчика прерывания или критической секции. \~english \brief A process initialization from ISR or critical section. */
 
 #define bgrt_proc_run_cs     bgrt_priv_proc_run           /*!< \~russian \brief Запуск процесса из обработчика прерывания или критической секции. \~english \brief Run a process from ISR or critical section. */
 #define bgrt_proc_run        BGRT_PROC_RUN                /*!< \~russian \brief Запуск процесса. \~english \brief Run a process. */
