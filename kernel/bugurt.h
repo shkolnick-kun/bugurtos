@@ -159,8 +159,6 @@ BuguRTOS config (must be included first)
 /*Kernel (kernel services, must be included after syscall.h and vint.h)*/
 #include "kernel.h"
 
-
-
 #define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
 #define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
 #define BGRT_ST_EOWN        ((bgrt_st_t)2) /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */

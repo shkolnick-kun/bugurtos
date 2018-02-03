@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include "bugurt.h"
 /* ADLINT:SF:[W0422] NULL */
-/*====================================================================================*/
+/*===========================================================================*/
 void bgrt_priv_clear_timer(bgrt_tmr_t * t)
 {
     BGRT_CRIT_SEC_ENTER(); /* ADLINT:SL:[W0425] several def/expr*/
@@ -103,15 +103,12 @@ bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t)
 
     return ret;
 }
-
 /*===========================================================================*/
 void bgrt_wait_time(bgrt_tmr_t time)
 {
     bgrt_tmr_t tmr;
-    bgrt_bool_t roll=(bgrt_bool_t)1;
     BGRT_CLEAR_TIMER(tmr); /* ADLINT:SL:[W0459] does not assign*/
-    while ((bgrt_bool_t)roll)
-    {
+    do {
 #ifndef BGRT_CONFIG_TEST
 #   ifdef BGRT_CONFIG_SAVE_POWER
         if (bgrt_sched_proc_yield())BGRT_CONFIG_SAVE_POWER();
@@ -119,7 +116,19 @@ void bgrt_wait_time(bgrt_tmr_t time)
         bgrt_sched_proc_yield(); /* ADLINT:SL:[W1073] retval discarded*/
 #   endif /* BGRT_CONFIG_SAVE_POWER */
 #endif /*BGRT_CONFIG_TEST*/
-        roll = (bgrt_bool_t)(BGRT_TIMER(tmr) < (bgrt_tmr_t)time); /* ADLINT:SL:[W0608] minus converted */
-    }
+    } while (BGRT_TIMER(tmr) < time);
 }
 /*===========================================================================*/
+void bgrt_priv_wait_moment(bgrt_tmr_t * tmr, bgrt_tmr_t time)
+{
+    BGRT_SET_TIMER(*tmr, time); /* ADLINT:SL:[W0459] does not assign*/
+    do {
+#ifndef BGRT_CONFIG_TEST
+#   ifdef BGRT_CONFIG_SAVE_POWER
+        if (bgrt_sched_proc_yield())BGRT_CONFIG_SAVE_POWER();
+#   else /* BGRT_CONFIG_SAVE_POWER */
+        bgrt_sched_proc_yield(); /* ADLINT:SL:[W1073] retval discarded*/
+#   endif /* BGRT_CONFIG_SAVE_POWER */
+#endif /*BGRT_CONFIG_TEST*/
+    } while (BGRT_TIMER(0) < *tmr);
+}

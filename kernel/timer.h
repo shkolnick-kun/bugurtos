@@ -180,6 +180,23 @@ Caller process spins in a loop for a time.
 \param time Wait time.
 */
 void bgrt_wait_time(bgrt_tmr_t time);
+
+/*!
+\~russian
+\brief
+Вызывающи процесс ожиает в цикле, когда системное время становится больше или равно, чем tmr + time.
+
+\param tmr Имя переменной таймера.
+\param time Интервал времени ожидания.
+
+\~english
+\brief
+The caller waits until system time becomes greater or equal than tmr + time.
+
+\param tmr A timer variable name.
+\param time Wait time interval.
+*/
+#define BGRT_WAIT_INTERVAL(tmr, time) (bgrt_priv_wait_interval(&tmr, time))
 /*Для внутреннего пользования*/
 
 /*!
@@ -219,4 +236,25 @@ Get software timer value.
 \param t A timer value.
 */
 bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t);
+
+/*!
+\~russian
+\brief
+Вызывающи процесс ожиает в цикле, когда системное время становится больше или равно, чем *tmr + time.
+
+\warning Для внутреннего использования.
+
+\param tmr Указатель на таймер.
+\param time Интервал времени ожидания.
+
+\~english
+\brief
+The caller waits until system time becomes greater or equal than *tmr + time.
+
+\warning For internal usage.
+
+\param tmr A pointer to a timer.
+\param time Wait time interval.
+*/
+void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time);
 #endif /*TIMER_H*/
