@@ -119,7 +119,7 @@ void bgrt_wait_time(bgrt_tmr_t time)
     } while (BGRT_TIMER(tmr) < time);
 }
 /*===========================================================================*/
-void bgrt_priv_wait_moment(bgrt_tmr_t * tmr, bgrt_tmr_t time)
+void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time)
 {
     BGRT_SET_TIMER(*tmr, time); /* ADLINT:SL:[W0459] does not assign*/
     do {
