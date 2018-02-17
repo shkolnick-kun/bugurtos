@@ -84,6 +84,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 void bgrt_priv_proc_stop_ensure(bgrt_proc_t * proc, bgrt_flag_t state)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     if (BGRT_PROC_RUN_TEST(proc))
     {
         bgrt_sched_proc_stop(proc, state);
@@ -143,6 +145,12 @@ bgrt_st_t bgrt_priv_proc_init(
 #endif /*BGRT_CONFIG_MP*/
 )
 {
+    BGRT_ASSERT(pmain,   "The #pmain must not be NULL!");
+    BGRT_ASSERT(sv_hook, "The #sv_hook must not be NULL!");
+    BGRT_ASSERT(rs_hook, "The #rs_hook must not be NULL!");
+    BGRT_ASSERT(arg,     "The #arg must not be NULL!");
+    BGRT_ASSERT(sstart,  "The #sstart must not be NULL!");
+
     if (!proc)
     {
         return BGRT_ST_ENULL;

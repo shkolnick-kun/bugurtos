@@ -86,11 +86,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 Всегда вызывать при запрещённых прерываниях!!!
 **********************************************/
 /*Инициация*/
-void bgrt_xlist_init(
-    bgrt_xlist_t * xlist
-)
+void bgrt_xlist_init(bgrt_xlist_t * xlist)
 {
     bgrt_cnt_t i;
+
+    BGRT_ASSERT(xlist,  "The #xlist must not be NULL!");
     /*xlist is empty*/
     xlist->map = (bgrt_map_t)0;
     /*all sublists are empty*/
@@ -105,6 +105,9 @@ bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
 {
     bgrt_item_t * ret_val = (bgrt_item_t *)0; /* ADLINT:SL:[W0567] type conversion*/
     bgrt_map_t map;
+
+    BGRT_ASSERT(xlist,  "The #xlist must not be NULL!");
+
     map = xlist->map;
 
     if (map != (bgrt_map_t)0)
@@ -118,7 +121,13 @@ bgrt_item_t * bgrt_xlist_head(bgrt_xlist_t * xlist)
 void bgrt_xlist_switch(bgrt_xlist_t * xlist, bgrt_prio_t prio)
 {
     bgrt_item_t ** current;
+
+    BGRT_ASSERT(xlist,  "The #xlist must not be NULL!");
+
     current = xlist->item + prio;
+
+    BGRT_ASSERT(current,  "The #current must not be NULL!");
+
     *current = (*current)->next;
     /* *current = (bgrt_item_t *)*(bgrt_item_t **)*(bgrt_item_t ***)current; */
 }

@@ -113,7 +113,6 @@ The BuguRTOS is a RTOS bgrt_kernel. It is written by anonymous JUST FOR FUN.
 All other BuguRTOS headers are included here.
 On the other hand all BuguRTOS source files include this file.
 */
-
 #define BGRT_CONCAT(a,b) a##b
 #define BGRT_CONCAT2(a,b) BGRT_CONCAT(a,b)
 #define BGRT_CONCAT3(a,b) BGRT_CONCAT2(a,b)
@@ -144,6 +143,10 @@ typedef void (* bgrt_code_t)(void *);
 BuguRTOS config (must be included first)
 */
 #include <bugurt_config.h>
+
+#ifndef BGRT_ASSERT
+#define BGRT_ASSERT(c,msg) do{}while(0)
+#endif // BGRT_ASSERT
 
 /*Basic types*/
 #include "index.h"  /* ADLINT:SL:[W0073] No include guard! */

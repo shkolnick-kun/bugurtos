@@ -93,8 +93,9 @@ static inline void _do_int_scall(bgrt_kblock_t * kblock)
     (void)kblock;
     /* Get system call number storage */
     uspd = BGRT_GET_USPD(); /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
+    BGRT_ASSERT(uspd, "The #uspd must not be NULL!");
     /* Do system call */
-    scret = bgrt_do_syscall(uspd->scnum, uspd->scarg);
+    scret = bgrt_priv_do_syscall(uspd->scnum, uspd->scarg);
     uspd->scret = scret;
     /* Clear scnum */
     if (BGRT_ST_ROLL != scret)
@@ -105,7 +106,7 @@ static inline void _do_int_scall(bgrt_kblock_t * kblock)
 /* Check for pending system call and push it */
 static inline void _push_pend_scall(bgrt_kblock_t * kblock)
 {
-    (void)kblock;
+    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
     if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
         /* DO NOT "OPTIMIZE" THIS!!! */
@@ -115,7 +116,7 @@ static inline void _push_pend_scall(bgrt_kblock_t * kblock)
 
 static inline void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
-    (void)kblock;
+    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
     if (BGRT_KBLOCK_VTMR == work)
     {
         bgrt_sched_schedule_prologue(&kblock->sched);
@@ -153,6 +154,7 @@ static inline void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 
 void bgrt_kblock_init(bgrt_kblock_t * kblock)
 {
+    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
 #ifdef BGRT_CONFIG_USE_VIC
     bgrt_vic_init(&kblock->vic);
 #endif
@@ -177,6 +179,7 @@ void bgrt_kblock_init(bgrt_kblock_t * kblock)
 
 void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
 {
+    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
     while(1)
     {
         bgrt_map_t work;
@@ -212,6 +215,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
 
 void bgrt_kblock_main(bgrt_kblock_t * kblock)
 {
+    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
     while (1)
     {
         bgrt_kblock_do_work(kblock);

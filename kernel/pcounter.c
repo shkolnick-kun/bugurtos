@@ -151,6 +151,7 @@ bgrt_cnt_t bgrt_cnt_sub(bgrt_cnt_t a, bgrt_cnt_t b)
 void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 {
     bgrt_prio_t p;
+    BGRT_ASSERT(pcounter, "The #pcounter must not be NULL!");
     pcounter->map = (bgrt_map_t)0;
     for (p = 0; p < (bgrt_map_t)BGRT_BITS_IN_INDEX_T; p++)
     {
@@ -160,6 +161,7 @@ void bgrt_pcounter_init(bgrt_pcounter_t * pcounter)
 /* Increment*/
 void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
+    BGRT_ASSERT(pcounter, "The #pcounter must not be NULL!");
     BGRT_CNT_INC(pcounter->counter[prio]);      /* ADLINT:SL:[W0705] Out of range access!*/
     pcounter->map |= ((bgrt_map_t)1)<<prio; /* ADLINT:SL:[W0572] Drop bits!*/
 }
@@ -167,6 +169,8 @@ void bgrt_pcounter_inc(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 {
     bgrt_map_t mask;
+
+    BGRT_ASSERT(pcounter, "The #pcounter must not be NULL!");
 
     mask = ((bgrt_map_t)1)<<prio;
 
@@ -181,6 +185,8 @@ bgrt_map_t bgrt_pcounter_dec(bgrt_pcounter_t * pcounter, bgrt_prio_t prio)
 /* Multiple increment*/
 void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
+    BGRT_ASSERT(pcounter, "The #pcounter must not be NULL!");
+
     pcounter->map |= ((bgrt_map_t)1)<<prio;  /* ADLINT:SL:[W0572] */
 
     BGRT_CNT_ADD(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/
@@ -189,6 +195,9 @@ void bgrt_pcounter_plus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t
 bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count)
 {
     bgrt_map_t mask;
+
+    BGRT_ASSERT(pcounter, "The #pcounter must not be NULL!");
+
     mask = ((bgrt_map_t)1)<<prio;
 
     BGRT_CNT_SUB(pcounter->counter[prio], count); /* ADLINT:SL:[W0705] Out of range access!*/

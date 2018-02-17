@@ -81,6 +81,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*===========================================================================*/
 void bgrt_priv_clear_timer(bgrt_tmr_t * t)
 {
+    BGRT_ASSERT(t, "The #t must not be NULL!");
+
     BGRT_CRIT_SEC_ENTER(); /* ADLINT:SL:[W0425] several def/expr*/
     BGRT_SPIN_LOCK(&bgrt_kernel.timer);
 
@@ -121,6 +123,8 @@ void bgrt_wait_time(bgrt_tmr_t time)
 /*===========================================================================*/
 void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time)
 {
+    BGRT_ASSERT(tmr, "The #t must not be NULL!");
+
     BGRT_SET_TIMER(*tmr, time); /* ADLINT:SL:[W0459] does not assign*/
     do {
 #ifndef BGRT_CONFIG_TEST

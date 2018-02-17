@@ -103,6 +103,11 @@ bgrt_st_t bgrt_ipc_send(bgrt_ipc_t * out, void * msg)
     bgrt_st_t ret;
     bgrt_flag_t touch = 0;
 
+    if ((!out) || (!msg))
+    {
+        return BGRT_ST_ENULL;
+    }
+
     BGRT_PROC_LOCK();
 
     ret = BGRT_SYNC_SLEEP (out, &touch);
@@ -123,6 +128,11 @@ bgrt_st_t bgrt_ipc_send(bgrt_ipc_t * out, void * msg)
 bgrt_st_t bgrt_ipc_wait(bgrt_ipc_t * in, BGRT_PID_T * pid, bgrt_flag_t block)
 {
     bgrt_st_t ret;
+
+    if (!in)
+    {
+        return BGRT_ST_ENULL;
+    }
 
     BGRT_PROC_LOCK();
 
@@ -147,6 +157,11 @@ end:
 bgrt_st_t bgrt_ipc_reply(bgrt_ipc_t * in, BGRT_PID_T pid)
 {
     bgrt_st_t ret;
+
+    if (!in)
+    {
+        return BGRT_ST_ENULL;
+    }
 
     BGRT_PROC_LOCK();
 

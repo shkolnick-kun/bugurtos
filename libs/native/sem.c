@@ -132,9 +132,15 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
     bgrt_flag_t * touch;
     bgrt_flag_t * state;
 
-    sem   = (bgrt_sem_t      *)va_arg(va->list, void *);
+    BGRT_ASSERT(va, "The #va must not be NULL!");
+
+    sem   = (bgrt_sem_t *)va_arg(va->list, void *);
     touch = (bgrt_flag_t*)va_arg(va->list, void *);
     state = (bgrt_flag_t*)va_arg(va->list, void *);
+
+    BGRT_ASSERT(sem,   "The #sem must not be NULL!");
+    BGRT_ASSERT(touch, "The #touch must not be NULL!");
+    BGRT_ASSERT(state, "The #state must not be NULL!");
 
     switch (*state)
     {
@@ -212,7 +218,11 @@ bgrt_st_t _sem_free_payload(bgrt_va_wr_t* va)
     bgrt_sem_t *sem;
     bgrt_st_t ret;
 
+    BGRT_ASSERT(va, "The #va must not be NULL!");
+
     sem   = (bgrt_sem_t *)va_arg(va->list, void *);
+
+    BGRT_ASSERT(sem, "The #sem must not be NULL!");
 
     BGRT_SPIN_LOCK(sem);
     ret = _sem_free_body(sem);

@@ -130,7 +130,7 @@ This function calls system call handlers and passes arguments to them.
 \param syscall_arg System call argument.
 \return System call execution status.
 */
-bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg);
+bgrt_st_t bgrt_priv_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg);
 
 /*!
 \~russian

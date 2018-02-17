@@ -81,6 +81,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /* ADLINT:SF:[W0422,W0256,W0165,W0114,W0268,W0705] Yes we drop some bits, and convert some types */
 void bgrt_pitem_init(bgrt_pitem_t * pitem, bgrt_prio_t prio)
 {
+    BGRT_ASSERT(pitem, "The #pitem must not be NULL!");
+
     bgrt_item_init((bgrt_item_t *)pitem);
     pitem->list = (bgrt_xlist_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
     pitem->prio = prio;
@@ -91,6 +93,9 @@ void bgrt_pitem_insert(bgrt_pitem_t * pitem, bgrt_xlist_t * xlist)
     bgrt_prio_t prio;
     bgrt_map_t mask;
     bgrt_item_t ** head;
+
+    BGRT_ASSERT(pitem, "The #pitem must not be NULL!");
+    BGRT_ASSERT(pitem, "The #xlist must not be xlist!");
 
     prio = pitem->prio;
     mask = ((bgrt_map_t)1)<<prio;
@@ -114,6 +119,9 @@ void bgrt_pitem_fast_cut(bgrt_pitem_t * pitem)
 {
     bgrt_prio_t prio;
     bgrt_xlist_t * xlist;
+
+    BGRT_ASSERT(pitem, "The #pitem must not be NULL!");
+    BGRT_ASSERT(pitem->list, "The #pitem->list must not be NULL!");
 
     prio = pitem->prio;
     xlist = (bgrt_xlist_t *)pitem->list;
@@ -140,6 +148,8 @@ void bgrt_pitem_fast_cut(bgrt_pitem_t * pitem)
 /* Cut pitem from xlist*/
 void bgrt_pitem_cut(bgrt_pitem_t * pitem)
 {
+    BGRT_ASSERT(pitem, "The #pitem must not be NULL!");
+
     bgrt_pitem_fast_cut(pitem);
     pitem->list = (bgrt_xlist_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
 }
@@ -147,6 +157,9 @@ void bgrt_pitem_cut(bgrt_pitem_t * pitem)
 bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src)
 {
     bgrt_pitem_t * ret;  /* return value*/
+
+    BGRT_ASSERT(src, "The #src must not be NULL!");
+
     ret = (bgrt_pitem_t *)bgrt_xlist_head(src); /* will return former xlist head*/
     if (ret)
     {

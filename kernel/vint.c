@@ -82,6 +82,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void * arg)
 {
+    BGRT_ASSERT(vint, "The #vint must not be NULL!");
+    BGRT_ASSERT(func, "The #func must not be NULL!");
+    BGRT_ASSERT(arg,  "The #arg must not be NULL!");
+
     bgrt_pitem_init((bgrt_pitem_t *)vint, prio);
     vint->func = func;
     vint->arg = arg;
@@ -89,6 +93,8 @@ void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void
 
 void bgrt_vic_init(bgrt_vic_t * vic)
 {
+    BGRT_ASSERT(vic, "The #vic must not be NULL!");
+
     bgrt_xlist_init((bgrt_xlist_t *)vic);
     /*Must be LOWER, than lowest valid priority*/
     vic->prio = BGRT_PRIO_LOWEST + 1 ; /* ADLINT:SL:[W0165] signed/unsigned*/
@@ -96,6 +102,9 @@ void bgrt_vic_init(bgrt_vic_t * vic)
 
 bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic)
 {
+    BGRT_ASSERT(vint, "The #vint must not be NULL!");
+    BGRT_ASSERT(vic,  "The #vic must not be NULL!");
+
     if (((bgrt_pitem_t *)vint)->list)
     {
         return BGRT_ST_EAGAIN;
@@ -110,6 +119,8 @@ bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic)
 bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
 {
     bgrt_st_t ret;
+    BGRT_ASSERT(vint, "The #vint must not be NULL!");
+    BGRT_ASSERT(vic,  "The #vic must not be NULL!");
     /*Everything is done on local CPU core, just disable interrupts.*/
     BGRT_VINT_CS_START();
     /*Insert*/
@@ -122,6 +133,7 @@ bgrt_st_t bgrt_vint_push(bgrt_vint_t * vint, bgrt_vic_t * vic)
 static bgrt_vint_t * _vint_pop(bgrt_vic_t * vic, bgrt_prio_t lprio)
 {
     bgrt_pitem_t * work;
+    BGRT_ASSERT(vic,  "The #vic must not be NULL!");
     /*Everything is done on local CPU core, just disable interrupts.*/
     BGRT_VINT_CS_START();
     /*Get list head*/
@@ -150,6 +162,8 @@ bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic)
     bgrt_prio_t lprio;
     bgrt_vint_t * work;
 
+    BGRT_ASSERT(vic,  "The #vic must not be NULL!");
+
     lprio = vic->prio;
     work = _vint_pop(vic,lprio);
     /*Is there any work?*/
@@ -175,6 +189,7 @@ bgrt_st_t bgrt_vic_iterator(bgrt_vic_t * vic)
 
 void bgrt_vic_do_work(bgrt_vic_t * vic)
 {
+    BGRT_ASSERT(vic,  "The #vic must not be NULL!");
     //Do some pending work...
     while (BGRT_ST_ROLL == bgrt_vic_iterator(vic)); /* ADLINT:SL:[W0414,W0627,W0085]*/
 }

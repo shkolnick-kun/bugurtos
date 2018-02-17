@@ -146,7 +146,7 @@ BGRT_SC_TBL(syscall_handler[])= /* ADLINT:SL:[W0117] extern linkage*/
 #   define BGRT_SYSCALL_CHECK(n,a) ((bgrt_syscall_t)BGRT_SC_ENUM_END <= n)
 #endif /*BGRT_CONFIG_SYSCALL_CHECK*/
 
-bgrt_st_t bgrt_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg)
+bgrt_st_t bgrt_priv_do_syscall(bgrt_syscall_t syscall_num, void * syscall_arg)
 {
     /*Sanity check*/
     if (BGRT_SYSCALL_CHECK(syscall_num, syscall_arg))

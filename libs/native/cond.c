@@ -124,7 +124,7 @@ bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
     return ret;
 }
 
-static bgrt_st_t bgrt_priv_cond_signal(bgrt_cond_t * cond)
+static inline bgrt_st_t bgrt_priv_cond_signal(bgrt_cond_t * cond)
 {
     return BGRT_SYNC_WAKE(cond, BGRT_PID_NOTHING, 0);
 }

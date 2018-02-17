@@ -88,6 +88,10 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
     bgrt_cpuid_t core = (bgrt_cpuid_t)0;
     bgrt_cpuid_t ret;
     bgrt_aff_t mask = (bgrt_aff_t)1;
+
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+    BGRT_ASSERT(stat, "The #stat must not be NULL!");
+
     while (core < (bgrt_cpuid_t)BGRT_MAX_CPU)
     {
         if (proc->affinity & mask)
@@ -130,6 +134,9 @@ WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W
     bgrt_load_t max_load;
     bgrt_cpuid_t object_core = (bgrt_cpuid_t)0; /*max loaded core*/
     bgrt_cpuid_t core = (bgrt_cpuid_t)1;
+
+    BGRT_ASSERT(stat, "The #stat must not be NULL!");
+
     max_load  = bgrt_stat_calc_load((bgrt_prio_t)BGRT_BITS_IN_INDEX_T, stat);
 
     while (core < (bgrt_cpuid_t)BGRT_MAX_CPU)
@@ -157,6 +164,9 @@ void bgrt_sched_init(bgrt_sched_t * sched)
     bgrt_spin_init(sched_lock);
     bgrt_spin_lock(sched_lock);
 #endif /*BGRT_CONFIG_MP*/
+
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
+
     sched->ready = (bgrt_xlist_t *)sched->plst;
     bgrt_xlist_init(sched->ready);
     sched->expired = (bgrt_xlist_t *)sched->plst + 1; /* ADLINT:SL:[W0567] Int to pointer*/
@@ -173,6 +183,8 @@ void bgrt_sched_init(bgrt_sched_t * sched)
 #ifdef BGRT_CONFIG_MP
 void bgrt_priv_sched_proc_set_core(bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     proc->core_id = bgrt_sched_load_balancer(proc, (bgrt_ls_t *)bgrt_kernel.stat.val);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
@@ -180,6 +192,8 @@ void bgrt_priv_sched_proc_set_core(bgrt_proc_t * proc)
 
 static bgrt_sched_t * _sched_stat_update_run(bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_inc(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
@@ -188,12 +202,16 @@ static bgrt_sched_t * _sched_stat_update_run(bgrt_proc_t * proc)
 }
 static void _sched_stat_update_stop(bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_dec(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     BGRT_SPIN_FREE(&bgrt_kernel.stat);
 }
 static bgrt_sched_t * _sched_stat_update_migrate(bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_SPIN_LOCK(&bgrt_kernel.stat);
     bgrt_stat_dec(proc, (bgrt_ls_t *)bgrt_kernel.stat.val + proc->core_id);
     proc->core_id = bgrt_sched_load_balancer(proc, (bgrt_ls_t *)bgrt_kernel.stat.val);
@@ -211,6 +229,9 @@ static bgrt_sched_t * _sched_stat_update_migrate(bgrt_proc_t * proc)
 void bgrt_sched_proc_run(bgrt_proc_t * proc, bgrt_flag_t state)
 {
     bgrt_sched_t * sched;
+
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     /*Set new state*/
     BGRT_PROC_SET_STATE(proc, state); /* ADLINT:SL:[W0447] coma operator*/
     sched = BGRT_SCHED_STAT_UPDATE_RUN(proc);
@@ -234,6 +255,8 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state)
     bgrt_spin_lock(xlist_lock);
 #endif /*BGRT_CONFIG_MP*/
 
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_PROC_SET_STATE(proc, state); /* ADLINT:SL:[W0447] coma operator*/
     bgrt_pitem_cut((bgrt_pitem_t *)proc);
 
@@ -246,6 +269,9 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state)
 bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched)
 {
     bgrt_proc_t * current_proc;
+
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
+
     current_proc = sched->current_proc;
     /* Context save hook*/
     if (current_proc)
@@ -301,6 +327,8 @@ bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched)
 #ifdef BGRT_CONFIG_MP
 static void _sched_proc_insert_expired(bgrt_proc_t * proc, bgrt_sched_t * sched)
 {
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
+
     BGRT_SPIN_LOCK(sched);
     bgrt_pitem_insert((bgrt_pitem_t *)proc, sched->expired);
     BGRT_SPIN_FREE(sched);
@@ -335,6 +363,8 @@ So there are some limitations on "bgrt_sched_schedule" and "bgrt_sched_reschedul
 void bgrt_sched_schedule_prologue(bgrt_sched_t * sched)
 {
     bgrt_proc_t * current_proc;
+
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
 
     /* As sched->current_proc is changed on local core, we don't need to spin-lock sched->lock! */
     current_proc = sched->current_proc;
@@ -409,6 +439,9 @@ void bgrt_sched_schedule_prologue(bgrt_sched_t * sched)
 void bgrt_sched_reschedule_prologue(bgrt_sched_t * sched)
 {
     bgrt_proc_t * current_proc;
+
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
+
     /* We don't need to lock sched->lock as sched->current_proc changed on local core!*/
     current_proc = sched->current_proc;
     if (current_proc)
@@ -443,6 +476,9 @@ bgrt_bool_t bgrt_priv_sched_proc_yield(void)
     bgrt_proc_t * proc;
 
     sched = BGRT_SCHED_INIT(); /* ADLINT:SL:[W0567,W0705] Int to pointer, OOR*/
+
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
+
     proc = sched->current_proc;
 
     BGRT_SPIN_LOCK(proc);

@@ -82,12 +82,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /* Initiation */
 void bgrt_item_init(bgrt_item_t *item)
 {
+    BGRT_ASSERT(item, "The #item must not be NULL!");
     item->prev = item;
     item->next = item;
 }
 /* Insert an item to a list*/
 void bgrt_item_insert(bgrt_item_t *item, bgrt_item_t *head)
 {
+    BGRT_ASSERT(item,       "The #item must not be NULL!");
+    BGRT_ASSERT(head,       "The #head must not be NULL!");
+    BGRT_ASSERT(head->prev, "The #head->prev must not be NULL!");
+    BGRT_ASSERT(head->next, "The #head->next must not be NULL!");
     /* A tail of a list*/
     bgrt_item_t * tail;
     tail = head->prev;
@@ -103,8 +108,16 @@ void bgrt_item_cut(bgrt_item_t *item)
 {
     bgrt_item_t * prev;
     bgrt_item_t * next;
+
+    BGRT_ASSERT(item,       "The #item must not be NULL!");
+    BGRT_ASSERT(item->prev, "The #item->prev must not be NULL!");
+    BGRT_ASSERT(item->next, "The #item->next must not be NULL!");
+
     prev = item->prev; /*Previous item*/
     next = item->next; /*Next item*/
+
+    BGRT_ASSERT(prev->next, "The #prev->next must not be NULL!");
+    BGRT_ASSERT(next->prev, "The #next->prev must not be NULL!");
 
     next->prev = prev;
     prev->next = next;

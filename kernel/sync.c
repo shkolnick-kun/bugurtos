@@ -81,6 +81,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 /*Run a process with higher prio to avoid prio inversion!*/
 static void _pctrl_proc_run_high(bgrt_proc_t * proc, bgrt_flag_t state)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_PROC_LRES_INC(proc, 0);
     ((bgrt_pitem_t *)proc)->prio = (bgrt_prio_t)0;
     bgrt_sched_proc_run(proc, state);
@@ -89,6 +91,8 @@ static void _pctrl_proc_run_high(bgrt_proc_t * proc, bgrt_flag_t state)
 /*Change a process priority according to its #lres data field.*/
 static void _pctrl_proc_stoped(bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     if ((bgrt_map_t)0 != proc->lres.map)
     {
 
@@ -104,12 +108,16 @@ static void _pctrl_proc_stoped(bgrt_proc_t * proc)
 /*====================================================================================*/
 static void _pctrl_proc_run(bgrt_proc_t * proc, bgrt_flag_t state)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     _pctrl_proc_stoped(proc);
     bgrt_sched_proc_run(proc, state);
 }
 /*====================================================================================*/
 static void _pctrl_proc_running(bgrt_proc_t * proc, bgrt_flag_t state)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
     _pctrl_proc_run(proc, state);
 }
@@ -117,6 +125,8 @@ static void _pctrl_proc_running(bgrt_proc_t * proc, bgrt_flag_t state)
 bgrt_prio_t bgrt_priv_sync_prio(bgrt_sync_t * sync)
 {
     bgrt_prio_t sprio; /*sync prio*/
+
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
 
     sprio = sync->prio;
     if ((((bgrt_xlist_t *)sync)->map))
@@ -134,6 +144,9 @@ bgrt_prio_t bgrt_priv_sync_prio(bgrt_sync_t * sync)
 /*====================================================================================*/
 static void _sync_do_wake(bgrt_proc_t * proc, bgrt_sync_t * sync, bgrt_flag_t chown)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+
     BGRT_SPIN_LOCK(proc);
 
     /*It doesn't wait on sync any more.*/
@@ -163,6 +176,9 @@ static void _sync_do_wake(bgrt_proc_t * proc, bgrt_sync_t * sync, bgrt_flag_t ch
 static void _sync_do_pending_wake(bgrt_sync_t * sync)
 {
     bgrt_proc_t * proc;
+
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+
     proc = (bgrt_proc_t *)bgrt_xlist_head((bgrt_xlist_t *)sync);
     if (proc)
     {
@@ -178,12 +194,20 @@ static void _sync_do_pending_wake(bgrt_sync_t * sync)
 #ifdef BGRT_CONFIG_MP
 #   define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc, bgrt_code_t hook, void * hook_arg /* ADLINT:SL:[W0479] typedef?? Hell NO!*/
 #   define BGRT_PCTRL_PROP_HOOK() hook(hook_arg)
+#   define BGRT_PCTRL_PROP_HOOK_ASSERT()    BGRT_ASSERT(hook, "The #hook must not be NULL!")
+#   define BGRT_PCTRL_PROP_HOOKARG_ASSERT() BGRT_ASSERT(hook_arg, "The #hook_arg must not be NULL!")
 #else /*BGRT_CONFIG_MP*/
 #   define BGRT_PCTRL_PROP_ARGS bgrt_proc_t * proc
-#   define BGRT_PCTRL_PROP_HOOK() do{}while (0)
+#   define BGRT_PCTRL_PROP_HOOK()           do{}while (0)
+#   define BGRT_PCTRL_PROP_HOOK_ASSERT()    do{}while (0)
+#   define BGRT_PCTRL_PROP_HOOKARG_ASSERT() do{}while (0)
 #endif /*BGRT_CONFIG_MP*/
 static void _pctrl_propagate(BGRT_PCTRL_PROP_ARGS)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+    BGRT_PCTRL_PROP_HOOK_ASSERT();
+    BGRT_PCTRL_PROP_HOOKARG_ASSERT();
+
     switch(BGRT_PROC_GET_STATE(proc))
     {
     case BGRT_PROC_STATE_READY:
@@ -316,6 +340,9 @@ void bgrt_priv_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio)
 #ifdef BGRT_CONFIG_MP
 static void _sync_prio_prop_hook(bgrt_sync_t * sync)
 {
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+    BGRT_ASSERT(sync->owner, "The #sync->owner must not be NULL!");
+
     BGRT_SPIN_FREE((sync->owner));
     BGRT_SPIN_FREE(sync);
 }
@@ -327,6 +354,9 @@ static void _sync_prio_prop_hook(bgrt_sync_t * sync)
 bgrt_st_t bgrt_sync_init(bgrt_sync_t * sync, bgrt_prio_t prio)
 {
     bgrt_st_t ret;
+
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+
     BGRT_INT_LOCK();
     ret = bgrt_priv_sync_init(sync, prio);
     BGRT_INT_FREE();
@@ -355,6 +385,9 @@ bgrt_st_t bgrt_priv_sync_init(bgrt_sync_t * sync, bgrt_prio_t prio)
 bgrt_proc_t * bgrt_priv_sync_get_owner(bgrt_sync_t * sync)
 {
     bgrt_proc_t * ret;
+
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+
     BGRT_SPIN_LOCK(sync);
     ret = sync->owner;
     BGRT_SPIN_FREE(sync);
@@ -363,6 +396,9 @@ bgrt_proc_t * bgrt_priv_sync_get_owner(bgrt_sync_t * sync)
 /*====================================================================================*/
 static void _sync_assign_owner(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     sync->owner = proc;
     BGRT_SPIN_LOCK(proc);
     BGRT_PROC_LRES_INC(proc, BGRT_SYNC_PRIO(sync));
@@ -419,6 +455,9 @@ bgrt_st_t bgrt_priv_sync_set_owner(bgrt_sync_t * sync, bgrt_proc_t * proc)
 /*====================================================================================*/
 static void _sync_touch_prio_up(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_SPIN_LOCK(proc);
 
     bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
@@ -487,8 +526,11 @@ bgrt_st_t bgrt_priv_sync_touch(bgrt_sync_t * sync)
     return BGRT_ST_OK;
 }
 /*====================================================================================*/
-static void _sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc)
+static inline void _sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
     BGRT_SPIN_FREE(proc);
     BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
     BGRT_SPIN_LOCK(sync);
@@ -655,6 +697,8 @@ bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
 /*====================================================================================*/
 static void _sync_owner_block(bgrt_proc_t * owner)
 {
+    BGRT_ASSERT(owner, "The #owner must not be NULL!");
+
     BGRT_SPIN_LOCK(owner);
 
     owner->sync = (bgrt_sync_t *)0; /* ADLINT:SL:[W0567] int to pinter*/
@@ -668,6 +712,8 @@ bgrt_st_t bgrt_priv_sync_wait(bgrt_sync_t * sync, bgrt_proc_t ** proc, bgrt_flag
     bgrt_proc_t * current;
     bgrt_proc_t * owner;
     bgrt_st_t status;
+
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
 
     bgrt_priv_proc_reset_watchdog();
 
