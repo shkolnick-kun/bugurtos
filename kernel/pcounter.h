@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PCOUNTER_H
 #define BGRT_PCOUNTER_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок счётчиков захваченных ресурсов. \~english A locked resource counter header.
@@ -298,4 +299,6 @@ Decrease counter by a number of steps;
 \return 0 if correspondent counter is nulled, not 0 else.
 */
 bgrt_map_t bgrt_pcounter_minus(bgrt_pcounter_t * pcounter, bgrt_prio_t prio, bgrt_cnt_t count);
+
+BGRT_CDECL_END
 #endif /*BGRT_PCOUNTER_H*/

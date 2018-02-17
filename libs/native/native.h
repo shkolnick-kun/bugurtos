@@ -2,7 +2,7 @@
 #define NATIVE_H
 
 #include <bugurt.h>
-
+BGRT_CDECL_BEGIN
 /*!
 \file
 \~russian
@@ -46,4 +46,5 @@ static inline bgrt_prio_t bgrt_proc_get_prio(BGRT_PID_T * pid)/*!< \~russian \br
 #include "mutex.h"
 #include "cond.h"
 
+BGRT_CDECL_END
 #endif /*NATIVE_H*/

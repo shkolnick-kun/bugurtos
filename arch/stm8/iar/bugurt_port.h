@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PORT_H
 #define BGRT_PORT_H
+BGRT_CDECL_BEGIN
 
 #include <intrinsics.h>
 
@@ -139,4 +140,5 @@ extern void bugurt_restore_context(bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
 extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
 
+BGRT_CDECL_END
 #endif /*BGRT_PORT_H*/

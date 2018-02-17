@@ -76,10 +76,17 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-
 #ifndef BGRT_H
 #define BGRT_H
 
+#ifdef __cplusplus
+#   define BGRT_CDECL_BEGIN extern "C" {
+#   define BGRT_CDECL_END   }
+#else
+#   define BGRT_CDECL_BEGIN
+#   define BGRT_CDECL_END
+#endif // __cplusplus
+BGRT_CDECL_BEGIN
 /*!
 \mainpage
 
@@ -601,4 +608,6 @@ extern bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg);
 Kernel to process context switch.
 */
 extern void bgrt_switch_to_proc(void);
+
+BGRT_CDECL_END
 #endif /*BGRT_H*/

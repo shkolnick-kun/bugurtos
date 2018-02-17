@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef INDEX_H
 #define INDEX_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок функции поиска в бинарном индексе. \~english An map search header.
@@ -102,4 +103,5 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 */
 bgrt_prio_t bgrt_map_search(bgrt_map_t map);
 
+BGRT_CDECL_END
 #endif/*INDEX_H*/

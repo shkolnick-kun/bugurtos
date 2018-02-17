@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef TIMER_H
 #define TIMER_H
-
+BGRT_CDECL_BEGIN
 /*!
 \file
 \~russian
@@ -257,4 +257,6 @@ The caller waits until system time becomes greater or equal than *tmr + time.
 \param time Wait time interval.
 */
 void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time);
+
+BGRT_CDECL_END
 #endif /*TIMER_H*/

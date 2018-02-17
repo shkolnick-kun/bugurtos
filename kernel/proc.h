@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PROC_H
 #define BGRT_PROC_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \~russian
@@ -758,4 +759,6 @@ void bgrt_priv_proc_set_prio(bgrt_proc_t * proc, bgrt_prio_t prio);
 \return - A process priority value.
 */
 bgrt_prio_t bgrt_priv_proc_get_prio(bgrt_proc_t * proc);
+
+BGRT_CDECL_END
 #endif /*BGRT_PROC_H*/

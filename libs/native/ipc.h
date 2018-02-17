@@ -83,6 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок IPC. \~english An IPC header.
 */
 #include <bugurt.h>
+BGRT_CDECL_BEGIN
 
 typedef struct bgrt_priv_ipc_t bgrt_ipc_t;/*!< \~russian Смотри #bgrt_priv_ipc_t; \~english See #bgrt_priv_ipc_t; */
 /*Свойства*/
@@ -204,4 +205,5 @@ Unblock a sender process, which message has been received.
 */
 bgrt_st_t bgrt_ipc_reply(bgrt_ipc_t * in, BGRT_PID_T pid);
 
+BGRT_CDECL_END
 #endif /*IPC_H*/

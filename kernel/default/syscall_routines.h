@@ -78,8 +78,8 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_SCR_H
 #define BGRT_SCR_H
-
 #include <bugurt.h>
+//BGRT_CDECL_BEGIN
 /* ADLINT:SF:[W0456,W0567,W0644,W0459,W0085,W0073,W0422] extern func, valist */
 
 /**********************************************************************************************
@@ -312,4 +312,5 @@ BGRT_SC_SR(USER, bgrt_va_wr_t* va)/* ADLINT:SL:[W0031] va is used!!!*/
 
     return ret;
 }
+//BGRT_CDECL_BEGIN
 #endif /*BGRT_SCR_H*/

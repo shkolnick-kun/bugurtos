@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef VINT_H
 #define VINT_H
+BGRT_CDECL_BEGIN
 
 #ifndef BGRT_VINT_CS_START
 #   define BGRT_VINT_CS_START() BGRT_INT_LOCK()
@@ -250,4 +251,6 @@ Virtual interrupt processing.
 \param vic A pointer to a #bgrt_vic_t object.
 */
 void bgrt_vic_do_work(bgrt_vic_t * vic);
+
+BGRT_CDECL_END
 #endif /*VINT_H*/

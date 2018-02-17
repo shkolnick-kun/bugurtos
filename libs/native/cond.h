@@ -83,6 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок условных переменных. \~english A conditional variable header.
 */
 #include <bugurt.h>
+BGRT_CDECL_BEGIN
 #include "mutex.h"
 
 typedef struct bgrt_priv_cond_t bgrt_cond_t; /*!< \~russian Смотри #bgrt_priv_cond_t; \~english See #bgrt_priv_cond_t; */
@@ -206,4 +207,5 @@ Launches all processes from waiting process list.
 */
 bgrt_st_t bgrt_cond_broadcast(bgrt_cond_t * cond);
 
+BGRT_CDECL_END
 #endif /*COND_H*/

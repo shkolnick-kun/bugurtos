@@ -76,9 +76,9 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                           http://www.0chan.ru/r/res/9996.html                          *
 *                                                                                        *
 *****************************************************************************************/
-
 #ifndef ATM_CORTEX_M34_1_H
 #define ATM_CORTEX_M34_1_H
+BGRT_CDECL_BEGIN
 
 #define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
 
@@ -112,4 +112,5 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk)
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push
 
+BGRT_CDECL_BEGIN
 #endif /*ATM_CORTEX_M34_1_H*/

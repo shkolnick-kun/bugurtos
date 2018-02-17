@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PORT_H
 #define BGRT_PORT_H
+BGRT_CDECL_BEGIN
 
 extern  void bgrt_int_lock(void);
 extern  void bgrt_int_free(void);
@@ -163,4 +164,5 @@ extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 /*Must use VIC for tests*/
 #define BGRT_CONFIG_USE_VIC
 
+BGRT_CDECL_END
 #endif /* BGRT_PORT_H*/

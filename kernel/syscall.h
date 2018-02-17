@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef SYSCALL_H
 #define SYSCALL_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок системных вызовов.
@@ -205,4 +206,5 @@ A system call macro, see #bgrt_syscall_var.
 #   include <default/syscall_api.h> /*Default system call dispatcher*/
 #endif/*BGRT_CONFIG_USER_SYSCALL*/
 
+BGRT_CDECL_END
 #endif /*SYSCALL_H*/

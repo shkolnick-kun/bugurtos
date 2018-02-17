@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PORT_H
 #define BGRT_PORT_H
+BGRT_CDECL_BEGIN
 
 #include <intrins.h>
 
@@ -129,4 +130,5 @@ extern bgrt_stack_t * kernel_sp;
 extern bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
+BGRT_CDECL_END
 #endif /*BGRT_PORT_H*/

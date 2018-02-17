@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PORT_H
 #define BGRT_PORT_H
+BGRT_CDECL_END
 
 #define BGRT_INT_LOCK() __asm__("sim")
 #define BGRT_INT_FREE() __asm__("rim")
@@ -130,4 +131,5 @@ extern void bgrt_switch_context(void) __trap __naked;
 /* System timer ISR declaration */
 extern void system_timer_isr(void) __interrupt(BGRT_SYSTEM_TIMER_VECTOR) __naked;
 
+BGRT_CDECL_END
 #endif /*BGRT_PORT_H*/

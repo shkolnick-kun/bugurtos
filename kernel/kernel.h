@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_KERNEL_H
 #define BGRT_KERNEL_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок Ядра. \~english A kernel header.
@@ -214,4 +215,6 @@ This function prepares the kernel to work.
 \warning Internal usage function.
 */
 void bgrt_kernel_init(void);
+
+BGRT_CDECL_END
 #endif /*BGRT_KERNEL_H*/

@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_SCHED_H
 #define BGRT_SCHED_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \~russian
@@ -395,4 +396,5 @@ Finds the most loaded CPU core on the system and transfers one process from it t
 void bgrt_sched_lazy_global_load_balancer(void);
 #endif /* BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB */
 
+BGRT_CDECL_END
 #endif /*BGRT_SCHED_H*/

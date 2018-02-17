@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef CRIT_SEC_H
 #define CRIT_SEC_H
-
+BGRT_CDECL_BEGIN
 /*!
 \file
 \~russian
@@ -181,4 +181,5 @@ void bgrt_crit_sec_enter(void);
 void bgrt_crit_sec_exit(void);
 #endif /*BGRT_CONFIG_MP*/
 
+BGRT_CDECL_END
 #endif /* CRIT_SEC_H */

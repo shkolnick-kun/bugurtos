@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef SYSCALL_API_H
 #define SYSCALL_API_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок системных вызовов.
@@ -399,4 +400,5 @@ Wake a process on timeout.
 */
 #define BGRT_SYNC_PROC_TIMEOUT(pid) BGRT_SYSCALL_N(SYNC_PROC_TIMEOUT, (void *)pid)
 /*****************************************************************************************/
+BGRT_CDECL_END
 #endif /*SYSCALL_API_H*/

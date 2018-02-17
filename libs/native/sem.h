@@ -83,6 +83,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 \brief \~russian Заголовок счётных семафоров. \~english A counting semaphores header.
 */
 #include <bugurt.h>
+BGRT_CDECL_BEGIN
 /*Семафор*/
 typedef struct bgrt_priv_sem_t bgrt_sem_t;/*!< \~russian Смотри #bgrt_priv_sem_t; \~english See #bgrt_priv_sem_t; */
 /*Свойства*/
@@ -238,4 +239,5 @@ else semaphore wait list head will be launched.
 */
 bgrt_st_t bgrt_sem_free_cs(bgrt_sem_t * sem);
 
+BGRT_CDECL_END
 #endif /*SEM_H*/

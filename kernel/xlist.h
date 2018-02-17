@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_XLIST_H
 #define BGRT_XLIST_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 
@@ -186,5 +187,5 @@ void bgrt_xlist_switch (bgrt_xlist_t * xlist, bgrt_prio_t prio);
 "вставить"
 "переместить в другой список"
 ----------------------------------------------------*/
-
+BGRT_CDECL_END
 #endif /*BGRT_XLIST_H*/

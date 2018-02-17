@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef ITEM_H
 #define ITEM_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок элементов 2-связного списка. \~english A list item header.
@@ -172,4 +173,6 @@ Cut an item from a list.
 \param item A pointer to an item to cut.
 */
 void bgrt_item_cut(bgrt_item_t *item);
+
+BGRT_CDECL_END
 #endif /*ITEM_H*/

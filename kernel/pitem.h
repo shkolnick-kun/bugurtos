@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PITEM_H
 #define BGRT_PITEM_H
-
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок элементов списка с приоритетами. \~english A prioritized list item header.
@@ -232,4 +232,6 @@ Cut all #bgrt_pitem_t objects from #bgrt_xlist_t container and form an ordinary 
 \return An ordinary doublelinked list head pointer.
 */
 bgrt_pitem_t * bgrt_pitem_xlist_chain(bgrt_xlist_t * src);
+
+BGRT_CDECL_END
 #endif /*BGRT_PITEM_H*/

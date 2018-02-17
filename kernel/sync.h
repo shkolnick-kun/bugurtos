@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_SYNC_H
 #define BGRT_SYNC_H
+BGRT_CDECL_BEGIN
 /*!
 \file
 \brief \~russian Заголовок базового примитива синхронизации. \~english A sync header.
@@ -270,4 +271,6 @@ Watch #BGRT_SYNC_PROC_TIMEOUT.
 \warning For internal usage.
 */
 bgrt_st_t bgrt_priv_sync_proc_timeout(bgrt_proc_t * proc);
+
+BGRT_CDECL_END
 #endif /*BGRT_SYNC_H*/

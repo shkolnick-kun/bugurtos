@@ -78,6 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PORT_H
 #define BGRT_PORT_H
+BGRT_CDECL_BEGIN
 
 #define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
 /*
@@ -161,4 +162,5 @@ void BGRT_CONCAT(v,_func)(void);  \
 BGRT_TMPL_ISR(v,BGRT_CONCAT(v,_func)) \
 void BGRT_CONCAT(v,_func)(void)
 
+BGRT_CDECL_END
 #endif /*BGRT_PORT_H*/
