@@ -1,6 +1,6 @@
 ;/**************************************************************************
-;   BuguRTOS-2.0.x (Bugurt real time operating system)
-;   Copyright (C) 2016 anonimous
+;   BuguRTOS-4.0.x (Bugurt real time operating system)
+;   Copyright (C) 2018 anonimous
 ;
 ;    This program is free software: you can redistribute it and/or modify
 ;    it under the terms of the GNU General Public License as published by
