@@ -31,6 +31,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-mthumb" />
+			<Add option="-Wall" />
 			<Add option="-mcpu=cortex-m0" />
 			<Add option="-g3" />
 			<Add option="-fmessage-length=0" />
@@ -57,6 +58,7 @@
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
+		<Unit filename="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f051r8.ld" />
 		<Unit filename="../../../../../arch/cm0/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -116,14 +118,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/xlist.h" />
+		<Unit filename="../../../../main/proc/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../bugurt_config.h" />
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../test_func.h" />
-		<Unit filename="../../../../main/proc/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f051r8.ld" />
 		<Extensions>
 			<envvars />
 			<code_completion />

@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="cond" />
+		<Option title="ipc" />
 		<Option pch_mode="2" />
 		<Option compiler="armnoneeabigcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/cond.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/ipc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
@@ -17,7 +17,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/cond.elf" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/ipc.elf" prefix_auto="1" extension_auto="0" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
@@ -32,7 +32,7 @@
 		<Compiler>
 			<Add option="-mthumb" />
 			<Add option="-Wall" />
-			<Add option="-mcpu=cortex-m4" />
+			<Add option="-mcpu=cortex-m7" />
 			<Add option="-mfloat-abi=hard" />
 			<Add option="-mfpu=fpv4-sp-d16" />
 			<Add option="-O0" />
@@ -55,8 +55,8 @@
 			<Add option="-Xlinker" />
 			<Add option='-Map=&quot;${TARGET_OUTPUT_FILE}&quot;.map' />
 			<Add option="-Wl,--gc-sections" />
-			<Add option='-T &quot;../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld&quot;' />
-			<Add library="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f4.a" />
+			<Add option='-T &quot;../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f746ng.ld&quot;' />
+			<Add library="../../../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f7.a" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
@@ -122,15 +122,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../../../kernel/xlist.h" />
-		<Unit filename="../../../../../../../libs/native/cond.c">
+		<Unit filename="../../../../../../../libs/native/ipc.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../../../../../../libs/native/cond.h" />
-		<Unit filename="../../../../../../../libs/native/mutex.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../../libs/native/mutex.h" />
-		<Unit filename="../../../../../../main/libs/native/cond/main.c">
+		<Unit filename="../../../../../../../libs/native/ipc.h" />
+		<Unit filename="../../../../../../main/libs/native/ipc/main.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../test_func.c">

@@ -35,7 +35,6 @@ typedef unsigned char bgrt_prio_t;
 
 /* unsigned char is enough.*/
 typedef unsigned char bgrt_flag_t;
-
 /* unsigned char is enough.*/
 typedef unsigned char bgrt_st_t;
 
@@ -59,26 +58,20 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**     Project specific stuff, you are welcome to edit it!!!*/
 /**===============================================================*/
 #define BGRT_CONFIG_TEST  /*This is test project*/.
-#define STM32F0
+#define STM32F7
+#include <libopencmsis/stm32/f7/irqhandlers.h>
 #include <libopencmsis/core_cm3.h>
-
-#include <libopencm3/stm32/gpio.h>
-#define GREEN GPIO9
-#define RED   GPIO8
-#define LED_ON(CL)  gpio_set(GPIOC, CL)
-#define LED_OFF(CL) gpio_clear(GPIOC, CL)
-#define LED_TOGGLE(CL) gpio_toggle(GPIOC, CL)
-
 /*These macros needed to interface cstartup code.*/
-#define BGRT_SYSTEM_TIMER_ISR 	sys_tick_handler
+#define BGRT_SYSTEM_TIMER_ISR 	    sys_tick_handler
 #define BGRT_SYSCALL_ISR			pend_sv_handler
 
-#define BGRT_CONFIG_FCPU_HZ 			(48000000ul)
+#define BGRT_CONFIG_FCPU_HZ 			(168000000ul)
 #define BGRT_CONFIG_FSYSTICK_HZ 		(1000ul)
 
-#define BGRT_CONFIG_PRIO_BITS       2  /*Used upper priority bits*/
-/*#define BGRT_CONFIG_SYSCALL_PRIO 	3 /*SysCall priority*/
-#define BGRT_CONFIG_SCHED_PRIO 		3 /*Scheduler priority*/
+#define BGRT_CONFIG_PRIO_BITS        4  /*Used upper priority bits*/
+#define BGRT_CONFIG_SYSCALL_PRIO 	16 /*SysCall priority*/
+#define BGRT_CONFIG_CRITSEC_PRIO 	17 /*Critical section priority*/
+#define BGRT_CONFIG_SCHED_PRIO 		17 /*Scheduler priority*/
 
 #define BGRT_PROC_STACK_SIZE 128
 

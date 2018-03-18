@@ -43,7 +43,7 @@ void test_do_nothing(void)
 void init_hardware(void)
 {
     __asm__ __volatile__ ("cpsid i \n\t");
-    rcc_clock_setup_in_hsi_out_32mhz();
+    rcc_clock_setup_in_hsi_out_48mhz();
     /* Настраиваем системный таймер и приоритет его прерывания */
     BGRT_SYS_SHPR3 |= (BGRT_CONFIG_SCHED_PRIO  << (8 - BGRT_CONFIG_PRIO_BITS)) << 24; /* SysTick */
     BGRT_SYST_RVR = BGRT_SYST_RVR_VALUE;

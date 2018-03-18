@@ -1,5 +1,7 @@
 #include <test_func.h>
 
+float a = 1.0, b=3.14;
+
 void(*test_kernel_preempt)(void) = test_do_nothing;
 
 void kernel_preemt_hook(void)
@@ -22,12 +24,13 @@ void test_do_nothing(void)
 void init_hardware(void)
 {
     __asm__ __volatile__ ("cpsid i \n\t");
-
-    rcc_clock_setup_pll(&rcc_clock_config[RCC_CLOCK_VRANGE1_HSI_PLL_32MHZ]);
-
-    rcc_periph_clock_enable(RCC_GPIOB);
-    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN);
-    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, RED);
+    rcc_clock_setup_hse_3v3(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_216MHZ]);
+    /* Enable GPIOC clock. */
+    rcc_periph_clock_enable(RCC_GPIOD);
+    /* Set GPIO12 (in GPIO port C) to 'output push-pull'. */
+    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN | RED);
+    gpio_clear(GPIOD, GREEN);
+    gpio_clear(GPIOD, RED);
 }
 
 void sched_fix_bgrt_proc_2(void)
@@ -37,7 +40,6 @@ void sched_fix_bgrt_proc_2(void)
     proc[2].flags &= BGRT_PROC_STATE_CLEAR_MASK;
     BGRT_INT_FREE();
 }
-// Can blink numbers from 0 up to 99.
 static void blink_digit(bgrt_cnt_t digit)
 {
     LED_OFF(RED);
@@ -114,4 +116,24 @@ void test_inc(void)
 void systick_hook(void)
 {
     NOP();
+}
+
+void HardFault_Handler(void)
+{
+    while (1)
+    {
+
+    }
+}
+
+void float_test_1(void)
+{
+    a+=1.735;
+    if (a >= 178.0) a = 1.11;
+}
+
+void float_test_2(void)
+{
+    b*=1.005;
+    if (b >= 178.0) b = 1.17;
 }

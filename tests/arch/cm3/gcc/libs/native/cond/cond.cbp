@@ -30,13 +30,14 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
+			<Add option="-Wall" />
 			<Add option="-g3" />
 			<Add option="-fmessage-length=0" />
 			<Add option="-fno-builtin" />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
-			<Add option="-mcpu=cortex-m3" />
 			<Add directory="../../../../../../../kernel" />
 			<Add directory="../../../../gcc" />
 			<Add directory="../../../../../../../libs/native" />

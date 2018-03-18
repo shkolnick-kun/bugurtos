@@ -30,13 +30,14 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
+			<Add option="-Wall" />
 			<Add option="-g3" />
 			<Add option="-fmessage-length=0" />
 			<Add option="-fno-builtin" />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
-			<Add option="-mcpu=cortex-m3" />
 			<Add directory="../../../../../kernel" />
 			<Add directory="../../gcc" />
 			<Add directory="../../../../../../thirdparty/libopencm3/include" />
@@ -57,6 +58,7 @@
 			<Add after="arm-none-eabi-size ${TARGET_OUTPUT_FILE}" />
 			<Mode after="always" />
 		</ExtraCommands>
+		<Unit filename="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld" />
 		<Unit filename="../../../../../arch/cm3/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -117,14 +119,13 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/xlist.h" />
+		<Unit filename="../../../../main/sched/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../test_func.h" />
-		<Unit filename="../../../../main/sched/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32l152rb.ld" />
 		<Extensions>
 			<envvars />
 			<code_completion />
