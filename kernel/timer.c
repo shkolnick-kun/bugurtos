@@ -123,8 +123,7 @@ void bgrt_wait_time(bgrt_tmr_t time)
 /*===========================================================================*/
 void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time)
 {
-    BGRT_ASSERT(tmr, "The #t must not be NULL!");
-
+    bgrt_tmr_t delta;
     BGRT_SET_TIMER(*tmr, time); /* ADLINT:SL:[W0459] does not assign*/
     do {
 #ifndef BGRT_CONFIG_TEST
@@ -134,5 +133,6 @@ void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time)
         bgrt_sched_proc_yield(); /* ADLINT:SL:[W1073] retval discarded*/
 #   endif /* BGRT_CONFIG_SAVE_POWER */
 #endif /*BGRT_CONFIG_TEST*/
-    } while (BGRT_TIMER(0) < *tmr);
+        delta = *tmr - BGRT_TIMER(0);
+    } while ((0 < delta) && (delta <= time));
 }
