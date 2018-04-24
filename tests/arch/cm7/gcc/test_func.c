@@ -25,12 +25,12 @@ void init_hardware(void)
 {
     __asm__ __volatile__ ("cpsid i \n\t");
     rcc_clock_setup_hse_3v3(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_216MHZ]);
-    /* Enable GPIOC clock. */
-    rcc_periph_clock_enable(RCC_GPIOD);
+    /* Enable GPIOI clock. */
+    rcc_periph_clock_enable(RCC_GPIOI);
     /* Set GPIO12 (in GPIO port C) to 'output push-pull'. */
-    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN | RED);
-    gpio_clear(GPIOD, GREEN);
-    gpio_clear(GPIOD, RED);
+    gpio_mode_setup(GPIOI, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN | RED);
+    gpio_clear(GPIOI, GREEN);
+    gpio_clear(GPIOI, RED);
 }
 
 void sched_fix_bgrt_proc_2(void)
