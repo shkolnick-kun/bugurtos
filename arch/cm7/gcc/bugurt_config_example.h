@@ -17,7 +17,7 @@
 typedef unsigned long bgrt_stack_t;
 
 /**================================================================*/
-/**               Edit this part carefully!!!                      */
+/**               Edit this part carefully!!!                   */
 /**================================================================*/
 
 /* Max priority levels are defined by bgrt_map_t,*/
@@ -26,6 +26,7 @@ typedef unsigned long bgrt_stack_t;
 /* data types*/
 typedef unsigned long bgrt_map_t;
 #define BGRT_BITS_IN_INDEX_T (32)
+#define BGRT_CONFIG_USER_SEARCH(map) (__builtin_ctzl(map))
 
 /* Even if bgrt_map_t is unsigned long long,*/
 /* there will be only 64 priority levels available,*/
@@ -53,18 +54,18 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**     BuguRTOS behavior compilation flags, edit carefully!!!    */
 /**===============================================================*/
 #define BGRT_CONFIG_HARD_RT
-
 /**===============================================================*/
-/**     Project specific stuff, you are welcome to edit it!!!     */
+/**     Project specific stuff, you are welcome to edit it!!!*/
 /**===============================================================*/
 #define BGRT_CONFIG_TEST  /*This is test project*/.
-#define STM32F4
+#define STM32F7
+#include <libopencmsis/stm32/f7/irqhandlers.h>
 #include <libopencmsis/core_cm3.h>
 /*These macros needed to interface cstartup code.*/
 #define BGRT_SYSTEM_TIMER_ISR 	    sys_tick_handler
 #define BGRT_SYSCALL_ISR			pend_sv_handler
 
-#define BGRT_CONFIG_FCPU_HZ 			(168000000ul)
+#define BGRT_CONFIG_FCPU_HZ 			(215000000ul)
 #define BGRT_CONFIG_FSYSTICK_HZ 		(1000ul)
 
 #define BGRT_CONFIG_PRIO_BITS        4  /*Used upper priority bits*/
