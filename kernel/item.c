@@ -89,12 +89,14 @@ void bgrt_item_init(bgrt_item_t *item)
 /* Insert an item to a list*/
 void bgrt_item_insert(bgrt_item_t *item, bgrt_item_t *head)
 {
+    /* A tail of a list*/
+    bgrt_item_t * tail;
+
     BGRT_ASSERT(item,       "The #item must not be NULL!");
     BGRT_ASSERT(head,       "The #head must not be NULL!");
     BGRT_ASSERT(head->prev, "The #head->prev must not be NULL!");
     BGRT_ASSERT(head->next, "The #head->next must not be NULL!");
-    /* A tail of a list*/
-    bgrt_item_t * tail;
+
     tail = head->prev;
     /* Insert an item between a head and a tail */
     item->prev = tail;
