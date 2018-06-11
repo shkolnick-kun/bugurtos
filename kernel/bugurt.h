@@ -150,7 +150,7 @@ BuguRTOS config (must be included first)
 
 /*Basic types*/
 #include "index.h"  /* ADLINT:SL:[W0073] No include guard! */
-#include "item.h"
+#include "item.h"   /* ADLINT:SL:[W0073] No include guard! */
 #include "pcounter.h"
 #include "xlist.h"
 #include "pitem.h" /*Depends on xlist.h*/

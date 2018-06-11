@@ -10,6 +10,25 @@
 # DO NOT EDIT MANUALLY!
 version: "3.0.0"
 
+#Use adlint from Gems!
+#Code::Blocks settings (use GCC as template)
+#Default commands:
+
+#Compiler(c;C;cxx;CXX;cpp;CPP;cxx;CXX)
+#$compiler -t adlint_traits.yml -o obj/adlint $options $file
+#Linker
+#$linker -t adlint_traits.yml -o bin/adlint $link_options $link_objects
+
+#obj extension: c.met.csv
+#Don't use full file names (GDB workaround)
+
+#Regexp:
+#Warning: (.*):(.*):(.*):warning:(.*)  file 1, line 2, msg 4
+#W0059:   (.*):(.*)::warning:(.*)      file 1, msg 3 
+#Context: (.*):(.*):(.*):context:(.*)  file 1, line 2, msg 4
+#Error:   (.*):(.*):(.*):error:(.*)    file 1, line 2, msg 4
+
+
 # List of names of source code examination packages.
 #
 # "c_builtin" is a builtin source code examination package for C language.
@@ -61,7 +80,7 @@ project_traits:
       - ".."
       - "../../../kernel"
       - "../../../kernel/default"
-      - "/usr/lib/gcc/i486-linux-gnu/4.7/include"
+      - "/usr/lib/gcc/x86_64-linux-gnu/4.9.3/include"
   #
   # Project specific coding style section
   #
