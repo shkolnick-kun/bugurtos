@@ -100,9 +100,9 @@ typedef unsigned char bgrt_load_t;
 /* No load balancing during runtime*/
 //#define BGRT_CONFIG_LB_SCHEME 0
 /* Active load balancing */
-#define BGRT_CONFIG_LB_SCHEME 1
+//#define BGRT_CONFIG_LB_SCHEME 1
 /* Lazy load balancing */
-//#define BGRT_CONFIG_LB_SCHEME 2
+#define BGRT_CONFIG_LB_SCHEME 2
 
 #if (BGRT_CONFIG_LB_SCHEME == 1)
 /* Use "Active Load Balancing",*/

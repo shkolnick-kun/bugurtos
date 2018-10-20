@@ -102,13 +102,13 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/xlist.h" />
+		<Unit filename="../../../../main/sched/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../test_func.h" />
-		<Unit filename="../../../../main/sched/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Extensions>
 			<envvars />
 			<code_completion />

@@ -5,6 +5,7 @@
 #include <libopencm3/stm32/timer.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/exti.h>
+#include <libopencm3/cm3/dwt.h>
 
 extern void(*test_kernel_preempt)(void);
 extern bgrt_proc_t proc[6];

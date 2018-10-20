@@ -146,68 +146,23 @@ void bgrt_sched_init(bgrt_sched_t * sched);
 /*!
 \~russian
 \brief
-Пролог функции планирования по таймеру.
-
-Нужна для переключения процессов в обработчике прерывания системного таймера.
+Функция планирования.
 
 \warning Для внутреннего использования.
 \param sched - Указатель на планировщик.
-
-\~english
-\brief
-A system timer scheduler prologue.
-
-This function switches processes in system timer interrupt handler.
-
-\warning For internal usage.
-\param sched - A scheduler pointer.
-*/
-void bgrt_sched_schedule_prologue(bgrt_sched_t * sched);
-/*!
-\~russian
-\brief
-Пролог перепланирования.
-
-Нужна для переключения процессов в случае необходимости.
-
-\warning Для внутреннего использования.
-\param sched - Указатель на планировщик.
-
-\~english
-\brief
-Rescheduler routine prologue.
-
-This function is needed to switch processes if needed.
-
-\warning For internal usage.
-\param sched A scheduler pointer.
-*/
-void bgrt_sched_reschedule_prologue(bgrt_sched_t * sched);
-
-/*!
-\~russian
-\brief
-Эпилог функций планирования.
-
-Выбирает новый готовый процесс для запуска, если он есть.
-Если нет готовых процессов - переключает очереди процессов ready и expired.
-
-\warning Для внутреннего использования.
-\param sched - Указатель на планировщик.
+\param is_periodic - Флаг работы по периодическому прерыванию.
 \return #BGRT_ST_OK - если есть новый процесс, #BGRT_ST_EEMPTY - если нет готовых процессов.
 
 \~english
 \brief
-Scheduler epilogue routine.
-
-If there is some ready process, then this function schedules next process to run.
-In other case it switches ready and expired process lists.
+A scheduler function.
 
 \warning For internal usage.
-\param sched A scheduler pointer.
+\param sched - A scheduler pointer.
+\param is_periodic - A periodic interrupt flag.
 \return #BGRT_ST_OK is new ready process scheduled, #BGRT_ST_EEMPTY if there were no ready processes.
 */
-bgrt_st_t bgrt_sched_epilogue(bgrt_sched_t * sched);
+bgrt_st_t bgrt_sched_run(bgrt_sched_t * sched, bgrt_bool_t is_periodic);
 
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
@@ -368,7 +323,7 @@ This function transfers one process on the least loaded CPU core from the object
 
 \param object_core - A CPU core to decrease a load on.
 */
-void bgrt_priv_sched_lazy_load_balancer(bgrt_cpuid_t object_core);
+//void bgrt_priv_sched_lazy_load_balancer(bgrt_cpuid_t object_core);
 
 /*!
 \~russian
@@ -393,7 +348,7 @@ void bgrt_sched_lazy_local_load_balancer(void);
 
 Finds the most loaded CPU core on the system and transfers one process from it to the least loaded CPU core.
 */
-void bgrt_sched_lazy_global_load_balancer(void);
+//void bgrt_sched_lazy_global_load_balancer(void);
 #endif /* BGRT_CONFIG_MP BGRT_CONFIG_USE_ALB */
 
 BGRT_CDECL_END

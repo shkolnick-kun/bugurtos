@@ -86,7 +86,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #   define BGRT_SAFE_POWER() do{}while (0)
 #endif/* BGRT_CONFIG_SAVE_POWER */
 
-static inline void _do_int_scall(bgrt_kblock_t * kblock)
+static void _do_int_scall(bgrt_kblock_t * kblock)
 {
     BGRT_USPD_T uspd;
     bgrt_st_t scret;
@@ -103,52 +103,32 @@ static inline void _do_int_scall(bgrt_kblock_t * kblock)
         uspd->scnum = BGRT_SC_ENUM_END;
     }
 }
-/* Check for pending system call and push it */
-static inline void _push_pend_scall(bgrt_kblock_t * kblock)
+///* Check for pending system call and push it */
+//static inline void _push_pend_scall(bgrt_kblock_t * kblock)
+//{
+//    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
+//    if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
+//    {
+//        /* DO NOT "OPTIMIZE" THIS!!! */
+//        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VSCALL);
+//    }
+//}
+
+static void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
     BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
-    if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
+
+    if (BGRT_ST_EEMPTY == bgrt_sched_run(&kblock->sched, BGRT_KBLOCK_VTMR & work))
+    {
+        /*A scheduler is empty, must do resched*/
+        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
+        /*May safe power*/
+        BGRT_SAFE_POWER();
+    }
+    else if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
     {
         /* DO NOT "OPTIMIZE" THIS!!! */
         bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VSCALL);
-    }
-}
-
-static inline void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
-{
-    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
-    if (BGRT_KBLOCK_VTMR == work)
-    {
-        bgrt_sched_schedule_prologue(&kblock->sched);
-    }
-    else
-    {
-        bgrt_sched_reschedule_prologue(&kblock->sched);
-    }
-
-    if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
-    {
-        /* Do IDLE work if needed */
-#if defined(BGRT_CONFIG_MP) && (!defined(BGRT_CONFIG_USE_ALB))
-#   ifdef BGRT_CONFIG_USE_LLB
-        bgrt_sched_lazy_global_load_balancer();
-#   endif/*BGRT_CONFIG_USE_LLB*/
-#endif/*BGRT_CONFIG_MP*/
-        if (BGRT_ST_OK != bgrt_sched_epilogue(&kblock->sched))
-        {
-            /*A scheduler is empty, must do resched*/
-            bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
-            /*May safe power*/
-            BGRT_SAFE_POWER();
-        }
-        else
-        {
-            _push_pend_scall(kblock);
-        }
-    }
-    else
-    {
-        _push_pend_scall(kblock);
     }
 }
 

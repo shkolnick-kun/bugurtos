@@ -53,6 +53,8 @@ void init_hardware(void)
     gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, RED | GREEN);
     gpio_clear(GPIOC, GREEN);
     gpio_clear(GPIOC, RED);
+
+    dwt_enable_cycle_counter();
 }
 
 void sched_fix_bgrt_proc_2(void)

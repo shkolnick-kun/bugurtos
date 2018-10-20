@@ -28,6 +28,9 @@ void init_hardware(void)
     rcc_periph_clock_enable(RCC_GPIOB);
     gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN);
     gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, RED);
+
+
+    dwt_enable_cycle_counter();
 }
 
 void sched_fix_bgrt_proc_2(void)

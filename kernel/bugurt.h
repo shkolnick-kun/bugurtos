@@ -169,16 +169,17 @@ BuguRTOS config (must be included first)
 /*Kernel (kernel services, must be included after syscall.h and vint.h)*/
 #include "kernel.h"
 
-#define BGRT_ST_OK          ((bgrt_st_t)0) /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
-#define BGRT_ST_ENULL       ((bgrt_st_t)1) /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
-#define BGRT_ST_EOWN        ((bgrt_st_t)2) /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
-#define BGRT_ST_EEMPTY      ((bgrt_st_t)3) /*!< \~russian \brief Список спящих процессов пуст. \~english \brief Wait process list is empty. */
-#define BGRT_ST_ESYNC       ((bgrt_st_t)4) /*!< \~russian \brief Не тот объект типа #bgrt_sync_t. \~english \brief Wrong #bgrt_sync_t object. */
-#define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5) /*!< \~russian \brief Иcтек таймаут #bgrt_sync_t. \~english \brief Timeout expired. */
-#define BGRT_ST_ESTAT       ((bgrt_st_t)6) /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
-#define BGRT_ST_EAGAIN      ((bgrt_st_t)7) /*!< \~russian \brief Попробуйте ещё раз. \~english \brief Try again. */
-#define BGRT_ST_SCALL       ((bgrt_st_t)8) /*!< \~russian \brief Неправильный системный вызов. \~english \brief Wrong system call. */
-#define BGRT_ST_ROLL        ((bgrt_st_t)9) /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+#define BGRT_ST_OK          ((bgrt_st_t)0)  /*!< \~russian \brief Удачное завершение. \~english \brief Success. */
+#define BGRT_ST_ENULL       ((bgrt_st_t)1)  /*!< \~russian \brief Передан нулевой указатель. \~english \brief Null pointer argument. */
+#define BGRT_ST_EOWN        ((bgrt_st_t)2)  /*!< \~russian \brief Ошибка владения. \~english \brief Ownership error. */
+#define BGRT_ST_EEMPTY      ((bgrt_st_t)3)  /*!< \~russian \brief Список процессов пуст. \~english \brief The process list is empty. */
+#define BGRT_ST_ESYNC       ((bgrt_st_t)4)  /*!< \~russian \brief Не тот объект типа #bgrt_sync_t. \~english \brief Wrong #bgrt_sync_t object. */
+#define BGRT_ST_ETIMEOUT    ((bgrt_st_t)5)  /*!< \~russian \brief Иcтек таймаут #bgrt_sync_t. \~english \brief Timeout expired. */
+#define BGRT_ST_ESTAT       ((bgrt_st_t)6)  /*!< \~russian \brief Ошибка состояния процесса. \~english \brief Process state error. */
+#define BGRT_ST_EAGAIN      ((bgrt_st_t)7)  /*!< \~russian \brief Попробуйте ещё раз. \~english \brief Try again. */
+#define BGRT_ST_SCALL       ((bgrt_st_t)8)  /*!< \~russian \brief Неправильный системный вызов. \~english \brief Wrong system call. */
+#define BGRT_ST_ROLL        ((bgrt_st_t)9)  /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
+#define BGRT_ST_IDLE        ((bgrt_st_t)10) /*!< \~russian \brief Простой системы. \~english \brief The system is IDLE. */
 
 /*!
 \~russian
