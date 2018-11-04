@@ -31,6 +31,7 @@ void init_hardware(void)
 
 
     dwt_enable_cycle_counter();
+    /* *(uint32_t *)0xE0001004 */
 }
 
 void sched_fix_bgrt_proc_2(void)

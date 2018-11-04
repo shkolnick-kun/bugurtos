@@ -149,7 +149,6 @@ void bgrt_sched_init(bgrt_sched_t * sched);
 Функция планирования.
 
 \warning Для внутреннего использования.
-\param sched - Указатель на планировщик.
 \param is_periodic - Флаг работы по периодическому прерыванию.
 \return #BGRT_ST_OK - если есть новый процесс, #BGRT_ST_EEMPTY - если нет готовых процессов.
 
@@ -158,11 +157,10 @@ void bgrt_sched_init(bgrt_sched_t * sched);
 A scheduler function.
 
 \warning For internal usage.
-\param sched - A scheduler pointer.
 \param is_periodic - A periodic interrupt flag.
 \return #BGRT_ST_OK is new ready process scheduled, #BGRT_ST_EEMPTY if there were no ready processes.
 */
-bgrt_st_t bgrt_sched_run(bgrt_sched_t * sched, bgrt_bool_t is_periodic);
+bgrt_st_t bgrt_sched_run(bgrt_bool_t is_periodic);
 
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.

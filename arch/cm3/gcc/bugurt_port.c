@@ -72,7 +72,7 @@ volatile bgrt_stack_t bugurt_kernel_stack[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 static bgrt_stack_t * _read_psp(void)
 {
     bgrt_stack_t * ret=0;
-__asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret));
+    __asm__ __volatile__ ("mrs %0, psp\n\t" : "=r" (ret));
     return(ret);
 }
 /*====================================================================================*/

@@ -118,7 +118,7 @@ static void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
     BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
 
-    if (BGRT_ST_EEMPTY == bgrt_sched_run(&kblock->sched, BGRT_KBLOCK_VTMR & work))
+    if (BGRT_ST_EEMPTY == bgrt_sched_run(BGRT_KBLOCK_VTMR & work))
     {
         /*A scheduler is empty, must do resched*/
         bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
@@ -138,7 +138,6 @@ void bgrt_kblock_init(bgrt_kblock_t * kblock)
 #ifdef BGRT_CONFIG_USE_VIC
     bgrt_vic_init(&kblock->vic);
 #endif
-    bgrt_sched_init(&kblock->sched);
     BGRT_ATM_INIT_ISR(&kblock->hpmap);
     BGRT_ATM_INIT_ISR(&kblock->lpmap);
     BGRT_ATM_BSET_ISR(&kblock->lpmap, BGRT_KBLOCK_VRESCH);
@@ -222,9 +221,11 @@ void bgrt_kernel_init(void)
     for (i = (bgrt_cpuid_t)0; i<(bgrt_cpuid_t)BGRT_MAX_CPU; i++)
     {
         bgrt_kblock_init((bgrt_kblock_t *)bgrt_kernel.kblock + i);
+        bgrt_sched_init((bgrt_sched_t *)bgrt_kernel.sched + i);
     }
 #else
     bgrt_kblock_init((bgrt_kblock_t *)&bgrt_kernel.kblock);
+    bgrt_sched_init((bgrt_sched_t *)&bgrt_kernel.sched);
 #endif /*BGRT_CONFIG_MP*/
     BGRT_SPIN_INIT(&bgrt_kernel.timer);
     BGRT_SPIN_LOCK(&bgrt_kernel.timer);

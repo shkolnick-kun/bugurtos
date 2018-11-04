@@ -87,14 +87,14 @@ bgrt_cpuid_t bgrt_priv_crit_sec_enter(void)
     bgrt_cpuid_t ret;
     BGRT_INT_LOCK();
     ret = bgrt_curr_cpu();
-    BGRT_CNT_INC(bgrt_kernel.kblock[ret].sched.nested_crit_sec);
+    BGRT_CNT_INC(bgrt_kernel.sched[ret].nested_crit_sec);
     return ret;
 }
 
 void bgrt_priv_crit_sec_exit(bgrt_cpuid_t core)
 {
-    BGRT_CNT_DEC(bgrt_kernel.kblock[core].sched.nested_crit_sec);
-    if (bgrt_kernel.kblock[core].sched.nested_crit_sec == (bgrt_cnt_t)0)
+    BGRT_CNT_DEC(bgrt_kernel.sched[core].nested_crit_sec);
+    if (bgrt_kernel.sched[core].nested_crit_sec == (bgrt_cnt_t)0)
     {
         BGRT_INT_FREE();
     }
@@ -104,13 +104,13 @@ void bgrt_priv_crit_sec_exit(bgrt_cpuid_t core)
 void bgrt_crit_sec_enter(void)
 {
     BGRT_INT_LOCK();
-    BGRT_CNT_INC(bgrt_kernel.kblock.sched.nested_crit_sec);
+    BGRT_CNT_INC(bgrt_kernel.sched.nested_crit_sec);
 }
 void bgrt_crit_sec_exit(void)
 {
-    BGRT_CNT_DEC(bgrt_kernel.kblock.sched.nested_crit_sec);
+    BGRT_CNT_DEC(bgrt_kernel.sched.nested_crit_sec);
 
-    if (bgrt_kernel.kblock.sched.nested_crit_sec == (bgrt_cnt_t)0)
+    if (bgrt_kernel.sched.nested_crit_sec == (bgrt_cnt_t)0)
     {
         BGRT_INT_FREE();
     }

@@ -103,7 +103,7 @@ struct bgrt_priv_kblock_t
 #ifdef BGRT_CONFIG_USE_VIC
     bgrt_vic_t   vic;                 /*!< \~russian Виртуальный контроллер прерываний. \~english A virtual interrupt controller. */
 #endif
-    bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
+    /*bgrt_sched_t sched;               /*!< \~russian Планировщик. \~english A scheduler. */
     bgrt_map_t   hpmap;               /*!< \~russian Виртуальный контроллер "быстрых" прерываний высокого приоритета. \~english A high priority fast virtual interrupt controller. */
     bgrt_map_t   lpmap;               /*!< \~russian Виртуальный контроллер "быстрых" прерываний низкого приоритета. \~english A low priority fast virtual interrupt controller. */
 };
@@ -175,10 +175,12 @@ The kernel stores information about launched processes, system time and other im
 struct bgrt_priv_kernel_t
 {
 #ifdef BGRT_CONFIG_MP
-    bgrt_kblock_t kblock[BGRT_MAX_CPU]; /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
+    bgrt_kblock_t kblock[BGRT_MAX_CPU]; /*!< \~russian Контроллеры программных прерываний. \~english Software interrupt controllers. */
+    bgrt_sched_t sched[BGRT_MAX_CPU];   /*!< \~russian Планировщики для каждого процессорного ядра. \~english A separate scheduler for every CPU core. */
     bgrt_kstat_t stat;                /*!< \~russian Статистика для балансировки нагрузки, на Hotplug работать не собираемся, все будет статично. \~english A statistic for load balancing, CPU hotplug is not supported. */
 #else
-    bgrt_kblock_t kblock;               /*!< \~russian Планировщик. \~english The scheduler. */
+    bgrt_kblock_t kblock;               /*!< \~russian Контроллер программных прерываний. \~english A software interrupt controller. */
+    bgrt_sched_t sched;                 /*!< \~russian Планировщик. \~english A scheduler. */
 #endif /*BGRT_CONFIG_MP*/
     bgrt_ktimer_t timer;              /*!< \~russian Системный таймер. \~english The system timer. */
 };
