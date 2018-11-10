@@ -127,7 +127,15 @@ bgrt_bool_t bgrt_sched_proc_yield(void)
 /*====================================================================================*/
 BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
 {
-    *(bgrt_bool_t *)arg = bgrt_priv_sched_proc_yield();
+    bgrt_bool_t ret;
+    ret = bgrt_priv_sched_proc_yield();
+#ifdef BGRT_CONFIG_SAVE_POWER
+    if (ret)
+    {
+        BGRT_CONFIG_SAVE_POWER();
+    }
+#endif /* BGRT_CONFIG_SAVE_POWER */
+    *(bgrt_bool_t *)arg = ret;
     return BGRT_ST_OK;
 }
 

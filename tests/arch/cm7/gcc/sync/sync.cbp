@@ -62,9 +62,10 @@
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="../../../../../../thirdparty/libopencm3/lib/libopencm3_stm32f407vg.ld" />
-		<Unit filename="../../../../../arch/cm4f/gcc/bugurt_port.c">
+		<Unit filename="../../../../../arch/cm7/gcc/bugurt_port.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="../../../../../arch/cm7/gcc/bugurt_port.h" />
 		<Unit filename="../../../../../kernel/bugurt.h" />
 		<Unit filename="../../../../../kernel/crit_sec.c">
 			<Option compilerVar="CC" />

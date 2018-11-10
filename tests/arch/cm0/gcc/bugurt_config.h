@@ -77,7 +77,6 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define BGRT_CONFIG_FSYSTICK_HZ 		(1000ul)
 
 #define BGRT_CONFIG_PRIO_BITS       2  /*Used upper priority bits*/
-/*#define BGRT_CONFIG_SYSCALL_PRIO 	3 /*SysCall priority*/
 #define BGRT_CONFIG_SCHED_PRIO 		3 /*Scheduler priority*/
 
 #define BGRT_PROC_STACK_SIZE 128

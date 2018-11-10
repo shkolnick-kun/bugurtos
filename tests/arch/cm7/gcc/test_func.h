@@ -27,11 +27,11 @@ extern bgrt_stack_t bgrt_proc_stack[6][BGRT_PROC_STACK_SIZE];
 
 #define BGRT_SCHED_FIX_PROC_2() sched_fix_bgrt_proc_2()
 
-#define GREEN GPIO1
-#define RED   GPIO1
+#define GREEN GPIO0
+#define RED   GPIO14
 
-#define LED_ON(CL)  gpio_set(GPIOI, CL)
-#define LED_OFF(CL) gpio_clear(GPIOI, CL)
+#define LED_ON(CL)  gpio_set(GPIOB, CL)
+#define LED_OFF(CL) gpio_clear(GPIOB, CL)
 
 void kernel_preemt_hook_add(void(*arg)(void));
 void kernel_preemt_hook(void);

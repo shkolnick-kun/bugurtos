@@ -59,8 +59,8 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**===============================================================*/
 #define BGRT_CONFIG_TEST  /*This is test project*/.
 #define STM32F7
-#include <libopencmsis/stm32/f7/irqhandlers.h>
 #include <libopencmsis/core_cm3.h>
+#include <libopencmsis/stm32/f7/irqhandlers.h>
 /*These macros needed to interface cstartup code.*/
 #define BGRT_SYSTEM_TIMER_ISR 	    sys_tick_handler
 #define BGRT_SYSCALL_ISR			pend_sv_handler

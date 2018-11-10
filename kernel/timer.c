@@ -106,22 +106,19 @@ bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t)
     return ret;
 }
 /*===========================================================================*/
+#ifndef BGRT_CONFIG_TEST
+#   define  _BGRT_TMR_YIELD() bgrt_sched_proc_yield()
+#else
+#   define  _BGRT_TMR_YIELD() do{}while(0)
+#endif /*BGRT_CONFIG_TEST*/
+
 void bgrt_wait_time(bgrt_tmr_t time)
 {
     bgrt_tmr_t tmr;
     BGRT_CLEAR_TIMER(tmr); /* ADLINT:SL:[W0459] does not assign*/
     do
     {
-#ifndef BGRT_CONFIG_TEST
-#   ifdef BGRT_CONFIG_SAVE_POWER
-        if (bgrt_sched_proc_yield())
-        {
-            BGRT_CONFIG_SAVE_POWER();
-        }
-#   else /* BGRT_CONFIG_SAVE_POWER */
-        bgrt_sched_proc_yield(); /* ADLINT:SL:[W1073] retval discarded*/
-#   endif /* BGRT_CONFIG_SAVE_POWER */
-#endif /*BGRT_CONFIG_TEST*/
+        _BGRT_TMR_YIELD();
     } while (BGRT_TIMER(tmr) < time);
 }
 /*===========================================================================*/
@@ -131,16 +128,7 @@ void bgrt_priv_wait_interval(bgrt_tmr_t * tmr, bgrt_tmr_t time)
     BGRT_SET_TIMER(*tmr, time); /* ADLINT:SL:[W0459] does not assign*/
     do
     {
-#ifndef BGRT_CONFIG_TEST
-#   ifdef BGRT_CONFIG_SAVE_POWER
-        if (bgrt_sched_proc_yield())
-        {
-            BGRT_CONFIG_SAVE_POWER();
-        }
-#   else /* BGRT_CONFIG_SAVE_POWER */
-        bgrt_sched_proc_yield(); /* ADLINT:SL:[W1073] retval discarded*/
-#   endif /* BGRT_CONFIG_SAVE_POWER */
-#endif /*BGRT_CONFIG_TEST*/
+        _BGRT_TMR_YIELD();
         delta = *tmr - BGRT_TIMER(0);         /* ADLINT:SL:[W1052] Unsigned overflow */
     } while ((0 < delta) && (delta <= time)); /* ADLINT:SL:[W0168] Signed/unsigned */
 }

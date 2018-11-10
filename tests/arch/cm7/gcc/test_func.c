@@ -1,4 +1,5 @@
 #include <test_func.h>
+#include <libopencm3/stm32/flash.h>
 
 float a = 1.0, b=3.14;
 
@@ -21,16 +22,34 @@ void test_do_nothing(void)
     NOP();
 }
 
+const struct rcc_clock_scale rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_END] = {
+	{ /* 216MHz */
+		.pllm = 8,
+		.plln = 432,
+		.pllp = 2,
+		.pllq = 9,
+		.flash_config = FLASH_ACR_ICEN | FLASH_ACR_DCEN |
+				FLASH_ACR_LATENCY_7WS,
+		.hpre = RCC_CFGR_HPRE_DIV_NONE,
+		.ppre1 = RCC_CFGR_PPRE_DIV_4,
+		.ppre2 = RCC_CFGR_PPRE_DIV_2,
+		.vos_scale = PWR_SCALE1,
+		.overdrive = 1,
+		.apb1_frequency = 108000000,
+		.apb2_frequency = 216000000,
+	},
+};
+
 void init_hardware(void)
 {
     __asm__ __volatile__ ("cpsid i \n\t");
-    rcc_clock_setup_hse_3v3(&rcc_hse_25mhz_3v3[RCC_CLOCK_3V3_216MHZ]);
+    rcc_clock_setup_hse_3v3(&rcc_hse_8mhz_3v3[RCC_CLOCK_3V3_216MHZ]);
     /* Enable GPIOI clock. */
-    rcc_periph_clock_enable(RCC_GPIOI);
+    rcc_periph_clock_enable(RCC_GPIOB);
     /* Set GPIO12 (in GPIO port C) to 'output push-pull'. */
-    gpio_mode_setup(GPIOI, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN | RED);
-    gpio_clear(GPIOI, GREEN);
-    gpio_clear(GPIOI, RED);
+    gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GREEN | RED);
+    gpio_clear(GPIOB, GREEN);
+    gpio_clear(GPIOB, RED);
 }
 
 void sched_fix_bgrt_proc_2(void)
