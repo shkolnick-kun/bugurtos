@@ -90,7 +90,7 @@ BGRT_CDECL_END
 /* Конкатенация строк */
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
-#define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
+#define BGRT_CURR_PROC bgrt_kernel.sched.current_proc
 
 extern bgrt_stack_t * bgrt_isr_prologue(void) __naked;
 extern void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked;
