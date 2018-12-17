@@ -91,7 +91,7 @@ BGRT_CDECL_BEGIN
 #define BGRT_ARG_TO_STR(a) #a
 
 #define BGRT_KBLOCK bgrt_kernel.kblock
-#define BGRT_CURR_PROC bgrt_kernel.kblock.sched.current_proc
+#define BGRT_CURR_PROC bgrt_kernel.sched.current_proc
 
 /* Пролог обработчика прерывания */
 #define BGRT_ISR_START()             \
