@@ -1657,12 +1657,6 @@
     <file>
       <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</name>
     </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.h</name>
-    </file>
   </group>
   <file>
     <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\ipc\main.c</name>

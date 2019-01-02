@@ -68,13 +68,11 @@
       <file>$PROJ_DIR$\Debug\Obj\syscall.o</file>
       <file>$PROJ_DIR$\Debug\Obj\vint.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\sem.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sig.pbi</file>
       <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
       <file>$PROJ_DIR$\Debug\Obj\cond.pbi</file>
       <file>$TOOLKIT_DIR$\inc\iostm8s208mb.h</file>
       <file>$PROJ_DIR$\Debug\Exe\sched.out</file>
       <file>$PROJ_DIR$\Debug\Obj\mutex.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\sig.o</file>
       <file>$PROJ_DIR$\Debug\Obj\ipc.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\mutex.pbi</file>
       <file>$PROJ_DIR$\..\..\..\bugurt_config.h</file>
@@ -117,8 +115,6 @@
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\ipc\main.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.h</file>
@@ -127,7 +123,6 @@
       <file>$PROJ_DIR$\Debug\Obj\vint.o</file>
       <file>$PROJ_DIR$\Debug\List\bugurt_proc_stack_init.lst</file>
       <file>$TOOLKIT_DIR$\config\lnkstm8s208mb.icf</file>
-      <file>$PROJ_DIR$\Debug\List\sig.lst</file>
       <file>$PROJ_DIR$\Debug\List\crit_sec.lst</file>
       <file>$TOOLKIT_DIR$\lib\dlstm8mmn.h</file>
       <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
@@ -623,29 +618,6 @@
         <tool>
           <name>ICCSTM8</name>
           <file> 110 5 71 65 47 63 10 11 15 103 18 7 19 93 94 96 133 124 125 126 127 123 128 129 130 131 99 100 13 0</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 62</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 121 68</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 112 5 71 65 47 63 10 11 15 103 18 7 19 93 94 96 124 125 126 127 128 129 130 131 99 100 13 0 104 108</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 112 5 71 65 47 63 10 11 15 103 18 7 19 93 94 96 133 124 125 126 127 123 128 129 130 131 99 100 13 0 104 108</file>
         </tool>
       </inputs>
     </file>

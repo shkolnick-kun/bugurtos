@@ -304,27 +304,6 @@ void bgrt_priv_sched_proc_set_core(bgrt_proc_t * proc);
 ************************************/
 /*!
 \~russian
-\brief Ленивая балансировка нагрузки, для внутреннего использования.
-
-Переносит 1 процесс на самое не нагруженное процессорное ядро в системе.
-
-\warning Для внутреннего использования.
-
-\param object_core - процессорное ядро, с которого будем снимать нагрузку.
-
-\~english
-\brief A lazy load balancer routine. For internal usage.
-
-This function transfers one process on the least loaded CPU core from the object core.
-
-\warning For internal usage.
-
-\param object_core - A CPU core to decrease a load on.
-*/
-//void bgrt_priv_sched_lazy_load_balancer(bgrt_cpuid_t object_core);
-
-/*!
-\~russian
 \brief Ленивая балансировка нагрузки, локальный балансировщик.
 
 Переносит 1 процесс с ядра, на котором выполняется на самое не нагруженное процессорное ядро в системе.

@@ -79,6 +79,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #ifndef SYSCALL_H
 #define SYSCALL_H
 BGRT_CDECL_BEGIN
+#include <stdarg.h>
 /*!
 \file
 \brief \~russian Заголовок системных вызовов.
@@ -91,24 +92,25 @@ BGRT_CDECL_BEGIN
 */
 #define BGRT_SC_ID(syscall) BGRT_CONCAT(BGRT_SC_ENUM_, syscall) /*!< \~russian \brief Получить идентификатор системного вызова по названию. \~english \brief Get system call id. */
 
-typedef enum
+typedef enum _bgrt_sc_enum bgrt_sc_enum; /*!< \~russian \brief Идентификаторы системных вызовов. \~english \brief Suystem call IDs. */
+enum _bgrt_sc_enum
 {
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_ID(syscall),
 #   include <syscall_table.h> /* ADLINT:SF:[W0073] No include guard! */
 #   undef  BGRT_SC_TBL_ENTRY
     BGRT_SC_ENUM_END
-} bgrt_sc_enum;
+};
+
 
 #define BGRT_SC_SR_NAME(syscall) BGRT_CONCAT2(BGRT_SC_, BGRT_CONCAT(syscall, _SR)) /*!< \~russian \brief Имя обработчика системного вызова.         \~english \brief System call service routine name. */
 #define BGRT_SC_SR(syscall,arg) bgrt_st_t BGRT_SC_SR_NAME(syscall)(arg)    /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call service routine. */
 typedef bgrt_st_t (* bgrt_scsr_t)(void *);                                         /*!< \~russian \brief Указатель на обработчик системного вызова. \~english \brief System call service routine pointer. */
 
-#include <stdarg.h>
-/*A wrapper for va_list, used to transfer a pointer to bgrt_syscall*/
-typedef struct
+typedef struct _bgrt_va_wr_t bgrt_va_wr_t; /*!< \~russian \brief Обёртка для va_list. \~english \brief va_list wrapper. */
+struct _bgrt_va_wr_t
 {
     va_list list;
-} bgrt_va_wr_t; /*!< \~russian \brief Обёртка для va_list.         \~english \brief va_list wrapper. */
+};
 /*!
 \~russian
 \brief

@@ -89,7 +89,7 @@ BGRT_SC_TBL_ENTRY(PROC_FREE          , void*       )/* \~russian \brief Оста
 BGRT_SC_TBL_ENTRY(PROC_RESET_WATCHDOG, void*       )/* \~russian \brief Сброс watchdog процесса реального времени.                    \~english \brief A real time process watchdog reset.               */
 BGRT_SC_TBL_ENTRY(PROC_SET_PRIO      , bgrt_va_wr_t*)/* \~russian \brief Установить приоритет процесса                                 \~english \brief Set a process priority.                           */
 BGRT_SC_TBL_ENTRY(PROC_GET_PRIO      , bgrt_va_wr_t*)/* \~russian \brief Получить приоритет процесса                                   \~english \brief Get a process priority.                           */
-BGRT_SC_TBL_ENTRY(PROC_GET_ID        , void*       )/* \~russian \brief Установить приоритет процесса                                 \~english \brief Set a process priority.                           */
+BGRT_SC_TBL_ENTRY(PROC_GET_ID        , void*       )/*\~russian \brief Установить приоритет процесса                                 \~english \brief Set a process priority.                           */
 
 BGRT_SC_TBL_ENTRY(SCHED_PROC_YIELD   , void*       )/* \~russian \brief Передача управления другому процессу.                         \~english \brief Transfer control to another process.              */
 

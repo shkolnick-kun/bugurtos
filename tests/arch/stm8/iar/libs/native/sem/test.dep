@@ -59,10 +59,8 @@
       <file>$PROJ_DIR$\Debug\Obj\sem.o</file>
       <file>$PROJ_DIR$\Debug\Obj\mutex.o</file>
       <file>$PROJ_DIR$\Debug\Obj\cond.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sig.o</file>
       <file>$PROJ_DIR$\Debug\Obj\ipc.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\sem.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sig.pbi</file>
       <file>$PROJ_DIR$\..\..\..\bugurt_config.h</file>
       <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
       <file>$PROJ_DIR$\Debug\Obj\test_func.o</file>
@@ -90,7 +88,6 @@
       <file>$PROJ_DIR$\Debug\List\cond.lst</file>
       <file>$PROJ_DIR$\Debug\List\sync.lst</file>
       <file>$PROJ_DIR$\Debug\List\mutex.lst</file>
-      <file>$PROJ_DIR$\Debug\List\sig.lst</file>
       <file>$PROJ_DIR$\Debug\List\proc.lst</file>
       <file>$PROJ_DIR$\Debug\List\sem.lst</file>
       <file>$PROJ_DIR$\Debug\List\timer.lst</file>
@@ -117,8 +114,6 @@
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.h</file>
       <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\sem\main.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.c</file>
       <file>$PROJ_DIR$\..\..\..\test_func.h</file>
@@ -623,29 +618,6 @@
         <tool>
           <name>ICCSTM8</name>
           <file> 110 5 57 31 29 24 10 11 15 103 18 7 19 93 94 96 127 124 125 126 128 123 129 130 131 132 99 100 13 0</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sig.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 56</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 84 53</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 112 5 57 31 29 24 10 11 15 103 18 7 19 93 94 96 124 125 126 128 129 130 131 132 99 100 13 0 104 108</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 112 5 57 31 29 24 10 11 15 103 18 7 19 93 94 96 127 124 125 126 128 123 129 130 131 132 99 100 13 0 104 108</file>
         </tool>
       </inputs>
     </file>

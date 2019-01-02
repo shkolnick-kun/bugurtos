@@ -5,6 +5,6 @@
 		<Project filename="xlist/xlist.cbp" />
 		<Project filename="pitem/pitem.cbp" />
 		<Project filename="vint/vint.cbp" />
-		<Project filename="names_work/names_work.cbp" active="1" />
+		<Project filename="names_work/names_work.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

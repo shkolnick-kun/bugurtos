@@ -107,7 +107,7 @@ bgrt_tmr_t bgrt_priv_timer(bgrt_tmr_t t)
 }
 /*===========================================================================*/
 #ifndef BGRT_CONFIG_TEST
-#   define  _BGRT_TMR_YIELD() bgrt_sched_proc_yield()
+#   define  _BGRT_TMR_YIELD() (void)bgrt_sched_proc_yield()
 #else
 #   define  _BGRT_TMR_YIELD() do{}while(0)
 #endif /*BGRT_CONFIG_TEST*/

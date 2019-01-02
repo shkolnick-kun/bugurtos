@@ -33,7 +33,7 @@ In this file there are definitions of functions, macros and data types. Also thi
 
 #define bgrt_proc_set_prio   BGRT_PROC_SET_PRIO           /*!< \~russian \brief Установить приоритет процесса. \~english \brief Set a process priority. */
 
-static inline bgrt_prio_t bgrt_proc_get_prio(BGRT_PID_T pid)/*!< \~russian \brief Прочитать приоритет процесса. \~english \brief Get a process priority. */
+static inline bgrt_prio_t bgrt_proc_get_prio(BGRT_PID_T pid)/*!< \~russian Прочитать приоритет процесса. \~english Get a process priority. */
 {
     bgrt_prio_t ret;
     BGRT_PROC_GET_PRIO(pid, &ret);

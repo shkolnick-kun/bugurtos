@@ -118,7 +118,7 @@ static void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
     BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
 
-    if (BGRT_ST_EEMPTY == bgrt_sched_run(BGRT_KBLOCK_VTMR & work))
+    if (BGRT_ST_EEMPTY == bgrt_sched_run(BGRT_KBLOCK_VTMR & work)) /* ADLINT:SL:[W1069, W0168] No else, signed-unsigned*/
     {
         /*A scheduler is empty, must do resched*/
         bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/

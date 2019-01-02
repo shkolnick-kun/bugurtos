@@ -213,7 +213,7 @@ struct bgrt_priv_uspd_t
 };                           /*!<\~russian Данные процесса из пространства пользователя (заголовок). \~english User space process data header.*/
 /*Default implementation*/
 #ifndef BGRT_USPD_T
-#   define BGRT_USPD_PROC_T struct bgrt_priv_uspd_t         /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
+#   define BGRT_USPD_PROC_T struct bgrt_priv_uspd_t     /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
 #   define BGRT_USPD_T BGRT_USPD_PROC_T *               /*!<\~russian Данные процесса из пространства пользователя. \~english User space process data.*/
 #   define BGRT_GET_USPD() (&(bgrt_curr_proc()->udata)) /*!<\~russian Получить указатель на данные пространства пользователя текущего процесса. \~english Get current process userspace data pointer.*/
 #   define BGRT_USPD_INIT(proc) \

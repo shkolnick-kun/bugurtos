@@ -130,8 +130,7 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
 /*====================================================================================*/
 /*Find most loaded bgrt_ls_t object in an array*/
 WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W0432] Intendation*/
-{
-    /* ADLINT:SL:[W0431] Intendation*/
+{/* ADLINT:SL:[W0431] Intendation*/
     bgrt_load_t max_load;
     bgrt_cpuid_t object_core = (bgrt_cpuid_t)0; /*max loaded core*/
     bgrt_cpuid_t core = (bgrt_cpuid_t)1;
@@ -555,7 +554,7 @@ static void _bgrt_sched_llb(bgrt_sched_t * sched)
 bgrt_st_t bgrt_sched_run(bgrt_bool_t is_periodic)
 {
     bgrt_sched_t * sched;
-    sched = BGRT_SCHED_INIT();
+    sched = BGRT_SCHED_INIT();/* ADLINT:SL:[W0567,W0705] Int to pointer, OOR*/
     if (is_periodic)
     {
         _bgrt_sched_schedule_prologue(sched);
