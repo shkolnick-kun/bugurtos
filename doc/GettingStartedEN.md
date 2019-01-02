@@ -504,7 +504,7 @@ This function may block caller process (BLOCKC_CALLER != 0) or not (BLOCKC_CALLE
 This call is open, as (wait_for == 0).
 After this call wait_for will point to a sender process.
 */
-status = bgrt_ipc_wait( &some_ep, &wait_for, BLOCK_CALLER);
+status = bgrt_ipc_wait(&some_ep, &wait_for, BLOCK_CALLER);
 
 /*
 Send a message.
