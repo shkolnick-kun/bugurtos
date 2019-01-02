@@ -1,4 +1,4 @@
-# Getting started with BuguRTOS-3.0.x
+# Getting started with BuguRTOS-4.0.x
 
 ## Hello, %username%!!!
 If you are reading this flow of words, then you may be interested in BuguRTOS.
@@ -92,7 +92,7 @@ BGRT_ISR(SOME_INTERRUPT)
 }
 ```
 ### Virtual interrupts.
-The BuguRTOS kernel have an interrupt virtualization layer. Virtual interrupts are declared using **bgrt_vint_t** type.
+The BuguRTOS kernel have an optional interrupt virtualization layer. Virtual interrupts are declared using **bgrt_vint_t** type.
 Virtual interrupts have a software priority which is used when they are scheduled for execution.
 Also one virtual ISR may be used to process different interrupt sources. In such case one may use an argument pointer to process different data sets with one ISR.
 
@@ -110,7 +110,7 @@ int main(void)
     /*On init phase do:*/
 
     /*On interrupt firing do_my_vint(some_arg) will be called.*/
-    bgrt_vint_init( &my_vint, MY_VINT_PRIORITY, (bgrt_code_t)do_my_vint, (void *)some_arg );
+    bgrt_vint_init(&my_vint, MY_VINT_PRIORITY, (bgrt_code_t)do_my_vint, (void *)some_arg);
     /*Some other init code ...*/
 }
 
@@ -128,7 +128,7 @@ BGRT_ISR(SOME_INTERRUPT)
 
     BGRT_KBLOCK.vic is virtual interrupt controller.
     */
-    BGRT_VINT_PUSH_ISR( &my_vint, &BGRT_KBLOCK.vic );
+    BGRT_VINT_PUSH_ISR(&my_vint, &BGRT_KBLOCK.vic);
 }
 ```
 
@@ -250,7 +250,7 @@ This function returns nonzero, if power can be saved.*/
 ```
 Also, be careful with static variables, as they a common for all running instances.
 To deal with common resources, events and time user needs some synchronization primitives.
-BuguRTOS-3.0.x kernel provides following primitives:
+BuguRTOS-4.0.x kernel provides following primitives:
  1. software timers for time management;
  2. critical sections for fast data access control;
  3. basic synchronization primitive (bgrt_sync_t) which can be used to construct conventional ones such as mutex, semaphore etc.
@@ -347,11 +347,26 @@ Software timer is a variable of **timer_t** type.
 Here are some timer management tools:
 ```C
 timer_t some_timer;           /*A timer_t variable declaration.*/
-BGRT_CLEAR_TIMER( some_timer );    /*This macro clears a timer,
+BGRT_CLEAR_TIMER(some_timer);    /*This macro clears a timer,
                               it also must be used to initiate timers.*/
-BGRT_TIMER( some_timer );          /*This macro gives a number of ticks since last timer clear.
+BGRT_TIMER(some_timer);          /*This macro gives a number of ticks since last timer clear.
                               It may be used to count and compare time intervals.*/
-void bgrt_wait_time( some_time );  /*This function spins for a given time, may be used for delays, etc.*/
+void bgrt_wait_time(some_time);  /*This function spins for a given time, may be used for delays, etc.*/
+
+/*
+If you want different processes to have
+exact time based synchronization
+then you should use these macros:
+*/
+/*
+WARNING!!!
+These macros are not thread safe!
+You should use one timer per process.
+*/
+BGRT_SET_TIMER(some_timer, next);    /*This macro does some_timer += next, so when 
+                              BGRT_TIMER(0) becomes greater than some_timer we may do some action.*/
+BGRT_WAIT_INTERVAL(some_timer, next); /*This macro set some_timer and spins until
+                              BGRT_TIMER(0) becomes greater than some_timer.*/
 ```
 ##### Critical sections.
 A critical section is a part of a program with disabled interrupts.
@@ -382,12 +397,12 @@ Here are mutex handling tools:
 bgrt_mtx_t some_mutex;                    /*This is mutex declaration*/
 bgrt_st_t status;
 
-bgrt_mtx_init( &some_mutex, MUTEX_PRIO ); /*This initiates mutex, for usage in processes main,
+bgrt_mtx_init(&some_mutex, MUTEX_PRIO); /*This initiates mutex, for usage in processes main,
                                        one must use bgrt_mtx_init_cs in critical sections etc.*/
-status = bgrt_mtx_try_lock( &some_mutex );/*This function tries to lock mutex, caller is not blocked.*/
-status = bgrt_mtx_lock( &some_mutex );    /*This function locks mutex, caller is blocked
+status = bgrt_mtx_try_lock(&some_mutex);/*This function tries to lock mutex, caller is not blocked.*/
+status = bgrt_mtx_lock(&some_mutex);    /*This function locks mutex, caller is blocked
                                        until mutex is free.*/
-status = bgrt_mtx_free( &some_mutex );    /*This function frees mutex, if there are blocked processes,
+status = bgrt_mtx_free(&some_mutex);    /*This function frees mutex, if there are blocked processes,
                                        then mutex is passed to most prioritized of them.*/
 ```
 Mutex in **native** lib combines priority inheritance and immediate priority ceiling protocols,
@@ -408,17 +423,17 @@ Here are semaphore tools, provided by **native** lib:
 bgrt_sem_t some_sem;                    /*This is semaphore declaration*/
 bgrt_st_t status;
 
-bgrt_sem_init( &some_sem, COUNT_INIT ); /*This initiates semaphore, for usage in processes main,
+bgrt_sem_init(&some_sem, COUNT_INIT); /*This initiates semaphore, for usage in processes main,
                                    one must use bgrt_sem_init_cs in critical sections etc.*/
-status = bgrt_sem_try_lock( &some_sem );/*This function tries to lock semaphore, caller is not blocked.*/
-status = bgrt_sem_lock( &some_sem );    /*This function locks semaphore, caller is blocked
+status = bgrt_sem_try_lock(&some_sem);/*This function tries to lock semaphore, caller is not blocked.*/
+status = bgrt_sem_lock(&some_sem);    /*This function locks semaphore, caller is blocked
                                    until semaphore is free.*/
-status = bgrt_sem_free( &some_sem );    /*This function frees semaphore, if there are blocked processes,
+status = bgrt_sem_free(&some_sem);    /*This function frees semaphore, if there are blocked processes,
                                    then most prioritized of them gets resumed.*/
 
 /*Semaphore in BuguRTOS may have an owner process, as bgrt_sync_t is used as bgrt_sem_t parent type.*/
-BGRT_SYNC_SET_OWNER( &some_sem, &some_proc ); /*This macro assigns an owner*/
-BGRT_SYNC_SET_OWNER( &some_sem, 0 );           /*This macro clears an owner*/
+BGRT_SYNC_SET_OWNER(&some_sem, &some_proc); /*This macro assigns an owner*/
+BGRT_SYNC_SET_OWNER(&some_sem, 0);           /*This macro clears an owner*/
 ```
 Counting semaphore may be locked by one process and freed by another.
 Counting semaphore may have an owner process, in such case every process can lock this semaphore,
@@ -435,31 +450,31 @@ bgrt_mtx_t some_mutex;
 bgrt_cond_t some_cond;
 bgrt_st_t status;
 
-bgrt_mtx_init( &some_mutex, MUTEX_PRIO );
-bgrt_cond_init( &some_cond );                       /*There is also *_cs version of this.*/
+bgrt_mtx_init(&some_mutex, MUTEX_PRIO);
+bgrt_cond_init(&some_cond );                       /*There is also *_cs version of this.*/
 
 // Conditional wait
-status = bgrt_mtx_lock( &some_mutex );            /*The mutex must be locked.*/
+status = bgrt_mtx_lock(&some_mutex);            /*The mutex must be locked.*/
 /*Do something.*/
-status = bgrt_cond_wait( &some_cond, &some_mutex ); /*Wait for conditional (caller will block).*/
+status = bgrt_cond_wait(&some_cond, &some_mutex); /*Wait for conditional (caller will block).*/
 /*Do something.*/
-status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
+status = bgrt_mtx_free(&some_mutex);            /*Must free the mutex*/
 
 // Conditional signal
-status = bgrt_mtx_lock( &some_mutex );            /*Mutex must be locked.*/
+status = bgrt_mtx_lock(&some_mutex);            /*Mutex must be locked.*/
 /*Do something.*/
-status = bgrt_cond_signal( &some_cond );             /*Wake up most prioritized waiting process.*/
-status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
+status = bgrt_cond_signal(&some_cond);             /*Wake up most prioritized waiting process.*/
+status = bgrt_mtx_free(&some_mutex);            /*Must free the mutex*/
 
 // Conditional broadcast
-status = bgrt_mtx_lock( &some_mutex );            /*Mutex must be locked.*/
+status = bgrt_mtx_lock(&some_mutex);            /*Mutex must be locked.*/
 /*Do something.*/
-status = bgrt_cond_broadcast( &some_cond );         /*Wake up all waiting processes.*/
-status = bgrt_mtx_free( &some_mutex );            /*Must free the mutex*/
+status = bgrt_cond_broadcast(&some_cond);         /*Wake up all waiting processes.*/
+status = bgrt_mtx_free(&some_mutex);            /*Must free the mutex*/
 
 /*Conditional in BuguRTOS may have an owner process, as bgrt_sync_t is used as bgrt_cond_t parent type.*/
-BGRT_SYNC_SET_OWNER( &some_cond, &some_proc ); /*This macro assigns an owner*/
-BGRT_SYNC_SET_OWNER( &some_cond, 0 );           /*This macro clears an owner*/
+BGRT_SYNC_SET_OWNER(&some_cond, &some_proc); /*This macro assigns an owner*/
+BGRT_SYNC_SET_OWNER(&some_cond, 0);           /*This macro clears an owner*/
 ```
 Conditionals may have an owner process, in such case only an owner can broadcast and signal conditionals.
 
@@ -478,8 +493,8 @@ bgrt_ipc_t some_ep;
 bgrt_st_t status;
 bgrt_proc_t * wait_for = 0;
 
-bgrt_ipc_init( &some_ep );                       /*This function has *_cs variant.*/
-BGRT_SYNC_SET_OWNER( &some_ep, &some_proccess ); /*Set an owner after init. This macro must be called
+bgrt_ipc_init(&some_ep);                       /*This function has *_cs variant.*/
+BGRT_SYNC_SET_OWNER(&some_ep, &some_proccess); /*Set an owner after init. This macro must be called
                                             from a process main with interrupts enabled.*/
 /*
 Wait for a message.
@@ -495,14 +510,14 @@ status = bgrt_ipc_wait( &some_ep, &wait_for, BLOCK_CALLER);
 Send a message.
 A sender will be blocked until reply.
 */
-status = bgrt_ipc_send( &some_ep, &some_msg );
+status = bgrt_ipc_send(&some_ep, &some_msg);
 
 /*
 Reply to the sender.
 
 Second arg is sender process id.
 */
-status = bgrt_ipc_reply( &some_ep, wait_for );
+status = bgrt_ipc_reply(&some_ep, wait_for);
 ```
 ## Good luck!
 Good luck %username%, write elegant, robust and maintainable code!
