@@ -196,7 +196,7 @@ void _vinterrupt_wrapper(void)
     void (*isr)(void);
     vm_state[current_vm].int_enabled = (bgrt_bool_t)0; /* Virtual interrupt nesting is not allowed by default.*/
     isr = (void (*)(void))vm_buf;
-    /* After vm-buf read we can reenable real interrupts!*/
+    /* After vm-buf read we can re-enable real interrupts!*/
     sei();
     isr();
 }

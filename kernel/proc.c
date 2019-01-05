@@ -125,8 +125,8 @@ bgrt_st_t bgrt_proc_init(
 #ifdef BGRT_CONFIG_MP
               ,affinity
 #endif /*BGRT_CONFIG_MP*/
-          );                  /* ADLINT:SL:[W0432] Intendation */
-    BGRT_INT_FREE(); /* ADLINT:SL:[W0431] Intendation */
+          );                  /* ADLINT:SL:[W0432] Indentation */
+    BGRT_INT_FREE(); /* ADLINT:SL:[W0431] Indentation */
     return ret;
 }
 /*====================================================================================*/

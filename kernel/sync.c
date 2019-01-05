@@ -77,7 +77,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *                                                                                        *
 *****************************************************************************************/
 #include "bugurt.h"
-/* ADLINT:SF:[W9001,W0431,W0432,W0422] control never...WTF??!, 2x(intendation in switches), NULL ptr*/
+/* ADLINT:SF:[W9001,W0431,W0432,W0422] control never...WTF??!, 2x(indentation in switches), NULL ptr*/
 /*Run a process with higher prio to avoid prio inversion!*/
 static void _pctrl_proc_run_high(bgrt_proc_t * proc, bgrt_flag_t state)
 {
