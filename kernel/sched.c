@@ -129,8 +129,8 @@ WEAK bgrt_cpuid_t bgrt_sched_load_balancer(bgrt_proc_t * proc, bgrt_ls_t * stat)
 }
 /*====================================================================================*/
 /*Find most loaded bgrt_ls_t object in an array*/
-WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W0432] Intendation*/
-{/* ADLINT:SL:[W0431] Intendation*/
+WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W0432] Indentation*/
+{/* ADLINT:SL:[W0431] Indentation*/
     bgrt_load_t max_load;
     bgrt_cpuid_t object_core = (bgrt_cpuid_t)0; /*max loaded core*/
     bgrt_cpuid_t core = (bgrt_cpuid_t)1;

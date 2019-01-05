@@ -199,7 +199,7 @@ BuguRTOS config (must be included first)
 \~english
 \brief Wrapper macro.
 
-Initialization wrapper for arg->lock spinlock. Emty macro in single core system.
+Initialization wrapper for arg->lock spinlock. Empty macro in single core system.
 */
 /*!
 \def BGRT_SPIN_LOCK(arg)

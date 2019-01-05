@@ -14,7 +14,7 @@
 #include <avr/pgmspace.h>
 #define BGRT_SC_TBL(a) const PROGMEM bgrt_scsr_t a
 #define BGRT_SC_TBL_READ(a) (bgrt_scsr_t)pgm_read_word(&a)
-/* A nother option is to allocate it in RAM */
+/* Another option is to allocate it in RAM */
 /*
 #define BGRT_SC_TBL(a) const bgrt_scsr_t a
 #define BGRT_SC_TBL_READ(a) a
