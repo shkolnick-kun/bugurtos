@@ -28,11 +28,11 @@ proprietary software development.
 # Current status #
 * Branches supported:
   * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
-  * 3.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
+  * 4.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
 
 * Current versions are:
   * 0.6.6;
-  * 3.0.0;
+  * 4.0.0;
 
 * Platforms supported:
   * AVR (GNU-toolchain);
@@ -40,6 +40,7 @@ proprietary software development.
     * IAR,
     * Raisonance,
     * SDCC (since 2.0.0);
+  * Cortex<sup>TM</sup>-M7 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M4 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M3 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M0 (GNU-toolchain).
@@ -62,6 +63,7 @@ Getting started guide is [here](./doc/GettingStartedEN.md).
 * PROFIT!!!
 
 # News #
+* **January 7th 2016: BuguRTOS updated** version 4.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **March 13th 2017: BuguRTOS updated** version 3.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **August 31th 2016: BuguRTOS updated** version 2.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **April 26th 2016: BuguRTOS updated** version 1.0.0 is out, see [Changelog](./doc/Changelog.md), semantic versioning is used now!

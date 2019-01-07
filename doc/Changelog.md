@@ -1,4 +1,22 @@
 # Changelog #
+  * 4.0.0
+    * Added CoC, now new develpers to our welcoming community.
+    * Added deterministic API to software timers.
+    * Added NULL pointer checks to native lib functions.
+    * Added extern "C" linkage for C++ projects.
+    * Added ASSERT for future test reworks.
+    * Added Cortex<sup>TM</sup>-M7 port.
+    * Reworked kernel and native lib namespaces.
+    * Reworked comment style.
+    * Decoupled scheduler from interrupt virtualization layer.
+    * Reworked scheduler code.
+    * Reworked power saving. Now it's done in kernel mode only
+    * Fixed API for BGRT_KBLOCK_HPFIC_HOOK macro.
+    * Fixed #37 (kernel timer rollover problem).
+    * Ported tests to newer libopencm3 version.
+    * Deleted signals from native lib.
+    * Deleted unneeded files.
+    * Updated documentation.
   * 3.0.0
     * API renamed to clarify its usage.
     * Optimized performance(see #32.#33,#34).
