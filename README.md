@@ -1,11 +1,3 @@
-# ATTENSION PLEASE!!! #
-Our friend [KRoN73](https://www.linux.org.ru/people/KRoN73/profile) is in **BIG** trouble, he needs Your help!
-Please, visit [this topic](https://www.linux.org.ru/news/linux-org-ru/14718391) for information!
-
-# ВНИМАНИЕ!!! #
-Наш друг [KRoN73](https://www.linux.org.ru/people/KRoN73/profile) в **БОЛЬШОЙ** беде, ему нужна Ваша помощь!
-Пожалуйста, посетите [эту страницу](https://www.linux.org.ru/news/linux-org-ru/14718391) для того, чтобы узнать подробности!
-
 # WUT? #
 This is a BuguRTOS project.
 The name BuguRTOS comes from Butthurt, Frugurt and RTOS.
