@@ -101,6 +101,9 @@ BGRT_CDECL_BEGIN
         :::                \
         )
 
+#define BGRT_INT_DIS BGRT_INT_LOCK
+#define BGRT_INT_ENA BGRT_INT_FREE
+
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push  /* Use nondefault BGRT_VINT_PUSH_ISR */
 #include "../../common/atm_gen_1.h"
 

@@ -105,6 +105,21 @@ BGRT_CDECL_BEGIN
 #define BGRT_PENDSV_CLR   (0x08000000)
 #define BGRT_FPU_ENABLE   (0x00f00000)
 /*====================================================================================*/
+#define BGRT_INT_DIS()     \
+	__asm__ __volatile__ ( \
+		"dsb     \n\t"     \
+	    "cpsid i \n\t"     \
+		:::                \
+	    )
+
+#define BGRT_INT_ENA()     \
+	__asm__ __volatile__ ( \
+		"dsb     \n\t"     \
+	    "cpsie i \n\t"     \
+		"isb     \n\t"     \
+	    :::                \
+	    )
+
 #define BGRT_INT_LOCK()        \
     __asm__ __volatile__ (     \
         "mov r0, %0      \n\t" \

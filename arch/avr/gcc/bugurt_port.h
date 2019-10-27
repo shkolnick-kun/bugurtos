@@ -85,6 +85,9 @@ BGRT_CDECL_BEGIN
 #define BGRT_INT_LOCK cli
 #define BGRT_INT_FREE sei
 
+#define BGRT_INT_DIS cli
+#define BGRT_INT_ENA sei
+
 #include "../../common/atm_gen_1.h"
 
 #define BGRT_KBLOCK bgrt_kernel.kblock

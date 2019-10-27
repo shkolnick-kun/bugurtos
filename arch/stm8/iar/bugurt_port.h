@@ -85,6 +85,9 @@ BGRT_CDECL_BEGIN
 #define BGRT_INT_LOCK __disable_interrupt
 #define BGRT_INT_FREE __enable_interrupt
 
+#define BGRT_INT_DIS BGRT_INT_LOCK
+#define BGRT_INT_ENA BGRT_INT_FREE
+
 #include "../../common/atm_gen_1.h"
 
 /* Подстановка_строки */

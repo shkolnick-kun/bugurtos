@@ -83,6 +83,9 @@ BGRT_CDECL_END
 #define BGRT_INT_LOCK() __asm__("sim")
 #define BGRT_INT_FREE() __asm__("rim")
 
+#define BGRT_INT_DIS BGRT_INT_LOCK
+#define BGRT_INT_ENA BGRT_INT_FREE
+
 #include "../../common/atm_gen_1.h"
 
 /* Подстановка_строки */

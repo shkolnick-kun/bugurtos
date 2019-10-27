@@ -573,8 +573,6 @@ bgrt_st_t bgrt_sched_run(bgrt_bool_t is_periodic)
     return _bgrt_sched_epilogue(sched);
 }
 /*====================================================================================*/
-
-
 bgrt_bool_t bgrt_priv_sched_proc_yield(void)
 {
     bgrt_bool_t save_power = (bgrt_bool_t)0;

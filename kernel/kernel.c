@@ -80,12 +80,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 /* ADLINT:SF:[W0422,W0553,W1073,W0085,W0165] Static with no decls, Unsafe code.*/
 
-#ifdef BGRT_CONFIG_SAVE_POWER
-#   define BGRT_SAFE_POWER() BGRT_CONFIG_SAVE_POWER()
-#else /* BGRT_CONFIG_SAVE_POWER */
-#   define BGRT_SAFE_POWER() do{}while (0)
-#endif/* BGRT_CONFIG_SAVE_POWER */
-
 static void _do_int_scall(bgrt_kblock_t * kblock)
 {
     BGRT_USPD_T uspd;
@@ -97,6 +91,13 @@ static void _do_int_scall(bgrt_kblock_t * kblock)
     /* Do system call */
     scret = bgrt_priv_do_syscall(uspd->scnum, uspd->scarg);
     uspd->scret = scret;
+    /*Will try to save some power*/
+#ifdef BGRT_CONFIG_SAVE_POWER
+    if (BGRT_ST_IDLE == scret)
+    {
+    	bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_PWRSV);
+    }
+#endif/*BGRT_CONFIG_SAVE_POWER*/
     /* Clear scnum */
     if (BGRT_ST_ROLL != scret)
     {
@@ -123,12 +124,20 @@ static void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
         /*A scheduler is empty, must do resched*/
         bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
         /*May safe power*/
-        BGRT_SAFE_POWER();
+#ifdef BGRT_CONFIG_SAVE_POWER
+        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_PWRSV);
+#endif/*BGRT_CONFIG_SAVE_POWER*/
     }
-    else if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
+    else
     {
-        /* DO NOT "OPTIMIZE" THIS!!! */
-        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VSCALL);
+#ifdef BGRT_CONFIG_SAVE_POWER
+    	(void)bgrt_atm_bclr(&kblock->lpmap, BGRT_KBLOCK_PWRSV);
+#endif/*BGRT_CONFIG_SAVE_POWER*/
+    	if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
+    	{
+    		/* DO NOT "OPTIMIZE" THIS!!! */
+    		bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VSCALL);
+    	}
     }
 }
 
@@ -185,10 +194,16 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
             _do_int_sched(kblock, work);
             continue; /* ADLINT:SL:[W0013] continue*/
         }
-        else
+#ifdef BGRT_CONFIG_SAVE_POWER
+        BGRT_INT_DIS();
+        if (BGRT_ATM_BCLR_ISR(&kblock->lpmap, BGRT_KBLOCK_PWRSV))
         {
-            break;
+        	BGRT_CONFIG_SAVE_POWER();
         }
+        BGRT_INT_ENA();
+#endif/*BGRT_CONFIG_SAVE_POWER*/
+        /*Nothing to do, will break*/
+        break;
     }
 }
 

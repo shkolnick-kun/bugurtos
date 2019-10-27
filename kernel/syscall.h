@@ -92,7 +92,6 @@ BGRT_CDECL_BEGIN
 */
 #define BGRT_SC_ID(syscall) BGRT_CONCAT(BGRT_SC_ENUM_, syscall) /*!< \~russian \brief Получить идентификатор системного вызова по названию. \~english \brief Get system call id. */
 
-typedef enum _bgrt_sc_enum bgrt_sc_enum; /*!< \~russian \brief Идентификаторы системных вызовов. \~english \brief Suystem call IDs. */
 enum _bgrt_sc_enum
 {
 #   define BGRT_SC_TBL_ENTRY(syscall,arg) BGRT_SC_ID(syscall),
@@ -100,7 +99,7 @@ enum _bgrt_sc_enum
 #   undef  BGRT_SC_TBL_ENTRY
     BGRT_SC_ENUM_END
 };
-
+typedef enum _bgrt_sc_enum bgrt_sc_enum; /*!< \~russian \brief Идентификаторы системных вызовов. \~english \brief Suystem call IDs. */
 
 #define BGRT_SC_SR_NAME(syscall) BGRT_CONCAT2(BGRT_SC_, BGRT_CONCAT(syscall, _SR)) /*!< \~russian \brief Имя обработчика системного вызова.         \~english \brief System call service routine name. */
 #define BGRT_SC_SR(syscall,arg) bgrt_st_t BGRT_SC_SR_NAME(syscall)(arg)    /*!< \~russian \brief Обработчик системного вызова.              \~english \brief System call service routine. */

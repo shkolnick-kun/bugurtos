@@ -148,11 +148,7 @@ void bgrt_resched(void)
 /*====================================================================================*/
 void bgrt_init(void)
 {
-    __asm__ __volatile__ (
-        "dsb     \n\t"
-        "cpsid i \n\t"
-        :::
-   );
+    BGRT_INT_DIS();
     bgrt_kernel_init();
     /* Устанавливаем начальное значение PSP, для потока Ядра; */
     _write_psp((volatile bgrt_stack_t *)&bugurt_kernel_stack[16]); /* !!! Внимательно смотрим на границы!!! */
@@ -167,12 +163,7 @@ void bgrt_init(void)
 /*====================================================================================*/
 void bgrt_start(void)
 {
-    __asm__ __volatile__ (
-        "dsb     \n\t"
-        "cpsie i \n\t"
-        "isb     \n\t"
-        :::
-   );
+    BGRT_INT_ENA();
     bgrt_kblock_main(&BGRT_KBLOCK);
 }
 /*====================================================================================*/

@@ -118,6 +118,14 @@ BGRT_SC_SR(PROC_TERMINATE, void * arg)
 /**********************************************************************************************
                                          PROC_YIELD
 **********************************************************************************************/
+/*
+TODO:In BuguRTOS-5.x.x change
+bgrt_bool_t bgrt_sched_proc_yield(void)
+to
+#define BGRT_SCHED_PROC_YIELD() BGRT_SYSCALL_N(SCHED_PROC_YIELD, (void *)0)
+
+In this case BGRT_SC_SR(SCHED_PROC_YIELD, void * arg) won't use *arg.
+ */
 bgrt_bool_t bgrt_sched_proc_yield(void)
 {
     volatile bgrt_bool_t ret;
@@ -129,13 +137,13 @@ BGRT_SC_SR(SCHED_PROC_YIELD, void * arg)
 {
     bgrt_bool_t ret;
     ret = bgrt_priv_sched_proc_yield();
+    *(bgrt_bool_t *)arg = ret;
 #ifdef BGRT_CONFIG_SAVE_POWER
     if (ret)
     {
-        BGRT_CONFIG_SAVE_POWER();
+        return BGRT_ST_IDLE;
     }
 #endif /* BGRT_CONFIG_SAVE_POWER */
-    *(bgrt_bool_t *)arg = ret;
     return BGRT_ST_OK;
 }
 

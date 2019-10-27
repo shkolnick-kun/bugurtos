@@ -111,6 +111,7 @@ struct bgrt_priv_kblock_t
 #define BGRT_KBLOCK_VTMR    ((bgrt_map_t)0x2) /*!< \~russian Вектор системног таймера.    \~english A system timer vector.   */
 #define BGRT_KBLOCK_VRESCH  ((bgrt_map_t)0x4) /*!< \~russian Вектор перепланировки.       \~english A CPU reschedule vector. */
 #define BGRT_KBLOCK_VSCHMSK ((bgrt_map_t)0x6) /*!< \~russian Маска векторов планировщика. \~english A chrduler vector mask.  */
+#define BGRT_KBLOCK_PWRSV   ((bgrt_map_t)0x8) /*!< \~russian Вектор перехода в энергосбережение. \~english A power save mode vector. */
 
 /*!
 \~russian

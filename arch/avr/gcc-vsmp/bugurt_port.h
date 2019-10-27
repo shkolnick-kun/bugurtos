@@ -86,6 +86,9 @@ extern  void bgrt_int_free(void);
 #define BGRT_INT_LOCK bgrt_int_lock
 #define BGRT_INT_FREE bgrt_int_free
 
+#define BGRT_INT_DIS bgrt_int_lock
+#define BGRT_INT_ENA bgrt_int_free
+
 #define BGRT_ATM_INIT_ISR(map_ptr) do{*(map_ptr) = (bgrt_map_t)0;}while(0)
 
 static inline void bgrt_atm_init(bgrt_map_t * fic) /* ADLINT:SL:[W0629] linkage*/
