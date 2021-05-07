@@ -306,7 +306,8 @@ BGRT_SC_SR(USER, bgrt_va_wr_t* va)/* ADLINT:SL:[W0031] va is used!!!*/
     bgrt_st_t ret;
 
     va_copy(param.list, va->list);
-    func = (bgrt_user_func_t)va_arg(param.list, void *);
+    //func = (bgrt_user_func_t)va_arg(param.list, void (*)(void));
+    func = va_arg(param.list, bgrt_user_func_t);
     ret = (*func)(&param);
     va_end(param.list);
 

@@ -78,7 +78,7 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #ifndef BGRT_PORT_H
 #define BGRT_PORT_H
-BGRT_CDECL_END
+BGRT_CDECL_BEGIN
 
 #define BGRT_INT_LOCK() __asm__("sim")
 #define BGRT_INT_FREE() __asm__("rim")

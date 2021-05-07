@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="sig" />
+		<Option title="cond" />
 		<Option pch_mode="2" />
 		<Option compiler="sdcc" />
 		<Build>
@@ -21,6 +21,7 @@
 		</Build>
 		<Compiler>
 			<Add option="--out-fmt-ihx" />
+			<Add option="--model-large" />
 			<Add option="--opt-code-speed" />
 			<Add option="--verbose" />
 			<Add option="--stack-auto" />
@@ -115,9 +116,6 @@
 		</Unit>
 		<Unit filename="../../../test_func.h" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>

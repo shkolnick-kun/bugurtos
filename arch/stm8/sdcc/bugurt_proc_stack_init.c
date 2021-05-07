@@ -79,7 +79,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #include"../../../kernel/bugurt.h"
 
-#define BGRT_INT_PTR unsigned short
+#ifdef __SDCC_MODEL_LARGE
+#   define BGRT_INT_PTR unsigned long
+#else /*__SDCC_MODEL_LARGE*/
+#   define BGRT_INT_PTR unsigned short
+#endif/*__SDCC_MODEL_LARGE*/
 
 bgrt_stack_t * bgrt_proc_stack_init(
     bgrt_stack_t * bgrt_stack_top,
@@ -94,14 +98,21 @@ bgrt_stack_t * bgrt_proc_stack_init(
     /* return address (func) */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
-    /* process main */
+#ifdef __SDCC_MODEL_LARGE
+    *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>16)& 0xFF);
+#endif/*__SDCC_MODEL_LARGE*/
+    // process main
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain>>8)& 0xFF);
-    *bgrt_stack_top-- = 0x00;
+#ifdef __SDCC_MODEL_LARGE
+    *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)pmain>>16)& 0xFF);
+#else /*__SDCC_MODEL_LARGE*/
+    *bgrt_stack_top-- = (bgrt_stack_t)0;
+#endif/*__SDCC_MODEL_LARGE*/
     /* Y */
     *bgrt_stack_top-- = 0xAF;
     *bgrt_stack_top-- = 0xBE;
-    /* X - 1st argument is placed in X */
+    /* X */
     *bgrt_stack_top-- = 0xAD;
     *bgrt_stack_top-- = 0xDE;
     /* A */
@@ -109,7 +120,7 @@ bgrt_stack_t * bgrt_proc_stack_init(
     /* CCR */
     *bgrt_stack_top-- = 0x20; /* Interrupts are enabled */
     /* Dummy bytes, as after bgrt_isr_epilogue [addw sp, #2] is done */
-    *bgrt_stack_top-- = 0xFF;
-    *bgrt_stack_top-- = 0xFF;
+    //*bgrt_stack_top-- = 0xFF;
+    //*bgrt_stack_top-- = 0xFF;
     return bgrt_stack_top;
 }

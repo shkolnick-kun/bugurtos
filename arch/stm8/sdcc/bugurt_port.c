@@ -94,9 +94,20 @@ bgrt_stack_t * bgrt_isr_prologue(void) __naked
     __asm
     sim
     push #0x28
-    pop  CC
-    ldw  X, SP
+    pop  cc
+#ifdef __SDCC_MODEL_LARGE
+    pop   a      /* pop return address       */
+    popw  y      /* pop return address       */
+    ldw   x, sp  /* get sp value before call */
+    pushw y      /* push return address      */
+    push  a      /* push return address      */
+    retf
+#else /*__SDCC_MODEL_LARGE*/
+    popw  y      /* pop return address       */
+    ldw   x, sp  /* get sp value before call */
+    pushw y      /* push return address      */
     ret
+#endif/*__SDCC_MODEL_LARGE*/
     __endasm;
 }
 
@@ -104,11 +115,23 @@ void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked
 {
     (void)newsp;
     __asm
-    ldw   X, (0x03, SP) /*Get new SP value   */
-    popw  Y             /*pop return address */
-    ldw   SP, X         /*Set SP             */
-    pushw Y             /*push return address*/
+#ifdef __SDCC_MODEL_LARGE
+    ldw   x, (0x04, sp) /*Get new SP value   */
+    pop   a             /*pop return address */
+    popw  y             /*pop return address */
+    ldw   sp, x         /*Set SP             */
+    pushw x             /*Adjust new SP for *val */
+    pushw y             /*push return address*/
+    push  a             /*push return address*/
+    retf                /*return             */
+#else /*__SDCC_MODEL_LARGE*/
+    ldw   x, (0x03, sp) /*Get new SP value   */
+    popw  y             /*pop return address */
+    ldw   sp, x         /*Set new SP         */
+    pushw x             /*Adjust new SP for *val */
+    pushw y             /*push return address*/
     ret                 /*return             */
+#endif/*__SDCC_MODEL_LARGE*/
     __endasm;
 }
 /******************************************************************************************************/
@@ -124,9 +147,9 @@ void bgrt_set_curr_sp(void)
 {
     if (BGRT_KBLOCK.hpmap      ||
 #ifdef BGRT_CONFIG_USE_VIC
-        BGRT_KBLOCK.vic.list.map ||
+            BGRT_KBLOCK.vic.list.map ||
 #endif/*BGRT_CONFIG_USE_VIC*/
-        BGRT_KBLOCK.lpmap)
+            BGRT_KBLOCK.lpmap)
     {
         kernel_mode = 1;
     }

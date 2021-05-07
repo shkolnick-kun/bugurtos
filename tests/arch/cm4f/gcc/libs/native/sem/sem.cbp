@@ -30,8 +30,9 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-mthumb" />
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
+			<Add option="-mthumb" />
 			<Add option="-mcpu=cortex-m4" />
 			<Add option="-mfloat-abi=hard" />
 			<Add option="-mfpu=fpv4-sp-d16" />
@@ -134,8 +135,6 @@
 		</Unit>
 		<Unit filename="../../../test_func.h" />
 		<Extensions>
-			<envvars />
-			<code_completion />
 			<debugger>
 				<search_path add="bin/Debug" />
 				<remote_debugging>

@@ -196,7 +196,7 @@ bgrt_st_t bgrt_sem_lock(bgrt_sem_t * sem)
     }
     else
     {
-        return BGRT_SYSCALL_NVAR(USER, (void *)(_sem_lock_fsm), (void *)sem, (void *)&touch, (void *)&state);
+        return BGRT_SYSCALL_NVAR(USER, _sem_lock_fsm, (void *)sem, (void *)&touch, (void *)&state);
     }
 }
 
@@ -239,7 +239,7 @@ bgrt_st_t bgrt_sem_free(bgrt_sem_t * sem)
     }
     else
     {
-        return BGRT_SYSCALL_NVAR(USER, (void *)(_sem_free_payload), (void *)sem);
+        return BGRT_SYSCALL_NVAR(USER, _sem_free_payload, (void *)sem);
     }
 }
 
@@ -260,7 +260,7 @@ bgrt_st_t bgrt_sem_free_cs(bgrt_sem_t * sem)
     }
     else
     {
-        _sem_free_body(sem);
+        ret = _sem_free_body(sem);
     }
     BGRT_SPIN_FREE(sem);
 

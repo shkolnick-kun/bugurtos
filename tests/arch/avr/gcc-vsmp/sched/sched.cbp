@@ -18,6 +18,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option="-ffunction-sections" />
@@ -110,8 +111,6 @@
 		</Unit>
 		<Unit filename="../test_func.h" />
 		<Extensions>
-			<envvars />
-			<code_completion />
 			<debugger>
 				<remote_debugging target="Debug">
 					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
