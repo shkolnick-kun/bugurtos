@@ -2,7 +2,7 @@
 This is a BuguRTOS project.
 The name BuguRTOS comes from Butthurt, Frugurt and RTOS.
 
-BuguRTOS is small portable OS-kernel for microcontrollers.
+BuguRTOS is small portable OS kernel for microcontrollers.
 It is capable to work in hard/soft real time systems.
 
 It is free and open source software, but you can use it for
@@ -10,11 +10,11 @@ proprietary software development.
 
 # Main features #
 * Small. BuguRTOS can run on small 8bit microcontrollers.
-* Portable. The kernel is designed to be easy portable to new platforms.
+* Portable. The kernel is designed to be easily portable to new platforms.
 * No memory management in kernel.
-* Smaller process stack size required as kernel runs in separate thread with it's own stack.
+* Smaller process stack size required as kernel runs in separate thread with its own stack.
 * The kernel is almost fully preemptive. Only small chunks of code can't be preempted by interrupts.
-* Interrupt virtualization. Virtual interrupts are run cooperatively in kernel threads. By default they can be preempted by other virtual interrupts in preemption points.
+* Interrupt virtualization. Virtual interrupts are run cooperatively in kernel threads. By default, they can be preempted by other virtual interrupts in preemption points.
 * Customizable system call interface. One may comment out unneeded system calls, add custom system calls or rewrite system call table completely.
 
 # Licensing #
