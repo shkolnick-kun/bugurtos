@@ -1,404 +1,376 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <fileVersion>2</fileVersion>
-  <fileChecksum>3366215197</fileChecksum>
-  <configuration>
-    <name>Debug</name>
-    <outputs>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\default\syscall_api.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\default\syscall_routines.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\default\syscall_table.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\bugurt.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\crit_sec.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\crit_sec.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\index.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\index.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\item.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\item.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\kernel.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\kernel.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pcounter.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pcounter.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pitem.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pitem.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\proc.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\proc.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sched.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sched.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sync.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sync.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\syscall.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\syscall.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.h</file>
-      <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</file>
-      <file>$PROJ_DIR$\..\..\..\test_func.c</file>
-      <file>$PROJ_DIR$\..\..\..\test_func.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\proc.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sched.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\vint.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\pcounter.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\kernel.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\index.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\item.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\pitem.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\vint.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\crit_sec.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\test_func.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\xlist.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\syscall.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\sync.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\pcounter.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\index.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\sched.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\proc.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\pitem.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\cond.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\bugurt_port.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\item.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\kernel.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\ipc.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\sem.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\mutex.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\cond.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ipc.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\mutex.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sem.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\crit_sec.o</file>
-      <file>$PROJ_DIR$\Debug\Exe\sched.out</file>
-      <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
-      <file>$PROJ_DIR$\Debug\Obj\test_func.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\xlist.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\syscall.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\sync.pbi</file>
-    </outputs>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 55</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 70</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 53</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 68</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</name>
-      <outputs>
-        <tool>
-          <name>ASTM8</name>
-          <file> 64</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\crit_sec.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 54</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 80</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\index.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 49</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 62</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\item.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 50</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 71</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\kernel.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 48</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 72</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pcounter.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 47</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 61</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>[ROOT_NODE]</name>
-      <outputs>
-        <tool>
-          <name>ILINK</name>
-          <file> 81</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pitem.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 51</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 67</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\proc.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 44</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 66</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sched.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 45</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 65</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sync.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 88</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 60</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\syscall.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 87</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 59</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 86</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 58</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 52</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 46</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 85</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 57</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 76</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 69</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 77</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 73</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 79</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 74</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 78</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 75</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 84</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 63</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\..\..\test_func.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 83</file>
-        </tool>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 56</file>
-        </tool>
-      </outputs>
-    </file>
-  </configuration>
-  <configuration>
-    <name>Release</name>
-    <outputs/>
-    <forcedrebuild>
-      <name>[MULTI_TOOL]</name>
-      <tool>ILINK</tool>
-    </forcedrebuild>
-    <forcedrebuild>
-      <name>[REBUILD_ALL]</name>
-    </forcedrebuild>
-  </configuration>
+    <fileVersion>4</fileVersion>
+    <fileChecksum>186110749</fileChecksum>
+    <configuration>
+        <name>Debug</name>
+        <outputs>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\index.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\crit_sec.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\sched.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\pitem.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\ipc.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\index.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\vint.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\test_func.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\cond.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\kernel.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\sync.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\crit_sec.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\mutex.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\sem.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\pcounter.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\xlist.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\sched.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\mutex.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\item.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\syscall.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\crit_sec.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\syscall.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\bugurt_proc_stack_init.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\proc.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\item.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\index.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\bugurt_port.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\timer.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\timer.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\sync.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\kernel.o</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pitem.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sched.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\item.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sync.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\kernel.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pcounter.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\syscall.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\proc.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</file>
+            <file>$PROJ_DIR$\Debug\Obj\pitem.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\proc.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\test.pbd</file>
+            <file>$PROJ_DIR$\Debug\Obj\bugurt_port.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\sem.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\test_func.o</file>
+            <file>$PROJ_DIR$\Debug\Exe\test.out</file>
+            <file>$PROJ_DIR$\Debug\Obj\vint.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\xlist.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\bugurt_port_asm.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\cond.xcl</file>
+            <file>$PROJ_DIR$\Debug\Obj\pcounter.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\ipc.xcl</file>
+            <file>$PROJ_DIR$\..\..\..\test_func.c</file>
+            <file>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</file>
+        </outputs>
+        <file>
+            <name>[ROOT_NODE]</name>
+            <outputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 58</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\index.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 9</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 29</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 53</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 30</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\crit_sec.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 15</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 24</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_port_asm.S</name>
+            <outputs>
+                <tool>
+                    <name>ASTM8</name>
+                    <file> 61</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\arch\stm8\iar\bugurt_proc_stack_init.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 7</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 26</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\vint.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 10</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 59</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pitem.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 50</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 6</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sched.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 20</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 5</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\item.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 22</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 28</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\timer.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 32</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 31</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\sync.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 33</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 14</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\kernel.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 34</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 13</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\xlist.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 19</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 60</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\pcounter.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 63</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 18</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\syscall.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 25</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 23</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\cond.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 12</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 62</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\ipc.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 8</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 64</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\kernel\proc.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 27</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 51</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\mutex.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 21</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 16</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\..\libs\native\sem.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 55</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 17</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\test_func.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 57</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 11</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\..\..\..\..\..\main\libs\native\cond\main.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCSTM8</name>
+                    <file> 54</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 56</file>
+                </tool>
+            </outputs>
+        </file>
+    </configuration>
+    <configuration>
+        <name>Release</name>
+        <outputs />
+        <forcedrebuild>
+            <name>[MULTI_TOOL]</name>
+            <tool>ILINK</tool>
+        </forcedrebuild>
+    </configuration>
 </project>
-
-
