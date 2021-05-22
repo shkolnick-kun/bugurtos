@@ -1,11 +1,12 @@
 [Application]
-ApplicationPath=C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\arch\stm8\raisonance\libs\native\sem\bin\test.aof
+ApplicationPath=C:\Users\test_\Desktop\4.x.x\bugurtos\tests\arch\stm8\raisonance\libs\native\sem\bin\test.aof
 Format=AOF
 CodeOffset=0x0
 LoaderTool=ST7
 Target=ST7
 DebugTool=RLINK_STM8
 ApplicationComponents=
+MakeApplicationPath=C:\Users\test_\Desktop\4.x.x\bugurtos\tests\arch\stm8\raisonance\libs\native\sem\bin\test.aof
 [Device]
 Name=STM8S208MB
 [Debug]

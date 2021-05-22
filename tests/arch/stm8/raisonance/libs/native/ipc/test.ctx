@@ -10,7 +10,7 @@
 					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
 					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
-																		
+																																				
 				</Def>
 				<Rows>
 					<Row Name="syscall_num" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
@@ -21,11 +21,11 @@
 					<Row Name="proc[3].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[3].flags" />
 					<Row Name="proc[4].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[4].flags" />
 					<Row Name="proc[5].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[5].flags" />
-																		
+																																				
 				</Rows>
-														
+																												
 			</Report>
-										
+																				
 		</SpyWatch>
 		<CodeView TopRow="34026" Focus="4294967295" >
 			<CodeReport>
@@ -33,11 +33,11 @@
 				<1>139</1>
 				<2>75</2>
 				<3>426</3>
-														
+																												
 			</CodeReport>
-										
+																				
 		</CodeView>
-						
+												
 	</test>
 	<Flags>
 		<Report>
@@ -64,7 +64,7 @@
 			
 	</Flags>
 	<Views>
-		<View File="..\..\..\..\..\..\MAIN\LIBS\NATIVE\IPC\MAIN.C" Line="59" Index="0" focus="1" />
+		<View File="..\..\..\..\..\..\MAIN\LIBS\NATIVE\IPC\main.c" Line="59" Index="0" focus="1" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
@@ -95,6 +95,7 @@
 			<GrepFindWhereValue>Application Files</GrepFindWhereValue>
 			<GrepPathStr>Application Files</GrepPathStr>
 			<GrepPathStr>Application Path</GrepPathStr>
+			<GrepPathStr>Project Files</GrepPathStr>
 		</GrepFindWhere>
 		<GrepReplaceWhat>
 			<GrepReplaceWhatValue/>

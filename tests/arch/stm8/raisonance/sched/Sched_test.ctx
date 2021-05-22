@@ -2,45 +2,22 @@
 <Debug>
 	<RFlasher7>
 		<CodeView Focus="0" TopRow="0" NbPerLine="8" />
-																																																						
+																																																																																							
 	</RFlasher7>
 	<Sched_test>
-		<SpyWatch>
-			<Report>
-				<Def Header="InspectReport" NbCol="6" >
-					<Col Type="PT_STRING" Header="Name" sizeCache="DDDDDDDDDDDD" AutoSize="1" Edit="1" Sortable="1" />
-					<Col Type="PT_STRING" Header="Value" sizeCache="DDDDDDDDDDDDDDDDDDDDDDD" AutoSize="1" Edit="1" Sortable="0" />
-					<Col Type="PT_STRING" Header="Format" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
-					<Col Type="PT_STRING" Header="RangeMin" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
-					<Col Type="PT_STRING" Header="RangeMax" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="0" />
-					<Col Type="PT_STRING" Header="Expression" sizeCache="DDDD" AutoSize="1" Edit="0" Visible="1" />
-																		
-				</Def>
-				<Rows>
-					<Row Name="proc[0].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[0].flags" />
-					<Row Name="proc[1].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[1].flags" />
-					<Row Name="proc[2].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[2].flags" />
-					<Row Name="proc[3].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[3].flags" />
-					<Row Name="proc[4].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[4].flags" />
-					<Row Name="proc[5].flags" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="proc[5].flags" />
-					<Row Name="nested_interrupts" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
-					<Row Name="kernel.timer" Value="" Format="0" RangeMin="0" RangeMax="128" Expression="" />
-																		
-				</Rows>
-														
-			</Report>
-										
-		</SpyWatch>
-		<CodeView TopRow="40923" Focus="4294967295" >
+		<CodeView TopRow="32896" Focus="32896" >
 			<CodeReport>
-				<0>126</0>
-				<1>139</1>
-				<2>75</2>
-				<3>426</3>
+				<0>184</0>
+				<1>203</1>
+				<2>109</2>
+				<3>624</3>
+				<4>69</4>
+				<5>149</5>
 														
 			</CodeReport>
 										
 		</CodeView>
+		<MemoryView Focus="32896" TopRow="0" NbPerLine="8" />
 						
 	</Sched_test>
 	<Flags>
@@ -60,9 +37,9 @@
 							
 			</Def>
 			<Rows>
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:24" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\sched\main.c" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:29" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\sched\main.c" />
-				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:38" File="main.c" Path="C:\Temp\BuguRTOS-0.8.x-test\bugurtos-v.2.0.x-exp\tests\main\sched\main.c" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:11" File="main.c" Path="C:\Users\test_\Desktop\4.x.x\bugurtos\tests\main\sched\main.c" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:17" File="main.c" Path="C:\Users\test_\Desktop\4.x.x\bugurtos\tests\main\sched\main.c" />
+				<Row Check="True" Kind="Breakpoint" KindID="0" Space="code" SpaceID="0" Condition="" Line="L:20" File="main.c" Path="C:\Users\test_\Desktop\4.x.x\bugurtos\tests\main\sched\main.c" />
 							
 			</Rows>
 					
@@ -70,14 +47,23 @@
 			
 	</Flags>
 	<Views>
-		<View File="..\..\..\..\main\sched\main.c" Line="37" Index="0" focus="1" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Line="71" Index="1" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="73" Index="2" />
-		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.c" Line="0" Index="3" />
+		<View File="..\..\..\..\main\sched\main.c" Line="10" Index="0" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.h" Line="1" Index="1" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_proc_stack_init.c" Line="1" Index="2" />
+		<View File="..\..\..\..\..\arch\stm8\raisonance\bugurt_port.c" Line="124" Index="3" />
 		<View File="..\..\..\..\..\kernel\syscall.c" Line="34" Index="4" />
 		<View File="..\..\..\..\..\kernel\bugurt.h" Line="135" Index="5" />
 		<View File="..\..\..\..\..\kernel\syscall.h" Line="101" Index="6" />
-		<View File="..\bugurt_config.h" Line="5" Index="7" />
+		<View File="..\bugurt_config.h" Line="68" Index="7" />
+		<View File="..\test_func.c" Line="52" Index="8" />
+		<View File="..\test_func.h" Line="39" Index="9" />
+		<View File="..\..\..\..\..\..\thirdparty\libstm8\include\libstm8\common.h" Line="23" Index="10" />
+		<View File="..\..\..\..\..\..\thirdparty\libstm8\include\libstm8\l\gpio.h" Line="1" Index="11" />
+		<View File="..\..\..\..\..\..\thirdparty\libstm8\lib\l\gpio.c" Line="1" Index="12" />
+		<View File="..\..\..\..\..\..\thirdparty\libstm8\include\libstm8\stm8l.h" Line="1" Index="13" />
+		<View File="..\..\..\..\..\..\thirdparty\libstm8\include\libstm8\l\regs.h" Line="155" Index="14" focus="1" />
+		<View File="..\..\..\..\..\..\thirdparty\libstm8\include\libstm8\l\tim.h" Line="1" Index="15" />
+		<View File=".\bin\bugurt_port.lst" Line="1" Index="16" />
 	</Views>
 	<BookMarks>
 		<BookMark File="" Line="3936024" />
@@ -108,12 +94,18 @@
 			<GrepFindWhereValue>Application Files</GrepFindWhereValue>
 			<GrepPathStr>Application Files</GrepPathStr>
 			<GrepPathStr>Application Path</GrepPathStr>
+			<GrepPathStr>Project Files</GrepPathStr>
 		</GrepFindWhere>
 		<GrepReplaceWhat>
 			<GrepReplaceWhatValue/>
 		</GrepReplaceWhat>
 	</Grep>
 	<FindStrings>
+		<Find>reti</Find>
+		<Find>SPI1_CR1</Find>
+		<Find>PCKEN1_</Find>
+		<Find>PCKEN1_TIM4</Find>
+		<Find>CKDIVR</Find>
 		<Find>MASK_CPU_CCR_I1</Find>
 	</FindStrings>
 	<ReplaceStrings/>

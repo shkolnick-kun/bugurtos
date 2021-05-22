@@ -61,11 +61,12 @@ typedef volatile unsigned char bgrt_syscall_t;
 //     Project specific stuff, you are welcome to edit it!!!
 /*=================================================================*/
 #define BGRT_CONFIG_TEST  /*This is test project*/.
-#include <STM8\STM8S208RB.h>/*STM8 include!!!!*/
+//#include <STM8\STM8L152C6.h>/*STM8 include!!!!*/
+#include <libstm8/stm8l.h>/*STM8 include!!!!*/
 /*project specific define of system timer ISR*/
-#define SPI_TXE_vector 10
-#define BGRT_SYSTEM_TIMER_VECTOR 23
-#define BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR = 0x00)
+#define SPI_TXE_vector 26
+#define BGRT_SYSTEM_TIMER_VECTOR 25
+#define BGRT_SYSTEM_TIMER_INTERRUPT_CLEAR() (TIM4_SR1 = 0x00)
 #define BGRT_STOP_SCHEDULER() (TIM4_IER = 0x00)
 #define BGRT_START_SCHEDULER() (TIM4_IER = 0x01)
 
@@ -87,23 +88,30 @@ typedef volatile unsigned char bgrt_syscall_t;
 #define PR4 (&proc[4])
 #define PR5 (&proc[5])
 
-#define SVH0 (bgrt_code_t)0
-#define RSH0 (bgrt_code_t)0
+extern void blink_1(void);
+extern void blink_2(void);
+extern void blink_3(void);
+extern void blink_4(void);
+extern void blink_5(void);
+extern void blink_6(void);
 
-#define SVH1 (bgrt_code_t)0
-#define RSH1 (bgrt_code_t)0
+#define SVH0 (bgrt_code_t)blink_1
+#define RSH0 (bgrt_code_t)blink_1
 
-#define SVH2 (bgrt_code_t)0
-#define RSH2 (bgrt_code_t)0
+#define SVH1 (bgrt_code_t)blink_2
+#define RSH1 (bgrt_code_t)blink_2
 
-#define SVH3 (bgrt_code_t)0
-#define RSH3 (bgrt_code_t)0
+#define SVH2 (bgrt_code_t)blink_3
+#define RSH2 (bgrt_code_t)blink_3
 
-#define SVH4 (bgrt_code_t)0
-#define RSH4 (bgrt_code_t)0
+#define SVH3 (bgrt_code_t)blink_4
+#define RSH3 (bgrt_code_t)blink_4
 
-#define SVH5 (bgrt_code_t)0
-#define RSH5 (bgrt_code_t)0
+#define SVH4 (bgrt_code_t)blink_5
+#define RSH4 (bgrt_code_t)blink_5
+
+#define SVH5 (bgrt_code_t)blink_6
+#define RSH5 (bgrt_code_t)blink_6
 
 /**================================================================*/
 /**               Don't edit this part of the file!!!              */
