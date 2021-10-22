@@ -3,19 +3,20 @@ cmake_minimum_required(VERSION 3.13)
 if (NOT TARGET _bugurtos_inclusion_guard)
 	add_library(_bugurtos_inclusion_guard INTERFACE)
 
-    message(NOTICE "BuguRTOS is included!!!")
+    message(NOTICE "BuguRTOS: Configuring build..")
 
     if (NOT BGRT_CONFIG_DIR)
-		message(FATAL_ERROR "BGRT_CONFIG_DIR must be specified")
+		message(FATAL_ERROR "BuguRTOS: BGRT_CONFIG_DIR must be specified")
 	endif()
     get_filename_component(BGRT_CONFIG_DIR "${BGRT_CONFIG_DIR}" REALPATH)
 
 	if (NOT BGRT_ARCH)
-		message(FATAL_ERROR "BGRT_ARCH must be specified")
+		message(FATAL_ERROR "BuguRTOS: BGRT_ARCH must be specified")
 	endif()
 
     if (NOT BGRT_TOOLCHAIN)
-		message(FATAL_ERROR "BGRT_TOOLCHAIN must be specified")
+        message(NOTICE "BuguRTOS: BGRT_TOOLCHAIN was not set, will default to \"gcc\"...")
+        set(BGRT_TOOLCHAIN "gcc")
 	endif()
 
     #Get current dir path
@@ -25,8 +26,11 @@ if (NOT TARGET _bugurtos_inclusion_guard)
     ###########################################################################
     #                         Kernel source files
     ###########################################################################
+    set(BGRT_DEFAULT_SYSCALL_TABLE_DIR "${BGRT_DIR}/kernel/default")
+
     if (NOT BGRT_SYSCALL_TABLE_DIR)
-        set(BGRT_SYSCALL_TABLE_DIR "${CMAKE_CURRENT_LIST_DIR}/kernel/default")
+        message(NOTICE "BuguRTOS: BGRT_SYSCALL_TABLE_DIR was not set, will default to \"${BGRT_DEFAULT_SYSCALL_TABLE_DIR}\"...")
+        set(BGRT_SYSCALL_TABLE_DIR ${BGRT_DEFAULT_SYSCALL_TABLE_DIR})
     endif()
     get_filename_component(BGRT_SYSCALL_TABLE_DIR "${BGRT_SYSCALL_TABLE_DIR}" REALPATH)
 
@@ -47,23 +51,26 @@ if (NOT TARGET _bugurtos_inclusion_guard)
 			${BGRT_DIR}/kernel/xlist.c
             )
 
+    #--------------------------------------------------------------------------
     #Port files
+    #--------------------------------------------------------------------------
     set(BGRT_PORT_DIR "${BGRT_DIR}/arch/${BGRT_ARCH}/${BGRT_TOOLCHAIN}")
-
+    
+    #Add bugurt_port.c
     list(APPEND BGRT_KERNEL_SOURCES ${BGRT_PORT_DIR}/bugurt_port.c)
 
-    if (BGRT_ARCH STREQUAL "avr")
-        list(APPEND BGRT_KERNEL_SOURCES ${BGRT_PORT_DIR}/bugurt_proc_stack_init.c)
-        list(APPEND BGRT_KERNEL_SOURCES ${BGRT_PORT_DIR}/bugurt_port_asm.S)
+    #Add bugurt_proc_stack_init.c if needed!
+    set(BGRT_STACK_INIT_C ${BGRT_PORT_DIR}/bugurt_proc_stack_init.c)
+    message(NOTICE "BuguRTOS: Check for \"${BGRT_STACK_INIT_C}\"...")
+    if (EXISTS ${BGRT_STACK_INIT_C})
+        list(APPEND BGRT_KERNEL_SOURCES ${BGRT_STACK_INIT_C})
+    endif()
 
-    elseif (BGRT_ARCH STREQUAL "stm8")
-        #Stack init in separate file
-        list(APPEND BGRT_KERNEL_SOURCES ${BGRT_PORT_DIR}/bugurt_proc_stack_init.c)
-
-        #IAR port has asm file
-        if (BGRT_TOOLCHAIN STREQUAL "iar")
-            list(APPEND BGRT_KERNEL_SOURCES ${BGRT_PORT_DIR}/bugurt_port_asm.S)
-        endif()
+    #Add bugurt_port_asm.S if needed!
+    set(BGRT_PORT_ASM_S ${BGRT_PORT_DIR}/bugurt_port_asm.S)
+    message(NOTICE "BuguRTOS: Check for \"${BGRT_PORT_ASM_S}\"...")
+    if (EXISTS ${BGRT_PORT_ASM_S})
+        list(APPEND BGRT_KERNEL_SOURCES ${BGRT_PORT_ASM_S})
     endif()
     
     ###########################################################################
@@ -86,7 +93,8 @@ if (NOT TARGET _bugurtos_inclusion_guard)
     ###########################################################################
     #                           Native API library
     ###########################################################################
-    if (BGRT_SYSCALL_TABLE_DIR STREQUAL "${CMAKE_CURRENT_LIST_DIR}/kernel/default")
+    if (BGRT_SYSCALL_TABLE_DIR STREQUAL ${BGRT_DEFAULT_SYSCALL_TABLE_DIR})
+        message(NOTICE "BuguRTOS: Adding native API...")
         add_library(bugurtos_native_api INTERFACE)
         target_sources(bugurtos_native_api INTERFACE 
                 ${BGRT_DIR}/libs/native/cond.c
@@ -98,5 +106,6 @@ if (NOT TARGET _bugurtos_inclusion_guard)
                 ${BGRT_KERNEL_INCLUDES}
                 ${BGRT_DIR}/libs/native
                 )
+        message(NOTICE "BuguRTOS: Done!")
     endif()
 endif()
