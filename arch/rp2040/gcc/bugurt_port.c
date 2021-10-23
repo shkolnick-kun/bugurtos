@@ -154,8 +154,6 @@ static volatile bgrt_stack_t ** current_sp[2] = {&kernel_sp[0], &kernel_sp[1]};
 
 static volatile bgrt_bool_t kernel_mode[2] = {1, 1};
 
-static volatile unsigned long _sys_tmr = 0;
-
 /*====================================================================================*/
 static bgrt_stack_t * _read_psp(void)
 {
@@ -173,12 +171,6 @@ static void _write_psp(volatile bgrt_stack_t * ptr)
         ::"r" (ptr):
    );
 }
-
-/*====================================================================================*/
-//typedef struct {
-//    bgrt_cpuid_t entering[BGRT_MAX_CPU];
-//    bgrt_cpuid_t number[BGRT_MAX_CPU];
-//} bgrt_lock_t;
 
 /*====================================================================================*/
 void bgrt_spin_init(bgrt_lock_t * lock)
@@ -208,7 +200,7 @@ void bgrt_spin_lock(bgrt_lock_t * lock)
     lock->number[i] += 1;
     BGRT_DMB();
     lock->entering[i] = 0;
-    BGRT_SEV();
+    //BGRT_SEV();
 
     for (j = 0; j < BGRT_MAX_CPU; j++)
     {
@@ -216,14 +208,14 @@ void bgrt_spin_lock(bgrt_lock_t * lock)
         {
             while (1 == lock->entering[j])
             {
-                BGRT_WFE();
+                BGRT_NOP();//BGRT_WFE();
             }
 
             while ((0 != lock->number[j]) && (
                 (lock->number[j] < lock->number[i]) || (
                     (lock->number[j] == lock->number[i]) && (j < i))))
             {
-                BGRT_WFE();
+                BGRT_NOP();//BGRT_WFE();
             }
         }
     }
@@ -231,8 +223,8 @@ void bgrt_spin_lock(bgrt_lock_t * lock)
 /*====================================================================================*/
 void bgrt_spin_free(bgrt_lock_t * lock)
 {
-    lock->number[bgrt_curr_cpu()] = 0;
-    BGRT_SEV();
+    lock->number[BGRT_SIO_CPUID] = 0;
+    //BGRT_SEV();
 }
 
 /*====================================================================================*/
@@ -241,24 +233,27 @@ void bgrt_stat_init(bgrt_ls_t * stat)
 {
     *stat = 0; /* no lad on a system*/
 }
+
 void bgrt_stat_dec(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
     (*stat)--;
 }
+
 void bgrt_stat_inc(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
     (*stat)++;
 }
+
 void bgrt_stat_merge(bgrt_ls_t *src_stat, bgrt_ls_t * dst_stat )
 {
     *dst_stat += *src_stat;
     *src_stat = (bgrt_ls_t)0;
 }
+
 bgrt_load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat)
 {
     return (bgrt_load_t)*stat;
 }
-
 
 /*====================================================================================*/
 bgrt_cpuid_t bgrt_curr_cpu(void)
@@ -364,12 +359,7 @@ void bgrt_core1_main(void)
     BGRT_NVIC_ISER = BGRT_SIO_IRQ_CORE1;
     BGRT_INT_FREE();
 
-    //bgrt_kblock_main(&BGRT_KBLOCK);
-    while(1)
-    {
-        bgrt_kblock_do_work(&BGRT_KBLOCK);
-        bgrt_switch_to_proc();
-    }
+    bgrt_kblock_main(&BGRT_KBLOCK);
 }
 /*====================================================================================*/
 static inline void _bgrt_start_core1(void)
@@ -411,7 +401,6 @@ void BGRT_SYSTEM_TIMER_ISR(void)
 {
     BGRT_ISR_START();
 
-    //_sys_tmr++;
     BGRT_SPIN_LOCK(&bgrt_kernel.timer);
     bgrt_kernel.timer.val++;
     if (bgrt_kernel.timer.tick)
@@ -450,37 +439,6 @@ void bgrt_start(void)
     _bgrt_start_core1();
     BGRT_INT_FREE();
     bgrt_kblock_main(&BGRT_KBLOCK);
-    while (1)
-    {
-        /*Обработка прерывания системного таймера*/
-        BGRT_INT_LOCK();
-        tmr = _sys_tmr;
-        BGRT_INT_FREE();
-
-        if (_sys_tmr_rd != tmr)
-        {
-            BGRT_SPIN_LOCK(&bgrt_kernel.timer);
-            {
-                bgrt_kernel.timer.val = tmr;
-                tmr -= _sys_tmr_rd;
-                _sys_tmr_rd = bgrt_kernel.timer.val;
-                tick = bgrt_kernel.timer.tick;
-                    
-            }
-            BGRT_SPIN_FREE(&bgrt_kernel.timer);
-            if (tick)
-            {
-                while (tmr--)
-                {
-                    tick();
-                }
-            }
-            _sio_send(BGRT_KBLOCK_VTMR); /*Send event to the core1*/
-        }
-        /*Обработка событий Ядра*/
-        bgrt_kblock_do_work(&BGRT_KBLOCK);
-        bgrt_switch_to_proc();
-    }
 }
 
 /*====================================================================================*/
