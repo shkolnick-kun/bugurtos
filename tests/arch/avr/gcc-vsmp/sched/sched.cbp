@@ -18,8 +18,9 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wextra" />
+			<Add option="-pedantic" />
 			<Add option="-Wall" />
+			<Add option="-std=c99" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />

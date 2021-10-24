@@ -90,9 +90,6 @@ BGRT_CDECL_BEGIN
 
 #include "../../common/atm_gen_1.h"
 
-#define BGRT_KBLOCK bgrt_kernel.kblock
-#define BGRT_CURR_PROC bgrt_kernel.sched.current_proc
-
 /* Пролог обработчика прерывания */
 /**
                          АХТУНГ !!!
@@ -137,17 +134,17 @@ void BGRT_CONCAT(v,_func)(void)
 
 unsigned char bgrt_kernel_state;
 /*Временное хранилище для указателей стеков процессов.*/
-bgrt_stack_t * saved_sp;
-bgrt_stack_t * kernel_sp;
-bgrt_stack_t ** current_sp;
+volatile bgrt_stack_t * saved_sp;
+volatile bgrt_stack_t * kernel_sp;
+volatile bgrt_stack_t ** current_sp;
 
 void bgrt_set_curr_sp(void);
 
 extern bgrt_stack_t * bugurt_save_context(void);
-extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_restore_context(volatile bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
-extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
-extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
+extern void bugurt_set_stack_pointer(volatile bgrt_stack_t * new_sp);
+extern bgrt_stack_t * bugurt_reverse_byte_order(bgrt_stack_t * arg);
 
 BGRT_CDECL_END
 #endif /* BGRT_PORT_H*/

@@ -79,6 +79,13 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <bugurt.h>
 
 /*====================================================================================*/
+#define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
+#define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
+
+#define BGRT_PENDSV_SET   (0x10000000)
+#define BGRT_PENDSV_CLR   (0x08000000)
+
+/*====================================================================================*/
 #ifndef BGRT_CONFIG_PRIO_BITS
 #error "You must define BGRT_CONFIG_PRIO_BITS macro!!!"
 #endif /*BGRT_CONFIG_PRIO_BITS*/
@@ -160,11 +167,11 @@ bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, vo
     return sstart;
 }
 /*====================================================================================*/
-static bgrt_stack_t * saved_sp;
-static bgrt_stack_t * kernel_sp;
-static bgrt_stack_t ** current_sp = &kernel_sp;
+static volatile bgrt_stack_t * saved_sp;
+static volatile bgrt_stack_t * kernel_sp;
+static volatile bgrt_stack_t ** current_sp = &kernel_sp;
 /*====================================================================================*/
-static bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
+static volatile bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 /*====================================================================================*/
 static void bgrt_set_curr_sp(void)
 {

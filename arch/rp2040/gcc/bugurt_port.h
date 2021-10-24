@@ -102,9 +102,6 @@ BGRT_CDECL_BEGIN
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push  /* Use nondefault BGRT_VINT_PUSH_ISR */
 #include "../../common/atm_gen_1.h"
 
-#define BGRT_KBLOCK bgrt_kernel.kblock[BGRT_SIO_CPUID]
-#define BGRT_CURR_PROC bgrt_kernel.sched[BGRT_SIO_CPUID].current_proc
-
 /* Пролог обработчика прерывания */
 #define BGRT_ISR_START() do{}while(0)
 
@@ -122,7 +119,6 @@ void v(void)           \
     f();               \
     BGRT_ISR_END();    \
 }
-
 
 /*
 Объявление обработчика прерывания.

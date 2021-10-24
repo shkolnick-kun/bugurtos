@@ -80,28 +80,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_PORT_H
 BGRT_CDECL_BEGIN
 
-#define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
-/*
-#define BGRT_SYS_SCR 		*((volatile unsigned long *) 0xE000ED10)
-#define BGRT_SYS_CCR 		*((volatile unsigned long *) 0xE000ED14)
-
-#define BGRT_SYS_SHPR1 	*((volatile unsigned long *) 0xE000ED18)
-*/
-#define BGRT_SYS_SHPR2 	*((volatile unsigned long *) 0xE000ED1C)
-#define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
-/*
-#define BGRT_SYS_SHCRS 	*((volatile unsigned long *) 0xE000ED24)
-#define BGRT_SYS_CFSR 	*((volatile unsigned long *) 0xE000ED28)
-*/
-
-#define BGRT_SYST_CSR 	*((volatile unsigned long *) 0xE000E010)
-#define BGRT_SYST_RVR 	*((volatile unsigned long *) 0xE000E014)
-
-#define BGRT_SYST_RVR_VALUE ((BGRT_CONFIG_FCPU_HZ / BGRT_CONFIG_FSYSTICK_HZ)- 1ul)
-#define BGRT_SYST_CSR_VALUE (0x00000007)/* Enable clock, interrupt, timer. */
-
-#define BGRT_PENDSV_SET   (0x10000000)
-#define BGRT_PENDSV_CLR   (0x08000000)
 /*====================================================================================*/
 #define BGRT_INT_DIS()     \
 	__asm__ __volatile__ ( \
@@ -141,9 +119,6 @@ BGRT_CDECL_BEGIN
         )
 
 #include "../../common/atm_cortex_m34_1.h"
-
-#define BGRT_KBLOCK bgrt_kernel.kblock
-#define BGRT_CURR_PROC bgrt_kernel.sched.current_proc
 
 /* Пролог обработчика прерывания */
 #define BGRT_ISR_START() do{}while(0)

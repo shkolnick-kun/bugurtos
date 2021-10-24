@@ -79,6 +79,36 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <bugurt.h>
 
 /*====================================================================================*/
+#define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
+/*
+#define BGRT_SYS_SCR 		*((volatile unsigned long *) 0xE000ED10)
+#define BGRT_SYS_CCR 		*((volatile unsigned long *) 0xE000ED14)
+
+#define BGRT_SYS_SHPR1 	*((volatile unsigned long *) 0xE000ED18)
+*/
+#define BGRT_SYS_SHPR2 	*((volatile unsigned long *) 0xE000ED1C)
+#define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
+/*
+#define BGRT_SYS_SHCRS 	*((volatile unsigned long *) 0xE000ED24)
+#define BGRT_SYS_CFSR 	*((volatile unsigned long *) 0xE000ED28)
+*/
+#define BGRT_SYS_CPACR 	*((volatile unsigned long *) 0xE000ED88)
+
+#define BGRT_SYST_CSR 	*((volatile unsigned long *) 0xE000E010)
+#define BGRT_SYST_RVR 	*((volatile unsigned long *) 0xE000E014)
+
+#define BGRT_SYST_RVR_VALUE ((BGRT_CONFIG_FCPU_HZ / BGRT_CONFIG_FSYSTICK_HZ)- 1ul)
+#define BGRT_SYST_CSR_VALUE (0x00000007)/* Enable clock, interrupt, timer. */
+
+#define BGRT_PENDSV_SET   (0x10000000)
+#define BGRT_PENDSV_CLR   (0x08000000)
+#define BGRT_FPU_ENABLE   (0x00f00000)
+
+/*====================================================================================*/
+#define BGRT_KBLOCK bgrt_kernel.kblock
+#define BGRT_CURR_PROC bgrt_kernel.sched.current_proc
+
+/*====================================================================================*/
 #ifndef __VFP_FP__
 #error "THis works only on FPU enabled devices (Cotrex(tm)-M4F)!!!"
 #endif
@@ -175,11 +205,11 @@ bgrt_stack_t * bgrt_proc_stack_init(bgrt_stack_t * sstart, bgrt_code_t pmain, vo
     return sstart;
 }
 /*====================================================================================*/
-static bgrt_stack_t * saved_sp;
-static bgrt_stack_t * kernel_sp;
-static bgrt_stack_t ** current_sp = &kernel_sp;
+static volatile bgrt_stack_t * saved_sp;
+static volatile bgrt_stack_t * kernel_sp;
+static volatile bgrt_stack_t ** current_sp = &kernel_sp;
 /*====================================================================================*/
-static bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
+static volatile bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 /*====================================================================================*/
 static void bgrt_set_curr_sp(void)
 {

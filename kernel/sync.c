@@ -526,6 +526,7 @@ bgrt_st_t bgrt_priv_sync_touch(bgrt_sync_t * sync)
     return BGRT_ST_OK;
 }
 /*====================================================================================*/
+#ifdef BGRT_CONFIG_MP
 static inline void _sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
     BGRT_ASSERT(sync, "The #sync must not be NULL!");
@@ -536,6 +537,10 @@ static inline void _sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc
     BGRT_SPIN_LOCK(sync);
     BGRT_SPIN_LOCK(proc);
 }
+#   define _SYNC_SLEEP_SWAP_LOCKS _sync_sleep_swap_locks
+#else/*BGRT_CONFIG_MP*/
+#   define _SYNC_SLEEP_SWAP_LOCKS(sync, proc) do{}while(0)
+#endif/*BGRT_CONFIG_MP*/
 /*====================================================================================*/
 bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
 {
@@ -606,7 +611,7 @@ bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
     case BGRT_PROC_STATE_PI_RUNNING: /* ADLINT:SL:[W0007] return/break */
     {
         /*The end of priority inheritance transaction or BGRT_SYNC_OWN transaction*/
-        _sync_sleep_swap_locks(sync, proc);
+        _SYNC_SLEEP_SWAP_LOCKS(sync, proc);
         /*Event!*/
         sync_clear = (bgrt_flag_t)((bgrt_cnt_t)1 == sync->dirty); /* ADLINT:SL:[W0608] minus converted*/
         BGRT_CNT_DEC(sync->dirty);
@@ -635,7 +640,7 @@ bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
     case BGRT_PROC_STATE_RUNNING: /* ADLINT:SL:[W0007] return/break */
     default:
     {
-        _sync_sleep_swap_locks(sync, proc);
+        _SYNC_SLEEP_SWAP_LOCKS(sync, proc);
         if (sync->owner == proc)
         {
             BGRT_SPIN_FREE(proc);

@@ -79,8 +79,11 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <bugurt.h>
 #include <util/delay.h>
 
-bgrt_stack_t * saved_sp;
-bgrt_stack_t * kernel_sp[BGRT_MAX_CPU];
+#define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
+#define BGRT_CURR_PROC bgrt_kernel.sched[current_vm].current_proc
+
+volatile bgrt_stack_t * saved_sp;
+volatile bgrt_stack_t * kernel_sp[BGRT_MAX_CPU];
 bgrt_bool_t kernel_mode[BGRT_MAX_CPU];
 bgrt_stack_t kernel_stack[BGRT_MAX_CPU -1][VM_STACK_SIZE];
 
@@ -88,7 +91,7 @@ bgrt_stack_t kernel_stack[BGRT_MAX_CPU -1][VM_STACK_SIZE];
 volatile bgrt_cpuid_t current_vm = 0;
 bgrt_bool_t vm_int_enabled[BGRT_MAX_CPU];
 
-bgrt_stack_t ** current_sp = &kernel_sp[0];
+volatile bgrt_stack_t ** current_sp = &kernel_sp[0];
 
 bgrt_cpuid_t bgrt_curr_cpu(void)
 {
@@ -152,10 +155,12 @@ void bgrt_stat_init(bgrt_ls_t * stat)
 }
 void bgrt_stat_dec(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
+    (void)proc;
     (*stat)--;
 }
 void bgrt_stat_inc(bgrt_proc_t * proc, bgrt_ls_t * stat)
 {
+    (void)proc;
     (*stat)++;
 }
 void bgrt_stat_merge(bgrt_ls_t *src_stat, bgrt_ls_t * dst_stat )
@@ -165,6 +170,7 @@ void bgrt_stat_merge(bgrt_ls_t *src_stat, bgrt_ls_t * dst_stat )
 }
 bgrt_load_t bgrt_stat_calc_load(bgrt_prio_t prio, bgrt_ls_t * stat)
 {
+    (void)prio;
     return (bgrt_load_t)*stat;
 }
 /******************************************************************************************************/

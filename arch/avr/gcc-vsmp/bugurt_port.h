@@ -140,9 +140,6 @@ static inline bgrt_map_t bgrt_atm_bclr(bgrt_map_t * fic, bgrt_map_t msk) /* ADLI
 
 #define BGRT_VINT_PUSH_ISR    bgrt_vint_push_isr
 
-#define BGRT_KBLOCK bgrt_kernel.kblock[current_vm]
-#define BGRT_CURR_PROC bgrt_kernel.sched[current_vm].current_proc
-
 /* Пролог обработчика прерывания*/
 #define BGRT_ISR_START()             \
     saved_sp = bugurt_save_context();\
@@ -159,9 +156,9 @@ extern volatile bgrt_cpuid_t current_vm;
 void bgrt_set_curr_sp(void);
 
 extern bgrt_stack_t * bugurt_save_context(void);
-extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_restore_context(volatile bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
-extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
+extern void bugurt_set_stack_pointer(volatile bgrt_stack_t * new_sp);
 extern bgrt_stack_t * bugurt_reverse_byte_order (bgrt_stack_t * arg);
 
 /*Must use VIC for tests*/

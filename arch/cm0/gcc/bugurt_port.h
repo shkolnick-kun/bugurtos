@@ -80,11 +80,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_PORT_H
 BGRT_CDECL_BEGIN
 
-#define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
-#define BGRT_SYS_SHPR3 	*((volatile unsigned long *) 0xE000ED20)
-
-#define BGRT_PENDSV_SET   (0x10000000)
-#define BGRT_PENDSV_CLR   (0x08000000)
 /*====================================================================================*/
 #define BGRT_INT_LOCK()    \
     __asm__ __volatile__ ( \

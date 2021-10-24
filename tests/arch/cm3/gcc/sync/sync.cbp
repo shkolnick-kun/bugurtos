@@ -13,6 +13,9 @@
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-pedantic" />
+					<Add option="-Wall" />
+					<Add option="-std=c99" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -126,8 +129,6 @@
 		</Unit>
 		<Unit filename="../test_func.h" />
 		<Extensions>
-			<envvars />
-			<code_completion />
 			<debugger>
 				<search_path add="bin/Debug" />
 				<remote_debugging>

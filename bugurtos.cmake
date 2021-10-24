@@ -36,19 +36,19 @@ if (NOT TARGET _bugurtos_inclusion_guard)
 
     #Kernel files
     set(BGRT_KERNEL_SOURCES
-            ${BGRT_DIR}/kernel/crit_sec.c
-			${BGRT_DIR}/kernel/index.c
-			${BGRT_DIR}/kernel/item.c
-			${BGRT_DIR}/kernel/kernel.c
-			${BGRT_DIR}/kernel/pcounter.c
-			${BGRT_DIR}/kernel/pitem.c
-			${BGRT_DIR}/kernel/proc.c
-			${BGRT_DIR}/kernel/sched.c
-			${BGRT_DIR}/kernel/sync.c
-			${BGRT_DIR}/kernel/syscall.c
-			${BGRT_DIR}/kernel/timer.c
-			${BGRT_DIR}/kernel/vint.c
-			${BGRT_DIR}/kernel/xlist.c
+            "${BGRT_DIR}/kernel/crit_sec.c"
+            "${BGRT_DIR}/kernel/index.c"
+			"${BGRT_DIR}/kernel/item.c"
+			"${BGRT_DIR}/kernel/kernel.c"
+			"${BGRT_DIR}/kernel/pcounter.c"
+			"${BGRT_DIR}/kernel/pitem.c"
+			"${BGRT_DIR}/kernel/proc.c"
+			"${BGRT_DIR}/kernel/sched.c"
+			"${BGRT_DIR}/kernel/sync.c"
+			"${BGRT_DIR}/kernel/syscall.c"
+			"${BGRT_DIR}/kernel/timer.c"
+			"${BGRT_DIR}/kernel/vint.c"
+			"${BGRT_DIR}/kernel/xlist.c"
             )
 
     #--------------------------------------------------------------------------
@@ -97,10 +97,10 @@ if (NOT TARGET _bugurtos_inclusion_guard)
         message(NOTICE "BuguRTOS: Adding native API...")
         add_library(bugurtos_native_api INTERFACE)
         target_sources(bugurtos_native_api INTERFACE 
-                ${BGRT_DIR}/libs/native/cond.c
-                ${BGRT_DIR}/libs/native/ipc.c
-                ${BGRT_DIR}/libs/native/mutex.c
-                ${BGRT_DIR}/libs/native/sem.c
+                "${BGRT_DIR}/libs/native/cond.c"
+                "${BGRT_DIR}/libs/native/ipc.c"
+                "${BGRT_DIR}/libs/native/mutex.c"
+                "${BGRT_DIR}/libs/native/sem.c"
                 )
         target_include_directories(bugurtos_native_api INTERFACE 
                 ${BGRT_KERNEL_INCLUDES}

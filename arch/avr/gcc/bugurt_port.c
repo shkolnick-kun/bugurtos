@@ -78,6 +78,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 *****************************************************************************************/
 #include <bugurt.h>
 
+#define BGRT_KBLOCK bgrt_kernel.kblock
+#define BGRT_CURR_PROC bgrt_kernel.sched.current_proc
+
+/******************************************************************************************************/
 /* Платформозависимый код*/
 /* Просто функции, специфичные для AVR*/
 
@@ -96,9 +100,9 @@ void bgrt_resched(void)
 Код ядра
 Временное хранилище для указателей стеков процессов.
 */
-bgrt_stack_t * saved_sp;
-bgrt_stack_t * kernel_sp;
-bgrt_stack_t ** current_sp = &kernel_sp;
+volatile bgrt_stack_t * saved_sp;
+volatile bgrt_stack_t * kernel_sp;
+volatile bgrt_stack_t ** current_sp = &kernel_sp;
 
 bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 

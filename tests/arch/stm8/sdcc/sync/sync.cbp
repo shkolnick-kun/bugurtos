@@ -23,6 +23,7 @@
 			<Add option="--out-fmt-ihx" />
 			<Add option="--model-large" />
 			<Add option="--opt-code-speed" />
+			<Add option="--std-sdcc99" />
 			<Add option="--verbose" />
 			<Add option="--stack-auto" />
 			<Add option="-lstm8 -mstm8" />

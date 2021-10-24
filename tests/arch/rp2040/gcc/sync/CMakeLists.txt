@@ -4,7 +4,15 @@ set(CMAKE_CXX_STANDARD 17)
 
 ###############################################################################
 #Test name
-set(PRJ_NAME "sync")
+set(BGRT_TEST_NAME "sync")
+set(BGRT_TEST_MAIN_DIR "bsync")
+
+###############################################################################
+#Test name
+if (NOT BGRT_TEST_NAME)
+    message(NOTICE "BuguRTOS tests: BGRT_TEST_NAME was not set, will default to \"test\"...")
+    set(BGRT_TEST_NAME "test")
+endif()
 
 ###############################################################################
 #libraries
@@ -26,30 +34,35 @@ include("${SRC_ROOT_DIR}/bugurtos/bugurtos.cmake")
 
 ###############################################################################
 #Project
-project(${PRJ_NAME} C CXX ASM)
+project(${BGRT_TEST_NAME} C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+if (NOT BGRT_TEST_MAIN_DIR)
+    message(NOTICE "BuguRTOS: BGRT_SYSCALL_TABLE_DIR was not set, will default to \"${BGRT_TEST_NAME}\"...")
+    set(BGRT_TEST_MAIN_DIR ${BGRT_TEST_NAME})
+endif()
+
 # Add executable. Default name is the project name, version 0.1
-add_executable(${PRJ_NAME} 
-        "${BGRT_DIR}/tests/main/bsync/main.c" 
+add_executable(${BGRT_TEST_NAME}
+        "${BGRT_DIR}/tests/main/${BGRT_TEST_MAIN_DIR}/main.c"
         "${BGRT_CONFIG_DIR}/test_func.c"
         )
 
-pico_set_program_name(${PRJ_NAME} "BuguRTOS test: ${PRJ_NAME}")
-pico_set_program_version(${PRJ_NAME} "0.0.0")
+pico_set_program_name(${BGRT_TEST_NAME} "BuguRTOS test: ${BGRT_TEST_NAME}")
+pico_set_program_version(${BGRT_TEST_NAME} "0.0.0")
 
-pico_enable_stdio_uart(${PRJ_NAME} 1)
-pico_enable_stdio_usb(${PRJ_NAME} 0)
+pico_enable_stdio_uart(${BGRT_TEST_NAME} 1)
+pico_enable_stdio_usb(${BGRT_TEST_NAME} 0)
 
 # Add the standard library to the build
-target_link_libraries(${PRJ_NAME}
+target_link_libraries(${BGRT_TEST_NAME}
         pico_stdlib
         bugurtos_kernel
         bugurtos_native_api
         )
 
 # create map/bin/hex file etc.
-pico_add_extra_outputs(${PRJ_NAME})
+pico_add_extra_outputs(${BGRT_TEST_NAME})
 

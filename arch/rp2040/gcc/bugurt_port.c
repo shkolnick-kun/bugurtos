@@ -79,19 +79,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #include <bugurt.h>
 
 /*====================================================================================*/
-#ifndef BGRT_CONFIG_PRIO_BITS
-#error "You must define BGRT_CONFIG_PRIO_BITS macro!!!"
-#endif /*BGRT_CONFIG_PRIO_BITS*/
-
-#ifndef BGRT_CONFIG_MP
-#error "You must define BGRT_CONFIG_MP macro!!!"
-#endif/*BGRT_CONFIG_MP*/
-
-#if BGRT_MAX_CPU != 2
-#error "You must set BGRT_MAX_CPU to 2!!!"
-#endif/*BGRT_MAX_CPU*/
-
-/*====================================================================================*/
 /*Cortex-Mx registers*/
 /*SCB*/
 #define BGRT_SYS_ICSR 	*((volatile unsigned long *) 0xE000ED04)
@@ -127,7 +114,6 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 
 #define BGRT_SIO_IRQ_CORE0 (0x00008000)
 #define BGRT_SIO_IRQ_CORE1 (0x00010000)
-#define BGRT_SIO_IRQ_ALL (BGRT_SIO_IRQ_CORE0 | BGRT_SIO_IRQ_CORE1)
 /*------------------------------------------------------------------------------------*/
 /*rp2040 registers*/
 #define BGRT_SIO_CPUID   *((volatile unsigned long *)0xD0000000)
@@ -142,6 +128,22 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_SIO_FIFO_ST_WOF (0x04)
 #define BGRT_SIO_FIFO_ST_ROE (0x08)
 
+/*====================================================================================*/
+#define BGRT_KBLOCK bgrt_kernel.kblock[BGRT_SIO_CPUID]
+#define BGRT_CURR_PROC bgrt_kernel.sched[BGRT_SIO_CPUID].current_proc
+
+/*====================================================================================*/
+#ifndef BGRT_CONFIG_PRIO_BITS
+#error "You must define BGRT_CONFIG_PRIO_BITS macro!!!"
+#endif /*BGRT_CONFIG_PRIO_BITS*/
+
+#ifndef BGRT_CONFIG_MP
+#error "You must define BGRT_CONFIG_MP macro!!!"
+#endif/*BGRT_CONFIG_MP*/
+
+#if BGRT_MAX_CPU != 2
+#error "You must set BGRT_MAX_CPU to 2!!!"
+#endif/*BGRT_MAX_CPU*/
 
 #ifdef LIB_PICO_STANDARD_LINK
 /*Используемые прерывания*/
