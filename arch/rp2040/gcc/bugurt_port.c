@@ -145,6 +145,18 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #error "You must set BGRT_MAX_CPU to 2!!!"
 #endif/*BGRT_MAX_CPU*/
 
+#ifndef BGRT_CONFIG_FCPU_HZ
+#error "You must define BGRT_CONFIG_FCPU_HZ macro!!!"
+#endif /*BGRT_CONFIG_FCPU_HZ*/
+
+#ifndef BGRT_CONFIG_FSYSTICK_HZ
+#error "You must define BGRT_CONFIG_FSYSTICK_HZ macro!!!"
+#endif /*BGRT_CONFIG_FSYSTICK_HZ*/
+
+#if BGRT_SYST_RVR_VALUE > 0xFFFFFFUL
+#error "Impossible SYST_RVR value!!! "
+#endif /*BGRT_SYST_RVR_VALUE*/
+
 #ifdef LIB_PICO_STANDARD_LINK
 /*Используемые прерывания*/
 #   define BGRT_CORE0_SIO_ISR    isr_irq15
@@ -157,6 +169,10 @@ extern unsigned long __StackOneTop;
 #define BGRT_STACK1_TOP (&__StackOneTop - 1) /*Do we need -1 ???*/
 #endif/*BGRT_STACK1_TOP*/
 #endif/*LIB_PICO_STANDARD_LINK*/
+
+#ifndef BGRT_CORE1_CFG_HOOK
+#define BGRT_CORE1_CFG_HOOK() do{}while(0) 
+#endif
 
 /*====================================================================================*/
 #define BGRT_CONTEXT_STORE() \
@@ -413,6 +429,9 @@ void bgrt_core1_main(void)
     /* Настраиваем прерывание SIO*/
     BGRT_NVIC_ICPR = BGRT_SIO_IRQ_CORE1;
     BGRT_NVIC_ISER = BGRT_SIO_IRQ_CORE1;
+
+    BGRT_CORE1_CFG_HOOK();
+
     BGRT_INT_FREE();
 
     bgrt_kblock_main(&BGRT_KBLOCK);

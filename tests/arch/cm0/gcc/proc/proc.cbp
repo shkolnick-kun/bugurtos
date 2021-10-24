@@ -12,7 +12,7 @@
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
-					<Add option="-Os" />
+					<Add option="-Og" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -132,7 +132,7 @@
 			<debugger>
 				<search_path add="bin/Debug" />
 				<remote_debugging>
-					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="4242" additional_cmds="monitor jtag_reset&#x0A;load&#x0A;tb main&#x0A;monitor jtag_reset" additional_cmds_before="shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
+					<options conn_type="0" ip_address="127.0.0.1" ip_port="4242" additional_cmds="monitor jtag_reset&#x0A;load ${TARGET_OUTPUT_FILE}&#x0A;tb main&#x0A;monitor jtag_reset" additional_cmds_before="shell st-flash erase&#x0A;shell st-util &amp; disown&#x0A;set remotetimeout 60000" />
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />

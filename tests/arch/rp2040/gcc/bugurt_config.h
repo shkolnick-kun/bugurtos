@@ -19,6 +19,8 @@
 
 #define BGRT_CONFIG_MP
 #define BGRT_MAX_CPU (2)
+#define BGRT_CONFIG_USE_ALB
+
 
 typedef unsigned long bgrt_stack_t;
 
@@ -73,47 +75,51 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**     BuguRTOS behavior compilation flags, edit carefully!!!    */
 /**===============================================================*/
 #define BGRT_CONFIG_HARD_RT
-//#define BGRT_CONFIG_LB_SCHEME 0 /*No load balancing during runtime*/
-#define BGRT_CONFIG_LB_SCHEME 1 /*Active load balancing*/
-//#define BGRT_CONFIG_LB_SCHEME 2 /*Lazy load balancing*/
 
-#if (BGRT_CONFIG_LB_SCHEME == 1)
-/*
- Use "Active Load Balancing",
- bgrt_sched_schedule() function is responsible for load balancing.
- */
-#define BGRT_CONFIG_USE_ALB
-#endif
-
-#if (BGRT_CONFIG_LB_SCHEME == 2)
-#define BGRT_CONFIG_USE_LLB
-#endif
 /**===============================================================*/
 /**     Project specific stuff, you are welcome to edit it!!!*/
 /**===============================================================*/
 
 #define BGRT_CONFIG_TEST  /*This is test project*/.
-/*
-#define STM32F0
-#include <libopencmsis/core_cm3.h>
 
-#include <libopencm3/stm32/gpio.h>
-#define GREEN GPIO9
-#define RED   GPIO8
-#define LED_ON(CL)  gpio_set(GPIOC, CL)
-#define LED_OFF(CL) gpio_clear(GPIOC, CL)
-#define LED_TOGGLE(CL) gpio_toggle(GPIOC, CL)
-*/
 /*These macros needed to interface cstartup code.*/
-#define BGRT_SYSTEM_TIMER_ISR 	isr_systick
-#define BGRT_SYSCALL_ISR	    isr_pendsv
+/*
+By default we use stardard pico-sdk starup code
+with the following values:
+*/
+
+/*Interrupt service routines used by the kernel*/
+/*
+#define BGRT_CORE0_SIO_ISR    isr_irq15
+#define BGRT_CORE1_SIO_ISR    isr_irq16
+#define BGRT_SYSTEM_TIMER_ISR isr_systick
+#define BGRT_SYSCALL_ISR      isr_pendsv
+*/
+
+/*May be used to provide custom*/
+/*
+extern unsigned long __StackOneTop;
+#define BGRT_STACK1_TOP (&__StackOneTop - 1)
+*/
+
+/*
+May be uset to do sone core1 initializatio, 
+e.g. to setup a stack guard...
+*/
+/*
+#define BGRT_CORE1_CFG_HOOK() do{}while(0) 
+*/
 
 #define BGRT_CONFIG_FCPU_HZ 			(125000000ul)
 #define BGRT_CONFIG_FSYSTICK_HZ 		(1000ul)
 
 #define BGRT_CONFIG_PRIO_BITS       2  /*Used upper priority bits*/
-#define BGRT_CONFIG_SCHED_PRIO 		3 /*Scheduler priority*/
+#define BGRT_CONFIG_SCHED_PRIO 		3  /*Scheduler priority*/
 
+
+/**===============================================================*/
+/**               Test project specific defines!                  */
+/**===============================================================*/
 #define BGRT_PROC_STACK_SIZE 128
 
 #define LOWEST (BGRT_BITS_IN_INDEX_T - 1)

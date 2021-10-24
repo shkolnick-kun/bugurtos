@@ -13,6 +13,7 @@
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
 					<Add option="-Os" />
+					<Add option="-Og" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>

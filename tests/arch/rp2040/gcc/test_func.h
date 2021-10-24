@@ -1,11 +1,10 @@
 #include <bugurt.h>
 
-//#include <libopencm3/stm32/rcc.h>
-//#include <libopencm3/stm32/gpio.h>
-//#include <libopencm3/stm32/timer.h>
-//#include <libopencm3/cm3/nvic.h>
-//#include <libopencm3/stm32/exti.h>
-//#include <libopencm3/cm3/dwt.h>
+#include "pico/stdlib.h"
+
+#ifndef PICO_DEFAULT_LED_PIN
+#error "BuguRTOS tests require a board with a regular LED"
+#endif
 
 extern void(*test_kernel_preempt)(void);
 extern bgrt_proc_t proc[6];
@@ -30,11 +29,11 @@ extern void sched_lb_test_start(void);
 
 #define BGRT_SCHED_FIX_PROC_2() sched_fix_bgrt_proc_2()
 
-#define GREEN //GPIO9
-#define RED   //GPIO8
+#define GREEN PICO_DEFAULT_LED_PIN
+#define RED   PICO_DEFAULT_LED_PIN
 
-#define LED_ON(CL)  //gpio_set(GPIOC, CL)
-#define LED_OFF(CL) //gpio_clear(GPIOC, CL)
+#define LED_ON(CL)  gpio_put(CL, 1)
+#define LED_OFF(CL) gpio_put(CL, 0)
 
 void kernel_preemt_hook_add(void(*arg)(void));
 void kernel_preemt_hook(void);
@@ -54,5 +53,3 @@ void test_clear(void);
 void test_inc(void);
 
 void systick_hook(void);
-
-

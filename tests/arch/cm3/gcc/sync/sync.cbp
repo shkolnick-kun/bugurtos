@@ -12,10 +12,8 @@
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
-					<Add option="-Os" />
-					<Add option="-pedantic" />
-					<Add option="-Wall" />
 					<Add option="-std=c99" />
+					<Add option="-Og" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -24,18 +22,13 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-pedantic" />
+			<Add option="-Wall" />
 			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
-			<Add option="-Wall" />
 			<Add option="-g3" />
 			<Add option="-fmessage-length=0" />
 			<Add option="-fno-builtin" />

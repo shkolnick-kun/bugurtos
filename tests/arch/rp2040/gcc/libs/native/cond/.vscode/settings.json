@@ -16,6 +16,9 @@
     "cortex-debug.openocdPath": "/opt/openocd-pico/usr/local/bin/openocd",
     "files.associations": {
         "irq.h": "c",
-        "multicore.h": "c"
+        "multicore.h": "c",
+        "bugurt.h": "c",
+        "bugurt_config.h": "c",
+        "test_func.h": "c"
     }
 }

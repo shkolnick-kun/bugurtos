@@ -12,7 +12,7 @@
 				<Option type="1" />
 				<Option compiler="armnoneeabigcc" />
 				<Compiler>
-					<Add option="-Os" />
+					<Add option="-Og" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -30,9 +30,10 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-pedantic" />
+			<Add option="-Wall" />
 			<Add option="-mcpu=cortex-m3" />
 			<Add option="-mthumb" />
-			<Add option="-Wall" />
 			<Add option="-g3" />
 			<Add option="-fmessage-length=0" />
 			<Add option="-fno-builtin" />
@@ -135,8 +136,6 @@
 		</Unit>
 		<Unit filename="../../../test_func.h" />
 		<Extensions>
-			<envvars />
-			<code_completion />
 			<debugger>
 				<search_path add="bin/Debug" />
 				<remote_debugging>
