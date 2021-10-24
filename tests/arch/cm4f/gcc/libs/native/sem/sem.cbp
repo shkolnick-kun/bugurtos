@@ -30,8 +30,9 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wextra" />
+			<Add option="-pedantic" />
 			<Add option="-Wall" />
+			<Add option="-std=c99" />
 			<Add option="-mthumb" />
 			<Add option="-mcpu=cortex-m4" />
 			<Add option="-mfloat-abi=hard" />
