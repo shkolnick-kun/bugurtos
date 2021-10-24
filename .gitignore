@@ -36,6 +36,9 @@
 *.hex
 *.bin
 
+#cmake
+*build*
+
 # Other files
 *obj*
 *bin*
