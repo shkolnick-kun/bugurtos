@@ -153,7 +153,6 @@ static volatile bgrt_stack_t * kernel_sp[2];
 static volatile bgrt_stack_t ** current_sp[2] = {&kernel_sp[0], &kernel_sp[1]};
 
 static volatile bgrt_bool_t kernel_mode[2] = {1, 1};
-
 /*====================================================================================*/
 static bgrt_stack_t * _read_psp(void)
 {
@@ -284,6 +283,7 @@ void BGRT_CORE0_SIO_ISR(void)
     while (BGRT_SIO_FIFO_ST & BGRT_SIO_FIFO_ST_VLD)
     {
         BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_SIO_FIFO_RD);
+        BGRT_SEV();
     }
     BGRT_SIO_FIFO_ST = 0xFF;
     BGRT_ISR_END();
@@ -301,6 +301,7 @@ void BGRT_CORE1_SIO_ISR(void)
     while (BGRT_SIO_FIFO_ST & BGRT_SIO_FIFO_ST_VLD)
     {
         BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_SIO_FIFO_RD);
+        BGRT_SEV();
     }
     BGRT_SIO_FIFO_ST = 0xFF;
     BGRT_ISR_END();
