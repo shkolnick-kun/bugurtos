@@ -133,15 +133,15 @@ void BGRT_CONCAT(vector_func_,v)(void);  \
 BGRT_TMPL_ISR(v,BGRT_CONCAT(vector_func_,v)) \
 void BGRT_CONCAT(vector_func_,v)(void)
 
-extern bgrt_stack_t * saved_sp;
-extern bgrt_stack_t * kernel_sp;
-extern bgrt_stack_t ** current_sp;
+extern volatile bgrt_stack_t * saved_sp;
+extern volatile bgrt_stack_t * kernel_sp;
+extern volatile bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
 extern bgrt_stack_t * bugurt_save_context(void);
-extern void bugurt_restore_context(bgrt_stack_t * new_sp);
+extern void bugurt_restore_context(volatile bgrt_stack_t * new_sp);
 extern void bugurt_pop_context(void);
-extern void bugurt_set_stack_pointer(bgrt_stack_t * new_sp);
+extern void bugurt_set_stack_pointer(volatile bgrt_stack_t * new_sp);
 
 BGRT_CDECL_END
 #endif /*BGRT_PORT_H*/

@@ -128,9 +128,9 @@ void BGRT_CONCAT(vector_func_,v)(void)
 extern void (*_bugurt_do_it)(void); /** NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES ! */
 void _bugurt_do_nothing(void);      /** NEEDED TO MAKE PROPER ISR PROLOGUES/EPILOGUES ! */
 
-extern bgrt_stack_t * saved_sp;
-extern bgrt_stack_t * kernel_sp;
-extern bgrt_stack_t ** current_sp;
+extern volatile bgrt_stack_t * saved_sp;
+extern volatile bgrt_stack_t * kernel_sp;
+extern volatile bgrt_stack_t ** current_sp;
 extern void bgrt_set_curr_sp(void);
 
 BGRT_CDECL_END

@@ -96,9 +96,9 @@ void _bugurt_do_nothing(void)
 }
 /* Код ядра */
 /* Временное хранилище для указателей стеков процессов. */
-bgrt_stack_t * saved_sp;
-bgrt_stack_t * kernel_sp;
-bgrt_stack_t ** current_sp = &kernel_sp;
+volatile bgrt_stack_t * saved_sp;
+volatile bgrt_stack_t * kernel_sp;
+volatile bgrt_stack_t ** current_sp = &kernel_sp;
 
 bgrt_bool_t kernel_mode = (bgrt_bool_t)1;
 
