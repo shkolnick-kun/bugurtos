@@ -1,6 +1,11 @@
 # Changelog #
+  * 4.1.0
+    * Added cmake support.
+    * Added rp2040 with SMP.
+    * Refactored hardware specific code.
+    * Updated geting started guide.
   * 4.0.0
-    * Added CoC, now new develpers to our welcoming community.
+    * Added CoC, now new developers can join our welcoming community.
     * Added deterministic API to software timers.
     * Added NULL pointer checks to native lib functions.
     * Added extern "C" linkage for C++ projects.

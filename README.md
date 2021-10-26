@@ -11,6 +11,7 @@ proprietary software development.
 # Main features #
 * Small. BuguRTOS can run on small 8bit microcontrollers.
 * Portable. The kernel is designed to be easily portable to new platforms.
+* SMP-ready by design. The kernel was designed for SMP MCUs from the very begining. Although there were no SMP MCUs available at the end of 2010.
 * No memory management in kernel.
 * Smaller process stack size required as kernel runs in separate thread with its own stack.
 * The kernel is almost fully preemptive. Only small chunks of code can't be preempted by interrupts.
@@ -28,11 +29,12 @@ proprietary software development.
 # Current status #
 * Branches supported:
   * 0.6.x ([Immediate Ceiling Priority Protocol](http://en.wikipedia.org/wiki/Priority_ceiling_protocol) used) high level features and API are frozen;
-  * 4.0.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
+  * 4.1.x (combines Immediate Ceiling Priority and [Basic Priority Inheritance](http://en.wikipedia.org/wiki/Priority_inheritance) protocols) is under active development.
 
 * Current versions are:
   * 0.6.6;
   * 4.0.0;
+  * 4.1.0 is on the way!
 
 * Platforms supported:
   * AVR (GNU-toolchain);
@@ -43,7 +45,8 @@ proprietary software development.
   * Cortex<sup>TM</sup>-M7 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M4 (GNU-toolchain);
   * Cortex<sup>TM</sup>-M3 (GNU-toolchain);
-  * Cortex<sup>TM</sup>-M0 (GNU-toolchain).
+  * Cortex<sup>TM</sup>-M0 (GNU-toolchain);
+  * rp2040 (since 4.1.0).
 
 * Notes on STM8/SDCC port:
   * Thank [Philipp Klaus Krause](https://github.com/spth) for taking part in this port!
@@ -52,17 +55,34 @@ proprietary software development.
 * Notes on Cortex<sup>TM</sup>-M0 port:
   * This port should also work on Cortex<sup>TM</sup>-M1 with OS-extension.
 
+* Notes on rp2040 port:
+  * BuguRTOS runs in SMP mode. Only two RTOSes support SMP on rp2040 at the end of october 2021.
+  * [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk) usage is optional.
+  * The port use four interrupts, they are:
+    * SysTick,
+    * PendSv,
+    * IRQ15 (core 0 SIO interrupt),
+    * IRQ16 (core 1 SIO interrupt);
+  * When [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk) standard runtime is used with BuguRTOS interrupt names are set to SDKs default ISR names. There is no need to define or configure them.
+  * "Atomic" operations are core local. Cross-core memory accesses are concurrent.
+  * rp2040 has 32 hardware locks but we can't use them in BuguRTOS because of two reasons:
+    * We need unlimited number of spin locks for the Kernel.
+    * Hardware locks are heavilly used by the [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk).
+  * [Lamport's bakery algorithm](https://en.wikipedia.org/wiki/Lamport%27s_bakery_algorithm) is used for software implemented spin locks.
+  * Software implemented spin locks are used to avoid cross-core concurency inside the kernel. **DO NOT use them directly!!!**
+
 # Get started #
 Getting started guide is [here](./doc/GettingStartedEN.md).
 
 # Todo #
-* Write libs for 3.0.x branch.
+* Write libs for 4.x.y branch.
 * Write more ports.
 * Fix bugs.
 * ??????
 * PROFIT!!!
 
 # News #
+* **October 31st 2021** BuguRTOS updated** version 4.1.0 will be out, see [Changelog](./doc/Changelog.md) for details!
 * **January 7th 2019: BuguRTOS updated** version 4.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **March 13th 2017: BuguRTOS updated** version 3.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **August 31th 2016: BuguRTOS updated** version 2.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
