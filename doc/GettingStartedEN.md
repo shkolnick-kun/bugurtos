@@ -49,7 +49,7 @@ you can see the list of different RTOS.
         * [%bugurtos_dir%]/kernel/default,
         * [%bugurtos_dir%]/libs/native,
         * [%bugurtos_dir%]/arch/[%processor%]/[%toolchain%];
-     * or add the following lines to your CMakeLists.txt:
+   * or add the following lines to your CMakeLists.txt:
 ```CMake
 set(BGRT_CONFIG_DIR "Path/to/bugurtos_config.h/parent/directory")
 set(BGRT_ARCH "rp2040")
