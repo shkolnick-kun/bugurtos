@@ -82,7 +82,7 @@ Getting started guide is [here](./doc/GettingStartedEN.md).
 * PROFIT!!!
 
 # News #
-* **October 31st 2021 BuguRTOS updated** version 4.1.0 will be out, see [Changelog](./doc/Changelog.md) for details!
+* **October 31st 2021 BuguRTOS updated** version 4.1.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **January 7th 2019: BuguRTOS updated** version 4.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **March 13th 2017: BuguRTOS updated** version 3.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
 * **August 31th 2016: BuguRTOS updated** version 2.0.0 is out, see [Changelog](./doc/Changelog.md) for details!
