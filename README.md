@@ -33,8 +33,7 @@ proprietary software development.
 
 * Current versions are:
   * 0.6.6;
-  * 4.0.0;
-  * 4.1.0 is on the way!
+  * 4.1.0;
 
 * Platforms supported:
   * AVR (GNU-toolchain);
