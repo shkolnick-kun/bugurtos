@@ -13,11 +13,11 @@
 				<Option compiler="avrgcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-Og" />
 				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Os" />
 			<Add option="-Wall" />
 			<Add option="-mmcu=atmega328p" />
 			<Add option="-ffunction-sections" />
@@ -116,7 +116,7 @@
 		<Extensions>
 			<debugger>
 				<remote_debugging target="Debug">
-					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
+					<options conn_type="0" ip_address="127.0.0.1" ip_port="1234" additional_cmds="tb main" />
 				</remote_debugging>
 			</debugger>
 			<lib_finder disable_auto="1" />
