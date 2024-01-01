@@ -30,8 +30,8 @@
 			<Add option="-Os" />
 			<Add option="-pedantic" />
 			<Add option="-Wall" />
-			<Add option="-mmcu=atmega328p" />
 			<Add option="-std=c99" />
+			<Add option="-mmcu=atmega328p" />
 			<Add option="-ffunction-sections" />
 			<Add option="-fdata-sections" />
 			<Add option="-DF_CPU=16000000UL" />
@@ -42,7 +42,7 @@
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atmega328p" />
-			<Add option="-Wl,-Map=$(TARGET_OUTPUT_FILE).map,--cref,--gc-sections" />
+			<Add option="-Wl,--cref,--gc-sections" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="avr-size $(TARGET_OUTPUT_FILE)" />
@@ -114,16 +114,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../../../../../kernel/xlist.h" />
+		<Unit filename="../../../../main/bsync/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="../test_func.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../test_func.h" />
-		<Unit filename="../../../../main/bsync/main.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Extensions>
-			<envvars />
-			<code_completion />
 			<debugger>
 				<remote_debugging>
 					<options conn_type="0" serial_baud="115200" ip_address="127.0.0.1" ip_port="1234" />
