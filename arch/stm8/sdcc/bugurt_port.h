@@ -80,6 +80,10 @@ sMMM+........................-hmMo/ds  oMo`.-o     :h   s:`h` `Nysd.-Ny-h:......
 #define BGRT_PORT_H
 BGRT_CDECL_BEGIN
 
+#ifndef __SDCCCALL
+#   define __SDCCCALL 0
+#endif/*__SDCCCALL*/
+
 #define BGRT_INT_LOCK() __asm__("sim")
 #define BGRT_INT_FREE() __asm__("rim")
 

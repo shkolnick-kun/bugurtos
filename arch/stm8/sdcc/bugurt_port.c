@@ -88,6 +88,7 @@ void bgrt_resched(void)
 {
     bgrt_atm_bset(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VRESCH);
 }
+
 /* Платформозависимый код */
 bgrt_stack_t * bgrt_isr_prologue(void) __naked
 {
@@ -97,15 +98,14 @@ bgrt_stack_t * bgrt_isr_prologue(void) __naked
     pop  cc
 #ifdef __SDCC_MODEL_LARGE
     pop   a      /* pop return address       */
+#endif/*__SDCC_MODEL_LARGE*/
     popw  y      /* pop return address       */
     ldw   x, sp  /* get sp value before call */
     pushw y      /* push return address      */
+#ifdef __SDCC_MODEL_LARGE
     push  a      /* push return address      */
     retf
 #else /*__SDCC_MODEL_LARGE*/
-    popw  y      /* pop return address       */
-    ldw   x, sp  /* get sp value before call */
-    pushw y      /* push return address      */
     ret
 #endif/*__SDCC_MODEL_LARGE*/
     __endasm;
@@ -115,25 +115,27 @@ void bgrt_isr_epilogue(bgrt_stack_t * newsp) __naked
 {
     (void)newsp;
     __asm
-#ifdef __SDCC_MODEL_LARGE
+#if __SDCCCALL == 0
     ldw   x, (0x04, sp) /*Get new SP value   */
+#endif/*__SDCCCALL*/
+#ifdef __SDCC_MODEL_LARGE
     pop   a             /*pop return address */
+#endif/*__SDCC_MODEL_LARGE*/
     popw  y             /*pop return address */
     ldw   sp, x         /*Set SP             */
+#if __SDCCCALL == 0
     pushw x             /*Adjust new SP for *val */
+#endif/*__SDCCCALL*/
     pushw y             /*push return address*/
+#ifdef __SDCC_MODEL_LARGE
     push  a             /*push return address*/
     retf                /*return             */
-#else /*__SDCC_MODEL_LARGE*/
-    ldw   x, (0x03, sp) /*Get new SP value   */
-    popw  y             /*pop return address */
-    ldw   sp, x         /*Set new SP         */
-    pushw x             /*Adjust new SP for *val */
-    pushw y             /*push return address*/
+#else/*__SDCC_MODEL_LARGE*/
     ret                 /*return             */
 #endif/*__SDCC_MODEL_LARGE*/
     __endasm;
 }
+
 /******************************************************************************************************/
 /* Код ядра */
 /* Временное хранилище для указателей стеков процессов. */

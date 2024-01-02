@@ -92,9 +92,21 @@ bgrt_stack_t * bgrt_proc_stack_init(
     void (*return_address)(void)
 )
 {
-    /* main arg */
-    *bgrt_stack_top-- = (bgrt_stack_t)((unsigned short)arg & 0xFF);
-    *bgrt_stack_top-- = (bgrt_stack_t)(((unsigned short)arg>>8)& 0xFF);
+    /*Will need main arg halfs*/
+#define _ARGL ((unsigned short)arg & 0xFF)
+#define _ARGH (((unsigned short)arg>>8)& 0xFF)
+
+#if __SDCCCALL == 0
+    /* main arg is on the stack*/
+    *bgrt_stack_top-- = (bgrt_stack_t)_ARGL;
+    *bgrt_stack_top-- = (bgrt_stack_t)_ARGH;
+#   define _XL 0xAD
+#   define _XH 0xDE
+#else /*__SDCCCALL == 1*/
+#   define _XL _ARGL
+#   define _XH _ARGH
+#endif/*__SDCCCALL*/
+
     /* return address (func) */
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address) & 0xFF);
     *bgrt_stack_top-- = (bgrt_stack_t)(((BGRT_INT_PTR)return_address>>8)& 0xFF);
@@ -113,8 +125,12 @@ bgrt_stack_t * bgrt_proc_stack_init(
     *bgrt_stack_top-- = 0xAF;
     *bgrt_stack_top-- = 0xBE;
     /* X */
-    *bgrt_stack_top-- = 0xAD;
-    *bgrt_stack_top-- = 0xDE;
+    *bgrt_stack_top-- = _XL;
+    *bgrt_stack_top-- = _XH;
+#undef _XL
+#undef _XH
+#undef _ARGL
+#undef _ARGH
     /* A */
     *bgrt_stack_top-- = 0xAA;
     /* CCR */
