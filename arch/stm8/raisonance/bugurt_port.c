@@ -142,6 +142,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     udata = BGRT_GET_USPD();
     udata->scnum = num;
     udata->scarg = arg;
+    udata->scret = BGRT_ST_B4SC;
 
     BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
     _trap_();

@@ -171,7 +171,7 @@ extern unsigned long __StackOneTop;
 #endif/*LIB_PICO_STANDARD_LINK*/
 
 #ifndef BGRT_CORE1_CFG_HOOK
-#define BGRT_CORE1_CFG_HOOK() do{}while(0) 
+#define BGRT_CORE1_CFG_HOOK() do{}while(0)
 #endif
 
 /*====================================================================================*/
@@ -440,8 +440,8 @@ void bgrt_core1_main(void)
 static inline void _bgrt_start_core1(void)
 {
     const unsigned long _core1_init_data[] = {
-        0,0,1, 
-        (unsigned long)BGRT_SYS_VTOR, 
+        0,0,1,
+        (unsigned long)BGRT_SYS_VTOR,
         (unsigned long)BGRT_STACK1_TOP,
         (unsigned long)bgrt_core1_main
     };
@@ -522,6 +522,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     udata = BGRT_GET_USPD();
     udata->scnum = num;
     udata->scarg = arg;
+    udata->scret = BGRT_ST_B4SC;
 
     BGRT_ATM_BSET_ISR(&BGRT_KBLOCK.lpmap, BGRT_KBLOCK_VSCALL);
 

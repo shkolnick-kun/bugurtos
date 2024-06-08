@@ -217,6 +217,7 @@ bgrt_st_t bgrt_syscall(bgrt_syscall_t num, void * arg)
     cli();
     udata->scnum = num;
     udata->scarg = arg;
+    udata->scret = BGRT_ST_B4SC;
     vm_int_enabled[current_vm]=1;
     bgrt_switch_to_kernel();
     return udata->scret;

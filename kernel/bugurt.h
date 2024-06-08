@@ -180,6 +180,7 @@ BuguRTOS config (must be included first)
 #define BGRT_ST_SCALL       ((bgrt_st_t)8)  /*!< \~russian \brief Неправильный системный вызов. \~english \brief Wrong system call. */
 #define BGRT_ST_ROLL        ((bgrt_st_t)9)  /*!< \~russian \brief Нужна следующая иттерация. \~english \brief Next itteration needed. */
 #define BGRT_ST_IDLE        ((bgrt_st_t)10) /*!< \~russian \brief Простой системы. \~english \brief The system is IDLE. */
+#define BGRT_ST_B4SC        ((bgrt_st_t)11) /*!< \~russian \brief Метка состояния перед обработкой системного вызова. \~english \brief A mark for the state "Before system call processed". */
 
 /*!
 \~russian

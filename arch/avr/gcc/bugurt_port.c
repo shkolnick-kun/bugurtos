@@ -130,6 +130,7 @@ bgrt_st_t bgrt_syscall(unsigned char num, void * arg)
     udata = BGRT_GET_USPD();
     udata->scnum = num;
     udata->scarg = arg;
+    udata->scret = BGRT_ST_B4SC;
     bgrt_switch_to_kernel();
     return udata->scret;
 }
