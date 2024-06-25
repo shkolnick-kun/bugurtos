@@ -157,6 +157,8 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
             sem->counter--;
             BGRT_SPIN_FREE(sem);
 
+            bgrt_priv_proc_free();
+
             return BGRT_ST_OK;
 
         }
