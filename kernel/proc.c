@@ -232,7 +232,7 @@ bgrt_st_t bgrt_priv_proc_restart(bgrt_proc_t * proc)
         ret = BGRT_ST_ESTAT;
         goto end;
     }
-    proc->flags = (proc->flags & BGRT_PROC_FLG_RT)?BGRT_PROC_FLG_RT:(bgrt_flag_t)0;
+    proc->flags &= BGRT_PROC_FLG_RT | BGRT_PROC_FLG_RR;
 
     BGRT_PROC_LRES_INIT(proc);
 

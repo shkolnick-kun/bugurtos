@@ -190,6 +190,7 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         BGRT_INT_DIS();
         if (BGRT_ATM_BCLR_ISR(&kblock->lpmap, BGRT_KBLOCK_PWRSV))
         {
+            /*Must do resched after wakeup*/
             BGRT_ATM_BSET_ISR(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
             BGRT_CONFIG_SAVE_POWER();
         }
