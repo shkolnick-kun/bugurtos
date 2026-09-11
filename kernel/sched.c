@@ -586,6 +586,12 @@ bgrt_bool_t bgrt_priv_sched_proc_yield(void)
 
     proc = sched->current_proc;
 
+    if (!proc)
+    {
+        /*How about panic here???*/
+        return (bgrt_bool_t)!(sched->ready->map | sched->expired->map);
+    }
+
     BGRT_SPIN_LOCK(proc);
 
     if (BGRT_PROC_RUN_TEST(proc))
