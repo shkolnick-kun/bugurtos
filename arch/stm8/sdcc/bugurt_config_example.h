@@ -55,7 +55,7 @@ typedef volatile unsigned char bgrt_syscall_t;
 /*=================================================================*/
 /*     Project specific stuff, you are welcome to edit it!!!   */
 /*=================================================================*/
-#define BGRT_CONFIG_TEST  /*This is test project*/.
+#define BGRT_CONFIG_TEST  /*This is test project*/
 #include <libstm8/stm8l.h>/*STM8 include!!!!*/
 /*project specific define of system timer ISR*/
 #define SPI_TXE_VECTOR INT_SPI1

@@ -64,7 +64,7 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**===============================================================*/
 /**     Project specific stuff, you are welcome to edit it!!!*/
 /**===============================================================*/
-#define BGRT_CONFIG_TEST  /*This is test project*/.
+#define BGRT_CONFIG_TEST  /*This is test project*/
 #include <iostm8s208mb.h>/*STM8 include!!!!*/
 #include <intrinsics.h>
 /*project specific define of system timer ISR*/

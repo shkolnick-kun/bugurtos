@@ -57,7 +57,7 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**===============================================================*/
 /**     Project specific stuff, you are welcome to edit it!!!*/
 /**===============================================================*/
-#define BGRT_CONFIG_TEST  /*This is test project*/.
+#define BGRT_CONFIG_TEST  /*This is test project*/
 #define STM32F7
 #include <libopencmsis/core_cm3.h>
 //#include <libopencmsis/stm32/f7/irqhandlers.h>

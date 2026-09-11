@@ -80,7 +80,7 @@ typedef volatile unsigned char bgrt_syscall_t;
 /**     Project specific stuff, you are welcome to edit it!!!*/
 /**===============================================================*/
 
-#define BGRT_CONFIG_TEST  /*This is test project*/.
+#define BGRT_CONFIG_TEST  /*This is test project*/
 
 /*These macros needed to interface cstartup code.*/
 /*
@@ -103,11 +103,11 @@ extern unsigned long __StackOneTop;
 */
 
 /*
-May be uset to do sone core1 initializatio, 
+May be used to do sone core1 initialization,
 e.g. to setup a stack guard...
 */
 /*
-#define BGRT_CORE1_CFG_HOOK() do{}while(0) 
+#define BGRT_CORE1_CFG_HOOK() do{}while(0)
 */
 
 #define BGRT_CONFIG_FCPU_HZ 			(125000000ul)
