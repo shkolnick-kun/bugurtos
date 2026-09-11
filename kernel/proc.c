@@ -238,6 +238,8 @@ bgrt_st_t bgrt_priv_proc_restart(bgrt_proc_t * proc)
 
     proc->timer = proc->time_quant;
 
+    proc->sync = (bgrt_sync_t *)0; /* ADLINT:SL:[W0567] Int to pointer*/
+
     if (proc->sstart)
     {
         proc->spointer = bgrt_proc_stack_init(proc->sstart, (bgrt_code_t)proc->pmain, (void *)proc->arg, (void (*)(void))bgrt_proc_terminate);
