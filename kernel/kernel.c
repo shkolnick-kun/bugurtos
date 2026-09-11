@@ -104,16 +104,6 @@ static void _do_int_scall(bgrt_kblock_t * kblock)
         uspd->scnum = BGRT_SC_ENUM_END;
     }
 }
-///* Check for pending system call and push it */
-//static inline void _push_pend_scall(bgrt_kblock_t * kblock)
-//{
-//    BGRT_ASSERT(kblock, "The #kblock must not be NULL!");
-//    if (BGRT_SC_ENUM_END != BGRT_GET_USPD()->scnum) /* ADLINT:SL:[W0422] Yes this code is unsafe!*/
-//    {
-//        /* DO NOT "OPTIMIZE" THIS!!! */
-//        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VSCALL);
-//    }
-//}
 
 static void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 {
@@ -121,11 +111,13 @@ static void _do_int_sched(bgrt_kblock_t * kblock, bgrt_map_t work)
 
     if (BGRT_ST_EEMPTY == bgrt_sched_run(BGRT_KBLOCK_VTMR & work)) /* ADLINT:SL:[W1069, W0168] No else, signed-unsigned*/
     {
-        /*A scheduler is empty, must do resched*/
-        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
-        /*May safe power*/
+        /*A scheduler is empty, we must...*/
 #ifdef BGRT_CONFIG_SAVE_POWER
+        /*save power*/
         bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_PWRSV);
+#else /*BGRT_CONFIG_SAVE_POWER*/
+        /*ro do resched*/
+        bgrt_atm_bset(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
 #endif/*BGRT_CONFIG_SAVE_POWER*/
     }
     else
@@ -198,7 +190,8 @@ void bgrt_kblock_do_work(bgrt_kblock_t * kblock)
         BGRT_INT_DIS();
         if (BGRT_ATM_BCLR_ISR(&kblock->lpmap, BGRT_KBLOCK_PWRSV))
         {
-        	BGRT_CONFIG_SAVE_POWER();
+            BGRT_ATM_BSET_ISR(&kblock->lpmap, BGRT_KBLOCK_VRESCH); /* ADLINT:SL:[W0109] KBLOCK*/
+            BGRT_CONFIG_SAVE_POWER();
         }
         BGRT_INT_ENA();
 #endif/*BGRT_CONFIG_SAVE_POWER*/
