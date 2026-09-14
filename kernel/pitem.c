@@ -94,8 +94,9 @@ void bgrt_pitem_insert(bgrt_pitem_t * pitem, bgrt_xlist_t * xlist)
     bgrt_map_t mask;
     bgrt_item_t ** head;
 
+    BGRT_ASSERT(xlist, "The #xlist must not be NULL!");
     BGRT_ASSERT(pitem, "The #pitem must not be NULL!");
-    BGRT_ASSERT(pitem, "The #xlist must not be xlist!");
+    BGRT_ASSERT(pitem->list != xlist, "The #pitem must not be already in #xlist!");
 
     prio = pitem->prio;
     mask = ((bgrt_map_t)1)<<prio;
@@ -120,7 +121,7 @@ void bgrt_pitem_fast_cut(bgrt_pitem_t * pitem)
     bgrt_prio_t prio;
     bgrt_xlist_t * xlist;
 
-    BGRT_ASSERT(pitem, "The #pitem must not be NULL!");
+    BGRT_ASSERT(pitem,       "The #pitem must not be NULL!");
     BGRT_ASSERT(pitem->list, "The #pitem->list must not be NULL!");
 
     prio = pitem->prio;

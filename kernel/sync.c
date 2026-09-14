@@ -149,6 +149,8 @@ static void _sync_do_wake(bgrt_proc_t * proc, bgrt_sync_t * sync, bgrt_flag_t ch
 
     BGRT_SPIN_LOCK(proc);
 
+    BGRT_ASSERT(proc->sync == sync, "The #proc->sync must match the #sync!");
+
     /*It doesn't wait on sync any more.*/
     proc->sync = (void *)0;  /* ADLINT:SL:[W0567] type conversion*/
 
@@ -208,6 +210,7 @@ static void _pctrl_propagate(BGRT_PCTRL_PROP_ARGS)
     BGRT_PCTRL_PROP_HOOK_ASSERT();
     BGRT_PCTRL_PROP_HOOKARG_ASSERT();
 
+    /*WARNING!!! Must call BGRT_PCTRL_PROP_HOOK() in every branch!!!*/
     switch(BGRT_PROC_GET_STATE(proc))
     {
     case BGRT_PROC_STATE_READY:
@@ -396,8 +399,9 @@ bgrt_proc_t * bgrt_priv_sync_get_owner(bgrt_sync_t * sync)
 /*====================================================================================*/
 static void _sync_assign_owner(bgrt_sync_t * sync, bgrt_proc_t * proc)
 {
-    BGRT_ASSERT(sync, "The #sync must not be NULL!");
     BGRT_ASSERT(proc, "The #proc must not be NULL!");
+    BGRT_ASSERT(sync, "The #sync must not be NULL!");
+    BGRT_ASSERT(sync->owner == (bgrt_proc_t *)0, "The #sync->owner must be NULL!");
 
     sync->owner = proc;
     BGRT_SPIN_LOCK(proc);
@@ -448,6 +452,14 @@ bgrt_st_t bgrt_priv_sync_set_owner(bgrt_sync_t * sync, bgrt_proc_t * proc)
 
     /*We have some new owner*/
     BGRT_SPIN_LOCK(sync);
+    if (sync->owner)
+    {
+        bgrt_st_t status;
+        status = (sync->owner != proc)?BGRT_ST_EOWN:BGRT_ST_OK;
+        BGRT_SPIN_FREE(sync);
+
+        return status;
+    }
     _sync_assign_owner(sync, proc);
 
     return BGRT_ST_OK;
@@ -705,6 +717,8 @@ static void _sync_owner_block(bgrt_proc_t * owner)
     BGRT_ASSERT(owner, "The #owner must not be NULL!");
 
     BGRT_SPIN_LOCK(owner);
+
+    BGRT_ASSERT(owner->sync != (bgrt_sync_t *)0, "The #owner->sync must not be NULL!");
 
     owner->sync = (bgrt_sync_t *)0; /* ADLINT:SL:[W0567] int to pinter*/
     bgrt_priv_proc_stop_ensure(owner, BGRT_PROC_STATE_SYNC_SLEEP);
@@ -1033,6 +1047,7 @@ bgrt_st_t bgrt_priv_sync_proc_timeout(bgrt_proc_t * proc)
 
         return BGRT_ST_EAGAIN;
     }
+
     default: /* ADLINT:SL:[W0007] return/break */
     {
         BGRT_SPIN_FREE(proc);
@@ -1041,5 +1056,4 @@ bgrt_st_t bgrt_priv_sync_proc_timeout(bgrt_proc_t * proc)
         return BGRT_ST_OK;
     }
     }
-
 }

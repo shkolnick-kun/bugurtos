@@ -158,14 +158,14 @@ WEAK bgrt_cpuid_t bgrt_sched_highest_load_core(bgrt_ls_t * stat) /* ADLINT:SL:[W
 /*Initiate a scheduler object.*/
 void bgrt_sched_init(bgrt_sched_t * sched)
 {
+    BGRT_ASSERT(sched, "The #sched must not be NULL!");
+
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * sched_lock;
     sched_lock = &sched->lock;
     bgrt_spin_init(sched_lock);
     bgrt_spin_lock(sched_lock);
 #endif /*BGRT_CONFIG_MP*/
-
-    BGRT_ASSERT(sched, "The #sched must not be NULL!");
 
     sched->ready = (bgrt_xlist_t *)sched->plst;
     bgrt_xlist_init(sched->ready);
@@ -246,6 +246,8 @@ void bgrt_sched_proc_run(bgrt_proc_t * proc, bgrt_flag_t state)
 /* Cut a process from ready or expired list, update load information.*/
 void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state)
 {
+    BGRT_ASSERT(proc, "The #proc must not be NULL!");
+
 #ifdef BGRT_CONFIG_MP
     bgrt_lock_t * xlist_lock;
 
@@ -254,8 +256,6 @@ void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state)
     xlist_lock = &bgrt_kernel.sched[proc->core_id].lock; /* ADLINT:SL:[W0705] out of range*/
     bgrt_spin_lock(xlist_lock);
 #endif /*BGRT_CONFIG_MP*/
-
-    BGRT_ASSERT(proc, "The #proc must not be NULL!");
 
     BGRT_PROC_SET_STATE(proc, state); /* ADLINT:SL:[W0447] coma operator*/
     bgrt_pitem_cut((bgrt_pitem_t *)proc);
@@ -496,7 +496,8 @@ static void _bgrt_sched_lazy_load_balancer(bgrt_cpuid_t object_core)
 
     if (BGRT_PROC_RUN_TEST(proc))
     {
-        /* If the process is still running...*/
+        BGRT_ASSERT(((bgrt_pitem_t *)proc)->list, "The #proc->parent.list must not be NULL for running process!");
+        /* If the process is still running then it is in some ready or expired list and we can cut it.*/
         /* Stop it;*/
         sched = (bgrt_sched_t *)&bgrt_kernel.sched[proc->core_id];
 

@@ -165,11 +165,11 @@ bgrt_st_t bgrt_sched_run(bgrt_bool_t is_periodic);
 /*!
 \brief \~russian "Низкоуровневый" запуск процесса, для внутреннего использования. \~english A low level process run routine. For internal usage.
 */
-void bgrt_sched_proc_run(bgrt_proc_t * proc, bgrt_flag_t state);
+void bgrt_sched_proc_run(bgrt_proc_t * proc, bgrt_flag_t state); /* WARNING!!! Caller MUST hold proc->lock in SMP case! */
 /*!
 \brief \~russian "Низкоуровневый" останов процесса, для внутреннего использования. \~english A low level process stop routine. For internal usage.
 */
-void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state);
+void bgrt_sched_proc_stop(bgrt_proc_t * proc , bgrt_flag_t state); /* WARNING!!! Caller MUST hold proc->lock in SMP case! */
 
 
 /*!

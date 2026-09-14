@@ -92,20 +92,22 @@ typedef struct bgrt_priv_mtx_t bgrt_mtx_t; /*!< \~russian Смотри #bgrt_pri
 Мьютекс.
 
 Используется для управления доступом к общим ресурсам, в тех случаях, когда общий ресурс нужен в течение долгого времени.
-Поддерживается произвольная вложенность мьютексов.
+Поддерживается вложенность разных мьютексов, но не рекурсивный захват одного и того же.
 
 \warning  Мьютексы захватываются и освобождаются только процессами. Нельзя делать это из обработчиков прерываний.
 \warning  Мьютекс должен освободить ИМЕННО ТОТ процесс, который его захватил.
+\warning  Рекурсивный захват мьютекса не поддерживается.
 
 \~english
 \brief
 A mutex.
 
 Mutexes are used to control an access to common data. If your code needs yo use some common data for a long time,
-then you should use mutex instead of critical section. Mutex nesting is supported.
+then you should use mutex instead of critical section. Nesting of distinct mutexes is supported, but recursive locking of the same mutex is not.
 
 \warning  Only a process can lock or free a mutex!
 \warning  Locked mutex can be freed only by a locker process!
+\warning  Recursive locking is not supported!
 */
 struct bgrt_priv_mtx_t
 {

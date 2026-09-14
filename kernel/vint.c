@@ -84,7 +84,6 @@ void bgrt_vint_init(bgrt_vint_t * vint, bgrt_prio_t prio, bgrt_code_t func, void
 {
     BGRT_ASSERT(vint, "The #vint must not be NULL!");
     BGRT_ASSERT(func, "The #func must not be NULL!");
-    BGRT_ASSERT(arg,  "The #arg must not be NULL!");
 
     bgrt_pitem_init((bgrt_pitem_t *)vint, prio);
     vint->func = func;
@@ -102,8 +101,9 @@ void bgrt_vic_init(bgrt_vic_t * vic)
 
 bgrt_st_t bgrt_vint_push_isr(bgrt_vint_t * vint, bgrt_vic_t * vic)
 {
-    BGRT_ASSERT(vint, "The #vint must not be NULL!");
     BGRT_ASSERT(vic,  "The #vic must not be NULL!");
+    BGRT_ASSERT(vint, "The #vint must not be NULL!");
+    BGRT_ASSERT(((bgrt_pitem_t *)vint)->list, "The #vint->list must not be NULL!");
 
     if (((bgrt_pitem_t *)vint)->list)
     {

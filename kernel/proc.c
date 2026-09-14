@@ -343,12 +343,12 @@ void bgrt_priv_proc_terminate(void)
     /* A process is not allowed to return from pmain while being locked! */
     if (proc->flags & BGRT_PROC_FLG_LOCK_MASK)
     {
-        proc->flags |= BGRT_PROC_STATE_DEAD;
+        BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_DEAD);
     }
     else
     {
         /* A normal process termination. */
-        proc->flags |= BGRT_PROC_STATE_END;
+        BGRT_PROC_SET_STATE(proc, BGRT_PROC_STATE_END);
     }
     proc->flags &= ~BGRT_PROC_FLG_PRE_STOP;
 
