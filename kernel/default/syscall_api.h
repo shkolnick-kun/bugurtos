@@ -119,7 +119,7 @@ This function schedules a process if possible.
 \return BGRT_ST_OK - если процесс был вставлен в список готовых к выполнению, либо код ошибки.
 
 \~english
-\brief A process restart routine.
+\brief A process restart routine.
 
 This function reinitializes a process and schedules it if possible.
 
@@ -291,7 +291,7 @@ Own #bgrt_sync_t object.
 \param touch If not 0 then mark sync as dirty on fail.
 \return #BGRT_ST_OK if on success, or error code.
 */
-#define BGRT_SYNC_OWN(sync_ptr, touch) BGRT_SYSCALL_NVAR(SYNC_OWN, (void *)(sync_ptr), (int)(touch))
+#define BGRT_SYNC_OWN(sync_ptr, touch) BGRT_SYSCALL_NVAR(SYNC_OWN, (void *)(sync_ptr), (void *)(touch))
 /*!
 \~russian
 \brief
@@ -308,6 +308,23 @@ Touch #bgrt_sync_t object.
 \return #BGRT_ST_OK if on success, or error code.
 */
 #define BGRT_SYNC_TOUCH(sync_ptr) BGRT_SYSCALL_N(SYNC_TOUCH, (void *)(sync_ptr))
+
+/*!
+\~russian
+\brief
+Откатывает изменения #BGRT_SYNC_TOUCH
+
+\param sync_ptr Указатель на объект типа #bgrt_sync_t.
+\return #BGRT_ST_OK в случае успеха, либо код ошибки.
+
+\~english
+\brief
+Undo #BGRT_SYNC_TOUCH
+
+\param sync_ptr A pointer to the object of interest.
+\return #BGRT_ST_OK if on success, or error code.
+*/
+#define BGRT_SYNC_UNTOUCH(sync_ptr) BGRT_SYSCALL_N(SYNC_UNTOUCH, (void *)(sync_ptr))
 /*****************************************************************************************/
 /*!
 \~russian

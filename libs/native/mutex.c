@@ -103,7 +103,7 @@ bgrt_st_t bgrt_mtx_try_lock(bgrt_mtx_t * mutex)
 
     BGRT_PROC_LOCK();
 
-    ret = BGRT_SYNC_OWN(mutex, 0);
+    ret = BGRT_SYNC_OWN(mutex, (bgrt_flag_t *)0);
 
     if (BGRT_ST_OK != ret)
     {
@@ -116,6 +116,7 @@ bgrt_st_t bgrt_mtx_try_lock(bgrt_mtx_t * mutex)
 bgrt_st_t bgrt_mtx_lock(bgrt_mtx_t * mutex)
 {
     bgrt_st_t ret;
+    bgrt_flag_t touch = 1;
 
     if (!mutex)
     {
@@ -124,12 +125,16 @@ bgrt_st_t bgrt_mtx_lock(bgrt_mtx_t * mutex)
 
     BGRT_PROC_LOCK(); /*Now the process must not stop!*/
 
-    ret = BGRT_SYNC_OWN(mutex, 1); /*Try to lock mutex*/
+    ret = BGRT_SYNC_OWN(mutex, &touch); /*Try to lock mutex*/
 
     if (BGRT_ST_EOWN == ret)
     {
-        bgrt_flag_t touch = 1;
         ret = BGRT_SYNC_SLEEP(mutex, &touch);
+    }
+
+    if (BGRT_ST_OK != ret)
+    {
+        BGRT_PROC_FREE();
     }
 
     return ret;
@@ -144,13 +149,24 @@ bgrt_st_t bgrt_mtx_free(bgrt_mtx_t * mutex)
         return BGRT_ST_ENULL;
     }
 
-    ret = BGRT_SYNC_WAKE(mutex, BGRT_PID_NOTHING, 1); /*Now we can wake some process.*/
-    BGRT_PROC_FREE();                                 /*May stop caller process.*/
-
-    if (BGRT_ST_EEMPTY == ret)
+    /*Now we can wake some process.*/
+    ret = BGRT_SYNC_WAKE(mutex, BGRT_PID_NOTHING, 1);
+    switch(ret)
     {
-        return BGRT_ST_OK;
+    case BGRT_ST_EEMPTY:
+    {
+        ret = BGRT_ST_OK;
+        /*Will continue to BGRT_ST_OK*/
     }
-
-    return ret;
+    case BGRT_ST_OK:
+    {
+        /*May stop calling process.*/
+        BGRT_PROC_FREE();
+        /*Will continue to default*/
+    }
+    default:
+    {
+        return ret;
+    }
+    }
 }

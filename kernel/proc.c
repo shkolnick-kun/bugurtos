@@ -146,9 +146,6 @@ bgrt_st_t bgrt_priv_proc_init(
 )
 {
     BGRT_ASSERT(pmain,   "The #pmain must not be NULL!");
-    BGRT_ASSERT(sv_hook, "The #sv_hook must not be NULL!");
-    BGRT_ASSERT(rs_hook, "The #rs_hook must not be NULL!");
-    BGRT_ASSERT(arg,     "The #arg must not be NULL!");
     BGRT_ASSERT(sstart,  "The #sstart must not be NULL!");
 
     if (!proc)

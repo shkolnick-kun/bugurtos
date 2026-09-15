@@ -64,7 +64,10 @@ static inline bgrt_st_t _test_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t touch)
 
 void main_0(void * arg)
 {
+    bgrt_flag_t touch;
+
     (void)arg;
+
     test_start();
     // 1 bgrt_priv_proc_prio_propagate BGRT_PROC_SET_PRIO
     BGRT_PROC_SET_PRIO(PID1, 5);
@@ -232,7 +235,8 @@ void main_0(void * arg)
     test_output(test, test_num++);
     /// BGRT_SYNC_SET_OWNER covered !!!
     // 37 BGRT_SYNC_OWN
-    status[0] = BGRT_SYNC_OWN((bgrt_sync_t *)0, (bgrt_flag_t)0);
+    touch = 0;
+    status[0] = BGRT_SYNC_OWN((bgrt_sync_t *)0, &touch);
     test = (BGRT_ST_ENULL == status[0]);
     test_output(test, test_num++);
 
@@ -255,7 +259,8 @@ void main_0(void * arg)
     test_output(test, test_num++);
 
     // 42 BGRT_SYNC_OWN
-    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, (bgrt_flag_t)0);
+    touch = 0;
+    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, &touch);
     test = (BGRT_ST_EOWN == status[0]);
     test_output(test, test_num++);
     // 43 BGRT_SYNC_OWN
@@ -274,7 +279,8 @@ void main_0(void * arg)
 
     // 46 BGRT_SYNC_OWN
     BGRT_SYNC_SET_OWNER(&bgrt_sync_1, BGRT_PID_NOTHING);
-    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, (bgrt_flag_t)1);
+    touch = 1;
+    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, &touch);
     test = (BGRT_ST_OK == status[0]);
     test_output(test, test_num++);
     // 47 BGRT_SYNC_OWN
@@ -292,7 +298,8 @@ void main_0(void * arg)
     test_output(test, test_num++);
 
     // 50 BGRT_SYNC_OWN
-    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, (bgrt_flag_t)1);
+    touch = 1;
+    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, &touch);
     test = (BGRT_ST_EOWN == status[0]);
     test = test && (0 == bgrt_sync_1.dirty);
     test_output(test, test_num++);
@@ -312,7 +319,8 @@ void main_0(void * arg)
 
     // 54 BGRT_SYNC_OWN
     BGRT_SYNC_SET_OWNER(&bgrt_sync_1, PID1);
-    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, (bgrt_flag_t)0);
+    touch = 0;
+    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, &touch);
     test = (BGRT_ST_EOWN == status[0]);
     test_output(test, test_num++);
     // 55 BGRT_SYNC_OWN
@@ -333,7 +341,8 @@ void main_0(void * arg)
     test_output(test, test_num++);
 
     // 59 BGRT_SYNC_OWN
-    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, (bgrt_flag_t)1);
+    touch = 1; /*Check touch!!!*/
+    status[0] = BGRT_SYNC_OWN(&bgrt_sync_1, &touch);
     test = (BGRT_ST_EOWN == status[0]);
     test_output(test, test_num++);
     // 60 BGRT_SYNC_OWN
@@ -484,7 +493,7 @@ void main_0(void * arg)
     BGRT_PROC_SET_PRIO(PID2, 4);
     //87 BGRT_SYNC_SLEEP
     BGRT_SYNC_OWN(&bgrt_sync_1, (bgrt_flag_t)0);
-    test = (BGRT_ST_EOWN == _test_sync_sleep(&bgrt_sync_1, (bgrt_flag_t)0));
+    test = (BGRT_ST_EOWN == _test_sync_sleep(&bgrt_sync_1, 0));
     test_output(test, test_num++);
     /// BGRT_SYNC_SLEEP is almost covered!!!
 

@@ -92,6 +92,132 @@ bgrt_st_t bgrt_cond_init(bgrt_cond_t * cond)
     return ret;
 }
 
+/*TODO: Try to reduce number of system calls ???*/
+#define _CW_FSM_STATE_BEGIN    (0)
+#define _CW_FSM_STATE_MXT_FREE (1)
+#define _CW_FSM_STATE_CND_WAIT (2)
+#define _CW_FSM_STATE_PR_LOCK  (3)
+#define _CW_FSM_STATE_MTX_LOCK (4)
+#define _CW_FSM_STATE_MTX_WAIT (5)
+#define _CW_FSM_STATE_END      (6)
+
+static bgrt_st_t _cond_wait_fsm(bgrt_va_wr_t* va)
+{
+    bgrt_st_t ret = BGRT_ST_SCALL;
+    bgrt_sync_t  * cond;
+    bgrt_sync_t  * mutex;
+    bgrt_flag_t  * state;
+    bgrt_flag_t  * touch;
+
+    BGRT_ASSERT(va, "The #va must not be NULL!");
+
+    cond   = (bgrt_sync_t *)va_arg(va->list, void *);
+    mutex  = (bgrt_sync_t *)va_arg(va->list, void *);
+    state  = (bgrt_flag_t *)va_arg(va->list, void *);
+    touch  = (bgrt_flag_t *)va_arg(va->list, void *);
+
+    BGRT_ASSERT(cond,  "The #cond must not be NULL!");
+    BGRT_ASSERT(mutex, "The #mutex must not be NULL!");
+    BGRT_ASSERT(state, "The #state must not be NULL!");
+    BGRT_ASSERT(touch, "The #state must not be NULL!");
+
+    switch (*state)
+    {
+    case _CW_FSM_STATE_BEGIN:
+    {
+        bgrt_priv_proc_lock();
+
+        ret = bgrt_priv_sync_touch(cond);
+        if (BGRT_ST_OK != ret)
+        {
+            return ret;
+        }
+        *state = _CW_FSM_STATE_MXT_FREE;
+        return BGRT_ST_ROLL;
+    }
+    case _CW_FSM_STATE_MXT_FREE:
+    {
+        /*Free mutex, goto next state on success*/
+        ret = bgrt_priv_sync_wake(mutex, (bgrt_proc_t *)0, 1);
+        switch(ret)
+        {
+        case BGRT_ST_EEMPTY:
+        case BGRT_ST_OK:
+        {
+            /*May stop calling process.*/
+            bgrt_priv_proc_free();
+            *state = _CW_FSM_STATE_CND_WAIT;
+            *touch = 1;
+            return BGRT_ST_ROLL;
+        }
+        case BGRT_ST_EOWN:
+        {
+            bgrt_priv_proc_free(); /*Will continue to default*/
+        }
+        default:
+        {
+            bgrt_priv_sync_untouch(cond); /*Will continue to BGRT_ST_ROLL*/
+        }
+        case BGRT_ST_ROLL:
+        {
+            return ret;
+        }
+        }
+    }
+    case _CW_FSM_STATE_CND_WAIT:
+    {
+        ret = bgrt_priv_sync_sleep(cond, touch);
+        if (BGRT_ST_ROLL != ret)
+        {
+            bgrt_priv_proc_free();
+        }
+        if (BGRT_ST_OK == ret)
+        {
+            *state  = _CW_FSM_STATE_PR_LOCK;
+            return BGRT_ST_ROLL;
+        }
+        return ret;
+    }
+    case _CW_FSM_STATE_PR_LOCK:
+    {
+        bgrt_priv_proc_lock();
+        *state = _CW_FSM_STATE_MTX_LOCK;
+        *touch = 1;
+        return BGRT_ST_ROLL;
+    }
+    case _CW_FSM_STATE_MTX_LOCK:
+    {
+
+        ret = bgrt_priv_sync_own(mutex, touch);
+        if (BGRT_ST_EOWN == ret)
+        {
+            *state = _CW_FSM_STATE_MTX_WAIT;
+            return BGRT_ST_ROLL;
+        }
+        *state = _CW_FSM_STATE_END;
+        return ret;
+    }
+    case _CW_FSM_STATE_MTX_WAIT:
+    {
+
+        ret = bgrt_priv_sync_sleep(mutex, touch);
+        if (BGRT_ST_ROLL != ret)
+        {
+            if (BGRT_ST_OK != ret)
+            {
+                bgrt_priv_proc_free();
+            }
+            *state = _CW_FSM_STATE_END;
+        }
+        return ret;
+    }
+    default:
+    {
+        return BGRT_ST_SCALL;
+    }
+    }
+}
+
 bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
 {
     bgrt_st_t ret = BGRT_ST_ROLL;
@@ -107,8 +233,9 @@ bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
 
     ret = bgrt_mtx_free(mutex);
 
-    if (BGRT_ST_EOWN == ret)
+    if (BGRT_ST_OK != ret)
     {
+        BGRT_SYNC_UNTOUCH(cond);
         BGRT_PROC_FREE(); /*May stop as error occurred!*/
     }
     else
@@ -118,7 +245,12 @@ bgrt_st_t bgrt_cond_wait(bgrt_cond_t * cond, bgrt_mtx_t * mutex)
         ret = BGRT_SYNC_SLEEP(cond, &touch);
         BGRT_PROC_FREE(); /*Now may stop!*/
 
-        bgrt_mtx_lock(mutex);
+        if (BGRT_ST_OK != ret)
+        {
+            return ret;
+        }
+
+        ret = bgrt_mtx_lock(mutex);
     }
 
     return ret;

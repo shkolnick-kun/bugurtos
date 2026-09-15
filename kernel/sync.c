@@ -480,7 +480,7 @@ static void _sync_touch_prio_up(bgrt_sync_t * sync, bgrt_proc_t * proc)
 }
 
 /*====================================================================================*/
-bgrt_st_t bgrt_priv_sync_own(bgrt_sync_t * sync, bgrt_flag_t touch)
+bgrt_st_t bgrt_priv_sync_own(bgrt_sync_t * sync, bgrt_flag_t * touch)
 {
     bgrt_proc_t * owner;
 
@@ -502,18 +502,23 @@ bgrt_st_t bgrt_priv_sync_own(bgrt_sync_t * sync, bgrt_flag_t touch)
         bgrt_proc_t * current;
         current = bgrt_curr_proc();
 
-        if (touch && (owner != current))
+        if (touch)
         {
-            BGRT_CNT_INC(sync->dirty);
-            BGRT_CNT_INC(sync->snum); /*Increment sleeping process counter. Caller is going to sleep.*/
-            BGRT_SPIN_FREE(sync);
+            if (*touch)
+            {
+                if (owner != current)
+                {
+                    BGRT_CNT_INC(sync->dirty);
+                    BGRT_CNT_INC(sync->snum); /*Increment sleeping process counter. Caller is going to sleep.*/
+                    BGRT_SPIN_FREE(sync);
 
-            _sync_touch_prio_up(sync, current);
+                    _sync_touch_prio_up(sync, current);
+                    return BGRT_ST_EOWN;
+                }
+                *touch = (bgrt_flag_t)0;
+            }
         }
-        else
-        {
-            BGRT_SPIN_FREE(sync);
-        }
+        BGRT_SPIN_FREE(sync);
         return BGRT_ST_EOWN;
     }
 }
@@ -537,6 +542,42 @@ bgrt_st_t bgrt_priv_sync_touch(bgrt_sync_t * sync)
 
     return BGRT_ST_OK;
 }
+
+/*====================================================================================*/
+bgrt_st_t bgrt_priv_sync_untouch(bgrt_sync_t * sync)
+{
+    bgrt_proc_t * proc;
+
+    if (!sync)
+    {
+        return BGRT_ST_ENULL;
+    }
+
+    proc = bgrt_curr_proc();
+
+    /*Restore sync state*/
+    BGRT_SPIN_LOCK(sync);
+    BGRT_CNT_DEC(sync->dirty);
+    BGRT_CNT_DEC(sync->snum); /*Decrement sleeping process counter. Caller is going to sleep.*/
+    BGRT_SPIN_FREE(sync);
+
+    /*Restore proc state*/
+    BGRT_SPIN_LOCK(proc);
+
+    bgrt_priv_proc_stop_ensure(proc, BGRT_PROC_STATE_STOPED);
+
+    proc->sync = (bgrt_sync_t *)0;
+
+    BGRT_PROC_LRES_DEC(proc, 0);
+    _pctrl_proc_stoped(proc);
+
+    bgrt_sched_proc_run(proc, BGRT_PROC_STATE_RUNNING);
+
+    BGRT_SPIN_FREE(proc);
+
+    return BGRT_ST_OK;
+}
+
 /*====================================================================================*/
 #ifdef BGRT_CONFIG_MP
 static inline void _sync_sleep_swap_locks(bgrt_sync_t * sync, bgrt_proc_t * proc)

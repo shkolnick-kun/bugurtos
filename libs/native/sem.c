@@ -125,10 +125,13 @@ bgrt_st_t bgrt_sem_try_lock(bgrt_sem_t * sem)
     return ret;
 }
 
+#define _SL_FSM_STATE_BEGIN (0)
+#define _SL_FSM_STATE_END   (1)
+
 static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
 {
     bgrt_st_t ret = BGRT_ST_SCALL;
-    bgrt_sem_t       * sem;
+    bgrt_sem_t  * sem;
     bgrt_flag_t * touch;
     bgrt_flag_t * state;
 
@@ -144,11 +147,9 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
 
     switch (*state)
     {
-    case 0:
+    case _SL_FSM_STATE_BEGIN:
     {
         bgrt_priv_proc_lock();
-
-        BGRT_KERNEL_PREEMPT();
 
         BGRT_SPIN_LOCK(sem);
 
@@ -168,10 +169,11 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
             BGRT_SPIN_FREE(sem);
             /*Now goto state 1*/
             *touch = (bgrt_flag_t)1;
-            *state = (bgrt_flag_t)1;
+            *state = (bgrt_flag_t)_SL_FSM_STATE_END;
+            return BGRT_ST_ROLL;
         }
     }
-    case 1:
+    case _SL_FSM_STATE_END:
     {
         ret = bgrt_priv_sync_sleep((bgrt_sync_t *)sem, touch);
         if (BGRT_ST_ROLL != ret)
@@ -190,7 +192,7 @@ static bgrt_st_t _sem_lock_fsm(bgrt_va_wr_t* va)
 bgrt_st_t bgrt_sem_lock(bgrt_sem_t * sem)
 {
     volatile bgrt_flag_t touch = 0;
-    volatile bgrt_flag_t state = 0;
+    volatile bgrt_flag_t state = _SL_FSM_STATE_BEGIN;
 
     if (!sem)
     {

@@ -96,7 +96,8 @@ BGRT_SC_TBL_ENTRY(SCHED_PROC_YIELD   , void*       )/* \~russian \brief Пере
 BGRT_SC_TBL_ENTRY(SYNC_SET_OWNER     , bgrt_va_wr_t*)/* \~russian \brief Установить нового хозяина объекта типа #bgrt_sync_t.          \~english \brief Set new #bgrt_sync_t object owner.                */
 BGRT_SC_TBL_ENTRY(SYNC_GET_OWNER     , bgrt_va_wr_t*)/* \~russian \brief Узнать принадлежность объекта типа #bgrt_sync_t.              \~english \brief Get #bgrt_sync_t object owner.                    */
 BGRT_SC_TBL_ENTRY(SYNC_OWN           , bgrt_va_wr_t*)/* \~russian \brief Завладеть объектом типа #bgrt_sync_t.                         \~english \brief Own #bgrt_sync_t object.                          */
-BGRT_SC_TBL_ENTRY(SYNC_TOUCH         , void*       )/* \~russian \brief Заблокировать пробуждение процессов.                          \~english \brief Block process wake.                               */
+BGRT_SC_TBL_ENTRY(SYNC_TOUCH         , void*       )/* \~russian \brief Пометить объект типа #bgrt_sync_t как "грязный".               \~english \brief Touch #bgrt_sync_t object.                               */
+BGRT_SC_TBL_ENTRY(SYNC_UNTOUCH       , void*       )/* \~russian \brief Откатывает изменения #SYNC_TOUCH                               \~english \brief Untouch #bgrt_sync_t object.                               */
 BGRT_SC_TBL_ENTRY(SYNC_SLEEP         , bgrt_va_wr_t*)/* \~russian \brief Заблокировать процесс в ожидании синхронизации.               \~english \brief Block process for synchronization.                */
 BGRT_SC_TBL_ENTRY(SYNC_WAKE          , bgrt_va_wr_t*)/* \~russian \brief Запустить процесс, ожидающий синхронизации.                   \~english \brief Run a process waiting for synchronization.        */
 BGRT_SC_TBL_ENTRY(SYNC_WAIT          , bgrt_va_wr_t*)/* \~russian \brief Подождать блокировки процесса на объекте типа #bgrt_sync_t.   \~english \brief Wait for process to block on #bgrt_sync_t object. */

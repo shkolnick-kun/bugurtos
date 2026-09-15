@@ -202,7 +202,7 @@ Watch #BGRT_SYNC_OWN.
 
 \warning For internal usage.
 */
-bgrt_st_t bgrt_priv_sync_own(bgrt_sync_t * sync, bgrt_flag_t touch);
+bgrt_st_t bgrt_priv_sync_own(bgrt_sync_t * sync, bgrt_flag_t * touch);
 /*!
 \~russian
 \brief
@@ -217,6 +217,22 @@ Watch #BGRT_SYNC_TOUCH.
 \warning For internal usage.
 */
 bgrt_st_t bgrt_priv_sync_touch(bgrt_sync_t * sync);
+
+/*!
+\~russian
+\brief
+Восстанавливает состояние процесса и sync после bgrt_priv_sync_touch
+
+\warning Для внутреннего использования.
+
+\~english
+\brief
+Restores proc and sync state after touch.
+
+\warning For internal usage.
+*/
+bgrt_st_t bgrt_priv_sync_untouch(bgrt_sync_t * sync);
+
 /*!
 \~russian
 \brief

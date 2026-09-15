@@ -212,7 +212,7 @@ BGRT_SC_SR(SYNC_OWN,  bgrt_va_wr_t * va)
 {
     bgrt_sync_t * sync;
     sync = (bgrt_sync_t *)va_arg(va->list, void *);
-    return bgrt_priv_sync_own(sync, (bgrt_flag_t)va_arg(va->list, int));
+    return bgrt_priv_sync_own(sync, (bgrt_flag_t *)va_arg(va->list, void *));
 }
 /**********************************************************************************************
                                         SYNC_TOUCH
@@ -221,6 +221,16 @@ BGRT_SC_SR(SYNC_TOUCH,  void * arg)
 {
     return bgrt_priv_sync_touch((bgrt_sync_t *)arg);
 }
+
+/**********************************************************************************************
+
+                                        SYNC_TOUCH
+**********************************************************************************************/
+BGRT_SC_SR(SYNC_UNTOUCH,  void * arg)
+{
+    return bgrt_priv_sync_untouch((bgrt_sync_t *)arg);
+}
+
 /**********************************************************************************************
                                          SYNC_SLEEP
 **********************************************************************************************/
