@@ -181,16 +181,17 @@ static void _sync_do_pending_wake(bgrt_sync_t * sync)
 
     BGRT_ASSERT(sync, "The #sync must not be NULL!");
 
+    if ((bgrt_cnt_t)0 == sync->pwake)
+    {
+        return;
+    }
+
     proc = (bgrt_proc_t *)bgrt_xlist_head((bgrt_xlist_t *)sync);
-    if (proc)
-    {
-        sync->pwake--;
-        _sync_do_wake(proc, sync, (bgrt_flag_t)0);
-    }
-    else
-    {
-        return;/** Not covered!!! How about panic here???*/
-    }
+
+    BGRT_ASSERT(proc, "The #sync must have some waiting process!");
+
+    sync->pwake--;
+    _sync_do_wake(proc, sync, (bgrt_flag_t)0);
 }
 /*====================================================================================*/
 #ifdef BGRT_CONFIG_MP
@@ -557,8 +558,13 @@ bgrt_st_t bgrt_priv_sync_untouch(bgrt_sync_t * sync)
 
     /*Restore sync state*/
     BGRT_SPIN_LOCK(sync);
-    BGRT_CNT_DEC(sync->dirty);
     BGRT_CNT_DEC(sync->snum); /*Decrement sleeping process counter. Caller is going to sleep.*/
+    BGRT_CNT_DEC(sync->dirty);
+
+    if ((bgrt_cnt_t)0 == sync->dirty)
+    {
+        _sync_do_pending_wake(sync);
+    }
     BGRT_SPIN_FREE(sync);
 
     /*Restore proc state*/
@@ -640,15 +646,12 @@ bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
         _pctrl_proc_running(proc, BGRT_PROC_STATE_RUNNING);
 
         BGRT_SPIN_FREE(proc);
+
         BGRT_KERNEL_PREEMPT(); /* ADLINT:SL:[W0705,W0067] OOR access*/
+
         BGRT_SPIN_LOCK(sync);
-
         BGRT_CNT_DEC(sync->snum); /*One sleeping proc less!*/
-
-        if (sync->pwake)
-        {
-            _sync_do_pending_wake(sync);
-        }
+        _sync_do_pending_wake(sync);
         BGRT_SPIN_FREE(sync);
 
         return BGRT_ST_OK;
@@ -718,7 +721,7 @@ bgrt_st_t bgrt_priv_sync_sleep(bgrt_sync_t * sync, bgrt_flag_t * touch)
 
     BGRT_SPIN_FREE(proc);
     /*Here we process a state, not sync_clear event!*/
-    if (((bgrt_cnt_t)0 == sync->dirty) && (sync->pwake))
+    if ((bgrt_cnt_t)0 == sync->dirty)
     {
         _sync_do_pending_wake(sync);
     }
